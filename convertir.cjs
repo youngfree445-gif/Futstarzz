@@ -9,8 +9,23 @@ const worksheet = workbook.Sheets[sheetName];
 // 2. Convertir a formato JSON crudo
 const rawData = XLSX.utils.sheet_to_json(worksheet);
 
+// 2.1. Excluir ligas femeninas: varios clubes (ej. "1. FC Köln") tienen el
+// mismo nombre de equipo en su rama masculina y femenina en el Excel fuente.
+// Como el juego solo modela carreras de fútbol masculino, sin este filtro
+// esos nombres duplicados mezclaban jugadoras reales dentro del plantel
+// masculino al hacer el match por nombre de equipo en data.ts.
+const LIGAS_FEMENINAS = new Set([
+    'RDM femenil',
+    'GPFBL',
+    'Copa Int. Femenil',
+    'Liga F Moeve',
+    'Barclays WSL',
+    'Arkema PL',
+]);
+const rawDataMasculino = rawData.filter(row => !LIGAS_FEMENINAS.has(row.leaguesname));
+
 // 3. Mapear y adaptar las columnas exactamente a tu juego
-const parsedPlayers = rawData.map(row => {
+const parsedPlayers = rawDataMasculino.map(row => {
     // Normalizar el nombre (usar commonname o firstname + lastname)
     const name = row.commonname || `${row.firstname || ''} ${row.lastname || ''}`.trim();
     
@@ -37,4 +52,4 @@ const parsedPlayers = rawData.map(row => {
 
 // 4. Guardar el archivo final optimizado en tu carpeta src
 fs.writeFileSync('./src/playersDatabase.json', JSON.stringify(parsedPlayers, null, 2), 'utf-8');
-console.log(`¡Éxito total! Se han guardado ${parsedPlayers.length} jugadores en src/playersDatabase.json`);
+console.log(`¡Éxito total! Se han guardado ${parsedPlayers.length} jugadores en src/playersDatabase.json (se excluyeron ${rawData.length - rawDataMasculino.length} registros de ligas femeninas).`);
