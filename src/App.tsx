@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, ShopItem, PlayerStats } from './types';
 import { INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from './data';
-import { leagueKeyFor, getOrCreateLeagueSeason, getUpcomingFixtureForClub, resolvePlayerMatchweek, isCupWeek } from './leagueEngine';
+import { leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen from './components/SetupScreen';
 import Dashboard from './components/Dashboard';
@@ -47,7 +47,7 @@ export default function App() {
       if (myClub) {
         const leagueKey = leagueKeyFor(myClub);
         const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
-        const season = getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, profile.currentWeek);
+        const season = getOrCreateSeasonForLeague(leagueClubs, undefined, profile.currentWeek);
         profile = { ...profile, leagueSeasons: { [leagueKey]: season } };
       } else {
         profile = { ...profile, leagueSeasons: {} };
@@ -75,7 +75,7 @@ export default function App() {
     const myClub = CLUBS_DATABASE.find(c => c.id === newProfile.currentClubId)!;
     const leagueKey = leagueKeyFor(myClub);
     const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
-    const season = getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, newProfile.currentWeek);
+    const season = getOrCreateSeasonForLeague(leagueClubs, undefined, newProfile.currentWeek);
     const profileWithLeague: PlayerProfile = { ...newProfile, leagueSeasons: { [leagueKey]: season } };
 
     setPlayerProfile(profileWithLeague);
@@ -177,7 +177,7 @@ export default function App() {
     // (queda "corriendo de fondo" como si nunca la hubieras dejado de mirar).
     const leagueKey = leagueKeyFor(targetClub);
     const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
-    const season = getOrCreateLeagueSeason(leagueKey, leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
+    const season = getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
 
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
@@ -237,8 +237,8 @@ export default function App() {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
-      const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, playerProfile.currentWeek);
-      const upcoming = getUpcomingFixtureForClub(season, leagueClubs, playerProfile.currentWeek, myClub.id);
+      const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
+      const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
 
       if (upcoming) {
         const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId);
@@ -304,8 +304,8 @@ export default function App() {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
-      const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, playerProfile.currentWeek);
-      const resolvedSeason = resolvePlayerMatchweek(
+      const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
+      const resolvedSeason = resolvePlayerWeekForLeague(
         existingSeason, leagueClubs, playerProfile.currentWeek, myClub.id,
         activeIsHome, results.golesMiEquipo, results.golesRival
       );
@@ -317,7 +317,7 @@ export default function App() {
         if (key === leagueKey) continue;
         const otherLeagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
         if (otherLeagueClubs.length === 0) continue;
-        updatedLeagueSeasons[key] = getOrCreateLeagueSeason(key, otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
+        updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
       }
     }
 

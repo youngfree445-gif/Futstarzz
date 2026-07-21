@@ -32,9 +32,12 @@ cerradas con el usuario, no volver a preguntar:
   de los torneos de selecciones.
 - **Copas continentales con clasificación real** (no más rival gigante
   random cada 3 semanas): Copa Libertadores para clubes de ligas
-  sudamericanas (Conmebol), Champions League y Europa League como
-  competiciones SEPARADAS (no unificadas) para clubes de ligas europeas
-  (UEFA), cada una con su propia lógica de qué clubes clasifican.
+  sudamericanas (Conmebol) + **Copa Sudamericana** para los clubes que NO
+  clasifican a Libertadores (segundo escalón, no se quedan afuera).
+  Champions League y Europa League como competiciones SEPARADAS (no
+  unificadas) para clubes de ligas europeas (UEFA): Champions para los
+  mejores, **Europa League para los clubes europeos que no clasifican a
+  Champions**.
 - **Torneos de selecciones jugables:** Mundial, Copa América y Eurocopa,
   con periodicidad de cada 4 años (calculable ahora que hay semana fija
   por temporada). Si tu prestigio/nivel alcanza el umbral, te convocan a

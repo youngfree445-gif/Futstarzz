@@ -161,9 +161,44 @@ export interface Fixture {
   awayGoals: number | null;
 }
 
+// --- Formato Apertura/Clausura (Colombia y Argentina) ---
+// Colombia: fase de todos-contra-todos -> top 8 -> Apertura: eliminación
+// directa / Clausura: cuadrangulares. Argentina: 2 zonas -> top 8 por zona
+// (16 en total) -> eliminación directa a partido único en ambos semestres.
+export interface PlayoffMatch {
+  homeTeamId: string;
+  awayTeamId: string;
+  played: boolean;
+  homeGoals: number | null;
+  awayGoals: number | null;
+}
+
+export interface PlayoffBracket {
+  matchesByRound: PlayoffMatch[][]; // matchesByRound[0] = primera ronda de la fase eliminatoria
+  championId: string | null;
+}
+
+export interface CuadrangularesState {
+  groupA: string[]; // clubIds
+  groupB: string[];
+  tableA: TableTeam[];
+  tableB: TableTeam[];
+  fixturesA: Fixture[];
+  fixturesB: Fixture[];
+  finalPlayed: boolean;
+  championId: string | null;
+}
+
 export interface LeagueSeasonState {
   leagueKey: string; // `${club.league}-${club.division}`
   fixtures: Fixture[];
   table: TableTeam[];
   round: number; // cuántas veces se regeneró el fixture (ligas cortas que llegan al final de la vuelta antes de terminar la temporada)
+  // Solo se usan en ligas con formato Apertura/Clausura (Colombia, Argentina):
+  semester?: 1 | 2; // 1 = Apertura, 2 = Clausura
+  semesterStartWeek?: number; // currentWeek en el que arrancó la fase de todos-contra-todos del semestre actual
+  stage?: 'regular' | 'knockout' | 'cuadrangulares' | 'done';
+  knockout?: PlayoffBracket;
+  cuadrangulares?: CuadrangularesState;
+  stepsConsumed?: number; // cuántas fechas de liga (independiente del semestre) ya se resolvieron en total, para el catch-up perezoso
 }
