@@ -1,0 +1,198 @@
+import React from 'react';
+import { PlayerProfile, Club } from '../types';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
+import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
+
+interface PostMatchProps {
+  playerProfile: PlayerProfile;
+  matchResults: {
+    goles: number;
+    asistencias: number;
+    resultado: 'W' | 'D' | 'L';
+    golesRival: number;
+    golesMiEquipo: number;
+    puntosExperiencia: number;
+    salaryEarned: number;
+    rating: number;
+    log: string[];
+  };
+  opponentName: string;
+  onContinue: () => void;
+}
+
+export default function PostMatch({ playerProfile, matchResults, opponentName, onContinue }: PostMatchProps) {
+  const currentClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+  const rating = matchResults.rating;
+
+  // Calculate customized newspaper headline and commentary based on the performance
+  const generateNewspaperLayout = () => {
+    let headline = '';
+    let body = '';
+    const name = playerProfile.name;
+
+    if (matchResults.goles > 0) {
+      headline = `¡${name.toUpperCase()} REVIENTA LA RED!`;
+      body = `Con una definición soberbia del juvenil de ${playerProfile.age} años, ${currentClub.name} consiguió desatar el delirio en las tribunas. Se habla ya de que el valor de mercado del atacante subió considerablemente tras esta exhibición ofensiva de clase mundial.`;
+    } else if (matchResults.asistencias > 0) {
+      headline = `¡${name.toUpperCase()} EL ESTRATEGA!`;
+      body = `Sinfonía táctica dirigida por el mediocentro. Con asistencias perfectas habilitó la victoria de su club frente al difícil bloque defensivo plantado por ${opponentName}. Los scouts internacionales anotaron su nombre en la agenda premium de inmediato.`;
+    } else if (rating >= 7.5) {
+      headline = `CÁTEDRA Y CARÁCTER: DESTAQUE DE ${name.toUpperCase()}`;
+      body = `Sin necesidad de inflar las mallas, la joven estrella realizó un desgaste táctico monumental, recuperando balones, ordenando la salida verde y asegurando los hilos del mediocampista para la alegría del cuerpo técnico liderado por ${currentClub.dt}.`;
+    } else if (matchResults.resultado === 'W') {
+      headline = `VICTORIA SUFRIDA DEL ${currentClub.name.toUpperCase()}`;
+      body = `El equipo sacó adelante un encuentro sumamente áspero y táctico contra ${opponentName}. ${name} jugó rol regular cumpliendo las directivas de vestuario sin cometer fallas garrafales. Tres puntos que valen oro en el torneo.`;
+    } else if (matchResults.resultado === 'D') {
+      headline = `EMPARTE AMARGO EN EL CLÁSICO`;
+      body = `Un encuentro trabado en la medular que finaliza sin ventajas para nadie. Los aficionados exigen mayor chispa ofensiva. ${name} sigue asimilando los rigores defensivos de la máxima división que exige 200% de concentración física.`;
+    } else {
+      headline = `TORMENTA EN EL VESTUARIO DE ${currentClub.name.toUpperCase()}`;
+      body = `Derrota dolorosa y críticas despiadadas del periodismo deportivo. La defensa regaló espacios letales y se le vio poca rebeldía a ${name} para remontar la cuesta frente a un ${opponentName} físicamente superior. Toca trabajar fuerte.`;
+    }
+
+    return { headline, body };
+  };
+
+  const { headline, body } = generateNewspaperLayout();
+
+  // Custom DT feedback report
+  const getCoachOpinion = () => {
+    if (rating < 5.0) {
+      return `"${playerProfile.name}, tuviste un partido sumamente displicente en el campo. Si sigues jugando sin intensidad, te irás derecho al banco de suplentes." - DT ${currentClub.dt}`;
+    }
+    if (rating < 6.5) {
+      return `"Cumpliste con la tarea táctica básica que acordamos en la previa, pero sé que tienes talento para darnos mucho más vértigo vertical." - DT ${currentClub.dt}`;
+    }
+    if (rating < 8.0) {
+      return `"Excelente compromiso futbolístico hoy. Mostraste el camino y tus compañeros se apoyaron en ti. Este es el camino idóneo." - DT ${currentClub.dt}`;
+    }
+    return `"¡Magistral! Te cargaste todo el equipo al hombro y demostraste por qué tienes destino europeo garantizado tarde o temprano." - DT ${currentClub.dt}`;
+  };
+
+  return (
+    <div id="post-match-view" className="min-h-screen bg-slate-950 text-white flex items-center justify-center py-12 px-4 relative">
+      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/5 rounded-full blur-[130px] pointer-events-none" />
+
+      <div className="w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl backdrop-blur relative">
+        
+        {/* Newspaper Gacetilla section with authentic layout */}
+        <div className="p-6 md:p-8 bg-amber-40/10 bg-slate-950 border-b border-slate-800/80 relative overflow-hidden">
+          <div className="flex justify-between items-center text-xs font-mono text-amber-500 font-bold tracking-widest mb-4">
+            <span>📰 EL DIARIO DEPORTIVO 2026</span>
+            <span>Edición Semanal · Colombia-Brasil-Arg</span>
+          </div>
+
+          <div className="border border-amber-500/20 bg-amber-500/5 p-5 md:p-6 rounded-2xl relative">
+            <span className="absolute -top-2.5 left-4 px-2 py-0.5 bg-amber-500 rounded text-slate-950 font-mono text-3xs font-black tracking-tighter uppercase">
+              TAPA DEL DÍA
+            </span>
+            <h1 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight mb-3 border-b border-amber-500/10 pb-2 italic">
+              {headline}
+            </h1>
+            <p className="text-xs text-slate-300 leading-relaxed font-serif">
+              {body}
+            </p>
+          </div>
+        </div>
+
+        {/* Real reward stats and earnings */}
+        <div className="p-6 md:p-8 grid md:grid-cols-2 gap-8">
+          
+          <div className="space-y-4">
+            <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2">
+              <Award size={14} className="text-emerald-400" /> Rendimiento y Recompensa
+            </h3>
+
+            <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-850 space-y-3.5">
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-slate-400">Puntaje de Partido (Rating)</span>
+                <span className="font-mono text-sm px-2.5 py-0.5 rounded bg-slate-900 border border-slate-800 font-bold text-white">
+                  {rating.toFixed(1)}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-slate-400">Salario Semanal Cobrado</span>
+                <span className="font-mono text-sm text-emerald-400 font-bold">
+                  +${matchResults.salaryEarned.toLocaleString()} USD
+                </span>
+              </div>
+
+              {matchResults.goles > 0 || matchResults.asistencias > 0 ? (
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-slate-400">Bono por Goles/Asistencias</span>
+                  <span className="font-mono text-xs text-amber-400 font-bold">
+                    +${((matchResults.goles * 500) + (matchResults.asistencias * 250)).toLocaleString()} USD
+                  </span>
+                </div>
+              ) : null}
+
+              <div className="flex justify-between items-center border-t border-slate-850 pt-2 text-xs">
+                <span className="text-slate-300 font-bold">Experiencia ganada</span>
+                <span className="font-mono font-black text-emerald-400">
+                  +{matchResults.puntosExperiencia} XP
+                </span>
+              </div>
+            </div>
+
+            {/* Coach review section */}
+            <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/20 text-xs italic text-slate-400 leading-relaxed font-serif border-l-2 border-l-emerald-500">
+              {getCoachOpinion()}
+            </div>
+          </div>
+
+          {/* Stats progression breakdown */}
+          <div className="flex flex-col justify-between">
+            <div className="space-y-4">
+              <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2">
+                <TrendingUp size={14} className="text-amber-400" /> Estadísticas del Partido
+              </h3>
+
+              <div className="grid grid-cols-2 gap-3 text-xs bg-slate-950/40 p-4 rounded-2xl border border-slate-800">
+                <div>
+                  <span className="text-slate-500 block text-3xs font-mono uppercase">Goles</span>
+                  <span className="text-lg font-bold text-white">{matchResults.goles}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block text-3xs font-mono uppercase">Asistencias</span>
+                  <span className="text-lg font-bold text-white">{matchResults.asistencias}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block text-3xs font-mono uppercase">Marcador</span>
+                  <span className="text-sm font-bold text-white">
+                    {matchResults.golesMiEquipo} - {matchResults.golesRival}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block text-3xs font-mono uppercase">Resultado</span>
+                  <span className={`inline-block px-2 py-0.5 rounded text-3xs font-black uppercase ${
+                    matchResults.resultado === 'W' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                    matchResults.resultado === 'D' ? 'bg-slate-800 text-slate-400' :
+                    'bg-red-500/20 text-red-400 border border-red-500/30'
+                  }`}>
+                    {matchResults.resultado === 'W' ? 'Victoria' : matchResults.resultado === 'D' ? 'Empate' : 'Derrota'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Training suggestion */}
+              <div className="p-3 bg-slate-950/35 border border-slate-850 rounded-xl text-3xs text-slate-400 leading-relaxed font-mono uppercase">
+                ⚙️ CONSEJO: Gasta tus dólares ganados en la tienda de lujos para reducir pasivamente tu cansancio.
+              </div>
+            </div>
+
+            <button
+              onClick={onContinue}
+              className="w-full mt-6 py-4 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 text-slate-950 hover:from-emerald-400 hover:to-emerald-600 transition-all font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl active:scale-98"
+            >
+              Regresar al Vestuario <ArrowRight size={14} />
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  );
+}
