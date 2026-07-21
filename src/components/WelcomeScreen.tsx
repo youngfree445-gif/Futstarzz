@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlayerProfile } from '../types';
-import { Trophy, Play, RefreshCw, Trash2, Calendar, Star, DollarSign, Award, Flame, Disc, Coins } from 'lucide-react';
+import { Trophy, Play, RefreshCw, Trash2, Calendar, Star, DollarSign, Award, Flame, Disc, Coins, Heart } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onStartNew: (slotId: string) => void;
@@ -79,7 +79,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           onClick={() => setActiveTab('saves')}
           className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
             activeTab === 'saves'
-              ? 'bg-emerald-500 text-slate-950 font-black shadow'
+              ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -89,7 +89,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           onClick={() => setActiveTab('awards')}
           className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
             activeTab === 'awards'
-              ? 'bg-emerald-500 text-slate-950 font-black shadow'
+              ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -165,7 +165,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
 
                       <button
                         onClick={() => onLoadGame(profile, slot.id)}
-                        className="w-full py-2 px-3 rounded-xl bg-emerald-500 text-slate-950 text-xs font-black hover:bg-emerald-400 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                        className="w-full py-2 px-3 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 text-xs font-black hover:bg-emerald-400 transition-colors flex items-center justify-center gap-1 cursor-pointer"
                       >
                         <RefreshCw size={12} className="text-slate-950" />
                         Continuar
@@ -255,6 +255,15 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           </div>
         )}
       </div>
+
+      <a
+        href="https://paypal.me/camilocas90"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-10 inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 text-2xs font-bold hover:border-pink-500/50 hover:text-pink-400 transition-all relative z-10"
+      >
+        <Heart size={13} className="fill-current" /> Apoyar el proyecto
+      </a>
     </div>
   );
 }

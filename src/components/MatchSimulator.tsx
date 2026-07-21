@@ -536,21 +536,21 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
         <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
           <button 
             onClick={() => setSpeedMultiplier(450)}
-            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-emerald-500 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Normal"
           >
             1x
           </button>
           <button 
             onClick={() => setSpeedMultiplier(100)}
-            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-emerald-500 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Rápida"
           >
             4x
           </button>
           <button 
             onClick={() => setSpeedMultiplier(5)}
-            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-emerald-500 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Simulación Ultra Rápida"
           >
             Saltar
@@ -588,7 +588,7 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
                 <div className="flex items-center gap-1.5 mb-1 font-mono text-2xs font-black">
                   <span>⚽ [{log.minute}']</span>
                   <span className={`uppercase px-1.5 rounded font-black text-3xs ${
-                    log.type === 'good' ? 'bg-emerald-500 text-slate-900' :
+                    log.type === 'good' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-900' :
                     log.type === 'bad' ? 'bg-red-500 text-slate-900' :
                     log.type === 'highlight' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-300'
                   }`}>
@@ -662,7 +662,7 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
 
                   <button
                     onClick={resolveDecisionStage}
-                    className="mt-4 py-2 px-6 rounded-xl bg-emerald-500 text-slate-950 font-black hover:bg-emerald-400 text-xs transition-all tracking-widest uppercase cursor-pointer shadow-lg active:scale-95"
+                    className="mt-4 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black hover:bg-emerald-400 text-xs transition-all tracking-widest uppercase cursor-pointer shadow-lg active:scale-95"
                   >
                     Volver al Partido
                   </button>

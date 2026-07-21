@@ -128,7 +128,7 @@ export default function Dashboard({
         <div className="space-y-6">
           
           <div className="p-4 flex items-center gap-3 border-b border-slate-800">
-            <div className="w-9 h-9 bg-emerald-500 rounded-lg flex items-center justify-center font-black text-slate-950 italic text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center font-black text-slate-950 italic text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)]">
               FS
             </div>
             <div>
@@ -160,49 +160,49 @@ export default function Dashboard({
           <nav className="space-y-1">
             <button
               onClick={() => setActiveTab('carrera')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <User size={15} /> Mi Carrera
             </button>
             <button
               onClick={() => setActiveTab('mi_club')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Sparkles size={15} /> Plantilla de Club 
             </button>
             <button
               onClick={() => setActiveTab('entrenamiento')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Dumbbell size={15} /> Entrenamiento
             </button>
             <button
               onClick={() => setActiveTab('chutsocial')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Send size={15} /> ChutSocial
             </button>
             <button
               onClick={() => setActiveTab('prensa')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Radio size={15} /> Sala de Prensa
             </button>
             <button
               onClick={() => setActiveTab('traspasos')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <RefreshCw size={15} /> Traspasos
             </button>
             <button
               onClick={() => setActiveTab('tienda')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <ShoppingBag size={15} /> Tienda de Lujos
             </button>
             <button
               onClick={() => setActiveTab('tablas')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-emerald-500 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Table size={15} /> Copas y Tablas
             </button>
@@ -391,7 +391,7 @@ export default function Dashboard({
 
                     <button
                       onClick={onAdvanceWeek}
-                      className="w-full py-4 px-6 rounded-2xl bg-emerald-500 text-slate-950 font-black hover:bg-emerald-400 transition-all text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl active:scale-95 cursor-pointer"
+                      className="w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black hover:bg-emerald-400 transition-all text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl active:scale-95 cursor-pointer"
                     >
                       Disputar Partido <ArrowRight size={15} />
                     </button>
@@ -445,7 +445,7 @@ export default function Dashboard({
                       disabled={playerProfile.energy < 20}
                       className={`w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
                         playerProfile.energy >= 20
-                          ? 'bg-slate-950 text-white hover:bg-emerald-500 hover:text-slate-950 border border-slate-800 hover:border-emerald-400 cursor-pointer'
+                          ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 border border-slate-800 hover:border-emerald-400 cursor-pointer'
                           : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
                       }`}
                     >
@@ -475,7 +475,7 @@ export default function Dashboard({
                     <button
                       onClick={() => onRecoverEnergy(1500, 25)}
                       disabled={playerProfile.capital < 1500 || playerProfile.energy >= 100}
-                      className="py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-emerald-500 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -$1,500
                     </button>
@@ -490,7 +490,7 @@ export default function Dashboard({
                     <button
                       onClick={() => onRecoverEnergy(3500, 60)}
                       disabled={playerProfile.capital < 3500 || playerProfile.energy >= 100}
-                      className="py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-emerald-500 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -$3,500
                     </button>
@@ -557,7 +557,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(1000, 10, 0)}
                         disabled={playerProfile.capital < 1000}
-                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-emerald-500 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Lanzar sorteo
                       </button>
@@ -572,7 +572,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(3000, 15, 6)}
                         disabled={playerProfile.capital < 3000}
-                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-emerald-500 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Financiar Evento
                       </button>
@@ -586,7 +586,7 @@ export default function Dashboard({
                       <p className="text-3xs text-slate-400">Recibes capital inmediato, pero genera ligeras críticas por saturación publicitaria.</p>
                       <button
                         onClick={() => onLaunchPRCampaign(-4000, 5, -8)}
-                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-emerald-500 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Firmar Contrato Comercial
                       </button>
@@ -650,7 +650,7 @@ export default function Dashboard({
 
                   <button
                     onClick={nextPressQuestion}
-                    className="mt-6 py-2 px-6 rounded-xl bg-emerald-500 text-slate-950 font-black text-2xs uppercase tracking-widest hover:bg-emerald-400 transition-colors cursor-pointer"
+                    className="mt-6 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-widest hover:bg-emerald-400 transition-colors cursor-pointer"
                   >
                     Próxima Pregunta
                   </button>
@@ -738,7 +738,7 @@ export default function Dashboard({
                                   onAcceptTransfer(offer.club.id, offer.signOnBonus);
                                 }
                               }}
-                              className="py-1.5 px-3.5 rounded-lg bg-emerald-500 text-slate-950 font-black text-2xs uppercase tracking-wider hover:bg-emerald-400 transition-colors cursor-pointer"
+                              className="py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-wider hover:bg-emerald-400 transition-colors cursor-pointer"
                             >
                               Aceptar Traspaso
                             </button>
@@ -814,7 +814,7 @@ export default function Dashboard({
                               disabled={!isAffordable}
                               className={`py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
                                 isAffordable 
-                                  ? 'bg-emerald-500 text-slate-950 hover:bg-emerald-400 cursor-pointer' 
+                                  ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:bg-emerald-400 cursor-pointer' 
                                   : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'
                               }`}
                             >

@@ -230,7 +230,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                     </div>
                     <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-0.5">
                       <div 
-                        className="bg-emerald-500 h-full rounded-full" 
+                        className="bg-gradient-to-br from-emerald-400 to-emerald-600 h-full rounded-full" 
                         style={{ width: `${(val / 99) * 100}%` }}
                       />
                     </div>
@@ -258,7 +258,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                   onClick={() => setSelectedDivision('all')}
                   className={`flex-1 py-1.5 px-3 rounded-lg text-2xs font-bold transition-all ${
                     selectedDivision === 'all'
-                      ? 'bg-emerald-500 text-slate-950 font-black shadow-md'
+                      ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -269,7 +269,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                   onClick={() => setSelectedDivision(1)}
                   className={`flex-1 py-1.5 px-3 rounded-lg text-2xs font-bold transition-all ${
                     selectedDivision === 1
-                      ? 'bg-emerald-500 text-slate-950 font-black shadow-md'
+                      ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -281,7 +281,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                     onClick={() => setSelectedDivision(2)}
                     className={`flex-1 py-1.5 px-3 rounded-lg text-2xs font-bold transition-all ${
                       selectedDivision === 2
-                        ? 'bg-emerald-500 text-slate-950 font-black shadow-md'
+                        ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
