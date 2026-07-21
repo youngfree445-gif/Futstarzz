@@ -2640,3 +2640,35 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
   // Unimos ambos mundos: Los detallados a mano + Los generados automáticamente
   return [...detailedClubs, ...generatedClubs];
 })();
+
+// ==========================================
+// --- SELECCIONES NACIONALES (masculinas) ---
+// ==========================================
+// Dato de referencia por ahora: NO se mezcla con CLUBS_DATABASE / ULTIMATE_CLUBS_DATABASE,
+// así que no aparece como club inicial ni como destino de traspaso todavía.
+// Se agrega una selección por cada liga de país que ya tiene datos reales cargados.
+const NATIONAL_TEAMS_SEED: { id: string; countryName: string; league: string; dt: string; badgeColor: string; badgeLogoUrl: string }[] = [
+  { id: 'seleccion_colombia', countryName: 'Colombia', league: 'Colombiana', dt: 'Néstor Lorenzo', badgeColor: 'border-l-4 border-yellow-400 bg-blue-950/40 text-yellow-200', badgeLogoUrl: '🇨🇴' },
+  { id: 'seleccion_alemania', countryName: 'Alemania', league: 'Alemana', dt: 'Julian Nagelsmann', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-yellow-300', badgeLogoUrl: '🇩🇪' },
+];
+
+export const NATIONAL_TEAMS_DATABASE: Club[] = NATIONAL_TEAMS_SEED.map(team => {
+  const squad = ALL_PLAYERS
+    .filter(p => p.team_name === team.countryName)
+    .sort((a, b) => b.media_valoracion - a.media_valoracion)
+    .map(p => p.nombre_completo);
+
+  return {
+    id: team.id,
+    name: `Selección de ${team.countryName}`,
+    league: team.league,
+    dt: team.dt,
+    reputation: 5,
+    initialSalary: 0,
+    marketValue: 0,
+    starPlayers: squad.slice(0, 5),
+    description: `Selección masculina absoluta de ${team.countryName}.`,
+    badgeColor: team.badgeColor,
+    badgeLogoUrl: team.badgeLogoUrl
+  };
+});
