@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
 import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, COPA_LIBERTADORES_GROUPS_DATA, getClubWithRoster } from '../data';
+import { leagueKeyFor, sortTable } from '../leagueEngine';
 import { 
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag, 
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle, 
@@ -42,6 +43,8 @@ export default function Dashboard({
 
   // Corregido: Busca el club en la base de datos inyectada con el JSON
   const currentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+  const myLeagueKey = leagueKeyFor(currentClub);
+  const myLeagueTable = sortTable(playerProfile.leagueSeasons[myLeagueKey]?.table || []);
 
   // Corregido: Ofertas de traspaso con plantillas inyectadas
   const generateMockTransferOffers = () => {
@@ -839,6 +842,52 @@ export default function Dashboard({
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Monitorea las fases de la prestigiosa Copa Libertadores de América 2026 y la situación clasificatoria actual.
                 </p>
+              </div>
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
+                <h3 className="text-xs font-black uppercase tracking-widest text-emerald-400 border-b border-slate-800 pb-2 flex items-center gap-2">
+                  <Table size={13} /> TABLA DE POSICIONES · {currentClub.league.toUpperCase()} {currentClub.division && currentClub.division > 1 ? `(DIV. ${currentClub.division})` : ''}
+                </h3>
+
+                {myLeagueTable.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-3xs font-mono text-left">
+                      <thead>
+                        <tr className="text-slate-500 uppercase border-b border-slate-800">
+                          <th className="py-1.5 pr-2">#</th>
+                          <th className="py-1.5 pr-2">Equipo</th>
+                          <th className="py-1.5 px-1.5 text-center">PJ</th>
+                          <th className="py-1.5 px-1.5 text-center">G</th>
+                          <th className="py-1.5 px-1.5 text-center">E</th>
+                          <th className="py-1.5 px-1.5 text-center">P</th>
+                          <th className="py-1.5 px-1.5 text-center">GF</th>
+                          <th className="py-1.5 px-1.5 text-center">GC</th>
+                          <th className="py-1.5 pl-1.5 text-center">Pts</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {myLeagueTable.map((row, idx) => (
+                          <tr
+                            key={row.clubId || row.name}
+                            className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : 'text-slate-300'}`}
+                          >
+                            <td className="py-1.5 pr-2">{idx + 1}</td>
+                            <td className="py-1.5 pr-2 truncate max-w-[140px]">{row.name}</td>
+                            <td className="py-1.5 px-1.5 text-center">{row.pj}</td>
+                            <td className="py-1.5 px-1.5 text-center">{row.g}</td>
+                            <td className="py-1.5 px-1.5 text-center">{row.e}</td>
+                            <td className="py-1.5 px-1.5 text-center">{row.p}</td>
+                            <td className="py-1.5 px-1.5 text-center">{row.gf}</td>
+                            <td className="py-1.5 px-1.5 text-center">{row.gc}</td>
+                            <td className="py-1.5 pl-1.5 text-center font-black">{row.puntos}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-2xs text-slate-500">Todavía no hay datos de la tabla para esta liga.</p>
+                )}
               </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">

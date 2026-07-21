@@ -62,6 +62,7 @@ export interface PlayerProfile {
   currentClubId: string;
   currentWeek: number;
   marketValue: number; // USD
+  leagueSeasons: Record<string, LeagueSeasonState>; // todas las ligas ya "visitadas" corriendo en paralelo, clave = leagueKey
 }
 
 export interface SocialPost {
@@ -140,6 +141,7 @@ export interface SeasonHistory {
 }
 
 export interface TableTeam {
+  clubId?: string; // Preferí comparar por id en vez de name — un nombre corto de club puede colisionar con otro club real (ver bug de "Arsenal" en data.ts)
   name: string;
   puntos: number;
   pj: number;
@@ -148,4 +150,20 @@ export interface TableTeam {
   p: number;
   gf: number;
   gc: number;
+}
+
+export interface Fixture {
+  matchweek: number;
+  homeTeamId: string;
+  awayTeamId: string;
+  played: boolean;
+  homeGoals: number | null;
+  awayGoals: number | null;
+}
+
+export interface LeagueSeasonState {
+  leagueKey: string; // `${club.league}-${club.division}`
+  fixtures: Fixture[];
+  table: TableTeam[];
+  round: number; // cuántas veces se regeneró el fixture (ligas cortas que llegan al final de la vuelta antes de terminar la temporada)
 }

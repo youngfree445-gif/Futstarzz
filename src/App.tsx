@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, ShopItem, PlayerStats } from './types';
 import { INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from './data';
+import { leagueKeyFor, getOrCreateLeagueSeason, getUpcomingFixtureForClub, resolvePlayerMatchweek, isCupWeek } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen from './components/SetupScreen';
 import Dashboard from './components/Dashboard';
@@ -15,6 +16,8 @@ export default function App() {
   const [shopItems, setShopItems] = useState<ShopItem[]>(INITIAL_LIFESTYLE_ITEMS);
   
   const [activeOpposition, setActiveOpposition] = useState('');
+  const [activeOppositionClubId, setActiveOppositionClubId] = useState<string | null>(null);
+  const [activeIsHome, setActiveIsHome] = useState(true);
   const [isCopaLibertadores, setIsCopaLibertadores] = useState(false);
   const [matchResults, setMatchResults] = useState<any>(null);
 
@@ -35,7 +38,22 @@ export default function App() {
 
   const handleLoadGame = (savedState: PlayerProfile, slotId: string) => {
     setActiveSlotId(slotId);
-    setPlayerProfile(savedState);
+
+    // Compatibilidad con saves viejos que no tenían el motor de liga: si falta,
+    // lo generamos ahora mismo para el club actual, puesto al día a la semana en curso.
+    let profile = savedState;
+    if (!profile.leagueSeasons) {
+      const myClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+      if (myClub) {
+        const leagueKey = leagueKeyFor(myClub);
+        const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+        const season = getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, profile.currentWeek);
+        profile = { ...profile, leagueSeasons: { [leagueKey]: season } };
+      } else {
+        profile = { ...profile, leagueSeasons: {} };
+      }
+    }
+    setPlayerProfile(profile);
 
     const savedShop = localStorage.getItem(`futbol_star_shop_${slotId}`);
     if (savedShop) {
@@ -53,10 +71,17 @@ export default function App() {
 
   const handleFinishSetup = (newProfile: PlayerProfile) => {
     const defaultShop = INITIAL_LIFESTYLE_ITEMS.map(item => ({ ...item, purchased: false }));
-    setPlayerProfile(newProfile);
+
+    const myClub = CLUBS_DATABASE.find(c => c.id === newProfile.currentClubId)!;
+    const leagueKey = leagueKeyFor(myClub);
+    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const season = getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, newProfile.currentWeek);
+    const profileWithLeague: PlayerProfile = { ...newProfile, leagueSeasons: { [leagueKey]: season } };
+
+    setPlayerProfile(profileWithLeague);
     setShopItems(defaultShop);
     if (activeSlotId) {
-      saveGameState(newProfile, defaultShop, activeSlotId);
+      saveGameState(profileWithLeague, defaultShop, activeSlotId);
     }
     setScreen('dashboard');
   };
@@ -147,12 +172,19 @@ export default function App() {
   const handleAcceptTransfer = (clubId: string, signOnBonus: number) => {
     if (!playerProfile) return;
     const targetClub = CLUBS_DATABASE.find(c => c.id === clubId)!;
-    
+
+    // Si es una liga que todavía no visitaste, se genera y se pone al día
+    // (queda "corriendo de fondo" como si nunca la hubieras dejado de mirar).
+    const leagueKey = leagueKeyFor(targetClub);
+    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const season = getOrCreateLeagueSeason(leagueKey, leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
+
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       currentClubId: clubId,
       capital: playerProfile.capital + signOnBonus,
-      prestige: Math.round(playerProfile.prestige * 0.9) 
+      prestige: Math.round(playerProfile.prestige * 0.9),
+      leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season }
     };
 
     setPlayerProfile(updatedProfile);
@@ -190,26 +222,39 @@ export default function App() {
 
   const startMatchflow = () => {
     if (!playerProfile) return;
-    
-    const isCup = playerProfile.currentWeek % 3 === 0; 
+
+    const isCup = isCupWeek(playerProfile.currentWeek);
     setIsCopaLibertadores(isCup);
 
     let opName = '';
+    let opClubId: string | null = null;
+    let isHomeThisMatch = Math.random() > 0.5;
+
     if (isCup) {
       const giants = ['CR Flamengo', 'SE Palmeiras', 'CA Boca Juniors', 'CA River Plate', 'Fluminense FC', 'SC Corinthians', 'Peñarol (URU)', 'Nacional (URU)'];
       opName = giants[Math.floor(Math.random() * giants.length)];
     } else {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const localRivals = CLUBS_DATABASE.filter(c => c.league === myClub.league && c.id !== myClub.id).map(c => c.name);
-      
-      if (localRivals.length > 0) {
-        opName = localRivals[Math.floor(Math.random() * localRivals.length)];
+      const leagueKey = leagueKeyFor(myClub);
+      const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+      const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, playerProfile.currentWeek);
+      const upcoming = getUpcomingFixtureForClub(season, leagueClubs, playerProfile.currentWeek, myClub.id);
+
+      if (upcoming) {
+        const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId);
+        opName = opponentClub?.name || OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+        opClubId = upcoming.opponentId;
+        isHomeThisMatch = upcoming.isHome;
       } else {
-        opName = OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+        // Fallback de seguridad (liga con un solo club u otro caso borde): no debería pasar en la práctica.
+        const localRivals = leagueClubs.filter(c => c.id !== myClub.id).map(c => c.name);
+        opName = localRivals.length > 0 ? localRivals[Math.floor(Math.random() * localRivals.length)] : OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
       }
     }
 
     setActiveOpposition(opName);
+    setActiveOppositionClubId(opClubId);
+    setActiveIsHome(isHomeThisMatch);
     setScreen('match');
   };
 
@@ -254,12 +299,35 @@ export default function App() {
     const valueChg = results.rating * 6000 + (results.goles * 25000) + (results.asistencias * 15000);
     const campeonatoGanado = results.campeonatoGanado ? 1 : 0;
 
+    let updatedLeagueSeasons = playerProfile.leagueSeasons;
+    if (!isCopaLibertadores && activeOppositionClubId) {
+      const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+      const leagueKey = leagueKeyFor(myClub);
+      const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+      const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateLeagueSeason(leagueKey, leagueClubs, undefined, playerProfile.currentWeek);
+      const resolvedSeason = resolvePlayerMatchweek(
+        existingSeason, leagueClubs, playerProfile.currentWeek, myClub.id,
+        activeIsHome, results.golesMiEquipo, results.golesRival
+      );
+
+      updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
+
+      // Ligas ya visitadas (por traspasos anteriores) siguen corriendo de fondo aunque ya no juegues ahí.
+      for (const key of Object.keys(updatedLeagueSeasons)) {
+        if (key === leagueKey) continue;
+        const otherLeagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+        if (otherLeagueClubs.length === 0) continue;
+        updatedLeagueSeasons[key] = getOrCreateLeagueSeason(key, otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
+      }
+    }
+
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
       capital: playerProfile.capital + totalIncome,
       marketValue: Math.max(100000, playerProfile.marketValue + valueChg),
       currentWeek: playerProfile.currentWeek + 1,
+      leagueSeasons: updatedLeagueSeasons,
       careerStats: {
         goles: playerProfile.careerStats.goles + results.goles,
         asistencias: playerProfile.careerStats.asistencias + results.asistencias,
@@ -352,6 +420,7 @@ export default function App() {
           playerProfile={playerProfile}
           opponentName={activeOpposition}
           isLibertadores={isCopaLibertadores}
+          isHome={activeIsHome}
           onFinishMatch={handleFinishMatch}
         />
       )}

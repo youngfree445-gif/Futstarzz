@@ -7,6 +7,7 @@ interface MatchSimulatorProps {
   playerProfile: PlayerProfile;
   opponentName: string;
   isLibertadores: boolean;
+  isHome: boolean;
   onFinishMatch: (results: {
     goles: number;
     asistencias: number;
@@ -20,14 +21,14 @@ interface MatchSimulatorProps {
   }) => void;
 }
 
-export default function MatchSimulator({ playerProfile, opponentName, isLibertadores, onFinishMatch }: MatchSimulatorProps) {
+export default function MatchSimulator({ playerProfile, opponentName, isLibertadores, isHome: isHomeProp, onFinishMatch }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [speedMultiplier, setSpeedMultiplier] = useState(450); 
-  
+  const [speedMultiplier, setSpeedMultiplier] = useState(450);
+
   const [scoreHome, setScoreHome] = useState(0);
   const [scoreAway, setScoreAway] = useState(0);
-  const isHome = useRef(Math.random() > 0.5);
+  const isHome = useRef(isHomeProp);
 
   const [playerGoals, setPlayerGoals] = useState(0);
   const [playerAssists, setPlayerAssists] = useState(0);
