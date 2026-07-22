@@ -52,14 +52,18 @@ export default function MatchSimulator({
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
 
-  // Multiplicador de dificultad según fuerza del rival en la tabla: un rival mejor ubicado que vos
-  // achica tu ventana de éxito en las decisiones; uno peor ubicado la agranda. Sin tabla comparable
-  // (copas/Mundial) no hay ajuste (multiplicador neutro).
-  const pressureMultiplier = (() => {
+  // Multiplicador de dificultad combinado: fuerza del rival en la tabla (un rival mejor ubicado
+  // achica tu ventana de éxito, uno peor ubicado la agranda; sin tabla comparable en copas/Mundial
+  // queda neutro) + apoyo de la hinchada (fans muy bajo = "te pitan", fans muy alto = te empuja)
+  // + salud mental (Fase 3: cabeza floja te cuesta concentración, cabeza fuerte te da un empujón).
+  const tablePositionFactor = (() => {
     if (myTablePosition == null || rivalTablePosition == null) return 1;
     const positionDiff = myTablePosition - rivalTablePosition; // positivo = rival mejor ubicado que vos
     return Math.max(0.8, Math.min(1.2, 1 - positionDiff * 0.01));
   })();
+  const fanSupportFactor = playerProfile.fans < 20 ? 0.9 : playerProfile.fans > 80 ? 1.05 : 1;
+  const mentalHealthFactor = playerProfile.mentalHealth < 35 ? 0.88 : playerProfile.mentalHealth > 85 ? 1.08 : 1;
+  const pressureMultiplier = Math.max(0.65, Math.min(1.35, tablePositionFactor * fanSupportFactor * mentalHealthFactor));
   const teamName = currentClub.name;
 
   const getTeammateSample = () => {
@@ -752,14 +756,34 @@ export default function MatchSimulator({
             <p className="leading-relaxed text-2xs">
               Tus elecciones críticas están vinculadas a tus atributos actuales. Si no has entrenado lo suficiente tus atributos físicos o de pase, intenta ir por las opciones seguras para evitar pérdidas de prestigio.
             </p>
-            {pressureMultiplier < 0.97 && (
+            {tablePositionFactor < 0.97 && (
               <p className="leading-relaxed text-2xs text-amber-400 mt-2">
                 ⚠️ Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.
               </p>
             )}
-            {pressureMultiplier > 1.03 && (
+            {tablePositionFactor > 1.03 && (
               <p className="leading-relaxed text-2xs text-emerald-400 mt-2">
                 ✨ Rival peor ubicado en la tabla: tus decisiones tienen algo más de margen hoy.
+              </p>
+            )}
+            {playerProfile.fans < 20 && (
+              <p className="leading-relaxed text-2xs text-amber-400 mt-2">
+                📣 La hinchada te viene pitando: tus decisiones tienen menos margen de éxito hoy.
+              </p>
+            )}
+            {playerProfile.fans > 80 && (
+              <p className="leading-relaxed text-2xs text-emerald-400 mt-2">
+                📣 La hinchada te banca a muerte: tus decisiones tienen algo más de margen hoy.
+              </p>
+            )}
+            {playerProfile.mentalHealth < 35 && (
+              <p className="leading-relaxed text-2xs text-amber-400 mt-2">
+                🧠 Traes la cabeza floja: tus decisiones tienen menos margen de éxito hoy.
+              </p>
+            )}
+            {playerProfile.mentalHealth > 85 && (
+              <p className="leading-relaxed text-2xs text-emerald-400 mt-2">
+                🧠 Estás mentalmente a tope: tus decisiones tienen algo más de margen hoy.
               </p>
             )}
           </div>

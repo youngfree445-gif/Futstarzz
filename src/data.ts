@@ -2135,11 +2135,14 @@ export const CLUBS_DATABASE: Club[] = [
   { id: 'fcsb', name: 'FCSB', league: 'Rumana', dt: 'Marius Baciu', reputation: 2, initialSalary: 720, marketValue: 3000000, starPlayers: ['Daniel Bîrligea', 'David Miculescu', 'Siyabonga Ngezana', 'Florin Tănase', 'Joyskim Dawa'], description: 'Clasificado a la Europa League 2025-26. El histórico club de Bucarest.', badgeColor: 'border-l-4 border-red-600 bg-blue-950 text-red-200', badgeLogoUrl: '🔴🔵', division: 1 },
   { id: 'maccabi_tel_aviv', name: 'Maccabi Tel Aviv FC', league: 'Israelí', dt: 'Kenny Miller', reputation: 2, initialSalary: 850, marketValue: 4000000, starPlayers: ['Roy Revivo', 'Kristijan Belic', 'Tyrese Asante', 'Hélio Varela', 'Sayed Abu Farkhi'], description: 'Clasificado a la Europa League 2025-26. El más laureado de Israel en Europa.', badgeColor: 'border-l-4 border-yellow-400 bg-blue-900 text-yellow-200', badgeLogoUrl: '💛🔵', division: 1 },
 ];
+// FASE 3 -- economía más dura: costos ~18-20% más altos que la versión original, y patrocinios
+// "casi infinitos" con categoría (patrocinios de la misma categoría entran en conflicto -- ver
+// handleBuyItem en App.tsx, que bloquea comprar dos del mismo rubro a la vez).
 export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'physical_coach',
     name: 'Entrenador Físico Personal',
-    cost: 15000,
+    cost: 18000,
     description: 'Rutinas exclusivas a domicilio para prevenir la fatiga crónica y potenciar tus músculos.',
     perkText: '+1 Físico permanente y recuperas +8 Energía extra por partido avanzado.',
     effect: { attribute: 'fisico', value: 2, permanentEnergyBonus: 5, fatigueReduction: 5 },
@@ -2149,7 +2152,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'sports_agent',
     name: 'Agente de Elite FIFA',
-    cost: 45000,
+    cost: 54000,
     description: 'Un manager que redacta contratos brutales y te consigue un 20% más de salario en ofertas futuras.',
     perkText: '+15 Prestigio garantizado, habilita ofertas de gigantes continentales.',
     effect: { prestigeBonus: 15, fatigueReduction: 0 },
@@ -2159,7 +2162,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'sports_car',
     name: 'Superdeportivo Ital-Giallo',
-    cost: 80000,
+    cost: 95000,
     description: 'Con motor V8 que ruge en los entrenamientos. El foco de las cámaras estará en tu coche.',
     perkText: '+25 Afición/Fans instantáneos, +12 Prestigio.',
     effect: { fansBonus: 25, prestigeBonus: 12, attribute: 'ritmo', value: 1 },
@@ -2169,7 +2172,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'nutritionist',
     name: 'Nutricionista de Estrellas',
-    cost: 20000,
+    cost: 24000,
     description: 'Dieta hipercalórica regulada que limpia tu resistencia y afina tu potencia.',
     perkText: '+3 Ritmo y +2 Físico permanentes para volar sobre la banda.',
     effect: { attribute: 'ritmo', value: 3 },
@@ -2179,7 +2182,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'luxury_mansion',
     name: 'Mansión en los Cerros',
-    cost: 180000,
+    cost: 215000,
     description: 'Casa gigante con piscina olímpica, cine privado e hidratación premium para un descanso estelar.',
     perkText: '+25 Prestigio, +20 Energía por partido avanzado.',
     effect: { prestigeBonus: 25, permanentEnergyBonus: 15 },
@@ -2189,7 +2192,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'marketing_pr',
     name: 'Socio de Agencia de Marketing',
-    cost: 25000,
+    cost: 30000,
     description: 'Una campaña de relaciones públicas masiva para limpiar tu nombre en redes.',
     perkText: '+30 de Afición/Fans y +10 de Prestigio en el club.',
     effect: { fansBonus: 30, prestigeBonus: 10 },
@@ -2199,12 +2202,79 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'gaming_sponsorship',
     name: 'Patrocinio Oficial de Videojuegos',
-    cost: 110000,
+    cost: 130000,
     description: 'Tu propio personaje jugable y firma comercial internacional. Recibes un dividendo semanal de regalías.',
     perkText: '+45 Fans, ganas de forma pasiva $2,500 cada vez que avanzas la semana.',
-    effect: { fansBonus: 45 },
+    effect: { fansBonus: 45, passiveIncome: 2500 },
+    category: 'tecnologia',
     purchased: false,
     icon: 'gamepad'
+  },
+  {
+    id: 'streaming_deal',
+    name: 'Contrato de Streaming Exclusivo',
+    cost: 95000,
+    description: 'Transmitís tus entrenamientos y momentos de vestuario en vivo para una plataforma internacional.',
+    perkText: '+20 Fans, ganas de forma pasiva $1,800 cada vez que avanzas la semana.',
+    effect: { fansBonus: 20, passiveIncome: 1800 },
+    category: 'tecnologia',
+    purchased: false,
+    icon: 'video'
+  },
+  {
+    id: 'sports_drink',
+    name: 'Patrocinio de Bebida Isotónica',
+    cost: 40000,
+    description: 'Tu cara en cada botella de la marca oficial de hidratación de la liga.',
+    perkText: '+8 Prestigio, +10 Fans.',
+    effect: { prestigeBonus: 8, fansBonus: 10 },
+    category: 'bebidas',
+    purchased: false,
+    icon: 'droplet'
+  },
+  {
+    id: 'fashion_line',
+    name: 'Línea de Ropa Urbana Propia',
+    cost: 70000,
+    description: 'Lanzás tu propia colección de streetwear con una marca reconocida de la industria.',
+    perkText: '+35 Fans, +5 Prestigio.',
+    effect: { fansBonus: 35, prestigeBonus: 5 },
+    category: 'moda',
+    purchased: false,
+    icon: 'shirt'
+  },
+  {
+    id: 'watch_brand',
+    name: 'Embajador de Relojería Suiza',
+    cost: 150000,
+    description: 'Una casa relojera centenaria te suma a su lista reducida de embajadores globales.',
+    perkText: '+30 Prestigio.',
+    effect: { prestigeBonus: 30 },
+    category: 'lujo',
+    purchased: false,
+    icon: 'watch'
+  },
+  {
+    id: 'crypto_sponsor',
+    name: 'Patrocinio Cripto Arriesgado',
+    cost: 60000,
+    description: 'Una plataforma de criptomonedas te ofrece un contrato jugoso a cambio de promocionarla en tus redes.',
+    perkText: '+15 Fans, ganas de forma pasiva $3,000 cada vez que avanzas la semana, pero -5 Prestigio (la prensa especializada desconfía).',
+    effect: { fansBonus: 15, prestigeBonus: -5, passiveIncome: 3000 },
+    category: 'tecnologia',
+    purchased: false,
+    icon: 'coins'
+  },
+  {
+    id: 'airline_deal',
+    name: 'Milla Viajera Oficial',
+    cost: 85000,
+    description: 'Vuelos y estadías premium para vos y tu familia, cortesía de la aerolínea oficial del torneo.',
+    perkText: '+10 Prestigio, +10 Energía por partido avanzado.',
+    effect: { prestigeBonus: 10, permanentEnergyBonus: 10 },
+    category: 'viajes',
+    purchased: false,
+    icon: 'plane'
   }
 ];
 
@@ -2392,6 +2462,89 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
         reaction: "TV: 'El jugador levanta la voz y exige su lugar en la selección. ¡Polémica nacional!'"
       }
     ]
+  },
+  // FASE 3 -- PRENSA MÁS PROFUNDA: más ramas de polémica, traspasos y bajo rendimiento ajeno
+  {
+    id: "press_6",
+    context: "Filtración de Mercado",
+    mediaName: "Radio Caracol Deportes",
+    reporter: "Corresponsal de Pases",
+    reporterAvatar: "📻💰",
+    mediaColor: "border-yellow-500 text-yellow-300 bg-yellow-950/20",
+    question: "Se filtró un audio de tu representante negociando con un club rival de tu propia liga a tus espaldas. ¿Qué tienes para decir?",
+    options: [
+      {
+        text: "Mi representante escucha ofertas, es su trabajo. Yo sigo comprometido con este club hasta que decida lo contrario.",
+        prestigeChange: 3,
+        fansChange: -8,
+        energyChange: -3,
+        reaction: "Radio Caracol: 'Respuesta diplomática, pero la hinchada quedó con la duda sembrada.'"
+      },
+      {
+        text: "Eso no tiene ni pies ni cabeza. Voy a hablar con mi agente para que aclare el tema hoy mismo.",
+        prestigeChange: 6,
+        fansChange: 10,
+        energyChange: -2,
+        reaction: "Radio Caracol: 'El jugador desmiente con firmeza. La hinchada respira, por ahora.'"
+      }
+    ]
+  },
+  {
+    id: "press_7",
+    context: "Pregunta Trampa Post-Derrota",
+    mediaName: "Deportes RCN",
+    reporter: "Cronista de Vestuario",
+    reporterAvatar: "🎥😬",
+    mediaColor: "border-rose-500 text-rose-300 bg-rose-950/20",
+    question: "El arquero del equipo tuvo una actuación desastrosa hoy y varios errores no forzados. ¿Le tienes confianza de cara al resto del semestre?",
+    options: [
+      {
+        text: "Un arquero también tiene partidos malos, como cualquiera de nosotros. Vamos a levantarlo entre todos.",
+        prestigeChange: 12,
+        fansChange: 4,
+        energyChange: 0,
+        reaction: "RCN: 'Gesto de liderazgo y compañerismo que el vestuario agradece puertas adentro.'"
+      },
+      {
+        text: "No me corresponde evaluar a mis compañeros, esa pregunta es para el cuerpo técnico.",
+        prestigeChange: 2,
+        fansChange: -2,
+        energyChange: 0,
+        reaction: "RCN: 'Respuesta esquiva. Los hinchas la leyeron como una falta de respaldo al arquero.'"
+      },
+      {
+        text: "La verdad, viene fallando hace varias fechas y el equipo lo está sufriendo en los resultados.",
+        prestigeChange: -12,
+        fansChange: -6,
+        energyChange: -3,
+        reaction: "RCN: '¡BOMBAZO! El jugador expone públicamente a un compañero. Crisis interna en el plantel.'"
+      }
+    ]
+  },
+  {
+    id: "press_8",
+    context: "Editorial de Fin de Año",
+    mediaName: "El Espectador Deportivo",
+    reporter: "Editorialista Senior",
+    reporterAvatar: "🗞️🏆",
+    mediaColor: "border-emerald-500 text-emerald-300 bg-emerald-950/20",
+    question: "En el balance anual del medio te consideran 'sobrevalorado' comparado con otras figuras jóvenes de la liga. ¿Cómo te cae esa etiqueta?",
+    options: [
+      {
+        text: "Respeto todas las opiniones, pero el campo es el único lugar donde de verdad se demuestra algo.",
+        prestigeChange: 9,
+        fansChange: 6,
+        energyChange: -2,
+        reaction: "El Espectador: 'Madurez absoluta para responder a una crítica dura sin perder la calma.'"
+      },
+      {
+        text: "Ese medio nunca me ha dado crédito por nada, ya perdí la cuenta de sus columnas injustas.",
+        prestigeChange: -4,
+        fansChange: 12,
+        energyChange: -4,
+        reaction: "El Espectador: 'El jugador se enfrenta abiertamente a la prensa especializada. Polémica servida.'"
+      }
+    ]
   }
 ];
 
@@ -2502,6 +2655,98 @@ export const LOBBY_RANDOM_EVENTS = [
         cost: 0,
         outcome: 'Pudiste descansar y dormir tus 8 horas, pero algunos fans te tildan de agrandado en Twitter.',
         effects: { prestige: -5, fans: -15, energy: 15, capital: 0 }
+      }
+    ]
+  },
+  // FASE 3 -- VICIOS CON CONSECUENCIAS
+  {
+    title: 'La Previa Prohibida',
+    description: 'Un compañero saca un par de cigarrillos en el balcón del hotel de concentración, a dos días del partido más importante del semestre. "Uno no hace nada", te dice.',
+    choices: [
+      {
+        text: 'Aceptar uno para relajar los nervios',
+        cost: 0,
+        outcome: 'Te ve el utillero y el rumor llega al cuerpo técnico. Te bajan puntos de confianza física.',
+        effects: { prestige: -8, fans: 0, energy: -20, capital: 0 }
+      },
+      {
+        text: 'Rechazar y salir a caminar para despejarte',
+        cost: 0,
+        outcome: 'El preparador físico te felicita por tu disciplina delante del plantel.',
+        effects: { prestige: 8, fans: 0, energy: 10, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'Barra Libre en el Cumpleaños del Capitán',
+    description: 'El capitán del equipo cumple años y organiza una fiesta con barra libre a mitad de semana. Todo el plantel titular está invitado.',
+    choices: [
+      {
+        text: 'Ir y tomar hasta tarde para no quedar mal con el grupo ($2,500 COP/USD)',
+        cost: 2500,
+        outcome: 'Te ganas la simpatía del vestuario, pero llegas al entrenamiento del día siguiente hecho pedazos.',
+        effects: { prestige: 12, fans: -3, energy: -40, capital: -2500 }
+      },
+      {
+        text: 'Pasar a saludar, tomar una copa y retirarte temprano',
+        cost: 500,
+        outcome: 'Cumples socialmente sin comprometer tu rendimiento de la semana.',
+        effects: { prestige: 4, fans: 2, energy: -10, capital: -500 }
+      }
+    ]
+  },
+  {
+    title: 'Apuestas en la Concentración',
+    description: 'En el micro rumbo al hotel, un grupo de compañeros arma una timba de cartas con plata de por medio para matar el aburrimiento del viaje.',
+    choices: [
+      {
+        text: 'Sumarte a la partida ($4,000 COP/USD en juego)',
+        cost: 4000,
+        outcome: 'Perdiste casi todo lo que pusiste sobre la mesa. El grupo se ríe, pero tu billetera llora.',
+        effects: { prestige: 6, fans: 0, energy: -5, capital: -3600 }
+      },
+      {
+        text: 'Quedarte con los audífonos puestos viendo videos tácticos',
+        cost: 0,
+        outcome: 'Llegas descansado y con la cabeza fría al hotel de concentración.',
+        effects: { prestige: 3, fans: 0, energy: 5, capital: 0 }
+      }
+    ]
+  },
+  // FASE 3 -- VESTUARIO Y HINCHADA
+  {
+    title: 'Reclamo del DT por Individualismo',
+    description: 'En la charla técnica post-entrenamiento, el DT te para en seco frente a todo el plantel: "Acá se juega para el equipo, no para las estadísticas personales."',
+    choices: [
+      {
+        text: 'Responder que vos jugás para ganar, no para quedar bien con nadie',
+        cost: 0,
+        outcome: 'El vestuario se divide: unos te bancan, otros creen que te faltó el respeto al técnico.',
+        effects: { prestige: -12, fans: 8, energy: -5, capital: 0 }
+      },
+      {
+        text: 'Asentir y comprometerte a jugar más colectivo de acá en adelante',
+        cost: 0,
+        outcome: 'El DT valora el gesto. Tu relación con el cuerpo técnico mejora notablemente.',
+        effects: { prestige: 10, fans: -2, energy: 0, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'La Hinchada Pide Explicaciones',
+    description: 'Tras una racha floja de resultados, un grupo de la barra brava se planta en la puerta del predio de entrenamiento pidiendo hablar con los jugadores.',
+    choices: [
+      {
+        text: 'Salir a dar la cara y escuchar sus reclamos',
+        cost: 0,
+        outcome: 'La hinchada valora que no te escondas. Baja la tensión en las tribunas para el próximo partido.',
+        effects: { prestige: 5, fans: 18, energy: -15, capital: 0 }
+      },
+      {
+        text: 'Salir por la puerta trasera junto a la delegación',
+        cost: 0,
+        outcome: 'Evitas el conflicto directo, pero las redes se llenan de críticas por "cobarde".',
+        effects: { prestige: 0, fans: -20, energy: 5, capital: 0 }
       }
     ]
   }

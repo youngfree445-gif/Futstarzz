@@ -39,17 +39,31 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
 
   const currentClub = CLUBS_DATABASE.find(c => c.id === selectedClubId);
 
-  const getInitialAttributes = (pos: Position): PlayerStats => {
-    switch (pos) {
-      case 'Delantero':
-        return { ritmo: 60, regate: 58, tiro: 65, defensa: 18, pase: 48, fisico: 46 };
-      case 'Mediocampista':
-        return { ritmo: 52, regate: 60, tiro: 48, defensa: 45, pase: 65, fisico: 50 };
-      case 'Defensor':
-        return { ritmo: 54, regate: 32, tiro: 22, defensa: 66, pase: 46, fisico: 64 };
-      case 'Arquero':
-        return { ritmo: 38, regate: 20, tiro: 12, defensa: 68, pase: 42, fisico: 56 };
-    }
+  // Fase 3 -- Modo Veterano: arrancar con 32-35 años da atributos de jugador consagrado (+16 en
+  // todos los rubros salvo físico, que solo sube +6 -- ya perdió un poco de piernas frente al
+  // "Juvenil", es la contrapartida de arrancar con el resto de los atributos a nivel de estrella).
+  const getInitialAttributes = (pos: Position, playerAge: number): PlayerStats => {
+    const base = (() => {
+      switch (pos) {
+        case 'Delantero':
+          return { ritmo: 60, regate: 58, tiro: 65, defensa: 18, pase: 48, fisico: 46 };
+        case 'Mediocampista':
+          return { ritmo: 52, regate: 60, tiro: 48, defensa: 45, pase: 65, fisico: 50 };
+        case 'Defensor':
+          return { ritmo: 54, regate: 32, tiro: 22, defensa: 66, pase: 46, fisico: 64 };
+        case 'Arquero':
+          return { ritmo: 38, regate: 20, tiro: 12, defensa: 68, pase: 42, fisico: 56 };
+      }
+    })();
+    if (playerAge < 30) return base;
+    return {
+      ritmo: Math.min(99, base.ritmo + 16),
+      regate: Math.min(99, base.regate + 16),
+      tiro: Math.min(99, base.tiro + 16),
+      defensa: Math.min(99, base.defensa + 16),
+      pase: Math.min(99, base.pase + 16),
+      fisico: Math.min(99, base.fisico + 6)
+    };
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -64,7 +78,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       return;
     }
 
-    const defaultAttributes = getInitialAttributes(position);
+    const defaultAttributes = getInitialAttributes(position, age);
     
     const newProfile: PlayerProfile = {
       name: name.trim(),
@@ -75,6 +89,8 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       capital: 0, // starts with no capital, relies on weekly wage
       prestige: 50, // default locker room prestige
       fans: 35,     // default fan connection
+      mentalHealth: 70, // arrancás con la cabeza fresca
+      lastMatchRating: 0,
       attributes: defaultAttributes,
       careerStats: {
         goles: 0,
@@ -167,6 +183,9 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                     {[16, 17, 18, 19, 20, 21].map(a => (
                       <option key={a} value={a}>{a} años (Juvenil)</option>
                     ))}
+                    {[32, 33, 34, 35].map(a => (
+                      <option key={a} value={a}>{a} años (Veterano)</option>
+                    ))}
                   </select>
                 </div>
                 <div>
@@ -229,11 +248,11 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
             {/* Position Attribute preview card */}
             <div className="border border-slate-800/80 bg-slate-950/20 rounded-2xl p-5">
               <h4 className="text-2xs uppercase text-slate-400 font-black tracking-widest gap-2 flex items-center mb-3">
-                <Shield size={13} className="text-emerald-400" /> Atributos de Partida ({position})
+                <Shield size={13} className="text-emerald-400" /> Atributos de Partida ({position}{age >= 30 ? ' · Veterano' : ''})
               </h4>
-              
+
               <div className="grid grid-cols-2 gap-3">
-                {Object.entries(getInitialAttributes(position)).map(([key, val]) => (
+                {Object.entries(getInitialAttributes(position, age)).map(([key, val]) => (
                   <div key={key} className="flex flex-col">
                     <div className="flex justify-between text-2xs text-slate-400 uppercase font-mono">
                       <span>{key}</span>

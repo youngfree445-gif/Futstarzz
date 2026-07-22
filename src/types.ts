@@ -57,6 +57,8 @@ export interface PlayerProfile {
   capital: number;
   prestige: number; // 0-100 (Relación vestuario / DT)
   fans: number;     // 0-100 (Relación hinchada / opinión pública)
+  mentalHealth: number; // 0-100 (Fase 3): baja con derrotas/prensa hostil/rachas negativas, sube con victorias/descanso/buena prensa; afecta el % de éxito de las decisiones del partido igual que el resto de los multiplicadores
+  lastMatchRating: number; // Fase 3: calificación del último partido jugado (0 si todavía no jugaste ninguno) -- dispara el post de "saludo de famoso" en ChutSocial si es muy alta
   attributes: PlayerStats;
   careerStats: CareerStats;
   currentClubId: string;
@@ -192,7 +194,9 @@ export interface ShopItem {
     prestigeBonus?: number;
     fansBonus?: number;
     fatigueReduction?: number; // how much less energy is spent per match
+    passiveIncome?: number; // capital que se gana cada vez que avanzás la semana, si el item está comprado
   };
+  category?: string; // si está presente, solo podés tener UN item comprado de esta categoría a la vez (patrocinios en conflicto)
   purchased: boolean;
   icon: string;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID
@@ -19,6 +19,51 @@ import DecisionCenter from './components/DecisionCenter';
 
 // Prestigio mínimo para que te convoquen a la selección en un año de Mundial.
 const WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD = 70;
+
+// Fase 3 -- Salud mental: en vez de agregar un campo mentalHealth a cada evento/pregunta de prensa
+// de data.ts, la movemos un poco en la misma dirección que el efecto neto de prestigio+fans de
+// cualquier decisión/evento/partido -- así todo lo que ya existe la afecta automáticamente.
+const mentalHealthNudge = (netChange: number) => Math.max(-6, Math.min(6, Math.round(netChange * 0.15)));
+
+// Fase 3 -- Modo Veterano: a partir de esta edad el declive físico empieza a pesar más que las
+// mejoras de entrenamiento; a partir de esta otra, se te acaba la carrera (no hay club que te
+// contrate a ese nivel físico).
+const VETERAN_DECLINE_START_AGE = 33;
+const FORCED_RETIREMENT_AGE = 39;
+
+// Se llama una vez por cada semana que avanza la carrera; si esa semana cruza el límite de un
+// "año" (SEASON_LENGTH_WEEKS), el jugador cumple años y, si ya es veterano, sufre un pequeño
+// declive físico automático que el entrenamiento normal ya no alcanza a compensar del todo.
+function applyAgingIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+
+  const newAge = profile.age + 1;
+  if (newAge < VETERAN_DECLINE_START_AGE) {
+    return { ...profile, age: newAge };
+  }
+  return {
+    ...profile,
+    age: newAge,
+    attributes: {
+      ...profile.attributes,
+      ritmo: Math.max(15, profile.attributes.ritmo - 2),
+      fisico: Math.max(15, profile.attributes.fisico - 2)
+    }
+  };
+}
+
+function isPastRetirementAge(profile: PlayerProfile): boolean {
+  return profile.age >= FORCED_RETIREMENT_AGE;
+}
+
+// Reconversión de posición (Fase 3): mueve un poco los atributos hacia el perfil típico de la
+// posición nueva, representando el reentrenamiento -- no resetea al jugador, solo lo empuja.
+const POSITION_RECONVERSION_BIAS: Record<Position, Partial<Record<keyof PlayerStats, number>>> = {
+  Delantero: { tiro: 8, regate: 4, defensa: -6 },
+  Mediocampista: { pase: 8, regate: 3, tiro: -4, defensa: 3 },
+  Defensor: { defensa: 8, fisico: 4, tiro: -6, regate: -3 },
+  Arquero: { defensa: 10, pase: -3, tiro: -10, regate: -6 }
+};
 
 export default function App() {
   const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event'>('welcome');
@@ -82,6 +127,12 @@ export default function App() {
     if (!profile.worldCups) {
       profile = { ...profile, worldCups: {} };
     }
+    if (profile.mentalHealth === undefined) {
+      profile = { ...profile, mentalHealth: 70 };
+    }
+    if (profile.lastMatchRating === undefined) {
+      profile = { ...profile, lastMatchRating: 0 };
+    }
     setPlayerProfile(profile);
 
     const savedShop = localStorage.getItem(`futbol_star_shop_${slotId}`);
@@ -135,6 +186,30 @@ export default function App() {
     saveGameState(updatedProfile, shopItems);
   };
 
+  // Fase 3 -- Modo Veterano: reconversión de posición. Solo tiene sentido ofrecerla desde el
+  // Dashboard a partir de cierta edad (ver VETERAN_DECLINE_START_AGE), pero el handler en sí no
+  // depende de la edad -- si en el futuro se habilita antes, funciona igual.
+  const handleReconvertPosition = (newPosition: Position) => {
+    if (!playerProfile) return;
+    if (newPosition === playerProfile.position) return;
+
+    const bias = POSITION_RECONVERSION_BIAS[newPosition];
+    const updatedAttributes = { ...playerProfile.attributes };
+    (Object.keys(bias) as (keyof PlayerStats)[]).forEach(key => {
+      updatedAttributes[key] = Math.max(10, Math.min(99, updatedAttributes[key] + (bias[key] || 0)));
+    });
+
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      position: newPosition,
+      attributes: updatedAttributes
+    };
+
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    alert(`Te reconvertiste a ${newPosition}. El cuerpo técnico ajustó tu plan de entrenamiento a la nueva posición.`);
+  };
+
   const handleBuyItem = (itemId: string) => {
     if (!playerProfile) return;
     const item = shopItems.find(i => i.id === itemId);
@@ -143,6 +218,16 @@ export default function App() {
     if (playerProfile.capital < item.cost) {
       alert('No cuentas con el capital suficiente para adquirir este lujo.');
       return;
+    }
+
+    // Patrocinios "casi infinitos": solo uno comprado por categoría a la vez (ej. no podés tener
+    // dos patrocinios de tecnología simultáneos, son marcas competidoras).
+    if (item.category) {
+      const conflicting = shopItems.find(i => i.purchased && i.category === item.category && i.id !== item.id);
+      if (conflicting) {
+        alert(`Ya tenés un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Esperá a que termine ese contrato antes de firmar otro del mismo rubro.`);
+        return;
+      }
     }
 
     let updatedAttributes = { ...playerProfile.attributes };
@@ -192,7 +277,8 @@ export default function App() {
       ...playerProfile,
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + prestigeChange)),
       fans: Math.max(0, Math.min(100, playerProfile.fans + fansChange)),
-      energy: Math.max(0, Math.min(100, playerProfile.energy + energyChange))
+      energy: Math.max(0, Math.min(100, playerProfile.energy + energyChange)),
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(prestigeChange + fansChange)))
     };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
@@ -229,10 +315,16 @@ export default function App() {
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 45),
+          mentalHealth: Math.min(100, playerProfile.mentalHealth + 6), // descansar en vez de forzar la máquina te despeja la cabeza
           currentWeek: playerProfile.currentWeek + 1
         };
-        setPlayerProfile(updated);
-        saveGameState(updated, shopItems);
+        const agedRest = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+        if (isPastRetirementAge(agedRest)) {
+          triggerForcedRetirement(agedRest);
+          return;
+        }
+        setPlayerProfile(agedRest);
+        saveGameState(agedRest, shopItems);
         alert('Decidiste descansar este fin de semana. Recuperas +45 de Energía.');
         return;
       }
@@ -388,7 +480,8 @@ export default function App() {
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + effects.prestige) ),
       fans: Math.max(0, Math.min(100, playerProfile.fans + effects.fans)),
       energy: Math.max(0, Math.min(100, playerProfile.energy + effects.energy)),
-      capital: Math.max(0, playerProfile.capital + (effects.capital || 0))
+      capital: Math.max(0, playerProfile.capital + (effects.capital || 0)),
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(effects.prestige + effects.fans)))
     };
 
     setPlayerProfile(updatedProfile);
@@ -406,14 +499,16 @@ export default function App() {
     const baseEnergySpent = 28;
     const coachItem = shopItems.find(i => i.id === 'physical_coach');
     const houseItem = shopItems.find(i => i.id === 'luxury_mansion');
-    const passiveGamingItem = shopItems.find(i => i.id === 'gaming_sponsorship');
 
     const reduction = coachItem?.purchased ? 10 : 0;
     const finalEnergySpent = Math.max(10, baseEnergySpent - reduction);
 
-    const goalBonus = results.goles * 500;
-    const assistBonus = results.asistencias * 250;
-    const activePassiveDividend = passiveGamingItem?.purchased ? 2500 : 0;
+    // FASE 3 -- economía más dura: bonos por gol/asistencia recortados ~25% respecto al original.
+    const goalBonus = results.goles * 380;
+    const assistBonus = results.asistencias * 180;
+    // Patrocinios "casi infinitos": sumamos el dividendo pasivo de TODOS los items comprados que
+    // tengan uno, en vez de tener un caso especial hardcodeado por cada patrocinio nuevo.
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
 
     const totalIncome = results.salaryEarned + goalBonus + assistBonus + activePassiveDividend;
     const totalExtraRecover = (coachItem?.purchased ? 8 : 0) + (houseItem?.purchased ? 20 : 0);
@@ -469,11 +564,18 @@ export default function App() {
       updatedWorldCups = { ...playerProfile.worldCups, [year]: resolvedWorldCup };
     }
 
+    // Fase 3 -- salud mental según el resultado del partido, y saludo de famoso si el rating fue altísimo.
+    const matchMentalHealthChange = results.resultado === 'W' ? 4 : results.resultado === 'L' ? -5 : -1;
+    const isViralPerformance = results.rating >= 8.5;
+    const viralMarketBonus = isViralPerformance ? 50000 : 0;
+
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
       capital: playerProfile.capital + totalIncome,
-      marketValue: Math.max(100000, playerProfile.marketValue + valueChg),
+      marketValue: Math.max(100000, playerProfile.marketValue + valueChg + viralMarketBonus),
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange)),
+      lastMatchRating: results.rating,
       currentWeek: playerProfile.currentWeek + 1,
       leagueSeasons: updatedLeagueSeasons,
       continentalCups: updatedContinentalCups,
@@ -490,8 +592,15 @@ export default function App() {
       }
     };
 
-    setPlayerProfile(updated);
-    saveGameState(updated, shopItems);
+    const aged = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+
+    if (isPastRetirementAge(aged)) {
+      triggerForcedRetirement(aged);
+      return;
+    }
+
+    setPlayerProfile(aged);
+    saveGameState(aged, shopItems);
     setScreen('post_match');
   };
 
@@ -509,6 +618,27 @@ export default function App() {
       setShopItems(INITIAL_LIFESTYLE_ITEMS);
       setScreen('welcome');
     }
+  };
+
+  // Fase 3 -- retiro forzado: a partir de FORCED_RETIREMENT_AGE ningún club te contrata a ese
+  // nivel físico. Cierra la carrera mostrando un resumen y borra el save (no hay vuelta atrás,
+  // como el retiro real -- si el jugador quiere seguir jugando, empieza una carrera nueva).
+  const triggerForcedRetirement = (profile: PlayerProfile) => {
+    alert(
+      `🏆 FIN DE UNA CARRERA\n\n${profile.name} cuelga los botines a los ${profile.age} años.\n\n` +
+      `Partidos: ${profile.careerStats.partidosHistoricos}\n` +
+      `Goles: ${profile.careerStats.golesHistoricos}\n` +
+      `Asistencias: ${profile.careerStats.asistenciasHistoricos}\n` +
+      `Títulos: ${profile.careerStats.campeonatos}\n\n` +
+      `Gracias por el viaje. El césped te va a extrañar.`
+    );
+    if (activeSlotId) {
+      localStorage.removeItem(`futbol_star_save_${activeSlotId}`);
+      localStorage.removeItem(`futbol_star_shop_${activeSlotId}`);
+    }
+    setPlayerProfile(null);
+    setShopItems(INITIAL_LIFESTYLE_ITEMS);
+    setScreen('welcome');
   };
 
   // NUEVO: SISTEMA DE RECUPERACIÓN DE ENERGÍA PAGANDO
@@ -555,6 +685,7 @@ export default function App() {
           playerProfile={playerProfile}
           shopItems={shopItems}
           onTrainAttribute={handleTrainAttribute}
+          onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
           onLaunchPRCampaign={handleLaunchPRCampaign}
           onAnswerPress={handleAnswerPress}

@@ -7,16 +7,17 @@ import {
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState
 } from '../leagueEngine';
-import { 
-  User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag, 
-  Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle, 
-  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle
+import {
+  User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
+  Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
+  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain
 } from 'lucide-react';
 
 interface DashboardProps {
   playerProfile: PlayerProfile;
   shopItems: ShopItem[];
   onTrainAttribute: (attr: keyof PlayerStats) => void;
+  onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
   onLaunchPRCampaign: (cost: number, fansBonus: number, prestigeBonus: number, salaryBonus?: number) => void;
   onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number) => void;
@@ -31,6 +32,7 @@ export default function Dashboard({
   playerProfile,
   shopItems,
   onTrainAttribute,
+  onReconvertPosition,
   onBuyItem,
   onLaunchPRCampaign,
   onAnswerPress,
@@ -106,6 +108,29 @@ export default function Dashboard({
   const transferOffers = generateMockTransferOffers()
     .sort((a, b) => (b.possible === a.possible ? b.club.reputation - a.club.reputation : b.possible ? 1 : -1))
     .slice(0, 40);
+
+  // Fase 3 -- Saludo de famoso: si tu último partido tuvo una calificación altísima, un famoso
+  // parodia te felicita en redes. Contenido con plantillas, dispara con playerProfile.lastMatchRating
+  // (seteado en App.tsx -> handleFinishMatch).
+  const generateCelebrityShoutoutPost = () => {
+    if (playerProfile.lastMatchRating < 8.5) return [];
+    const celebrities = [
+      { author: 'Shakirulla_Oficial', role: 'Ícono Pop Parodia', avatar: '🎤' },
+      { author: 'ElPibeDeLosMemes', role: 'Streamer Viral', avatar: '🐐' },
+      { author: 'DonBalonazo', role: 'Ex-Crack Retirado', avatar: '👑' },
+    ];
+    const celeb = celebrities[Math.floor(playerProfile.lastMatchRating * 10) % celebrities.length];
+    return [{
+      id: `celebrity_${playerProfile.careerStats.partidos}`,
+      author: celeb.author,
+      role: celeb.role,
+      content: `Loco, vi tu partido y quedé sin palabras. Calificación de ${playerProfile.lastMatchRating.toFixed(1)}, ¡una locura total! Grande ${playerProfile.name}, seguí así. 🔥`,
+      likes: 8000 + Math.floor(Math.random() * 25000),
+      commentsCount: 900 + Math.floor(Math.random() * 3000),
+      timestamp: 'Hace 1 hora',
+      avatar: celeb.avatar
+    }];
+  };
 
   // Posts de "hinchas reaccionando" a OTROS partidos de la última fecha jugada de tu liga
   // (no el tuyo, que ya tiene sus propios posts arriba) -- contenido con plantillas a partir
@@ -195,7 +220,7 @@ export default function Dashboard({
         avatar: '👟'
       }
     ];
-    return [...basePosts, ...generateMatchdayReactionPosts()];
+    return [...generateCelebrityShoutoutPost(), ...basePosts, ...generateMatchdayReactionPosts()];
   };
 
   const handlePressAnswer = (opt: any) => {
@@ -372,9 +397,25 @@ export default function Dashboard({
                   <span className="text-white">{playerProfile.fans}/100</span>
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
-                  <div 
+                  <div
                     className="bg-rose-500 h-full rounded-full"
                     style={{ width: `${playerProfile.fans}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+              <Brain size={14} className="text-sky-400" />
+              <div>
+                <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
+                  <span>Mente</span>
+                  <span className="text-white">{playerProfile.mentalHealth}/100</span>
+                </div>
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                  <div
+                    className="bg-sky-400 h-full rounded-full"
+                    style={{ width: `${playerProfile.mentalHealth}%` }}
                   />
                 </div>
               </div>
@@ -488,6 +529,36 @@ export default function Dashboard({
                 </div>
 
               </div>
+
+              {playerProfile.age >= 32 && (
+                <div className="bg-slate-900 border border-amber-900/40 rounded-3xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 mb-2 flex items-center gap-2">
+                    🎖️ Fase Veterana de la Carrera
+                  </h3>
+                  <p className="text-2xs text-slate-400 leading-relaxed mb-4">
+                    A los {playerProfile.age} años el cuerpo ya no responde igual que a los 18: tu ritmo y físico
+                    empiezan a bajar de a poco cada temporada, aunque entrenes. Si sentís que tu posición actual
+                    ya no rinde, todavía podés reconvertirte una vez más antes de colgar los botines.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {(['Delantero', 'Mediocampista', 'Defensor', 'Arquero'] as Position[])
+                      .filter(pos => pos !== playerProfile.position)
+                      .map(pos => (
+                        <button
+                          key={pos}
+                          onClick={() => {
+                            if (confirm(`¿Reconvertirte a ${pos}? Tus atributos se van a reacomodar un poco hacia el perfil de esa posición. Esta decisión no se puede deshacer.`)) {
+                              onReconvertPosition(pos);
+                            }
+                          }}
+                          className="py-2 px-4 rounded-xl bg-slate-950 border border-slate-800 text-2xs font-bold text-slate-300 hover:border-amber-500/50 hover:text-amber-400 transition-all cursor-pointer"
+                        >
+                          Reconvertirme a {pos}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
