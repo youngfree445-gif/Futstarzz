@@ -2508,12 +2508,17 @@ export function getClubWithRoster(clubName: string): any {
   // Clonamos el objeto para no mutar el original
   const clubClonado = { ...baseClub };
 
-  // 2. Filtramos el universo de 32,000 jugadores buscando los que pertenezcan a este equipo
+  // 2. El nombre del club en CLUBS_DATABASE puede no coincidir literalmente con el team_name
+  // del JSON (ver EQUIPO_SYNONYMS más abajo, ej. "Junior de Barranquilla" -> "Junior"); sin esto,
+  // cualquier club con sinónimo aparecía sin plantilla aunque sus jugadores sí existieran.
+  const nombreParaBuscar = EQUIPO_SYNONYMS[baseClub.name] || clubName;
+
+  // 3. Filtramos el universo de 32,000 jugadores buscando los que pertenezcan a este equipo
   const clubPlayers = ALL_PLAYERS.filter(
-    player => player.team_name && player.team_name.toLowerCase() === clubName.toLowerCase()
+    player => player.team_name && player.team_name.toLowerCase() === nombreParaBuscar.toLowerCase()
   );
 
-  // 3. Si encontramos jugadores en el JSON para este equipo, reconstruimos su plantilla
+  // 4. Si encontramos jugadores en el JSON para este equipo, reconstruimos su plantilla
   if (clubPlayers.length > 0) {
     clubClonado.plantilla = {
       porteros: clubPlayers.filter(p => p.categoria_tactica === 'portero'),
