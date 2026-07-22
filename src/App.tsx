@@ -3,7 +3,8 @@ import { PlayerProfile, ShopItem, PlayerStats } from './types';
 import { INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from './data';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek,
-  getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek
+  getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek,
+  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen from './components/SetupScreen';
@@ -23,6 +24,7 @@ export default function App() {
   const [activeIsHome, setActiveIsHome] = useState(true);
   const [isCopaLibertadores, setIsCopaLibertadores] = useState(false);
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
+  const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
   const [matchResults, setMatchResults] = useState<any>(null);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
@@ -59,6 +61,9 @@ export default function App() {
     }
     if (!profile.continentalCups) {
       profile = { ...profile, continentalCups: {} };
+    }
+    if (!profile.uefaCups) {
+      profile = { ...profile, uefaCups: {} };
     }
     setPlayerProfile(profile);
 
@@ -261,11 +266,37 @@ export default function App() {
           foundOpponentId = upcoming.opponentId;
         }
       }
-
       setActiveCupId(foundOpponentId ? qualifiedCupId : null);
 
-      // Club no clasificado a ninguna copa este año, o copa entre rondas (sin partido esta semana puntual): rival de relleno.
+      // Si el club no juega Libertadores/Sudamericana (ligas sudamericanas), probamos Champions/Europa League.
+      let foundUefaOpponentId: string | null = null;
       if (!foundOpponentId) {
+        const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE));
+        const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE));
+        const qualifiedUefaCupId: 'champions' | 'europa' | null = championsIds.has(myClub.id)
+          ? 'champions'
+          : europaIds.has(myClub.id)
+          ? 'europa'
+          : null;
+
+        if (qualifiedUefaCupId) {
+          const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], playerProfile.currentWeek);
+          const upcoming = getUpcomingUefaCupMatch(uefaCup, myClub.id);
+          if (upcoming) {
+            const opponentClub = CLUBS_DATABASE.find(c => c.id === upcoming.opponentId);
+            opName = opponentClub?.name || '';
+            opClubId = upcoming.opponentId;
+            isHomeThisMatch = upcoming.isHome;
+            foundUefaOpponentId = upcoming.opponentId;
+          }
+        }
+        setActiveUefaCupId(foundUefaOpponentId ? qualifiedUefaCupId : null);
+      } else {
+        setActiveUefaCupId(null);
+      }
+
+      // Club no clasificado a ninguna copa este año, o copa entre rondas (sin partido esta semana puntual): rival de relleno.
+      if (!foundOpponentId && !foundUefaOpponentId) {
         const giants = ['CR Flamengo', 'SE Palmeiras', 'CA Boca Juniors', 'CA River Plate', 'Fluminense FC', 'SC Corinthians', 'Peñarol (URU)', 'Nacional (URU)'];
         opName = giants[Math.floor(Math.random() * giants.length)];
       }
@@ -367,6 +398,14 @@ export default function App() {
       updatedContinentalCups = { ...playerProfile.continentalCups, [cupKey]: resolvedCup };
     }
 
+    let updatedUefaCups = playerProfile.uefaCups;
+    if (isCopaLibertadores && activeUefaCupId && activeOppositionClubId) {
+      const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+      const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], playerProfile.currentWeek);
+      const resolvedUefaCup = resolveUefaCupWeek(uefaCupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival);
+      updatedUefaCups = { ...playerProfile.uefaCups, [activeUefaCupId]: resolvedUefaCup };
+    }
+
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
@@ -375,6 +414,7 @@ export default function App() {
       currentWeek: playerProfile.currentWeek + 1,
       leagueSeasons: updatedLeagueSeasons,
       continentalCups: updatedContinentalCups,
+      uefaCups: updatedUefaCups,
       careerStats: {
         goles: playerProfile.careerStats.goles + results.goles,
         asistencias: playerProfile.careerStats.asistencias + results.asistencias,

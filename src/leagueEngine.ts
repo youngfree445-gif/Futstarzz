@@ -1,4 +1,4 @@
-import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PlayoffBracket, TableTeam } from './types';
+import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState } from './types';
 
 // Semanas de carrera por temporada (incluye semanas de Copa). Fija e igual
 // para TODAS las ligas, sin importar cuántos equipos tenga cada una —
@@ -886,6 +886,303 @@ export function getUpcomingCupMatch(cup: CupState, clubId: string): { opponentId
     return m.homeTeamId === clubId ? { opponentId: m.awayTeamId, isHome: true } : { opponentId: m.homeTeamId, isHome: false };
   }
 
+  return null;
+}
+
+// ==========================================================================
+// --- CHAMPIONS LEAGUE / EUROPA LEAGUE (Fase 1c) ---
+// Formato Swiss simplificado: campo único en una tabla compartida, cada
+// club juega una fase de liga de fechas fijas contra rivales DISTINTOS (no
+// todos-contra-todos) elegidos al azar -- sin bombos por ranking UEFA real,
+// que hubiera exigido modelar 4 potes por club. Desde el playoff en
+// adelante, todo es ida y vuelta con marcador global (TwoLegTie/
+// TwoLegBracket en types.ts); un global empatado se define al azar
+// ponderado por fortaleza del club (representa la tanda de penales, sin
+// gol de visitante, regla UEFA vigente desde 2021).
+//
+// Los 7 países con liga doméstica completa (Inglaterra, España, Alemania,
+// Italia, Francia, Portugal, Holanda) clasifican por cupos-por-reputación,
+// igual que Conmebol. Los otros 19 países solo tienen los clubes puntuales
+// que de verdad clasificaron a cada copa 2025-26 (investigados en
+// Transfermarkt) -- no hay "top N" que elegir ahí, así que van fijos.
+// ==========================================================================
+
+const UEFA_LEAGUE_PHASE_MATCHDAYS = 8;
+const UEFA_TOP_DIRECT = 8; // top 8 de la fase de liga -> directo a octavos
+const UEFA_PLAYOFF_ZONE_END = 24; // 9º-24º juegan el playoff; 25º en adelante queda eliminado
+
+// Cupos por país para los 7 países con liga doméstica completa. Suman 26
+// (Champions) / 16 (Europa) -- sumados a los clubes fijos de los 19 países
+// minimalistas (10 / 20) dan 36 en ambas copas.
+const CHAMPIONS_SLOTS: Record<string, number> = {
+  Inglesa: 6, Española: 5, Alemana: 4, Italiana: 4, Francesa: 3, Portuguesa: 2, Holandesa: 2,
+};
+const EUROPA_SLOTS: Record<string, number> = {
+  Inglesa: 3, Española: 2, Alemana: 3, Italiana: 2, Francesa: 2, Portuguesa: 2, Holandesa: 2,
+};
+
+// Países sin liga doméstica completa: acá NO se puede elegir "top N por
+// reputación" porque el valor de plantel no siempre coincide con quién
+// clasificó realmente (ej. Fenerbahçe vale más que Galatasaray en
+// Transfermarkt, pero el que fue a Champions fue Galatasaray por posición
+// en la liga turca) -- así que van fijos, tal cual se investigó.
+const CHAMPIONS_FIXED_CLUBS = [
+  'club_brugge', 'union_sg', 'olympiacos', 'slavia_praha', 'bodo_glimt',
+  'fc_copenhagen', 'galatasaray', 'qarabag', 'pafos_fc', 'kairat_almaty',
+];
+const EUROPA_FIXED_CLUBS = [
+  'krc_genk', 'paok', 'panathinaikos', 'viktoria_plzen', 'brann_sk', 'midtjylland',
+  'fenerbahce', 'rb_salzburg', 'sturm_graz', 'rangers_fc', 'celtic_fc', 'young_boys',
+  'fc_basel', 'ferencvaros', 'red_star_belgrade', 'dinamo_zagreb', 'ludogorets',
+  'malmo_ff', 'fcsb', 'maccabi_tel_aviv',
+];
+
+export function getChampionsParticipants(allClubs: Club[]): string[] {
+  const fromLeagues = pickTopClubsByCountry(allClubs, CHAMPIONS_SLOTS, new Set());
+  const fixedIds = CHAMPIONS_FIXED_CLUBS.filter(id => allClubs.some(c => c.id === id));
+  return [...fromLeagues, ...fixedIds];
+}
+
+export function getEuropaParticipants(allClubs: Club[]): string[] {
+  const championsIds = new Set(getChampionsParticipants(allClubs));
+  const fromLeagues = pickTopClubsByCountry(allClubs, EUROPA_SLOTS, championsIds);
+  const fixedIds = EUROPA_FIXED_CLUBS.filter(id => allClubs.some(c => c.id === id));
+  return [...fromLeagues, ...fixedIds];
+}
+
+function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs: Club[], forced?: ForcedResult): TwoLegTie {
+  if (tie.played) return tie;
+  if (legToPlay === 'first' && tie.firstLegGoalsA !== null) return tie;
+  if (legToPlay === 'second' && tie.firstLegGoalsA === null) return tie;
+
+  const homeId = legToPlay === 'first' ? tie.clubAId : tie.clubBId;
+  const awayId = legToPlay === 'first' ? tie.clubBId : tie.clubAId;
+  const isForcedMatch = forced && (homeId === forced.clubId || awayId === forced.clubId);
+  let homeGoals: number, awayGoals: number;
+  if (isForcedMatch && forced) {
+    homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
+    awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+  } else {
+    const home = clubs.find(c => c.id === homeId);
+    const away = clubs.find(c => c.id === awayId);
+    if (!home || !away) return tie;
+    ({ homeGoals, awayGoals } = simulateMatch(home, away));
+  }
+
+  if (legToPlay === 'first') {
+    return { ...tie, firstLegGoalsA: homeGoals, firstLegGoalsB: awayGoals };
+  }
+
+  const secondLegGoalsA = awayGoals; // A juega de visitante en la vuelta
+  const secondLegGoalsB = homeGoals; // B de local en la vuelta
+  const aggA = tie.firstLegGoalsA! + secondLegGoalsA;
+  const aggB = tie.firstLegGoalsB! + secondLegGoalsB;
+  let winnerId: string;
+  if (aggA > aggB) winnerId = tie.clubAId;
+  else if (aggB > aggA) winnerId = tie.clubBId;
+  else {
+    const clubA = clubs.find(c => c.id === tie.clubAId);
+    const clubB = clubs.find(c => c.id === tie.clubBId);
+    const strengthA = clubA ? clubStrength(clubA) : 50;
+    const strengthB = clubB ? clubStrength(clubB) : 50;
+    winnerId = Math.random() < strengthA / (strengthA + strengthB) ? tie.clubAId : tie.clubBId;
+  }
+  return { ...tie, secondLegGoalsA, secondLegGoalsB, played: true, winnerId };
+}
+
+function seedSingleTwoLegRound(rankedClubIds: string[]): TwoLegTie[] {
+  const pairs = rankedClubIds.length === 16 ? SEED_PAIRS_16 : SEED_PAIRS_8;
+  return pairs.map(([a, b]) => ({
+    clubAId: rankedClubIds[a],
+    clubBId: rankedClubIds[b],
+    firstLegGoalsA: null, firstLegGoalsB: null, secondLegGoalsA: null, secondLegGoalsB: null,
+    played: false, winnerId: null,
+  }));
+}
+
+// Resuelve UNA pierna (ida o vuelta, la que corresponda) de TODAS las
+// llaves de una ronda plana (sin encadenar a la siguiente ronda) -- así es
+// el playoff real: una sola ronda de 16->8, los ganadores no vuelven a
+// cruzarse entre sí, se suman directo a los octavos.
+function resolveSingleTwoLegRoundStep(ties: TwoLegTie[], clubs: Club[], forced?: ForcedResult): TwoLegTie[] {
+  const anyPending = ties.some(t => !t.played);
+  if (!anyPending) return ties;
+  const legToPlay: 'first' | 'second' = ties.every(t => t.firstLegGoalsA !== null) ? 'second' : 'first';
+  return ties.map(tie => resolveOneLegOfTie(tie, legToPlay, clubs, forced));
+}
+
+function seedTwoLegBracket(rankedClubIds: string[]): TwoLegBracket {
+  return { tiesByRound: [seedSingleTwoLegRound(rankedClubIds)], championId: null };
+}
+
+// Igual que resolveSingleTwoLegRoundStep, pero encadena a la siguiente
+// ronda (octavos -> cuartos -> semis -> final) hasta coronar campeón.
+function resolveTwoLegRound(bracket: TwoLegBracket, clubs: Club[], forced?: ForcedResult): TwoLegBracket {
+  const roundIdx = bracket.tiesByRound.length - 1;
+  const currentRound = bracket.tiesByRound[roundIdx];
+  const legToPlay: 'first' | 'second' = currentRound.every(t => t.firstLegGoalsA !== null) ? 'second' : 'first';
+  const newRound = currentRound.map(tie => resolveOneLegOfTie(tie, legToPlay, clubs, forced));
+
+  const tiesByRound = [...bracket.tiesByRound.slice(0, roundIdx), newRound];
+  const roundComplete = newRound.every(t => t.played);
+  if (!roundComplete) return { tiesByRound, championId: null };
+
+  const winners = newRound.map(t => t.winnerId!);
+  if (winners.length === 1) {
+    return { tiesByRound, championId: winners[0] };
+  }
+  const nextRound: TwoLegTie[] = [];
+  for (let i = 0; i < winners.length; i += 2) {
+    nextRound.push({
+      clubAId: winners[i], clubBId: winners[i + 1],
+      firstLegGoalsA: null, firstLegGoalsB: null, secondLegGoalsA: null, secondLegGoalsB: null,
+      played: false, winnerId: null,
+    });
+  }
+  return { tiesByRound: [...tiesByRound, nextRound], championId: null };
+}
+
+function resolveUefaLeaguePhaseStep(
+  fixtures: Fixture[], table: TableTeam[], clubs: Club[], forced?: ForcedResult
+): { fixtures: Fixture[]; table: TableTeam[] } {
+  const nextMw = fixtures.find(f => !f.played)?.matchweek;
+  if (nextMw === undefined) return { fixtures, table };
+  let newTable = table;
+  const newFixtures = fixtures.map(f => {
+    if (f.matchweek !== nextMw || f.played) return f;
+    const isForcedMatch = forced && (f.homeTeamId === forced.clubId || f.awayTeamId === forced.clubId);
+    let homeGoals: number, awayGoals: number;
+    if (isForcedMatch && forced) {
+      homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
+      awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+    } else {
+      const home = clubs.find(c => c.id === f.homeTeamId);
+      const away = clubs.find(c => c.id === f.awayTeamId);
+      if (!home || !away) return f;
+      ({ homeGoals, awayGoals } = simulateMatch(home, away));
+    }
+    newTable = applyResultToTable(newTable, f.homeTeamId, f.awayTeamId, homeGoals, awayGoals);
+    return { ...f, played: true, homeGoals, awayGoals };
+  });
+  return { fixtures: newFixtures, table: newTable };
+}
+
+function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: ForcedResult): UefaCupState {
+  if (cup.stage === 'league_phase') {
+    const allPlayed = cup.fixtures.every(f => f.played);
+    if (allPlayed) {
+      const ranked = sortTable(cup.table).map(t => t.clubId!);
+      const playoffPool = ranked.slice(UEFA_TOP_DIRECT, UEFA_PLAYOFF_ZONE_END);
+      if (playoffPool.length >= 2) {
+        return resolveUefaCupStep({ ...cup, stage: 'playoff', playoff: seedSingleTwoLegRound(playoffPool) }, allClubs, forced);
+      }
+      // Campo chico (no llega a 24 clasificados): saltamos directo a octavos con el top 8.
+      const direct = ranked.slice(0, UEFA_TOP_DIRECT);
+      return resolveUefaCupStep({ ...cup, stage: 'knockout', knockout: seedTwoLegBracket(direct) }, allClubs, forced);
+    }
+    const { fixtures, table } = resolveUefaLeaguePhaseStep(cup.fixtures, cup.table, allClubs, forced);
+    return { ...cup, fixtures, table };
+  }
+
+  if (cup.stage === 'playoff') {
+    if (!cup.playoff) return cup;
+    const roundDone = cup.playoff.every(t => t.played);
+    if (roundDone) {
+      const ranked = sortTable(cup.table).map(t => t.clubId!);
+      const direct = ranked.slice(0, UEFA_TOP_DIRECT);
+      const playoffWinners = cup.playoff.map(t => t.winnerId!);
+      return resolveUefaCupStep({ ...cup, stage: 'knockout', knockout: seedTwoLegBracket([...direct, ...playoffWinners]) }, allClubs, forced);
+    }
+    const playoff = resolveSingleTwoLegRoundStep(cup.playoff, allClubs, forced);
+    return { ...cup, playoff };
+  }
+
+  if (cup.stage === 'knockout') {
+    if (!cup.knockout) return cup;
+    if (cup.knockout.championId) {
+      return { ...cup, stage: 'done', championId: cup.knockout.championId };
+    }
+    const knockout = resolveTwoLegRound(cup.knockout, allClubs, forced);
+    return { ...cup, knockout };
+  }
+
+  return cup;
+}
+
+function freshUefaCupState(cupId: 'champions' | 'europa', year: number, allClubs: Club[], startedAtStep: number): UefaCupState {
+  const participantIds = cupId === 'champions' ? getChampionsParticipants(allClubs) : getEuropaParticipants(allClubs);
+  const shuffled = shuffle(participantIds);
+  const fullSchedule = generateRoundRobin(shuffled);
+  const fixtures = fullSchedule.filter(f => f.matchweek <= UEFA_LEAGUE_PHASE_MATCHDAYS);
+  const participantClubs = participantIds.map(id => allClubs.find(c => c.id === id)).filter((c): c is Club => !!c);
+  return {
+    cupId, year, participants: participantIds,
+    fixtures, table: buildInitialTable(participantClubs),
+    stage: 'league_phase', playoff: null, knockout: null, championId: null, stepsConsumed: 0, startedAtStep,
+  };
+}
+
+// A diferencia de Libertadores/Sudamericana, una edición completa (~19
+// semanas de copa) no entra en un solo "año" de 38 semanas -- así que acá
+// NO se indexa por año calendario ni se limita el catch-up a ese año. Se
+// cuenta el total de semanas de copa transcurridas desde el arranque de la
+// carrera (cupWeeksElapsedTotal, no se reinicia nunca) y se compara contra
+// startedAtStep + stepsConsumed de la edición actual; si esa edición ya
+// terminó y todavía queda presupuesto de pasos, se arranca la siguiente
+// edición en el mismo llamado (así el campeón cambia de año a año como
+// corresponde, sin quedar nunca "pegado").
+export function getOrCreateUefaCupState(
+  cupId: 'champions' | 'europa', allClubs: Club[],
+  existing: UefaCupState | undefined, currentWeek: number
+): UefaCupState {
+  let cup = existing ?? freshUefaCupState(cupId, 1, allClubs, 0);
+  const totalStepsAvailable = cupWeeksElapsedTotal(currentWeek);
+
+  while (cup.startedAtStep + cup.stepsConsumed < totalStepsAvailable) {
+    if (cup.stage === 'done') {
+      cup = freshUefaCupState(cupId, cup.year + 1, allClubs, cup.startedAtStep + cup.stepsConsumed);
+      continue;
+    }
+    cup = { ...resolveUefaCupStep(cup, allClubs), stepsConsumed: cup.stepsConsumed + 1 };
+  }
+  return cup;
+}
+
+export function resolveUefaCupWeek(
+  cup: UefaCupState, allClubs: Club[], playerClubId: string,
+  playerIsHome: boolean, playerGoals: number, opponentGoals: number
+): UefaCupState {
+  const updated = resolveUefaCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals });
+  return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
+}
+
+function findUpcomingTwoLegMatch(ties: TwoLegTie[], clubId: string): { opponentId: string; isHome: boolean } | null {
+  const tie = ties.find(t => (t.clubAId === clubId || t.clubBId === clubId) && !t.played);
+  if (!tie) return null;
+  const legToPlay: 'first' | 'second' = ties.every(t => t.firstLegGoalsA !== null) ? 'second' : 'first';
+  if (legToPlay === 'first' && tie.firstLegGoalsA !== null) return null;
+  if (legToPlay === 'second' && tie.firstLegGoalsA === null) return null;
+  if (legToPlay === 'first') {
+    return tie.clubAId === clubId ? { opponentId: tie.clubBId, isHome: true } : { opponentId: tie.clubAId, isHome: false };
+  }
+  return tie.clubBId === clubId ? { opponentId: tie.clubAId, isHome: true } : { opponentId: tie.clubBId, isHome: false };
+}
+
+export function getUpcomingUefaCupMatch(cup: UefaCupState, clubId: string): { opponentId: string; isHome: boolean } | null {
+  if (cup.stage === 'league_phase') {
+    const nextMw = cup.fixtures.find(f => !f.played)?.matchweek;
+    if (nextMw === undefined) return null;
+    const fx = cup.fixtures.find(f => f.matchweek === nextMw && (f.homeTeamId === clubId || f.awayTeamId === clubId));
+    if (!fx) return null;
+    return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
+  }
+  if (cup.stage === 'playoff' && cup.playoff) {
+    return findUpcomingTwoLegMatch(cup.playoff, clubId);
+  }
+  if (cup.stage === 'knockout' && cup.knockout && !cup.knockout.championId) {
+    const currentRound = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1];
+    return findUpcomingTwoLegMatch(currentRound, clubId);
+  }
   return null;
 }
 

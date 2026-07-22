@@ -64,6 +64,7 @@ export interface PlayerProfile {
   marketValue: number; // USD
   leagueSeasons: Record<string, LeagueSeasonState>; // todas las ligas ya "visitadas" corriendo en paralelo, clave = leagueKey
   continentalCups: Record<string, CupState>; // Copa Libertadores / Sudamericana por año, clave = `${cupId}-${year}`
+  uefaCups: Record<string, UefaCupState>; // Champions / Europa League, clave = cupId ('champions' | 'europa') -- una edición corre varios "años" calendario, ver nota en UefaCupState
 }
 
 // --- Copa Libertadores / Copa Sudamericana ---
@@ -82,6 +83,49 @@ export interface CupState {
   knockout: PlayoffBracket | null;
   championId: string | null;
   stepsConsumed: number;
+}
+
+// --- Champions League / Europa League (formato Swiss simplificado) ---
+// A diferencia de Libertadores/Sudamericana (grupos de 4), acá cada club
+// juega una "fase de liga" de fechas fijas contra rivales DISTINTOS (no
+// todos-contra-todos) en una tabla única, y desde los playoffs/octavos se
+// juega a ida y vuelta con marcador global (sin gol de visitante, per las
+// reglas UEFA vigentes — un empate global se resuelve al azar ponderado
+// por fortaleza del club, sin penales/tiempo extra simulados en detalle).
+export interface TwoLegTie {
+  clubAId: string; // local en la ida
+  clubBId: string; // local en la vuelta
+  firstLegGoalsA: number | null;
+  firstLegGoalsB: number | null;
+  secondLegGoalsA: number | null; // A de visitante
+  secondLegGoalsB: number | null; // B de local
+  played: boolean; // true cuando ya se jugaron ambas idas y vueltas
+  winnerId: string | null;
+}
+
+export interface TwoLegBracket {
+  tiesByRound: TwoLegTie[][];
+  championId: string | null;
+}
+
+export interface UefaCupState {
+  cupId: 'champions' | 'europa';
+  year: number; // número de edición (1, 2, 3...), solo para mostrar -- NO define el calendario
+  participants: string[];
+  fixtures: Fixture[]; // fase de liga: 8 fechas por club, rivales distintos
+  table: TableTeam[];
+  stage: 'league_phase' | 'playoff' | 'knockout' | 'done';
+  playoff: TwoLegTie[] | null; // puestos 9-24 del campo, UNA sola ronda ida y vuelta -> ganadores completan los octavos
+  knockout: TwoLegBracket | null; // desde octavos en adelante, siempre ida y vuelta hasta la final
+  championId: string | null;
+  stepsConsumed: number; // pasos ya resueltos DE ESTA EDICIÓN (se reinicia al arrancar la siguiente)
+  // Una edición completa (fase de liga + playoff + octavos-a-final) necesita ~19 semanas de copa, más de
+  // lo que caben en un solo "año" de 38 semanas (SEASON_LENGTH_WEEKS) -- a diferencia de Libertadores/
+  // Sudamericana, que sí entran en un año. Por eso esta copa NO se indexa por año calendario: vive en un
+  // único slot por cupId (ver PlayerProfile.uefaCups) y este campo guarda en qué "paso global" (contando
+  // TODAS las semanas de copa desde el arranque de la carrera) arrancó la edición actual, para saber
+  // cuántos pasos de catch-up le corresponden sin pisar el límite de 38 semanas.
+  startedAtStep: number;
 }
 
 export interface SocialPost {
