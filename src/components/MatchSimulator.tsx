@@ -10,6 +10,9 @@ interface MatchSimulatorProps {
   isWorldCup?: boolean;
   representingTeamId?: string | null; // si estás convocado a tu selección, el id del equipo del Mundial en vez de tu club
   isHome: boolean;
+  myTablePosition?: number | null; // posición en la tabla de liga (1 = puntero); null si no aplica (copas/Mundial)
+  rivalTablePosition?: number | null;
+  leagueTeamCount?: number | null;
   onFinishMatch: (results: {
     goles: number;
     asistencias: number;
@@ -23,7 +26,10 @@ interface MatchSimulatorProps {
   }) => void;
 }
 
-export default function MatchSimulator({ playerProfile, opponentName, isLibertadores, isWorldCup, representingTeamId, isHome: isHomeProp, onFinishMatch }: MatchSimulatorProps) {
+export default function MatchSimulator({
+  playerProfile, opponentName, isLibertadores, isWorldCup, representingTeamId, isHome: isHomeProp,
+  myTablePosition, rivalTablePosition, leagueTeamCount, onFinishMatch
+}: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(450);
@@ -45,6 +51,15 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
   const currentClub = representingTeamId
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+
+  // Multiplicador de dificultad según fuerza del rival en la tabla: un rival mejor ubicado que vos
+  // achica tu ventana de éxito en las decisiones; uno peor ubicado la agranda. Sin tabla comparable
+  // (copas/Mundial) no hay ajuste (multiplicador neutro).
+  const pressureMultiplier = (() => {
+    if (myTablePosition == null || rivalTablePosition == null) return 1;
+    const positionDiff = myTablePosition - rivalTablePosition; // positivo = rival mejor ubicado que vos
+    return Math.max(0.8, Math.min(1.2, 1 - positionDiff * 0.01));
+  })();
   const teamName = currentClub.name;
 
   const getTeammateSample = () => {
@@ -462,7 +477,7 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
     const playerAttrValue = playerProfile.attributes[choice.requiredAttr];
     
     const statDiff = playerAttrValue - choice.minVal;
-    const adjustedChance = Math.max(0.15, Math.min(0.95, choice.successChance + (statDiff * 0.015)));
+    const adjustedChance = Math.max(0.15, Math.min(0.95, (choice.successChance + (statDiff * 0.015)) * pressureMultiplier));
     
     const isSuccess = Math.random() < adjustedChance;
 
@@ -525,7 +540,9 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
         <div className="flex items-center gap-4 bg-slate-900 px-5 py-2 rounded-2xl border border-slate-800 shadow-lg">
           <div className="text-right">
             <span className="font-black text-sm block">{teamName}</span>
-            <span className="text-3xs text-emerald-400 uppercase font-mono font-bold tracking-wider">Tu Equipo</span>
+            <span className="text-3xs text-emerald-400 uppercase font-mono font-bold tracking-wider">
+              Tu Equipo{myTablePosition != null && ` · ${myTablePosition}°${leagueTeamCount ? `/${leagueTeamCount}` : ''}`}
+            </span>
           </div>
 
           <div className="text-2xl font-black font-mono tracking-wider bg-slate-950 px-3.5 py-1 rounded-xl border border-emerald-500/20 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
@@ -534,7 +551,9 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
 
           <div className="text-left">
             <span className="font-black text-sm block">{opponentName}</span>
-            <span className="text-3xs text-slate-500 uppercase font-mono tracking-wider">Rival</span>
+            <span className="text-3xs text-slate-500 uppercase font-mono tracking-wider">
+              Rival{rivalTablePosition != null && ` · ${rivalTablePosition}°${leagueTeamCount ? `/${leagueTeamCount}` : ''}`}
+            </span>
           </div>
         </div>
 
@@ -733,6 +752,16 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
             <p className="leading-relaxed text-2xs">
               Tus elecciones críticas están vinculadas a tus atributos actuales. Si no has entrenado lo suficiente tus atributos físicos o de pase, intenta ir por las opciones seguras para evitar pérdidas de prestigio.
             </p>
+            {pressureMultiplier < 0.97 && (
+              <p className="leading-relaxed text-2xs text-amber-400 mt-2">
+                ⚠️ Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.
+              </p>
+            )}
+            {pressureMultiplier > 1.03 && (
+              <p className="leading-relaxed text-2xs text-emerald-400 mt-2">
+                ✨ Rival peor ubicado en la tabla: tus decisiones tienen algo más de margen hoy.
+              </p>
+            )}
           </div>
         </div>
 

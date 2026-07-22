@@ -107,9 +107,53 @@ export default function Dashboard({
     .sort((a, b) => (b.possible === a.possible ? b.club.reputation - a.club.reputation : b.possible ? 1 : -1))
     .slice(0, 40);
 
+  // Posts de "hinchas reaccionando" a OTROS partidos de la última fecha jugada de tu liga
+  // (no el tuyo, que ya tiene sus propios posts arriba) -- contenido con plantillas a partir
+  // de resultados reales ya resueltos en leagueSeasons, sin IA en vivo.
+  const generateMatchdayReactionPosts = () => {
+    const season = playerProfile.leagueSeasons[myLeagueKey];
+    if (!season) return [];
+    const playedFixtures = season.fixtures.filter(f => f.played && f.homeGoals !== null && f.awayGoals !== null);
+    if (playedFixtures.length === 0) return [];
+    const lastMatchweek = Math.max(...playedFixtures.map(f => f.matchweek));
+    const otherMatches = playedFixtures.filter(f =>
+      f.matchweek === lastMatchweek && f.homeTeamId !== currentClub.id && f.awayTeamId !== currentClub.id
+    );
+    if (otherMatches.length === 0) return [];
+
+    const personas = [
+      { author: 'HinchaDeFierro22', role: 'Hincha Rival', avatar: '🧢' },
+      { author: 'Panorama Deportivo', role: 'Medio Local', avatar: '📰' },
+      { author: 'ElAnalistaTáctico', role: 'Analista', avatar: '📊' },
+      { author: 'VozDeLaTribuna', role: 'Hincha Fiel', avatar: '📣' },
+    ];
+
+    const picked = [...otherMatches].sort(() => Math.random() - 0.5).slice(0, 2);
+    return picked.map((f, idx) => {
+      const homeName = ULTIMATE_CLUBS_DATABASE.find(c => c.id === f.homeTeamId)?.name || 'Local';
+      const awayName = ULTIMATE_CLUBS_DATABASE.find(c => c.id === f.awayTeamId)?.name || 'Visitante';
+      const persona = personas[(idx + lastMatchweek) % personas.length];
+      const draw = f.homeGoals === f.awayGoals;
+      const homeWon = (f.homeGoals ?? 0) > (f.awayGoals ?? 0);
+      const content = draw
+        ? `Empate agónico entre ${homeName} y ${awayName} (${f.homeGoals}-${f.awayGoals}) en la fecha ${lastMatchweek}. Partidazo parejo de punta a punta.`
+        : `${homeWon ? homeName : awayName} se quedó con los tres puntos frente a ${homeWon ? awayName : homeName} (${f.homeGoals}-${f.awayGoals}) en la fecha ${lastMatchweek}. La tabla se sigue moviendo.`;
+      return {
+        id: `matchday_${lastMatchweek}_${f.homeTeamId}_${f.awayTeamId}`,
+        author: persona.author,
+        role: persona.role,
+        content,
+        likes: 80 + Math.floor(Math.random() * 900),
+        commentsCount: 10 + Math.floor(Math.random() * 150),
+        timestamp: `Fecha ${lastMatchweek}`,
+        avatar: persona.avatar
+      };
+    });
+  };
+
   const generateSocialFeed = () => {
     const pName = playerProfile.name;
-    return [
+    const basePosts = [
       {
         id: 'tweet_1',
         author: 'Fabián Torres',
@@ -151,6 +195,7 @@ export default function Dashboard({
         avatar: '👟'
       }
     ];
+    return [...basePosts, ...generateMatchdayReactionPosts()];
   };
 
   const handlePressAnswer = (opt: any) => {

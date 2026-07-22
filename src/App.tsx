@@ -5,7 +5,7 @@ import {
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID
 } from './data';
 import {
-  leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek,
+  leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek,
   isWorldCupYear, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek
@@ -33,6 +33,12 @@ export default function App() {
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
   const [activeWorldCupTeamId, setActiveWorldCupTeamId] = useState<string | null>(null);
+  // Posiciones en la tabla al momento de armar el partido (solo liga doméstica -- en copas/Mundial
+  // no hay una tabla comparable entre rivales de países distintos). Alimentan tanto el badge de
+  // posiciones en MatchSimulator como el multiplicador de dificultad de las decisiones.
+  const [activeMyTablePosition, setActiveMyTablePosition] = useState<number | null>(null);
+  const [activeRivalTablePosition, setActiveRivalTablePosition] = useState<number | null>(null);
+  const [activeLeagueTeamCount, setActiveLeagueTeamCount] = useState<number | null>(null);
   const [matchResults, setMatchResults] = useState<any>(null);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
@@ -335,6 +341,9 @@ export default function App() {
         const giants = ['CR Flamengo', 'SE Palmeiras', 'CA Boca Juniors', 'CA River Plate', 'Fluminense FC', 'SC Corinthians', 'Peñarol (URU)', 'Nacional (URU)'];
         opName = giants[Math.floor(Math.random() * giants.length)];
       }
+      setActiveMyTablePosition(null);
+      setActiveRivalTablePosition(null);
+      setActiveLeagueTeamCount(null);
     } else {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
@@ -347,10 +356,20 @@ export default function App() {
         opName = opponentClub?.name || OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
         opClubId = upcoming.opponentId;
         isHomeThisMatch = upcoming.isHome;
+
+        const sortedTable = sortTable(season.table);
+        const myPos = sortedTable.findIndex(row => row.clubId === myClub.id);
+        const rivalPos = sortedTable.findIndex(row => row.clubId === upcoming.opponentId);
+        setActiveMyTablePosition(myPos >= 0 ? myPos + 1 : null);
+        setActiveRivalTablePosition(rivalPos >= 0 ? rivalPos + 1 : null);
+        setActiveLeagueTeamCount(sortedTable.length || null);
       } else {
         // Fallback de seguridad (liga con un solo club u otro caso borde): no debería pasar en la práctica.
         const localRivals = leagueClubs.filter(c => c.id !== myClub.id).map(c => c.name);
         opName = localRivals.length > 0 ? localRivals[Math.floor(Math.random() * localRivals.length)] : OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+        setActiveMyTablePosition(null);
+        setActiveRivalTablePosition(null);
+        setActiveLeagueTeamCount(null);
       }
     }
 
@@ -555,6 +574,9 @@ export default function App() {
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}
           isHome={activeIsHome}
+          myTablePosition={activeMyTablePosition}
+          rivalTablePosition={activeRivalTablePosition}
+          leagueTeamCount={activeLeagueTeamCount}
           onFinishMatch={handleFinishMatch}
         />
       )}
