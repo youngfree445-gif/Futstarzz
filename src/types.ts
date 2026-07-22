@@ -63,6 +63,25 @@ export interface PlayerProfile {
   currentWeek: number;
   marketValue: number; // USD
   leagueSeasons: Record<string, LeagueSeasonState>; // todas las ligas ya "visitadas" corriendo en paralelo, clave = leagueKey
+  continentalCups: Record<string, CupState>; // Copa Libertadores / Sudamericana por año, clave = `${cupId}-${year}`
+}
+
+// --- Copa Libertadores / Copa Sudamericana ---
+export interface CupGroup {
+  id: string; // 'A'..'H'
+  clubIds: string[]; // 4
+  table: TableTeam[];
+  fixtures: Fixture[];
+}
+
+export interface CupState {
+  cupId: 'libertadores' | 'sudamericana';
+  year: number;
+  groups: CupGroup[];
+  stage: 'groups' | 'knockout' | 'done';
+  knockout: PlayoffBracket | null;
+  championId: string | null;
+  stepsConsumed: number;
 }
 
 export interface SocialPost {

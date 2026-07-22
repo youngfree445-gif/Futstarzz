@@ -1,4 +1,4 @@
-import { Club, CuadrangularesState, Fixture, LeagueSeasonState, PlayoffBracket, TableTeam } from './types';
+import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PlayoffBracket, TableTeam } from './types';
 
 // Semanas de carrera por temporada (incluye semanas de Copa). Fija e igual
 // para TODAS las ligas, sin importar cuántos equipos tenga cada una —
@@ -678,6 +678,215 @@ export function getUpcomingMatchForLeague(
   const format = isApeturaClausuraLeague(leagueClubs[0].league);
   if (format) return getUpcomingApeturaClausuraMatch(season, currentWeek, clubId);
   return getUpcomingFixtureForClub(season, leagueClubs, currentWeek, clubId);
+}
+
+// ==========================================================================
+// --- COPA LIBERTADORES / COPA SUDAMERICANA (Conmebol) ---
+// 32 equipos cada una, 8 grupos de 4 (ida y vuelta, 6 fechas), top 2 de
+// cada grupo a octavos -> cuartos -> semis -> final.
+// Clasificación por reputation (no por tabla en vivo — evita tener que
+// simular las ligas sudamericanas que nadie visitó). Los clubes que no
+// clasifican a Libertadores son los candidatos a Sudamericana.
+// Simplificación consciente: NO modelamos el cruce real donde los tres
+// terceros de Libertadores caen a la fase eliminatoria de Sudamericana —
+// cada copa corre como un torneo de grupos + eliminación directa
+// independiente, con su propio pool de clasificados.
+// ==========================================================================
+
+type ForcedResult = { clubId: string; isHome: boolean; goals: number; opponentGoals: number };
+
+// Reparto de cupos por país, aproximando el reparto real de Conmebol
+// (Brasil/Argentina con más cupos). Suma 32.
+const LIBERTADORES_SLOTS: Record<string, number> = {
+  Brasileña: 6,
+  Argentina: 6,
+  Colombiana: 4,
+  Ecuatoriana: 3,
+  Uruguaya: 3,
+  Paraguaya: 3,
+  Chilena: 3,
+  Peruana: 2,
+  Boliviana: 1,
+  Venezolana: 1,
+};
+
+function pickTopClubsByCountry(clubs: Club[], slots: Record<string, number>, exclude: Set<string>): string[] {
+  const picked: string[] = [];
+  for (const [league, n] of Object.entries(slots)) {
+    const countryClubs = clubs
+      .filter(c => c.league === league && (c.division ?? 1) === 1 && !exclude.has(c.id))
+      .sort((a, b) => b.reputation - a.reputation || b.marketValue - a.marketValue);
+    picked.push(...countryClubs.slice(0, n).map(c => c.id));
+  }
+  return picked;
+}
+
+export function getLibertadoresParticipants(allClubs: Club[]): string[] {
+  return pickTopClubsByCountry(allClubs, LIBERTADORES_SLOTS, new Set());
+}
+
+export function getSudamericanaParticipants(allClubs: Club[]): string[] {
+  const libertadoresIds = new Set(getLibertadoresParticipants(allClubs));
+  return pickTopClubsByCountry(allClubs, LIBERTADORES_SLOTS, libertadoresIds);
+}
+
+function drawCupGroups(participantIds: string[], allClubs: Club[]): CupGroup[] {
+  const shuffled = shuffle(participantIds);
+  const groups: CupGroup[] = [];
+  for (let g = 0; g < 8; g++) {
+    const clubIds = shuffled.slice(g * 4, g * 4 + 4);
+    const groupClubs = clubIds.map(id => allClubs.find(c => c.id === id)).filter((c): c is Club => !!c);
+    groups.push({
+      id: String.fromCharCode(65 + g), // 'A'..'H'
+      clubIds,
+      table: buildInitialTable(groupClubs),
+      fixtures: generateRoundRobin(clubIds), // ida y vuelta = 6 fechas para 4 equipos
+    });
+  }
+  return groups;
+}
+
+function resolveCupGroupsStep(groups: CupGroup[], allClubs: Club[], forced?: ForcedResult): CupGroup[] {
+  const nextMw = Math.min(...groups.map(g => g.fixtures.find(f => !f.played)?.matchweek ?? Infinity));
+  if (nextMw === Infinity) return groups;
+  return groups.map(g => {
+    let table = g.table;
+    const fixtures = g.fixtures.map(f => {
+      if (f.matchweek !== nextMw || f.played) return f;
+      const isForced = forced && (f.homeTeamId === forced.clubId || f.awayTeamId === forced.clubId);
+      let homeGoals: number, awayGoals: number;
+      if (isForced && forced) {
+        homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
+        awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+      } else {
+        const home = allClubs.find(c => c.id === f.homeTeamId);
+        const away = allClubs.find(c => c.id === f.awayTeamId);
+        if (!home || !away) return f;
+        ({ homeGoals, awayGoals } = simulateMatch(home, away));
+      }
+      table = applyResultToTable(table, f.homeTeamId, f.awayTeamId, homeGoals, awayGoals);
+      return { ...f, played: true, homeGoals, awayGoals };
+    });
+    return { ...g, table, fixtures };
+  });
+}
+
+function seedFromCupGroups(groups: CupGroup[]): string[] {
+  const winners = groups.map(g => sortTable(g.table)[0].clubId!);
+  const runnersUp = groups.map(g => sortTable(g.table)[1].clubId!);
+  return [...winners, ...runnersUp]; // 16: seeds 1-8 ganadores, 9-16 segundos — nunca cruza compañeros de grupo en la 1ª ronda
+}
+
+function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult): CupState {
+  if (cup.stage === 'groups') {
+    const allPlayed = cup.groups.every(g => g.fixtures.every(f => f.played));
+    if (allPlayed) {
+      const seeded = seedFromCupGroups(cup.groups);
+      return resolveCupStep({ ...cup, stage: 'knockout', knockout: seedBracket(seeded) }, allClubs, forced);
+    }
+    return { ...cup, groups: resolveCupGroupsStep(cup.groups, allClubs, forced) };
+  }
+
+  if (cup.stage === 'knockout') {
+    if (cup.knockout?.championId) {
+      return { ...cup, stage: 'done', championId: cup.knockout.championId };
+    }
+    return { ...cup, knockout: resolveBracketRound(cup.knockout!, allClubs, forced) };
+  }
+
+  return cup; // 'done': el torneo de este año ya terminó, no hay más pasos
+}
+
+function freshCupState(cupId: 'libertadores' | 'sudamericana', year: number, allClubs: Club[]): CupState {
+  const participants = cupId === 'libertadores' ? getLibertadoresParticipants(allClubs) : getSudamericanaParticipants(allClubs);
+  return {
+    cupId,
+    year,
+    groups: drawCupGroups(participants, allClubs),
+    stage: 'groups',
+    knockout: null,
+    championId: null,
+    stepsConsumed: 0,
+  };
+}
+
+// Cuántas semanas de Copa (isCupWeek) ya transcurrieron en total desde el
+// arranque de la carrera — el equivalente de leagueMatchweeksElapsedTotal
+// pero contando las semanas que SÍ son de copa en vez de las que no.
+export function cupWeeksElapsedTotal(currentWeek: number): number {
+  let count = 0;
+  for (let w = 1; w < currentWeek; w++) {
+    if (isCupWeek(w)) count++;
+  }
+  return count;
+}
+
+// A diferencia de la liga (cuyo LeagueSeasonState vive toda la carrera y por
+// eso necesita un contador que nunca se reinicia), cada CupState se crea de
+// cero por año (freshCupState). Si el catch-up usara cupWeeksElapsedTotal
+// (que no se reinicia) como objetivo, a partir del año 2 ese objetivo ya
+// sería enorme frente al stepsConsumed=0 de un torneo recién creado, y el
+// catch-up resolvería TODA la edición (grupos + eliminatoria) de un solo
+// golpe sin dejarle nunca un partido real al jugador. Por eso acá contamos
+// solo las semanas de copa transcurridas DESDE el arranque de ese año.
+function cupWeeksElapsedInYear(year: number, currentWeek: number): number {
+  const yearStartWeek = (year - 1) * SEASON_LENGTH_WEEKS + 1;
+  let count = 0;
+  for (let w = yearStartWeek; w < currentWeek; w++) {
+    if (isCupWeek(w)) count++;
+  }
+  return count;
+}
+
+export function getOrCreateCupState(
+  cupId: 'libertadores' | 'sudamericana',
+  year: number,
+  allClubs: Club[],
+  existing: CupState | undefined,
+  currentWeek: number
+): CupState {
+  let cup = existing ?? freshCupState(cupId, year, allClubs);
+  let stepsConsumed = existing?.stepsConsumed ?? 0;
+  const targetSteps = cupWeeksElapsedInYear(year, currentWeek);
+
+  while (stepsConsumed < targetSteps && cup.stage !== 'done') {
+    cup = resolveCupStep(cup, allClubs);
+    stepsConsumed++;
+  }
+  return { ...cup, stepsConsumed };
+}
+
+export function resolveCupWeek(
+  cup: CupState,
+  allClubs: Club[],
+  playerClubId: string,
+  playerIsHome: boolean,
+  playerGoals: number,
+  opponentGoals: number
+): CupState {
+  const updated = resolveCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals });
+  return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
+}
+
+export function getUpcomingCupMatch(cup: CupState, clubId: string): { opponentId: string; isHome: boolean } | null {
+  if (cup.stage === 'groups') {
+    const nextMw = Math.min(...cup.groups.map(g => g.fixtures.find(f => !f.played)?.matchweek ?? Infinity));
+    if (nextMw === Infinity) return null;
+    for (const g of cup.groups) {
+      const fx = g.fixtures.find(f => f.matchweek === nextMw && (f.homeTeamId === clubId || f.awayTeamId === clubId));
+      if (fx) return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
+    }
+    return null;
+  }
+
+  if (cup.stage === 'knockout' && cup.knockout && !cup.knockout.championId) {
+    const currentRound = cup.knockout.matchesByRound[cup.knockout.matchesByRound.length - 1];
+    const m = currentRound.find(mm => !mm.played && (mm.homeTeamId === clubId || mm.awayTeamId === clubId));
+    if (!m) return null;
+    return m.homeTeamId === clubId ? { opponentId: m.awayTeamId, isHome: true } : { opponentId: m.homeTeamId, isHome: false };
+  }
+
+  return null;
 }
 
 export function resolvePlayerWeekForLeague(
