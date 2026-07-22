@@ -2703,34 +2703,89 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
 })();
 
 // ==========================================
-// --- SELECCIONES NACIONALES (masculinas) ---
+// --- SELECCIONES NACIONALES · MUNDIAL 2026 ---
 // ==========================================
-// Dato de referencia por ahora: NO se mezcla con CLUBS_DATABASE / ULTIMATE_CLUBS_DATABASE,
-// así que no aparece como club inicial ni como destino de traspaso todavía.
-// Se agrega una selección por cada liga de país que ya tiene datos reales cargados.
-const NATIONAL_TEAMS_SEED: { id: string; countryName: string; league: string; dt: string; badgeColor: string; badgeLogoUrl: string }[] = [
-  { id: 'seleccion_colombia', countryName: 'Colombia', league: 'Colombiana', dt: 'Néstor Lorenzo', badgeColor: 'border-l-4 border-yellow-400 bg-blue-950/40 text-yellow-200', badgeLogoUrl: '🇨🇴' },
-  { id: 'seleccion_alemania', countryName: 'Alemania', league: 'Alemana', dt: 'Julian Nagelsmann', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-yellow-300', badgeLogoUrl: '🇩🇪' },
-  { id: 'seleccion_argentina', countryName: 'Argentina', league: 'Argentina', dt: 'Lionel Scaloni', badgeColor: 'border-l-4 border-sky-400 bg-sky-950/40 text-sky-200', badgeLogoUrl: '🇦🇷' },
+// Los 48 clasificados reales al Mundial 2026, investigados en Transfermarkt +
+// fuentes fiables (FIFA.com, federaciones oficiales, ESPN/BBC/AP). DT: se usó
+// siempre el que dirigió al equipo EN el torneo (varias selecciones cambiaron
+// de DT apenas terminó el Mundial; usar ese DT post-torneo habría dejado
+// nombres "vacantes" o desactualizados para el modo de juego).
+// NO se mezcla con CLUBS_DATABASE / ULTIMATE_CLUBS_DATABASE (así no aparece
+// como club inicial ni como oferta de traspaso) -- ver findClubOrNationalTeam
+// en App.tsx/Dashboard.tsx/MatchSimulator.tsx/PostMatch.tsx para la búsqueda
+// combinada cuando currentClubId apunta a una selección durante el Mundial.
+// `league` solo se completa para las selecciones cuya nacionalidad ya es
+// elegible en SetupScreen (para poder convocar al jugador) -- las demás
+// existen igual, para que el Mundial tenga los 48 equipos reales de fondo.
+const WORLD_CUP_2026_TEAMS_SEED: { id: string; countryName: string; league?: string; dt: string; starPlayers: string[]; badgeLogoUrl: string }[] = [
+  { id: 'wc_colombia', countryName: 'Colombia', league: 'Colombiana', dt: 'Néstor Lorenzo', starPlayers: ['Luis Díaz', 'James Rodríguez', 'Jhon Arias', 'Richard Ríos', 'Davinson Sánchez'], badgeLogoUrl: '🇨🇴' },
+  { id: 'wc_alemania', countryName: 'Alemania', league: 'Alemana', dt: 'Julian Nagelsmann', starPlayers: ['Jamal Musiala', 'Florian Wirtz', 'Joshua Kimmich', 'Kai Havertz', 'Antonio Rüdiger'], badgeLogoUrl: '🇩🇪' },
+  { id: 'wc_argentina', countryName: 'Argentina', league: 'Argentina', dt: 'Lionel Scaloni', starPlayers: ['Lionel Messi', 'Julián Álvarez', 'Lautaro Martínez', 'Rodrigo De Paul', 'Emiliano Martínez'], badgeLogoUrl: '🇦🇷' },
+  { id: 'wc_canada', countryName: 'Canadá', dt: 'Jesse Marsch', starPlayers: ['Alphonso Davies', 'Jonathan David', 'Ismaël Koné', 'Tajon Buchanan', 'Alistair Johnston'], badgeLogoUrl: '🇨🇦' },
+  { id: 'wc_mexico', countryName: 'México', league: 'Mexicana', dt: 'Javier Aguirre', starPlayers: ['Santiago Giménez', 'Edson Álvarez', 'Gilberto Mora', 'Julián Quiñones', 'Guillermo Ochoa'], badgeLogoUrl: '🇲🇽' },
+  { id: 'wc_usa', countryName: 'Estados Unidos', league: 'Estadounidense', dt: 'Mauricio Pochettino', starPlayers: ['Christian Pulisic', 'Weston McKennie', 'Folarin Balogun', 'Tyler Adams', 'Malik Tillman'], badgeLogoUrl: '🇺🇸' },
+  { id: 'wc_curazao', countryName: 'Curazao', dt: 'Dick Advocaat', starPlayers: ['Tahith Chong', 'Armando Obispo', 'Sontje Hansen', 'Juninho Bacuna', 'Riechedly Bazoer'], badgeLogoUrl: '🇨🇼' },
+  { id: 'wc_haiti', countryName: 'Haití', dt: 'Sébastien Migné', starPlayers: ['Jean-Ricner Bellegarde', 'Danley Jean Jacques', 'Frantzdy Pierrot', 'Carlens Arcus', 'Duckens Nazon'], badgeLogoUrl: '🇭🇹' },
+  { id: 'wc_panama', countryName: 'Panamá', dt: 'Thomas Christiansen', starPlayers: ['Adalberto Carrasquilla', 'Amir Murillo', 'José Córdoba', 'José Luis Rodríguez', 'Ismael Díaz'], badgeLogoUrl: '🇵🇦' },
+  { id: 'wc_brasil', countryName: 'Brasil', league: 'Brasileña', dt: 'Carlo Ancelotti', starPlayers: ['Vinícius Júnior', 'Raphinha', 'Bruno Guimarães', 'Gabriel Martinelli', 'Matheus Cunha'], badgeLogoUrl: '🇧🇷' },
+  { id: 'wc_ecuador', countryName: 'Ecuador', league: 'Ecuatoriana', dt: 'Sebastián Beccacece', starPlayers: ['Moisés Caicedo', 'Piero Hincapié', 'Willian Pacho', 'Pervis Estupiñán', 'Gonzalo Plata'], badgeLogoUrl: '🇪🇨' },
+  { id: 'wc_paraguay', countryName: 'Paraguay', dt: 'Gustavo Alfaro', starPlayers: ['Miguel Almirón', 'Julio Enciso', 'Diego Gómez', 'Omar Alderete', 'Ramón Sosa'], badgeLogoUrl: '🇵🇾' },
+  { id: 'wc_uruguay', countryName: 'Uruguay', league: 'Uruguaya', dt: 'Marcelo Bielsa', starPlayers: ['Federico Valverde', 'Darwin Núñez', 'Ronald Araújo', 'Rodrigo Bentancur', 'Giorgian De Arrascaeta'], badgeLogoUrl: '🇺🇾' },
+  { id: 'wc_nueva_zelanda', countryName: 'Nueva Zelanda', dt: 'Darren Bazeley', starPlayers: ['Chris Wood', 'Joe Bell', 'Elijah Just', 'Liberato Cacace', 'Marko Stamenić'], badgeLogoUrl: '🇳🇿' },
+  { id: 'wc_australia', countryName: 'Australia', dt: 'Tony Popovic', starPlayers: ['Alessandro Circati', 'Cristian Volpato', 'Nestory Irankunda', 'Jordan Bos', 'Mathew Leckie'], badgeLogoUrl: '🇦🇺' },
+  { id: 'wc_irak', countryName: 'Irak', dt: 'Graham Arnold', starPlayers: ['Ali Al-Hamadi', 'Ahmed Qasem', 'Aymen Hussein', 'Zidane Iqbal', 'Merchas Doski'], badgeLogoUrl: '🇮🇶' },
+  { id: 'wc_iran', countryName: 'Irán', dt: 'Amir Ghalenoei', starPlayers: ['Mehdi Taremi', 'Alireza Jahanbakhsh', 'Saman Ghoddos', 'Mehdi Ghayedi', 'Ehsan Hajsafi'], badgeLogoUrl: '🇮🇷' },
+  { id: 'wc_japon', countryName: 'Japón', dt: 'Hajime Moriyasu', starPlayers: ['Takefusa Kubo', 'Ritsu Doan', 'Kaishu Sano', 'Ko Itakura', 'Daichi Kamada'], badgeLogoUrl: '🇯🇵' },
+  { id: 'wc_jordania', countryName: 'Jordania', dt: 'Badou Zaki', starPlayers: ['Musa Al-Tamari', 'Yazan Al-Arab', 'Ali Olwan', 'Mohammad Abu Zrayq', 'Noor Al-Rawabdeh'], badgeLogoUrl: '🇯🇴' },
+  { id: 'wc_corea_sur', countryName: 'Corea del Sur', dt: 'Hong Myung-bo', starPlayers: ['Son Heung-min', 'Lee Kang-in', 'Kim Min-jae', 'Hwang Hee-chan', 'Cho Gue-sung'], badgeLogoUrl: '🇰🇷' },
+  { id: 'wc_catar', countryName: 'Catar', dt: 'Julen Lopetegui', starPlayers: ['Akram Afif', 'Almoez Ali', 'Hassan Al-Haydos', 'Edmílson Junior', 'Boualem Khoukhi'], badgeLogoUrl: '🇶🇦' },
+  { id: 'wc_arabia_saudita', countryName: 'Arabia Saudita', dt: 'Georgios Donis', starPlayers: ['Salem Al-Dawsari', 'Saud Abdulhamid', 'Firas Al-Buraikan', 'Mohamed Kanno', 'Saleh Al-Shehri'], badgeLogoUrl: '🇸🇦' },
+  { id: 'wc_uzbekistan', countryName: 'Uzbekistán', dt: 'Fabio Cannavaro', starPlayers: ['Abdukodir Khusanov', 'Eldor Shomurodov', 'Abbosbek Fayzullaev', 'Jaloliddin Masharipov', 'Sherzod Nasrullaev'], badgeLogoUrl: '🇺🇿' },
+  { id: 'wc_argelia', countryName: 'Argelia', dt: 'Vladimir Petković', starPlayers: ['Riyad Mahrez', 'Rayan Aït-Nouri', 'Ibrahim Maza', 'Amine Gouiri', 'Mohamed Amoura'], badgeLogoUrl: '🇩🇿' },
+  { id: 'wc_cabo_verde', countryName: 'Cabo Verde', dt: 'Pedro "Bubista" Leitão Brito', starPlayers: ['Logan Costa', 'Ryan Mendes', 'Jovane Cabral', 'Roberto Lopes', 'Garry Rodrigues'], badgeLogoUrl: '🇨🇻' },
+  { id: 'wc_rd_congo', countryName: 'RD Congo', dt: 'Sébastien Desabre', starPlayers: ['Chancel Mbemba', 'Yoane Wissa', 'Aaron Wan-Bissaka', 'Noah Sadiki', 'Cédric Bakambu'], badgeLogoUrl: '🇨🇩' },
+  { id: 'wc_costa_marfil', countryName: 'Costa de Marfil', dt: 'Emerse Faé', starPlayers: ['Amad Diallo', 'Franck Kessié', 'Simon Adingra', 'Odilon Kossounou', 'Nicolas Pépé'], badgeLogoUrl: '🇨🇮' },
+  { id: 'wc_egipto', countryName: 'Egipto', dt: 'Hossam Hassan', starPlayers: ['Mohamed Salah', 'Omar Marmoush', 'Trezeguet', 'Zizo', 'Emam Ashour'], badgeLogoUrl: '🇪🇬' },
+  { id: 'wc_ghana', countryName: 'Ghana', dt: 'Carlos Queiroz', starPlayers: ['Antoine Semenyo', 'Mohammed Kudus', 'Thomas Partey', 'Iñaki Williams', 'Jordan Ayew'], badgeLogoUrl: '🇬🇭' },
+  { id: 'wc_marruecos', countryName: 'Marruecos', dt: 'Mohamed Ouahbi', starPlayers: ['Achraf Hakimi', 'Brahim Díaz', 'Ayyoub Bouaddi', 'Noussair Mazraoui', 'Sofyan Amrabat'], badgeLogoUrl: '🇲🇦' },
+  { id: 'wc_senegal', countryName: 'Senegal', dt: 'Pape Thiaw', starPlayers: ['Sadio Mané', 'Kalidou Koulibaly', 'Nicolas Jackson', 'Ismaïla Sarr', 'Iliman Ndiaye'], badgeLogoUrl: '🇸🇳' },
+  { id: 'wc_sudafrica', countryName: 'Sudáfrica', dt: 'Hugo Broos', starPlayers: ['Lyle Foster', 'Themba Zwane', 'Ronwen Williams', 'Teboho Mokoena', 'Relebohile Mofokeng'], badgeLogoUrl: '🇿🇦' },
+  { id: 'wc_tunez', countryName: 'Túnez', dt: 'Hervé Renard', starPlayers: ['Hannibal Mejbri', 'Ellyes Skhiri', 'Montassar Talbi', 'Ali Abdi', 'Anis Ben Slimane'], badgeLogoUrl: '🇹🇳' },
+  { id: 'wc_austria', countryName: 'Austria', dt: 'Ralf Rangnick', starPlayers: ['David Alaba', 'Konrad Laimer', 'Kevin Danso', 'Nicolas Seiwald', 'Patrick Wimmer'], badgeLogoUrl: '🇦🇹' },
+  { id: 'wc_belgica', countryName: 'Bélgica', dt: 'Rudi Garcia', starPlayers: ['Jérémy Doku', 'Kevin De Bruyne', 'Romelu Lukaku', 'Amadou Onana', 'Youri Tielemans'], badgeLogoUrl: '🇧🇪' },
+  { id: 'wc_bosnia', countryName: 'Bosnia y Herzegovina', dt: 'Sergej Barbarez', starPlayers: ['Edin Džeko', 'Ermedin Demirović', 'Sead Kolašinac', 'Amar Dedić', 'Esmir Bajraktarević'], badgeLogoUrl: '🇧🇦' },
+  { id: 'wc_croacia', countryName: 'Croacia', dt: 'Zlatko Dalić', starPlayers: ['Luka Modrić', 'Josko Gvardiol', 'Martin Baturina', 'Petar Sučić', 'Ivan Perišić'], badgeLogoUrl: '🇭🇷' },
+  { id: 'wc_chequia', countryName: 'Chequia', dt: 'Miroslav Koubek', starPlayers: ['Tomáš Souček', 'Patrik Schick', 'Ladislav Krejčí', 'Pavel Šulc', 'Adam Hložek'], badgeLogoUrl: '🇨🇿' },
+  { id: 'wc_inglaterra', countryName: 'Inglaterra', league: 'Inglesa', dt: 'Thomas Tuchel', starPlayers: ['Jude Bellingham', 'Bukayo Saka', 'Harry Kane', 'Declan Rice', 'Reece James'], badgeLogoUrl: '🏴' },
+  { id: 'wc_francia', countryName: 'Francia', league: 'Francesa', dt: 'Didier Deschamps', starPlayers: ['Kylian Mbappé', 'Ousmane Dembélé', 'Michael Olise', 'William Saliba', 'Aurélien Tchouaméni'], badgeLogoUrl: '🇫🇷' },
+  { id: 'wc_holanda', countryName: 'Holanda', league: 'Holandesa', dt: 'Ronald Koeman', starPlayers: ['Virgil van Dijk', 'Ryan Gravenberch', 'Cody Gakpo', 'Frenkie de Jong', 'Tijjani Reijnders'], badgeLogoUrl: '🇳🇱' },
+  { id: 'wc_noruega', countryName: 'Noruega', dt: 'Ståle Solbakken', starPlayers: ['Erling Haaland', 'Martin Ødegaard', 'Antonio Nusa', 'Andreas Schjelderup', 'Jørgen Strand Larsen'], badgeLogoUrl: '🇳🇴' },
+  { id: 'wc_portugal', countryName: 'Portugal', league: 'Portuguesa', dt: 'Roberto Martínez', starPlayers: ['Cristiano Ronaldo', 'Bruno Fernandes', 'Vitinha', 'João Neves', 'Rafael Leão'], badgeLogoUrl: '🇵🇹' },
+  { id: 'wc_escocia', countryName: 'Escocia', dt: 'Steve Clarke', starPlayers: ['Scott McTominay', 'Andy Robertson', 'John McGinn', 'Kieran Tierney', 'Lewis Ferguson'], badgeLogoUrl: '🏴' },
+  { id: 'wc_espana', countryName: 'España', league: 'Española', dt: 'Luis de la Fuente', starPlayers: ['Lamine Yamal', 'Pedri', 'Rodri', 'Ferran Torres', 'Martín Zubimendi'], badgeLogoUrl: '🇪🇸' },
+  { id: 'wc_suecia', countryName: 'Suecia', dt: 'Graham Potter', starPlayers: ['Alexander Isak', 'Viktor Gyökeres', 'Anthony Elanga', 'Lucas Bergvall', 'Yasin Ayari'], badgeLogoUrl: '🇸🇪' },
+  { id: 'wc_suiza', countryName: 'Suiza', dt: 'Murat Yakin', starPlayers: ['Granit Xhaka', 'Gregor Kobel', 'Dan Ndoye', 'Denis Zakaria', 'Ardon Jashari'], badgeLogoUrl: '🇨🇭' },
+  { id: 'wc_turquia', countryName: 'Türkiye', dt: 'Vincenzo Montella', starPlayers: ['Arda Güler', 'Kenan Yıldız', 'Hakan Çalhanoğlu', 'Barış Alper Yılmaz', 'Orkun Kökçü'], badgeLogoUrl: '🇹🇷' },
 ];
 
-export const NATIONAL_TEAMS_DATABASE: Club[] = NATIONAL_TEAMS_SEED.map(team => {
-  const squad = ALL_PLAYERS
-    .filter(p => p.team_name === team.countryName)
-    .sort((a, b) => b.media_valoracion - a.media_valoracion)
-    .map(p => p.nombre_completo);
+export const WORLD_CUP_TEAMS_DATABASE: Club[] = WORLD_CUP_2026_TEAMS_SEED.map(team => ({
+  id: team.id,
+  name: `Selección de ${team.countryName}`,
+  league: team.league ?? 'Selecciones Mundial 2026',
+  dt: team.dt,
+  reputation: 5,
+  initialSalary: 0,
+  marketValue: 0,
+  starPlayers: team.starPlayers,
+  description: `Selección masculina absoluta de ${team.countryName}, Mundial 2026.`,
+  badgeColor: 'border-l-4 border-slate-500 bg-slate-900/40 text-slate-100',
+  badgeLogoUrl: team.badgeLogoUrl
+}));
 
-  return {
-    id: team.id,
-    name: `Selección de ${team.countryName}`,
-    league: team.league,
-    dt: team.dt,
-    reputation: 5,
-    initialSalary: 0,
-    marketValue: 0,
-    starPlayers: squad.slice(0, 5),
-    description: `Selección masculina absoluta de ${team.countryName}.`,
-    badgeColor: team.badgeColor,
-    badgeLogoUrl: team.badgeLogoUrl
-  };
-});
+// Mapa nacionalidad (tal como la guarda PlayerProfile.nationality, igual que Club.league)
+// -> id de la selección correspondiente, para saber a qué equipo te pueden convocar.
+// Solo cubre las nacionalidades que SetupScreen ofrece elegir Y que clasificaron al Mundial
+// 2026 (Italiana y Chilena no clasificaron, por eso no están acá).
+export const NATIONALITY_TO_WORLD_CUP_TEAM_ID: Record<string, string> = Object.fromEntries(
+  WORLD_CUP_2026_TEAMS_SEED.filter(t => t.league).map(t => [t.league as string, t.id])
+);

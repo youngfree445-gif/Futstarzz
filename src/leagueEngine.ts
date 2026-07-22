@@ -1,4 +1,4 @@
-import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState } from './types';
+import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 
 // Semanas de carrera por temporada (incluye semanas de Copa). Fija e igual
 // para TODAS las ligas, sin importar cuántos equipos tenga cada una —
@@ -272,6 +272,12 @@ const REGULAR_PHASE_MATCHDAYS: Record<'colombia' | 'argentina', number> = {
 
 const SEED_PAIRS_8 = [[0, 7], [3, 4], [2, 5], [1, 6]];
 const SEED_PAIRS_16 = [[0, 15], [7, 8], [4, 11], [3, 12], [2, 13], [5, 10], [6, 9], [1, 14]];
+// Ronda de 32 del Mundial -- misma construcción recursiva estándar de bracket que las de arriba
+// (los sembrados 1 y 2 quedan en mitades opuestas del cuadro y solo pueden cruzarse en la final).
+const SEED_PAIRS_32 = [
+  [0, 31], [15, 16], [7, 24], [8, 23], [3, 28], [12, 19], [4, 27], [11, 20],
+  [1, 30], [14, 17], [6, 25], [9, 22], [2, 29], [13, 18], [5, 26], [10, 21],
+];
 
 export function isApeturaClausuraLeague(league: string): 'colombia' | 'argentina' | null {
   if (league === 'Colombiana') return 'colombia';
@@ -309,7 +315,7 @@ function generateSingleRound(clubIds: string[]): Fixture[] {
 }
 
 function seedBracket(rankedClubIds: string[]): PlayoffBracket {
-  const pairs = rankedClubIds.length === 16 ? SEED_PAIRS_16 : SEED_PAIRS_8;
+  const pairs = rankedClubIds.length === 32 ? SEED_PAIRS_32 : rankedClubIds.length === 16 ? SEED_PAIRS_16 : SEED_PAIRS_8;
   const firstRound = pairs.map(([a, b]) => ({
     homeTeamId: rankedClubIds[a],
     awayTeamId: rankedClubIds[b],
@@ -1182,6 +1188,124 @@ export function getUpcomingUefaCupMatch(cup: UefaCupState, clubId: string): { op
   if (cup.stage === 'knockout' && cup.knockout && !cup.knockout.championId) {
     const currentRound = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1];
     return findUpcomingTwoLegMatch(currentRound, clubId);
+  }
+  return null;
+}
+
+// ==========================================================================
+// MUNDIAL (cada 4 años) -- 48 selecciones, 12 grupos de 4 a una sola vuelta
+// (3 fechas), top 2 + mejores 8 terceros -> Ronda de 32 -> octavos -> cuartos
+// -> semis -> final, todo a partido único (sin ida y vuelta, a diferencia de
+// las copas de clubes UEFA). Reutiliza CupGroup/PlayoffBracket/seedBracket/
+// resolveBracketRound/resolveCupGroupsStep tal cual -- ver nota en
+// WorldCupState (types.ts) sobre las simplificaciones deliberadas.
+// ==========================================================================
+
+export function isWorldCupYear(year: number): boolean {
+  return (year - 1) % 4 === 0; // años 1, 5, 9, 13... de la carrera
+}
+
+function drawWorldCupGroups(teamIds: string[], allTeams: Club[]): CupGroup[] {
+  const shuffled = shuffle(teamIds);
+  const groups: CupGroup[] = [];
+  for (let g = 0; g < 12; g++) {
+    const clubIds = shuffled.slice(g * 4, g * 4 + 4);
+    const groupTeams = clubIds.map(id => allTeams.find(c => c.id === id)).filter((c): c is Club => !!c);
+    groups.push({
+      id: String.fromCharCode(65 + g), // 'A'..'L'
+      clubIds,
+      table: buildInitialTable(groupTeams),
+      fixtures: generateSingleRound(clubIds), // una sola vuelta = 3 fechas
+    });
+  }
+  return groups;
+}
+
+function seedFromWorldCupGroups(groups: CupGroup[]): string[] {
+  const winners = groups.map(g => sortTable(g.table)[0].clubId!);
+  const runnersUp = groups.map(g => sortTable(g.table)[1].clubId!);
+  const bestThirds = groups
+    .map(g => sortTable(g.table)[2])
+    .sort((a, b) => (b.puntos - a.puntos) || ((b.gf - b.gc) - (a.gf - a.gc)) || (b.gf - a.gf))
+    .slice(0, 8)
+    .map(row => row.clubId!);
+  return [...winners, ...runnersUp, ...bestThirds]; // 12 + 12 + 8 = 32
+}
+
+function resolveWorldCupStep(cup: WorldCupState, allTeams: Club[], forced?: ForcedResult): WorldCupState {
+  if (cup.stage === 'groups') {
+    const allPlayed = cup.groups.every(g => g.fixtures.every(f => f.played));
+    if (allPlayed) {
+      const seeded = seedFromWorldCupGroups(cup.groups);
+      return resolveWorldCupStep({ ...cup, stage: 'knockout', knockout: seedBracket(seeded) }, allTeams, forced);
+    }
+    return { ...cup, groups: resolveCupGroupsStep(cup.groups, allTeams, forced) };
+  }
+  if (cup.stage === 'knockout') {
+    if (cup.knockout?.championId) {
+      return { ...cup, stage: 'done', championId: cup.knockout.championId };
+    }
+    return { ...cup, knockout: resolveBracketRound(cup.knockout!, allTeams, forced) };
+  }
+  return cup; // 'done'
+}
+
+function freshWorldCupState(year: number, allTeams: Club[]): WorldCupState {
+  const teamIds = allTeams.map(t => t.id); // el array pasado ya son las 48 selecciones clasificadas
+  return {
+    year,
+    groups: drawWorldCupGroups(teamIds, allTeams),
+    stage: 'groups',
+    knockout: null,
+    championId: null,
+    stepsConsumed: 0,
+  };
+}
+
+export function getOrCreateWorldCupState(
+  year: number,
+  allTeams: Club[],
+  existing: WorldCupState | undefined,
+  currentWeek: number
+): WorldCupState {
+  let cup = existing ?? freshWorldCupState(year, allTeams);
+  let stepsConsumed = existing?.stepsConsumed ?? 0;
+  const targetSteps = cupWeeksElapsedInYear(year, currentWeek);
+
+  while (stepsConsumed < targetSteps && cup.stage !== 'done') {
+    cup = resolveWorldCupStep(cup, allTeams);
+    stepsConsumed++;
+  }
+  return { ...cup, stepsConsumed };
+}
+
+export function resolveWorldCupWeek(
+  cup: WorldCupState,
+  allTeams: Club[],
+  playerTeamId: string,
+  playerIsHome: boolean,
+  playerGoals: number,
+  opponentGoals: number
+): WorldCupState {
+  const updated = resolveWorldCupStep(cup, allTeams, { clubId: playerTeamId, isHome: playerIsHome, goals: playerGoals, opponentGoals });
+  return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
+}
+
+export function getUpcomingWorldCupMatch(cup: WorldCupState, teamId: string): { opponentId: string; isHome: boolean } | null {
+  if (cup.stage === 'groups') {
+    const nextMw = Math.min(...cup.groups.map(g => g.fixtures.find(f => !f.played)?.matchweek ?? Infinity));
+    if (nextMw === Infinity) return null;
+    for (const g of cup.groups) {
+      const fx = g.fixtures.find(f => f.matchweek === nextMw && (f.homeTeamId === teamId || f.awayTeamId === teamId));
+      if (fx) return fx.homeTeamId === teamId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
+    }
+    return null;
+  }
+  if (cup.stage === 'knockout' && cup.knockout && !cup.knockout.championId) {
+    const currentRound = cup.knockout.matchesByRound[cup.knockout.matchesByRound.length - 1];
+    const m = currentRound.find(mm => !mm.played && (mm.homeTeamId === teamId || mm.awayTeamId === teamId));
+    if (!m) return null;
+    return m.homeTeamId === teamId ? { opponentId: m.awayTeamId, isHome: true } : { opponentId: m.homeTeamId, isHome: false };
   }
   return null;
 }

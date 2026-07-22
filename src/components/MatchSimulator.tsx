@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club } from '../types';
 import { Play, FastForward, Check, Skull, Target, Award, Sparkles, Trophy } from 'lucide-react';
-import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL } from '../data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE } from '../data';
 
 interface MatchSimulatorProps {
   playerProfile: PlayerProfile;
   opponentName: string;
   isLibertadores: boolean;
+  isWorldCup?: boolean;
+  representingTeamId?: string | null; // si estás convocado a tu selección, el id del equipo del Mundial en vez de tu club
   isHome: boolean;
   onFinishMatch: (results: {
     goles: number;
@@ -21,7 +23,7 @@ interface MatchSimulatorProps {
   }) => void;
 }
 
-export default function MatchSimulator({ playerProfile, opponentName, isLibertadores, isHome: isHomeProp, onFinishMatch }: MatchSimulatorProps) {
+export default function MatchSimulator({ playerProfile, opponentName, isLibertadores, isWorldCup, representingTeamId, isHome: isHomeProp, onFinishMatch }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(450);
@@ -40,7 +42,9 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
   const [decisionStage, setDecisionStage] = useState<'none' | 'choosing' | 'result'>('none');
   const [decisionOutcomeText, setDecisionOutcomeText] = useState('');
 
-  const currentClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+  const currentClub = representingTeamId
+    ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
+    : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
   const teamName = currentClub.name;
 
   const getTeammateSample = () => {
@@ -50,7 +54,7 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isLibertadores ? '🏆 COPA LIBERTADORES 2026 (Fase de Grupos) 🏆' : '🟢 LIGA DOMÉSTICA 2026 🟢';
+    const competicionContexto = isWorldCup ? '🌎 COPA MUNDIAL FIFA 2026 🌎' : isLibertadores ? '🏆 COPA LIBERTADORES 2026 (Fase de Grupos) 🏆' : '🟢 LIGA DOMÉSTICA 2026 🟢';
     
     setMatchLog([
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
@@ -508,7 +512,7 @@ export default function MatchSimulator({ playerProfile, opponentName, isLibertad
       <div className="w-full max-w-4xl mx-auto flex items-center justify-between border-b border-slate-800 pb-4">
         <div>
           <span className="text-2xs font-bold text-emerald-400 uppercase tracking-widest block mb-0.5">
-            {isLibertadores ? '🏆 Copa Libertadores 2026' : '🇨🇴 Primera División Dimayor'}
+            {isWorldCup ? '🌎 Copa Mundial FIFA 2026' : isLibertadores ? '🏆 Copa Libertadores 2026' : '🇨🇴 Primera División Dimayor'}
           </span>
           <div className="flex items-center gap-2">
             <span className="font-mono text-2xs px-2 py-0.5 bg-slate-900 border border-slate-800 rounded font-bold">

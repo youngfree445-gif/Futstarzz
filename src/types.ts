@@ -65,6 +65,7 @@ export interface PlayerProfile {
   leagueSeasons: Record<string, LeagueSeasonState>; // todas las ligas ya "visitadas" corriendo en paralelo, clave = leagueKey
   continentalCups: Record<string, CupState>; // Copa Libertadores / Sudamericana por año, clave = `${cupId}-${year}`
   uefaCups: Record<string, UefaCupState>; // Champions / Europa League, clave = cupId ('champions' | 'europa') -- una edición corre varios "años" calendario, ver nota en UefaCupState
+  worldCups: Record<string, WorldCupState>; // Mundial cada 4 años, clave = year de esa edición
 }
 
 // --- Copa Libertadores / Copa Sudamericana ---
@@ -126,6 +127,27 @@ export interface UefaCupState {
   // TODAS las semanas de copa desde el arranque de la carrera) arrancó la edición actual, para saber
   // cuántos pasos de catch-up le corresponden sin pisar el límite de 38 semanas.
   startedAtStep: number;
+}
+
+// --- Mundial (cada 4 años) ---
+// Formato real 2026: 48 selecciones, 12 grupos de 4 a una sola vuelta (3
+// fechas), top 2 de grupo + mejores 8 terceros -> Ronda de 32 -> octavos ->
+// cuartos -> semis -> final, TODO a partido único (el Mundial, a diferencia
+// de las copas de clubes UEFA, no juega ninguna fase a ida y vuelta).
+// Reutiliza CupGroup y PlayoffBracket tal cual -- misma forma que
+// CupState, solo con más grupos y una llave de entrada más grande (32 en
+// vez de 16), por eso seedBracket ahora también soporta length 32.
+// Simplificación deliberada: no hay partido por el tercer puesto (no
+// afecta quién sale campeón) y los "mejores 8 terceros" no se ubican en el
+// cuadro según las reglas reales de cruce de la FIFA -- se siembran junto a
+// los demás clasificados por reputación, igual que en Libertadores.
+export interface WorldCupState {
+  year: number; // año de esta edición dentro de la carrera (cada 4 años)
+  groups: CupGroup[]; // 12 grupos de 4
+  stage: 'groups' | 'knockout' | 'done';
+  knockout: PlayoffBracket | null;
+  championId: string | null;
+  stepsConsumed: number;
 }
 
 export interface SocialPost {

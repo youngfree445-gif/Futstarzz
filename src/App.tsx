@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, ShopItem, PlayerStats } from './types';
-import { INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from './data';
+import {
+  INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
+  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID
+} from './data';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek,
-  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek
+  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek,
+  isWorldCupYear, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen from './components/SetupScreen';
@@ -12,6 +16,9 @@ import Dashboard from './components/Dashboard';
 import MatchSimulator from './components/MatchSimulator';
 import PostMatch from './components/PostMatch';
 import DecisionCenter from './components/DecisionCenter';
+
+// Prestigio mínimo para que te convoquen a la selección en un año de Mundial.
+const WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD = 70;
 
 export default function App() {
   const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event'>('welcome');
@@ -25,6 +32,7 @@ export default function App() {
   const [isCopaLibertadores, setIsCopaLibertadores] = useState(false);
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
+  const [activeWorldCupTeamId, setActiveWorldCupTeamId] = useState<string | null>(null);
   const [matchResults, setMatchResults] = useState<any>(null);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
@@ -64,6 +72,9 @@ export default function App() {
     }
     if (!profile.uefaCups) {
       profile = { ...profile, uefaCups: {} };
+    }
+    if (!profile.worldCups) {
+      profile = { ...profile, worldCups: {} };
     }
     setPlayerProfile(profile);
 
@@ -241,10 +252,34 @@ export default function App() {
     let opName = '';
     let opClubId: string | null = null;
     let isHomeThisMatch = Math.random() > 0.5;
+    // Declarado afuera del if/else de isCup para no quedar con un valor "viejo" de una
+    // semana de copa anterior contaminando una semana doméstica normal (bug real detectado:
+    // sin esto, handleFinishMatch podía resolver el Mundial con el resultado de un partido
+    // de liga doméstica de otra semana).
+    let foundWorldCupTeamId: string | null = null;
 
     if (isCup) {
       const year = getSeasonYear(playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+
+      // El Mundial tiene prioridad sobre las obligaciones de copa de tu club: si te convocan,
+      // esa semana jugás para tu selección (mismo cupo de semanas de copa que Libertadores/UEFA).
+      if (isWorldCupYear(year)) {
+        const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
+        const isEligible = !!wcTeamId && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD;
+        if (isEligible) {
+          const wcState = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek);
+          const upcoming = getUpcomingWorldCupMatch(wcState, wcTeamId);
+          if (upcoming) {
+            const opponentTeam = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId);
+            opName = opponentTeam?.name || '';
+            opClubId = upcoming.opponentId;
+            isHomeThisMatch = upcoming.isHome;
+            foundWorldCupTeamId = wcTeamId;
+          }
+        }
+      }
+
       const libertadoresIds = new Set(getLibertadoresParticipants(CLUBS_DATABASE));
       const sudamericanaIds = new Set(getSudamericanaParticipants(CLUBS_DATABASE));
       const qualifiedCupId: 'libertadores' | 'sudamericana' | null = libertadoresIds.has(myClub.id)
@@ -254,7 +289,7 @@ export default function App() {
         : null;
 
       let foundOpponentId: string | null = null;
-      if (qualifiedCupId) {
+      if (!foundWorldCupTeamId && qualifiedCupId) {
         const cupKey = `${qualifiedCupId}-${year}`;
         const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek);
         const upcoming = getUpcomingCupMatch(cup, myClub.id);
@@ -270,7 +305,7 @@ export default function App() {
 
       // Si el club no juega Libertadores/Sudamericana (ligas sudamericanas), probamos Champions/Europa League.
       let foundUefaOpponentId: string | null = null;
-      if (!foundOpponentId) {
+      if (!foundWorldCupTeamId && !foundOpponentId) {
         const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE));
         const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE));
         const qualifiedUefaCupId: 'champions' | 'europa' | null = championsIds.has(myClub.id)
@@ -296,7 +331,7 @@ export default function App() {
       }
 
       // Club no clasificado a ninguna copa este año, o copa entre rondas (sin partido esta semana puntual): rival de relleno.
-      if (!foundOpponentId && !foundUefaOpponentId) {
+      if (!foundWorldCupTeamId && !foundOpponentId && !foundUefaOpponentId) {
         const giants = ['CR Flamengo', 'SE Palmeiras', 'CA Boca Juniors', 'CA River Plate', 'Fluminense FC', 'SC Corinthians', 'Peñarol (URU)', 'Nacional (URU)'];
         opName = giants[Math.floor(Math.random() * giants.length)];
       }
@@ -319,6 +354,7 @@ export default function App() {
       }
     }
 
+    setActiveWorldCupTeamId(foundWorldCupTeamId);
     setActiveOpposition(opName);
     setActiveOppositionClubId(opClubId);
     setActiveIsHome(isHomeThisMatch);
@@ -406,6 +442,14 @@ export default function App() {
       updatedUefaCups = { ...playerProfile.uefaCups, [activeUefaCupId]: resolvedUefaCup };
     }
 
+    let updatedWorldCups = playerProfile.worldCups;
+    if (isCopaLibertadores && activeWorldCupTeamId && activeOppositionClubId) {
+      const year = getSeasonYear(playerProfile.currentWeek);
+      const wcBeforeMatch = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek);
+      const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, WORLD_CUP_TEAMS_DATABASE, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival);
+      updatedWorldCups = { ...playerProfile.worldCups, [year]: resolvedWorldCup };
+    }
+
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
@@ -415,6 +459,7 @@ export default function App() {
       leagueSeasons: updatedLeagueSeasons,
       continentalCups: updatedContinentalCups,
       uefaCups: updatedUefaCups,
+      worldCups: updatedWorldCups,
       careerStats: {
         goles: playerProfile.careerStats.goles + results.goles,
         asistencias: playerProfile.careerStats.asistencias + results.asistencias,
@@ -507,6 +552,8 @@ export default function App() {
           playerProfile={playerProfile}
           opponentName={activeOpposition}
           isLibertadores={isCopaLibertadores}
+          isWorldCup={!!activeWorldCupTeamId}
+          representingTeamId={activeWorldCupTeamId}
           isHome={activeIsHome}
           onFinishMatch={handleFinishMatch}
         />
@@ -517,6 +564,7 @@ export default function App() {
           playerProfile={playerProfile}
           matchResults={matchResults}
           opponentName={activeOpposition}
+          representingTeamId={activeWorldCupTeamId}
           onContinue={handleContinuePostMatch}
         />
       )}

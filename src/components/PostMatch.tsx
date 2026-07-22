@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlayerProfile, Club } from '../types';
-import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from '../data';
 import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
 
 interface PostMatchProps {
@@ -17,11 +17,14 @@ interface PostMatchProps {
     log: string[];
   };
   opponentName: string;
+  representingTeamId?: string | null; // si el partido fue del Mundial, el id de tu selección en vez de tu club
   onContinue: () => void;
 }
 
-export default function PostMatch({ playerProfile, matchResults, opponentName, onContinue }: PostMatchProps) {
-  const currentClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+export default function PostMatch({ playerProfile, matchResults, opponentName, representingTeamId, onContinue }: PostMatchProps) {
+  const currentClub = representingTeamId
+    ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
+    : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
   const rating = matchResults.rating;
 
   // Calculate customized newspaper headline and commentary based on the performance

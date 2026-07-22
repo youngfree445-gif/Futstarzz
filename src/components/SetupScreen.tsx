@@ -90,7 +90,8 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       marketValue: currentClub ? Math.round(currentClub.marketValue * 0.05) : 300000, // initial value based on club status
       leagueSeasons: {}, // App.tsx (handleFinishSetup) genera la temporada real antes de guardar
       continentalCups: {}, // se generan de forma perezosa la primera vez que clasificás a alguna
-      uefaCups: {} // idem, Champions/Europa League
+      uefaCups: {}, // idem, Champions/Europa League
+      worldCups: {} // idem, cada 4 años, si tu selección clasificó
     };
 
     onFinishSetup(newProfile);
