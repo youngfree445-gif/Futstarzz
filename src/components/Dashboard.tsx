@@ -100,7 +100,12 @@ export default function Dashboard({
     });
   };
 
-  const transferOffers = generateMockTransferOffers();
+  // Con 600+ clubes en la base de datos, mostrar una oferta por cada uno volvía la pestaña
+  // interminable (varios cientos de miles de píxeles de alto). Priorizamos los clubes a los
+  // que de verdad podés fichar (reputación alcanzada) y mostramos un puñado manejable.
+  const transferOffers = generateMockTransferOffers()
+    .sort((a, b) => (b.possible === a.possible ? b.club.reputation - a.club.reputation : b.possible ? 1 : -1))
+    .slice(0, 40);
 
   const generateSocialFeed = () => {
     const pName = playerProfile.name;
@@ -191,7 +196,7 @@ export default function Dashboard({
             </div>
             
             <div className={`mt-2.5 p-2 rounded-xl text-xs font-bold truncate flex items-center gap-1.5 ${currentClub.badgeColor}`}>
-              <span className="text-sm bg-black/25 w-5 h-5 rounded-md flex items-center justify-center font-normal">{currentClub.badgeLogoUrl || '⚽'}</span>
+              <span className="text-sm bg-black/25 min-w-5 h-5 px-1 rounded-md flex items-center justify-center font-normal shrink-0">{currentClub.badgeLogoUrl || '⚽'}</span>
               <span className="truncate">{currentClub.name}</span>
             </div>
           </div>
@@ -651,20 +656,20 @@ export default function Dashboard({
               {pressResponseState === 'asking' ? (
                 <div className={`bg-slate-900 border rounded-3xl p-6 shadow-xl relative overflow-hidden space-y-4 ${PRESS_QUESTIONS_POOL[selectedPressQ].mediaColor}`}>
                   
-                  <div className="flex justify-between items-center text-3xs font-mono font-black uppercase tracking-wider">
-                    <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-3xs font-mono font-black uppercase tracking-wider">
+                    <div className="flex items-center gap-2 min-w-0">
                       {PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatarImg ? (
                         <img
                           src={PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatarImg}
                           alt={PRESS_QUESTIONS_POOL[selectedPressQ].reporter || PRESS_QUESTIONS_POOL[selectedPressQ].mediaName}
-                          className="w-6 h-6 rounded-lg object-cover border border-black/40"
+                          className="w-6 h-6 shrink-0 rounded-lg object-cover border border-black/40"
                         />
                       ) : (
-                        <span className="text-sm bg-black/40 p-1 rounded-lg">{PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatar}</span>
+                        <span className="text-sm bg-black/40 p-1 rounded-lg shrink-0">{PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatar}</span>
                       )}
-                      <span>{PRESS_QUESTIONS_POOL[selectedPressQ].mediaName} · por <strong>{PRESS_QUESTIONS_POOL[selectedPressQ].reporter}</strong></span>
+                      <span className="truncate">{PRESS_QUESTIONS_POOL[selectedPressQ].mediaName} · por <strong>{PRESS_QUESTIONS_POOL[selectedPressQ].reporter}</strong></span>
                     </div>
-                    <span className="px-2 py-0.5 rounded bg-black/30">{PRESS_QUESTIONS_POOL[selectedPressQ].context}</span>
+                    <span className="px-2 py-0.5 rounded bg-black/30 max-w-full">{PRESS_QUESTIONS_POOL[selectedPressQ].context}</span>
                   </div>
 
                   <h3 className="text-base font-black text-white italic leading-relaxed pt-2">
@@ -818,15 +823,15 @@ export default function Dashboard({
                 {shopItems.map(item => {
                   const isAffordable = playerProfile.capital >= item.cost;
                   return (
-                    <div 
-                      key={item.id} 
-                      className={`p-5 rounded-2xl border transition-all flex justify-between items-start ${
+                    <div
+                      key={item.id}
+                      className={`p-5 rounded-2xl border transition-all flex flex-col sm:flex-row justify-between items-start gap-4 ${
                         item.purchased
                           ? 'border-amber-500/40 bg-slate-900 shadow shadow-amber-950/10'
                           : 'border-slate-800 bg-slate-950/40'
                       }`}
                     >
-                      <div className="space-y-2 max-w-[70%]">
+                      <div className="space-y-2 sm:max-w-[70%]">
                         <div className="flex items-center gap-2">
                           <span className="text-lg">💎</span>
                           <h4 className="font-extrabold text-xs text-white">
@@ -841,12 +846,12 @@ export default function Dashboard({
                         </p>
                       </div>
 
-                      <div className="text-right flex flex-col justify-between h-full min-h-[90px]">
+                      <div className="flex flex-row sm:flex-col justify-between sm:justify-start items-center sm:items-end w-full sm:w-auto sm:text-right sm:h-full sm:min-h-[90px] gap-3">
                         <span className="text-xs font-black font-mono text-white block">
                           ${item.cost.toLocaleString()}
                         </span>
 
-                        <div className="mt-4">
+                        <div className="sm:mt-4">
                           {item.purchased ? (
                             <span className="inline-flex gap-1 items-center px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-3xs font-bold uppercase">
                               Adquirido
@@ -860,8 +865,8 @@ export default function Dashboard({
                               }}
                               disabled={!isAffordable}
                               className={`py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
-                                isAffordable 
-                                  ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:bg-emerald-400 cursor-pointer' 
+                                isAffordable
+                                  ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:bg-emerald-400 cursor-pointer'
                                   : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'
                               }`}
                             >
@@ -902,10 +907,10 @@ export default function Dashboard({
                           <th className="py-1.5 pr-2">Equipo</th>
                           <th className="py-1.5 px-1.5 text-center">PJ</th>
                           <th className="py-1.5 px-1.5 text-center">G</th>
-                          <th className="py-1.5 px-1.5 text-center">E</th>
+                          <th className="py-1.5 px-1.5 text-center hidden sm:table-cell">E</th>
                           <th className="py-1.5 px-1.5 text-center">P</th>
-                          <th className="py-1.5 px-1.5 text-center">GF</th>
-                          <th className="py-1.5 px-1.5 text-center">GC</th>
+                          <th className="py-1.5 px-1.5 text-center hidden sm:table-cell">GF</th>
+                          <th className="py-1.5 px-1.5 text-center hidden sm:table-cell">GC</th>
                           <th className="py-1.5 pl-1.5 text-center">Pts</th>
                         </tr>
                       </thead>
@@ -916,13 +921,13 @@ export default function Dashboard({
                             className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : 'text-slate-300'}`}
                           >
                             <td className="py-1.5 pr-2">{idx + 1}</td>
-                            <td className="py-1.5 pr-2 truncate max-w-[140px]">{row.name}</td>
+                            <td className="py-1.5 pr-2 truncate max-w-[110px] sm:max-w-[140px]">{row.name}</td>
                             <td className="py-1.5 px-1.5 text-center">{row.pj}</td>
                             <td className="py-1.5 px-1.5 text-center">{row.g}</td>
-                            <td className="py-1.5 px-1.5 text-center">{row.e}</td>
+                            <td className="py-1.5 px-1.5 text-center hidden sm:table-cell">{row.e}</td>
                             <td className="py-1.5 px-1.5 text-center">{row.p}</td>
-                            <td className="py-1.5 px-1.5 text-center">{row.gf}</td>
-                            <td className="py-1.5 px-1.5 text-center">{row.gc}</td>
+                            <td className="py-1.5 px-1.5 text-center hidden sm:table-cell">{row.gf}</td>
+                            <td className="py-1.5 px-1.5 text-center hidden sm:table-cell">{row.gc}</td>
                             <td className="py-1.5 pl-1.5 text-center font-black">{row.puntos}</td>
                           </tr>
                         ))}
@@ -981,7 +986,7 @@ export default function Dashboard({
                               <th className="py-1.5 pr-2">Equipo</th>
                               <th className="py-1.5 px-1.5 text-center">PJ</th>
                               <th className="py-1.5 px-1.5 text-center">G</th>
-                              <th className="py-1.5 px-1.5 text-center">E</th>
+                              <th className="py-1.5 px-1.5 text-center hidden sm:table-cell">E</th>
                               <th className="py-1.5 px-1.5 text-center">P</th>
                               <th className="py-1.5 pl-1.5 text-center">Pts</th>
                             </tr>
@@ -990,10 +995,10 @@ export default function Dashboard({
                             {sortTable(uefaCup.table).map((row, idx) => (
                               <tr key={row.clubId || row.name} className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : 'text-slate-300'}`}>
                                 <td className="py-1.5 pr-2">{idx + 1}</td>
-                                <td className="py-1.5 pr-2 truncate max-w-[140px]">{row.name}</td>
+                                <td className="py-1.5 pr-2 truncate max-w-[110px] sm:max-w-[140px]">{row.name}</td>
                                 <td className="py-1.5 px-1.5 text-center">{row.pj}</td>
                                 <td className="py-1.5 px-1.5 text-center">{row.g}</td>
-                                <td className="py-1.5 px-1.5 text-center">{row.e}</td>
+                                <td className="py-1.5 px-1.5 text-center hidden sm:table-cell">{row.e}</td>
                                 <td className="py-1.5 px-1.5 text-center">{row.p}</td>
                                 <td className="py-1.5 pl-1.5 text-center font-black">{row.puntos}</td>
                               </tr>

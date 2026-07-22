@@ -121,7 +121,10 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
         <form onSubmit={handleSubmit} className="p-6 md:p-8 grid md:grid-cols-2 gap-8">
           
           {/* LEFT PANEL: Player configuration */}
-          <div className="space-y-6">
+          {/* min-w-0 es necesario: sin esto, un ítem de CSS Grid usa el min-content de su
+              contenido (ej. el <select> de posición) como piso y se desborda del viewport
+              en pantallas angostas en vez de encogerse/truncar. */}
+          <div className="space-y-6 min-w-0">
             <div className="border border-slate-800/80 bg-slate-950/50 rounded-2xl p-5 space-y-4">
               <h3 className="text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2 mb-2">
                 <User size={15} /> 1. Datos Personales
@@ -146,7 +149,11 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              {/* Antes forzaba 2 columnas siempre: dentro del panel izquierdo (que ya es la mitad
+                  del formulario desde md:768px) eso dejaba cada select en ~180px, muy angosto
+                  para textos largos como "Defensor (Central / Lateral)" -- se veía cortado tanto
+                  en mobile como en desktop. Ahora va siempre en una columna, más legible. */}
+              <div className="grid grid-cols-1 gap-4">
                 <div>
                   <label className="block text-2xs uppercase text-slate-400 font-bold mb-1.5">
                     Edad inicial
@@ -244,7 +251,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
           </div>
 
           {/* RIGHT PANEL: Initial club selector based on selected nationality */}
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between min-w-0">
             <div className="space-y-4">
               <h3 className="text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
                 <Compass size={15} /> 2. Selección de Club Inicial
@@ -254,41 +261,43 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                 Elige el equipo donde arrancarás el torneo de la temporada 2026. Los clubes con más reputación exigen mayor nivel pero otorgan salarios más gordos.
               </p>
 
-              {/* Division Filters */}
+              {/* Division Filters -- textos acortados y padding más chico en mobile: las
+                  etiquetas largas ("1ª División (Elite)" / "2ª División (Ascenso)") forzaban
+                  esta fila más ancha que el viewport en pantallas angostas. */}
               <div className="flex gap-1.5 p-1 bg-slate-950/80 rounded-xl border border-slate-800/80">
                 <button
                   type="button"
                   onClick={() => setSelectedDivision('all')}
-                  className={`flex-1 py-1.5 px-3 rounded-lg text-2xs font-bold transition-all ${
+                  className={`flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 'all'
                       ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  Todas las Divisiones
+                  Todas
                 </button>
                 <button
                   type="button"
                   onClick={() => setSelectedDivision(1)}
-                  className={`flex-1 py-1.5 px-3 rounded-lg text-2xs font-bold transition-all ${
+                  className={`flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 1
                       ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  1ª División (Elite)
+                  1ª División
                 </button>
                 {CLUBS_DATABASE.some(c => c.league === nationality && c.division === 2) && (
                   <button
                     type="button"
                     onClick={() => setSelectedDivision(2)}
-                    className={`flex-1 py-1.5 px-3 rounded-lg text-2xs font-bold transition-all ${
+                    className={`flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                       selectedDivision === 2
                         ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    2ª División (Ascenso)
+                    2ª División
                   </button>
                 )}
               </div>
@@ -313,7 +322,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5">
-                            <h4 className="font-black text-sm text-white truncate max-w-[150px] sm:max-w-[200px]">
+                            <h4 className="font-black text-sm text-white truncate max-w-[100px] sm:max-w-[200px]">
                               {club.name}
                             </h4>
                             <span className={`text-[9px] px-1.5 py-0.2 rounded font-black uppercase text-3xs ${
@@ -349,11 +358,11 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
 
               {currentClub && (
                 <div className={`p-4 rounded-xl border border-slate-800/80 bg-slate-950/60 mt-4 leading-relaxed`}>
-                  <div className="flex justify-between items-center mb-1.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 mb-1.5">
                     <span className="text-2xs font-extrabold uppercase text-amber-500 tracking-wider">
                       Detalles del Contrato Ofrecido
                     </span>
-                    <span className="text-3xs px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+                    <span className="text-3xs px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono self-start sm:self-auto">
                       2 Años (2026-2028)
                     </span>
                   </div>
