@@ -13,6 +13,7 @@ const ALL_PLAYERS = rawPlayers as unknown as {
 }[];
 import { Club, PressQuestion, ShopItem } from './types';
 import { CLUB_EXTRAS } from './clubExtras';
+import mauSportsAvatar from './assets/mau_sports.jpg';
 
 export const CLUBS_DATABASE: Club[] = [
   // ==========================================
@@ -2174,6 +2175,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     mediaName: "mausportstv (Live Twitch/TikTok)",
     reporter: "Mau",
     reporterAvatar: "🎙️⚽",
+    reporterAvatarImg: mauSportsAvatar,
     mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
     question: "¡Estamos en vivo con la sensación del torneo! Has tenido un despliegue táctico brutal hoy en la cancha. ¿Sientes que estás listo para dar el salto definitivo a Europa en el próximo mercado de fichajes de verano?",
     options: [

@@ -102,6 +102,7 @@ export interface PressQuestion {
   mediaColor: string;
   reporter?: string; // Corregido: Cambiado 'mediaName' por 'reporter' para coincidir con la BD
   reporterAvatar: string;
+  reporterAvatarImg?: string; // foto real (importada) del reportero, si existe, en vez del emoji
   question: string;
   options: {
     text: string;

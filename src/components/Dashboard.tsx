@@ -617,7 +617,15 @@ export default function Dashboard({
                   
                   <div className="flex justify-between items-center text-3xs font-mono font-black uppercase tracking-wider">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm bg-black/40 p-1 rounded-lg">{PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatar}</span>
+                      {PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatarImg ? (
+                        <img
+                          src={PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatarImg}
+                          alt={PRESS_QUESTIONS_POOL[selectedPressQ].reporter || PRESS_QUESTIONS_POOL[selectedPressQ].mediaName}
+                          className="w-6 h-6 rounded-lg object-cover border border-black/40"
+                        />
+                      ) : (
+                        <span className="text-sm bg-black/40 p-1 rounded-lg">{PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatar}</span>
+                      )}
                       <span>{PRESS_QUESTIONS_POOL[selectedPressQ].mediaName} · por <strong>{PRESS_QUESTIONS_POOL[selectedPressQ].reporter}</strong></span>
                     </div>
                     <span className="px-2 py-0.5 rounded bg-black/30">{PRESS_QUESTIONS_POOL[selectedPressQ].context}</span>
