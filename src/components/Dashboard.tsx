@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, COPA_LIBERTADORES_GROUPS_DATA, getClubWithRoster } from '../data';
-import { leagueKeyFor, sortTable } from '../leagueEngine';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster } from '../data';
+import {
+  leagueKeyFor, sortTable, getSeasonYear,
+  getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState,
+  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState
+} from '../leagueEngine';
 import { 
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag, 
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle, 
@@ -45,6 +49,38 @@ export default function Dashboard({
   const currentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
   const myLeagueKey = leagueKeyFor(currentClub);
   const myLeagueTable = sortTable(playerProfile.leagueSeasons[myLeagueKey]?.table || []);
+
+  // Copa continental real que le corresponde al club actual (si clasifica a alguna).
+  const cupYear = getSeasonYear(playerProfile.currentWeek);
+  const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+    ? 'libertadores'
+    : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+    ? 'sudamericana'
+    : null;
+  const conmebolCup = conmebolCupId
+    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], playerProfile.currentWeek)
+    : null;
+
+  const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+    ? 'champions'
+    : getEuropaParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+    ? 'europa'
+    : null;
+  const uefaCup = uefaCupId
+    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek)
+    : null;
+
+  const cupStageLabel = (stage: string) => {
+    switch (stage) {
+      case 'groups': return 'Fase de Grupos';
+      case 'league_phase': return 'Fase de Liga';
+      case 'playoff': return 'Playoff';
+      case 'knockout': return 'Fase Eliminatoria';
+      case 'done': return 'Finalizada';
+      default: return stage;
+    }
+  };
+  const clubNameById = (id: string | null) => (id ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === id)?.name || id : '');
 
   // Corregido: Ofertas de traspaso con plantillas inyectadas
   const generateMockTransferOffers = () => {
@@ -899,30 +935,82 @@ export default function Dashboard({
               </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
-                <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 border-b border-slate-800 pb-2 flex items-center gap-2">
-                  🏆 FASE DE GRUPOS - COPA LIBERTADORES 2026
-                </h3>
-
-                <div className="grid md:grid-cols-3 gap-4 font-mono text-xs">
-                  {COPA_LIBERTADORES_GROUPS_DATA.map(group => (
-                    <div key={group.name} className="p-4 bg-slate-950 border border-slate-850 rounded-2xl">
-                      <h4 className="font-extrabold text-white border-b border-slate-800 pb-1.5 mb-2 flex items-center justify-between text-2xs uppercase">
-                        <span>{group.name}</span>
-                        <span className="text-amber-500">🏆</span>
-                      </h4>
-                      <ul className="space-y-1.5 text-slate-300 font-mono text-3xs">
-                        {group.teams.map((team, idx) => (
-                          <li key={idx} className="flex justify-between border-b border-slate-900/40 pb-0.5">
-                            <span className={team.includes(currentClub.name) ? 'text-emerald-400 font-bold' : ''}>
-                              {idx + 1}. {team}
-                            </span>
-                            <span className="text-slate-500">{9 - idx * 2} Pts</span>
-                          </li>
+                {conmebolCup ? (
+                  <>
+                    <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 border-b border-slate-800 pb-2 flex items-center gap-2">
+                      🏆 {conmebolCup.cupId === 'libertadores' ? 'COPA LIBERTADORES' : 'COPA SUDAMERICANA'} {conmebolCup.year} · {cupStageLabel(conmebolCup.stage)}
+                    </h3>
+                    {conmebolCup.stage === 'groups' ? (
+                      <div className="grid md:grid-cols-3 gap-4 font-mono text-xs">
+                        {conmebolCup.groups.map(group => (
+                          <div key={group.id} className="p-4 bg-slate-950 border border-slate-850 rounded-2xl">
+                            <h4 className="font-extrabold text-white border-b border-slate-800 pb-1.5 mb-2 flex items-center justify-between text-2xs uppercase">
+                              <span>Grupo {group.id}</span>
+                              <span className="text-amber-500">🏆</span>
+                            </h4>
+                            <ul className="space-y-1.5 text-slate-300 font-mono text-3xs">
+                              {sortTable(group.table).map((row, idx) => (
+                                <li key={row.clubId || row.name} className="flex justify-between border-b border-slate-900/40 pb-0.5">
+                                  <span className={row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : ''}>
+                                    {idx + 1}. {row.name}
+                                  </span>
+                                  <span className="text-slate-500">{row.puntos} Pts</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
+                      </div>
+                    ) : conmebolCup.stage === 'done' ? (
+                      <p className="text-2xs text-slate-300">🏆 Campeón: <strong className="text-white">{clubNameById(conmebolCup.championId)}</strong></p>
+                    ) : (
+                      <p className="text-2xs text-slate-400">Tu club sigue en carrera en la fase eliminatoria. Los cruces se resuelven semana a semana en tu calendario.</p>
+                    )}
+                  </>
+                ) : uefaCup ? (
+                  <>
+                    <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 border-b border-slate-800 pb-2 flex items-center gap-2">
+                      🏆 {uefaCup.cupId === 'champions' ? 'UEFA CHAMPIONS LEAGUE' : 'UEFA EUROPA LEAGUE'} {uefaCup.year} · {cupStageLabel(uefaCup.stage)}
+                    </h3>
+                    {uefaCup.stage === 'league_phase' ? (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-3xs font-mono text-left">
+                          <thead>
+                            <tr className="text-slate-500 uppercase border-b border-slate-800">
+                              <th className="py-1.5 pr-2">#</th>
+                              <th className="py-1.5 pr-2">Equipo</th>
+                              <th className="py-1.5 px-1.5 text-center">PJ</th>
+                              <th className="py-1.5 px-1.5 text-center">G</th>
+                              <th className="py-1.5 px-1.5 text-center">E</th>
+                              <th className="py-1.5 px-1.5 text-center">P</th>
+                              <th className="py-1.5 pl-1.5 text-center">Pts</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {sortTable(uefaCup.table).map((row, idx) => (
+                              <tr key={row.clubId || row.name} className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : 'text-slate-300'}`}>
+                                <td className="py-1.5 pr-2">{idx + 1}</td>
+                                <td className="py-1.5 pr-2 truncate max-w-[140px]">{row.name}</td>
+                                <td className="py-1.5 px-1.5 text-center">{row.pj}</td>
+                                <td className="py-1.5 px-1.5 text-center">{row.g}</td>
+                                <td className="py-1.5 px-1.5 text-center">{row.e}</td>
+                                <td className="py-1.5 px-1.5 text-center">{row.p}</td>
+                                <td className="py-1.5 pl-1.5 text-center font-black">{row.puntos}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <p className="text-3xs text-slate-500 mt-2">Top 8 avanza directo a octavos · 9º-24º juega el playoff · el resto queda eliminado.</p>
+                      </div>
+                    ) : uefaCup.stage === 'done' ? (
+                      <p className="text-2xs text-slate-300">🏆 Campeón: <strong className="text-white">{clubNameById(uefaCup.championId)}</strong></p>
+                    ) : (
+                      <p className="text-2xs text-slate-400">Tu club sigue en carrera en {uefaCup.stage === 'playoff' ? 'el playoff' : 'la fase eliminatoria'}, a ida y vuelta. Los cruces se resuelven semana a semana en tu calendario.</p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-2xs text-slate-500">Tu club no está clasificado a ningún torneo continental esta temporada.</p>
+                )}
               </div>
             </div>
           )}

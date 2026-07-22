@@ -2506,17 +2506,6 @@ export const LOBBY_RANDOM_EVENTS = [
     ]
   }
 ];
-export const COPA_LIBERTADORES_GROUPS_DATA = [
-  { name: 'Grupo A', teams: ['Flamengo', 'Estudiantes de La Plata', 'Independiente Medellín', 'Cusco FC'] },
-  { name: 'Grupo B', teams: ['Nacional', 'Deportes Tolima', 'Coquimbo Unido', 'Universitario'] },
-  { name: 'Grupo C', teams: ['Fluminense', 'Independiente Rivadavia', 'Bolívar', 'Deportivo La Guaira'] },
-  { name: 'Grupo D', teams: ['Boca Juniors', 'Cruzeiro', 'Universidad Católica', 'Barcelona SC'] },
-  { name: 'Grupo E', teams: ['Peñarol', 'Corinthians', 'Independiente Santa Fe', 'Platense'] },
-  { name: 'Grupo F', teams: ['Palmeiras', 'Cerro Porteño', 'Junior de Barranquilla', 'Sporting Cristal'] },
-  { name: 'Grupo G', teams: ['Liga de Quito', 'Lanús', 'Always Ready', 'Mirassol'] },
-  { name: 'Grupo H', teams: ['Independiente del Valle', 'Rosario Central', 'Libertad', 'Universidad Central'] }
-];
-
 export const OPPONENT_CLUBS_POOL: string[] = [
   'Boca Juniors', 'River Plate', 'Racing Club de Avellaneda', 'Independiente', 'San Lorenzo de Almagro',
   'Flamengo', 'Palmeiras', 'Corinthians', 'Atlético Mineiro', 'São Paulo',
