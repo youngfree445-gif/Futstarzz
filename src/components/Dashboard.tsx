@@ -791,7 +791,7 @@ export default function Dashboard({
                         <img
                           src={PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatarImg}
                           alt={PRESS_QUESTIONS_POOL[selectedPressQ].reporter || PRESS_QUESTIONS_POOL[selectedPressQ].mediaName}
-                          className="w-6 h-6 shrink-0 rounded-lg object-cover border border-black/40"
+                          className="w-11 h-11 shrink-0 rounded-lg object-cover border border-black/40"
                         />
                       ) : (
                         <span className="text-sm bg-black/40 p-1 rounded-lg shrink-0">{PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatar}</span>

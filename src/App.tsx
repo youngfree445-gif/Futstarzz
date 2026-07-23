@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats, Position, Club } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS
@@ -16,9 +16,76 @@ import Dashboard from './components/Dashboard';
 import MatchSimulator from './components/MatchSimulator';
 import PostMatch from './components/PostMatch';
 import DecisionCenter from './components/DecisionCenter';
+import PenaltyShootout from './components/PenaltyShootout';
+import CareerSummary from './components/CareerSummary';
 
 // Prestigio mínimo para que te convoquen a la selección en un año de Mundial.
 const WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD = 70;
+
+// Busca la tanda de penales de TU partido dentro de un bracket/llave de eliminación directa, si
+// tu partido de esta semana terminó igualado. Se usa en handleFinishMatch para decidir si hay que
+// mostrar la pantalla de PenaltyShootout antes de seguir al resumen post-partido.
+function findShootoutInPlayoffBracket(bracket: PlayoffBracket | null | undefined, myId: string, opponentId: string): PenaltyShootoutResult | null {
+  if (!bracket) return null;
+  for (const round of bracket.matchesByRound) {
+    for (const m of round) {
+      if (m.penaltyShootout && ((m.homeTeamId === myId && m.awayTeamId === opponentId) || (m.homeTeamId === opponentId && m.awayTeamId === myId))) {
+        return m.penaltyShootout;
+      }
+    }
+  }
+  return null;
+}
+
+function findShootoutInTwoLegBracket(bracket: TwoLegBracket | null | undefined, myId: string, opponentId: string): PenaltyShootoutResult | null {
+  if (!bracket) return null;
+  for (const round of bracket.tiesByRound) {
+    const found = findShootoutInTwoLegTies(round, myId, opponentId);
+    if (found) return found;
+  }
+  return null;
+}
+
+function findShootoutInTwoLegTies(ties: TwoLegTie[] | null | undefined, myId: string, opponentId: string): PenaltyShootoutResult | null {
+  if (!ties) return null;
+  for (const t of ties) {
+    if (t.penaltyShootout && ((t.clubAId === myId && t.clubBId === opponentId) || (t.clubAId === opponentId && t.clubBId === myId))) {
+      return t.penaltyShootout;
+    }
+  }
+  return null;
+}
+
+// Trayectoria club a club por temporada (ver SeasonHistory en types.ts): si el último tramo
+// guardado ya es de este mismo año Y este mismo club, se lo suma; si cambiaste de club a mitad de
+// temporada (traspaso) o arrancó un año nuevo, abre un tramo nuevo. Los partidos de la selección
+// (Mundial) no se cuentan acá -- esta tabla es la carrera de CLUB, no la de la selección.
+function recordSeasonHistory(
+  history: SeasonHistory[],
+  seasonNum: number,
+  clubId: string,
+  clubName: string,
+  matchGoals: number,
+  matchAssists: number,
+  wonTitle: boolean
+): SeasonHistory[] {
+  const last = history[history.length - 1];
+  if (last && last.seasonNum === seasonNum && last.clubId === clubId) {
+    const updatedLast: SeasonHistory = {
+      ...last,
+      goles: last.goles + matchGoals,
+      asistencias: last.asistencias + matchAssists,
+      partidos: last.partidos + 1,
+      titulo: wonTitle ? '🏆 Campeón' : last.titulo
+    };
+    return [...history.slice(0, -1), updatedLast];
+  }
+  return [...history, {
+    seasonNum, clubId, clubName,
+    goles: matchGoals, asistencias: matchAssists, partidos: 1,
+    titulo: wonTitle ? '🏆 Campeón' : ''
+  }];
+}
 
 // Fase 3 -- Salud mental: en vez de agregar un campo mentalHealth a cada evento/pregunta de prensa
 // de data.ts, la movemos un poco en la misma dirección que el efecto neto de prestigio+fans de
@@ -86,8 +153,8 @@ const POSITION_RECONVERSION_BIAS: Record<Position, Partial<Record<keyof PlayerSt
 };
 
 export default function App() {
-  const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event'>('welcome');
-  
+  const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event' | 'penalty_shootout' | 'career_summary'>('welcome');
+
   const [playerProfile, setPlayerProfile] = useState<PlayerProfile | null>(null);
   const [shopItems, setShopItems] = useState<ShopItem[]>(INITIAL_LIFESTYLE_ITEMS);
   
@@ -105,6 +172,7 @@ export default function App() {
   const [activeRivalTablePosition, setActiveRivalTablePosition] = useState<number | null>(null);
   const [activeLeagueTeamCount, setActiveLeagueTeamCount] = useState<number | null>(null);
   const [matchResults, setMatchResults] = useState<any>(null);
+  const [activePenaltyShootout, setActivePenaltyShootout] = useState<{ result: PenaltyShootoutResult; myId: string; myName: string } | null>(null);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
@@ -158,6 +226,9 @@ export default function App() {
     }
     if (profile.suspendedMatches === undefined) {
       profile = { ...profile, suspendedMatches: 0 };
+    }
+    if (profile.seasonHistory === undefined) {
+      profile = { ...profile, seasonHistory: [] };
     }
     setPlayerProfile(profile);
 
@@ -649,6 +720,13 @@ export default function App() {
     const valueChg = results.rating * 6000 + (results.goles * 25000) + (results.asistencias * 15000);
     const campeonatoGanado = results.campeonatoGanado ? 1 : 0;
 
+    // Si tu partido de esta semana fue de eliminación directa y terminó igualado, alguna de las
+    // 4 ramas de abajo va a dejar una tanda de penales guardada en el bracket/llave correspondiente.
+    // La detectamos acá para poder narrarla en pantalla antes de seguir al resumen post-partido.
+    let foundShootout: PenaltyShootoutResult | null = null;
+    let foundShootoutMyId = '';
+    let foundShootoutMyName = '';
+
     let updatedLeagueSeasons = playerProfile.leagueSeasons;
     if (!isCopaLibertadores && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
@@ -659,6 +737,13 @@ export default function App() {
         existingSeason, leagueClubs, playerProfile.currentWeek, myClub.id,
         activeIsHome, results.golesMiEquipo, results.golesRival
       );
+
+      const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId);
+      if (shootout) {
+        foundShootout = shootout;
+        foundShootoutMyId = myClub.id;
+        foundShootoutMyName = myClub.name;
+      }
 
       updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
 
@@ -678,6 +763,12 @@ export default function App() {
       const cupKey = `${activeCupId}-${year}`;
       const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek);
       const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival);
+      const shootout = findShootoutInPlayoffBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
+      if (shootout) {
+        foundShootout = shootout;
+        foundShootoutMyId = myClub.id;
+        foundShootoutMyName = myClub.name;
+      }
       updatedContinentalCups = { ...playerProfile.continentalCups, [cupKey]: resolvedCup };
     }
 
@@ -686,6 +777,13 @@ export default function App() {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], playerProfile.currentWeek);
       const resolvedUefaCup = resolveUefaCupWeek(uefaCupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival);
+      const shootout = findShootoutInTwoLegBracket(resolvedUefaCup.knockout, myClub.id, activeOppositionClubId)
+        || findShootoutInTwoLegTies(resolvedUefaCup.playoff, myClub.id, activeOppositionClubId);
+      if (shootout) {
+        foundShootout = shootout;
+        foundShootoutMyId = myClub.id;
+        foundShootoutMyName = myClub.name;
+      }
       updatedUefaCups = { ...playerProfile.uefaCups, [activeUefaCupId]: resolvedUefaCup };
     }
 
@@ -694,6 +792,12 @@ export default function App() {
       const year = getSeasonYear(playerProfile.currentWeek);
       const wcBeforeMatch = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek);
       const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, WORLD_CUP_TEAMS_DATABASE, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival);
+      const shootout = findShootoutInPlayoffBracket(resolvedWorldCup.knockout, activeWorldCupTeamId, activeOppositionClubId);
+      if (shootout) {
+        foundShootout = shootout;
+        foundShootoutMyId = activeWorldCupTeamId;
+        foundShootoutMyName = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === activeWorldCupTeamId)?.name || '';
+      }
       updatedWorldCups = { ...playerProfile.worldCups, [year]: resolvedWorldCup };
     }
 
@@ -738,6 +842,20 @@ export default function App() {
       disciplineMessages.push(`📉 ${droppedNames.join(', ')} ${verb} con vos tras lo sucedido en el partido.`);
     }
 
+    // Trayectoria de carrera: solo partidos de CLUB (liga o copas de clubes) suman a la tabla de
+    // temporadas, no los de la selección -- ver recordSeasonHistory.
+    const updatedSeasonHistory = activeWorldCupTeamId
+      ? playerProfile.seasonHistory
+      : recordSeasonHistory(
+          playerProfile.seasonHistory,
+          getSeasonYear(playerProfile.currentWeek),
+          playerProfile.currentClubId,
+          CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.name || '',
+          results.goles,
+          results.asistencias,
+          !!results.campeonatoGanado
+        );
+
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
@@ -746,6 +864,7 @@ export default function App() {
       fans: Math.max(0, Math.min(100, playerProfile.fans + decisionFansChange)),
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,
+      seasonHistory: updatedSeasonHistory,
       marketValue: Math.max(100000, playerProfile.marketValue + valueChg + viralMarketBonus),
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange)),
       lastMatchRating: results.rating,
@@ -778,6 +897,17 @@ export default function App() {
     if (disciplineMessages.length > 0) {
       alert(disciplineMessages.join('\n'));
     }
+
+    if (foundShootout) {
+      setActivePenaltyShootout({ result: foundShootout, myId: foundShootoutMyId, myName: foundShootoutMyName });
+      setScreen('penalty_shootout');
+    } else {
+      setScreen('post_match');
+    }
+  };
+
+  const handleContinueFromShootout = () => {
+    setActivePenaltyShootout(null);
     setScreen('post_match');
   };
 
@@ -801,14 +931,11 @@ export default function App() {
   // nivel físico. Cierra la carrera mostrando un resumen y borra el save (no hay vuelta atrás,
   // como el retiro real -- si el jugador quiere seguir jugando, empieza una carrera nueva).
   const triggerForcedRetirement = (profile: PlayerProfile) => {
-    alert(
-      `🏆 FIN DE UNA CARRERA\n\n${profile.name} cuelga los botines a los ${profile.age} años.\n\n` +
-      `Partidos: ${profile.careerStats.partidosHistoricos}\n` +
-      `Goles: ${profile.careerStats.golesHistoricos}\n` +
-      `Asistencias: ${profile.careerStats.asistenciasHistoricos}\n` +
-      `Títulos: ${profile.careerStats.campeonatos}\n\n` +
-      `Gracias por el viaje. El césped te va a extrañar.`
-    );
+    setPlayerProfile(profile);
+    setScreen('career_summary');
+  };
+
+  const handleFinishCareerSummary = () => {
     if (activeSlotId) {
       localStorage.removeItem(`futbol_star_save_${activeSlotId}`);
       localStorage.removeItem(`futbol_star_shop_${activeSlotId}`);
@@ -887,6 +1014,23 @@ export default function App() {
           rivalTablePosition={activeRivalTablePosition}
           leagueTeamCount={activeLeagueTeamCount}
           onFinishMatch={handleFinishMatch}
+        />
+      )}
+
+      {screen === 'career_summary' && playerProfile && (
+        <CareerSummary
+          playerProfile={playerProfile}
+          onContinue={handleFinishCareerSummary}
+        />
+      )}
+
+      {screen === 'penalty_shootout' && activePenaltyShootout && (
+        <PenaltyShootout
+          shootout={activePenaltyShootout.result}
+          myClubId={activePenaltyShootout.myId}
+          myClubName={activePenaltyShootout.myName}
+          rivalClubName={activeOpposition}
+          onContinue={handleContinueFromShootout}
         />
       )}
 

@@ -101,12 +101,39 @@ export default function MatchSimulator({
 
   const triggerRandomMatchEvent = (currentMin: number) => {
     if (currentMin === 90) {
-      const finalResult: 'W' | 'D' | 'L' = 
-        (isHome.current && scoreHome > scoreAway) || (!isHome.current && scoreAway > scoreHome) ? 'W' :
-        scoreHome === scoreAway ? 'D' : 'L';
-      
-      const golesMiEquipo = isHome.current ? scoreHome : scoreAway;
-      const golesRival = isHome.current ? scoreAway : scoreHome;
+      // Un poquito de drama de último minuto: antes de pitar el final hay una chance chica
+      // (más alta que la de gol normal en cualquier otro minuto) de una jugada de tiempo agregado.
+      let finalScoreHome = scoreHome;
+      let finalScoreAway = scoreAway;
+      const dadoFinal = Math.random();
+      if (dadoFinal < 0.05) {
+        const teamScores = Math.random() > 0.48;
+        const teammateName = getTeammateSample();
+        if (teamScores) {
+          if (isHome.current) finalScoreHome++; else finalScoreAway++;
+          setMatchLog(prev => [...prev, {
+            minute: 90,
+            text: `¡GOL AGÓNICO de ${teamName}! En pleno tiempo agregado, ${teammateName} la clava para el delirio total.`,
+            type: 'good'
+          }]);
+        } else {
+          if (isHome.current) finalScoreAway++; else finalScoreHome++;
+          setMatchLog(prev => [...prev, {
+            minute: 90,
+            text: `¡GOLPE DE GRACIA de ${opponentName}! Te la clavan en el último suspiro del partido.`,
+            type: 'bad'
+          }]);
+        }
+        setScoreHome(finalScoreHome);
+        setScoreAway(finalScoreAway);
+      }
+
+      const finalResult: 'W' | 'D' | 'L' =
+        (isHome.current && finalScoreHome > finalScoreAway) || (!isHome.current && finalScoreAway > finalScoreHome) ? 'W' :
+        finalScoreHome === finalScoreAway ? 'D' : 'L';
+
+      const golesMiEquipo = isHome.current ? finalScoreHome : finalScoreAway;
+      const golesRival = isHome.current ? finalScoreAway : finalScoreHome;
 
       setTimeout(() => {
         onFinishMatch({
@@ -127,7 +154,7 @@ export default function MatchSimulator({
 
       setMatchLog(prev => [...prev, {
         minute: 90,
-        text: `¡FINAL DEL ENCUENTRO! Marcador definitivo: ${teamName} ${isHome.current ? scoreHome : scoreAway} - ${golesRival} ${opponentName}.`,
+        text: `¡FINAL DEL ENCUENTRO! Marcador definitivo: ${teamName} ${golesMiEquipo} - ${golesRival} ${opponentName}.`,
         type: 'neutral'
       }]);
       setIsPlaying(false);
@@ -587,7 +614,7 @@ export default function MatchSimulator({
           <div className="text-right">
             <span className="font-black text-sm block">{teamName}</span>
             <span className="text-3xs text-emerald-400 uppercase font-mono font-bold tracking-wider">
-              Tu Equipo{myTablePosition != null && ` · ${myTablePosition}°${leagueTeamCount ? `/${leagueTeamCount}` : ''}`}
+              Tu Equipo{myTablePosition != null && ` · ${myTablePosition}°`}
             </span>
           </div>
 
@@ -598,7 +625,7 @@ export default function MatchSimulator({
           <div className="text-left">
             <span className="font-black text-sm block">{opponentName}</span>
             <span className="text-3xs text-slate-500 uppercase font-mono tracking-wider">
-              Rival{rivalTablePosition != null && ` · ${rivalTablePosition}°${leagueTeamCount ? `/${leagueTeamCount}` : ''}`}
+              Rival{rivalTablePosition != null && ` · ${rivalTablePosition}°`}
             </span>
           </div>
         </div>

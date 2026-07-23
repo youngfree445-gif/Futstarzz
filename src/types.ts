@@ -63,6 +63,7 @@ export interface PlayerProfile {
   suspendedMatches: number; // partidos de liga que te quedan por cumplir de sanción; startMatchflow los resuelve solo, sin pantalla de partido
   attributes: PlayerStats;
   careerStats: CareerStats;
+  seasonHistory: SeasonHistory[]; // trayectoria club a club por temporada -- ver recordSeasonHistory en App.tsx
   currentClubId: string;
   currentWeek: number;
   marketValue: number; // USD
@@ -95,8 +96,9 @@ export interface CupState {
 // juega una "fase de liga" de fechas fijas contra rivales DISTINTOS (no
 // todos-contra-todos) en una tabla única, y desde los playoffs/octavos se
 // juega a ida y vuelta con marcador global (sin gol de visitante, per las
-// reglas UEFA vigentes — un empate global se resuelve al azar ponderado
-// por fortaleza del club, sin penales/tiempo extra simulados en detalle).
+// reglas UEFA vigentes); un empate global se resuelve con una tanda de
+// penales real (ver simulatePenaltyShootout en leagueEngine.ts), guardada
+// en penaltyShootout para que la UI la pueda narrar si es tu partido.
 export interface TwoLegTie {
   clubAId: string; // local en la ida
   clubBId: string; // local en la vuelta
@@ -106,6 +108,18 @@ export interface TwoLegTie {
   secondLegGoalsB: number | null; // B de local
   played: boolean; // true cuando ya se jugaron ambas idas y vueltas
   winnerId: string | null;
+  penaltyShootout?: PenaltyShootoutResult; // solo presente si el global terminó igualado
+}
+
+// Tanda de penales real (no un coin-flip invisible): kicks en orden de ejecución real
+// (A,B,A,B,... y luego muerte súbita si sigue empatado tras 5 c/u).
+export interface PenaltyShootoutResult {
+  clubAId: string;
+  clubBId: string;
+  kicks: { clubId: string; scored: boolean }[];
+  scoreA: number;
+  scoreB: number;
+  winnerId: string;
 }
 
 export interface TwoLegBracket {
@@ -227,11 +241,12 @@ export interface MatchDecision {
 
 export interface SeasonHistory {
   seasonNum: number;
+  clubId: string;
   clubName: string;
   goles: number;
   asistencias: number;
   partidos: number;
-  titulo: string;
+  titulo: string; // vacío si no hubo título ese tramo; texto corto si sí (ej. "🏆 Campeón")
 }
 
 export interface TableTeam {
@@ -265,6 +280,7 @@ export interface PlayoffMatch {
   played: boolean;
   homeGoals: number | null;
   awayGoals: number | null;
+  penaltyShootout?: PenaltyShootoutResult; // solo presente si el partido terminó igualado
 }
 
 export interface PlayoffBracket {

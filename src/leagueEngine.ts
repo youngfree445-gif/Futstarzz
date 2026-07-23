@@ -1,4 +1,4 @@
-import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
+import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 
 // Semanas de carrera por temporada (incluye semanas de Copa). Fija e igual
 // para TODAS las ligas, sin importar cuántos equipos tenga cada una —
@@ -210,6 +210,42 @@ export function simulateMatch(home: Club, away: Club): { homeGoals: number; away
   return { homeGoals: poissonSample(homeExpected), awayGoals: poissonSample(awayExpected) };
 }
 
+// Tanda de penales real (no un coin-flip invisible): 5 tiros por lado alternando A/B, y si sigue
+// igualado, muerte súbita de a un tiro por lado hasta que quede desnivelado. La conversión ronda
+// el 78% real de las tandas profesionales, con un pequeño empujón para el equipo más fuerte.
+export function simulatePenaltyShootout(clubA: Club, clubB: Club): PenaltyShootoutResult {
+  const strengthA = clubStrength(clubA);
+  const strengthB = clubStrength(clubB);
+  const convChance = (strength: number, otherStrength: number) =>
+    Math.max(0.6, Math.min(0.92, 0.78 + (strength - otherStrength) / 400));
+
+  const kicks: { clubId: string; scored: boolean }[] = [];
+  let scoreA = 0;
+  let scoreB = 0;
+
+  const shootOnce = () => {
+    const scoredA = Math.random() < convChance(strengthA, strengthB);
+    kicks.push({ clubId: clubA.id, scored: scoredA });
+    if (scoredA) scoreA++;
+
+    const scoredB = Math.random() < convChance(strengthB, strengthA);
+    kicks.push({ clubId: clubB.id, scored: scoredB });
+    if (scoredB) scoreB++;
+  };
+
+  for (let round = 1; round <= 5; round++) shootOnce();
+  while (scoreA === scoreB) shootOnce();
+
+  return {
+    clubAId: clubA.id,
+    clubBId: clubB.id,
+    kicks,
+    scoreA,
+    scoreB,
+    winnerId: scoreA > scoreB ? clubA.id : clubB.id,
+  };
+}
+
 // Crea (si no existe) o pone al día la temporada de una liga: simula de
 // golpe todas las fechas que ya deberían estar jugadas según currentWeek.
 // Esto es lo que permite el enfoque perezoso: una liga que recién visitás
@@ -391,7 +427,16 @@ function resolveBracketRound(
       const away = clubs.find(c => c.id === m.awayTeamId);
       if (!home || !away) return m;
       ({ homeGoals, awayGoals } = simulateMatch(home, away));
-      if (homeGoals === awayGoals) homeGoals += 1; // sin empates en eliminación directa
+    }
+    if (homeGoals === awayGoals) {
+      // Sin empates en eliminación directa: se define con una tanda de penales real, no un
+      // "+1 gol" invisible (eso además castigaba injustamente al local en tu propio partido).
+      const home = clubs.find(c => c.id === m.homeTeamId);
+      const away = clubs.find(c => c.id === m.awayTeamId);
+      if (home && away) {
+        const penaltyShootout = simulatePenaltyShootout(home, away);
+        return { ...m, played: true, homeGoals, awayGoals, penaltyShootout };
+      }
     }
     return { ...m, played: true, homeGoals, awayGoals };
   });
@@ -400,7 +445,7 @@ function resolveBracketRound(
   const roundComplete = currentRound.every(m => m.played);
   if (!roundComplete) return { matchesByRound, championId: null };
 
-  const winners = currentRound.map(m => (m.homeGoals! > m.awayGoals! ? m.homeTeamId : m.awayTeamId));
+  const winners = currentRound.map(m => m.penaltyShootout ? m.penaltyShootout.winnerId : (m.homeGoals! > m.awayGoals! ? m.homeTeamId : m.awayTeamId));
   if (winners.length === 1) {
     return { matchesByRound, championId: winners[0] };
   }
@@ -1031,16 +1076,22 @@ function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs
   const aggA = tie.firstLegGoalsA! + secondLegGoalsA;
   const aggB = tie.firstLegGoalsB! + secondLegGoalsB;
   let winnerId: string;
+  let penaltyShootout: PenaltyShootoutResult | undefined;
   if (aggA > aggB) winnerId = tie.clubAId;
   else if (aggB > aggA) winnerId = tie.clubBId;
   else {
     const clubA = clubs.find(c => c.id === tie.clubAId);
     const clubB = clubs.find(c => c.id === tie.clubBId);
-    const strengthA = clubA ? clubStrength(clubA) : 50;
-    const strengthB = clubB ? clubStrength(clubB) : 50;
-    winnerId = Math.random() < strengthA / (strengthA + strengthB) ? tie.clubAId : tie.clubBId;
+    if (clubA && clubB) {
+      penaltyShootout = simulatePenaltyShootout(clubA, clubB);
+      winnerId = penaltyShootout.winnerId;
+    } else {
+      const strengthA = clubA ? clubStrength(clubA) : 50;
+      const strengthB = clubB ? clubStrength(clubB) : 50;
+      winnerId = Math.random() < strengthA / (strengthA + strengthB) ? tie.clubAId : tie.clubBId;
+    }
   }
-  return { ...tie, secondLegGoalsA, secondLegGoalsB, played: true, winnerId };
+  return { ...tie, secondLegGoalsA, secondLegGoalsB, played: true, winnerId, penaltyShootout };
 }
 
 function seedSingleTwoLegRound(rankedClubIds: string[]): TwoLegTie[] {

@@ -93,6 +93,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       lastMatchRating: 0,
       yellowCards: 0,
       suspendedMatches: 0,
+      seasonHistory: [],
       attributes: defaultAttributes,
       careerStats: {
         goles: 0,
