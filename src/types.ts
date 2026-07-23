@@ -59,6 +59,8 @@ export interface PlayerProfile {
   fans: number;     // 0-100 (Relación hinchada / opinión pública)
   mentalHealth: number; // 0-100 (Fase 3): baja con derrotas/prensa hostil/rachas negativas, sube con victorias/descanso/buena prensa; afecta el % de éxito de las decisiones del partido igual que el resto de los multiplicadores
   lastMatchRating: number; // Fase 3: calificación del último partido jugado (0 si todavía no jugaste ninguno) -- dispara el post de "saludo de famoso" en ChutSocial si es muy alta
+  yellowCards: number; // amarillas acumuladas en la temporada (fuera de un partido puntual); al llegar a un umbral, sanción automática -- ver handleFinishMatch
+  suspendedMatches: number; // partidos de liga que te quedan por cumplir de sanción; startMatchflow los resuelve solo, sin pantalla de partido
   attributes: PlayerStats;
   careerStats: CareerStats;
   currentClubId: string;
@@ -197,6 +199,7 @@ export interface ShopItem {
     passiveIncome?: number; // capital que se gana cada vez que avanzás la semana, si el item está comprado
   };
   category?: string; // si está presente, solo podés tener UN item comprado de esta categoría a la vez (patrocinios en conflicto)
+  sensitiveToControversy?: boolean; // marcas que cuidan mucho su imagen: si te metés en una polémica grande, hay chance de que rescindan el contrato (ver checkSponsorControversyFallout en App.tsx)
   purchased: boolean;
   icon: string;
 }
@@ -218,6 +221,7 @@ export interface MatchDecision {
     successChance: number; // base chance
     effectOnSuccess: { goals: number; assists: number; prestige: number; fans: number };
     effectOnFail: { prestige: number; fans: number; energy: number };
+    cardRiskOnFail?: 'yellow' | 'red'; // decisiones agresivas/temerarias (barridas, presión física, salidas de arquero): si fallan, tarjeta segura
   }[];
 }
 

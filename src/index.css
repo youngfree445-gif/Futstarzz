@@ -103,3 +103,73 @@ body {
 .animate-fade-in {
   animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Interacción sofisticada para botones/acciones: lift sutil + barrido de brillo
+   diagonal + presión al hacer click. Nada de bounce/ping infantil: la referencia
+   es el mismo lenguaje de .btn-premium/.card-sophisticated de arriba. */
+.btn-fx {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.25s ease-out;
+}
+
+.btn-fx::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.14) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btn-fx:hover:not(:disabled)::before {
+  transform: translateX(120%);
+}
+
+.btn-fx:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 24px -8px rgba(2, 6, 23, 0.55);
+}
+
+.btn-fx:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+  filter: brightness(0.96);
+  transition-duration: 0.1s;
+}
+
+.btn-fx:disabled {
+  cursor: not-allowed;
+}
+
+/* Variante más contenida para tarjetas-botón de lista (opciones de decisión, ofertas, etc.) */
+.btn-fx-subtle {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-fx-subtle:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px -8px rgba(2, 6, 23, 0.6);
+}
+
+.btn-fx-subtle:active:not(:disabled) {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 0.1s;
+}
+
+/* Reemplazo del animate-bounce infantil para íconos de aviso: respiración lenta
+   de escala + glow, elegante en vez de un salto juguetón. */
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(245, 158, 11, 0); }
+  50% { transform: scale(1.06); box-shadow: 0 0 16px rgba(245, 158, 11, 0.35); }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}

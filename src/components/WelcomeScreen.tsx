@@ -77,7 +77,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
       <div className="flex gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 mb-6 w-full max-w-md relative z-10">
         <button
           onClick={() => setActiveTab('saves')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`btn-fx-subtle flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
             activeTab === 'saves'
               ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
@@ -87,7 +87,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
         </button>
         <button
           onClick={() => setActiveTab('awards')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`btn-fx-subtle flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
             activeTab === 'awards'
               ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
@@ -122,7 +122,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                       <button
                         onClick={(e) => handleDeleteSave(slot.id, e)}
                         title="Borrar partida"
-                        className="p-1 rounded bg-slate-950 text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition-all border border-slate-900"
+                        className="btn-fx-subtle p-1 rounded bg-slate-950 text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition-all border border-slate-900"
                       >
                         <Trash2 size={12} />
                       </button>
@@ -165,7 +165,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
 
                       <button
                         onClick={() => onLoadGame(profile, slot.id)}
-                        className="w-full py-2 px-3 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 text-xs font-black hover:bg-emerald-400 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                        className="btn-fx w-full py-2 px-3 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 text-xs font-black flex items-center justify-center gap-1 cursor-pointer"
                       >
                         <RefreshCw size={12} className="text-slate-950" />
                         Continuar
@@ -181,7 +181,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                       </p>
                       <button
                         onClick={() => onStartNew(slot.id)}
-                        className="py-1.5 px-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold text-xs hover:border-emerald-500 hover:text-emerald-400 transition-colors cursor-pointer"
+                        className="btn-fx-subtle py-1.5 px-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold text-xs hover:border-emerald-500 hover:text-emerald-400 transition-colors cursor-pointer"
                       >
                         Nueva Partida
                       </button>

@@ -187,7 +187,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
 
             <button
               onClick={onContinue}
-              className="w-full mt-6 py-4 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 text-slate-950 hover:from-emerald-400 hover:to-emerald-600 transition-all font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl active:scale-98"
+              className="btn-fx w-full mt-6 py-4 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 text-slate-950 hover:from-emerald-400 hover:to-emerald-600 transition-all font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl"
             >
               Regresar al Vestuario <ArrowRight size={14} />
             </button>

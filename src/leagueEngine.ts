@@ -10,6 +10,53 @@ export function isCupWeek(week: number): boolean {
   return week % 3 === 0;
 }
 
+// Ventanas de fichajes, inspiradas en las fechas reales de modo carrera
+// FIFA/EA FC (jul-ago y enero), escaladas a las 38 semanas de temporada:
+// ventana 1 ≈ jul-ago (arranque de temporada), ventana 2 ≈ enero (mitad).
+const TRANSFER_WINDOW_1_END = 7;
+const TRANSFER_WINDOW_2_START = 19;
+const TRANSFER_WINDOW_2_END = 22;
+
+function weekInSeason(currentWeek: number): number {
+  return ((currentWeek - 1) % SEASON_LENGTH_WEEKS) + 1;
+}
+
+export function isTransferWindowOpen(currentWeek: number): boolean {
+  const w = weekInSeason(currentWeek);
+  return w <= TRANSFER_WINDOW_1_END || (w >= TRANSFER_WINDOW_2_START && w <= TRANSFER_WINDOW_2_END);
+}
+
+// Solo tiene sentido llamarla cuando isTransferWindowOpen(currentWeek) es false.
+export function weeksUntilTransferWindow(currentWeek: number): number {
+  const w = weekInSeason(currentWeek);
+  if (w < TRANSFER_WINDOW_2_START) return TRANSFER_WINDOW_2_START - w;
+  return SEASON_LENGTH_WEEKS - w + 1;
+}
+
+// Fecha calendario real: semana 1 = 1° de julio 2026 (arranque de la
+// ventana de fichajes 1, ver arriba), y cada semana de carrera suma 7 días.
+// Puramente cosmético — no reemplaza currentWeek, que sigue siendo la base
+// de fixtures, copas y mundiales.
+const CAREER_START_YEAR = 2026;
+const CAREER_START_MONTH = 6; // julio (0-indexado)
+const CAREER_START_DAY = 1;
+
+const MONTH_NAMES_ES = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+];
+
+export function getRealDate(currentWeek: number): Date {
+  const date = new Date(CAREER_START_YEAR, CAREER_START_MONTH, CAREER_START_DAY);
+  date.setDate(date.getDate() + (currentWeek - 1) * 7);
+  return date;
+}
+
+export function formatRealDate(currentWeek: number): string {
+  const date = getRealDate(currentWeek);
+  return `${date.getDate()} de ${MONTH_NAMES_ES[date.getMonth()]} de ${date.getFullYear()}`;
+}
+
 export function leagueKeyFor(club: Club): string {
   return `${club.league}-${club.division ?? 1}`;
 }

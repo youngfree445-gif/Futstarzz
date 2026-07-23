@@ -21,8 +21,11 @@ interface MatchSimulatorProps {
     golesMiEquipo: number;
     puntosExperiencia: number;
     salaryEarned: number;
-    rating: number; 
+    rating: number;
     log: string[];
+    cardReceived: 'none' | 'yellow' | 'red';
+    prestigeChange: number;
+    fansChange: number;
   }) => void;
 }
 
@@ -41,6 +44,9 @@ export default function MatchSimulator({
   const [playerGoals, setPlayerGoals] = useState(0);
   const [playerAssists, setPlayerAssists] = useState(0);
   const [playerCards, setPlayerCards] = useState<'none' | 'yellow' | 'red'>('none');
+  const [isSentOff, setIsSentOff] = useState(false);
+  const [prestigeAccum, setPrestigeAccum] = useState(0);
+  const [fansAccum, setFansAccum] = useState(0);
   const [rating, setRating] = useState(6.0);
 
   const [matchLog, setMatchLog] = useState<MatchEvent[]>([]);
@@ -112,7 +118,10 @@ export default function MatchSimulator({
           puntosExperiencia: Math.round(rating * 15) + (playerGoals * 40) + (playerAssists * 25),
           salaryEarned: currentClub.initialSalary,
           rating: Number(rating.toFixed(1)),
-          log: matchLog.map(item => `[${item.minute}'] ${item.text}`)
+          log: matchLog.map(item => `[${item.minute}'] ${item.text}`),
+          cardReceived: playerCards,
+          prestigeChange: prestigeAccum,
+          fansChange: fansAccum
         });
       }, 1500);
 
@@ -125,11 +134,11 @@ export default function MatchSimulator({
       return;
     }
 
-    if (currentMin === 24) {
+    if (currentMin === 24 && !isSentOff) {
       triggerDecisionEvent(24);
       return;
     }
-    if (currentMin === 71) {
+    if (currentMin === 71 && !isSentOff) {
       triggerDecisionEvent(71);
       return;
     }
@@ -191,7 +200,7 @@ export default function MatchSimulator({
               text: 'Girar con velocidad y rematar de volea al ángulo',
               requiredAttr: 'tiro',
               minVal: 55,
-              successChance: 0.5,
+              successChance: 0.35,
               successBonus: '¡GOLAZO! Giraste con una fluidez brutal y la clavaste al ángulo opuesto del palo.',
               failPenalty: 'El disparo chocó en las piernas del central y salieron de contragolpe.',
               effectOnSuccess: { goals: 1, assists: 0, prestige: 8, fans: 12 },
@@ -201,7 +210,7 @@ export default function MatchSimulator({
               text: 'Aguantar de espaldas y pivotear el balón hacia el extremo',
               requiredAttr: 'pase',
               minVal: 45,
-              successChance: 0.75,
+              successChance: 0.6,
               successBonus: '¡CON RETORNO! Diste un pase seguro exquisito y tu equipo conserva la posesión con ventaja.',
               failPenalty: 'Diste un pase débil directo al mediocentro defensivo rival.',
               effectOnSuccess: { goals: 0, assists: 1, prestige: 6, fans: 5 },
@@ -211,7 +220,7 @@ export default function MatchSimulator({
               text: 'Engañarlos con un elegante autopase de taco por aire',
               requiredAttr: 'regate',
               minVal: 53,
-              successChance: 0.45,
+              successChance: 0.3,
               successBonus: '¡PRESTIGIO TOTAL! El sombrerito funcionó, asistes a tu compañero que empuja el balón. ¡ASISTENCIA!',
               failPenalty: 'Te quitaron el balón con facilidad y quedaste tendido pidiendo una falta inexistente.',
               effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 15 },
@@ -225,7 +234,7 @@ export default function MatchSimulator({
               text: 'Definir picando el balón de vaselina suave',
               requiredAttr: 'regate',
               minVal: 58,
-              successChance: 0.45,
+              successChance: 0.3,
               successBonus: '¡PURA CLASE! Bañaste al portero de forma deliciosa. La pelota ingresa perezosa a la red. ¡GOL!',
               failPenalty: 'El portero adivinó la vaselina y atrapó el esférico con ambas manos sin despeinarse.',
               effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 18 },
@@ -235,7 +244,7 @@ export default function MatchSimulator({
               text: 'Romper el arco fusilando con potencia al primer poste',
               requiredAttr: 'tiro',
               minVal: 60,
-              successChance: 0.65,
+              successChance: 0.5,
               successBonus: '¡FUEGO EN LOS GUANTES! El trallazo superó la resistencia del arquero por pura potencia. ¡GOL!',
               failPenalty: 'El disparo salió desviado por el lateral exterior de la red. Balón de saque de meta.',
               effectOnSuccess: { goals: 1, assists: 0, prestige: 8, fans: 10 },
@@ -245,7 +254,7 @@ export default function MatchSimulator({
               text: 'Pasar el balón al costado al compañero solo frente al arco vacío',
               requiredAttr: 'pase',
               minVal: 48,
-              successChance: 0.85,
+              successChance: 0.7,
               successBonus: '¡COMPAÑERISMO! Dejaste el ego atrás, asistes a tu par que define con el arco vacío. ¡ASISTENCIA!',
               failPenalty: 'Diste el pase demasiado largo y tu compañero no alcanzó a conectar barriéndose.',
               effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 4 },
@@ -262,7 +271,7 @@ export default function MatchSimulator({
               text: 'Lanzar un pase filtrado de tres dedos por el callejón central',
               requiredAttr: 'pase',
               minVal: 55,
-              successChance: 0.7,
+              successChance: 0.55,
               successBonus: '¡PINCELADA! Pase con una precisión digna de cirujano. El extremo desborda y la mete al arco. ¡ASISTENCIA!',
               failPenalty: 'El pase quedó corto y fue cortado en la medular por el pivote contrario.',
               effectOnSuccess: { goals: 0, assists: 1, prestige: 8, fans: 8 },
@@ -272,7 +281,7 @@ export default function MatchSimulator({
               text: 'Arrastrar la marca tú mismo regateando por el centro',
               requiredAttr: 'regate',
               minVal: 55,
-              successChance: 0.55,
+              successChance: 0.4,
               successBonus: '¡PURA MAGIA! Dejaste atrás a dos rivales pegados y asistes en zona caliente para gol de tu club. ¡ASISTENCIA!',
               failPenalty: 'Te barrieron fuerte pero lícitamente y perdiste la posesión ofensiva.',
               effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 12 },
@@ -282,7 +291,7 @@ export default function MatchSimulator({
               text: 'Aprovechar el espacio libre y disparar de media distancia de primera',
               requiredAttr: 'tiro',
               minVal: 58,
-              successChance: 0.45,
+              successChance: 0.3,
               successBonus: '¡MISIL TIERRA-AIRE! Sorprendiste a todo el estadio metiéndola abajo en el palo derecho. ¡GOLAZO!',
               failPenalty: 'El remate salió muy desviado hacia las gradas del estadio.',
               effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 15 },
@@ -296,17 +305,18 @@ export default function MatchSimulator({
               text: 'Arrojarse en una barrida temeraria pero directa para recuperar',
               requiredAttr: 'defensa',
               minVal: 48,
-              successChance: 0.60,
+              successChance: 0.45,
               successBonus: '¡CORTE DE HIERRO! Robaste limpiamente e iniciaste rápidamente la contra para tu equipo.',
               failPenalty: '¡Llegaste tarde! Te pintaron de amarillo y regalaste un tiro libre peligroso.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 12 },
-              effectOnFail: { prestige: -6, fans: -5, energy: 10 }
+              effectOnFail: { prestige: -6, fans: -5, energy: 10 },
+              cardRiskOnFail: 'yellow'
             },
             {
               text: 'Presionar al portador usando tu físico para asfixiar su pase',
               requiredAttr: 'fisico',
               minVal: 50,
-              successChance: 0.75,
+              successChance: 0.6,
               successBonus: '¡PULMONES DE ACERO! Forzaste el error de pase del rival enviando el esférico al lateral.',
               failPenalty: 'Te pasaron con un regate simple aprovechando tu fatiga física actual.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 4 },
@@ -316,7 +326,7 @@ export default function MatchSimulator({
               text: 'Marcar pasivamente tapando el pase hacia el delantero estrella',
               requiredAttr: 'pase', 
               minVal: 52,
-              successChance: 0.80,
+              successChance: 0.65,
               successBonus: '¡LECTURA TÁCTICA! Cortas la línea de habilitación salvando una jugada crucial.',
               failPenalty: 'Te filtraron el balón por medio de las piernas desestabilizándote por completo.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 3 },
@@ -333,7 +343,7 @@ export default function MatchSimulator({
               text: 'Interponer el cuerpo usando tu peso de forma física',
               requiredAttr: 'fisico',
               minVal: 55,
-              successChance: 0.70,
+              successChance: 0.55,
               successBonus: '¡MURO IMPENETRABLE! Lo desplazaste legalmente y saliste jugando con solvencia de crack.',
               failPenalty: 'Te ganaron la espalda por la inercia y tiraron un centro con peligro extremo.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 6 },
@@ -343,7 +353,7 @@ export default function MatchSimulator({
               text: 'Realizar un cierre defensivo limpio estirando la pierna con timing',
               requiredAttr: 'defensa',
               minVal: 58,
-              successChance: 0.80,
+              successChance: 0.65,
               successBonus: '¡ELEGANCIA DE DEFENSOR! Quitaste con guante blanco. Limpieza absoluta.',
               failPenalty: 'Te regatearon dejándote en el camino y el público local celebra la finta.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 10 },
@@ -353,7 +363,7 @@ export default function MatchSimulator({
               text: 'Meter presión explosiva para obligarlo a girar e ir hacia atrás',
               requiredAttr: 'ritmo',
               minVal: 54,
-              successChance: 0.65,
+              successChance: 0.5,
               successBonus: '¡VELOCIDAD PURA! Le diste caza, forzando la pérdida y enviando el balón fuera del campo.',
               failPenalty: 'Te dejó descolocado por completo con un cambio de ritmo letal.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 4 },
@@ -367,17 +377,18 @@ export default function MatchSimulator({
               text: 'Ganarle el testazo aéreo saltando con potencia física',
               requiredAttr: 'fisico',
               minVal: 58,
-              successChance: 0.65,
+              successChance: 0.5,
               successBonus: '¡POR EL CIELO! Volaste por encima de su marca y cabeceaste fuerte fuera del área.',
               failPenalty: 'Te ganó el choque físico; su frentazo pegó en el poste salvándonos del gol por milímetros.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 10 },
-              effectOnFail: { prestige: -5, fans: -5, energy: 15 }
+              effectOnFail: { prestige: -5, fans: -5, energy: 15 },
+              cardRiskOnFail: 'yellow'
             },
             {
               text: 'Cerrar la trayectoria del balón con un despeje acrobático',
               requiredAttr: 'defensa',
               minVal: 60,
-              successChance: 0.55,
+              successChance: 0.4,
               successBonus: '¡EXPULSIÓN DE PELOTA! Despejaste de forma espectacular robándote los aplausos.',
               failPenalty: 'Pifiaste el esférico dándole un córner nuevo al rival totalmente gratis.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 12, fans: 15 },
@@ -387,7 +398,7 @@ export default function MatchSimulator({
               text: 'Bloquear el centro del área e iniciar un pase rápido de salida',
               requiredAttr: 'pase',
               minVal: 48,
-              successChance: 0.75,
+              successChance: 0.6,
               successBonus: '¡ORGANIZACIÓN IMPERIAL! Tu pase largo de reojo inicia un contragolpe directo de peligro.',
               failPenalty: 'Tu habilitación salió al lateral desaprovechando una gran recuperación defensiva.',
               effectOnSuccess: { goals: 0, assists: 1, prestige: 8, fans: 5 },
@@ -404,7 +415,7 @@ export default function MatchSimulator({
               text: 'Volar con reflejos felinos hacia tu derecha',
               requiredAttr: 'defensa', 
               minVal: 60,
-              successChance: 0.50,
+              successChance: 0.35,
               successBonus: '¡ATAJADÓN! Volaste firmemente desviando la bocha al tiro de esquina lateral.',
               failPenalty: 'Te engañó por completo pateando al centro mientras volabas a la esquina.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 15, fans: 20 },
@@ -414,7 +425,7 @@ export default function MatchSimulator({
               text: 'Lanzarte con potencia a la base del palo izquierdo',
               requiredAttr: 'fisico',
               minVal: 55,
-              successChance: 0.45,
+              successChance: 0.3,
               successBonus: '¡HÉROE TOTAL! Te estiraste al límite y contuviste el disparo rasante sin dar rebote.',
               failPenalty: 'El balón te pasó rozando por debajo del codo por milímetros.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 18, fans: 25 },
@@ -424,7 +435,7 @@ export default function MatchSimulator({
               text: 'Aguantar en seco el centro del arco provocando al tirador',
               requiredAttr: 'defensa',
               minVal: 58,
-              successChance: 0.40,
+              successChance: 0.25,
               successBonus: '¡PURA MENTALIDAD! Se asustó e intentó picarla, la atrapaste con un mano sonriéndole.',
               failPenalty: 'La cruzó fuerte a la red dejándote estático en el centro de la valla.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 20, fans: 30 },
@@ -438,17 +449,18 @@ export default function MatchSimulator({
               text: 'Salir agresivamente a despejar con los puños firmes',
               requiredAttr: 'fisico',
               minVal: 55,
-              successChance: 0.70,
+              successChance: 0.55,
               successBonus: '¡PROPIETARIO DEL ÁREA! Derribaste marcas lícitamente y mandaste el balón al círculo central.',
-              failPenalty: 'Calculaste mal la trayectoria del viento y el balón te techó dejando el arco desprotegido.',
+              failPenalty: 'Calculaste mal la trayectoria y chocaste de lleno contra un rival. El árbitro no duda en sancionarte.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 8 },
-              effectOnFail: { prestige: -5, fans: -5, energy: 10 }
+              effectOnFail: { prestige: -5, fans: -5, energy: 10 },
+              cardRiskOnFail: 'yellow'
             },
             {
               text: 'Retroceder confiando en la velocidad de tus reflejos en línea',
               requiredAttr: 'defensa',
               minVal: 62,
-              successChance: 0.80,
+              successChance: 0.65,
               successBonus: '¡GATO VOLADOR! El remate a quemarropa fue despejado milagrosamente sobre la línea de gol.',
               failPenalty: 'El cabezazo a bocajarro te batió cruzado imposible de detener.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 12, fans: 15 },
@@ -458,7 +470,7 @@ export default function MatchSimulator({
               text: 'Organizar la defensa gritando directivas con liderazgo',
               requiredAttr: 'pase',
               minVal: 45,
-              successChance: 0.75,
+              successChance: 0.6,
               successBonus: '¡VOZ DE MANDO! Tus gritos ordenaron el marcaje impidiendo remates incómodos.',
               failPenalty: 'Tus defensas se confundieron chocando entre sí y regalando una opción clara.',
               effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 4 },
@@ -479,16 +491,38 @@ export default function MatchSimulator({
     if (!activeDecision) return;
     const choice = activeDecision.choices[choiceIndex];
     const playerAttrValue = playerProfile.attributes[choice.requiredAttr];
-    
+
     const statDiff = playerAttrValue - choice.minVal;
-    const adjustedChance = Math.max(0.15, Math.min(0.95, (choice.successChance + (statDiff * 0.015)) * pressureMultiplier));
-    
+    const adjustedChance = Math.max(0.1, Math.min(0.85, (choice.successChance + (statDiff * 0.015)) * pressureMultiplier));
+
     const isSuccess = Math.random() < adjustedChance;
+
+    // Efecto de prestigio/fans de la decisión (éxito o fallo) se acumula durante todo el
+    // partido y se aplica una sola vez al perfil real cuando termina (ver onFinishMatch).
+    const effect = isSuccess ? choice.effectOnSuccess : choice.effectOnFail;
+    setPrestigeAccum(prev => prev + (effect.prestige || 0));
+    setFansAccum(prev => prev + (effect.fans || 0));
+
+    // Tarjetas: solo en decisiones agresivas/temerarias marcadas con cardRiskOnFail, y solo si
+    // fallan. Segunda amarilla en el mismo partido = roja automática (regla real de expulsión).
+    let cardLogSuffix = '';
+    if (!isSuccess && choice.cardRiskOnFail && playerCards !== 'red') {
+      if (choice.cardRiskOnFail === 'red' || playerCards === 'yellow') {
+        cardLogSuffix = playerCards === 'yellow' ? ' 🟨🟥 ¡SEGUNDA AMARILLA, EXPULSADO!' : ' 🟥 ¡ROJA DIRECTA, EXPULSADO!';
+        setPlayerCards('red');
+        setIsSentOff(true);
+        setRating(prev => Math.max(prev - 2.0, 2.0));
+      } else {
+        cardLogSuffix = ' 🟨 Te muestran tarjeta amarilla.';
+        setPlayerCards('yellow');
+        setRating(prev => Math.max(prev - 0.5, 2.5));
+      }
+    }
 
     if (isSuccess) {
       setDecisionOutcomeText(choice.successBonus);
       setDecisionStage('result');
-      
+
       if (choice.effectOnSuccess.goals > 0) {
         setPlayerGoals(prev => prev + choice.effectOnSuccess.goals);
         if (isHome.current) setScoreHome(prev => prev + choice.effectOnSuccess.goals);
@@ -500,20 +534,20 @@ export default function MatchSimulator({
         else setScoreAway(prev => prev + 1);
       }
       setRating(prev => Math.min(prev + 1.5, 10.0));
-      
+
       setMatchLog(prev => [...prev, {
         minute,
         text: `⚡ EVENTO DE DECISIÓN: ${choice.successBonus}`,
         type: 'good'
       }]);
     } else {
-      setDecisionOutcomeText(choice.failPenalty);
+      setDecisionOutcomeText(choice.failPenalty + cardLogSuffix);
       setDecisionStage('result');
       setRating(prev => Math.max(prev - 1.2, 3.0));
-      
+
       setMatchLog(prev => [...prev, {
         minute,
-        text: `⚠️ EVENTO DE DECISIÓN: ${choice.failPenalty}`,
+        text: `⚠️ EVENTO DE DECISIÓN: ${choice.failPenalty}${cardLogSuffix}`,
         type: 'bad'
       }]);
     }
@@ -538,6 +572,14 @@ export default function MatchSimulator({
               Minuto {minute}'
             </span>
             <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+            {playerCards === 'yellow' && (
+              <span className="w-3 h-4 rounded-sm bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" title="Tarjeta amarilla" />
+            )}
+            {playerCards === 'red' && (
+              <span className="text-2xs font-black text-red-400 uppercase tracking-wider flex items-center gap-1">
+                <span className="w-3 h-4 rounded-sm bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" /> Expulsado
+              </span>
+            )}
           </div>
         </div>
 
@@ -564,21 +606,21 @@ export default function MatchSimulator({
         <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
           <button 
             onClick={() => setSpeedMultiplier(450)}
-            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Normal"
           >
             1x
           </button>
           <button 
             onClick={() => setSpeedMultiplier(100)}
-            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Rápida"
           >
             4x
           </button>
           <button 
             onClick={() => setSpeedMultiplier(5)}
-            className={`p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Simulación Ultra Rápida"
           >
             Saltar
@@ -634,7 +676,7 @@ export default function MatchSimulator({
                 <div className="space-y-4 max-w-md mx-auto w-full max-h-full flex flex-col">
                   
                   <div className="shrink-0 flex flex-col items-center">
-                    <div className="inline-flex p-2 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 mb-2 animate-bounce">
+                    <div className="inline-flex p-2 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 mb-2 animate-glow-pulse">
                       <Sparkles size={20} />
                     </div>
                     <span className="text-[10px] uppercase tracking-widest font-black text-amber-500 font-mono">
@@ -653,7 +695,7 @@ export default function MatchSimulator({
                         <button
                           key={i}
                           onClick={() => handleChoice(i)}
-                          className="w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all bg-slate-900 border-slate-800 hover:border-amber-400/50 hover:bg-slate-850 cursor-pointer shadow-sm group"
+                          className="btn-fx-subtle w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all bg-slate-900 border-slate-800 hover:border-amber-400/50 hover:bg-slate-850 cursor-pointer shadow-sm group"
                         >
                           <div className="max-w-[70%] pr-2">
                             <p className="font-bold text-xs text-white leading-tight group-hover:text-amber-300 transition-colors">
@@ -690,7 +732,7 @@ export default function MatchSimulator({
 
                   <button
                     onClick={resolveDecisionStage}
-                    className="mt-4 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black hover:bg-emerald-400 text-xs transition-all tracking-widest uppercase cursor-pointer shadow-lg active:scale-95"
+                    className="btn-fx mt-4 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
                   >
                     Volver al Partido
                   </button>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS } from '../data';
 import {
   leagueKeyFor, sortTable, getSeasonYear,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState,
-  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState
+  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState,
+  isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -19,6 +20,7 @@ interface DashboardProps {
   onTrainAttribute: (attr: keyof PlayerStats) => void;
   onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
+  onCancelSponsor: (itemId: string) => void;
   onLaunchPRCampaign: (cost: number, fansBonus: number, prestigeBonus: number, salaryBonus?: number) => void;
   onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number) => void;
   onAcceptTransfer: (clubId: string, signOnBonus: number) => void;
@@ -34,6 +36,7 @@ export default function Dashboard({
   onTrainAttribute,
   onReconvertPosition,
   onBuyItem,
+  onCancelSponsor,
   onLaunchPRCampaign,
   onAnswerPress,
   onAcceptTransfer,
@@ -274,49 +277,49 @@ export default function Dashboard({
           <nav className="space-y-1">
             <button
               onClick={() => setActiveTab('carrera')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <User size={15} /> Mi Carrera
             </button>
             <button
               onClick={() => setActiveTab('mi_club')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Sparkles size={15} /> Plantilla de Club 
             </button>
             <button
               onClick={() => setActiveTab('entrenamiento')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Dumbbell size={15} /> Entrenamiento
             </button>
             <button
               onClick={() => setActiveTab('chutsocial')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Send size={15} /> ChutSocial
             </button>
             <button
               onClick={() => setActiveTab('prensa')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Radio size={15} /> Sala de Prensa
             </button>
             <button
               onClick={() => setActiveTab('traspasos')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <RefreshCw size={15} /> Traspasos
             </button>
             <button
               onClick={() => setActiveTab('tienda')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <ShoppingBag size={15} /> Tienda de Lujos
             </button>
             <button
               onClick={() => setActiveTab('tablas')}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Table size={15} /> Copas y Tablas
             </button>
@@ -326,13 +329,13 @@ export default function Dashboard({
         <div className="space-y-2 pt-4 border-t border-slate-800">
           <button
             onClick={onLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-red-400 text-2xs font-mono transition-colors text-left cursor-pointer"
+            className="btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-red-400 text-2xs font-mono transition-colors text-left cursor-pointer"
           >
             <LogOut size={13} /> Guardar & Salir
           </button>
           <button
             onClick={onResetGame}
-            className="w-full flex items-center gap-2 px-3 py-1 text-slate-500 hover:text-orange-500 text-3xs font-mono transition-colors text-left cursor-pointer"
+            className="btn-fx-subtle w-full flex items-center gap-2 px-3 py-1 text-slate-500 hover:text-orange-500 text-3xs font-mono transition-colors text-left cursor-pointer"
           >
             🗑️ Reiniciar Datos de Carrera
           </button>
@@ -343,9 +346,19 @@ export default function Dashboard({
         
         <header className="bg-slate-900 border-b border-slate-800 p-4 md:px-8 flex flex-col md:flex-row gap-4 justify-between items-center z-10">
           
-          <div className="flex gap-1.5 items-center">
+          <div className="flex gap-1.5 items-center flex-wrap">
             <span className="text-emerald-400 text-sm font-black">SEMANA {playerProfile.currentWeek}</span>
-            <span className="text-slate-500 text-2xs">· Torneo de Primera División 2026</span>
+            <span className="text-slate-500 text-2xs">· {formatRealDate(playerProfile.currentWeek)}</span>
+            {playerProfile.suspendedMatches > 0 && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-3xs font-black uppercase">
+                🚫 Sancionado · {playerProfile.suspendedMatches} PJ
+              </span>
+            )}
+            {playerProfile.suspendedMatches === 0 && playerProfile.yellowCards > 0 && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 text-3xs font-black uppercase">
+                🟨 x{playerProfile.yellowCards} en la temporada
+              </span>
+            )}
           </div>
 
           <div className="grid grid-cols-2 md:flex items-center gap-4 text-xs font-mono w-full md:w-auto">
@@ -521,7 +534,7 @@ export default function Dashboard({
 
                     <button
                       onClick={onAdvanceWeek}
-                      className="w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black hover:bg-emerald-400 transition-all text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl active:scale-95 cursor-pointer"
+                      className="btn-fx w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer"
                     >
                       Disputar Partido <ArrowRight size={15} />
                     </button>
@@ -551,7 +564,7 @@ export default function Dashboard({
                               onReconvertPosition(pos);
                             }
                           }}
-                          className="py-2 px-4 rounded-xl bg-slate-950 border border-slate-800 text-2xs font-bold text-slate-300 hover:border-amber-500/50 hover:text-amber-400 transition-all cursor-pointer"
+                          className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-950 border border-slate-800 text-2xs font-bold text-slate-300 hover:border-amber-500/50 hover:text-amber-400 transition-all cursor-pointer"
                         >
                           Reconvertirme a {pos}
                         </button>
@@ -603,7 +616,7 @@ export default function Dashboard({
                     <button
                       onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
                       disabled={playerProfile.energy < 20}
-                      className={`w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                      className={`btn-fx-subtle w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
                         playerProfile.energy >= 20
                           ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 border border-slate-800 hover:border-emerald-400 cursor-pointer'
                           : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
@@ -635,7 +648,7 @@ export default function Dashboard({
                     <button
                       onClick={() => onRecoverEnergy(1500, 25)}
                       disabled={playerProfile.capital < 1500 || playerProfile.energy >= 100}
-                      className="py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -$1,500
                     </button>
@@ -650,7 +663,7 @@ export default function Dashboard({
                     <button
                       onClick={() => onRecoverEnergy(3500, 60)}
                       disabled={playerProfile.capital < 3500 || playerProfile.energy >= 100}
-                      className="py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -$3,500
                     </button>
@@ -717,7 +730,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(1000, 10, 0)}
                         disabled={playerProfile.capital < 1000}
-                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Lanzar sorteo
                       </button>
@@ -732,7 +745,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(3000, 15, 6)}
                         disabled={playerProfile.capital < 3000}
-                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Financiar Evento
                       </button>
@@ -746,7 +759,7 @@ export default function Dashboard({
                       <p className="text-3xs text-slate-400">Recibes capital inmediato, pero genera ligeras críticas por saturación publicitaria.</p>
                       <button
                         onClick={() => onLaunchPRCampaign(-4000, 5, -8)}
-                        className="w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Firmar Contrato Comercial
                       </button>
@@ -797,7 +810,7 @@ export default function Dashboard({
                       <button
                         key={i}
                         onClick={() => handlePressAnswer(opt)}
-                        className="w-full p-4 rounded-xl border border-slate-800 bg-slate-950 text-left text-xs text-slate-300 hover:border-emerald-500/40 hover:bg-slate-900 hover:text-white transition-all font-medium py-3.5 cursor-pointer"
+                        className="btn-fx-subtle w-full p-4 rounded-xl border border-slate-800 bg-slate-950 text-left text-xs text-slate-300 hover:border-emerald-500/40 hover:bg-slate-900 hover:text-white transition-all font-medium py-3.5 cursor-pointer"
                       >
                         {opt.text}
                       </button>
@@ -818,7 +831,7 @@ export default function Dashboard({
 
                   <button
                     onClick={nextPressQuestion}
-                    className="mt-6 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-widest hover:bg-emerald-400 transition-colors cursor-pointer"
+                    className="btn-fx mt-6 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-widest cursor-pointer"
                   >
                     Próxima Pregunta
                   </button>
@@ -831,12 +844,29 @@ export default function Dashboard({
             <div className="space-y-6 animate-fade-in max-w-4xl">
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
-                  Oficina de Contratos y Representaciones 
+                  Oficina de Contratos y Representaciones
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Revisa las propuestas de los clubes interesados en tu perfil deportivo para la temporada 2026. Tu margen de negociación salarial y los bonos de fichaje se expanden a la par de tu Prestigio general.
+                  Revisa las propuestas de los clubes interesados en tu perfil deportivo para la temporada {getRealDate(playerProfile.currentWeek).getFullYear()}. Tu margen de negociación salarial y los bonos de fichaje se expanden a la par de tu Prestigio general.
                 </p>
               </div>
+
+              {(() => {
+                const windowOpen = isTransferWindowOpen(playerProfile.currentWeek);
+                if (windowOpen) {
+                  return (
+                    <div className="px-4 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center gap-2">
+                      <RefreshCw size={13} /> Ventana de fichajes ABIERTA — podés concretar traspasos esta semana.
+                    </div>
+                  );
+                }
+                const weeksLeft = weeksUntilTransferWindow(playerProfile.currentWeek);
+                return (
+                  <div className="px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-xs font-bold flex items-center gap-2">
+                    <RefreshCw size={13} /> Mercado de fichajes CERRADO — vuelve a abrir en {weeksLeft} semana{weeksLeft !== 1 ? 's' : ''}. Podés revisar ofertas, pero no concretarlas hasta entonces.
+                  </div>
+                );
+              })()}
 
               <div className="space-y-3">
                 {transferOffers.map(offer => {
@@ -899,21 +929,25 @@ export default function Dashboard({
                         </div>
 
                         <div>
-                          {offer.possible ? (
+                          {!offer.possible ? (
+                            <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
+                              Reputación Insuficiente (Mín: {offer.reqPrestige})
+                            </span>
+                          ) : !isTransferWindowOpen(playerProfile.currentWeek) ? (
+                            <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
+                              Mercado Cerrado
+                            </span>
+                          ) : (
                             <button
                               onClick={() => {
                                 if (confirm(`¿Estás seguro de concretar el fichaje con ${offer.club.name} por un salario semanal de $${offer.salaryOffer}? Recibirás un bono de firma inmediato de $${offer.signOnBonus}.`)) {
                                   onAcceptTransfer(offer.club.id, offer.signOnBonus);
                                 }
                               }}
-                              className="py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-wider hover:bg-emerald-400 transition-colors cursor-pointer"
+                              className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
                             >
                               Aceptar Traspaso
                             </button>
-                          ) : (
-                            <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
-                              Reputación Insuficiente (Mín: {offer.reqPrestige})
-                            </span>
                           )}
                         </div>
                       </div>
@@ -935,9 +969,22 @@ export default function Dashboard({
                 </p>
               </div>
 
+              {(() => {
+                const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
+                const capReached = activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS;
+                return (
+                  <div className={`px-4 py-2.5 rounded-lg border text-xs font-bold flex items-center gap-2 ${capReached ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                    <DollarSign size={13} /> Patrocinios activos: {activeSponsorships}/{MAX_ACTIVE_SPONSORSHIPS}
+                    {capReached ? ' — agenda comercial completa, esperá a liberar un cupo.' : ''}
+                  </div>
+                );
+              })()}
+
               <div className="grid md:grid-cols-2 gap-4">
                 {shopItems.map(item => {
                   const isAffordable = playerProfile.capital >= item.cost;
+                  const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
+                  const blockedByCap = !!item.category && !item.purchased && activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS;
                   return (
                     <div
                       key={item.id}
@@ -967,10 +1014,28 @@ export default function Dashboard({
                           ${item.cost.toLocaleString()}
                         </span>
 
-                        <div className="sm:mt-4">
+                        <div className="sm:mt-4 flex flex-col items-end gap-1.5">
                           {item.purchased ? (
-                            <span className="inline-flex gap-1 items-center px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-3xs font-bold uppercase">
-                              Adquirido
+                            <>
+                              <span className="inline-flex gap-1 items-center px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-3xs font-bold uppercase">
+                                Adquirido
+                              </span>
+                              {!!item.category && (
+                                <button
+                                  onClick={() => {
+                                    if (confirm(`¿Rescindir el contrato con "${item.name}"? Perderás sus ventajas (incluido cualquier ingreso pasivo) y tu Prestigio cae un poco por romper el acuerdo antes de tiempo.`)) {
+                                      onCancelSponsor(item.id);
+                                    }
+                                  }}
+                                  className="btn-fx-subtle py-1 px-2 rounded-lg text-3xs font-bold uppercase tracking-wider text-red-400 border border-red-500/20 hover:bg-red-950/30 cursor-pointer"
+                                >
+                                  Cancelar Contrato
+                                </button>
+                              )}
+                            </>
+                          ) : blockedByCap ? (
+                            <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
+                              Cupo de Patrocinios Lleno
                             </span>
                           ) : (
                             <button
@@ -980,7 +1045,7 @@ export default function Dashboard({
                                 }
                               }}
                               disabled={!isAffordable}
-                              className={`py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
+                              className={`btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
                                 isAffordable
                                   ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:bg-emerald-400 cursor-pointer'
                                   : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'

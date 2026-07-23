@@ -13,13 +13,14 @@ interface DecisionEvent {
       fans: number;
       energy: number;
       capital: number;
+      suspension?: number; // partidos de sanción (casos severos: dopaje, agresiones, etc.)
     };
   }[];
 }
 
 interface DecisionCenterProps {
   event: DecisionEvent;
-  onResolve: (effects: { prestige: number; fans: number; energy: number; capital: number }) => void;
+  onResolve: (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number }) => void;
 }
 
 export default function DecisionCenter({ event, onResolve }: DecisionCenterProps) {
@@ -73,7 +74,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
                   key={i}
                   type="button"
                   onClick={() => handleSelect(i)}
-                  className={`w-full p-4 rounded-2xl border text-left flex items-start justify-between transition-all ${
+                  className={`btn-fx-subtle w-full p-4 rounded-2xl border text-left flex items-start justify-between transition-all ${
                     isSelected
                       ? 'border-emerald-500 bg-emerald-950/20 shadow-lg shadow-emerald-900/10'
                       : 'border-slate-800 bg-slate-950/40 hover:border-slate-700 hover:bg-slate-950/60'
@@ -116,6 +117,11 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
                           {choice.effects.fans > 0 ? '+' : ''}{choice.effects.fans} Fan
                         </span>
                       )}
+                      {!!choice.effects.suspension && (
+                        <span className="text-red-500 font-black">
+                          🚫 {choice.effects.suspension} PJ Sanción
+                        </span>
+                      )}
                     </div>
                   </div>
                 </button>
@@ -127,10 +133,10 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
           <button
             onClick={handleConfirm}
             disabled={selectedChoiceIndex === null}
-            className={`w-full py-3.5 px-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl border transition-all ${
+            className={`btn-fx w-full py-3.5 px-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl border transition-all ${
               selectedChoiceIndex === null
                 ? 'bg-slate-800/50 border-slate-800 text-slate-500 cursor-not-allowed'
-                : 'bg-gradient-to-br from-emerald-400 to-emerald-600 border-emerald-400 text-slate-950 hover:bg-emerald-400 hover:border-emerald-300 active:scale-98 cursor-pointer'
+                : 'bg-gradient-to-br from-emerald-400 to-emerald-600 border-emerald-400 text-slate-950 cursor-pointer'
             }`}
           >
             Confirmar Acción <UserCheck size={14} />

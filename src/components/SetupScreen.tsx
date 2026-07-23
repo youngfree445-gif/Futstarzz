@@ -91,6 +91,8 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       fans: 35,     // default fan connection
       mentalHealth: 70, // arrancás con la cabeza fresca
       lastMatchRating: 0,
+      yellowCards: 0,
+      suspendedMatches: 0,
       attributes: defaultAttributes,
       careerStats: {
         goles: 0,
@@ -129,7 +131,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
           </div>
           <button
             onClick={onBack}
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+            className="btn-fx-subtle flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
           >
             <ArrowLeft size={14} /> Volver
           </button>
@@ -180,11 +182,10 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                     onChange={(e) => setAge(Number(e.target.value))}
                     className="w-full py-2.5 px-3 bg-slate-900 border border-slate-800 rounded-xl text-sm"
                   >
-                    {[16, 17, 18, 19, 20, 21].map(a => (
-                      <option key={a} value={a}>{a} años (Juvenil)</option>
-                    ))}
-                    {[32, 33, 34, 35].map(a => (
-                      <option key={a} value={a}>{a} años (Veterano)</option>
+                    {Array.from({ length: 35 - 16 + 1 }, (_, i) => 16 + i).map(a => (
+                      <option key={a} value={a}>
+                        {a} años{a <= 21 ? ' (Juvenil)' : a >= 30 ? ' (Veterano)' : ''}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -231,7 +232,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                       key={nat.key}
                       type="button"
                       onClick={() => setNationality(nat.key)}
-                      className={`py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
+                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
                         nationality === nat.key
                           ? 'border-emerald-500 bg-emerald-950/30 text-white shadow-sm'
                           : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
@@ -288,7 +289,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                 <button
                   type="button"
                   onClick={() => setSelectedDivision('all')}
-                  className={`flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
+                  className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 'all'
                       ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
@@ -299,7 +300,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                 <button
                   type="button"
                   onClick={() => setSelectedDivision(1)}
-                  className={`flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
+                  className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 1
                       ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
@@ -311,7 +312,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                   <button
                     type="button"
                     onClick={() => setSelectedDivision(2)}
-                    className={`flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
+                    className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                       selectedDivision === 2
                         ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow-md'
                         : 'text-slate-400 hover:text-white'
@@ -329,7 +330,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                       key={club.id}
                       type="button"
                       onClick={() => setSelectedClubId(club.id)}
-                      className={`w-full p-3 rounded-2xl border text-left flex items-center justify-between gap-3 transition-all ${
+                      className={`btn-fx-subtle w-full p-3 rounded-2xl border text-left flex items-center justify-between gap-3 transition-all ${
                         selectedClubId === club.id
                           ? 'border-emerald-500 bg-slate-900/90 shadow-lg shadow-emerald-950/20'
                           : 'border-slate-800 bg-slate-950/40 opacity-75 hover:opacity-100 hover:border-slate-700'
@@ -398,7 +399,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
 
             <button
               type="submit"
-              className="w-full mt-6 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-black hover:from-emerald-400 hover:to-emerald-600 transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-xs shadow-xl active:scale-98"
+              className="btn-fx w-full mt-6 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 text-white font-black hover:from-emerald-400 hover:to-emerald-600 transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-xs shadow-xl"
             >
               Comenzar Carrera <ArrowRight size={15} />
             </button>

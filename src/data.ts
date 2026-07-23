@@ -2138,6 +2138,11 @@ export const CLUBS_DATABASE: Club[] = [
 // FASE 3 -- economía más dura: costos ~18-20% más altos que la versión original, y patrocinios
 // "casi infinitos" con categoría (patrocinios de la misma categoría entran en conflicto -- ver
 // handleBuyItem en App.tsx, que bloquea comprar dos del mismo rubro a la vez).
+// Además del conflicto por categoría, hay un tope GLOBAL de patrocinios activos a la vez (ver
+// MAX_ACTIVE_SPONSORSHIPS) para que no se puedan acumular todas las categorías simultáneamente
+// aunque haya muchas marcas distintas para elegir.
+export const MAX_ACTIVE_SPONSORSHIPS = 6;
+
 export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   {
     id: 'physical_coach',
@@ -2240,6 +2245,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+35 Fans, +5 Prestigio.',
     effect: { fansBonus: 35, prestigeBonus: 5 },
     category: 'moda',
+    sensitiveToControversy: true,
     purchased: false,
     icon: 'shirt'
   },
@@ -2251,6 +2257,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+30 Prestigio.',
     effect: { prestigeBonus: 30 },
     category: 'lujo',
+    sensitiveToControversy: true,
     purchased: false,
     icon: 'watch'
   },
@@ -2273,8 +2280,78 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+10 Prestigio, +10 Energía por partido avanzado.',
     effect: { prestigeBonus: 10, permanentEnergyBonus: 10 },
     category: 'viajes',
+    sensitiveToControversy: true,
     purchased: false,
     icon: 'plane'
+  },
+  {
+    id: 'telecom_deal',
+    name: 'Rostro de la Telefónica Nacional',
+    cost: 65000,
+    description: 'Tu cara en las vallas publicitarias y en la app de la compañía de telefonía más grande del país.',
+    perkText: '+20 Fans, +8 Prestigio.',
+    effect: { fansBonus: 20, prestigeBonus: 8 },
+    category: 'telecomunicaciones',
+    sensitiveToControversy: true,
+    purchased: false,
+    icon: 'phone'
+  },
+  {
+    id: 'fastfood_deal',
+    name: 'Embajador de Cadena de Comida Rápida',
+    cost: 45000,
+    description: 'Tu combo personalizado llega a todos los locales del país por tiempo limitado.',
+    perkText: '+25 Fans, ganas de forma pasiva $1,200 cada vez que avanzas la semana.',
+    effect: { fansBonus: 25, passiveIncome: 1200 },
+    category: 'comida_rapida',
+    purchased: false,
+    icon: 'utensils'
+  },
+  {
+    id: 'bank_deal',
+    name: 'Imagen del Banco Patrocinador Oficial',
+    cost: 110000,
+    description: 'Tu tarjeta de crédito edición limitada con tu nombre grabado en el frente.',
+    perkText: '+20 Prestigio, ganas de forma pasiva $2,000 cada vez que avanzas la semana.',
+    effect: { prestigeBonus: 20, passiveIncome: 2000 },
+    category: 'banca',
+    sensitiveToControversy: true,
+    purchased: false,
+    icon: 'landmark'
+  },
+  {
+    id: 'betting_deal',
+    name: 'Cara de la Casa de Apuestas Deportivas',
+    cost: 90000,
+    description: 'Contrato jugoso para promocionar la casa de apuestas oficial del torneo, aunque no a todos les cae bien.',
+    perkText: '+30 Fans, ganas de forma pasiva $2,800 cada vez que avanzas la semana, pero -8 Prestigio (la prensa cuestiona el vínculo).',
+    effect: { fansBonus: 30, prestigeBonus: -8, passiveIncome: 2800 },
+    category: 'apuestas',
+    purchased: false,
+    icon: 'dice'
+  },
+  {
+    id: 'sneaker_deal',
+    name: 'Firma con Marca de Calzado Deportivo',
+    cost: 100000,
+    description: 'Botines con tu inicial bordada y una línea de zapatillas urbanas con tu nombre.',
+    perkText: '+15 Prestigio, +20 Fans.',
+    effect: { prestigeBonus: 15, fansBonus: 20 },
+    category: 'calzado',
+    sensitiveToControversy: true,
+    purchased: false,
+    icon: 'footprints'
+  },
+  {
+    id: 'energy_drink_deal',
+    name: 'Patrocinio de Bebida Energética Extrema',
+    cost: 55000,
+    description: 'Tu lata personalizada en cada kiosco del país, con una campaña agresiva en redes.',
+    perkText: '+18 Fans, ganas de forma pasiva $1,600 cada vez que avanzas la semana.',
+    effect: { fansBonus: 18, passiveIncome: 1600 },
+    category: 'energizante',
+    purchased: false,
+    icon: 'zap'
   }
 ];
 
@@ -2747,6 +2824,97 @@ export const LOBBY_RANDOM_EVENTS = [
         cost: 0,
         outcome: 'Evitas el conflicto directo, pero las redes se llenan de críticas por "cobarde".',
         effects: { prestige: 0, fans: -20, energy: 5, capital: 0 }
+      }
+    ]
+  },
+  // FASE 3 -- MÁS INDISCIPLINA: sanciones, multas y un caso severo tipo FIFA (dopaje)
+  {
+    title: 'Sustancia Prohibida',
+    description: 'Un preparador físico paralelo, ajeno al club, te ofrece un suplemento "milagroso" para rendir más este fin de semana. No figura en la lista de sustancias permitidas por la federación.',
+    choices: [
+      {
+        text: 'Tomarlo, necesitás ese plus de rendimiento',
+        cost: 0,
+        outcome: 'Salió positivo en el control antidopaje post-partido. La federación no tiene piedad: sanción ejemplar y multa.',
+        effects: { prestige: -35, fans: -20, energy: 10, capital: -25000, suspension: 4 }
+      },
+      {
+        text: 'Rechazarlo, no vale la pena el riesgo',
+        cost: 0,
+        outcome: 'Tu preparador físico oficial te felicita por la decisión responsable.',
+        effects: { prestige: 6, fans: 0, energy: 0, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'Salida Nocturna Fuera de Horario',
+    description: 'Se te hace tarde en una fiesta privada y el toque de queda de la concentración ya pasó hace dos horas.',
+    choices: [
+      {
+        text: 'Quedarte igual, ya estás ahí ($1,500 COP/USD)',
+        cost: 1500,
+        outcome: 'Un fotógrafo te reconoce saliendo de madrugada. Las redes explotan y el cuerpo técnico se entera.',
+        effects: { prestige: -15, fans: 8, energy: -30, capital: -1500 }
+      },
+      {
+        text: 'Salir corriendo antes de que noten tu ausencia',
+        cost: 0,
+        outcome: 'Llegás justo antes del pase de lista. Nadie se entera.',
+        effects: { prestige: 3, fans: 0, energy: -10, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'Provocación en Redes Sociales',
+    description: 'La figura del equipo rival te tira una indirecta pesada en redes después de la última goleada en contra.',
+    choices: [
+      {
+        text: 'Responderle con la misma agresividad',
+        cost: 0,
+        outcome: 'Se armó un ida y vuelta viral. La prensa lo cataloga de "guerra sucia" entre estrellas.',
+        effects: { prestige: -10, fans: 15, energy: -5, capital: 0 }
+      },
+      {
+        text: 'Ignorarlo y dejar que hablen los resultados',
+        cost: 0,
+        outcome: 'Tu silencio es elogiado como muestra de clase por la prensa especializada.',
+        effects: { prestige: 8, fans: 2, energy: 0, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'Encontronazo con un Hincha Rival',
+    description: 'Saliendo del estadio, un hincha del equipo rival te grita cosas fuertes a centímetros de la cara y te empuja el pecho.',
+    choices: [
+      {
+        text: 'Responderle el empujón',
+        cost: 0,
+        outcome: 'El video se viraliza. La federación te abre un expediente disciplinario por conducta antideportiva.',
+        effects: { prestige: -20, fans: 10, energy: -10, capital: -5000, suspension: 1 }
+      },
+      {
+        text: 'Alejarte y dejar que seguridad se encargue',
+        cost: 0,
+        outcome: 'Seguridad controla la situación. Tu madurez para no responder es destacada en la prensa.',
+        effects: { prestige: 10, fans: -2, energy: 0, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'Multa por Impuntualidad',
+    description: 'Llegás 40 minutos tarde a la charla técnica prepartido por quedarte dormido tras una sesión larga de videojuegos.',
+    choices: [
+      {
+        text: 'Inventar una excusa poco creíble',
+        cost: 0,
+        outcome: 'El cuerpo técnico no te cree y te aplica una multa interna por impuntualidad.',
+        effects: { prestige: -8, fans: 0, energy: 5, capital: -2000 }
+      },
+      {
+        text: 'Asumir el error frente a todos y disculparte',
+        cost: 0,
+        outcome: 'El grupo valora la honestidad, aunque el DT te deja como titular en duda para el próximo partido.',
+        effects: { prestige: -2, fans: 3, energy: 0, capital: 0 }
       }
     ]
   }

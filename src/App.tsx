@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats, Position } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position, Club } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
-  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID
+  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS
 } from './data';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek,
-  isWorldCupYear, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek
+  isWorldCupYear, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen from './components/SetupScreen';
@@ -24,6 +24,26 @@ const WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD = 70;
 // de data.ts, la movemos un poco en la misma dirección que el efecto neto de prestigio+fans de
 // cualquier decisión/evento/partido -- así todo lo que ya existe la afecta automáticamente.
 const mentalHealthNudge = (netChange: number) => Math.max(-6, Math.min(6, Math.round(netChange * 0.15)));
+
+// Polémicas y sponsors: si un evento/pregunta de prensa/partido te da un golpe de prestigio grande
+// (escándalo real, no una crítica cualquiera), las marcas que cuidan su imagen (sensitiveToControversy)
+// tienen una chance de rescindir el contrato -- igual que en la vida real, no todas las marcas te
+// perdonan un escándalo (las de imagen arriesgada como apuestas/cripto/energizantes ya asumen ese riesgo).
+const CONTROVERSY_PRESTIGE_THRESHOLD = -10;
+const SPONSOR_DROP_CHANCE_ON_CONTROVERSY = 0.5;
+
+function checkSponsorControversyFallout(items: ShopItem[], netPrestigeChange: number): { items: ShopItem[]; droppedNames: string[] } {
+  if (netPrestigeChange > CONTROVERSY_PRESTIGE_THRESHOLD) return { items, droppedNames: [] };
+  const droppedNames: string[] = [];
+  const updated = items.map(item => {
+    if (item.purchased && item.sensitiveToControversy && Math.random() < SPONSOR_DROP_CHANCE_ON_CONTROVERSY) {
+      droppedNames.push(item.name);
+      return { ...item, purchased: false };
+    }
+    return item;
+  });
+  return { items: updated, droppedNames };
+}
 
 // Fase 3 -- Modo Veterano: a partir de esta edad el declive físico empieza a pesar más que las
 // mejoras de entrenamiento; a partir de esta otra, se te acaba la carrera (no hay club que te
@@ -133,6 +153,12 @@ export default function App() {
     if (profile.lastMatchRating === undefined) {
       profile = { ...profile, lastMatchRating: 0 };
     }
+    if (profile.yellowCards === undefined) {
+      profile = { ...profile, yellowCards: 0 };
+    }
+    if (profile.suspendedMatches === undefined) {
+      profile = { ...profile, suspendedMatches: 0 };
+    }
     setPlayerProfile(profile);
 
     const savedShop = localStorage.getItem(`futbol_star_shop_${slotId}`);
@@ -228,6 +254,12 @@ export default function App() {
         alert(`Ya tenés un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Esperá a que termine ese contrato antes de firmar otro del mismo rubro.`);
         return;
       }
+
+      const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
+      if (activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS) {
+        alert(`Ya tenés el máximo de ${MAX_ACTIVE_SPONSORSHIPS} patrocinios activos al mismo tiempo. Tu agenda comercial está completa.`);
+        return;
+      }
     }
 
     let updatedAttributes = { ...playerProfile.attributes };
@@ -245,6 +277,25 @@ export default function App() {
     };
 
     const updatedShop = shopItems.map(i => i.id === itemId ? { ...i, purchased: true } : i);
+
+    setPlayerProfile(updatedProfile);
+    setShopItems(updatedShop);
+    saveGameState(updatedProfile, updatedShop);
+  };
+
+  // Romper un contrato de patrocinio a voluntad para liberar un cupo (ver MAX_ACTIVE_SPONSORSHIPS):
+  // tiene un pequeño costo de imagen, como en la vida real salir de un contrato antes de tiempo.
+  const CANCEL_SPONSOR_PRESTIGE_PENALTY = 3;
+  const handleCancelSponsor = (itemId: string) => {
+    if (!playerProfile) return;
+    const item = shopItems.find(i => i.id === itemId);
+    if (!item || !item.purchased || !item.category) return;
+
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      prestige: Math.max(0, playerProfile.prestige - CANCEL_SPONSOR_PRESTIGE_PENALTY)
+    };
+    const updatedShop = shopItems.map(i => i.id === itemId ? { ...i, purchased: false } : i);
 
     setPlayerProfile(updatedProfile);
     setShopItems(updatedShop);
@@ -280,8 +331,17 @@ export default function App() {
       energy: Math.max(0, Math.min(100, playerProfile.energy + energyChange)),
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(prestigeChange + fansChange)))
     };
+
+    const { items: updatedShop, droppedNames } = checkSponsorControversyFallout(shopItems, prestigeChange);
+
     setPlayerProfile(updatedProfile);
-    saveGameState(updatedProfile, shopItems);
+    setShopItems(updatedShop);
+    saveGameState(updatedProfile, updatedShop);
+
+    if (droppedNames.length > 0) {
+      const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
+      alert(`📉 Tu declaración generó ruido de sobra. ${droppedNames.join(', ')} ${verb} con vos por la polémica.`);
+    }
   };
 
   const handleAcceptTransfer = (clubId: string, signOnBonus: number) => {
@@ -443,6 +503,16 @@ export default function App() {
       const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
       const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
 
+      // Sanción disciplinaria pendiente (ver handleFinishMatch/handleResolveEvent): la liga
+      // doméstica no espera, tu club juega igual pero simulado sin vos, sin pantalla de partido.
+      // Las copas continentales/selección NO se ven afectadas por esta sanción (criterio real:
+      // una sanción de liga doméstica no se traslada automáticamente a otra competencia).
+      if (upcoming && playerProfile.suspendedMatches > 0) {
+        const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId)!;
+        resolveSuspendedLeagueWeek(myClub, leagueKey, leagueClubs, season, upcoming.isHome, opponentClub);
+        return;
+      }
+
       if (upcoming) {
         const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId);
         opName = opponentClub?.name || OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
@@ -472,7 +542,58 @@ export default function App() {
     setScreen('match');
   };
 
-  const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number }) => {
+  // Resuelve una fecha de liga doméstica sin mostrar el partido: tu club juega igual (simulado
+  // vía simulateMatch, el mismo motor que usa el resto de la liga corriendo de fondo), vos solo
+  // cumplís la sanción -- cobrás sueldo/dividendos pasivos pero no hay goles/asistencias propias.
+  const resolveSuspendedLeagueWeek = (
+    myClub: Club,
+    leagueKey: string,
+    leagueClubs: Club[],
+    season: ReturnType<typeof getOrCreateSeasonForLeague>,
+    isHomeThisMatch: boolean,
+    opponentClub: Club
+  ) => {
+    if (!playerProfile) return;
+
+    const { homeGoals, awayGoals } = isHomeThisMatch ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
+    const myGoals = isHomeThisMatch ? homeGoals : awayGoals;
+    const rivalGoals = isHomeThisMatch ? awayGoals : homeGoals;
+
+    const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, isHomeThisMatch, myGoals, rivalGoals);
+    let updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
+
+    for (const key of Object.keys(updatedLeagueSeasons)) {
+      if (key === leagueKey) continue;
+      const otherLeagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+      if (otherLeagueClubs.length === 0) continue;
+      updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
+    }
+
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
+
+    const updated: PlayerProfile = {
+      ...playerProfile,
+      energy: Math.min(100, playerProfile.energy + 15),
+      capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
+      mentalHealth: Math.max(0, playerProfile.mentalHealth - 3),
+      currentWeek: playerProfile.currentWeek + 1,
+      suspendedMatches: playerProfile.suspendedMatches - 1,
+      leagueSeasons: updatedLeagueSeasons
+    };
+
+    const aged = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+
+    if (isPastRetirementAge(aged)) {
+      triggerForcedRetirement(aged);
+      return;
+    }
+
+    setPlayerProfile(aged);
+    saveGameState(aged, shopItems);
+    alert(`🚫 Cumpliste tu sanción esta fecha. Sin vos en el campo, ${myClub.name} ${isHomeThisMatch ? myGoals : rivalGoals}-${isHomeThisMatch ? rivalGoals : myGoals} ${opponentClub.name}.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s) más de sanción.` : ''}`);
+  };
+
+  const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number }) => {
     if (!playerProfile) return;
 
     const updatedProfile: PlayerProfile = {
@@ -481,13 +602,25 @@ export default function App() {
       fans: Math.max(0, Math.min(100, playerProfile.fans + effects.fans)),
       energy: Math.max(0, Math.min(100, playerProfile.energy + effects.energy)),
       capital: Math.max(0, playerProfile.capital + (effects.capital || 0)),
-      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(effects.prestige + effects.fans)))
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(effects.prestige + effects.fans))),
+      suspendedMatches: playerProfile.suspendedMatches + (effects.suspension || 0)
     };
 
+    const { items: updatedShop, droppedNames } = checkSponsorControversyFallout(shopItems, effects.prestige);
+
     setPlayerProfile(updatedProfile);
-    saveGameState(updatedProfile, shopItems);
+    setShopItems(updatedShop);
+    saveGameState(updatedProfile, updatedShop);
     setActiveEvent(null);
-    
+
+    if (droppedNames.length > 0) {
+      const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
+      alert(`📉 El escándalo llegó a la prensa. ${droppedNames.join(', ')} ${verb} con vos.`);
+    }
+    if (effects.suspension) {
+      alert(`🚫 Sanción disciplinaria: te perderás ${effects.suspension} partido${effects.suspension > 1 ? 's' : ''} de liga.`);
+    }
+
     startMatchflow();
   };
 
@@ -569,10 +702,50 @@ export default function App() {
     const isViralPerformance = results.rating >= 8.5;
     const viralMarketBonus = isViralPerformance ? 50000 : 0;
 
+    // Tarjetas, multas y sanciones: el prestigio/fans que acumularon las decisiones del partido
+    // (antes muerto, nunca se aplicaba) se liquida acá. Una roja (directa o por doble amarilla)
+    // suma sanción de la federación y multa, además del golpe de prestigio de la jugada en sí.
+    const YELLOW_CARD_SUSPENSION_THRESHOLD = 5;
+    const RED_CARD_FINE = 15000;
+    const RED_CARD_PRESTIGE_PENALTY = 8;
+
+    const cardReceived: 'none' | 'yellow' | 'red' = results.cardReceived || 'none';
+    const decisionPrestigeChange = results.prestigeChange || 0;
+    const decisionFansChange = results.fansChange || 0;
+    const netPrestigeChange = decisionPrestigeChange - (cardReceived === 'red' ? RED_CARD_PRESTIGE_PENALTY : 0);
+
+    let newYellowCards = playerProfile.yellowCards;
+    let newSuspendedMatches = playerProfile.suspendedMatches;
+    let disciplineFine = 0;
+    const disciplineMessages: string[] = [];
+
+    if (cardReceived === 'red') {
+      newSuspendedMatches += 1;
+      disciplineFine = RED_CARD_FINE;
+      disciplineMessages.push(`🟥 Expulsión: la federación te suspende 1 partido y te multa con $${RED_CARD_FINE.toLocaleString()}.`);
+    } else if (cardReceived === 'yellow') {
+      newYellowCards += 1;
+      if (newYellowCards >= YELLOW_CARD_SUSPENSION_THRESHOLD) {
+        newYellowCards = 0;
+        newSuspendedMatches += 1;
+        disciplineMessages.push(`🟨 Acumulaste ${YELLOW_CARD_SUSPENSION_THRESHOLD} amarillas en la temporada: sanción automática de 1 partido.`);
+      }
+    }
+
+    const { items: updatedShop, droppedNames } = checkSponsorControversyFallout(shopItems, netPrestigeChange);
+    if (droppedNames.length > 0) {
+      const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
+      disciplineMessages.push(`📉 ${droppedNames.join(', ')} ${verb} con vos tras lo sucedido en el partido.`);
+    }
+
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
-      capital: playerProfile.capital + totalIncome,
+      capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
+      prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange)),
+      fans: Math.max(0, Math.min(100, playerProfile.fans + decisionFansChange)),
+      yellowCards: newYellowCards,
+      suspendedMatches: newSuspendedMatches,
       marketValue: Math.max(100000, playerProfile.marketValue + valueChg + viralMarketBonus),
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange)),
       lastMatchRating: results.rating,
@@ -600,7 +773,11 @@ export default function App() {
     }
 
     setPlayerProfile(aged);
-    saveGameState(aged, shopItems);
+    setShopItems(updatedShop);
+    saveGameState(aged, updatedShop);
+    if (disciplineMessages.length > 0) {
+      alert(disciplineMessages.join('\n'));
+    }
     setScreen('post_match');
   };
 
@@ -687,6 +864,7 @@ export default function App() {
           onTrainAttribute={handleTrainAttribute}
           onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
+          onCancelSponsor={handleCancelSponsor}
           onLaunchPRCampaign={handleLaunchPRCampaign}
           onAnswerPress={handleAnswerPress}
           onAcceptTransfer={handleAcceptTransfer}
