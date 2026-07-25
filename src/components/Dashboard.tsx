@@ -1655,14 +1655,17 @@ export default function Dashboard({
             return (
               <div className="space-y-6 animate-fade-in max-w-5xl">
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                  <div>
-                    <span className="text-3xs font-mono font-bold uppercase tracking-widest text-emerald-400">
-                      Ecosistema de Datos LTA Mod · {currentClub.league}
-                    </span>
-                    <h2 className="text-2xl font-black text-white mt-1">{currentClub.name}</h2>
-                    <p className="text-xs text-slate-400 mt-1">
-                      🏆 <strong>Reputación:</strong> {'★'.repeat(currentClub.reputation)} · 💰 <strong>Valor de Plantilla:</strong> ${currentClub.marketValue.toLocaleString()}
-                    </p>
+                  <div className="flex items-center gap-4">
+                    <ClubBadge club={currentClub} size={56} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
+                    <div>
+                      <span className="text-3xs font-mono font-bold uppercase tracking-widest text-emerald-400">
+                        Ecosistema de Datos LTA Mod · {currentClub.league}
+                      </span>
+                      <h2 className="text-2xl font-black text-white mt-1">{currentClub.name}</h2>
+                      <p className="text-xs text-slate-400 mt-1">
+                        🏆 <strong>Reputación:</strong> {'★'.repeat(currentClub.reputation)} · 💰 <strong>Valor de Plantilla:</strong> ${currentClub.marketValue.toLocaleString()}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 min-w-[240px]">
