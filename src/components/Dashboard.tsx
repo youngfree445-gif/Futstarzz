@@ -380,7 +380,7 @@ export default function Dashboard({
 
   // Posts de "hinchas reaccionando" a OTROS partidos de la última fecha jugada de tu liga
   // (no el tuyo, que ya tiene sus propios posts arriba) -- contenido con plantillas a partir
-  // de resultados reales ya resueltos en leagueSeasons, sin IA en vivo.
+  // de resultados reales ya resueltos en leagueSeasons.
   const generateMatchdayReactionPosts = () => {
     const season = playerProfile.leagueSeasons[myLeagueKey];
     if (!season) return [];

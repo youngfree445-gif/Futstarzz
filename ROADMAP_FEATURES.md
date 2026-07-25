@@ -106,7 +106,7 @@ fixture.
 ### 2.2 Panel de redes sociales con reacciones a partidos ajenos
 - Depende del calendario: cada fecha, generar 2-3 posts de "hinchas
   reaccionando" a los resultados de otros partidos de la jornada, no solo
-  el tuyo. Contenido generado con plantillas, no requiere IA en vivo.
+  el tuyo. Contenido generado con plantillas fijas.
 
 ---
 
