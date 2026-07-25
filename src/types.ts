@@ -61,6 +61,7 @@ export interface PlayerProfile {
   lastMatchRating: number; // Fase 3: calificación del último partido jugado (0 si todavía no jugaste ninguno) -- dispara el post de "saludo de famoso" en ChutSocial si es muy alta
   yellowCards: number; // amarillas acumuladas en la temporada (fuera de un partido puntual); al llegar a un umbral, sanción automática -- ver handleFinishMatch
   suspendedMatches: number; // partidos de liga que te quedan por cumplir de sanción; startMatchflow los resuelve solo, sin pantalla de partido
+  lastPressAnsweredWeek: number; // semana en que respondiste la última conferencia de prensa -- una sola por semana, evita farmear prestigio infinito ciclando preguntas
   attributes: PlayerStats;
   careerStats: CareerStats;
   seasonHistory: SeasonHistory[]; // trayectoria club a club por temporada -- ver recordSeasonHistory en App.tsx
@@ -216,6 +217,7 @@ export interface ShopItem {
   sensitiveToControversy?: boolean; // marcas que cuidan mucho su imagen: si te metés en una polémica grande, hay chance de que rescindan el contrato (ver checkSponsorControversyFallout en App.tsx)
   purchased: boolean;
   icon: string;
+  image?: string; // foto de portada de la card (solo lujos puros -- los patrocinios usan un tratamiento visual por categoría, no foto)
 }
 
 export interface MatchEvent {

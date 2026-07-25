@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club } from '../types';
-import { Play, FastForward, Check, Skull, Target, Award, Sparkles, Trophy } from 'lucide-react';
+import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE } from '../data';
 
 interface MatchSimulatorProps {
@@ -53,6 +53,7 @@ export default function MatchSimulator({
   const [activeDecision, setActiveDecision] = useState<MatchDecision | null>(null);
   const [decisionStage, setDecisionStage] = useState<'none' | 'choosing' | 'result'>('none');
   const [decisionOutcomeText, setDecisionOutcomeText] = useState('');
+  const [decisionWasSuccess, setDecisionWasSuccess] = useState(false);
 
   const currentClub = representingTeamId
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
@@ -548,6 +549,7 @@ export default function MatchSimulator({
 
     if (isSuccess) {
       setDecisionOutcomeText(choice.successBonus);
+      setDecisionWasSuccess(true);
       setDecisionStage('result');
 
       if (choice.effectOnSuccess.goals > 0) {
@@ -569,6 +571,7 @@ export default function MatchSimulator({
       }]);
     } else {
       setDecisionOutcomeText(choice.failPenalty + cardLogSuffix);
+      setDecisionWasSuccess(false);
       setDecisionStage('result');
       setRating(prev => Math.max(prev - 1.2, 3.0));
 
@@ -744,8 +747,8 @@ export default function MatchSimulator({
                 </div>
               ) : (
                 <div className="space-y-4 max-w-sm mx-auto">
-                  <div className={`inline-flex p-3 rounded-full border text-white ${decisionOutcomeText.includes('GOL') || decisionOutcomeText.includes('ASISTENCIA') || decisionOutcomeText.includes('ATAJADÓN') || decisionOutcomeText.includes('ELEGANCIA') ? 'bg-emerald-500/20 border-emerald-500/40' : 'bg-red-500/20 border-red-500/40'}`}>
-                    {decisionOutcomeText.includes('GOL') ? <Target size={28} className="text-emerald-400" /> : <Skull size={28} className="text-red-400" />}
+                  <div className={`inline-flex p-3 rounded-full border text-white ${decisionWasSuccess ? 'bg-emerald-500/20 border-emerald-500/40' : 'bg-red-500/20 border-red-500/40'}`}>
+                    {decisionWasSuccess ? <Star size={28} className="text-emerald-400" /> : <Skull size={28} className="text-red-400" />}
                   </div>
 
                   <div>

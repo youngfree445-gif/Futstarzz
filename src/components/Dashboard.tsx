@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from '../data';
 import {
-  leagueKeyFor, sortTable, getSeasonYear,
-  getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState,
-  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState,
+  leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
+  getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
+  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
+  getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
-  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain
+  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar
 } from 'lucide-react';
 
 interface DashboardProps {
@@ -20,6 +21,7 @@ interface DashboardProps {
   onTrainAttribute: (attr: keyof PlayerStats) => void;
   onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
+  onAcceptSponsor: (itemId: string) => void;
   onCancelSponsor: (itemId: string) => void;
   onLaunchPRCampaign: (cost: number, fansBonus: number, prestigeBonus: number, salaryBonus?: number) => void;
   onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number) => void;
@@ -36,6 +38,7 @@ export default function Dashboard({
   onTrainAttribute,
   onReconvertPosition,
   onBuyItem,
+  onAcceptSponsor,
   onCancelSponsor,
   onLaunchPRCampaign,
   onAnswerPress,
@@ -45,10 +48,15 @@ export default function Dashboard({
   onLogout,
   onResetGame
 }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<'carrera' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos' | 'tienda' | 'tablas' | 'mi_club'>('carrera');
-  const [selectedPressQ, setSelectedPressQ] = useState(0);
+  const [activeTab, setActiveTab] = useState<'carrera' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos' | 'tienda' | 'patrocinios' | 'tablas' | 'mi_club' | 'calendario'>('carrera');
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
+
+  // Al avanzar de semana vuelve a habilitarse la sala de prensa (la respuesta de la semana
+  // anterior queda igual bloqueada por lastPressAnsweredWeek en el perfil).
+  useEffect(() => {
+    setPressResponseState('asking');
+  }, [playerProfile.currentWeek]);
 
   // Corregido: Busca el club en la base de datos inyectada con el JSON
   const currentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
@@ -75,6 +83,118 @@ export default function Dashboard({
     ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek)
     : null;
 
+  // Para el post de "campeón del Mundo" en ChutSocial -- ver generateCupChampionPosts.
+  const wcState = isWorldCupYear(cupYear)
+    ? getOrCreateWorldCupState(cupYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[cupYear], playerProfile.currentWeek)
+    : null;
+
+  // Calendario: próximos rivales de liga y de copa, en el orden real en que ya están fijados en
+  // el fixture -- no se regeneran ni cambian una vez creados, así que esto es fiel a lo que de
+  // verdad va a pasar (ver generateRoundRobin/drawCupGroups en leagueEngine.ts).
+  const clubNameByIdEarly = (id: string) => ULTIMATE_CLUBS_DATABASE.find(c => c.id === id)?.name || id;
+  const myLeagueFixtures = playerProfile.leagueSeasons[myLeagueKey]?.fixtures || [];
+  const upcomingLeagueFixtures = myLeagueFixtures
+    .filter(f => !f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
+    .sort((a, b) => a.matchweek - b.matchweek)
+    .slice(0, 6)
+    .map(f => ({
+      matchweek: f.matchweek,
+      isHome: f.homeTeamId === currentClub.id,
+      opponentId: f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId,
+      opponentName: clubNameByIdEarly(f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId)
+    }));
+
+  let upcomingCupFixtures: { matchweek: number; isHome: boolean; opponentId: string; opponentName: string }[] = [];
+  let upcomingCupKnockoutOpponent: { opponentId: string; opponentName: string; isHome: boolean } | null = null;
+  if (conmebolCup) {
+    if (conmebolCup.stage === 'groups') {
+      const myGroup = conmebolCup.groups.find(g => g.clubIds.includes(currentClub.id));
+      if (myGroup) {
+        upcomingCupFixtures = myGroup.fixtures
+          .filter(f => !f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
+          .sort((a, b) => a.matchweek - b.matchweek)
+          .map(f => ({
+            matchweek: f.matchweek,
+            isHome: f.homeTeamId === currentClub.id,
+            opponentId: f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId,
+            opponentName: clubNameByIdEarly(f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId)
+          }));
+      }
+    } else if (conmebolCup.stage === 'knockout') {
+      const upcoming = getUpcomingCupMatch(conmebolCup, currentClub.id);
+      if (upcoming) upcomingCupKnockoutOpponent = { opponentId: upcoming.opponentId, opponentName: clubNameByIdEarly(upcoming.opponentId), isHome: upcoming.isHome };
+    }
+  } else if (uefaCup) {
+    if (uefaCup.stage === 'league_phase') {
+      upcomingCupFixtures = uefaCup.fixtures
+        .filter(f => !f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
+        .sort((a, b) => a.matchweek - b.matchweek)
+        .map(f => ({
+          matchweek: f.matchweek,
+          isHome: f.homeTeamId === currentClub.id,
+          opponentId: f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId,
+          opponentName: clubNameByIdEarly(f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId)
+        }));
+    } else if (uefaCup.stage === 'playoff' || uefaCup.stage === 'knockout') {
+      const upcoming = getUpcomingUefaCupMatch(uefaCup, currentClub.id);
+      if (upcoming) upcomingCupKnockoutOpponent = { opponentId: upcoming.opponentId, opponentName: clubNameByIdEarly(upcoming.opponentId), isHome: upcoming.isHome };
+    }
+  }
+
+  // Tarjeta "Próximo Partido" (estilo modo carrera FIFA/EA FC): quién es el rival de la
+  // semana que viene depende de si esa semana es de copa (isCupWeek) o de liga -- misma
+  // regla que ya usa handleAdvanceWeek en App.tsx para decidir qué partido se juega.
+  // Si la semana que viene cae dentro de la ventana del Mundial (ver isWorldCupBreakWeek en
+  // leagueEngine.ts), NI la liga doméstica NI Libertadores/Champions tienen partido -- están
+  // realmente congeladas -- así que el único rival posible es el de la selección (y solo si estás
+  // convocado y tu selección todavía tiene partido pendiente esa semana puntual).
+  const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek + 1);
+  const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek + 1);
+  let nextMatchOpponent: { club: Club | undefined; name: string; isHome: boolean; competition: string } | null = null;
+  if (nextWeekInWorldCupBreak) {
+    const wcYear = getSeasonYear(playerProfile.currentWeek + 1);
+    const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
+    const isEligible = !!wcTeamId
+      && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
+      && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
+    if (isEligible) {
+      const wcState = getOrCreateWorldCupState(wcYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[wcYear], playerProfile.currentWeek + 1);
+      const upcoming = getUpcomingWorldCupMatch(wcState, wcTeamId!);
+      if (upcoming) {
+        nextMatchOpponent = {
+          club: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId),
+          name: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId)?.name || '',
+          isHome: upcoming.isHome,
+          competition: 'Copa Mundial FIFA'
+        };
+      }
+    }
+  } else if (nextWeekIsCup) {
+    const competition = conmebolCupId === 'libertadores' ? 'Copa Libertadores'
+      : conmebolCupId === 'sudamericana' ? 'Copa Sudamericana'
+      : uefaCupId === 'champions' ? 'Champions League'
+      : uefaCupId === 'europa' ? 'Europa League'
+      : '';
+    const next = upcomingCupFixtures[0] ?? upcomingCupKnockoutOpponent;
+    if (next && competition) {
+      nextMatchOpponent = {
+        club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === next.opponentId),
+        name: next.opponentName,
+        isHome: next.isHome,
+        competition
+      };
+    }
+  }
+  if (!nextMatchOpponent && !nextWeekInWorldCupBreak && upcomingLeagueFixtures.length > 0) {
+    const next = upcomingLeagueFixtures[0];
+    nextMatchOpponent = {
+      club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === next.opponentId),
+      name: next.opponentName,
+      isHome: next.isHome,
+      competition: currentClub.league
+    };
+  }
+
   const cupStageLabel = (stage: string) => {
     switch (stage) {
       case 'groups': return 'Fase de Grupos';
@@ -87,20 +207,38 @@ export default function Dashboard({
   };
   const clubNameById = (id: string | null) => (id ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === id)?.name || id : '');
 
-  // Corregido: Ofertas de traspaso con plantillas inyectadas
+  // Los patrocinios (tienen "category") son ofertas que le llegan al jugador, no compras de
+  // catálogo -- viven en su propia pestaña "Patrocinios", separados de los lujos puros de la
+  // "Tienda de Estilo de Vida" (ver handleAcceptSponsor en App.tsx).
+  const lifestyleItems = shopItems.filter(i => !i.category);
+  const sponsorDeals = shopItems.filter(i => !!i.category);
+
+  // Corregido: antes "possible" dependía solo del Prestigio (que arranca en 50 y ya deja fichable
+  // casi cualquier club de reputación <=4 desde la semana 1). Ahora se mide un "Rendimiento" real
+  // que mezcla prestigio + aporte en cancha (goles+asistencias por partido) + títulos, y además
+  // exige una cantidad mínima de partidos jugados que crece con el salto de categoría -- así un
+  // club grande de verdad se siente ganado con el tiempo, no regalado de arranque.
   const generateMockTransferOffers = () => {
+    const matchesPlayed = playerProfile.careerStats.partidosHistoricos;
+    const contributionPerMatch = matchesPlayed > 0
+      ? (playerProfile.careerStats.golesHistoricos + playerProfile.careerStats.asistenciasHistoricos) / matchesPlayed
+      : 0;
+    const performanceScore = Math.min(100, playerProfile.prestige * 0.55 + contributionPerMatch * 70 + playerProfile.careerStats.campeonatos * 6);
+
     return ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== playerProfile.currentClubId).map(c => {
       const multiplier = 1 + (playerProfile.prestige / 100);
       const customSalary = Math.round(c.initialSalary * multiplier);
       const signOnBonus = Math.round(c.marketValue * 0.01 + (playerProfile.careerStats.golesHistoricos * 750));
-      const reqPrestige = c.reputation * 15 - 10;
-      
+      const reputationGap = c.reputation - currentClub.reputation;
+      const reqPrestige = Math.round(Math.min(95, c.reputation * 12 + Math.max(0, reputationGap) * 15));
+      const reqMatches = 4 + Math.max(0, reputationGap) * 5 + (c.reputation - 1) * 2;
+
       return {
         club: c,
         salaryOffer: customSalary,
         signOnBonus,
         reqPrestige,
-        possible: playerProfile.prestige >= reqPrestige
+        possible: performanceScore >= reqPrestige && matchesPlayed >= reqMatches
       };
     });
   };
@@ -133,6 +271,111 @@ export default function Dashboard({
       timestamp: 'Hace 1 hora',
       avatar: celeb.avatar
     }];
+  };
+
+  // Contracara de generateCelebrityShoutoutPost: si el último partido fue flojo, la prensa/hinchas
+  // también critican, no todo puede ser siempre elogioso. Mismo patrón de plantillas + persona.
+  const generateCriticalPressPost = () => {
+    if (playerProfile.lastMatchRating <= 0 || playerProfile.lastMatchRating >= 5.5) return [];
+    const critics = [
+      { author: 'El Polémico Bermúdez', role: 'Panelista de Debate', avatar: '🎤' },
+      { author: 'HinchaFurioso_Trib', role: 'Hincha Enojado', avatar: '😤' },
+      { author: 'La Lupa Deportiva', role: 'Analista Crítico', avatar: '🔍' },
+    ];
+    const critic = critics[Math.floor(playerProfile.lastMatchRating * 10) % critics.length];
+    const lines = [
+      `Flojo el partido de ${playerProfile.name}, la verdad. Con la camiseta que tiene puesta se le exige mucho más que un ${playerProfile.lastMatchRating.toFixed(1)}.`,
+      `${playerProfile.name} desapareció del partido justo cuando el equipo más lo necesitaba. Preocupa la caída de nivel.`,
+      `No alcanza con el nombre: ${playerProfile.name} viene de otro partido gris. La hinchada ya empieza a impacientarse.`,
+    ];
+    return [{
+      id: `critic_${playerProfile.careerStats.partidos}`,
+      author: critic.author,
+      role: critic.role,
+      content: lines[Math.floor(Math.random() * lines.length)],
+      likes: 300 + Math.floor(Math.random() * 2000),
+      commentsCount: 80 + Math.floor(Math.random() * 500),
+      timestamp: 'Hace 1 hora',
+      avatar: critic.avatar
+    }];
+  };
+
+  // Rumores de mercado sobre OTROS jugadores de OTROS clubes (usa Club.starPlayers, datos reales
+  // ya cargados en la base) -- para que el mercado no gire únicamente alrededor del jugador.
+  const generateRivalTransferBuzzPosts = () => {
+    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
+    if (candidates.length === 0) return [];
+    const personas = [
+      { author: 'Fichajes al Día', role: 'Cuenta de Mercado', avatar: '📋' },
+      { author: 'Radar de Pases', role: 'Especialista en Fichajes', avatar: '🕵️' },
+    ];
+    const picked = [...candidates].sort(() => Math.random() - 0.5).slice(0, 2);
+    return picked.map((club, idx) => {
+      const star = club.starPlayers[Math.floor(Math.random() * club.starPlayers.length)];
+      const persona = personas[idx % personas.length];
+      const options = [
+        `RUMOR: ${star} podría dejar ${club.name} este mercado. Varios clubes ya preguntaron por su cláusula.`,
+        `${club.name} negocia la renovación de ${star} para blindarlo de ofertas externas.`,
+        `Se cae la chance: ${star} de ${club.name} descartó una salida por ahora, según su entorno.`,
+      ];
+      return {
+        id: `rivaltransfer_${club.id}_${playerProfile.currentWeek}_${idx}`,
+        author: persona.author,
+        role: persona.role,
+        content: options[Math.floor(Math.random() * options.length)],
+        likes: 100 + Math.floor(Math.random() * 1500),
+        commentsCount: 20 + Math.floor(Math.random() * 300),
+        timestamp: 'Mercado de Pases',
+        avatar: persona.avatar
+      };
+    });
+  };
+
+  // Cuando una copa que le toca a tu club (o el Mundial) termina, se anuncia el campeón -- puede
+  // ser cualquier otro equipo/selección, no necesariamente el tuyo. Antes esto solo se veía como
+  // texto fijo en la tarjeta de la copa (pestaña Copas y Tablas), nunca como noticia en ChutSocial.
+  const generateCupChampionPosts = () => {
+    const posts: { id: string; author: string; role: string; content: string; likes: number; commentsCount: number; timestamp: string; avatar: string }[] = [];
+    if (conmebolCup?.stage === 'done' && conmebolCup.championId) {
+      const cupName = conmebolCup.cupId === 'libertadores' ? 'Copa Libertadores' : 'Copa Sudamericana';
+      posts.push({
+        id: `champion_${conmebolCup.cupId}_${conmebolCup.year}`,
+        author: 'Conmebol Oficial',
+        role: 'Organismo Rector',
+        content: `🏆 ¡${clubNameById(conmebolCup.championId)} se consagró campeón de la ${cupName} ${conmebolCup.year}! Fiesta continental para el ganador.`,
+        likes: 12000 + Math.floor(Math.random() * 8000),
+        commentsCount: 1500 + Math.floor(Math.random() * 2000),
+        timestamp: 'Copa Continental',
+        avatar: '🏆'
+      });
+    }
+    if (uefaCup?.stage === 'done' && uefaCup.championId) {
+      const cupName = uefaCup.cupId === 'champions' ? 'Champions League' : 'Europa League';
+      posts.push({
+        id: `champion_${uefaCup.cupId}_${uefaCup.year}`,
+        author: 'UEFA Oficial',
+        role: 'Organismo Rector',
+        content: `🏆 ¡${clubNameById(uefaCup.championId)} se coronó campeón de la ${cupName} ${uefaCup.year}! Gloria europea para el nuevo rey del continente.`,
+        likes: 15000 + Math.floor(Math.random() * 10000),
+        commentsCount: 2000 + Math.floor(Math.random() * 3000),
+        timestamp: 'Copa Continental',
+        avatar: '🏆'
+      });
+    }
+    if (wcState?.stage === 'done' && wcState.championId) {
+      const champName = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === wcState.championId)?.name || '';
+      posts.push({
+        id: `champion_worldcup_${wcState.year}`,
+        author: 'FIFA Oficial',
+        role: 'Organismo Rector',
+        content: `🌎🏆 ¡${champName} se consagró Campeón del Mundo ${wcState.year}! El planeta entero habla de la nueva gloria mundialista.`,
+        likes: 40000 + Math.floor(Math.random() * 20000),
+        commentsCount: 8000 + Math.floor(Math.random() * 6000),
+        timestamp: 'Mundial',
+        avatar: '🌎'
+      });
+    }
+    return posts;
   };
 
   // Posts de "hinchas reaccionando" a OTROS partidos de la última fecha jugada de tu liga
@@ -223,7 +466,14 @@ export default function Dashboard({
         avatar: '👟'
       }
     ];
-    return [...generateCelebrityShoutoutPost(), ...basePosts, ...generateMatchdayReactionPosts()];
+    return [
+      ...generateCelebrityShoutoutPost(),
+      ...generateCriticalPressPost(),
+      ...basePosts,
+      ...generateMatchdayReactionPosts(),
+      ...generateRivalTransferBuzzPosts(),
+      ...generateCupChampionPosts()
+    ];
   };
 
   const handlePressAnswer = (opt: any) => {
@@ -232,11 +482,9 @@ export default function Dashboard({
     setPressResponseState('answered');
   };
 
-  const nextPressQuestion = () => {
-    setSelectedPressQ((prev) => (prev + 1) % PRESS_QUESTIONS_POOL.length);
-    setPressResponseState('asking');
-    setPressReaction('');
-  };
+  // La pregunta de esta semana rota según la semana de carrera (no es un estado libre que se
+  // pudiera ciclear para reintentar) -- cada semana nueva trae una conferencia distinta.
+  const selectedPressQ = playerProfile.currentWeek % PRESS_QUESTIONS_POOL.length;
 
   return (
     <div id="dashboard-view" className="min-h-screen bg-slate-950 text-white flex flex-col md:flex-row relative">
@@ -318,10 +566,22 @@ export default function Dashboard({
               <ShoppingBag size={15} /> Tienda de Lujos
             </button>
             <button
+              onClick={() => setActiveTab('patrocinios')}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'patrocinios' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+            >
+              <Award size={15} /> Patrocinios
+            </button>
+            <button
               onClick={() => setActiveTab('tablas')}
               className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Table size={15} /> Copas y Tablas
+            </button>
+            <button
+              onClick={() => setActiveTab('calendario')}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'calendario' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+            >
+              <Calendar size={15} /> Calendario
             </button>
           </nav>
         </div>
@@ -521,6 +781,29 @@ export default function Dashboard({
                   </div>
 
                   <div className="space-y-4 pt-6">
+                    {nextMatchOpponent ? (
+                      <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-lg shrink-0">
+                          {nextMatchOpponent.club?.badgeLogoUrl || '⚽'}
+                        </div>
+                        <div className="min-w-0">
+                          <span className="text-3xs text-slate-500 uppercase font-mono block truncate">
+                            Próximo Rival ({nextMatchOpponent.isHome ? 'Local' : 'Visitante'}) · {nextMatchOpponent.competition}
+                          </span>
+                          <span className="text-white font-bold text-sm truncate block">vs {nextMatchOpponent.name}</span>
+                        </div>
+                      </div>
+                    ) : nextWeekInWorldCupBreak && (
+                      <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-lg shrink-0">
+                          🌎
+                        </div>
+                        <div className="min-w-0">
+                          <span className="text-3xs text-slate-500 uppercase font-mono block truncate">Fecha FIFA</span>
+                          <span className="text-white font-bold text-sm truncate block">Sin partido de clubes esta semana</span>
+                        </div>
+                      </div>
+                    )}
                     <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center justify-between text-xs">
                       <div>
                         <span className="text-3xs text-slate-500 uppercase font-mono">Ficha Semanal</span>
@@ -782,7 +1065,15 @@ export default function Dashboard({
                 </p>
               </div>
 
-              {pressResponseState === 'asking' ? (
+              {pressResponseState === 'asking' && playerProfile.lastPressAnsweredWeek === playerProfile.currentWeek ? (
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-3 text-center">
+                  <div className="inline-flex p-3 rounded-full bg-slate-800/60 border border-slate-700 text-slate-400 mb-1">
+                    <Radio size={24} />
+                  </div>
+                  <h3 className="text-sm font-black text-white px-2">Ya atendiste a la prensa esta semana.</h3>
+                  <p className="text-3xs text-slate-400 font-mono">Los reporteros vuelven la semana que viene con nuevas preguntas.</p>
+                </div>
+              ) : pressResponseState === 'asking' ? (
                 <div className={`bg-slate-900 border rounded-3xl p-6 shadow-xl relative overflow-hidden space-y-4 ${PRESS_QUESTIONS_POOL[selectedPressQ].mediaColor}`}>
                   
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-3xs font-mono font-black uppercase tracking-wider">
@@ -829,12 +1120,9 @@ export default function Dashboard({
                     Los indicadores de reputación se han recalculado en función de tus declaraciones públicas.
                   </p>
 
-                  <button
-                    onClick={nextPressQuestion}
-                    className="btn-fx mt-6 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-widest cursor-pointer"
-                  >
-                    Próxima Pregunta
-                  </button>
+                  <p className="text-3xs text-slate-500 font-mono uppercase pt-2">
+                    Ya usaste tu conferencia de esta semana — volvé la semana que viene por la próxima.
+                  </p>
                 </div>
               )}
             </div>
@@ -931,7 +1219,7 @@ export default function Dashboard({
                         <div>
                           {!offer.possible ? (
                             <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
-                              Reputación Insuficiente (Mín: {offer.reqPrestige})
+                              Rendimiento Insuficiente (Mín: {offer.reqPrestige})
                             </span>
                           ) : !isTransferWindowOpen(playerProfile.currentWeek) ? (
                             <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
@@ -959,18 +1247,107 @@ export default function Dashboard({
           )}
 
           {activeTab === 'tienda' && (
-            <div className="space-y-6 animate-fade-in max-w-4xl">
+            <div className="space-y-6 animate-fade-in max-w-5xl">
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
-                  Boutique de Estilo de Vida y Activos Pasivos
+                  Boutique de Estilo de Vida
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Invierte el capital neto de tus contratos semanales en lujos exclusivos de alta gama. Cada activo desbloquea mejoras permanentes automáticas en la recuperación de estamina, rendimiento físico o ingresos extra.
                 </p>
               </div>
 
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {lifestyleItems.map(item => {
+                  const isAffordable = playerProfile.capital >= item.cost;
+                  return (
+                    <div
+                      key={item.id}
+                      className={`group rounded-2xl border overflow-hidden transition-all flex flex-col ${
+                        item.purchased
+                          ? 'border-amber-500/40 bg-slate-900 shadow-lg shadow-amber-950/10'
+                          : 'border-slate-800 bg-slate-950/40 hover:border-emerald-500/30'
+                      }`}
+                    >
+                      <div className="relative h-36 shrink-0 overflow-hidden">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-slate-900 flex items-center justify-center text-3xl">💎</div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
+                        <span className="absolute bottom-2 left-3 text-sm font-black text-white drop-shadow-lg leading-tight pr-3">
+                          {item.name}
+                        </span>
+                        {item.purchased && (
+                          <span className="absolute top-2 right-2 inline-flex gap-1 items-center px-2 py-0.5 rounded bg-emerald-500 text-slate-950 font-mono text-3xs font-black uppercase shadow">
+                            Adquirido
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="p-4 flex flex-col flex-1 gap-2.5">
+                        <p className="text-3xs text-slate-400 leading-relaxed">
+                          {item.description}
+                        </p>
+                        <p className="text-3xs text-emerald-400 font-mono font-bold uppercase leading-relaxed">
+                          ✨ Ventaja: {item.perkText}
+                        </p>
+
+                        <div className="mt-auto pt-3 flex items-center justify-between gap-2">
+                          <span className="text-sm font-black font-mono text-white">
+                            ${item.cost.toLocaleString()}
+                          </span>
+
+                          {item.purchased ? (
+                            <span className="text-3xs text-slate-500 font-mono uppercase">Ya es tuyo</span>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                if (confirm(`¿Deseas adquirir "${item.name}" por $${item.cost.toLocaleString()}?`)) {
+                                  onBuyItem(item.id);
+                                }
+                              }}
+                              disabled={!isAffordable}
+                              className={`btn-fx-subtle py-1.5 px-3.5 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
+                                isAffordable
+                                  ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:from-emerald-300 hover:to-emerald-500 cursor-pointer'
+                                  : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'
+                              }`}
+                            >
+                              Adquirir
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className="text-3xs text-slate-600 font-mono pt-2 border-t border-slate-900">
+                Fotos: Wikimedia Commons — San Francisco Foghorn (CC BY 2.0), crudmucosa (CC BY 2.0), EU2016 SK / Bill Branson / Carol M. Highsmith (dominio público / CC0).
+              </p>
+            </div>
+          )}
+
+          {activeTab === 'patrocinios' && (
+            <div className="space-y-6 animate-fade-in max-w-4xl">
+              <div>
+                <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
+                  Ofertas de Patrocinio
+                </h2>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Las marcas te contactan a vos, no al revés: cuanto más lejos llegue tu fama, más y mejores ofertas te van a llegar. Aceptar un patrocinio no cuesta nada — al contrario, te paga una prima de firma inmediata.
+                </p>
+              </div>
+
               {(() => {
-                const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
+                const activeSponsorships = sponsorDeals.filter(i => i.purchased).length;
                 const capReached = activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS;
                 return (
                   <div className={`px-4 py-2.5 rounded-lg border text-xs font-bold flex items-center gap-2 ${capReached ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
@@ -981,10 +1358,13 @@ export default function Dashboard({
               })()}
 
               <div className="grid md:grid-cols-2 gap-4">
-                {shopItems.map(item => {
-                  const isAffordable = playerProfile.capital >= item.cost;
-                  const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
-                  const blockedByCap = !!item.category && !item.purchased && activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS;
+                {sponsorDeals.map(item => {
+                  // Cuánta fama (Fans) hace falta para que esta marca se fije en vos -- proporcional
+                  // al tamaño del contrato, así los grandes patrocinios de verdad se sienten ganados.
+                  const reqFans = Math.min(95, Math.round(item.cost / 3000));
+                  const isEligible = playerProfile.fans >= reqFans;
+                  const activeSponsorships = sponsorDeals.filter(i => i.purchased).length;
+                  const blockedByCap = !item.purchased && activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS;
                   return (
                     <div
                       key={item.id}
@@ -996,7 +1376,7 @@ export default function Dashboard({
                     >
                       <div className="space-y-2 sm:max-w-[70%]">
                         <div className="flex items-center gap-2">
-                          <span className="text-lg">💎</span>
+                          <span className="text-lg">🤝</span>
                           <h4 className="font-extrabold text-xs text-white">
                             {item.name}
                           </h4>
@@ -1010,48 +1390,41 @@ export default function Dashboard({
                       </div>
 
                       <div className="flex flex-row sm:flex-col justify-between sm:justify-start items-center sm:items-end w-full sm:w-auto sm:text-right sm:h-full sm:min-h-[90px] gap-3">
-                        <span className="text-xs font-black font-mono text-white block">
-                          ${item.cost.toLocaleString()}
-                        </span>
+                        <div className="text-right font-mono">
+                          <span className="text-3xs text-slate-500 block uppercase">Prima de Firma</span>
+                          <span className="text-xs font-black text-emerald-400 block">+${item.cost.toLocaleString()}</span>
+                        </div>
 
                         <div className="sm:mt-4 flex flex-col items-end gap-1.5">
                           {item.purchased ? (
-                            <>
-                              <span className="inline-flex gap-1 items-center px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-3xs font-bold uppercase">
-                                Adquirido
-                              </span>
-                              {!!item.category && (
-                                <button
-                                  onClick={() => {
-                                    if (confirm(`¿Rescindir el contrato con "${item.name}"? Perderás sus ventajas (incluido cualquier ingreso pasivo) y tu Prestigio cae un poco por romper el acuerdo antes de tiempo.`)) {
-                                      onCancelSponsor(item.id);
-                                    }
-                                  }}
-                                  className="btn-fx-subtle py-1 px-2 rounded-lg text-3xs font-bold uppercase tracking-wider text-red-400 border border-red-500/20 hover:bg-red-950/30 cursor-pointer"
-                                >
-                                  Cancelar Contrato
-                                </button>
-                              )}
-                            </>
+                            <button
+                              onClick={() => {
+                                if (confirm(`¿Rescindir el contrato con "${item.name}"? Perderás sus ventajas (incluido cualquier ingreso pasivo) y tu Prestigio cae un poco por romper el acuerdo antes de tiempo.`)) {
+                                  onCancelSponsor(item.id);
+                                }
+                              }}
+                              className="btn-fx-subtle py-1 px-2 rounded-lg text-3xs font-bold uppercase tracking-wider text-red-400 border border-red-500/20 hover:bg-red-950/30 cursor-pointer"
+                            >
+                              Cancelar Contrato
+                            </button>
                           ) : blockedByCap ? (
                             <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
                               Cupo de Patrocinios Lleno
                             </span>
+                          ) : !isEligible ? (
+                            <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
+                              Fama Insuficiente (Mín: {reqFans})
+                            </span>
                           ) : (
                             <button
                               onClick={() => {
-                                if (confirm(`¿Deseas adquirir la propiedad/servicio "${item.name}" por $${item.cost}?`)) {
-                                  onBuyItem(item.id);
+                                if (confirm(`¿Aceptar la oferta de "${item.name}"? Vas a recibir $${item.cost.toLocaleString()} de inmediato.`)) {
+                                  onAcceptSponsor(item.id);
                                 }
                               }}
-                              disabled={!isAffordable}
-                              className={`btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
-                                isAffordable
-                                  ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:bg-emerald-400 cursor-pointer'
-                                  : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'
-                              }`}
+                              className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:from-emerald-300 hover:to-emerald-500 cursor-pointer"
                             >
-                              Adquirir
+                              Aceptar Patrocinio
                             </button>
                           )}
                         </div>
@@ -1198,6 +1571,77 @@ export default function Dashboard({
                   <p className="text-2xs text-slate-500">Tu club no está clasificado a ningún torneo continental esta temporada.</p>
                 )}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'calendario' && (
+            <div className="space-y-6 animate-fade-in max-w-4xl">
+              <div>
+                <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
+                  Calendario de Partidos
+                </h2>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Tus próximos rivales, en el orden real en que ya están fijados. Este fixture no se regenera ni cambia: se respeta tal cual hasta el final de la competición.
+                </p>
+              </div>
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-3">
+                <h3 className="text-xs font-black uppercase tracking-widest text-emerald-400 border-b border-slate-800 pb-2 flex items-center gap-2">
+                  <Calendar size={13} /> LIGA · {currentClub.league.toUpperCase()}
+                </h3>
+                {upcomingLeagueFixtures.length > 0 ? (
+                  <ul className="space-y-2">
+                    {upcomingLeagueFixtures.map((fx, i) => (
+                      <li key={i} className="flex items-center justify-between p-3 bg-slate-950 border border-slate-850 rounded-xl text-xs">
+                        <span className="text-3xs font-mono text-slate-500 uppercase shrink-0">Fecha {fx.matchweek}</span>
+                        <span className="font-bold text-white truncate px-2">
+                          {fx.isHome ? 'vs.' : '@'} {fx.opponentName}
+                        </span>
+                        <span className={`text-3xs font-mono uppercase shrink-0 ${fx.isHome ? 'text-emerald-400' : 'text-slate-500'}`}>
+                          {fx.isHome ? 'Local' : 'Visitante'}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-2xs text-slate-500">No hay más fechas de liga programadas por ahora.</p>
+                )}
+              </div>
+
+              {(conmebolCup || uefaCup) && (
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-3">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 border-b border-slate-800 pb-2 flex items-center gap-2">
+                    <Calendar size={13} /> {conmebolCup ? (conmebolCup.cupId === 'libertadores' ? 'COPA LIBERTADORES' : 'COPA SUDAMERICANA') : (uefaCup!.cupId === 'champions' ? 'UEFA CHAMPIONS LEAGUE' : 'UEFA EUROPA LEAGUE')}
+                  </h3>
+                  {upcomingCupFixtures.length > 0 ? (
+                    <ul className="space-y-2">
+                      {upcomingCupFixtures.map((fx, i) => (
+                        <li key={i} className="flex items-center justify-between p-3 bg-slate-950 border border-slate-850 rounded-xl text-xs">
+                          <span className="text-3xs font-mono text-slate-500 uppercase shrink-0">Fecha {fx.matchweek}</span>
+                          <span className="font-bold text-white truncate px-2">
+                            {fx.isHome ? 'vs.' : '@'} {fx.opponentName}
+                          </span>
+                          <span className={`text-3xs font-mono uppercase shrink-0 ${fx.isHome ? 'text-emerald-400' : 'text-slate-500'}`}>
+                            {fx.isHome ? 'Local' : 'Visitante'}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : upcomingCupKnockoutOpponent ? (
+                    <div className="flex items-center justify-between p-3 bg-slate-950 border border-slate-850 rounded-xl text-xs">
+                      <span className="text-3xs font-mono text-amber-500 uppercase shrink-0">Próximo cruce</span>
+                      <span className="font-bold text-white truncate px-2">
+                        {upcomingCupKnockoutOpponent.isHome ? 'vs.' : '@'} {upcomingCupKnockoutOpponent.opponentName}
+                      </span>
+                      <span className={`text-3xs font-mono uppercase shrink-0 ${upcomingCupKnockoutOpponent.isHome ? 'text-emerald-400' : 'text-slate-500'}`}>
+                        {upcomingCupKnockoutOpponent.isHome ? 'Local' : 'Visitante'}
+                      </span>
+                    </div>
+                  ) : (
+                    <p className="text-2xs text-slate-500">Sin más partidos de copa programados por ahora.</p>
+                  )}
+                </div>
+              )}
             </div>
           )}
 

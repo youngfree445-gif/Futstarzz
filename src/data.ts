@@ -14,6 +14,12 @@ const ALL_PLAYERS = rawPlayers as unknown as {
 import { Club, PressQuestion, ShopItem } from './types';
 import { CLUB_EXTRAS } from './clubExtras';
 import mauSportsAvatar from './assets/mau_sports.jpg';
+import physicalCoachImg from './assets/shop/physical_coach.jpg';
+import sportsAgentImg from './assets/shop/sports_agent.jpg';
+import sportsCarImg from './assets/shop/sports_car.jpg';
+import nutritionistImg from './assets/shop/nutritionist.jpg';
+import luxuryMansionImg from './assets/shop/luxury_mansion.jpg';
+import marketingPrImg from './assets/shop/marketing_pr.jpg';
 
 export const CLUBS_DATABASE: Club[] = [
   // ==========================================
@@ -2152,7 +2158,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+1 Físico permanente y recuperas +8 Energía extra por partido avanzado.',
     effect: { attribute: 'fisico', value: 2, permanentEnergyBonus: 5, fatigueReduction: 5 },
     purchased: false,
-    icon: 'dumbbells'
+    icon: 'dumbbells',
+    image: physicalCoachImg
   },
   {
     id: 'sports_agent',
@@ -2162,7 +2169,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+15 Prestigio garantizado, habilita ofertas de gigantes continentales.',
     effect: { prestigeBonus: 15, fatigueReduction: 0 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: sportsAgentImg
   },
   {
     id: 'sports_car',
@@ -2172,7 +2180,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+25 Afición/Fans instantáneos, +12 Prestigio.',
     effect: { fansBonus: 25, prestigeBonus: 12, attribute: 'ritmo', value: 1 },
     purchased: false,
-    icon: 'car'
+    icon: 'car',
+    image: sportsCarImg
   },
   {
     id: 'nutritionist',
@@ -2182,7 +2191,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+3 Ritmo y +2 Físico permanentes para volar sobre la banda.',
     effect: { attribute: 'ritmo', value: 3 },
     purchased: false,
-    icon: 'apple'
+    icon: 'apple',
+    image: nutritionistImg
   },
   {
     id: 'luxury_mansion',
@@ -2192,7 +2202,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+25 Prestigio, +20 Energía por partido avanzado.',
     effect: { prestigeBonus: 25, permanentEnergyBonus: 15 },
     purchased: false,
-    icon: 'home'
+    icon: 'home',
+    image: luxuryMansionImg
   },
   {
     id: 'marketing_pr',
@@ -2202,7 +2213,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+30 de Afición/Fans y +10 de Prestigio en el club.',
     effect: { fansBonus: 30, prestigeBonus: 10 },
     purchased: false,
-    icon: 'megaphone'
+    icon: 'megaphone',
+    image: marketingPrImg
   },
   {
     id: 'gaming_sponsorship',
@@ -2359,7 +2371,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
   {
     id: "q1",
     context: "Post-Partido de Primera División",
-    mediaName: "mausportstv (Live Twitch/TikTok)",
+    mediaName: "mausportstv (Live TikTok/Instagram)",
     reporter: "Mau",
     reporterAvatar: "🎙️⚽",
     reporterAvatarImg: mauSportsAvatar,

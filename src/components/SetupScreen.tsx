@@ -94,6 +94,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       yellowCards: 0,
       suspendedMatches: 0,
       seasonHistory: [],
+      lastPressAnsweredWeek: 0,
       attributes: defaultAttributes,
       careerStats: {
         goles: 0,

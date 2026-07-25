@@ -8,7 +8,8 @@ import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek,
-  isWorldCupYear, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch
+  isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
+  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen from './components/SetupScreen';
@@ -18,9 +19,6 @@ import PostMatch from './components/PostMatch';
 import DecisionCenter from './components/DecisionCenter';
 import PenaltyShootout from './components/PenaltyShootout';
 import CareerSummary from './components/CareerSummary';
-
-// Prestigio mínimo para que te convoquen a la selección en un año de Mundial.
-const WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD = 70;
 
 // Busca la tanda de penales de TU partido dentro de un bracket/llave de eliminación directa, si
 // tu partido de esta semana terminó igualado. Se usa en handleFinishMatch para decidir si hay que
@@ -54,6 +52,48 @@ function findShootoutInTwoLegTies(ties: TwoLegTie[] | null | undefined, myId: st
     }
   }
   return null;
+}
+
+// Mantiene al día el estado de Libertadores/Sudamericana y Champions/Europa del club actual,
+// incluso en semanas donde NO le tocó jugar la copa (ej. semana de liga doméstica). Sin esto,
+// playerProfile.continentalCups/uefaCups queda desactualizado toda semana que no sea de copa, y
+// cualquier pantalla que necesite mostrarlo (Dashboard) tiene que "ponerse al día" ella misma
+// llamando a getOrCreateCupState con azar fresco (simulateMatch) cada vez que renderiza -- eso
+// hacía que la tabla de grupos mostrada cambiara sola en cada render, sin persistir nunca un
+// resultado real (bug reportado: "se suman puntos de partidos que no se han jugado").
+function syncBackgroundCups(
+  clubId: string,
+  atWeek: number,
+  continentalCups: Record<string, any>,
+  uefaCups: Record<string, any>,
+  skipConmebol: boolean,
+  skipUefa: boolean
+): { continentalCups: Record<string, any>; uefaCups: Record<string, any> } {
+  const myClub = CLUBS_DATABASE.find(c => c.id === clubId);
+  let nextContinental = continentalCups;
+  let nextUefa = uefaCups;
+  if (myClub) {
+    const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id)
+      ? 'libertadores'
+      : getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id)
+      ? 'sudamericana'
+      : null;
+    if (conmebolCupId && !skipConmebol) {
+      const yr = getSeasonYear(atWeek);
+      const cupKey = `${conmebolCupId}-${yr}`;
+      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, yr, CLUBS_DATABASE, nextContinental[cupKey], atWeek) };
+    }
+
+    const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(CLUBS_DATABASE).includes(myClub.id)
+      ? 'champions'
+      : getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id)
+      ? 'europa'
+      : null;
+    if (uefaCupId && !skipUefa) {
+      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], atWeek) };
+    }
+  }
+  return { continentalCups: nextContinental, uefaCups: nextUefa };
 }
 
 // Trayectoria club a club por temporada (ver SeasonHistory en types.ts): si el último tramo
@@ -230,6 +270,9 @@ export default function App() {
     if (profile.seasonHistory === undefined) {
       profile = { ...profile, seasonHistory: [] };
     }
+    if (profile.lastPressAnsweredWeek === undefined) {
+      profile = { ...profile, lastPressAnsweredWeek: 0 };
+    }
     setPlayerProfile(profile);
 
     const savedShop = localStorage.getItem(`futbol_star_shop_${slotId}`);
@@ -253,7 +296,17 @@ export default function App() {
     const leagueKey = leagueKeyFor(myClub);
     const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
     const season = getOrCreateSeasonForLeague(leagueClubs, undefined, newProfile.currentWeek);
-    const profileWithLeague: PlayerProfile = { ...newProfile, leagueSeasons: { [leagueKey]: season } };
+    // Igual que la liga: generamos y persistimos Libertadores/Sudamericana/Champions/Europa desde
+    // el arranque mismo de la carrera (si tu club clasifica a alguna), para que el sorteo de
+    // grupos quede fijo desde el primer momento y nunca haya una ventana sin guardar donde
+    // Dashboard tenga que inventar un sorteo nuevo con azar fresco solo para mostrarlo.
+    const initialCups = syncBackgroundCups(newProfile.currentClubId, newProfile.currentWeek, {}, {}, false, false);
+    const profileWithLeague: PlayerProfile = {
+      ...newProfile,
+      leagueSeasons: { [leagueKey]: season },
+      continentalCups: initialCups.continentalCups,
+      uefaCups: initialCups.uefaCups
+    };
 
     setPlayerProfile(profileWithLeague);
     setShopItems(defaultShop);
@@ -307,6 +360,8 @@ export default function App() {
     alert(`Te reconvertiste a ${newPosition}. El cuerpo técnico ajustó tu plan de entrenamiento a la nueva posición.`);
   };
 
+  // Solo lujos puros (sin category, ver ShopItem en types.ts) pasan por acá -- los patrocinios
+  // viven en handleAcceptSponsor, con su propia lógica de "oferta que te llega" en vez de compra.
   const handleBuyItem = (itemId: string) => {
     if (!playerProfile) return;
     const item = shopItems.find(i => i.id === itemId);
@@ -315,22 +370,6 @@ export default function App() {
     if (playerProfile.capital < item.cost) {
       alert('No cuentas con el capital suficiente para adquirir este lujo.');
       return;
-    }
-
-    // Patrocinios "casi infinitos": solo uno comprado por categoría a la vez (ej. no podés tener
-    // dos patrocinios de tecnología simultáneos, son marcas competidoras).
-    if (item.category) {
-      const conflicting = shopItems.find(i => i.purchased && i.category === item.category && i.id !== item.id);
-      if (conflicting) {
-        alert(`Ya tenés un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Esperá a que termine ese contrato antes de firmar otro del mismo rubro.`);
-        return;
-      }
-
-      const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
-      if (activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS) {
-        alert(`Ya tenés el máximo de ${MAX_ACTIVE_SPONSORSHIPS} patrocinios activos al mismo tiempo. Tu agenda comercial está completa.`);
-        return;
-      }
     }
 
     let updatedAttributes = { ...playerProfile.attributes };
@@ -345,6 +384,40 @@ export default function App() {
       prestige: Math.min(100, playerProfile.prestige + (item.effect.prestigeBonus || 0)),
       fans: Math.min(100, playerProfile.fans + (item.effect.fansBonus || 0)),
       attributes: updatedAttributes
+    };
+
+    const updatedShop = shopItems.map(i => i.id === itemId ? { ...i, purchased: true } : i);
+
+    setPlayerProfile(updatedProfile);
+    setShopItems(updatedShop);
+    saveGameState(updatedProfile, updatedShop);
+  };
+
+  // Aceptar una oferta de patrocinio: a diferencia de un lujo, la marca te paga a vos (item.cost
+  // funciona como prima de firma), no al revés. Mismas reglas de exclusividad que antes: un solo
+  // contrato activo por categoría/rubro, y un tope global de patrocinios simultáneos.
+  const handleAcceptSponsor = (itemId: string) => {
+    if (!playerProfile) return;
+    const item = shopItems.find(i => i.id === itemId);
+    if (!item || !item.category) return;
+
+    const conflicting = shopItems.find(i => i.purchased && i.category === item.category && i.id !== item.id);
+    if (conflicting) {
+      alert(`Ya tenés un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Esperá a que termine ese contrato antes de firmar otro del mismo rubro.`);
+      return;
+    }
+
+    const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
+    if (activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS) {
+      alert(`Ya tenés el máximo de ${MAX_ACTIVE_SPONSORSHIPS} patrocinios activos al mismo tiempo. Tu agenda comercial está completa.`);
+      return;
+    }
+
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      capital: playerProfile.capital + item.cost,
+      prestige: Math.max(0, Math.min(100, playerProfile.prestige + (item.effect.prestigeBonus || 0))),
+      fans: Math.max(0, Math.min(100, playerProfile.fans + (item.effect.fansBonus || 0)))
     };
 
     const updatedShop = shopItems.map(i => i.id === itemId ? { ...i, purchased: true } : i);
@@ -400,7 +473,8 @@ export default function App() {
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + prestigeChange)),
       fans: Math.max(0, Math.min(100, playerProfile.fans + fansChange)),
       energy: Math.max(0, Math.min(100, playerProfile.energy + energyChange)),
-      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(prestigeChange + fansChange)))
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(prestigeChange + fansChange))),
+      lastPressAnsweredWeek: playerProfile.currentWeek
     };
 
     const { items: updatedShop, droppedNames } = checkSponsorControversyFallout(shopItems, prestigeChange);
@@ -443,11 +517,14 @@ export default function App() {
 
     if (playerProfile.energy < 20) {
       if (!confirm('Tu nivel de fatiga física es alarmante (Energía < 20). ¿Deseas arriesgarte a saltar al campo?')) {
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 45),
           mentalHealth: Math.min(100, playerProfile.mentalHealth + 6), // descansar en vez de forzar la máquina te despeja la cabeza
-          currentWeek: playerProfile.currentWeek + 1
+          currentWeek: playerProfile.currentWeek + 1,
+          continentalCups: restSync.continentalCups,
+          uefaCups: restSync.uefaCups
         };
         const agedRest = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(agedRest)) {
@@ -475,39 +552,75 @@ export default function App() {
   const startMatchflow = () => {
     if (!playerProfile) return;
 
-    const isCup = isCupWeek(playerProfile.currentWeek);
-    setIsCopaLibertadores(isCup);
+    // El Mundial ya NO comparte cupo con Libertadores/Champions cada 3 semanas -- ocupa su propio
+    // bloque de 8 semanas SEGUIDAS (ver isWorldCupBreakWeek en leagueEngine.ts), como la fecha
+    // FIFA real: mientras dura, liga doméstica y copas de club quedan congeladas de verdad (los
+    // conteos de leagueMatchweeksElapsed*/cupWeeksElapsed* ya excluyen esas semanas).
+    const inWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
+    const isCup = !inWorldCupBreak && isCupWeek(playerProfile.currentWeek);
+    // isCopaLibertadores es, en la práctica, un "no es liga doméstica" genérico (nombre legado de
+    // antes de que existieran Champions/Mundial): debe ser true tanto en semana de copa normal
+    // como en semana de Mundial con partido de selección. Si el Mundial no tiene partido puntual
+    // esta semana, handleFinishMatch nunca se llama (se retorna antes de setScreen('match')), así
+    // que no importa qué valor quede seteado en ese caso.
+    setIsCopaLibertadores(isCup || inWorldCupBreak);
 
     let opName = '';
     let opClubId: string | null = null;
     let isHomeThisMatch = Math.random() > 0.5;
-    // Declarado afuera del if/else de isCup para no quedar con un valor "viejo" de una
-    // semana de copa anterior contaminando una semana doméstica normal (bug real detectado:
-    // sin esto, handleFinishMatch podía resolver el Mundial con el resultado de un partido
-    // de liga doméstica de otra semana).
+    // Declarado afuera del if/else para no quedar con un valor "viejo" de una semana de copa
+    // anterior contaminando una semana doméstica normal (bug real detectado: sin esto,
+    // handleFinishMatch podía resolver el Mundial con el resultado de un partido de liga
+    // doméstica de otra semana).
     let foundWorldCupTeamId: string | null = null;
 
-    if (isCup) {
+    if (inWorldCupBreak) {
+      const year = getSeasonYear(playerProfile.currentWeek);
+      const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
+      const isEligible = !!wcTeamId
+        && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
+        && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
+
+      const upcoming = isEligible
+        ? getUpcomingWorldCupMatch(getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek), wcTeamId!)
+        : null;
+
+      if (upcoming) {
+        const opponentTeam = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId);
+        opName = opponentTeam?.name || '';
+        opClubId = upcoming.opponentId;
+        isHomeThisMatch = upcoming.isHome;
+        foundWorldCupTeamId = wcTeamId;
+        setActiveCupId(null);
+        setActiveUefaCupId(null);
+        setActiveMyTablePosition(null);
+        setActiveRivalTablePosition(null);
+        setActiveLeagueTeamCount(null);
+      } else {
+        // Fecha FIFA sin partido puntual para vos (no convocado, tu selección ya quedó
+        // eliminada, o estás entre rondas): no hay actividad de clubes en absoluto esta semana,
+        // ni de liga ni de copa -- descansás de verdad, como en la vida real.
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, true, true);
+        const updated = {
+          ...playerProfile,
+          energy: Math.min(100, playerProfile.energy + 20),
+          currentWeek: playerProfile.currentWeek + 1,
+          continentalCups: restSync.continentalCups,
+          uefaCups: restSync.uefaCups
+        };
+        const aged = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+        if (isPastRetirementAge(aged)) {
+          triggerForcedRetirement(aged);
+          return;
+        }
+        setPlayerProfile(aged);
+        saveGameState(aged, shopItems);
+        alert('📅 FECHA FIFA: el Mundial paraliza la actividad de clubes en todo el mundo. Esta semana no hay partido de liga ni de copa para tu club.');
+        return;
+      }
+    } else if (isCup) {
       const year = getSeasonYear(playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-
-      // El Mundial tiene prioridad sobre las obligaciones de copa de tu club: si te convocan,
-      // esa semana jugás para tu selección (mismo cupo de semanas de copa que Libertadores/UEFA).
-      if (isWorldCupYear(year)) {
-        const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
-        const isEligible = !!wcTeamId && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD;
-        if (isEligible) {
-          const wcState = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek);
-          const upcoming = getUpcomingWorldCupMatch(wcState, wcTeamId);
-          if (upcoming) {
-            const opponentTeam = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId);
-            opName = opponentTeam?.name || '';
-            opClubId = upcoming.opponentId;
-            isHomeThisMatch = upcoming.isHome;
-            foundWorldCupTeamId = wcTeamId;
-          }
-        }
-      }
 
       const libertadoresIds = new Set(getLibertadoresParticipants(CLUBS_DATABASE));
       const sudamericanaIds = new Set(getSudamericanaParticipants(CLUBS_DATABASE));
@@ -518,7 +631,7 @@ export default function App() {
         : null;
 
       let foundOpponentId: string | null = null;
-      if (!foundWorldCupTeamId && qualifiedCupId) {
+      if (qualifiedCupId) {
         const cupKey = `${qualifiedCupId}-${year}`;
         const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek);
         const upcoming = getUpcomingCupMatch(cup, myClub.id);
@@ -534,7 +647,7 @@ export default function App() {
 
       // Si el club no juega Libertadores/Sudamericana (ligas sudamericanas), probamos Champions/Europa League.
       let foundUefaOpponentId: string | null = null;
-      if (!foundWorldCupTeamId && !foundOpponentId) {
+      if (!foundOpponentId) {
         const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE));
         const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE));
         const qualifiedUefaCupId: 'champions' | 'europa' | null = championsIds.has(myClub.id)
@@ -560,7 +673,7 @@ export default function App() {
       }
 
       // Club no clasificado a ninguna copa este año, o copa entre rondas (sin partido esta semana puntual): rival de relleno.
-      if (!foundWorldCupTeamId && !foundOpponentId && !foundUefaOpponentId) {
+      if (!foundOpponentId && !foundUefaOpponentId) {
         const giants = ['CR Flamengo', 'SE Palmeiras', 'CA Boca Juniors', 'CA River Plate', 'Fluminense FC', 'SC Corinthians', 'Peñarol (URU)', 'Nacional (URU)'];
         opName = giants[Math.floor(Math.random() * giants.length)];
       }
@@ -642,6 +755,7 @@ export default function App() {
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
 
+    const suspendedSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.min(100, playerProfile.energy + 15),
@@ -649,7 +763,9 @@ export default function App() {
       mentalHealth: Math.max(0, playerProfile.mentalHealth - 3),
       currentWeek: playerProfile.currentWeek + 1,
       suspendedMatches: playerProfile.suspendedMatches - 1,
-      leagueSeasons: updatedLeagueSeasons
+      leagueSeasons: updatedLeagueSeasons,
+      continentalCups: suspendedSync.continentalCups,
+      uefaCups: suspendedSync.uefaCups
     };
 
     const aged = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
@@ -799,6 +915,18 @@ export default function App() {
         foundShootoutMyName = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === activeWorldCupTeamId)?.name || '';
       }
       updatedWorldCups = { ...playerProfile.worldCups, [year]: resolvedWorldCup };
+    }
+
+    // Mantener al día Libertadores/Sudamericana y Champions/Europa de tu club aunque esta semana
+    // haya sido de liga doméstica (no de copa) -- ver syncBackgroundCups.
+    {
+      const synced = syncBackgroundCups(
+        playerProfile.currentClubId, playerProfile.currentWeek + 1, updatedContinentalCups, updatedUefaCups,
+        !!(isCopaLibertadores && activeCupId && activeOppositionClubId),
+        !!(isCopaLibertadores && activeUefaCupId && activeOppositionClubId)
+      );
+      updatedContinentalCups = synced.continentalCups;
+      updatedUefaCups = synced.uefaCups;
     }
 
     // Fase 3 -- salud mental según el resultado del partido, y saludo de famoso si el rating fue altísimo.
@@ -991,6 +1119,7 @@ export default function App() {
           onTrainAttribute={handleTrainAttribute}
           onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
+          onAcceptSponsor={handleAcceptSponsor}
           onCancelSponsor={handleCancelSponsor}
           onLaunchPRCampaign={handleLaunchPRCampaign}
           onAnswerPress={handleAnswerPress}

@@ -75,7 +75,7 @@ export function leagueMatchweeksElapsed(currentWeek: number): number {
   const start = getSeasonStartWeek(currentWeek);
   let count = 0;
   for (let w = start; w < currentWeek; w++) {
-    if (!isCupWeek(w)) count++;
+    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
   }
   return count;
 }
@@ -88,7 +88,7 @@ export function leagueMatchweeksElapsed(currentWeek: number): number {
 export function leagueMatchweeksElapsedTotal(currentWeek: number): number {
   let count = 0;
   for (let w = 1; w < currentWeek; w++) {
-    if (!isCupWeek(w)) count++;
+    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
   }
   return count;
 }
@@ -828,11 +828,52 @@ export function getSudamericanaParticipants(allClubs: Club[]): string[] {
   return pickTopClubsByCountry(allClubs, LIBERTADORES_SLOTS, libertadoresIds);
 }
 
+// Reparte participantIds en numGroups grupos de groupSize sin repetir país (c.league) dentro
+// de un mismo grupo -- así se evita que, por ejemplo, dos brasileños caigan juntos en un grupo
+// de Libertadores. Empaqueta primero los países con más cupos (los que más chocan entre sí) y
+// reintenta con un nuevo orden aleatorio si un intento particular se traba, aunque con los cupos
+// reales (máx. 6 clubes de un país para 8 grupos) siempre hay una asignación válida.
+function assignGroupsAvoidingSameCountry(
+  participantIds: string[], allClubs: Club[], numGroups: number, groupSize: number
+): string[][] {
+  const countryOf = (id: string) => allClubs.find(c => c.id === id)?.league ?? id;
+
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const byCountry = new Map<string, string[]>();
+    for (const id of shuffle(participantIds)) {
+      const country = countryOf(id);
+      if (!byCountry.has(country)) byCountry.set(country, []);
+      byCountry.get(country)!.push(id);
+    }
+    const countryEntries = shuffle([...byCountry.entries()]).sort((a, b) => b[1].length - a[1].length);
+
+    const groups: string[][] = Array.from({ length: numGroups }, () => []);
+    const groupCountries: Set<string>[] = Array.from({ length: numGroups }, () => new Set());
+    let ok = true;
+    for (const [country, ids] of countryEntries) {
+      const availableGroups = shuffle(Array.from({ length: numGroups }, (_, i) => i))
+        .filter(g => !groupCountries[g].has(country) && groups[g].length < groupSize);
+      if (availableGroups.length < ids.length) { ok = false; break; }
+      ids.forEach((id, i) => {
+        const g = availableGroups[i];
+        groups[g].push(id);
+        groupCountries[g].add(country);
+      });
+    }
+    if (ok) return groups;
+  }
+  // No debería llegar acá con los cupos reales, pero por si acaso: reparto simple sin garantía
+  // en vez de trabar el juego.
+  const fallback: string[][] = Array.from({ length: numGroups }, () => []);
+  shuffle(participantIds).forEach((id, i) => fallback[i % numGroups].push(id));
+  return fallback;
+}
+
 function drawCupGroups(participantIds: string[], allClubs: Club[]): CupGroup[] {
-  const shuffled = shuffle(participantIds);
+  const grouped = assignGroupsAvoidingSameCountry(participantIds, allClubs, 8, 4);
   const groups: CupGroup[] = [];
   for (let g = 0; g < 8; g++) {
-    const clubIds = shuffled.slice(g * 4, g * 4 + 4);
+    const clubIds = grouped[g];
     const groupClubs = clubIds.map(id => allClubs.find(c => c.id === id)).filter((c): c is Club => !!c);
     groups.push({
       id: String.fromCharCode(65 + g), // 'A'..'H'
@@ -914,7 +955,7 @@ function freshCupState(cupId: 'libertadores' | 'sudamericana', year: number, all
 export function cupWeeksElapsedTotal(currentWeek: number): number {
   let count = 0;
   for (let w = 1; w < currentWeek; w++) {
-    if (isCupWeek(w)) count++;
+    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
   }
   return count;
 }
@@ -931,7 +972,7 @@ function cupWeeksElapsedInYear(year: number, currentWeek: number): number {
   const yearStartWeek = (year - 1) * SEASON_LENGTH_WEEKS + 1;
   let count = 0;
   for (let w = yearStartWeek; w < currentWeek; w++) {
-    if (isCupWeek(w)) count++;
+    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
   }
   return count;
 }
@@ -1213,9 +1254,35 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
   return cup;
 }
 
+// El método del círculo (generateRoundRobin) arma emparejamientos distintos según el orden de
+// entrada -- probamos varios órdenes al azar y nos quedamos con el que menos partidos entre
+// clubes del mismo país deja en las primeras UEFA_LEAGUE_PHASE_MATCHDAYS fechas (que son las
+// únicas que de verdad se juegan). No hay garantía matemática de cero choques como en los grupos
+// de Conmebol (acá hay más equipos por país y menos margen), pero reparte muchísimo mejor que un
+// solo shuffle sin evaluar.
+function shuffleMinimizingCountryClashes(participantIds: string[], allClubs: Club[], matchdaysToCheck: number): string[] {
+  const countryOf = (id: string) => allClubs.find(c => c.id === id)?.league ?? id;
+  let best = shuffle(participantIds);
+  let bestClashes = Infinity;
+  for (let attempt = 0; attempt < 400; attempt++) {
+    const candidate = shuffle(participantIds);
+    const fixtures = generateRoundRobin(candidate).filter(f => f.matchweek <= matchdaysToCheck);
+    let clashes = 0;
+    for (const f of fixtures) {
+      if (countryOf(f.homeTeamId) === countryOf(f.awayTeamId)) clashes++;
+    }
+    if (clashes < bestClashes) {
+      bestClashes = clashes;
+      best = candidate;
+      if (clashes === 0) break;
+    }
+  }
+  return best;
+}
+
 function freshUefaCupState(cupId: 'champions' | 'europa', year: number, allClubs: Club[], startedAtStep: number): UefaCupState {
   const participantIds = cupId === 'champions' ? getChampionsParticipants(allClubs) : getEuropaParticipants(allClubs);
-  const shuffled = shuffle(participantIds);
+  const shuffled = shuffleMinimizingCountryClashes(participantIds, allClubs, UEFA_LEAGUE_PHASE_MATCHDAYS);
   const fullSchedule = generateRoundRobin(shuffled);
   const fixtures = fullSchedule.filter(f => f.matchweek <= UEFA_LEAGUE_PHASE_MATCHDAYS);
   const participantClubs = participantIds.map(id => allClubs.find(c => c.id === id)).filter((c): c is Club => !!c);
@@ -1303,6 +1370,45 @@ export function isWorldCupYear(year: number): boolean {
   return (year - 1) % 4 === 0; // años 1, 5, 9, 13... de la carrera
 }
 
+// Prestigio mínimo Y partidos oficiales mínimos para que te convoquen a la selección en un año
+// de Mundial -- no alcanza con el prestigio (que escala rápido con conferencias/decisiones):
+// además hace falta haber demostrado nivel en cancha durante un tiempo real (más o menos una
+// temporada completa). Exportado (no vive en App.tsx) porque Dashboard también lo necesita para
+// previsualizar el próximo rival durante la ventana del Mundial.
+export const WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD = 82;
+export const WORLD_CUP_CALLUP_MIN_MATCHES = 40;
+
+// El Mundial necesita 9 pasos para resolverse por completo y quedar en stage 'done' (3 fechas de
+// fase de grupos + 5 rondas de eliminación directa -- R32, R16, cuartos, semis, final -- + 1 paso
+// extra donde resolveWorldCupStep recién detecta el campeón ya definido y recién ahí marca
+// stage:'done'; medido empíricamente con getOrCreateWorldCupState a currentWeek gigante). Antes
+// esos pasos se esparcían por toda la temporada compartiendo el cupo "cada 3 semanas" de
+// Libertadores/Champions, así que un Mundial terminaba "encimado" con fechas de liga doméstica y
+// de copas de clubes que en la vida real están paradas por la fecha FIFA. Ahora el Mundial ocupa
+// un bloque de 9 semanas SEGUIDAS (ver isWorldCupBreakWeek) dentro de la temporada del año que
+// corresponda, y leagueMatchweeksElapsed*/cupWeeksElapsed* excluyen esas semanas del conteo, así
+// que liga y copas de club quedan realmente congeladas mientras dura el Mundial.
+const WORLD_CUP_BREAK_START_WEEK = 19;
+const WORLD_CUP_BREAK_LENGTH_WEEKS = 9;
+
+export function isWorldCupBreakWeek(currentWeek: number): boolean {
+  if (!isWorldCupYear(getSeasonYear(currentWeek))) return false;
+  const w = weekInSeason(currentWeek);
+  return w >= WORLD_CUP_BREAK_START_WEEK && w < WORLD_CUP_BREAK_START_WEEK + WORLD_CUP_BREAK_LENGTH_WEEKS;
+}
+
+// A diferencia de Libertadores/Sudamericana (que usan cupWeeksElapsedInYear, saltando la ventana
+// del Mundial), el Mundial consume TODAS las semanas de su propia ventana 1 a 1 (sus 8 pasos en
+// sus 8 semanas seguidas, sin compartir cupo con nada más).
+function worldCupWeeksElapsedInYear(year: number, currentWeek: number): number {
+  const yearStartWeek = (year - 1) * SEASON_LENGTH_WEEKS + 1;
+  let count = 0;
+  for (let w = yearStartWeek; w < currentWeek; w++) {
+    if (isWorldCupBreakWeek(w)) count++;
+  }
+  return count;
+}
+
 function drawWorldCupGroups(teamIds: string[], allTeams: Club[]): CupGroup[] {
   const shuffled = shuffle(teamIds);
   const groups: CupGroup[] = [];
@@ -1368,7 +1474,7 @@ export function getOrCreateWorldCupState(
 ): WorldCupState {
   let cup = existing ?? freshWorldCupState(year, allTeams);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
-  const targetSteps = cupWeeksElapsedInYear(year, currentWeek);
+  const targetSteps = worldCupWeeksElapsedInYear(year, currentWeek);
 
   while (stepsConsumed < targetSteps && cup.stage !== 'done') {
     cup = resolveWorldCupStep(cup, allTeams);
