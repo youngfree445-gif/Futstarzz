@@ -14,6 +14,7 @@ import {
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar
 } from 'lucide-react';
+import ClubBadge from './ClubBadge';
 
 interface DashboardProps {
   playerProfile: PlayerProfile;
@@ -517,7 +518,7 @@ export default function Dashboard({
             </div>
             
             <div className={`mt-2.5 p-2 rounded-xl text-xs font-bold truncate flex items-center gap-1.5 ${currentClub.badgeColor}`}>
-              <span className="text-sm bg-black/25 min-w-5 h-5 px-1 rounded-md flex items-center justify-center font-normal shrink-0">{currentClub.badgeLogoUrl || '⚽'}</span>
+              <ClubBadge club={currentClub} size={20} colorFallback={false} className="bg-black/25 font-normal" />
               <span className="truncate">{currentClub.name}</span>
             </div>
           </div>
@@ -783,9 +784,11 @@ export default function Dashboard({
                   <div className="space-y-4 pt-6">
                     {nextMatchOpponent ? (
                       <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-lg shrink-0">
-                          {nextMatchOpponent.club?.badgeLogoUrl || '⚽'}
-                        </div>
+                        {nextMatchOpponent.club ? (
+                          <ClubBadge club={nextMatchOpponent.club} size={40} className="rounded-xl border border-slate-800 bg-slate-900" />
+                        ) : (
+                          <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-lg shrink-0">⚽</div>
+                        )}
                         <div className="min-w-0">
                           <span className="text-3xs text-slate-500 uppercase font-mono block truncate">
                             Próximo Rival ({nextMatchOpponent.isHome ? 'Local' : 'Visitante'}) · {nextMatchOpponent.competition}
@@ -1185,10 +1188,7 @@ export default function Dashboard({
                       className={`p-5 rounded-2xl border flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all bg-slate-900 border-slate-800 ${!offer.possible ? 'opacity-60' : ''}`}
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
-                        <div className="w-11 h-11 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center shrink-0 shadow-inner text-xl">
-                          {offer.club.badgeLogoUrl || '⚽'}
-                        </div>
-
+                        <ClubBadge club={offer.club} size={44} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
                         <div className="space-y-1 min-w-0">
                           <div className="flex flex-wrap items-center gap-1.5">
                             <h3 className="font-extrabold text-sm text-white truncate max-w-[170px] sm:max-w-[250px]">

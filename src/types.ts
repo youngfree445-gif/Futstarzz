@@ -18,6 +18,7 @@ export interface Club {
   description: string;
   badgeColor: string; // Tailwind bg class for aesthetic rendering
   badgeLogoUrl?: string; // Real or illustrative badge icon/emoji/flag
+  badgeImageUrl?: string | null; // Escudo real (hotlink a Wikimedia Commons) -- ver ClubBadge.tsx para el fallback si falta o no carga
   hasSecondDivision?: boolean; // Flag to represent division state
   division?: 1 | 2 | 3; // Corregido: Ahora soporta división 3 sin errores
 }

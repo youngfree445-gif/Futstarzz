@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Position, Nationality, PlayerProfile, PlayerStats, Club } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
 import { User, Shield, Compass, Calendar, Award, DollarSign, ArrowRight, ArrowLeft } from 'lucide-react';
+import ClubBadge from './ClubBadge';
 
 interface SetupScreenProps {
   onBack: () => void;
@@ -339,10 +340,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        {/* Styled Badge */}
-                        <div className="w-10 h-10 shrink-0 rounded-xl bg-slate-950 flex items-center justify-center border border-slate-800 text-lg shadow-inner">
-                          {club.badgeLogoUrl || '⚽'}
-                        </div>
+                        <ClubBadge club={club} size={40} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5">
                             <h4 className="font-black text-sm text-white truncate max-w-[100px] sm:max-w-[200px]">
