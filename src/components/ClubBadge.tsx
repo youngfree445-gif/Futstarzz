@@ -20,16 +20,19 @@ interface ClubBadgeProps {
   className?: string;
 }
 
-// Escudo real (hotlink a Wikimedia Commons, ver club.badgeImageUrl) con fallback automático si
-// no hay imagen para ese club o si la carga falla (onError) -- nunca deja un ícono roto.
+// Escudo real (hotlink a Wikimedia Commons / footylogos.com, o archivo local en public/badges/
+// para los pocos casos donde el hotlink tenía protección anti-bot -- ver club.badgeImageUrl)
+// con fallback automático si no hay imagen para ese club o si la carga falla (onError) -- nunca
+// deja un ícono roto.
 export default function ClubBadge({ club, size = 32, colorFallback = true, className = '' }: ClubBadgeProps) {
   const [failed, setFailed] = useState(false);
   const px = `${size}px`;
 
   if (club.badgeImageUrl && !failed) {
+    const src = /^https?:\/\//.test(club.badgeImageUrl) ? club.badgeImageUrl : `${import.meta.env.BASE_URL}${club.badgeImageUrl}`;
     return (
       <img
-        src={club.badgeImageUrl}
+        src={src}
         alt={club.name}
         style={{ width: px, height: px }}
         className={`object-contain shrink-0 ${className}`}
