@@ -24,6 +24,19 @@ import eduardoLuisAvatar from './assets/press/eduardo luis.jpg';
 import espnLogo from './assets/press/ESPN.png';
 import rcnLogo from './assets/press/RCN.jpg';
 import caracolLogo from './assets/press/CARACOL.jpg';
+import gamingSponsorshipImg from './assets/sponsors/gaming_sponsorship.jpg';
+import streamingDealImg from './assets/sponsors/streaming_deal.jpg';
+import sportsDrinkImg from './assets/sponsors/sports_drink.jpg';
+import fashionLineImg from './assets/sponsors/fashion_line.jpg';
+import watchBrandImg from './assets/sponsors/watch_brand.jpg';
+import cryptoSponsorImg from './assets/sponsors/crypto_sponsor.jpg';
+import airlineDealImg from './assets/sponsors/airline_deal.jpg';
+import telecomDealImg from './assets/sponsors/telecom_deal.jpg';
+import fastfoodDealImg from './assets/sponsors/fastfood_deal.jpg';
+import bankDealImg from './assets/sponsors/bank_deal.jpg';
+import bettingDealImg from './assets/sponsors/betting_deal.jpg';
+import sneakerDealImg from './assets/sponsors/sneaker_deal.jpg';
+import energyDrinkDealImg from './assets/sponsors/energy_drink_deal.jpg';
 import physicalCoachImg from './assets/shop/physical_coach.jpg';
 import sportsAgentImg from './assets/shop/sports_agent.jpg';
 import sportsCarImg from './assets/shop/sports_car.jpg';
@@ -2787,7 +2800,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     effect: { fansBonus: 45, passiveIncome: 2500 },
     category: 'tecnologia',
     purchased: false,
-    icon: 'gamepad'
+    icon: 'gamepad',
+    image: gamingSponsorshipImg
   },
   {
     id: 'streaming_deal',
@@ -2798,7 +2812,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     effect: { fansBonus: 20, passiveIncome: 1800 },
     category: 'tecnologia',
     purchased: false,
-    icon: 'video'
+    icon: 'video',
+    image: streamingDealImg
   },
   {
     id: 'sports_drink',
@@ -2809,7 +2824,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     effect: { prestigeBonus: 8, fansBonus: 10 },
     category: 'bebidas',
     purchased: false,
-    icon: 'droplet'
+    icon: 'droplet',
+    image: sportsDrinkImg
   },
   {
     id: 'fashion_line',
@@ -2821,7 +2837,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     category: 'moda',
     sensitiveToControversy: true,
     purchased: false,
-    icon: 'shirt'
+    icon: 'shirt',
+    image: fashionLineImg
   },
   {
     id: 'watch_brand',
@@ -2833,7 +2850,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     category: 'lujo',
     sensitiveToControversy: true,
     purchased: false,
-    icon: 'watch'
+    icon: 'watch',
+    image: watchBrandImg
   },
   {
     id: 'crypto_sponsor',
@@ -2844,7 +2862,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     effect: { fansBonus: 15, prestigeBonus: -5, passiveIncome: 3000 },
     category: 'tecnologia',
     purchased: false,
-    icon: 'coins'
+    icon: 'coins',
+    image: cryptoSponsorImg
   },
   {
     id: 'airline_deal',
@@ -2856,7 +2875,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     category: 'viajes',
     sensitiveToControversy: true,
     purchased: false,
-    icon: 'plane'
+    icon: 'plane',
+    image: airlineDealImg
   },
   {
     id: 'telecom_deal',
@@ -2868,7 +2888,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     category: 'telecomunicaciones',
     sensitiveToControversy: true,
     purchased: false,
-    icon: 'phone'
+    icon: 'phone',
+    image: telecomDealImg
   },
   {
     id: 'fastfood_deal',
@@ -2879,7 +2900,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     effect: { fansBonus: 25, passiveIncome: 1200 },
     category: 'comida_rapida',
     purchased: false,
-    icon: 'utensils'
+    icon: 'utensils',
+    image: fastfoodDealImg
   },
   {
     id: 'bank_deal',
@@ -2891,7 +2913,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     category: 'banca',
     sensitiveToControversy: true,
     purchased: false,
-    icon: 'landmark'
+    icon: 'landmark',
+    image: bankDealImg
   },
   {
     id: 'betting_deal',
@@ -2902,7 +2925,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     effect: { fansBonus: 30, prestigeBonus: -8, passiveIncome: 2800 },
     category: 'apuestas',
     purchased: false,
-    icon: 'dice'
+    icon: 'dice',
+    image: bettingDealImg
   },
   {
     id: 'sneaker_deal',
@@ -2914,7 +2938,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     category: 'calzado',
     sensitiveToControversy: true,
     purchased: false,
-    icon: 'footprints'
+    icon: 'footprints',
+    image: sneakerDealImg
   },
   {
     id: 'energy_drink_deal',
@@ -2925,7 +2950,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     effect: { fansBonus: 18, passiveIncome: 1600 },
     category: 'energizante',
     purchased: false,
-    icon: 'zap'
+    icon: 'zap',
+    image: energyDrinkDealImg
   }
 ];
 
