@@ -218,7 +218,7 @@ export interface ShopItem {
   sensitiveToControversy?: boolean; // marcas que cuidan mucho su imagen: si te metés en una polémica grande, hay chance de que rescindan el contrato (ver checkSponsorControversyFallout en App.tsx)
   purchased: boolean;
   icon: string;
-  image?: string; // foto de portada de la card (solo lujos puros -- los patrocinios usan un tratamiento visual por categoría, no foto)
+  image?: string; // foto de portada de la card; si falta, la tienda cae a un ícono genérico y Patrocinios cae al ícono de Handshake (ver Dashboard.tsx)
 }
 
 export interface MatchEvent {

@@ -27,33 +27,114 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
   const rating = matchResults.rating;
 
-  // Calculate customized newspaper headline and commentary based on the performance
+  // Varias variantes por resultado (antes había exactamente UN titular fijo por categoría, así que
+  // el "diario" leía siempre la misma frase con el nombre insertado) -- se elige una al azar cada
+  // vez para que la portada se sienta como una edición nueva y no una plantilla repetida.
   const generateNewspaperLayout = () => {
-    let headline = '';
-    let body = '';
     const name = playerProfile.name;
+    const dt = currentClub.dt;
+    const club = currentClub.name;
 
-    if (matchResults.goles > 0) {
-      headline = `¡${name.toUpperCase()} REVIENTA LA RED!`;
-      body = `Con una definición soberbia del juvenil de ${playerProfile.age} años, ${currentClub.name} consiguió desatar el delirio en las tribunas. Se habla ya de que el valor de mercado del atacante subió considerablemente tras esta exhibición ofensiva de clase mundial.`;
-    } else if (matchResults.asistencias > 0) {
-      headline = `¡${name.toUpperCase()} EL ESTRATEGA!`;
-      body = `Sinfonía táctica dirigida por el mediocentro. Con asistencias perfectas habilitó la victoria de su club frente al difícil bloque defensivo plantado por ${opponentName}. Los scouts internacionales anotaron su nombre en la agenda premium de inmediato.`;
-    } else if (rating >= 7.5) {
-      headline = `CÁTEDRA Y CARÁCTER: DESTAQUE DE ${name.toUpperCase()}`;
-      body = `Sin necesidad de inflar las mallas, la joven estrella realizó un desgaste táctico monumental, recuperando balones, ordenando la salida verde y asegurando los hilos del mediocampista para la alegría del cuerpo técnico liderado por ${currentClub.dt}.`;
-    } else if (matchResults.resultado === 'W') {
-      headline = `VICTORIA SUFRIDA DEL ${currentClub.name.toUpperCase()}`;
-      body = `El equipo sacó adelante un encuentro sumamente áspero y táctico contra ${opponentName}. ${name} jugó rol regular cumpliendo las directivas de vestuario sin cometer fallas garrafales. Tres puntos que valen oro en el torneo.`;
-    } else if (matchResults.resultado === 'D') {
-      headline = `EMPARTE AMARGO EN EL CLÁSICO`;
-      body = `Un encuentro trabado en la medular que finaliza sin ventajas para nadie. Los aficionados exigen mayor chispa ofensiva. ${name} sigue asimilando los rigores defensivos de la máxima división que exige 200% de concentración física.`;
-    } else {
-      headline = `TORMENTA EN EL VESTUARIO DE ${currentClub.name.toUpperCase()}`;
-      body = `Derrota dolorosa y críticas despiadadas del periodismo deportivo. La defensa regaló espacios letales y se le vio poca rebeldía a ${name} para remontar la cuesta frente a un ${opponentName} físicamente superior. Toca trabajar fuerte.`;
-    }
+    const templatesByCategory: Record<string, { headline: string; body: string }[]> = {
+      goles: [
+        {
+          headline: `¡${name.toUpperCase()} REVIENTA LA RED!`,
+          body: `Con una definición soberbia del juvenil de ${playerProfile.age} años, ${club} consiguió desatar el delirio en las tribunas frente a ${opponentName}. Se habla ya de que el valor de mercado del atacante subió considerablemente tras esta exhibición ofensiva de clase mundial.`
+        },
+        {
+          headline: `NOCHE MÁGICA: ${name.toUpperCase()} SE VISTE DE GALA`,
+          body: `El gol de ${name} quedará en la memoria de la hinchada de ${club}. Un festejo eufórico cerró una actuación que ya circula en redes de punta a punta, con más de un scout tomando nota del rendimiento frente a ${opponentName}.`
+        },
+        {
+          headline: `${name.toUpperCase()}, EL DIFERENCIAL DE ${club.toUpperCase()}`,
+          body: `Cuando el partido pedía a gritos una individualidad, apareció ${name} para resolverlo. ${dt} lo destacó en la charla post partido como la pieza que rompió el equilibrio ante ${opponentName}.`
+        },
+        {
+          headline: `GOLAZO QUE VALE ORO PARA ${club.toUpperCase()}`,
+          body: `No fue un gol cualquiera: la definición de ${name} tuvo la categoría suficiente como para acaparar todos los resúmenes del fin de semana. Los hinchas de ${club} ya lo eligen entre lo mejor de la fecha.`
+        }
+      ],
+      asistencias: [
+        {
+          headline: `¡${name.toUpperCase()} EL ESTRATEGA!`,
+          body: `Sinfonía táctica dirigida por ${name}. Con una asistencia perfecta habilitó la victoria de su club frente al difícil bloque defensivo plantado por ${opponentName}. Los scouts internacionales anotaron su nombre en la agenda premium de inmediato.`
+        },
+        {
+          headline: `LA VISIÓN DE ${name.toUpperCase()} DESNIVELÓ EL PARTIDO`,
+          body: `Un pase que valió el resultado. ${name} leyó el partido mejor que nadie y encontró el hueco justo para desequilibrar a ${opponentName}. ${dt} destacó su generosidad para asistir en vez de buscar el gol propio.`
+        },
+        {
+          headline: `${club.toUpperCase()} FESTEJA GRACIAS A ${name.toUpperCase()}`,
+          body: `Sin figurar en la planilla de goleadores, ${name} fue el arquitecto silencioso de la victoria. Su pase decisivo frente a ${opponentName} reabre el debate sobre si es el mejor asistidor de la categoría este semestre.`
+        }
+      ],
+      granPartido: [
+        {
+          headline: `CÁTEDRA Y CARÁCTER: DESTAQUE DE ${name.toUpperCase()}`,
+          body: `Sin necesidad de inflar las mallas, ${name} realizó un desgaste táctico monumental, recuperando balones, ordenando la salida y asegurando los hilos del mediocampo para la alegría del cuerpo técnico liderado por ${dt}.`
+        },
+        {
+          headline: `${name.toUpperCase()} SE HIZO GIGANTE ANTE ${opponentName.toUpperCase()}`,
+          body: `No hubo estadística que le hiciera justicia al partidazo de ${name}: presencia constante, decisiones acertadas y liderazgo dentro del campo. La prensa especializada ya lo ubica entre los mejores de la fecha en ${club}.`
+        },
+        {
+          headline: `EL RENDIMIENTO SILENCIOSO QUE SOSTUVO A ${club.toUpperCase()}`,
+          body: `A veces el fútbol se gana lejos de la pelota, y esta fue una de esas noches para ${name}: cobertura, sacrificio y una lectura de partido que ${dt} elogió puntualmente en la conferencia posterior.`
+        }
+      ],
+      victoria: [
+        {
+          headline: `VICTORIA SUFRIDA DEL ${club.toUpperCase()}`,
+          body: `El equipo sacó adelante un encuentro sumamente áspero y táctico contra ${opponentName}. ${name} jugó un rol regular cumpliendo las directivas de vestuario sin cometer fallas garrafales. Tres puntos que valen oro en el torneo.`
+        },
+        {
+          headline: `${club.toUpperCase()} SUMA DE A TRES Y SIGUE FIRME`,
+          body: `Sin brillar de manera individual, ${name} formó parte de un colectivo que supo sufrir y quedarse con los puntos frente a ${opponentName}. ${dt} valoró sobre todo la solidez defensiva del equipo.`
+        },
+        {
+          headline: `TRABAJO SUCIO, PUNTOS LIMPIOS PARA ${club.toUpperCase()}`,
+          body: `Ni el partido más vistoso ni la mejor versión de ${name}, pero el resultado quedó del lado de ${club}. Los hinchas celebran los tres puntos ante ${opponentName} sin pedir demasiadas explicaciones.`
+        }
+      ],
+      empate: [
+        {
+          headline: `EMPATE AMARGO EN EL CLÁSICO`,
+          body: `Un encuentro trabado en la medular que finaliza sin ventajas para nadie. Los aficionados exigen mayor chispa ofensiva. ${name} sigue asimilando los rigores defensivos de la máxima división que exige 200% de concentración física.`
+        },
+        {
+          headline: `${club.toUpperCase()} Y ${opponentName.toUpperCase()} SE REPARTEN LOS PUNTOS`,
+          body: `Partido parejo de punta a punta que no encontró un dueño claro. ${name} tuvo sus momentos, pero no alcanzó para desnivelar. ${dt} pidió paciencia: "las rachas se cortan trabajando, no lamentándose".`
+        },
+        {
+          headline: `IGUALDAD QUE DEJA GUSTO A POCO EN ${club.toUpperCase()}`,
+          body: `El resultado no cayó mal, pero tampoco conforma. ${name} y el resto del plantel saben que ante ${opponentName} el equipo pudo dar un poco más. La próxima fecha llega rápido para revertir la sensación.`
+        }
+      ],
+      derrota: [
+        {
+          headline: `TORMENTA EN EL VESTUARIO DE ${club.toUpperCase()}`,
+          body: `Derrota dolorosa y críticas despiadadas del periodismo deportivo. La defensa regaló espacios letales y se le vio poca rebeldía a ${name} para remontar la cuesta frente a un ${opponentName} físicamente superior. Toca trabajar fuerte.`
+        },
+        {
+          headline: `${club.toUpperCase()} SE VA CABIZBAJO ANTE ${opponentName.toUpperCase()}`,
+          body: `Noche para el olvido en la que ${name} no logró encontrar espacios ni socios. ${dt} asumió la responsabilidad en la rueda de prensa, pero la hinchada ya pide explicaciones puntuales sobre el funcionamiento del equipo.`
+        },
+        {
+          headline: `AUTOCRÍTICA OBLIGADA TRAS LA CAÍDA DE ${club.toUpperCase()}`,
+          body: `El resultado ante ${opponentName} enciende las alarmas. ${name} reconoció después del partido que "hay que mirarse para adentro". La próxima semana de entrenamientos se perfila exigente en lo físico y en lo mental.`
+        }
+      ]
+    };
 
-    return { headline, body };
+    const category = matchResults.goles > 0 ? 'goles'
+      : matchResults.asistencias > 0 ? 'asistencias'
+      : rating >= 7.5 ? 'granPartido'
+      : matchResults.resultado === 'W' ? 'victoria'
+      : matchResults.resultado === 'D' ? 'empate'
+      : 'derrota';
+
+    const options = templatesByCategory[category];
+    return options[Math.floor(Math.random() * options.length)];
   };
 
   const { headline, body } = generateNewspaperLayout();

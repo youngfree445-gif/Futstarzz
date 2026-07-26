@@ -838,7 +838,12 @@ export default function App() {
     const totalIncome = results.salaryEarned + goalBonus + assistBonus + activePassiveDividend;
     const totalExtraRecover = (coachItem?.purchased ? 8 : 0) + (houseItem?.purchased ? 20 : 0);
 
-    const valueChg = results.rating * 6000 + (results.goles * 25000) + (results.asistencias * 15000);
+    // Antes esto era rating*6000 (siempre positivo, hasta en un partido flojo) más goles/asistencias
+    // sin tope real -- eso hacía que el valor de mercado subiera rápido partido tras partido sin
+    // importar cómo jugaste. Ahora está centrado en una calificación de 6.0 (partido "normal" no
+    // cambia nada): jugar mal de verdad (rating < 6) te baja el valor, y solo un partidazo genuino
+    // (rating alto y/o goles/asistencias) lo sube.
+    const valueChg = (results.rating - 6.0) * 4500 + (results.goles * 12000) + (results.asistencias * 7000);
     const campeonatoGanado = results.campeonatoGanado ? 1 : 0;
 
     // Si tu partido de esta semana fue de eliminación directa y terminó igualado, alguna de las

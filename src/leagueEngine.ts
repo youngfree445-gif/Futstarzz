@@ -57,6 +57,38 @@ export function formatRealDate(currentWeek: number): string {
   return `${date.getDate()} de ${MONTH_NAMES_ES[date.getMonth()]} de ${date.getFullYear()}`;
 }
 
+// Fecha real del paso N° stepsAhead de LIGA doméstica (una fecha de fase regular o una pierna de
+// playoff) contando hacia adelante desde currentWeek -- para pintar el calendario en una grilla
+// mensual real. stepsAhead=1 es el próximo paso de liga, sea cual sea (currentWeek mismo si ya es
+// semana de liga, si no la primera semana de liga futura). Nunca cuelga: el ciclo cada-3-semanas
+// de isCupWeek garantiza encontrar una semana de liga en como mucho 2 vueltas, y las ventanas del
+// Mundial son finitas.
+export function getRealDateForLeagueStepsAhead(currentWeek: number, stepsAhead: number): Date {
+  let w = currentWeek;
+  let count = 0;
+  while (true) {
+    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) {
+      count++;
+      if (count === stepsAhead) return getRealDate(w);
+    }
+    w++;
+  }
+}
+
+// Igual que getRealDateForLeagueStepsAhead, pero contando semanas de COPA (Libertadores/
+// Sudamericana/Champions/Europa) en vez de semanas de liga.
+export function getRealDateForCupStepsAhead(currentWeek: number, stepsAhead: number): Date {
+  let w = currentWeek;
+  let count = 0;
+  while (true) {
+    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) {
+      count++;
+      if (count === stepsAhead) return getRealDate(w);
+    }
+    w++;
+  }
+}
+
 export function leagueKeyFor(club: Club): string {
   return `${club.league}-${club.division ?? 1}`;
 }

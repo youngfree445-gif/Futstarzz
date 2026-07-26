@@ -14,6 +14,16 @@ const ALL_PLAYERS = rawPlayers as unknown as {
 import { Club, PressQuestion, ShopItem } from './types';
 import { CLUB_EXTRAS } from './clubExtras';
 import mauSportsAvatar from './assets/mau_sports.jpg';
+import fabrizioRomanoAvatar from './assets/press/FABRIZZIO ROMANO.jpg';
+import gastonEdulAvatar from './assets/press/gaston Edul.jpg';
+import eduAguirreAvatar from './assets/press/EDU AGUIRRE.jpg';
+import pipeSierraAvatar from './assets/press/PIPE SIERRA.jpg';
+import joseHugoIlleraAvatar from './assets/press/josehugoillera.jpg';
+import carlosAntonioVelezAvatar from './assets/press/Carlos Antonio Velez.jpg';
+import eduardoLuisAvatar from './assets/press/eduardo luis.jpg';
+import espnLogo from './assets/press/ESPN.png';
+import rcnLogo from './assets/press/RCN.jpg';
+import caracolLogo from './assets/press/CARACOL.jpg';
 import physicalCoachImg from './assets/shop/physical_coach.jpg';
 import sportsAgentImg from './assets/shop/sports_agent.jpg';
 import sportsCarImg from './assets/shop/sports_car.jpg';
@@ -2921,6 +2931,32 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
 
 export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
   {
+    id: "press_mau_debut",
+    context: "Debut en Primera División",
+    mediaName: "mausportstv (Live TikTok/Instagram)",
+    reporter: "Mau",
+    reporterAvatar: "🎙️⚽",
+    reporterAvatarImg: mauSportsAvatar,
+    mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
+    question: "¡Family, estamos EN VIVO para tu primerísima rueda de prensa como profesional! Todo el chat quiere saber: ¿qué se siente debutar en Primera División?",
+    options: [
+      {
+        text: "Es un sueño cumplido, pero esto recién empieza. Con los pies bien puestos en la tierra.",
+        prestigeChange: 4,
+        fansChange: 6,
+        energyChange: -2,
+        reaction: "Mau (@mausportstv): 'Declaración madura para ser su primera rueda de prensa. El chat lo ama.'"
+      },
+      {
+        text: "Vine a ser titular indiscutido desde el día uno, no a calentar banca de suplentes.",
+        prestigeChange: 7,
+        fansChange: -6,
+        energyChange: 0,
+        reaction: "Mau (@mausportstv): '¡Family, esto se puso picante! El debutante ya está pidiendo la titularidad.'"
+      }
+    ]
+  },
+  {
     id: "q1",
     context: "Post-Partido de Primera División",
     mediaName: "mausportstv (Live TikTok/Instagram)",
@@ -2947,11 +2983,64 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     ]
   },
   {
+    id: "press_mau_viral",
+    context: "Repercusión en Redes Sociales",
+    mediaName: "mausportstv (Live TikTok/Instagram)",
+    reporter: "Mau",
+    reporterAvatar: "🎙️⚽",
+    reporterAvatarImg: mauSportsAvatar,
+    mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
+    question: "¡Family, tu última jugada se volvió tendencia! Más de 2 millones de vistas en TikTok y ya te hicieron hasta memes. ¿Ya los viste?",
+    options: [
+      {
+        text: "Sí, me río muchísimo con los memes, se los mando a mis compañeros del plantel.",
+        prestigeChange: 3,
+        fansChange: 10,
+        energyChange: -1,
+        reaction: "Mau (@mausportstv): 'Se lo toma con humor, el chat explota de comentarios positivos.'"
+      },
+      {
+        text: "No tengo tiempo para andar viendo redes, estoy enfocado en el próximo rival.",
+        prestigeChange: 6,
+        fansChange: -3,
+        energyChange: 0,
+        reaction: "Mau (@mausportstv): 'Respuesta seria de profesional. Algunos en el chat dicen que es medio soberbio.'"
+      }
+    ]
+  },
+  {
+    id: "press_mau_rumor",
+    context: "Filtración en Vivo",
+    mediaName: "mausportstv (Live TikTok/Instagram)",
+    reporter: "Mau",
+    reporterAvatar: "🎙️⚽",
+    reporterAvatarImg: mauSportsAvatar,
+    mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
+    question: "Nos llegó un dato calentito al chat en vivo: dicen que ya firmaste en secreto con otro club. ¿Confirmas o desmientes ahora mismo, family?",
+    options: [
+      {
+        text: "Total invento. Sigo 100% enfocado acá, cuando haya algo real lo van a saber de primera mano.",
+        prestigeChange: 5,
+        fansChange: 8,
+        energyChange: -2,
+        reaction: "Mau (@mausportstv): 'Desmentido en vivo. El chat respira tranquilo, por ahora.'"
+      },
+      {
+        text: "No puedo confirmar ni desmentir nada, eso lo maneja mi representante.",
+        prestigeChange: -2,
+        fansChange: -4,
+        energyChange: 0,
+        reaction: "Mau (@mausportstv): '¡Family, no lo desmintió! El rumor se dispara en los trending topics.'"
+      }
+    ]
+  },
+  {
     id: "q2",
     context: "Exclusiva de Fichajes de Última Hora",
     mediaName: "Here We Go! - Digital Network",
     reporter: "Fabrizio Romano",
     reporterAvatar: "📱🔥",
+    reporterAvatarImg: fabrizioRomanoAvatar,
     mediaColor: "border-sky-500 text-sky-400 bg-sky-950/20",
     question: "Understand: Hay reportes de que te saltaste el último entrenamiento exigente por fatiga, pero se te vio en una fiesta por redes sociales. ¿Qué hay de cierto en esto?",
     options: [
@@ -2977,6 +3066,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     mediaName: "ESPN Continental",
     reporter: "Manejo de Panel",
     reporterAvatar: "📺🔴",
+    reporterAvatarImg: espnLogo,
     mediaColor: "border-red-600 text-red-400 bg-red-950/20",
     question: "El mánager del equipo rival declaró que tu rendimiento en los últimos minutos se cae por falta de preparación física. ¿Qué le respondes?",
     options: [
@@ -3111,6 +3201,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     mediaName: "Radio Caracol Deportes",
     reporter: "Corresponsal de Pases",
     reporterAvatar: "📻💰",
+    reporterAvatarImg: caracolLogo,
     mediaColor: "border-yellow-500 text-yellow-300 bg-yellow-950/20",
     question: "Se filtró un audio de tu representante negociando con un club rival de tu propia liga a tus espaldas. ¿Qué tienes para decir?",
     options: [
@@ -3136,6 +3227,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     mediaName: "Deportes RCN",
     reporter: "Cronista de Vestuario",
     reporterAvatar: "🎥😬",
+    reporterAvatarImg: rcnLogo,
     mediaColor: "border-rose-500 text-rose-300 bg-rose-950/20",
     question: "El arquero del equipo tuvo una actuación desastrosa hoy y varios errores no forzados. ¿Le tienes confianza de cara al resto del semestre?",
     options: [
@@ -3184,6 +3276,228 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
         fansChange: 12,
         energyChange: -4,
         reaction: "El Espectador: 'El jugador se enfrenta abiertamente a la prensa especializada. Polémica servida.'"
+      }
+    ]
+  },
+  {
+    id: "press_9",
+    context: "Exclusiva de Fichajes",
+    mediaName: "ESPN F90",
+    reporter: "Gastón Edul",
+    reporterAvatar: "🎙️🇦🇷",
+    reporterAvatarImg: gastonEdulAvatar,
+    mediaColor: "border-cyan-500 text-cyan-300 bg-cyan-950/20",
+    question: "Puedo confirmar en exclusiva: hay un club grande que ya preguntó por tu situación contractual. ¿Te gustaría dar el salto si la oferta llega a estar sobre la mesa?",
+    options: [
+      {
+        text: "Cualquier jugador sueña con dar el salto, pero hoy mi cabeza está acá y en nada más.",
+        prestigeChange: 5,
+        fansChange: 4,
+        energyChange: -1,
+        reaction: "Gastón Edul: 'Información confirmada por el propio jugador, aunque con mucha cautela.'"
+      },
+      {
+        text: "Si la oferta es la indicada, no le voy a cerrar la puerta a nada. Así es este negocio.",
+        prestigeChange: 2,
+        fansChange: -8,
+        energyChange: 0,
+        reaction: "Gastón Edul: 'ÚLTIMA HORA: el jugador deja la puerta abierta a una salida. Se arma revuelo.'"
+      }
+    ]
+  },
+  {
+    id: "press_10",
+    context: "Tertulia En Vivo",
+    mediaName: "El Chiringuito TV",
+    reporter: "Edu Aguirre",
+    reporterAvatar: "📢🇪🇸",
+    reporterAvatarImg: eduAguirreAvatar,
+    mediaColor: "border-fuchsia-500 text-fuchsia-300 bg-fuchsia-950/20",
+    question: "¡PEROOO ESTO ES UN ESCÁNDALO! Un excompañero tuyo dijo en esta misma mesa que tenés más fama que rendimiento real. ¿Qué le respondés EN DIRECTO?",
+    options: [
+      {
+        text: "Respeto su opinión, pero prefiero responder jugando los noventa minutos, no en un plató.",
+        prestigeChange: 7,
+        fansChange: 5,
+        energyChange: -2,
+        reaction: "Edu Aguirre: '¡ESO ES CLASE! Respuesta elegante que deja mudo al panel entero.'"
+      },
+      {
+        text: "Que hable de fama el que nunca fue titular en su vida. Que se dedique a comentar y ya.",
+        prestigeChange: -8,
+        fansChange: 18,
+        energyChange: -3,
+        reaction: "Edu Aguirre: '¡¡ESTO ES INCENDIARIO!! Se lía una tremenda en pleno directo, todos gritando a la vez.'"
+      }
+    ]
+  },
+  {
+    id: "press_11",
+    context: "Sección de Humor Deportivo",
+    mediaName: "ESPN Colombia",
+    reporter: "Pipe Sierra",
+    reporterAvatar: "😂🇨🇴",
+    reporterAvatarImg: pipeSierraAvatar,
+    mediaColor: "border-lime-500 text-lime-300 bg-lime-950/20",
+    question: "Parcero, en serio, ¿cuál es la verdadera historia detrás de esa celebración tan rara que sacaste el fin de semana? Todo el país la está imitando.",
+    options: [
+      {
+        text: "Jajaja se la copié a mi sobrino, no tiene ningún misterio. Ya es tradición de familia.",
+        prestigeChange: 2,
+        fansChange: 14,
+        energyChange: -1,
+        reaction: "Pipe Sierra: 'Momento viral asegurado. La entrevista se vuelve tendencia por lo carismática.'"
+      },
+      {
+        text: "Es un mensaje personal, prefiero guardármelo y que cada uno lo interprete como quiera.",
+        prestigeChange: 4,
+        fansChange: 2,
+        energyChange: 0,
+        reaction: "Pipe Sierra: 'Se guarda el misterio. El país sigue especulando sin respuesta clara.'"
+      }
+    ]
+  },
+  {
+    id: "press_12",
+    context: "Relato de la Fecha",
+    mediaName: "Win Sports+",
+    reporter: "José Hugo Illera",
+    reporterAvatar: "🎤🇨🇴",
+    reporterAvatarImg: joseHugoIlleraAvatar,
+    mediaColor: "border-indigo-500 text-indigo-300 bg-indigo-950/20",
+    question: "¡Esa jugada la vamos a estar contando por años! Cuéntenos con sus propias palabras qué pasó por su cabeza en el instante exacto de la definición.",
+    options: [
+      {
+        text: "Se apagó todo el estadio en mi cabeza, solo vi el arco y confié en lo que entrené toda la semana.",
+        prestigeChange: 10,
+        fansChange: 12,
+        energyChange: -2,
+        reaction: "José Hugo Illera: '¡QUÉ RELATO, SEÑORAS Y SEÑORES! Pura emoción en la narración del maestro.'"
+      },
+      {
+        text: "La verdad no lo pensé, salió solo. El cuerpo ya sabe qué hacer en esos momentos.",
+        prestigeChange: 6,
+        fansChange: 6,
+        energyChange: 0,
+        reaction: "José Hugo Illera: 'Respuesta instintiva de crack. El maestro asiente con una sonrisa cómplice.'"
+      }
+    ]
+  },
+  {
+    id: "press_13",
+    context: "Bomba de Mercado",
+    mediaName: "Here We Go! - Digital Network",
+    reporter: "Fabrizio Romano",
+    reporterAvatar: "📱🔥",
+    reporterAvatarImg: fabrizioRomanoAvatar,
+    mediaColor: "border-sky-500 text-sky-400 bg-sky-950/20",
+    question: "Excl: fuentes cercanas al club aseguran que ya existe un preacuerdo con un gigante europeo para tu fichaje el próximo mercado. ¿Confirmas o desmientes la información en vivo?",
+    options: [
+      {
+        text: "Desmiento totalmente. No hay ningún acuerdo, estoy 100% enfocado en este club.",
+        prestigeChange: 10,
+        fansChange: 8,
+        energyChange: -2,
+        reaction: "Fabrizio Romano: 'Desmentido categórico. En las oficinas del club respiran tranquilos: el DT confirma que cuenta con vos para lo que viene.'"
+      },
+      {
+        text: "Prefiero no hablar de mercado ahora mismo, eso lo maneja mi representante.",
+        prestigeChange: -8,
+        fansChange: -10,
+        energyChange: -3,
+        reaction: "Fabrizio Romano: '¡No lo desmintió! El silencio dispara todas las alarmas. En el vestuario ya se habla de una posible salida y la interna del club se tensa.'"
+      },
+      {
+        text: "La verdad es que sí, me gustaría dar el salto. Es momento de pedir la salida.",
+        prestigeChange: -18,
+        fansChange: -25,
+        energyChange: -5,
+        reaction: "Fabrizio Romano: '¡BOMBAZO EN VIVO! El jugador confirma que pidió la salida. Caos total: la hinchada se siente traicionada y el vestuario queda partido en dos.'"
+      }
+    ]
+  },
+  {
+    id: "press_14",
+    context: "Rumor de Pasillo",
+    mediaName: "Radio Caracol Deportes",
+    reporter: "Corresponsal de Pases",
+    reporterAvatar: "📻💰",
+    reporterAvatarImg: caracolLogo,
+    mediaColor: "border-yellow-500 text-yellow-300 bg-yellow-950/20",
+    question: "Nos llega información de que tu entorno ya se reunió con dirigentes de otro club sin avisarle a la directiva actual. ¿Qué tiene para decirnos al respecto?",
+    options: [
+      {
+        text: "Eso es totalmente falso, ni mi representante ni yo nos reunimos con nadie. Sigo comprometido acá.",
+        prestigeChange: 9,
+        fansChange: 7,
+        energyChange: -2,
+        reaction: "Radio Caracol: 'Desmentido firme y sin titubeos. La directiva respira tranquila y el DT lo respalda públicamente.'"
+      },
+      {
+        text: "No tengo comentarios sobre ese tema puntual en este momento.",
+        prestigeChange: -7,
+        fansChange: -9,
+        energyChange: -2,
+        reaction: "Radio Caracol: 'La evasiva no le gustó a nadie. La hinchada empieza a sospechar y en el club se respira desconfianza.'"
+      },
+      {
+        text: "Sí hubo un acercamiento. Con la directiva actual las cosas no van bien y ya pedí salir.",
+        prestigeChange: -16,
+        fansChange: -22,
+        energyChange: -5,
+        reaction: "Radio Caracol: '¡ESCÁNDALO CONFIRMADO! El jugador reconoce el pedido de salida en plena temporada. El vestuario entra en modo crisis total.'"
+      }
+    ]
+  },
+  {
+    id: "press_15",
+    context: "Cara a Cara",
+    mediaName: "El Vbar - ESPN Colombia",
+    reporter: "Carlos Antonio Vélez",
+    reporterAvatar: "🗯️🇨🇴",
+    reporterAvatarImg: carlosAntonioVelezAvatar,
+    mediaColor: "border-neutral-500 text-neutral-300 bg-neutral-950/20",
+    question: "Yo sigo sin entender cómo con esas decisiones que tomás en cancha te siguen poniendo de titular. ¿Vos de verdad creés que te lo merecés, o el técnico te está regalando minutos?",
+    options: [
+      {
+        text: "Entiendo su opinión, pero los números y el técnico avalan mi lugar en el equipo. Con respeto, no la comparto.",
+        prestigeChange: 8,
+        fansChange: 6,
+        energyChange: -2,
+        reaction: "Carlos Antonio Vélez: 'Al menos respondió con carácter, aunque a mí sinceramente no me convenció ni un poco. Mi opinión no cambia.'"
+      },
+      {
+        text: "Con todo respeto, usted opina de fútbol pero nunca jugó a este nivel. Es fácil hablar desde el estudio.",
+        prestigeChange: -10,
+        fansChange: 18,
+        energyChange: -3,
+        reaction: "Carlos Antonio Vélez: '¡SE ARMÓ! El jugador le contesta en vivo. Todo el país hablando del cruce, y en el club no les hizo ninguna gracia.'"
+      }
+    ]
+  },
+  {
+    id: "press_16",
+    context: "Pasión de Relator",
+    mediaName: "Relatos del Estadio",
+    reporter: "Eduardo Luis",
+    reporterAvatar: "🎙️📢",
+    reporterAvatarImg: eduardoLuisAvatar,
+    mediaColor: "border-teal-500 text-teal-300 bg-teal-950/20",
+    question: "¡Qué partido, qué entrega, qué corazón! Cuénteme, ¿qué significa para usted vestir esta camiseta y sentir así a la gente detrás suyo?",
+    options: [
+      {
+        text: "Significa todo. Cada gota de sudor es por esta gente, no los voy a defraudar jamás.",
+        prestigeChange: 6,
+        fansChange: 16,
+        energyChange: -2,
+        reaction: "Eduardo Luis: '¡ESO ES AMOR POR LA CAMISETA, SEÑORAS Y SEÑORES! La hinchada se emociona con la respuesta.'"
+      },
+      {
+        text: "Es un trabajo como cualquier otro, trato de ser profesional y listo.",
+        prestigeChange: 3,
+        fansChange: -8,
+        energyChange: 0,
+        reaction: "Eduardo Luis: 'Respuesta fría que no cayó del todo bien entre los más sentimentales de la tribuna.'"
       }
     ]
   }

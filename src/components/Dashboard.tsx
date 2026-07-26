@@ -7,12 +7,13 @@ import {
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
-  isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate
+  isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate,
+  getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, isApeturaClausuraLeague, getUpcomingMatchForLeague
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
-  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar
+  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 import trainingRitmoImg from '../assets/training/ritmo.jpg';
@@ -21,6 +22,39 @@ import trainingTiroImg from '../assets/training/tiro.jpg';
 import trainingDefensaImg from '../assets/training/defensa.jpg';
 import trainingPaseImg from '../assets/training/pase.jpg';
 import trainingFisicoImg from '../assets/training/fisico.jpg';
+
+const CALENDAR_MONTH_NAMES = [
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+];
+const CALENDAR_WEEKDAY_NAMES = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+
+interface CalendarEvent { date: Date; label: string; sublabel: string; colorClass: string; }
+
+// Cuadrícula de semanas para un mes real (una fila por semana, domingo primero, celdas null antes
+// del día 1 y después del último día para que el grid quede parejo) -- para pintar el calendario
+// como una grilla real en vez de una lista plana de "Fecha N".
+function buildMonthGrid(year: number, month: number): (number | null)[][] {
+  const firstWeekday = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < firstWeekday; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+  while (cells.length % 7 !== 0) cells.push(null);
+  const weeks: (number | null)[][] = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  return weeks;
+}
+
+// n = cantidad de partidos/llaves en la ronda de playoffs actual -- deriva el nombre real de la
+// ronda sin tener que llevar un campo aparte (4 llaves = Cuartos, 2 = Semifinal, 1 = Final, etc.)
+function roundLabelByMatchCount(n: number): string {
+  if (n === 1) return 'Final';
+  if (n === 2) return 'Semifinal';
+  if (n === 4) return 'Cuartos';
+  if (n === 8) return 'Octavos';
+  return `Ronda de ${n * 2}`;
+}
 
 interface DashboardProps {
   playerProfile: PlayerProfile;
@@ -58,6 +92,7 @@ export default function Dashboard({
   const [activeTab, setActiveTab] = useState<'carrera' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos' | 'tienda' | 'patrocinios' | 'tablas' | 'mi_club' | 'calendario'>('carrera');
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
+  const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
 
   // Al avanzar de semana vuelve a habilitarse la sala de prensa (la respuesta de la semana
   // anterior queda igual bloqueada por lastPressAnsweredWeek en el perfil).
@@ -308,34 +343,112 @@ export default function Dashboard({
   };
 
   // Rumores de mercado sobre OTROS jugadores de OTROS clubes (usa Club.starPlayers, datos reales
-  // ya cargados en la base) -- para que el mercado no gire únicamente alrededor del jugador.
+  // ya cargados en la base) -- el mercado de pases es el tema que más mueve las redes reales, así
+  // que acá vive el grueso del volumen de ChutSocial, y a propósito casi nunca es sobre vos (tus
+  // propios rumores de fichaje se juegan en la Sala de Prensa, con consecuencias reales -- ver
+  // press_13/press_14 en data.ts). Selección pseudo-aleatoria estable por semana (no se reordena
+  // en cada render) para que la sección no "parpadee" distinto cada vez que Dashboard re-renderiza.
   const generateRivalTransferBuzzPosts = () => {
     const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
     if (candidates.length === 0) return [];
     const personas = [
       { author: 'Fichajes al Día', role: 'Cuenta de Mercado', avatar: '📋' },
       { author: 'Radar de Pases', role: 'Especialista en Fichajes', avatar: '🕵️' },
+      { author: 'Mercado Total', role: 'Portal de Fichajes', avatar: '💼' },
+      { author: 'La Chiva del Mercado', role: 'Cuenta de Rumores', avatar: '🐐' },
+      { author: 'Transfer Radar LatAm', role: 'Especialista Internacional', avatar: '🌎' },
     ];
-    const picked = [...candidates].sort(() => Math.random() - 0.5).slice(0, 2);
+    const week = playerProfile.currentWeek;
+    const ranked = candidates
+      .map((club, i) => ({ club, key: Math.abs(Math.sin((week + i * 11) * 78.233)) }))
+      .sort((a, b) => a.key - b.key)
+      .map(x => x.club);
+    const picked = ranked.slice(0, 7);
     return picked.map((club, idx) => {
-      const star = club.starPlayers[Math.floor(Math.random() * club.starPlayers.length)];
-      const persona = personas[idx % personas.length];
+      const star = club.starPlayers[(week + idx) % club.starPlayers.length];
+      const persona = personas[(week + idx) % personas.length];
+      const otherClub = ranked[(idx + 3) % ranked.length];
       const options = [
-        `RUMOR: ${star} podría dejar ${club.name} este mercado. Varios clubes ya preguntaron por su cláusula.`,
-        `${club.name} negocia la renovación de ${star} para blindarlo de ofertas externas.`,
-        `Se cae la chance: ${star} de ${club.name} descartó una salida por ahora, según su entorno.`,
+        `RUMOR: ${star} podría dejar ${club.name} este mercado. Varios clubes ya preguntaron por su cláusula de salida.`,
+        `${club.name} negocia la renovación de ${star} para blindarlo de ofertas externas antes de que se dispare el interés.`,
+        `Se cae la chance: ${star} de ${club.name} descartó una salida por ahora, según confirmó su entorno cercano.`,
+        `SE CALIENTA: ${otherClub.name} ya hizo una consulta formal por ${star}, de ${club.name}. La respuesta llegaría en los próximos días.`,
+        `${star} no estaría del todo cómodo en ${club.name} y su representante ya sondea el mercado por lo bajo.`,
+        `Cifras que se filtran: ${club.name} pediría una cifra altísima por ${star} si algún club pregunta en serio.`,
+        `Última hora: reunión sorpresa entre el representante de ${star} y dirigentes de ${otherClub.name}. Todavía nada oficial.`,
+        `${club.name} blinda a ${star} con una cláusula de rescisión gigante tras el interés que despertó en el mercado.`,
+        `Hinchas de ${club.name} piden que la directiva no deje salir a ${star} bajo ninguna circunstancia este semestre.`,
       ];
       return {
         id: `rivaltransfer_${club.id}_${playerProfile.currentWeek}_${idx}`,
         author: persona.author,
         role: persona.role,
-        content: options[Math.floor(Math.random() * options.length)],
+        content: options[(week + idx * 5) % options.length],
         likes: 100 + Math.floor(Math.random() * 1500),
         commentsCount: 20 + Math.floor(Math.random() * 300),
         timestamp: 'Mercado de Pases',
         avatar: persona.avatar
       };
     });
+  };
+
+  // Críticas/elogios de prensa e hinchas sobre OTROS jugadores de OTROS clubes -- para que
+  // ChutSocial no gire únicamente alrededor tuyo (antes todo el feed te adulaba a vos siempre).
+  const generateOtherPlayersCritiquePosts = () => {
+    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
+    if (candidates.length === 0) return [];
+    const personas = [
+      { author: 'La Lupa Deportiva', role: 'Analista Crítico', avatar: '🔍' },
+      { author: 'Tribuna Caliente', role: 'Hincha Rival', avatar: '🗣️' },
+      { author: 'Panorama Deportivo', role: 'Medio Local', avatar: '📰' },
+      { author: 'El Polémico Bermúdez', role: 'Panelista de Debate', avatar: '🎤' },
+    ];
+    const seed = playerProfile.currentWeek * 7919; // determinístico por semana, no cambia en cada render
+    const pickedClubs = [...candidates].sort((a, b) => (a.id.charCodeAt(0) * seed) % 97 - (b.id.charCodeAt(0) * seed) % 97).slice(0, 3);
+    return pickedClubs.map((club, idx) => {
+      const star = club.starPlayers[(seed + idx) % club.starPlayers.length];
+      const persona = personas[(seed + idx) % personas.length];
+      const lines = [
+        `${star} viene de otro partido flojo con ${club.name}. La prensa local ya empieza a impacientarse con su nivel.`,
+        `Actuación destacada de ${star} este fin de semana con ${club.name}. Lo vienen siguiendo de cerca varios clubes grandes.`,
+        `Duras críticas para ${star} tras la derrota de ${club.name}: dicen que le falta compromiso en los partidos importantes.`,
+        `${star} sigue siendo la gran figura de ${club.name}, pero algunos analistas dudan si puede sostener ese nivel toda la temporada.`,
+        `Polémica en ${club.name}: parte de la hinchada pide que ${star} pierda la titularidad tras varias fechas discretas.`,
+      ];
+      return {
+        id: `otherplayer_${club.id}_${playerProfile.currentWeek}_${idx}`,
+        author: persona.author,
+        role: persona.role,
+        content: lines[(seed + idx * 3) % lines.length],
+        likes: 60 + Math.floor(Math.random() * 1200),
+        commentsCount: 15 + Math.floor(Math.random() * 250),
+        timestamp: 'Liga Doméstica',
+        avatar: persona.avatar
+      };
+    });
+  };
+
+  // Fichajes YA OFICIALIZADOS entre otros clubes (a diferencia de generateRivalTransferBuzzPosts,
+  // que son rumores) -- pura ambientación de mercado, no modifica plantillas reales del juego.
+  const generateTransferAnnouncementPosts = () => {
+    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
+    if (candidates.length < 2) return [];
+    const seed = playerProfile.currentWeek * 5303;
+    const shuffled = [...candidates].sort((a, b) => (a.id.charCodeAt(1) * seed) % 89 - (b.id.charCodeAt(1) * seed) % 89);
+    const fromClub = shuffled[0];
+    const toClub = shuffled[1];
+    if (!fromClub || !toClub) return [];
+    const star = fromClub.starPlayers[seed % fromClub.starPlayers.length];
+    return [{
+      id: `transferofficial_${fromClub.id}_${toClub.id}_${playerProfile.currentWeek}`,
+      author: 'Fichajes al Día',
+      role: 'Cuenta de Mercado',
+      content: `✅ OFICIAL: ${toClub.name} anuncia la contratación de ${star}, que llega procedente de ${fromClub.name}. Firma contrato hasta 2029.`,
+      likes: 900 + Math.floor(Math.random() * 4000),
+      commentsCount: 150 + Math.floor(Math.random() * 900),
+      timestamp: 'Mercado de Pases',
+      avatar: '✅'
+    }];
   };
 
   // Cuando una copa que le toca a tu club (o el Mundial) termina, se anuncia el campeón -- puede
@@ -429,14 +542,19 @@ export default function Dashboard({
     });
   };
 
+  // Pool grande y de tono variado (no solo elogios) sobre vos -- antes eran 4 posts fijos, siempre
+  // los mismos y siempre 100% elogiosos cada vez que entrabas a ChutSocial. Ahora se eligen unos
+  // pocos de forma pseudo-aleatoria por semana (determinístico para no cambiar en cada render, pero
+  // distinto semana a semana) de un pool bien mezclado: elogio, análisis neutro, duda/crítica de
+  // hincha y chicana de rival conviven, para que la sección se sienta como redes sociales reales.
   const generateSocialFeed = () => {
     const pName = playerProfile.name;
-    const basePosts = [
+    const basePostsPool = [
       {
         id: 'tweet_1',
         author: 'Fabián Torres',
         role: 'Periodista Deportivo',
-        content: `¿Es ${pName} la revelación más grande del fútbol continental este año? Con solo ${playerProfile.age} años mantiene una lectura táctica increíble en el campo. #CalcioManager`,
+        content: `Buen aporte de ${pName} este fin de semana, aunque todavía le falta continuidad para ser un fijo indiscutido del once. #CalcioManager`,
         likes: 1240,
         commentsCount: 382,
         timestamp: 'Hace 2 horas',
@@ -446,7 +564,7 @@ export default function Dashboard({
         id: 'tweet_2',
         author: 'UltraVerde_99',
         role: 'Hincha Fiel',
-        content: `¡Qué jugadorazo es ${pName}! Se nota la diferencia de jerarquía absoluta cuando pide la pelota en tres cuartos de cancha. ¡Titular inamovible siempre!`,
+        content: `${pName} viene mostrando cosas interesantes, pero todavía no me convence del todo como titular fijo. A ver qué muestra en los próximos partidos.`,
         likes: 852,
         commentsCount: 94,
         timestamp: 'Hace 4 horas',
@@ -456,29 +574,78 @@ export default function Dashboard({
         id: 'tweet_3',
         author: 'La Redonda Oficial',
         role: 'Medio de Comunicación',
-        content: `MERCADO: Varios intermediarios monitorean de cerca el rendimiento de ${pName}. Su valor sube como la espuma.`,
-        likes: 3410,
-        commentsCount: 812,
-        timestamp: 'Hace 6 hours',
+        content: `MERCADO: Algunos intermediarios preguntan por la situación contractual de ${pName}, pero nada concreto por ahora.`,
+        likes: 1410,
+        commentsCount: 312,
+        timestamp: 'Hace 6 horas',
         avatar: '🔥'
       },
       {
         id: 'tweet_4',
         author: 'Compañero de Equipo',
         role: 'Primer Equipo',
-        content: `Concentrados en el vestuario con el crack ${pName}. Esta semana se labura el doble pensando en los tres puntos del fin de semana. ¡Vamos equipo! 🦁`,
+        content: `Concentrados en el vestuario junto a ${pName} y el resto del plantel. Semana de trabajo doble pensando en los tres puntos del fin de semana. 🦁`,
         likes: 620,
         commentsCount: 45,
         timestamp: 'Ayer',
         avatar: '👟'
+      },
+      {
+        id: 'tweet_5',
+        author: 'HinchaFurioso_Trib',
+        role: 'Hincha Crítico',
+        content: `Que alguien me explique por qué ${pName} sigue siendo titular. El equipo necesita más que promesas, necesita resultados YA.`,
+        likes: 410,
+        commentsCount: 260,
+        timestamp: 'Hace 3 horas',
+        avatar: '😤'
+      },
+      {
+        id: 'tweet_6',
+        author: 'ElAnalistaTáctico',
+        role: 'Analista',
+        content: `Repasando el mapa de calor de ${pName} de la última fecha: buen volumen de juego, pero decisiones para pulir en el último tercio de cancha.`,
+        likes: 340,
+        commentsCount: 58,
+        timestamp: 'Hace 5 horas',
+        avatar: '📊'
+      },
+      {
+        id: 'tweet_7',
+        author: 'MemeDeportivoCol',
+        role: 'Cuenta de Memes',
+        content: `Los memes de la jugada de ${pName} del fin de semana ya son incontables. Internet no perdona ni cuando sale bien. 😂`,
+        likes: 2200,
+        commentsCount: 540,
+        timestamp: 'Hace 8 horas',
+        avatar: '🐸'
+      },
+      {
+        id: 'tweet_8',
+        author: 'VozDeLaTribuna',
+        role: 'Hincha de Base',
+        content: `Vamos ${pName}, la tribuna te banca, pero hay que subir el nivel de a poco. El hincha exige porque quiere.`,
+        likes: 510,
+        commentsCount: 71,
+        timestamp: 'Ayer',
+        avatar: '📣'
       }
     ];
+    const week = playerProfile.currentWeek;
+    const shuffledBase = basePostsPool
+      .map((post, i) => ({ post, key: Math.abs(Math.sin((week + i * 17) * 12.9898)) }))
+      .sort((a, b) => a.key - b.key)
+      .map(x => x.post);
+    const selectedBasePosts = shuffledBase.slice(0, 4);
+
     return [
       ...generateCelebrityShoutoutPost(),
       ...generateCriticalPressPost(),
-      ...basePosts,
+      ...selectedBasePosts,
       ...generateMatchdayReactionPosts(),
       ...generateRivalTransferBuzzPosts(),
+      ...generateOtherPlayersCritiquePosts(),
+      ...generateTransferAnnouncementPosts(),
       ...generateCupChampionPosts()
     ];
   };
@@ -489,9 +656,92 @@ export default function Dashboard({
     setPressResponseState('answered');
   };
 
-  // La pregunta de esta semana rota según la semana de carrera (no es un estado libre que se
-  // pudiera ciclear para reintentar) -- cada semana nueva trae una conferencia distinta.
-  const selectedPressQ = playerProfile.currentWeek % PRESS_QUESTIONS_POOL.length;
+  // La pregunta de esta semana se deriva de la semana de carrera (no es un estado libre que se
+  // pudiera ciclear para reintentar) -- cada semana nueva trae una conferencia distinta. Se usa un
+  // hash de la semana en vez de currentWeek % length para que el orden se sienta random en vez de
+  // repetir siempre el mismo ciclo 1,2,3... Tu primerísima rueda de prensa de la carrera
+  // (lastPressAnsweredWeek === 0, nunca respondiste ninguna) siempre es la de Mau Sports TV.
+  const pseudoRandomPressIndex = (week: number) => {
+    const hashed = Math.sin(week * 12.9898) * 43758.5453;
+    return Math.floor((hashed - Math.floor(hashed)) * PRESS_QUESTIONS_POOL.length);
+  };
+  const mauDebutIndex = PRESS_QUESTIONS_POOL.findIndex(q => q.id === 'press_mau_debut');
+  const selectedPressQ = playerProfile.lastPressAnsweredWeek === 0 && mauDebutIndex !== -1
+    ? mauDebutIndex
+    : pseudoRandomPressIndex(playerProfile.currentWeek);
+
+  // --- Calendario en grilla mensual real: un evento con fecha real de calendario por partido,
+  // en vez de la vieja lista plana de "Fecha N" sin ubicar en el tiempo real.
+  const myLeagueSeason = playerProfile.leagueSeasons[myLeagueKey];
+  const calendarEvents: CalendarEvent[] = [];
+
+  upcomingLeagueFixtures.forEach((fx, i) => {
+    calendarEvents.push({
+      date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, i + 1),
+      label: `J${fx.matchweek}`,
+      sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
+      colorClass: 'bg-emerald-600 text-white'
+    });
+  });
+
+  // Playoffs de Apertura/Clausura (Colombia a ida y vuelta / Argentina a partido único): la lista
+  // de arriba queda vacía en fase eliminatoria (season.fixtures solo cubre la fase regular), así
+  // que acá se agrega el próximo cruce de knockout con el nombre real de la ronda.
+  if (myLeagueSeason && isApeturaClausuraLeague(currentClub.league) && myLeagueSeason.stage === 'knockout') {
+    const myLeagueClubs = ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === myLeagueKey);
+    const upcomingKO = getUpcomingMatchForLeague(myLeagueSeason, myLeagueClubs, playerProfile.currentWeek, currentClub.id);
+    if (upcomingKO) {
+      let roundLabel = 'Playoff';
+      let legLabel = '';
+      if (myLeagueSeason.twoLegKnockout) {
+        const round = myLeagueSeason.twoLegKnockout.tiesByRound[myLeagueSeason.twoLegKnockout.tiesByRound.length - 1];
+        roundLabel = roundLabelByMatchCount(round.length);
+        const tie = round.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
+        legLabel = tie && tie.firstLegGoalsA === null ? ' (Ida)' : ' (Vuelta)';
+      } else if (myLeagueSeason.knockout) {
+        const round = myLeagueSeason.knockout.matchesByRound[myLeagueSeason.knockout.matchesByRound.length - 1];
+        roundLabel = roundLabelByMatchCount(round.length);
+      }
+      calendarEvents.push({
+        date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, 1),
+        label: `${roundLabel}${legLabel}`,
+        sublabel: `${upcomingKO.isHome ? 'vs.' : '@'} ${clubNameById(upcomingKO.opponentId)}`,
+        colorClass: 'bg-red-600 text-white'
+      });
+    }
+  }
+
+  upcomingCupFixtures.slice(0, 6).forEach((fx, i) => {
+    calendarEvents.push({
+      date: getRealDateForCupStepsAhead(playerProfile.currentWeek, i + 1),
+      label: `G${fx.matchweek}`,
+      sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
+      colorClass: 'bg-amber-500 text-slate-950'
+    });
+  });
+
+  if (upcomingCupKnockoutOpponent) {
+    calendarEvents.push({
+      date: getRealDateForCupStepsAhead(playerProfile.currentWeek, 1),
+      label: 'Copa Playoff',
+      sublabel: `${upcomingCupKnockoutOpponent.isHome ? 'vs.' : '@'} ${upcomingCupKnockoutOpponent.opponentName}`,
+      colorClass: 'bg-amber-500 text-slate-950'
+    });
+  }
+
+  const calendarBaseDate = getRealDate(playerProfile.currentWeek);
+  const calendarGridDate = new Date(calendarBaseDate.getFullYear(), calendarBaseDate.getMonth() + calendarMonthOffset, 1);
+  const calendarGridYear = calendarGridDate.getFullYear();
+  const calendarGridMonth = calendarGridDate.getMonth();
+  const calendarWeeks = buildMonthGrid(calendarGridYear, calendarGridMonth);
+  const calendarEventsByDay = new Map<number, CalendarEvent[]>();
+  calendarEvents.forEach(ev => {
+    if (ev.date.getFullYear() === calendarGridYear && ev.date.getMonth() === calendarGridMonth) {
+      const d = ev.date.getDate();
+      if (!calendarEventsByDay.has(d)) calendarEventsByDay.set(d, []);
+      calendarEventsByDay.get(d)!.push(ev);
+    }
+  });
 
   return (
     <div id="dashboard-view" className="min-h-screen bg-slate-950 text-white flex flex-col md:flex-row relative">
@@ -1372,65 +1622,84 @@ export default function Dashboard({
                   return (
                     <div
                       key={item.id}
-                      className={`p-5 rounded-2xl border transition-all flex flex-col sm:flex-row justify-between items-start gap-4 ${
+                      className={`group rounded-2xl border overflow-hidden transition-all flex flex-col ${
                         item.purchased
                           ? 'border-amber-500/40 bg-slate-900 shadow shadow-amber-950/10'
                           : 'border-slate-800 bg-slate-950/40'
                       }`}
                     >
-                      <div className="space-y-2 sm:max-w-[70%]">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg">🤝</span>
-                          <h4 className="font-extrabold text-xs text-white">
-                            {item.name}
-                          </h4>
-                        </div>
-                        <p className="text-3xs text-slate-400 leading-relaxed">
-                          {item.description}
-                        </p>
-                        <p className="text-3xs text-emerald-400 font-mono font-bold uppercase leading-relaxed">
-                          ✨ Ventaja: {item.perkText}
-                        </p>
+                      <div className="relative h-28 shrink-0 overflow-hidden">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-slate-900 flex items-center justify-center text-slate-600">
+                            <Handshake size={32} />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                        <span className="absolute bottom-2 left-3 text-sm font-black text-white drop-shadow-lg leading-tight pr-3">
+                          {item.name}
+                        </span>
+                        {item.purchased && (
+                          <span className="absolute top-2 right-2 inline-flex gap-1 items-center px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-3xs font-black uppercase shadow">
+                            Activo
+                          </span>
+                        )}
                       </div>
 
-                      <div className="flex flex-row sm:flex-col justify-between sm:justify-start items-center sm:items-end w-full sm:w-auto sm:text-right sm:h-full sm:min-h-[90px] gap-3">
-                        <div className="text-right font-mono">
-                          <span className="text-3xs text-slate-500 block uppercase">Prima de Firma</span>
-                          <span className="text-xs font-black text-emerald-400 block">+${item.cost.toLocaleString()}</span>
+                      <div className="p-4 flex flex-col flex-1 gap-3 sm:flex-row sm:justify-between sm:items-start">
+                        <div className="space-y-2 sm:max-w-[65%]">
+                          <p className="text-3xs text-slate-400 leading-relaxed">
+                            {item.description}
+                          </p>
+                          <p className="text-3xs text-emerald-400 font-mono font-bold uppercase leading-relaxed">
+                            Ventaja: {item.perkText}
+                          </p>
                         </div>
 
-                        <div className="sm:mt-4 flex flex-col items-end gap-1.5">
-                          {item.purchased ? (
-                            <button
-                              onClick={() => {
-                                if (confirm(`¿Rescindir el contrato con "${item.name}"? Perderás sus ventajas (incluido cualquier ingreso pasivo) y tu Prestigio cae un poco por romper el acuerdo antes de tiempo.`)) {
-                                  onCancelSponsor(item.id);
-                                }
-                              }}
-                              className="btn-fx-subtle py-1 px-2 rounded-lg text-3xs font-bold uppercase tracking-wider text-red-400 border border-red-500/20 hover:bg-red-950/30 cursor-pointer"
-                            >
-                              Cancelar Contrato
-                            </button>
-                          ) : blockedByCap ? (
-                            <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
-                              Cupo de Patrocinios Lleno
-                            </span>
-                          ) : !isEligible ? (
-                            <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
-                              Fama Insuficiente (Mín: {reqFans})
-                            </span>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                if (confirm(`¿Aceptar la oferta de "${item.name}"? Vas a recibir $${item.cost.toLocaleString()} de inmediato.`)) {
-                                  onAcceptSponsor(item.id);
-                                }
-                              }}
-                              className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:from-emerald-300 hover:to-emerald-500 cursor-pointer"
-                            >
-                              Aceptar Patrocinio
-                            </button>
-                          )}
+                        <div className="flex flex-row sm:flex-col justify-between sm:justify-start items-center sm:items-end w-full sm:w-auto sm:text-right gap-3">
+                          <div className="text-right font-mono">
+                            <span className="text-3xs text-slate-500 block uppercase">Prima de Firma</span>
+                            <span className="text-xs font-black text-emerald-400 block">+${item.cost.toLocaleString()}</span>
+                          </div>
+
+                          <div className="sm:mt-2 flex flex-col items-end gap-1.5">
+                            {item.purchased ? (
+                              <button
+                                onClick={() => {
+                                  if (confirm(`¿Rescindir el contrato con "${item.name}"? Perderás sus ventajas (incluido cualquier ingreso pasivo) y tu Prestigio cae un poco por romper el acuerdo antes de tiempo.`)) {
+                                    onCancelSponsor(item.id);
+                                  }
+                                }}
+                                className="btn-fx-subtle py-1 px-2 rounded-lg text-3xs font-bold uppercase tracking-wider text-red-400 border border-red-500/20 hover:bg-red-950/30 cursor-pointer"
+                              >
+                                Cancelar Contrato
+                              </button>
+                            ) : blockedByCap ? (
+                              <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
+                                Cupo de Patrocinios Lleno
+                              </span>
+                            ) : !isEligible ? (
+                              <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
+                                Fama Insuficiente (Mín: {reqFans})
+                              </span>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  if (confirm(`¿Aceptar la oferta de "${item.name}"? Vas a recibir $${item.cost.toLocaleString()} de inmediato.`)) {
+                                    onAcceptSponsor(item.id);
+                                  }
+                                }}
+                                className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:from-emerald-300 hover:to-emerald-500 cursor-pointer"
+                              >
+                                Aceptar Patrocinio
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1585,66 +1854,77 @@ export default function Dashboard({
                   Calendario de Partidos
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Tus próximos rivales, en el orden real en que ya están fijados. Este fixture no se regenera ni cambia: se respeta tal cual hasta el final de la competición.
+                  Tus próximos partidos ubicados en la fecha real del calendario. Este fixture no se regenera ni cambia: se respeta tal cual hasta el final de la competición.
                 </p>
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-3">
-                <h3 className="text-xs font-black uppercase tracking-widest text-emerald-400 border-b border-slate-800 pb-2 flex items-center gap-2">
-                  <Calendar size={13} /> LIGA · {currentClub.league.toUpperCase()}
-                </h3>
-                {upcomingLeagueFixtures.length > 0 ? (
-                  <ul className="space-y-2">
-                    {upcomingLeagueFixtures.map((fx, i) => (
-                      <li key={i} className="flex items-center justify-between p-3 bg-slate-950 border border-slate-850 rounded-xl text-xs">
-                        <span className="text-3xs font-mono text-slate-500 uppercase shrink-0">Fecha {fx.matchweek}</span>
-                        <span className="font-bold text-white truncate px-2">
-                          {fx.isHome ? 'vs.' : '@'} {fx.opponentName}
-                        </span>
-                        <span className={`text-3xs font-mono uppercase shrink-0 ${fx.isHome ? 'text-emerald-400' : 'text-slate-500'}`}>
-                          {fx.isHome ? 'Local' : 'Visitante'}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-2xs text-slate-500">No hay más fechas de liga programadas por ahora.</p>
-                )}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                <div className="flex items-center justify-between mb-4">
+                  <button
+                    onClick={() => setCalendarMonthOffset(m => m - 1)}
+                    className="btn-fx-subtle w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 flex items-center justify-center cursor-pointer"
+                    title="Mes anterior"
+                  >
+                    ‹
+                  </button>
+                  <h3 className="font-black uppercase text-sm text-white tracking-wide">
+                    {CALENDAR_MONTH_NAMES[calendarGridMonth]} <span className="text-slate-500 font-normal">{calendarGridYear}</span>
+                  </h3>
+                  <button
+                    onClick={() => setCalendarMonthOffset(m => m + 1)}
+                    className="btn-fx-subtle w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 flex items-center justify-center cursor-pointer"
+                    title="Mes siguiente"
+                  >
+                    ›
+                  </button>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <div className="min-w-[560px]">
+                    <div className="grid grid-cols-7 gap-1 text-3xs font-mono uppercase text-center text-slate-500 mb-1">
+                      {CALENDAR_WEEKDAY_NAMES.map(d => <div key={d} className="py-1">{d}</div>)}
+                    </div>
+                    <div className="space-y-1">
+                      {calendarWeeks.map((week, wi) => (
+                        <div key={wi} className="grid grid-cols-7 gap-1">
+                          {week.map((day, di) => (
+                            <div
+                              key={di}
+                              className={`min-h-[68px] rounded-lg p-1.5 ${day ? 'bg-slate-950 border border-slate-850' : ''}`}
+                            >
+                              {day && (
+                                <>
+                                  <span className="text-3xs text-slate-500 font-mono">{day}</span>
+                                  <div className="space-y-0.5 mt-0.5">
+                                    {(calendarEventsByDay.get(day) || []).map((ev, ei) => (
+                                      <div
+                                        key={ei}
+                                        title={ev.sublabel}
+                                        className={`text-[9px] leading-tight font-black rounded px-1 py-0.5 truncate ${ev.colorClass}`}
+                                      >
+                                        {ev.label}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 mt-4 pt-3 border-t border-slate-800 text-3xs font-mono text-slate-400">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-600 inline-block" /> Liga ({currentClub.league})</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-amber-500 inline-block" /> Copa Continental</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-red-600 inline-block" /> Playoffs</span>
+                </div>
               </div>
 
-              {(conmebolCup || uefaCup) && (
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-3">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 border-b border-slate-800 pb-2 flex items-center gap-2">
-                    <Calendar size={13} /> {conmebolCup ? (conmebolCup.cupId === 'libertadores' ? 'COPA LIBERTADORES' : 'COPA SUDAMERICANA') : (uefaCup!.cupId === 'champions' ? 'UEFA CHAMPIONS LEAGUE' : 'UEFA EUROPA LEAGUE')}
-                  </h3>
-                  {upcomingCupFixtures.length > 0 ? (
-                    <ul className="space-y-2">
-                      {upcomingCupFixtures.map((fx, i) => (
-                        <li key={i} className="flex items-center justify-between p-3 bg-slate-950 border border-slate-850 rounded-xl text-xs">
-                          <span className="text-3xs font-mono text-slate-500 uppercase shrink-0">Fecha {fx.matchweek}</span>
-                          <span className="font-bold text-white truncate px-2">
-                            {fx.isHome ? 'vs.' : '@'} {fx.opponentName}
-                          </span>
-                          <span className={`text-3xs font-mono uppercase shrink-0 ${fx.isHome ? 'text-emerald-400' : 'text-slate-500'}`}>
-                            {fx.isHome ? 'Local' : 'Visitante'}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : upcomingCupKnockoutOpponent ? (
-                    <div className="flex items-center justify-between p-3 bg-slate-950 border border-slate-850 rounded-xl text-xs">
-                      <span className="text-3xs font-mono text-amber-500 uppercase shrink-0">Próximo cruce</span>
-                      <span className="font-bold text-white truncate px-2">
-                        {upcomingCupKnockoutOpponent.isHome ? 'vs.' : '@'} {upcomingCupKnockoutOpponent.opponentName}
-                      </span>
-                      <span className={`text-3xs font-mono uppercase shrink-0 ${upcomingCupKnockoutOpponent.isHome ? 'text-emerald-400' : 'text-slate-500'}`}>
-                        {upcomingCupKnockoutOpponent.isHome ? 'Local' : 'Visitante'}
-                      </span>
-                    </div>
-                  ) : (
-                    <p className="text-2xs text-slate-500">Sin más partidos de copa programados por ahora.</p>
-                  )}
-                </div>
+              {calendarEvents.length === 0 && (
+                <p className="text-2xs text-slate-500">No hay más partidos programados por ahora para tu club.</p>
               )}
             </div>
           )}
