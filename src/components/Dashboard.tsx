@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats } from '../types';
+import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
 import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from '../data';
 import {
@@ -8,7 +8,8 @@ import {
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate,
-  getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, isApeturaClausuraLeague, getUpcomingMatchForLeague
+  getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, getRealDateForLeagueStepsBehind, getRealDateForCupStepsBehind,
+  isApeturaClausuraLeague, getUpcomingMatchForLeague
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -22,6 +23,17 @@ import trainingTiroImg from '../assets/training/tiro.jpg';
 import trainingDefensaImg from '../assets/training/defensa.jpg';
 import trainingPaseImg from '../assets/training/pase.jpg';
 import trainingFisicoImg from '../assets/training/fisico.jpg';
+import mauSportsAvatar from '../assets/mau_sports.jpg';
+import fabrizioRomanoAvatar from '../assets/press/FABRIZZIO ROMANO.jpg';
+import gastonEdulAvatar from '../assets/press/gaston Edul.jpg';
+import eduAguirreAvatar from '../assets/press/EDU AGUIRRE.jpg';
+import pipeSierraAvatar from '../assets/press/PIPE SIERRA.jpg';
+import joseHugoIlleraAvatar from '../assets/press/josehugoillera.jpg';
+import carlosAntonioVelezAvatar from '../assets/press/Carlos Antonio Velez.jpg';
+import eduardoLuisAvatar from '../assets/press/eduardo luis.jpg';
+import espnLogo from '../assets/press/ESPN.png';
+import rcnLogo from '../assets/press/RCN.jpg';
+import caracolLogo from '../assets/press/CARACOL.jpg';
 
 const CALENDAR_MONTH_NAMES = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -29,7 +41,70 @@ const CALENDAR_MONTH_NAMES = [
 ];
 const CALENDAR_WEEKDAY_NAMES = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 
-interface CalendarEvent { date: Date; label: string; sublabel: string; colorClass: string; }
+interface CalendarEvent {
+  date: Date;
+  label: string; // rótulo corto de jornada para la esquina (J3, G1, Cuartos...)
+  sublabel: string; // texto completo "vs./@ Rival", usado como tooltip
+  colorClass: string;
+  opponentClub?: Club;
+  played?: boolean;
+  result?: 'V' | 'E' | 'D';
+  score?: string; // "3-1", ya orientado a favor/en contra de tu club
+}
+
+function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
+  return myGoals > rivalGoals ? 'V' : myGoals === rivalGoals ? 'E' : 'D';
+}
+
+// Descompone una llave a ida y vuelta ya jugada en hasta 2 partidos reales de calendario (Vuelta
+// primero, por ser la más reciente) -- una llave completa son 2 fechas distintas, no un solo evento.
+function twoLegTieToEvents(tie: TwoLegTie, myClubId: string): { leg: 'Ida' | 'Vuelta'; isHome: boolean; opponentId: string; myGoals: number; rivalGoals: number }[] {
+  const opponentId = tie.clubAId === myClubId ? tie.clubBId : tie.clubAId;
+  const out: { leg: 'Ida' | 'Vuelta'; isHome: boolean; opponentId: string; myGoals: number; rivalGoals: number }[] = [];
+  if (tie.secondLegGoalsA !== null && tie.secondLegGoalsB !== null) {
+    out.push({
+      leg: 'Vuelta',
+      isHome: tie.clubBId === myClubId,
+      opponentId,
+      myGoals: myClubId === tie.clubAId ? tie.secondLegGoalsA : tie.secondLegGoalsB,
+      rivalGoals: myClubId === tie.clubAId ? tie.secondLegGoalsB : tie.secondLegGoalsA
+    });
+  }
+  if (tie.firstLegGoalsA !== null && tie.firstLegGoalsB !== null) {
+    out.push({
+      leg: 'Ida',
+      isHome: tie.clubAId === myClubId,
+      opponentId,
+      myGoals: myClubId === tie.clubAId ? tie.firstLegGoalsA : tie.firstLegGoalsB,
+      rivalGoals: myClubId === tie.clubAId ? tie.firstLegGoalsB : tie.firstLegGoalsA
+    });
+  }
+  return out;
+}
+
+interface SocialPost {
+  id: string;
+  author: string;
+  role: string;
+  content: string;
+  likes: number;
+  commentsCount: number;
+  timestamp: string;
+  avatar: string;
+  avatarImg?: string;
+}
+
+function singleLegMatchToEvent(m: PlayoffMatch, myClubId: string): { isHome: boolean; opponentId: string; myGoals: number; rivalGoals: number } | null {
+  if (!m.played || m.homeGoals === null || m.awayGoals === null) return null;
+  if (m.homeTeamId !== myClubId && m.awayTeamId !== myClubId) return null;
+  const isHome = m.homeTeamId === myClubId;
+  return {
+    isHome,
+    opponentId: isHome ? m.awayTeamId : m.homeTeamId,
+    myGoals: isHome ? m.homeGoals : m.awayGoals,
+    rivalGoals: isHome ? m.awayGoals : m.homeGoals
+  };
+}
 
 // Cuadrícula de semanas para un mes real (una fila por semana, domingo primero, celdas null antes
 // del día 1 y después del último día para que el grid quede parejo) -- para pintar el calendario
@@ -93,6 +168,36 @@ export default function Dashboard({
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
+  // ChutSocial: likes/comentarios son interacción local de la sesión (los posts en sí ya rotan
+  // semana a semana vía hash pseudo-aleatorio, no viven en el save) -- el jugador puede likear
+  // cualquier post y comentar lo que quiera, sin filtro, y su comentario aparece con miles de
+  // likes automáticos bajo su propio nombre de jugador.
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
+  const [postComments, setPostComments] = useState<Record<string, { id: string; text: string; likes: number }[]>>({});
+  const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
+  const [openCommentBox, setOpenCommentBox] = useState<string | null>(null);
+
+  const toggleLike = (postId: string) => {
+    setLikedPosts(prev => {
+      const next = new Set(prev);
+      if (next.has(postId)) next.delete(postId); else next.add(postId);
+      return next;
+    });
+  };
+
+  const submitComment = (postId: string) => {
+    const text = (commentDrafts[postId] || '').trim();
+    if (!text) return;
+    setPostComments(prev => ({
+      ...prev,
+      [postId]: [...(prev[postId] || []), {
+        id: `${postId}_c${(prev[postId]?.length || 0)}_${Date.now()}`,
+        text,
+        likes: 1200 + Math.floor(Math.random() * 15000)
+      }]
+    }));
+    setCommentDrafts(prev => ({ ...prev, [postId]: '' }));
+  };
 
   // Al avanzar de semana vuelve a habilitarse la sala de prensa (la respuesta de la semana
   // anterior queda igual bloqueada por lastPressAnsweredWeek en el perfil).
@@ -192,7 +297,13 @@ export default function Dashboard({
   // convocado y tu selección todavía tiene partido pendiente esa semana puntual).
   const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek + 1);
   const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek + 1);
-  let nextMatchOpponent: { club: Club | undefined; name: string; isHome: boolean; competition: string } | null = null;
+  // rivalPos/rivalTotal: posición del rival en la tabla que corresponda (liga doméstica, grupo de
+  // Libertadores/Sudamericana, o fase de liga de Champions/Europa) -- null en fases sin tabla
+  // (eliminación directa, Mundial). jornada es el rótulo corto para la esquina de la card.
+  let nextMatchOpponent: {
+    club: Club | undefined; name: string; isHome: boolean; competition: string;
+    jornada: string; rivalPos: number | null; rivalTotal: number | null;
+  } | null = null;
   if (nextWeekInWorldCupBreak) {
     const wcYear = getSeasonYear(playerProfile.currentWeek + 1);
     const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
@@ -207,7 +318,10 @@ export default function Dashboard({
           club: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId),
           name: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId)?.name || '',
           isHome: upcoming.isHome,
-          competition: 'Copa Mundial FIFA'
+          competition: 'Copa Mundial FIFA',
+          jornada: 'Fecha FIFA',
+          rivalPos: null,
+          rivalTotal: null
         };
       }
     }
@@ -219,23 +333,61 @@ export default function Dashboard({
       : '';
     const next = upcomingCupFixtures[0] ?? upcomingCupKnockoutOpponent;
     if (next && competition) {
+      let jornada = 'Copa';
+      let rivalPos: number | null = null;
+      let rivalTotal: number | null = null;
+      if (conmebolCup && conmebolCup.stage === 'groups' && 'matchweek' in next) {
+        jornada = `Fecha ${next.matchweek} · Grupos`;
+        const myGroup = conmebolCup.groups.find(g => g.clubIds.includes(currentClub.id));
+        if (myGroup) {
+          const sortedGroup = sortTable(myGroup.table);
+          const idx = sortedGroup.findIndex(r => r.clubId === next.opponentId);
+          rivalPos = idx >= 0 ? idx + 1 : null;
+          rivalTotal = sortedGroup.length || null;
+        }
+      } else if (conmebolCup) {
+        const round = conmebolCup.knockout?.matchesByRound[conmebolCup.knockout.matchesByRound.length - 1];
+        jornada = round ? roundLabelByMatchCount(round.length) : 'Eliminatoria';
+      } else if (uefaCup && uefaCup.stage === 'league_phase' && 'matchweek' in next) {
+        jornada = `Fecha ${next.matchweek} · Fase de Liga`;
+        const sortedUefa = sortTable(uefaCup.table);
+        const idx = sortedUefa.findIndex(r => r.clubId === next.opponentId);
+        rivalPos = idx >= 0 ? idx + 1 : null;
+        rivalTotal = sortedUefa.length || null;
+      } else if (uefaCup && uefaCup.stage === 'playoff') {
+        jornada = 'Playoff';
+      } else if (uefaCup) {
+        const round = uefaCup.knockout?.tiesByRound[uefaCup.knockout.tiesByRound.length - 1];
+        jornada = round ? roundLabelByMatchCount(round.length) : 'Eliminatoria';
+      }
       nextMatchOpponent = {
         club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === next.opponentId),
         name: next.opponentName,
         isHome: next.isHome,
-        competition
+        competition,
+        jornada,
+        rivalPos,
+        rivalTotal
       };
     }
   }
   if (!nextMatchOpponent && !nextWeekInWorldCupBreak && upcomingLeagueFixtures.length > 0) {
     const next = upcomingLeagueFixtures[0];
+    const idx = myLeagueTable.findIndex(r => r.clubId === next.opponentId);
     nextMatchOpponent = {
       club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === next.opponentId),
       name: next.opponentName,
       isHome: next.isHome,
-      competition: currentClub.league
+      competition: currentClub.league,
+      jornada: `Jornada ${next.matchweek}`,
+      rivalPos: idx >= 0 ? idx + 1 : null,
+      rivalTotal: myLeagueTable.length || null
     };
   }
+  // Fecha de copa sin cruce puntual todavía definido (club no clasificado, o copa "de relleno"
+  // con rival sorpresa que App.tsx recién sortea al arrancar el partido -- ver startMatchflow):
+  // no hay datos reales para mostrar escudo/rival, pero la semana de todos modos tiene actividad.
+  const nextWeekIsFillerCup = nextWeekIsCup && !nextMatchOpponent;
 
   const cupStageLabel = (stage: string) => {
     switch (stage) {
@@ -542,12 +694,128 @@ export default function Dashboard({
     });
   };
 
+  // Periodistas y medios reales de la Sala de Prensa (PRESS_QUESTIONS_POOL), ahora también viven en
+  // ChutSocial con su foto real -- antes solo aparecían si te tocaba su pregunta esa semana puntual.
+  // Casi todo el contenido es sobre OTROS jugadores de OTROS clubes (no vos) y a propósito no es puro
+  // elogio: cada uno mantiene el tono que ya tiene en la Sala de Prensa (Vélez filoso, Edu Aguirre
+  // incendiario, Mau hypeando en vivo, Fabrizio Romano con su clásico "Here we go" de fichajes, etc.).
+  const generateJournalistPosts = () => {
+    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
+    if (candidates.length === 0) return [];
+    const week = playerProfile.currentWeek;
+    const ranked = candidates
+      .map((club, i) => ({ club, key: Math.abs(Math.sin((week + i * 29) * 45.164)) }))
+      .sort((a, b) => a.key - b.key)
+      .map(x => x.club);
+
+    type Journalist = { author: string; role: string; avatarImg: string; lines: (star: string, club: string, rivalClub: string) => string[] };
+    const journalists: Journalist[] = [
+      {
+        author: 'Mau', role: 'mausportstv', avatarImg: mauSportsAvatar,
+        lines: (star, club) => [
+          `¡EPA! Me cuentan que ${star} no la está pasando bien en ${club} últimamente... ustedes qué opinan, ¿se le acabó la magia? 👀`,
+          `LIVE ahora mismo hablando de ${star}: la gente en el chat está dividida, unos lo defienden y otros ya lo quieren ver afuera de ${club}.`
+        ]
+      },
+      {
+        author: 'Fabrizio Romano', role: 'Here We Go! - Digital Network', avatarImg: fabrizioRomanoAvatar,
+        lines: (star, club) => [
+          `🚨 Understand that ${star} (${club}) is attracting strong interest from clubs abroad. Nothing signed yet, conversations only. Here we go... soon? ⏳`,
+          `${star}'s camp has already had informal contact with other clubs. ${club} not worried for now, but it's a situation to monitor closely.`
+        ]
+      },
+      {
+        author: 'Gastón Edul', role: 'ESPN F90', avatarImg: gastonEdulAvatar,
+        lines: (star, club) => [
+          `Puedo confirmar en exclusiva: ${star} pidió explicaciones puertas adentro de ${club} por su falta de continuidad. Hay malestar.`,
+          `Información propia: dirigentes de ${club} ya evalúan el futuro de ${star} de cara al próximo mercado. Nada cerrado, pero la puerta está abierta.`
+        ]
+      },
+      {
+        author: 'Edu Aguirre', role: 'El Chiringuito TV', avatarImg: eduAguirreAvatar,
+        lines: (star, club) => [
+          `¡¡ESTO ES UN ESCÁNDALO!! ${star} discutió con un compañero en pleno entrenamiento de ${club}. ¡LO CONTAMOS EN EXCLUSIVA!`,
+          `¡PEROOO BASTA YA! ${star} lleva varias fechas desaparecido con ${club} y NADIE dice nada. ¡Hay que hablarlo EN DIRECTO!`
+        ]
+      },
+      {
+        author: 'Pipe Sierra', role: 'ESPN Colombia', avatarImg: pipeSierraAvatar,
+        lines: (star, club) => [
+          `Parcero, ¿alguien más vio el gesto de ${star} después del cambio en ${club}? Ahí hay tema pa' rato jajaja.`,
+          `${star} sigue siendo tendencia por los memes, más que por el partido en sí. Así es este negocio, ${club} lo sabe.`
+        ]
+      },
+      {
+        author: 'José Hugo Illera', role: 'Win Sports+', avatarImg: joseHugoIlleraAvatar,
+        lines: (star, club) => [
+          `¡Esa jugada de ${star} con ${club} la vamos a estar contando por años! Relato para el recuerdo, así se hace historia.`,
+          `${star} tuvo un partido de esos que se cuentan en la sobremesa. ${club} sigue soñando gracias a esa clase.`
+        ]
+      },
+      {
+        author: 'Carlos Antonio Vélez', role: 'El Vbar - ESPN Colombia', avatarImg: carlosAntonioVelezAvatar,
+        lines: (star, club) => [
+          `Yo lo he dicho hace rato: ${star} está sobrevalorado. En ${club} lo defienden porque es la estrella, pero el rendimiento no acompaña.`,
+          `No entiendo la pasividad de ${club} con ${star}. Si no rinde, no rinde, y hay que decirlo aunque incomode a la hinchada.`
+        ]
+      },
+      {
+        author: 'Eduardo Luis', role: 'Relatos del Estadio', avatarImg: eduardoLuisAvatar,
+        lines: (star, club) => [
+          `¡${star}! ¡${star} y el estadio entero de ${club} de pie! Momentos así son los que justifican amar este deporte.`,
+          `Se siente en el ambiente de ${club}: ${star} está en un gran momento y la gente ya lo sabe, se lo hace saber en cada jugada.`
+        ]
+      },
+      {
+        author: 'Radio Caracol Deportes', role: 'Medio Oficial', avatarImg: caracolLogo,
+        lines: (star, club, rivalClub) => [
+          `Fuentes cercanas a ${club} le confirman a esta casa que ${star} sigue firme pese a los rumores. La dirigencia no piensa moverlo.`,
+          `${rivalClub} habría preguntado por ${star} en las últimas horas. En ${club} prefieren no hacer comentarios por ahora.`
+        ]
+      },
+      {
+        author: 'Deportes RCN', role: 'Medio Oficial', avatarImg: rcnLogo,
+        lines: (star, club) => [
+          `Desde el camerino de ${club} señalan que el grupo respalda a ${star} pese a las críticas de las últimas semanas.`,
+          `${star} fue la nota destacada del entrenamiento de ${club} de esta semana, según pudo confirmar nuestro equipo periodístico.`
+        ]
+      },
+      {
+        author: 'ESPN Continental', role: 'Medio Oficial', avatarImg: espnLogo,
+        lines: (star, club) => [
+          `Análisis del panel: ${star} viene en caída libre de rendimiento con ${club} en las últimas fechas. Los números no mienten.`,
+          `El debate del día en la mesa: ¿sigue siendo ${star} indiscutido en ${club}, o ya es momento de repensar la titularidad?`
+        ]
+      }
+    ];
+
+    const seed = week * 6151;
+    const pickedJournalists = [...journalists].sort((a, b) => (a.author.charCodeAt(0) * seed) % 101 - (b.author.charCodeAt(0) * seed) % 101).slice(0, 4);
+    return pickedJournalists.map((j, idx) => {
+      const club = ranked[idx % ranked.length];
+      const rivalClub = ranked[(idx + 4) % ranked.length];
+      const star = club.starPlayers[(seed + idx) % club.starPlayers.length];
+      const lines = j.lines(star, club.name, rivalClub?.name || club.name);
+      return {
+        id: `journalist_${j.author.replace(/\s+/g, '')}_${week}_${idx}`,
+        author: j.author,
+        role: j.role,
+        content: lines[(seed + idx * 13) % lines.length],
+        likes: 500 + Math.floor(Math.random() * 6000),
+        commentsCount: 100 + Math.floor(Math.random() * 1200),
+        timestamp: 'Sala de Prensa',
+        avatar: '📰',
+        avatarImg: j.avatarImg
+      };
+    });
+  };
+
   // Pool grande y de tono variado (no solo elogios) sobre vos -- antes eran 4 posts fijos, siempre
   // los mismos y siempre 100% elogiosos cada vez que entrabas a ChutSocial. Ahora se eligen unos
   // pocos de forma pseudo-aleatoria por semana (determinístico para no cambiar en cada render, pero
   // distinto semana a semana) de un pool bien mezclado: elogio, análisis neutro, duda/crítica de
   // hincha y chicana de rival conviven, para que la sección se sienta como redes sociales reales.
-  const generateSocialFeed = () => {
+  const generateSocialFeed = (): SocialPost[] => {
     const pName = playerProfile.name;
     const basePostsPool = [
       {
@@ -646,6 +914,7 @@ export default function Dashboard({
       ...generateRivalTransferBuzzPosts(),
       ...generateOtherPlayersCritiquePosts(),
       ...generateTransferAnnouncementPosts(),
+      ...generateJournalistPosts(),
       ...generateCupChampionPosts()
     ];
   };
@@ -680,7 +949,8 @@ export default function Dashboard({
       date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, i + 1),
       label: `J${fx.matchweek}`,
       sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
-      colorClass: 'bg-emerald-600 text-white'
+      colorClass: 'bg-emerald-600 text-white',
+      opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === fx.opponentId)
     });
   });
 
@@ -706,7 +976,8 @@ export default function Dashboard({
         date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, 1),
         label: `${roundLabel}${legLabel}`,
         sublabel: `${upcomingKO.isHome ? 'vs.' : '@'} ${clubNameById(upcomingKO.opponentId)}`,
-        colorClass: 'bg-red-600 text-white'
+        colorClass: 'bg-red-600 text-white',
+        opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === upcomingKO.opponentId)
       });
     }
   }
@@ -716,7 +987,8 @@ export default function Dashboard({
       date: getRealDateForCupStepsAhead(playerProfile.currentWeek, i + 1),
       label: `G${fx.matchweek}`,
       sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
-      colorClass: 'bg-amber-500 text-slate-950'
+      colorClass: 'bg-amber-500 text-slate-950',
+      opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === fx.opponentId)
     });
   });
 
@@ -725,8 +997,180 @@ export default function Dashboard({
       date: getRealDateForCupStepsAhead(playerProfile.currentWeek, 1),
       label: 'Copa Playoff',
       sublabel: `${upcomingCupKnockoutOpponent.isHome ? 'vs.' : '@'} ${upcomingCupKnockoutOpponent.opponentName}`,
-      colorClass: 'bg-amber-500 text-slate-950'
+      colorClass: 'bg-amber-500 text-slate-950',
+      opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === upcomingCupKnockoutOpponent.opponentId)
     });
+  }
+
+  // --- Historial: partidos YA jugados, con su resultado real (V/E/D + marcador) -- antes el
+  // calendario solo mostraba fechas futuras y perdía todo rastro apenas se jugaba el partido (bug
+  // reportado: "cuando pasa la fecha se borra del calendario"). Mismo truco de "pasos" que arriba,
+  // pero contando hacia atrás con getRealDateFor...StepsBehind, del partido más reciente al más viejo.
+  let leagueStepsBehindUsed = 0;
+  const nextLeagueStepBehind = () => {
+    leagueStepsBehindUsed++;
+    return getRealDateForLeagueStepsBehind(playerProfile.currentWeek, leagueStepsBehindUsed);
+  };
+  let cupStepsBehindUsed = 0;
+  const nextCupStepBehind = () => {
+    cupStepsBehindUsed++;
+    return getRealDateForCupStepsBehind(playerProfile.currentWeek, cupStepsBehindUsed);
+  };
+
+  if (myLeagueSeason && isApeturaClausuraLeague(currentClub.league) && (myLeagueSeason.stage === 'knockout' || myLeagueSeason.stage === 'done')) {
+    if (myLeagueSeason.twoLegKnockout) {
+      [...myLeagueSeason.twoLegKnockout.tiesByRound].reverse().forEach(round => {
+        const tie = round.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
+        if (!tie) return;
+        const roundLabel = roundLabelByMatchCount(round.length);
+        twoLegTieToEvents(tie, currentClub.id).forEach(leg => {
+          const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === leg.opponentId);
+          calendarEvents.push({
+            date: nextLeagueStepBehind(),
+            label: `${roundLabel} (${leg.leg === 'Ida' ? 'I' : 'V'})`,
+            sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
+            colorClass: 'bg-red-600 text-white',
+            opponentClub, played: true,
+            result: resultFromScore(leg.myGoals, leg.rivalGoals),
+            score: `${leg.myGoals}-${leg.rivalGoals}`
+          });
+        });
+      });
+    } else if (myLeagueSeason.knockout) {
+      [...myLeagueSeason.knockout.matchesByRound].reverse().forEach(round => {
+        const m = round.find(mm => mm.homeTeamId === currentClub.id || mm.awayTeamId === currentClub.id);
+        const resolved = m && singleLegMatchToEvent(m, currentClub.id);
+        if (!resolved) return;
+        const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === resolved.opponentId);
+        calendarEvents.push({
+          date: nextLeagueStepBehind(),
+          label: roundLabelByMatchCount(round.length),
+          sublabel: `${resolved.isHome ? 'vs.' : '@'} ${opponentClub?.name || resolved.opponentId}`,
+          colorClass: 'bg-red-600 text-white',
+          opponentClub, played: true,
+          result: resultFromScore(resolved.myGoals, resolved.rivalGoals),
+          score: `${resolved.myGoals}-${resolved.rivalGoals}`
+        });
+      });
+    }
+  }
+
+  myLeagueFixtures
+    .filter(f => f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
+    .sort((a, b) => b.matchweek - a.matchweek)
+    .slice(0, 8)
+    .forEach(f => {
+      const isHome = f.homeTeamId === currentClub.id;
+      const opponentId = isHome ? f.awayTeamId : f.homeTeamId;
+      const myGoals = (isHome ? f.homeGoals : f.awayGoals)!;
+      const rivalGoals = (isHome ? f.awayGoals : f.homeGoals)!;
+      calendarEvents.push({
+        date: nextLeagueStepBehind(),
+        label: `J${f.matchweek}`,
+        sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
+        colorClass: 'bg-emerald-600 text-white',
+        opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
+        played: true,
+        result: resultFromScore(myGoals, rivalGoals),
+        score: `${myGoals}-${rivalGoals}`
+      });
+    });
+
+  if (conmebolCup) {
+    if (conmebolCup.stage === 'knockout' || conmebolCup.stage === 'done') {
+      [...(conmebolCup.knockout?.matchesByRound || [])].reverse().forEach(round => {
+        const m = round.find(mm => mm.homeTeamId === currentClub.id || mm.awayTeamId === currentClub.id);
+        const resolved = m && singleLegMatchToEvent(m, currentClub.id);
+        if (!resolved) return;
+        const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === resolved.opponentId);
+        calendarEvents.push({
+          date: nextCupStepBehind(),
+          label: roundLabelByMatchCount(round.length),
+          sublabel: `${resolved.isHome ? 'vs.' : '@'} ${opponentClub?.name || resolved.opponentId}`,
+          colorClass: 'bg-amber-500 text-slate-950',
+          opponentClub, played: true,
+          result: resultFromScore(resolved.myGoals, resolved.rivalGoals),
+          score: `${resolved.myGoals}-${resolved.rivalGoals}`
+        });
+      });
+    }
+    const myGroup = conmebolCup.groups.find(g => g.clubIds.includes(currentClub.id));
+    if (myGroup) {
+      myGroup.fixtures
+        .filter(f => f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
+        .sort((a, b) => b.matchweek - a.matchweek)
+        .forEach(f => {
+          const isHome = f.homeTeamId === currentClub.id;
+          const opponentId = isHome ? f.awayTeamId : f.homeTeamId;
+          const myGoals = (isHome ? f.homeGoals : f.awayGoals)!;
+          const rivalGoals = (isHome ? f.awayGoals : f.homeGoals)!;
+          calendarEvents.push({
+            date: nextCupStepBehind(),
+            label: `G${f.matchweek}`,
+            sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
+            colorClass: 'bg-amber-500 text-slate-950',
+            opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
+            played: true,
+            result: resultFromScore(myGoals, rivalGoals),
+            score: `${myGoals}-${rivalGoals}`
+          });
+        });
+    }
+  } else if (uefaCup) {
+    if (uefaCup.stage === 'knockout' || uefaCup.stage === 'done') {
+      [...(uefaCup.knockout?.tiesByRound || [])].reverse().forEach(round => {
+        const tie = round.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
+        if (!tie) return;
+        const roundLabel = roundLabelByMatchCount(round.length);
+        twoLegTieToEvents(tie, currentClub.id).forEach(leg => {
+          const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === leg.opponentId);
+          calendarEvents.push({
+            date: nextCupStepBehind(),
+            label: `${roundLabel} (${leg.leg === 'Ida' ? 'I' : 'V'})`,
+            sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
+            colorClass: 'bg-amber-500 text-slate-950',
+            opponentClub, played: true,
+            result: resultFromScore(leg.myGoals, leg.rivalGoals),
+            score: `${leg.myGoals}-${leg.rivalGoals}`
+          });
+        });
+      });
+    } else if (uefaCup.stage === 'playoff' && uefaCup.playoff) {
+      const tie = uefaCup.playoff.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
+      if (tie) {
+        twoLegTieToEvents(tie, currentClub.id).forEach(leg => {
+          const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === leg.opponentId);
+          calendarEvents.push({
+            date: nextCupStepBehind(),
+            label: `Playoff (${leg.leg === 'Ida' ? 'I' : 'V'})`,
+            sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
+            colorClass: 'bg-amber-500 text-slate-950',
+            opponentClub, played: true,
+            result: resultFromScore(leg.myGoals, leg.rivalGoals),
+            score: `${leg.myGoals}-${leg.rivalGoals}`
+          });
+        });
+      }
+    }
+    uefaCup.fixtures
+      .filter(f => f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
+      .sort((a, b) => b.matchweek - a.matchweek)
+      .forEach(f => {
+        const isHome = f.homeTeamId === currentClub.id;
+        const opponentId = isHome ? f.awayTeamId : f.homeTeamId;
+        const myGoals = (isHome ? f.homeGoals : f.awayGoals)!;
+        const rivalGoals = (isHome ? f.awayGoals : f.homeGoals)!;
+        calendarEvents.push({
+          date: nextCupStepBehind(),
+          label: `F${f.matchweek}`,
+          sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
+          colorClass: 'bg-amber-500 text-slate-950',
+          opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
+          played: true,
+          result: resultFromScore(myGoals, rivalGoals),
+          score: `${myGoals}-${rivalGoals}`
+        });
+      });
   }
 
   const calendarBaseDate = getRealDate(playerProfile.currentWeek);
@@ -1024,63 +1468,64 @@ export default function Dashboard({
 
                 <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-3xl p-6 shadow-xl flex flex-col justify-between relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
-                  
-                  <div>
-                    <div className="inline-flex py-1 px-2.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-black uppercase tracking-wider mb-4 animate-pulse">
-                      ¡PRÓXIMA JORNADA DISPONIBLE!
-                    </div>
-                    <h3 className="text-lg font-black text-white leading-tight uppercase">
-                      COMPETICIÓN OFICIAL
-                    </h3>
-                    <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                      Salta al campo de juego con el resto de la plantilla titular. Una buena actuación incrementará tu reputación frente a los ojeadores internacionales.
-                    </p>
-                  </div>
 
-                  <div className="space-y-4 pt-6">
+                  <div>
                     {nextMatchOpponent ? (
-                      <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center gap-3">
-                        {nextMatchOpponent.club ? (
-                          <ClubBadge club={nextMatchOpponent.club} size={40} className="rounded-xl border border-slate-800 bg-slate-900" />
-                        ) : (
-                          <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-lg shrink-0">⚽</div>
-                        )}
-                        <div className="min-w-0">
-                          <span className="text-3xs text-slate-500 uppercase font-mono block truncate">
-                            Próximo Rival ({nextMatchOpponent.isHome ? 'Local' : 'Visitante'}) · {nextMatchOpponent.competition}
-                          </span>
-                          <span className="text-white font-bold text-sm truncate block">vs {nextMatchOpponent.name}</span>
+                      <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl relative">
+                        <span className="absolute top-3 right-3 text-3xs font-mono font-black uppercase bg-slate-900/80 px-2 py-1 rounded text-emerald-400 border border-slate-800">
+                          {nextMatchOpponent.jornada}
+                        </span>
+                        <span className="text-3xs text-amber-500 uppercase font-mono font-bold block mb-3 pr-16 truncate">
+                          {nextMatchOpponent.competition}
+                        </span>
+                        <div className="flex items-center gap-3">
+                          {nextMatchOpponent.club ? (
+                            <ClubBadge club={nextMatchOpponent.club} size={48} className="rounded-xl border border-slate-800 bg-slate-900 shrink-0" />
+                          ) : (
+                            <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl shrink-0">⚽</div>
+                          )}
+                          <div className="min-w-0">
+                            <span className="text-3xs text-slate-500 uppercase font-mono block truncate">
+                              {nextMatchOpponent.isHome ? 'Local' : 'Visitante'}
+                            </span>
+                            <span className="text-white font-bold text-base truncate block">vs {nextMatchOpponent.name}</span>
+                            {nextMatchOpponent.rivalPos != null && (
+                              <span className="text-2xs text-emerald-400 font-mono font-bold block mt-0.5">
+                                {nextMatchOpponent.rivalPos}° {nextMatchOpponent.rivalTotal ? `de ${nextMatchOpponent.rivalTotal}` : ''} en la tabla
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    ) : nextWeekInWorldCupBreak && (
-                      <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-lg shrink-0">
+                    ) : nextWeekInWorldCupBreak ? (
+                      <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl shrink-0">
                           🌎
                         </div>
                         <div className="min-w-0">
                           <span className="text-3xs text-slate-500 uppercase font-mono block truncate">Fecha FIFA</span>
-                          <span className="text-white font-bold text-sm truncate block">Sin partido de clubes esta semana</span>
+                          <span className="text-white font-bold text-sm truncate block">No fuiste convocado esta ventana</span>
                         </div>
                       </div>
-                    )}
-                    <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center justify-between text-xs">
-                      <div>
-                        <span className="text-3xs text-slate-500 uppercase font-mono">Ficha Semanal</span>
-                        <span className="text-white block font-bold">${currentClub.initialSalary}/sem</span>
+                    ) : nextWeekIsFillerCup ? (
+                      <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl shrink-0">
+                          🏆
+                        </div>
+                        <div className="min-w-0">
+                          <span className="text-3xs text-slate-500 uppercase font-mono block truncate">Semana de Copa</span>
+                          <span className="text-white font-bold text-sm truncate block">Rival por definirse</span>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <span className="text-3xs text-slate-500 uppercase font-mono">Nivel de Reto</span>
-                        <span className="text-emerald-400 block font-bold">Profesional</span>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={onAdvanceWeek}
-                      className="btn-fx w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer"
-                    >
-                      Disputar Partido <ArrowRight size={15} />
-                    </button>
+                    ) : null}
                   </div>
+
+                  <button
+                    onClick={onAdvanceWeek}
+                    className="btn-fx w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-6"
+                  >
+                    {nextWeekInWorldCupBreak && !nextMatchOpponent ? 'Pasar a Siguiente Fecha' : 'Disputar Partido'} <ArrowRight size={15} />
+                  </button>
                 </div>
 
               </div>
@@ -1226,31 +1671,87 @@ export default function Dashboard({
                   </h3>
 
                   <div className="space-y-4">
-                    {generateSocialFeed().map(post => (
-                      <div key={post.id} className="p-4 bg-slate-955/40 border border-slate-800 rounded-2xl space-y-2">
-                        <div className="flex justify-between items-start">
-                          <div className="flex items-center gap-2.5">
-                            <span className="text-lg p-1.5 rounded-xl bg-slate-950 border border-slate-800">
-                              {post.avatar}
-                            </span>
-                            <div>
-                              <h4 className="font-bold text-xs text-white leading-none">{post.author}</h4>
-                              <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider font-mono">
-                                {post.role}
-                              </span>
+                    {generateSocialFeed().map(post => {
+                      const isLiked = likedPosts.has(post.id);
+                      const totalLikes = post.likes + (isLiked ? 1 : 0);
+                      const comments = postComments[post.id] || [];
+                      const totalComments = post.commentsCount + comments.length;
+                      return (
+                        <div key={post.id} className="p-4 bg-slate-955/40 border border-slate-800 rounded-2xl space-y-2">
+                          <div className="flex justify-between items-start">
+                            <div className="flex items-center gap-2.5">
+                              {post.avatarImg ? (
+                                <img src={post.avatarImg} alt={post.author} className="w-9 h-9 rounded-xl object-cover border border-slate-800 shrink-0" />
+                              ) : (
+                                <span className="text-lg p-1.5 rounded-xl bg-slate-950 border border-slate-800">
+                                  {post.avatar}
+                                </span>
+                              )}
+                              <div>
+                                <h4 className="font-bold text-xs text-white leading-none">{post.author}</h4>
+                                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider font-mono">
+                                  {post.role}
+                                </span>
+                              </div>
                             </div>
+                            <span className="text-3xs text-slate-500 font-mono">{post.timestamp}</span>
                           </div>
-                          <span className="text-3xs text-slate-500 font-mono">{post.timestamp}</span>
+                          <p className="text-xs text-slate-300 leading-relaxed">
+                            {post.content}
+                          </p>
+                          <div className="flex items-center gap-4 text-3xs text-slate-500 font-mono pt-2 border-t border-slate-950">
+                            <button
+                              onClick={() => toggleLike(post.id)}
+                              className={`btn-fx-subtle flex items-center gap-1 cursor-pointer transition-colors ${isLiked ? 'text-red-400' : 'hover:text-red-400'}`}
+                            >
+                              {isLiked ? '❤️' : '🤍'} {totalLikes.toLocaleString()} Me gusta
+                            </button>
+                            <button
+                              onClick={() => setOpenCommentBox(openCommentBox === post.id ? null : post.id)}
+                              className="btn-fx-subtle flex items-center gap-1 cursor-pointer hover:text-emerald-400 transition-colors"
+                            >
+                              💬 {totalComments.toLocaleString()} Hilos
+                            </button>
+                          </div>
+
+                          {comments.length > 0 && (
+                            <div className="space-y-2 pt-2 border-t border-slate-950">
+                              {comments.map(c => (
+                                <div key={c.id} className="flex items-start gap-2">
+                                  <span className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 text-[10px] font-black flex items-center justify-center shrink-0">
+                                    {playerProfile.name.charAt(0).toUpperCase()}
+                                  </span>
+                                  <div className="min-w-0">
+                                    <span className="text-[10px] text-white font-bold block">{playerProfile.name}</span>
+                                    <p className="text-2xs text-slate-300 leading-snug">{c.text}</p>
+                                    <span className="text-[9px] text-slate-500 font-mono">❤️ {c.likes.toLocaleString()} Me gusta</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {openCommentBox === post.id && (
+                            <div className="flex items-center gap-2 pt-2 border-t border-slate-950">
+                              <input
+                                type="text"
+                                value={commentDrafts[post.id] || ''}
+                                onChange={e => setCommentDrafts(prev => ({ ...prev, [post.id]: e.target.value }))}
+                                onKeyDown={e => { if (e.key === 'Enter') submitComment(post.id); }}
+                                placeholder="Escribí tu comentario... es libre, opiná lo que quieras"
+                                className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50"
+                              />
+                              <button
+                                onClick={() => submitComment(post.id)}
+                                className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
+                              >
+                                Publicar
+                              </button>
+                            </div>
+                          )}
                         </div>
-                        <p className="text-xs text-slate-300 leading-relaxed">
-                          {post.content}
-                        </p>
-                        <div className="flex items-center gap-4 text-3xs text-slate-500 font-mono pt-2 border-t border-slate-950">
-                          <span>❤️ {post.likes} Me gusta</span>
-                          <span>💬 {post.commentsCount} Hilos</span>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -1896,15 +2397,30 @@ export default function Dashboard({
                                 <>
                                   <span className="text-3xs text-slate-500 font-mono">{day}</span>
                                   <div className="space-y-0.5 mt-0.5">
-                                    {(calendarEventsByDay.get(day) || []).map((ev, ei) => (
-                                      <div
-                                        key={ei}
-                                        title={ev.sublabel}
-                                        className={`text-[9px] leading-tight font-black rounded px-1 py-0.5 truncate ${ev.colorClass}`}
-                                      >
-                                        {ev.label}
-                                      </div>
-                                    ))}
+                                    {(calendarEventsByDay.get(day) || []).map((ev, ei) => {
+                                      const resultColorClass = ev.result === 'V'
+                                        ? 'bg-emerald-700 text-white'
+                                        : ev.result === 'D'
+                                        ? 'bg-red-700 text-white'
+                                        : 'bg-slate-700 text-white';
+                                      return (
+                                        <div
+                                          key={ei}
+                                          title={ev.sublabel}
+                                          className={`relative flex items-center gap-1 text-[9px] leading-tight font-black rounded pl-1 pr-3 py-0.5 truncate ${ev.played ? resultColorClass : ev.colorClass}`}
+                                        >
+                                          {ev.opponentClub ? (
+                                            <ClubBadge club={ev.opponentClub} size={11} className="rounded-sm shrink-0" />
+                                          ) : (
+                                            <span className="shrink-0">⚽</span>
+                                          )}
+                                          <span className="truncate">{ev.played ? `${ev.result} ${ev.score}` : ev.label}</span>
+                                          <span className="absolute -top-1 -right-1 bg-slate-950 border border-slate-800 rounded-full min-w-[13px] h-[13px] px-0.5 flex items-center justify-center text-[6px] text-slate-300 font-mono leading-none">
+                                            {ev.label.replace(/[^0-9]/g, '') || '•'}
+                                          </span>
+                                        </div>
+                                      );
+                                    })}
                                   </div>
                                 </>
                               )}
@@ -1920,6 +2436,9 @@ export default function Dashboard({
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-600 inline-block" /> Liga ({currentClub.league})</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-amber-500 inline-block" /> Copa Continental</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-red-600 inline-block" /> Playoffs</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-700 inline-block" /> Ya jugado: V</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-slate-700 inline-block" /> E</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-red-700 inline-block" /> D</span>
                 </div>
               </div>
 

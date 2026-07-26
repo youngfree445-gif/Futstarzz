@@ -96,7 +96,7 @@ corren su calendario y tabla en simultáneo de fondo.
   estructuras nuevas — ver `ROADMAP_FEATURES.md` para el criterio de diseño
   usado en cada fase ya construida.
 
-## Estado actual (25 jul 2026)
+## Estado actual (26 jul 2026)
 
 - Fases 1, 2 y 3 del roadmap original ya implementadas (liga paralela,
   copas continentales reales, Mundial jugable, vicios/vestuario/prensa/
@@ -108,3 +108,18 @@ corren su calendario y tabla en simultáneo de fondo.
   en `handleResolveEvent`), calendario reubicado a enero 2026, y playoffs de
   Colombia reescritos a ida y vuelta real (Cuartos/Semis/Final) para que no
   se repitan siempre los mismos cruces entre semestres.
+- `App.tsx`/`startMatchflow`: durante semanas de copa (Libertadores/
+  Sudamericana en fase de grupos, Champions/Europa en fase de liga) ahora sí
+  se calcula la posición real en la tabla de grupo/fase de liga (antes
+  quedaba siempre en `null` para cualquier semana de copa, así que ganar en
+  Libertadores no se reflejaba ni en el marcador del partido ni en el
+  `pressureMultiplier` — bug reportado y corregido).
+- Dashboard: tarjeta de "próximo partido" simplificada (sin texto de relleno,
+  solo escudo del rival, competición, posición en tabla si aplica y jornada
+  en una esquina) y con botón "Pasar a Siguiente Fecha" cuando hay fecha FIFA
+  sin convocatoria. Calendario mensual ahora conserva el historial de
+  partidos jugados (V/E/D + marcador + escudo) además de los próximos, vía
+  `getRealDateFor{League,Cup}StepsBehind` en `leagueEngine.ts`. ChutSocial
+  suma posts de los periodistas reales de la Sala de Prensa (con foto) y un
+  sistema de likes/comentarios local (el jugador puede comentar lo que
+  quiera bajo su propio nombre).

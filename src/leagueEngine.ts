@@ -89,6 +89,35 @@ export function getRealDateForCupStepsAhead(currentWeek: number, stepsAhead: num
   }
 }
 
+// Contraparte "hacia atrás" de las dos funciones de arriba -- para ubicar en el calendario real la
+// fecha en la que se jugó un partido YA disputado (stepsBehind=1 es el más reciente), en vez de uno
+// pendiente. Mismo criterio de conteo (solo semanas de liga/copa reales, sin fecha FIFA).
+export function getRealDateForLeagueStepsBehind(currentWeek: number, stepsBehind: number): Date {
+  let w = currentWeek - 1;
+  let count = 0;
+  while (w >= 1) {
+    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) {
+      count++;
+      if (count === stepsBehind) return getRealDate(w);
+    }
+    w--;
+  }
+  return getRealDate(1);
+}
+
+export function getRealDateForCupStepsBehind(currentWeek: number, stepsBehind: number): Date {
+  let w = currentWeek - 1;
+  let count = 0;
+  while (w >= 1) {
+    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) {
+      count++;
+      if (count === stepsBehind) return getRealDate(w);
+    }
+    w--;
+  }
+  return getRealDate(1);
+}
+
 export function leagueKeyFor(club: Club): string {
   return `${club.league}-${club.division ?? 1}`;
 }

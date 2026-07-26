@@ -630,6 +630,15 @@ export default function App() {
         ? 'sudamericana'
         : null;
 
+      // Posición en la tabla de grupo/fase de liga de la copa continental (si aplica): antes esto
+      // siempre quedaba en null para cualquier semana de copa -- eso hacía que ni el marcador del
+      // partido ("Tu Equipo · N°" / "Rival · N°") ni el pressureMultiplier reflejaran nunca la
+      // tabla real de grupos de Libertadores/Sudamericana/Champions/Europa, aunque fueras líder
+      // invicto o colista (bug reportado: "ganar en Libertadores no se refleja en la tabla").
+      let cupMyPos: number | null = null;
+      let cupRivalPos: number | null = null;
+      let cupTeamCount: number | null = null;
+
       let foundOpponentId: string | null = null;
       if (qualifiedCupId) {
         const cupKey = `${qualifiedCupId}-${year}`;
@@ -641,6 +650,18 @@ export default function App() {
           opClubId = upcoming.opponentId;
           isHomeThisMatch = upcoming.isHome;
           foundOpponentId = upcoming.opponentId;
+
+          if (cup.stage === 'groups') {
+            const myGroup = cup.groups.find(g => g.clubIds.includes(myClub.id));
+            if (myGroup) {
+              const sortedGroup = sortTable(myGroup.table);
+              const myIdx = sortedGroup.findIndex(r => r.clubId === myClub.id);
+              const rivalIdx = sortedGroup.findIndex(r => r.clubId === upcoming.opponentId);
+              cupMyPos = myIdx >= 0 ? myIdx + 1 : null;
+              cupRivalPos = rivalIdx >= 0 ? rivalIdx + 1 : null;
+              cupTeamCount = sortedGroup.length || null;
+            }
+          }
         }
       }
       setActiveCupId(foundOpponentId ? qualifiedCupId : null);
@@ -665,6 +686,15 @@ export default function App() {
             opClubId = upcoming.opponentId;
             isHomeThisMatch = upcoming.isHome;
             foundUefaOpponentId = upcoming.opponentId;
+
+            if (uefaCup.stage === 'league_phase') {
+              const sortedUefa = sortTable(uefaCup.table);
+              const myIdx = sortedUefa.findIndex(r => r.clubId === myClub.id);
+              const rivalIdx = sortedUefa.findIndex(r => r.clubId === upcoming.opponentId);
+              cupMyPos = myIdx >= 0 ? myIdx + 1 : null;
+              cupRivalPos = rivalIdx >= 0 ? rivalIdx + 1 : null;
+              cupTeamCount = sortedUefa.length || null;
+            }
           }
         }
         setActiveUefaCupId(foundUefaOpponentId ? qualifiedUefaCupId : null);
@@ -677,9 +707,9 @@ export default function App() {
         const giants = ['CR Flamengo', 'SE Palmeiras', 'CA Boca Juniors', 'CA River Plate', 'Fluminense FC', 'SC Corinthians', 'Peñarol (URU)', 'Nacional (URU)'];
         opName = giants[Math.floor(Math.random() * giants.length)];
       }
-      setActiveMyTablePosition(null);
-      setActiveRivalTablePosition(null);
-      setActiveLeagueTeamCount(null);
+      setActiveMyTablePosition(cupMyPos);
+      setActiveRivalTablePosition(cupRivalPos);
+      setActiveLeagueTeamCount(cupTeamCount);
     } else {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
