@@ -799,6 +799,11 @@ export default function App() {
     setShopItems(updatedShop);
     saveGameState(updatedProfile, updatedShop);
     setActiveEvent(null);
+    // startMatchflow tiene ramas (fecha FIFA sin partido puntual, sanción de liga pendiente) que
+    // resuelven la semana solas y vuelven sin llamar a setScreen('match') -- si no volvemos acá a
+    // 'dashboard' primero, la pantalla se queda pegada en 'event' con activeEvent ya en null y no
+    // renderiza nada (pantalla negra). Si sí hay partido, startMatchflow pisa esto con 'match'.
+    setScreen('dashboard');
 
     if (droppedNames.length > 0) {
       const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
@@ -854,7 +859,8 @@ export default function App() {
         activeIsHome, results.golesMiEquipo, results.golesRival
       );
 
-      const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId);
+      const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId)
+        || findShootoutInTwoLegBracket(resolvedSeason.twoLegKnockout, myClub.id, activeOppositionClubId);
       if (shootout) {
         foundShootout = shootout;
         foundShootoutMyId = myClub.id;

@@ -1,4 +1,4 @@
-import { Club, CuadrangularesState, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
+import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 
 // Semanas de carrera por temporada (incluye semanas de Copa). Fija e igual
 // para TODAS las ligas, sin importar cuántos equipos tenga cada una —
@@ -10,9 +10,9 @@ export function isCupWeek(week: number): boolean {
   return week % 3 === 0;
 }
 
-// Ventanas de fichajes, inspiradas en las fechas reales de modo carrera
-// FIFA/EA FC (jul-ago y enero), escaladas a las 38 semanas de temporada:
-// ventana 1 ≈ jul-ago (arranque de temporada), ventana 2 ≈ enero (mitad).
+// Ventanas de fichajes, inspiradas en las fechas reales del fútbol colombiano (enero, antes del
+// Apertura, y mitad de año antes del Clausura), escaladas a las 38 semanas de temporada: ventana 1
+// ≈ enero (arranque de temporada), ventana 2 ≈ mitad de año.
 const TRANSFER_WINDOW_1_END = 7;
 const TRANSFER_WINDOW_2_START = 19;
 const TRANSFER_WINDOW_2_END = 22;
@@ -33,13 +33,13 @@ export function weeksUntilTransferWindow(currentWeek: number): number {
   return SEASON_LENGTH_WEEKS - w + 1;
 }
 
-// Fecha calendario real: semana 1 = 1° de julio 2026 (arranque de la
-// ventana de fichajes 1, ver arriba), y cada semana de carrera suma 7 días.
-// Puramente cosmético — no reemplaza currentWeek, que sigue siendo la base
-// de fixtures, copas y mundiales.
+// Fecha calendario real: semana 1 = 18 de enero 2026 (arranque real de la fecha 1 del Torneo
+// Apertura colombiano, y de paso la ventana de fichajes 1, ver arriba), y cada semana de carrera
+// suma 7 días. Puramente cosmético — no reemplaza currentWeek, que sigue siendo la base de
+// fixtures, copas y mundiales.
 const CAREER_START_YEAR = 2026;
-const CAREER_START_MONTH = 6; // julio (0-indexado)
-const CAREER_START_DAY = 1;
+const CAREER_START_MONTH = 0; // enero (0-indexado)
+const CAREER_START_DAY = 18;
 
 const MONTH_NAMES_ES = [
   'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
@@ -83,8 +83,8 @@ export function leagueMatchweeksElapsed(currentWeek: number): number {
 // Igual que leagueMatchweeksElapsed, pero SIN reiniciarse cada
 // SEASON_LENGTH_WEEKS — cuenta desde el arranque de la carrera. Lo usa el
 // motor de Apertura/Clausura, que necesita más de un "año" del motor de
-// tabla larga para completar Apertura + Clausura (regular + playoffs/
-// cuadrangulares de cada semestre).
+// tabla larga para completar Apertura + Clausura (fase regular + playoffs
+// de cada semestre).
 export function leagueMatchweeksElapsedTotal(currentWeek: number): number {
   let count = 0;
   for (let w = 1; w < currentWeek; w++) {
@@ -340,8 +340,10 @@ export function resolvePlayerMatchweek(
 
 // ==========================================================================
 // --- FORMATO APERTURA/CLAUSURA (Colombia y Argentina) ---
-// Colombia: todos-contra-todos (19 fechas, 20 clubes) -> top 8 -> Apertura:
-// eliminación directa (partido único) / Clausura: cuadrangulares.
+// Colombia: todos-contra-todos (19 fechas, 20 clubes) -> top 8 -> Cuartos,
+// Semifinal y Final, TODO a ida y vuelta (formato real vigente desde 2024),
+// igual en los dos semestres (Apertura y Clausura) -- ver twoLegKnockout en
+// LeagueSeasonState (types.ts).
 // Argentina: 2 zonas de 15 -> todos-contra-todos intra-zona (14 fechas,
 // simplificación: no modelamos las 2 fechas interzonales reales) -> top 8
 // por zona (16 en total) -> eliminación directa a partido único, ambos
@@ -456,84 +458,6 @@ function resolveBracketRound(
   return { matchesByRound: [...matchesByRound, nextRound], championId: null };
 }
 
-function startCuadrangulares(top8: string[]): CuadrangularesState {
-  // Cruce estándar para que los 2 mejores no queden en el mismo grupo: A=1,4,5,8 / B=2,3,6,7
-  const groupA = [top8[0], top8[3], top8[4], top8[7]];
-  const groupB = [top8[1], top8[2], top8[5], top8[6]];
-  return {
-    groupA,
-    groupB,
-    tableA: groupA.map(id => ({ clubId: id, name: id, puntos: 0, pj: 0, g: 0, e: 0, p: 0, gf: 0, gc: 0 })),
-    tableB: groupB.map(id => ({ clubId: id, name: id, puntos: 0, pj: 0, g: 0, e: 0, p: 0, gf: 0, gc: 0 })),
-    fixturesA: generateSingleRound(groupA),
-    fixturesB: generateSingleRound(groupB),
-    finalPlayed: false,
-    championId: null,
-  };
-}
-
-function resolveCuadrangularesStep(
-  state: CuadrangularesState,
-  clubs: Club[],
-  forced?: { clubId: string; isHome: boolean; goals: number; opponentGoals: number }
-): CuadrangularesState {
-  const groupDone = (fixtures: Fixture[]) => fixtures.every(f => f.played);
-
-  if (!groupDone(state.fixturesA) || !groupDone(state.fixturesB)) {
-    const nextMw = Math.min(
-      state.fixturesA.find(f => !f.played)?.matchweek ?? Infinity,
-      state.fixturesB.find(f => !f.played)?.matchweek ?? Infinity
-    );
-    const resolveGroup = (fixtures: Fixture[], table: TableTeam[]): { fixtures: Fixture[]; table: TableTeam[] } => {
-      let t = table;
-      const fx = fixtures.map(f => {
-        if (f.matchweek !== nextMw || f.played) return f;
-        const isForcedMatch = forced && (f.homeTeamId === forced.clubId || f.awayTeamId === forced.clubId);
-        let homeGoals: number, awayGoals: number;
-        if (isForcedMatch && forced) {
-          homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
-          awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
-        } else {
-          const home = clubs.find(c => c.id === f.homeTeamId);
-          const away = clubs.find(c => c.id === f.awayTeamId);
-          if (!home || !away) return f;
-          ({ homeGoals, awayGoals } = simulateMatch(home, away));
-        }
-        t = applyResultToTable(t, f.homeTeamId, f.awayTeamId, homeGoals, awayGoals);
-        return { ...f, played: true, homeGoals, awayGoals };
-      });
-      return { fixtures: fx, table: t };
-    };
-
-    const resultA = resolveGroup(state.fixturesA, state.tableA);
-    const resultB = resolveGroup(state.fixturesB, state.tableB);
-    return { ...state, fixturesA: resultA.fixtures, tableA: resultA.table, fixturesB: resultB.fixtures, tableB: resultB.table };
-  }
-
-  if (!state.finalPlayed) {
-    const finalistA = sortTable(state.tableA)[0].clubId!;
-    const finalistB = sortTable(state.tableB)[0].clubId!;
-    const isForcedMatch = forced && (forced.clubId === finalistA || forced.clubId === finalistB);
-    let homeGoals: number, awayGoals: number;
-    if (isForcedMatch && forced) {
-      homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
-      awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
-    } else {
-      const home = clubs.find(c => c.id === finalistA);
-      const away = clubs.find(c => c.id === finalistB);
-      homeGoals = 0; awayGoals = 0;
-      if (home && away) {
-        ({ homeGoals, awayGoals } = simulateMatch(home, away));
-        if (homeGoals === awayGoals) homeGoals += 1;
-      }
-    }
-    const championId = homeGoals > awayGoals ? finalistA : finalistB;
-    return { ...state, finalPlayed: true, championId };
-  }
-
-  return state;
-}
-
 function freshRegularPhase(clubs: Club[], format: 'colombia' | 'argentina', semester: 1 | 2, semesterStartWeek: number): LeagueSeasonState {
   const leagueKey = leagueKeyFor(clubs[0]);
   if (format === 'colombia') {
@@ -563,11 +487,11 @@ function freshRegularPhase(clubs: Club[], format: 'colombia' | 'argentina', seme
   };
 }
 
-// Resuelve UN paso (una fecha de fase regular, una ronda de playoffs, o una
-// fecha de cuadrangulares) de la temporada. Si currentWeek ya alcanzó el
-// final de una etapa, transiciona a la siguiente (playoffs/cuadrangulares,
-// o al semestre siguiente) y resuelve el primer paso de esa nueva etapa en
-// la misma llamada, para no "perder" la semana.
+// Resuelve UN paso (una fecha de fase regular, o una ronda/pierna de
+// playoffs) de la temporada. Si currentWeek ya alcanzó el final de una
+// etapa, transiciona a la siguiente (playoffs, o al semestre siguiente) y
+// resuelve el primer paso de esa nueva etapa en la misma llamada, para no
+// "perder" la semana.
 function resolveApeturaClausuraStep(
   season: LeagueSeasonState,
   clubs: Club[],
@@ -587,11 +511,10 @@ function resolveApeturaClausuraStep(
     if (nextMw === undefined) {
       // Fase regular terminada: arma top 8 (o top 8 por zona en Argentina) y pasa a la siguiente etapa.
       if (format === 'colombia') {
+        // Formato real vigente desde 2024, igual en Apertura y Clausura: Cuartos, Semifinal y
+        // Final, TODO a ida y vuelta -- ver twoLegKnockout más abajo.
         const top8 = sortTable(season.table).slice(0, 8).map(r => r.clubId!);
-        if (season.semester === 1) {
-          return resolveApeturaClausuraStep({ ...season, stage: 'knockout', knockout: seedBracket(top8) }, clubs, currentWeek, format, forced);
-        }
-        return resolveApeturaClausuraStep({ ...season, stage: 'cuadrangulares', cuadrangulares: startCuadrangulares(top8) }, clubs, currentWeek, format, forced);
+        return resolveApeturaClausuraStep({ ...season, stage: 'knockout', twoLegKnockout: seedTwoLegBracket(top8) }, clubs, currentWeek, format, forced);
       }
       // Argentina: top 8 de cada zona por separado
       const { zoneA, zoneB } = assignArgentinaZones(clubs.map(c => c.id));
@@ -624,21 +547,20 @@ function resolveApeturaClausuraStep(
   }
 
   if (stage === 'knockout') {
+    if (format === 'colombia') {
+      const bracket = season.twoLegKnockout!;
+      if (bracket.championId) {
+        return startNextSemester(season, clubs, currentWeek, format, forced);
+      }
+      const updatedBracket = resolveTwoLegRound(bracket, clubs, forced);
+      return { ...season, twoLegKnockout: updatedBracket };
+    }
     const bracket = season.knockout!;
     if (bracket.championId) {
       return startNextSemester(season, clubs, currentWeek, format, forced);
     }
     const updatedBracket = resolveBracketRound(bracket, clubs, forced);
     return { ...season, knockout: updatedBracket };
-  }
-
-  if (stage === 'cuadrangulares') {
-    const state = season.cuadrangulares!;
-    if (state.championId) {
-      return startNextSemester(season, clubs, currentWeek, format, forced);
-    }
-    const updated = resolveCuadrangularesStep(state, clubs, forced);
-    return { ...season, cuadrangulares: updated };
   }
 
   return season;
@@ -659,9 +581,9 @@ function startNextSemester(
 // Crea (si no existe) o pone al día la temporada Apertura/Clausura,
 // simulando de golpe (sin resultado forzado) todos los pasos ya pasados.
 // Cada llamada a resolveApeturaClausuraStep consume EXACTAMENTE una fecha
-// de liga, sea cual sea la etapa en la que caiga (fase regular, una ronda
-// completa de playoffs, o una fecha de cuadrangulares) — así que alcanza
-// con contar cuántas fechas de liga ya transcurrieron en total.
+// de liga, sea cual sea la etapa en la que caiga (una fecha de fase regular,
+// o una ida/vuelta de playoffs) — así que alcanza con contar cuántas fechas
+// de liga ya transcurrieron en total.
 export function getOrCreateApeturaClausuraSeason(
   clubs: Club[],
   existing: LeagueSeasonState | undefined,
@@ -701,7 +623,8 @@ export function resolveApeturaClausuraWeek(
 }
 
 // Rival de tu club para el paso que corresponde esta semana, en cualquiera
-// de las etapas (regular, knockout, cuadrangulares). null si tu club no
+// de las etapas (regular, knockout de Cuartos/Semifinal/Final a ida y vuelta
+// en Colombia, knockout a partido único en Argentina). null si tu club no
 // tiene partido esta semana (quedaste afuera / etapa ya sin tu equipo) —
 // en ese caso el llamador cae al fallback de partido amistoso ya existente.
 export function getUpcomingApeturaClausuraMatch(
@@ -723,28 +646,16 @@ export function getUpcomingApeturaClausuraMatch(
     return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
   }
 
+  if (stage === 'knockout' && season.twoLegKnockout && !season.twoLegKnockout.championId) {
+    const currentRound = season.twoLegKnockout.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1];
+    return findUpcomingTwoLegMatch(currentRound, clubId);
+  }
+
   if (stage === 'knockout' && season.knockout && !season.knockout.championId) {
     const currentRound = season.knockout.matchesByRound[season.knockout.matchesByRound.length - 1];
     const m = currentRound.find(mm => !mm.played && (mm.homeTeamId === clubId || mm.awayTeamId === clubId));
     if (!m) return null;
     return m.homeTeamId === clubId ? { opponentId: m.awayTeamId, isHome: true } : { opponentId: m.homeTeamId, isHome: false };
-  }
-
-  if (stage === 'cuadrangulares' && season.cuadrangulares && !season.cuadrangulares.championId) {
-    const state = season.cuadrangulares;
-    const inGroupFixtures = [...state.fixturesA, ...state.fixturesB];
-    const pending = inGroupFixtures.find(f => !f.played && (f.homeTeamId === clubId || f.awayTeamId === clubId));
-    if (pending) {
-      return pending.homeTeamId === clubId ? { opponentId: pending.awayTeamId, isHome: true } : { opponentId: pending.homeTeamId, isHome: false };
-    }
-    const groupsDone = [...state.fixturesA, ...state.fixturesB].every(f => f.played);
-    if (groupsDone && !state.finalPlayed) {
-      const finalistA = sortTable(state.tableA)[0]?.clubId;
-      const finalistB = sortTable(state.tableB)[0]?.clubId;
-      if (clubId === finalistA) return { opponentId: finalistB!, isHome: true };
-      if (clubId === finalistB) return { opponentId: finalistA!, isHome: false };
-    }
-    return null;
   }
 
   return null;
