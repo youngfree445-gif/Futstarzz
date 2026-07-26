@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Fútbol Star</string>
+    <string name="title_activity_main">Fútbol Star</string>
+    <string name="package_name">com.futstarz.app</string>
+    <string name="custom_url_scheme">com.futstarz.app</string>
+</resources>

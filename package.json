@@ -10,9 +10,17 @@
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
     "build:ghpages": "cross-env GH_PAGES=true vite build",
-    "deploy": "npm run build:ghpages && gh-pages -d dist"
+    "deploy": "npm run build:ghpages && gh-pages -d dist",
+    "build:capacitor": "cross-env CAPACITOR=true vite build",
+    "cap:sync": "npm run build:capacitor && npx cap sync",
+    "android": "npm run cap:sync && npx cap open android",
+    "ios": "npm run cap:sync && npx cap open ios"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
+    "@capacitor/ios": "^8.4.2",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
     "react": "^19.0.1",
