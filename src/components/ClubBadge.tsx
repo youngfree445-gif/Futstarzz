@@ -34,7 +34,14 @@ export default function ClubBadge({ club, size = 32, colorFallback = true, class
       <img
         src={src}
         alt={club.name}
-        style={{ width: px, height: px }}
+        style={{
+          width: px,
+          height: px,
+          // El drop-shadow con blur casi nulo actúa como un contorno oscuro que disimula el
+          // halo/fleco blanco que traen algunos PNG de origen al recortarse contra fondo oscuro;
+          // el segundo drop-shadow es la sombra "flotante" para dar profundidad.
+          filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.6)) drop-shadow(0 3px 5px rgba(0,0,0,0.45))',
+        }}
         className={`object-contain shrink-0 ${className}`}
         onError={() => setFailed(true)}
       />

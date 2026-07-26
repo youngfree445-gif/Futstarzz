@@ -15,6 +15,12 @@ import {
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
+import trainingRitmoImg from '../assets/training/ritmo.jpg';
+import trainingRegateImg from '../assets/training/regate.jpg';
+import trainingTiroImg from '../assets/training/tiro.jpg';
+import trainingDefensaImg from '../assets/training/defensa.jpg';
+import trainingPaseImg from '../assets/training/pase.jpg';
+import trainingFisicoImg from '../assets/training/fisico.jpg';
 
 interface DashboardProps {
   playerProfile: PlayerProfile;
@@ -880,36 +886,38 @@ export default function Dashboard({
 
               <div className="grid md:grid-cols-3 gap-4">
                 {[
-                  { key: 'ritmo', label: 'Velocidad / Ritmo', icon: '⚡', desc: 'Mejora la aceleración explosiva y los desmarques por las bandas.' },
-                  { key: 'regate', label: 'Dribbling / Regate', icon: '🪄', desc: 'Aumenta el control de balón en conducción y el mano a mano.' },
-                  { key: 'tiro', label: 'Definición / Tiro', icon: '🎯', desc: 'Sube la contundencia y potencia de cara al arco rival.' },
-                  { key: 'defensa', label: 'Robo / Defensa', icon: '🧱', desc: 'Optimiza la capacidad de anticipación e intercepción táctica.' },
-                  { key: 'pase', label: 'Visión / Pase', icon: '🧬', desc: 'Clave para habilitaciones precisas entre líneas y asistencias.' },
-                  { key: 'fisico', label: 'Potencia / Físico', icon: '🦾', desc: 'Incrementa la resistencia en disputas aéreas y choques hombro con hombro.' }
+                  { key: 'ritmo', label: 'Velocidad / Ritmo', img: trainingRitmoImg, desc: 'Mejora la aceleración explosiva y los desmarques por las bandas.' },
+                  { key: 'regate', label: 'Dribbling / Regate', img: trainingRegateImg, desc: 'Aumenta el control de balón en conducción y el mano a mano.' },
+                  { key: 'tiro', label: 'Definición / Tiro', img: trainingTiroImg, desc: 'Sube la contundencia y potencia de cara al arco rival.' },
+                  { key: 'defensa', label: 'Robo / Defensa', img: trainingDefensaImg, desc: 'Optimiza la capacidad de anticipación e intercepción táctica.' },
+                  { key: 'pase', label: 'Visión / Pase', img: trainingPaseImg, desc: 'Clave para habilitaciones precisas entre líneas y asistencias.' },
+                  { key: 'fisico', label: 'Potencia / Físico', img: trainingFisicoImg, desc: 'Incrementa la resistencia en disputas aéreas y choques hombro con hombro.' }
                 ].map(item => (
-                  <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-emerald-500/20 transition-all flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="text-xl">{item.icon}</span>
-                        <span className="text-3xs font-mono font-black uppercase bg-slate-950 px-2 py-0.5 rounded text-amber-500 border border-slate-800">
-                          {playerProfile.attributes[item.key as keyof PlayerStats]}/99
-                        </span>
-                      </div>
-                      <h4 className="font-bold text-sm text-white">{item.label}</h4>
-                      <p className="text-3xs text-slate-400 mt-1 leading-relaxed">{item.desc}</p>
+                  <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-emerald-500/20 transition-all flex flex-col justify-between">
+                    <div className="relative h-28 shrink-0 overflow-hidden">
+                      <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                      <span className="absolute top-2 right-2 text-3xs font-mono font-black uppercase bg-slate-950/80 px-2 py-0.5 rounded text-amber-500 border border-slate-800">
+                        {playerProfile.attributes[item.key as keyof PlayerStats]}/99
+                      </span>
+                      <h4 className="absolute bottom-2 left-3 font-bold text-sm text-white drop-shadow-lg pr-3">{item.label}</h4>
                     </div>
 
-                    <button
-                      onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
-                      disabled={playerProfile.energy < 20}
-                      className={`btn-fx-subtle w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
-                        playerProfile.energy >= 20
-                          ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 border border-slate-800 hover:border-emerald-400 cursor-pointer'
-                          : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
-                      }`}
-                    >
-                      Ejercitar (-20 E)
-                    </button>
+                    <div className="p-5 flex flex-col justify-between flex-1">
+                      <p className="text-3xs text-slate-400 leading-relaxed">{item.desc}</p>
+
+                      <button
+                        onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
+                        disabled={playerProfile.energy < 20}
+                        className={`btn-fx-subtle w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                          playerProfile.energy >= 20
+                            ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 border border-slate-800 hover:border-emerald-400 cursor-pointer'
+                            : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
+                        }`}
+                      >
+                        Ejercitar (-20 E)
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1328,10 +1336,6 @@ export default function Dashboard({
                   );
                 })}
               </div>
-
-              <p className="text-3xs text-slate-600 font-mono pt-2 border-t border-slate-900">
-                Fotos: Wikimedia Commons — San Francisco Foghorn (CC BY 2.0), crudmucosa (CC BY 2.0), EU2016 SK / Bill Branson / Carol M. Highsmith (dominio público / CC0).
-              </p>
             </div>
           )}
 
@@ -1659,7 +1663,7 @@ export default function Dashboard({
                     <ClubBadge club={currentClub} size={56} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
                     <div>
                       <span className="text-3xs font-mono font-bold uppercase tracking-widest text-emerald-400">
-                        Ecosistema de Datos LTA Mod · {currentClub.league}
+                        {currentClub.league}
                       </span>
                       <h2 className="text-2xl font-black text-white mt-1">{currentClub.name}</h2>
                       <p className="text-xs text-slate-400 mt-1">
