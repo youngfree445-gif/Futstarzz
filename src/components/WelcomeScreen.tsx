@@ -50,9 +50,9 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
   return (
     <div id="welcome-screen" className="flex flex-col items-center justify-start min-h-screen bg-slate-950 text-white relative px-4 pb-12 pt-16 overflow-x-hidden">
       {/* Luces abstractas de fondo estilo estadio */}
-      <div className="absolute top-0 inset-x-0 h-[600px] bg-gradient-to-b from-emerald-950/20 via-transparent to-transparent pointer-events-none" />
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 inset-x-0 h-[600px] bg-gradient-to-b from-gold-950/20 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gold-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse" />
+      <div className="absolute bottom-20 right-10 w-[300px] h-[300px] bg-burgundy-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Logotipo y Título Principal */}
       <div className="text-center relative z-10 max-w-lg mb-8">
@@ -61,7 +61,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
         </div>
 
         <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-none">
-          Fut <span className="text-emerald-400">Starzz</span>
+          Fut <span className="text-gold-400">Starzz</span>
         </h1>
 
         <div className="inline-flex items-center gap-1 mt-3.5 px-2.5 py-0.5 rounded-full border border-slate-700/70 bg-slate-900/60 text-slate-400 text-[10px] font-medium tracking-wide">
@@ -79,7 +79,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           onClick={() => setActiveTab('saves')}
           className={`btn-fx-subtle flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
             activeTab === 'saves'
-              ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow'
+              ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -89,7 +89,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           onClick={() => setActiveTab('awards')}
           className={`btn-fx-subtle flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
             activeTab === 'awards'
-              ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black shadow'
+              ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -110,7 +110,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                   key={slot.id}
                   className={`relative flex flex-col justify-between rounded-2xl border p-4.5 transition-all text-left ${
                     hasSave
-                      ? 'bg-slate-900/90 border-slate-800 shadow-md hover:border-emerald-500/50'
+                      ? 'bg-slate-900/90 border-slate-800 shadow-md hover:border-gold-500/50'
                       : 'bg-slate-950/40 border-dashed border-slate-800 hover:border-slate-700 hover:bg-slate-900/30'
                   }`}
                 >
@@ -132,14 +132,14 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                   {hasSave && profile ? (
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
-                        <h4 className="text-base font-black text-white hover:text-emerald-400 transition-colors line-clamp-1 leading-tight">
+                        <h4 className="text-base font-black text-white hover:text-gold-400 transition-colors line-clamp-1 leading-tight">
                           {profile.name}
                         </h4>
                         <p className="text-[11px] text-slate-400 font-semibold mt-0.5">
                           {profile.position}
                         </p>
                         
-                        <div className="text-3xs text-emerald-500 font-extrabold uppercase mt-1.5 flex items-center gap-1">
+                        <div className="text-3xs text-gold-500 font-extrabold uppercase mt-1.5 flex items-center gap-1">
                           <span>📍</span> {profile.nationality}
                         </div>
 
@@ -149,11 +149,11 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                             <span>Semana {profile.currentWeek}</span>
                           </div>
                           <div className="flex items-center gap-0.5 text-slate-400 truncate">
-                            <Coins size={10} className="text-amber-500" />
+                            <Coins size={10} className="text-burgundy-500" />
                             <span className="truncate">${profile.capital.toLocaleString()}</span>
                           </div>
                           <div className="flex items-center gap-1 text-slate-400">
-                            <Star size={10} className="text-amber-500" />
+                            <Star size={10} className="text-burgundy-500" />
                             <span>Pres: {profile.prestige}</span>
                           </div>
                           <div className="flex items-center gap-1 text-slate-400">
@@ -165,7 +165,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
 
                       <button
                         onClick={() => onLoadGame(profile, slot.id)}
-                        className="btn-fx w-full py-2 px-3 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 text-xs font-black flex items-center justify-center gap-1 cursor-pointer"
+                        className="btn-fx w-full py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-xs font-black flex items-center justify-center gap-1 cursor-pointer"
                       >
                         <RefreshCw size={12} className="text-slate-950" />
                         Continuar
@@ -181,7 +181,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                       </p>
                       <button
                         onClick={() => onStartNew(slot.id)}
-                        className="btn-fx-subtle py-1.5 px-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold text-xs hover:border-emerald-500 hover:text-emerald-400 transition-colors cursor-pointer"
+                        className="btn-fx-subtle py-1.5 px-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold text-xs hover:border-gold-500 hover:text-gold-400 transition-colors cursor-pointer"
                       >
                         Nueva Partida
                       </button>
@@ -196,7 +196,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           <div id="trophy-room" className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl text-center space-y-6">
             <div className="max-w-md mx-auto">
               <h3 className="text-lg font-black text-white flex items-center justify-center gap-2">
-                <Trophy size={18} className="text-amber-500" /> Vitrina de Leyendas e Hitos Históricos
+                <Trophy size={18} className="text-burgundy-500" /> Vitrina de Leyendas e Hitos Históricos
               </h3>
               <p className="text-2xs text-slate-400 mt-1.5">
                 Alcanza el estrellato máximo con tu carrera profesional. ¿Lograrás desbloquear los galardones históricos reservados para las leyendas del fútbol mundial?
@@ -209,8 +209,8 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                   title: 'Balón de Oro',
                   desc: 'Prestigio > 90, Valor de Mercado > $10M y Goles > 30.',
                   icon: '👑',
-                  color: 'from-amber-600/20 to-amber-900/10 border-amber-500/20',
-                  badgeColor: 'text-amber-400 bg-amber-950/50'
+                  color: 'from-burgundy-600/20 to-burgundy-900/10 border-burgundy-500/20',
+                  badgeColor: 'text-burgundy-400 bg-burgundy-950/50'
                 },
                 {
                   title: 'Rey de América',
@@ -230,8 +230,8 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                   title: 'Fichaje Récord',
                   desc: 'Firma contrato con un gigante del viejo continente de nivel mundial.',
                   icon: '✈️',
-                  color: 'from-emerald-600/20 to-emerald-900/10 border-emerald-500/20',
-                  badgeColor: 'text-emerald-400 bg-emerald-950/50'
+                  color: 'from-gold-600/20 to-gold-900/10 border-gold-500/20',
+                  badgeColor: 'text-gold-400 bg-gold-950/50'
                 }
               ].map((award, i) => (
                 <div key={i} className={`p-4.5 rounded-2xl border bg-gradient-to-br ${award.color} flex flex-col justify-between space-y-2.5`}>
@@ -250,7 +250,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
             </div>
 
             <div className="text-[10px] text-slate-400 flex items-center justify-center gap-1 font-mono uppercase bg-slate-950 p-2.5 rounded-xl border border-slate-900">
-              <Flame size={11} className="text-amber-500" /> ¡Comienza tu carrera y escribe tu nombre en la vitrina mundial!
+              <Flame size={11} className="text-burgundy-500" /> ¡Comienza tu carrera y escribe tu nombre en la vitrina mundial!
             </div>
           </div>
         )}

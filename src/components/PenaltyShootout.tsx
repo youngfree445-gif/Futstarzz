@@ -29,10 +29,10 @@ export default function PenaltyShootout({ shootout, myClubId, myClubName, rivalC
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center py-12 px-4 relative">
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-burgundy-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative">
-        <div className="px-6 py-4 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-widest text-amber-400">
+        <div className="px-6 py-4 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-widest text-burgundy-400">
           <span className="flex items-center gap-1.5">
             <Target size={14} /> Tanda de Penales
           </span>
@@ -43,9 +43,9 @@ export default function PenaltyShootout({ shootout, myClubId, myClubName, rivalC
           <div className="flex items-center justify-center gap-6">
             <div className="text-right">
               <span className="font-black text-sm block">{myClubName}</span>
-              <span className="text-3xs text-emerald-400 uppercase font-mono font-bold tracking-wider">Tu Equipo</span>
+              <span className="text-3xs text-gold-400 uppercase font-mono font-bold tracking-wider">Tu Equipo</span>
             </div>
-            <div className="text-3xl font-black font-mono tracking-wider bg-slate-950 px-4 py-1.5 rounded-xl border border-amber-500/20 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+            <div className="text-3xl font-black font-mono tracking-wider bg-slate-950 px-4 py-1.5 rounded-xl border border-burgundy-500/20 text-burgundy-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
               {myScore} - {rivalScore}
             </div>
             <div className="text-left">
@@ -62,7 +62,7 @@ export default function PenaltyShootout({ shootout, myClubId, myClubName, rivalC
                   key={i}
                   className={`animate-fade-in p-3 rounded-xl border text-xs font-bold flex items-center justify-between ${
                     kick.scored
-                      ? 'bg-emerald-950/20 border-emerald-500/30 text-emerald-300'
+                      ? 'bg-gold-950/20 border-gold-500/30 text-gold-300'
                       : 'bg-red-950/20 border-red-500/30 text-red-300'
                   }`}
                 >
@@ -77,8 +77,8 @@ export default function PenaltyShootout({ shootout, myClubId, myClubName, rivalC
 
           {isDone && (
             <div className="text-center space-y-3 pt-2">
-              <div className={`inline-flex p-3 rounded-full border ${iWon ? 'bg-emerald-500/20 border-emerald-500/40' : 'bg-red-500/20 border-red-500/40'}`}>
-                {iWon ? <Trophy size={28} className="text-emerald-400" /> : <Skull size={28} className="text-red-400" />}
+              <div className={`inline-flex p-3 rounded-full border ${iWon ? 'bg-gold-500/20 border-gold-500/40' : 'bg-red-500/20 border-red-500/40'}`}>
+                {iWon ? <Trophy size={28} className="text-gold-400" /> : <Skull size={28} className="text-red-400" />}
               </div>
               <h3 className="text-base font-black text-white leading-snug">
                 {iWon
@@ -87,7 +87,7 @@ export default function PenaltyShootout({ shootout, myClubId, myClubName, rivalC
               </h3>
               <button
                 onClick={onContinue}
-                className="btn-fx mt-2 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
+                className="btn-fx mt-2 py-2 px-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
               >
                 Continuar
               </button>

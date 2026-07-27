@@ -1244,7 +1244,7 @@ export default function MatchSimulator({
       <div className="w-full max-w-4xl mx-auto flex flex-col gap-3 border-b border-slate-800 pb-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center justify-between gap-3 lg:block lg:shrink-0">
           <div>
-            <span className="text-2xs font-bold text-emerald-400 uppercase tracking-widest block mb-0.5">
+            <span className="text-2xs font-bold text-gold-400 uppercase tracking-widest block mb-0.5">
               {isWorldCup ? '🌎 Copa Mundial FIFA 2026' : isLibertadores ? '🏆 Copa Libertadores 2026' : '🇨🇴 Primera División Dimayor'}
             </span>
             <div className="flex items-center gap-2">
@@ -1253,7 +1253,7 @@ export default function MatchSimulator({
               </span>
               <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shrink-0" />
               {playerCards === 'yellow' && (
-                <span className="w-3 h-4 rounded-sm bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0" title="Tarjeta amarilla" />
+                <span className="w-3 h-4 rounded-sm bg-burgundy-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0" title="Tarjeta amarilla" />
               )}
               {playerCards === 'red' && (
                 <span className="text-2xs font-black text-red-400 uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
@@ -1266,28 +1266,28 @@ export default function MatchSimulator({
           <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0 lg:hidden">
             <button
               onClick={() => setSpeedMultiplier(450)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Normal"
             >
               1x
             </button>
             <button
               onClick={() => setSpeedMultiplier(225)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Doble"
             >
               2x
             </button>
             <button
               onClick={() => setSpeedMultiplier(100)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Rápida"
             >
               4x
             </button>
             <button
               onClick={() => setSpeedMultiplier(5)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Simulación Ultra Rápida"
             >
               Saltar
@@ -1298,12 +1298,12 @@ export default function MatchSimulator({
         <div className="flex items-center gap-2 sm:gap-4 bg-slate-900 px-3 sm:px-5 py-2 rounded-2xl border border-slate-800 shadow-lg lg:flex-1 lg:max-w-md lg:mx-4">
           <div className="min-w-0 flex-1 text-right">
             <span className="font-black text-xs sm:text-sm block truncate">{teamName}</span>
-            <span className="text-3xs text-emerald-400 uppercase font-mono font-bold tracking-wider block truncate">
+            <span className="text-3xs text-gold-400 uppercase font-mono font-bold tracking-wider block truncate">
               Tu Equipo{myTablePosition != null && ` · ${myTablePosition}°`}
             </span>
           </div>
 
-          <div className="shrink-0 text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-emerald-500/20 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)] whitespace-nowrap tabular-nums">
+          <div className="shrink-0 text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(16,185,129,0.1)] whitespace-nowrap tabular-nums">
             {isHome.current ? scoreHome : scoreAway} - {isHome.current ? scoreAway : scoreHome}
           </div>
 
@@ -1318,28 +1318,28 @@ export default function MatchSimulator({
         <div className="hidden lg:flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0">
           <button
             onClick={() => setSpeedMultiplier(450)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Normal"
           >
             1x
           </button>
           <button
             onClick={() => setSpeedMultiplier(225)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Doble"
           >
             2x
           </button>
           <button
             onClick={() => setSpeedMultiplier(100)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Rápida"
           >
             4x
           </button>
           <button
             onClick={() => setSpeedMultiplier(5)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Simulación Ultra Rápida"
           >
             Saltar
@@ -1355,7 +1355,7 @@ export default function MatchSimulator({
             <span className="font-mono text-xs uppercase tracking-widest text-slate-400 font-bold">
               Transmisión de Texto en Vivo
             </span>
-            <span className="text-2xs text-emerald-400 font-bold tracking-wider uppercase animate-pulse">
+            <span className="text-2xs text-gold-400 font-bold tracking-wider uppercase animate-pulse">
               ● Narración
             </span>
           </div>
@@ -1366,20 +1366,20 @@ export default function MatchSimulator({
                 key={index} 
                 className={`p-3 rounded-2xl border text-xs leading-relaxed transition-all ${
                   log.type === 'good'
-                    ? 'bg-emerald-950/20 border-emerald-500/30 text-emerald-300'
+                    ? 'bg-gold-950/20 border-gold-500/30 text-gold-300'
                     : log.type === 'bad'
                     ? 'bg-red-950/20 border-red-500/30 text-red-300'
                     : log.type === 'highlight'
-                    ? 'bg-amber-950/15 border-amber-500/20 text-amber-300'
+                    ? 'bg-burgundy-950/15 border-burgundy-500/20 text-burgundy-300'
                     : 'bg-slate-950/40 border-slate-800 text-slate-300'
                 }`}
               >
                 <div className="flex items-center gap-1.5 mb-1 font-mono text-2xs font-black">
                   <span>⚽ [{log.minute}']</span>
                   <span className={`uppercase px-1.5 rounded font-black text-3xs ${
-                    log.type === 'good' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-900' :
+                    log.type === 'good' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-900' :
                     log.type === 'bad' ? 'bg-red-500 text-slate-900' :
-                    log.type === 'highlight' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-300'
+                    log.type === 'highlight' ? 'bg-burgundy-500 text-slate-900' : 'bg-slate-800 text-slate-300'
                   }`}>
                     {log.type === 'good' ? 'Éxito' : log.type === 'bad' ? 'Alerta' : log.type === 'highlight' ? 'Jugada' : 'Partido'}
                   </span>
@@ -1395,10 +1395,10 @@ export default function MatchSimulator({
                 <div className="space-y-4 max-w-md mx-auto w-full max-h-full flex flex-col">
                   
                   <div className="shrink-0 flex flex-col items-center">
-                    <div className="inline-flex p-2 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 mb-2 animate-glow-pulse">
+                    <div className="inline-flex p-2 rounded-2xl bg-burgundy-500/10 border border-burgundy-500/20 text-burgundy-400 mb-2 animate-glow-pulse">
                       <Sparkles size={20} />
                     </div>
-                    <span className="text-[10px] uppercase tracking-widest font-black text-amber-500 font-mono">
+                    <span className="text-[10px] uppercase tracking-widest font-black text-burgundy-500 font-mono">
                       Decisión crítica · Minuto {minute}'
                     </span>
                     <h3 className="text-sm font-extrabold text-white leading-snug mt-1 mb-2">
@@ -1414,19 +1414,19 @@ export default function MatchSimulator({
                         <button
                           key={i}
                           onClick={() => handleChoice(i)}
-                          className="btn-fx-subtle w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all bg-slate-900 border-slate-800 hover:border-amber-400/50 hover:bg-slate-850 cursor-pointer shadow-sm group"
+                          className="btn-fx-subtle w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all bg-slate-900 border-slate-800 hover:border-burgundy-400/50 hover:bg-slate-850 cursor-pointer shadow-sm group"
                         >
                           <div className="max-w-[70%] pr-2">
-                            <p className="font-bold text-xs text-white leading-tight group-hover:text-amber-300 transition-colors">
+                            <p className="font-bold text-xs text-white leading-tight group-hover:text-burgundy-300 transition-colors">
                               {choice.text}
                             </p>
                             <p className="text-[10px] text-slate-400 mt-1 font-mono">
-                              Éxito: <span className="text-emerald-400 font-bold">{Math.round(choice.successChance * 100)}%</span>
+                              Éxito: <span className="text-gold-400 font-bold">{Math.round(choice.successChance * 100)}%</span>
                             </p>
                           </div>
                           <div className="text-right shrink-0">
                             <span className="text-[10px] font-mono uppercase bg-slate-950 px-2 py-1 rounded text-slate-400 border border-slate-800">
-                              {choice.requiredAttr}: <strong className={isPromoted ? 'text-emerald-400' : 'text-amber-500'}>{requiredVal}</strong>/{choice.minVal}
+                              {choice.requiredAttr}: <strong className={isPromoted ? 'text-gold-400' : 'text-burgundy-500'}>{requiredVal}</strong>/{choice.minVal}
                             </span>
                           </div>
                         </button>
@@ -1436,8 +1436,8 @@ export default function MatchSimulator({
                 </div>
               ) : (
                 <div className="space-y-4 max-w-sm mx-auto">
-                  <div className={`inline-flex p-3 rounded-full border text-white ${decisionWasSuccess ? 'bg-emerald-500/20 border-emerald-500/40' : 'bg-red-500/20 border-red-500/40'}`}>
-                    {decisionWasSuccess ? <Star size={28} className="text-emerald-400" /> : <Skull size={28} className="text-red-400" />}
+                  <div className={`inline-flex p-3 rounded-full border text-white ${decisionWasSuccess ? 'bg-gold-500/20 border-gold-500/40' : 'bg-red-500/20 border-red-500/40'}`}>
+                    {decisionWasSuccess ? <Star size={28} className="text-gold-400" /> : <Skull size={28} className="text-red-400" />}
                   </div>
 
                   <div>
@@ -1451,7 +1451,7 @@ export default function MatchSimulator({
 
                   <button
                     onClick={resolveDecisionStage}
-                    className="btn-fx mt-4 py-2 px-6 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
+                    className="btn-fx mt-4 py-2 px-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
                   >
                     Volver al Partido
                   </button>
@@ -1464,18 +1464,18 @@ export default function MatchSimulator({
         <div className="space-y-6">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl">
             <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black mb-4 flex items-center gap-1.5">
-              <Award size={13} className="text-amber-400" /> Rendimiento de {playerProfile.name}
+              <Award size={13} className="text-burgundy-400" /> Rendimiento de {playerProfile.name}
             </h3>
 
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-slate-950 border-2 border-emerald-500 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/10">
+              <div className="w-16 h-16 rounded-full bg-slate-950 border-2 border-gold-500 flex flex-col items-center justify-center shadow-lg shadow-gold-500/10">
                 <span className="text-xs font-black text-slate-400 uppercase leading-none font-mono tracking-tighter">Calificación</span>
                 <span className="text-xl font-extrabold text-white leading-none mt-1 font-mono">
                   {rating.toFixed(1)}
                 </span>
               </div>
               <div>
-                <span className="text-2xs font-extrabold uppercase text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded">
+                <span className="text-2xs font-extrabold uppercase text-burgundy-500 bg-burgundy-500/10 px-1.5 py-0.5 rounded">
                   {playerProfile.position}
                 </span>
                 <h4 className="text-sm font-bold text-white mt-1.5">{playerProfile.name}</h4>
@@ -1486,11 +1486,11 @@ export default function MatchSimulator({
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
                 <span className="text-xs text-slate-400 block font-mono">Goles</span>
-                <span className="text-xl font-bold font-mono text-emerald-400 block mt-0.5">{playerGoals}</span>
+                <span className="text-xl font-bold font-mono text-gold-400 block mt-0.5">{playerGoals}</span>
               </div>
               <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
                 <span className="text-xs text-slate-400 block font-mono">Asistencias</span>
-                <span className="text-xl font-bold font-mono text-amber-500 block mt-0.5">{playerAssists}</span>
+                <span className="text-xl font-bold font-mono text-burgundy-500 block mt-0.5">{playerAssists}</span>
               </div>
             </div>
 
@@ -1518,32 +1518,32 @@ export default function MatchSimulator({
               Tus elecciones críticas están vinculadas a tus atributos actuales. Si no has entrenado lo suficiente tus atributos físicos o de pase, intenta ir por las opciones seguras para evitar pérdidas de prestigio.
             </p>
             {tablePositionFactor < 0.97 && (
-              <p className="leading-relaxed text-2xs text-amber-400 mt-2">
+              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2">
                 ⚠️ Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.
               </p>
             )}
             {tablePositionFactor > 1.03 && (
-              <p className="leading-relaxed text-2xs text-emerald-400 mt-2">
+              <p className="leading-relaxed text-2xs text-gold-400 mt-2">
                 ✨ Rival peor ubicado en la tabla: tus decisiones tienen algo más de margen hoy.
               </p>
             )}
             {playerProfile.fans < 20 && (
-              <p className="leading-relaxed text-2xs text-amber-400 mt-2">
+              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2">
                 📣 La hinchada te viene pitando: tus decisiones tienen menos margen de éxito hoy.
               </p>
             )}
             {playerProfile.fans > 80 && (
-              <p className="leading-relaxed text-2xs text-emerald-400 mt-2">
+              <p className="leading-relaxed text-2xs text-gold-400 mt-2">
                 📣 La hinchada te banca a muerte: tus decisiones tienen algo más de margen hoy.
               </p>
             )}
             {playerProfile.mentalHealth < 35 && (
-              <p className="leading-relaxed text-2xs text-amber-400 mt-2">
+              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2">
                 🧠 Traes la cabeza floja: tus decisiones tienen menos margen de éxito hoy.
               </p>
             )}
             {playerProfile.mentalHealth > 85 && (
-              <p className="leading-relaxed text-2xs text-emerald-400 mt-2">
+              <p className="leading-relaxed text-2xs text-gold-400 mt-2">
                 🧠 Estás mentalmente a tope: tus decisiones tienen algo más de margen hoy.
               </p>
             )}

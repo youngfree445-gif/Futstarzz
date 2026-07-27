@@ -39,14 +39,14 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
   return (
     <div id="decision-center-view" className="min-h-screen bg-slate-950 text-white flex items-center justify-center py-12 px-4 relative">
       {/* Stadium Light atmospheric glow */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-burgundy-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative backdrop-blur">
         
         {/* Header Alert Notification */}
-        <div className="px-6 py-4 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-widest text-amber-400">
+        <div className="px-6 py-4 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-widest text-burgundy-400">
           <span className="flex items-center gap-1.5 animate-pulse">
-            <AlertTriangle size={14} className="text-amber-500" /> EVENTO EXTRA DE TRIBUNAL / CLUB
+            <AlertTriangle size={14} className="text-burgundy-500" /> EVENTO EXTRA DE TRIBUNAL / CLUB
           </span>
           <span className="text-3xs text-slate-500 font-bold">Relaciones Públicas</span>
         </div>
@@ -54,7 +54,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
         {/* Content body */}
         <div className="p-6 md:p-8 space-y-6">
           <div className="text-center space-y-3">
-            <div className="inline-flex p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 mb-2">
+            <div className="inline-flex p-3 rounded-2xl bg-burgundy-500/10 border border-burgundy-500/20 text-burgundy-500 mb-2">
               <Shield size={28} className="animate-pulse" />
             </div>
             <h2 className="text-xl font-black text-white uppercase tracking-tight">
@@ -76,7 +76,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
                   onClick={() => handleSelect(i)}
                   className={`btn-fx-subtle w-full p-4 rounded-2xl border text-left flex items-start justify-between transition-all ${
                     isSelected
-                      ? 'border-emerald-500 bg-emerald-950/20 shadow-lg shadow-emerald-900/10'
+                      ? 'border-gold-500 bg-gold-950/20 shadow-lg shadow-gold-900/10'
                       : 'border-slate-800 bg-slate-950/40 hover:border-slate-700 hover:bg-slate-950/60'
                   }`}
                 >
@@ -85,7 +85,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
                       {choice.text}
                     </span>
                     {isSelected && (
-                      <p className="text-3xs text-emerald-300 font-mono italic">
+                      <p className="text-3xs text-gold-300 font-mono italic">
                         ↳ CONSECUENCIA: {choice.outcome}
                       </p>
                     )}
@@ -97,7 +97,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
                         -${choice.cost.toLocaleString()}
                       </span>
                     ) : choice.cost < 0 ? (
-                      <span className="text-xs font-mono text-emerald-400 font-bold">
+                      <span className="text-xs font-mono text-gold-400 font-bold">
                         +${Math.abs(choice.cost).toLocaleString()}
                       </span>
                     ) : (
@@ -108,12 +108,12 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
 
                     <div className="flex gap-1.5 text-3xs mt-2 justify-end font-mono">
                       {choice.effects.prestige !== 0 && (
-                        <span className={choice.effects.prestige > 0 ? 'text-emerald-400' : 'text-red-400'}>
+                        <span className={choice.effects.prestige > 0 ? 'text-gold-400' : 'text-red-400'}>
                           {choice.effects.prestige > 0 ? '+' : ''}{choice.effects.prestige} Rep
                         </span>
                       )}
                       {choice.effects.fans !== 0 && (
-                        <span className={choice.effects.fans > 0 ? 'text-amber-400' : 'text-red-450'}>
+                        <span className={choice.effects.fans > 0 ? 'text-burgundy-400' : 'text-red-450'}>
                           {choice.effects.fans > 0 ? '+' : ''}{choice.effects.fans} Fan
                         </span>
                       )}
@@ -136,7 +136,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
             className={`btn-fx w-full py-3.5 px-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl border transition-all ${
               selectedChoiceIndex === null
                 ? 'bg-slate-800/50 border-slate-800 text-slate-500 cursor-not-allowed'
-                : 'bg-gradient-to-br from-emerald-400 to-emerald-600 border-emerald-400 text-slate-950 cursor-pointer'
+                : 'bg-gradient-to-br from-gold-400 to-gold-600 border-gold-400 text-slate-950 cursor-pointer'
             }`}
           >
             Confirmar Acción <UserCheck size={14} />

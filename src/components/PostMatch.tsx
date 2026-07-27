@@ -155,23 +155,23 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
 
   return (
     <div id="post-match-view" className="min-h-screen bg-slate-950 text-white flex items-center justify-center py-12 px-4 relative">
-      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[110px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/5 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-gold-500/5 rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-burgundy-500/5 rounded-full blur-[130px] pointer-events-none" />
 
       <div className="w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl backdrop-blur relative">
         
         {/* Newspaper Gacetilla section with authentic layout */}
-        <div className="p-6 md:p-8 bg-amber-40/10 bg-slate-950 border-b border-slate-800/80 relative overflow-hidden">
-          <div className="flex justify-between items-center text-xs font-mono text-amber-500 font-bold tracking-widest mb-4">
+        <div className="p-6 md:p-8 bg-burgundy-40/10 bg-slate-950 border-b border-slate-800/80 relative overflow-hidden">
+          <div className="flex justify-between items-center text-xs font-mono text-burgundy-500 font-bold tracking-widest mb-4">
             <span>📰 EL DIARIO DEPORTIVO 2026</span>
             <span>Edición Semanal · Colombia-Brasil-Arg</span>
           </div>
 
-          <div className="border border-amber-500/20 bg-amber-500/5 p-5 md:p-6 rounded-2xl relative">
-            <span className="absolute -top-2.5 left-4 px-2 py-0.5 bg-amber-500 rounded text-slate-950 font-mono text-3xs font-black tracking-tighter uppercase">
+          <div className="border border-burgundy-500/20 bg-burgundy-500/5 p-5 md:p-6 rounded-2xl relative">
+            <span className="absolute -top-2.5 left-4 px-2 py-0.5 bg-burgundy-500 rounded text-slate-950 font-mono text-3xs font-black tracking-tighter uppercase">
               TAPA DEL DÍA
             </span>
-            <h1 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight mb-3 border-b border-amber-500/10 pb-2 italic">
+            <h1 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight mb-3 border-b border-burgundy-500/10 pb-2 italic">
               {headline}
             </h1>
             <p className="text-xs text-slate-300 leading-relaxed font-serif">
@@ -185,7 +185,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
           
           <div className="space-y-4">
             <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2">
-              <Award size={14} className="text-emerald-400" /> Rendimiento y Recompensa
+              <Award size={14} className="text-gold-400" /> Rendimiento y Recompensa
             </h3>
 
             <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-850 space-y-3.5">
@@ -198,7 +198,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
 
               <div className="flex justify-between items-center">
                 <span className="text-xs text-slate-400">Salario Semanal Cobrado</span>
-                <span className="font-mono text-sm text-emerald-400 font-bold">
+                <span className="font-mono text-sm text-gold-400 font-bold">
                   +${matchResults.salaryEarned.toLocaleString()} USD
                 </span>
               </div>
@@ -206,7 +206,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
               {matchResults.goles > 0 || matchResults.asistencias > 0 ? (
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-slate-400">Bono por Goles/Asistencias</span>
-                  <span className="font-mono text-xs text-amber-400 font-bold">
+                  <span className="font-mono text-xs text-burgundy-400 font-bold">
                     +${((matchResults.goles * 500) + (matchResults.asistencias * 250)).toLocaleString()} USD
                   </span>
                 </div>
@@ -214,14 +214,14 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
 
               <div className="flex justify-between items-center border-t border-slate-850 pt-2 text-xs">
                 <span className="text-slate-300 font-bold">Experiencia ganada</span>
-                <span className="font-mono font-black text-emerald-400">
+                <span className="font-mono font-black text-gold-400">
                   +{matchResults.puntosExperiencia} XP
                 </span>
               </div>
             </div>
 
             {/* Coach review section */}
-            <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/20 text-xs italic text-slate-400 leading-relaxed font-serif border-l-2 border-l-emerald-500">
+            <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/20 text-xs italic text-slate-400 leading-relaxed font-serif border-l-2 border-l-gold-500">
               {getCoachOpinion()}
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
           <div className="flex flex-col justify-between">
             <div className="space-y-4">
               <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2">
-                <TrendingUp size={14} className="text-amber-400" /> Estadísticas del Partido
+                <TrendingUp size={14} className="text-burgundy-400" /> Estadísticas del Partido
               </h3>
 
               <div className="grid grid-cols-2 gap-3 text-xs bg-slate-950/40 p-4 rounded-2xl border border-slate-800">
@@ -251,7 +251,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
                 <div>
                   <span className="text-slate-500 block text-3xs font-mono uppercase">Resultado</span>
                   <span className={`inline-block px-2 py-0.5 rounded text-3xs font-black uppercase ${
-                    matchResults.resultado === 'W' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                    matchResults.resultado === 'W' ? 'bg-gold-500/20 text-gold-400 border border-gold-500/30' :
                     matchResults.resultado === 'D' ? 'bg-slate-800 text-slate-400' :
                     'bg-red-500/20 text-red-400 border border-red-500/30'
                   }`}>
@@ -268,7 +268,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
 
             <button
               onClick={onContinue}
-              className="btn-fx w-full mt-6 py-4 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 text-slate-950 hover:from-emerald-400 hover:to-emerald-600 transition-all font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl"
+              className="btn-fx w-full mt-6 py-4 px-5 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-700 text-slate-950 hover:from-gold-400 hover:to-gold-600 transition-all font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl"
             >
               Regresar al Vestuario <ArrowRight size={14} />
             </button>

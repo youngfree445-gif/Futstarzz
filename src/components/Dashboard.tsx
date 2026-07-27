@@ -949,7 +949,7 @@ export default function Dashboard({
       date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, i + 1),
       label: `J${fx.matchweek}`,
       sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
-      colorClass: 'bg-emerald-600 text-white',
+      colorClass: 'bg-gold-600 text-white',
       opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === fx.opponentId)
     });
   });
@@ -987,7 +987,7 @@ export default function Dashboard({
       date: getRealDateForCupStepsAhead(playerProfile.currentWeek, i + 1),
       label: `G${fx.matchweek}`,
       sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
-      colorClass: 'bg-amber-500 text-slate-950',
+      colorClass: 'bg-burgundy-500 text-slate-950',
       opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === fx.opponentId)
     });
   });
@@ -997,7 +997,7 @@ export default function Dashboard({
       date: getRealDateForCupStepsAhead(playerProfile.currentWeek, 1),
       label: 'Copa Playoff',
       sublabel: `${upcomingCupKnockoutOpponent.isHome ? 'vs.' : '@'} ${upcomingCupKnockoutOpponent.opponentName}`,
-      colorClass: 'bg-amber-500 text-slate-950',
+      colorClass: 'bg-burgundy-500 text-slate-950',
       opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === upcomingCupKnockoutOpponent.opponentId)
     });
   }
@@ -1068,7 +1068,7 @@ export default function Dashboard({
         date: nextLeagueStepBehind(),
         label: `J${f.matchweek}`,
         sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
-        colorClass: 'bg-emerald-600 text-white',
+        colorClass: 'bg-gold-600 text-white',
         opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
         played: true,
         result: resultFromScore(myGoals, rivalGoals),
@@ -1087,7 +1087,7 @@ export default function Dashboard({
           date: nextCupStepBehind(),
           label: roundLabelByMatchCount(round.length),
           sublabel: `${resolved.isHome ? 'vs.' : '@'} ${opponentClub?.name || resolved.opponentId}`,
-          colorClass: 'bg-amber-500 text-slate-950',
+          colorClass: 'bg-burgundy-500 text-slate-950',
           opponentClub, played: true,
           result: resultFromScore(resolved.myGoals, resolved.rivalGoals),
           score: `${resolved.myGoals}-${resolved.rivalGoals}`
@@ -1108,7 +1108,7 @@ export default function Dashboard({
             date: nextCupStepBehind(),
             label: `G${f.matchweek}`,
             sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
-            colorClass: 'bg-amber-500 text-slate-950',
+            colorClass: 'bg-burgundy-500 text-slate-950',
             opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
             played: true,
             result: resultFromScore(myGoals, rivalGoals),
@@ -1128,7 +1128,7 @@ export default function Dashboard({
             date: nextCupStepBehind(),
             label: `${roundLabel} (${leg.leg === 'Ida' ? 'I' : 'V'})`,
             sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
-            colorClass: 'bg-amber-500 text-slate-950',
+            colorClass: 'bg-burgundy-500 text-slate-950',
             opponentClub, played: true,
             result: resultFromScore(leg.myGoals, leg.rivalGoals),
             score: `${leg.myGoals}-${leg.rivalGoals}`
@@ -1144,7 +1144,7 @@ export default function Dashboard({
             date: nextCupStepBehind(),
             label: `Playoff (${leg.leg === 'Ida' ? 'I' : 'V'})`,
             sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
-            colorClass: 'bg-amber-500 text-slate-950',
+            colorClass: 'bg-burgundy-500 text-slate-950',
             opponentClub, played: true,
             result: resultFromScore(leg.myGoals, leg.rivalGoals),
             score: `${leg.myGoals}-${leg.rivalGoals}`
@@ -1164,7 +1164,7 @@ export default function Dashboard({
           date: nextCupStepBehind(),
           label: `F${f.matchweek}`,
           sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
-          colorClass: 'bg-amber-500 text-slate-950',
+          colorClass: 'bg-burgundy-500 text-slate-950',
           opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
           played: true,
           result: resultFromScore(myGoals, rivalGoals),
@@ -1194,11 +1194,11 @@ export default function Dashboard({
         <div className="space-y-6">
           
           <div className="p-4 flex items-center gap-3 border-b border-slate-800">
-            <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center font-black text-slate-950 italic text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <div className="w-9 h-9 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center font-black text-slate-950 italic text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)]">
               FS
             </div>
             <div>
-              <div className="text-[10px] text-emerald-500 font-extrabold uppercase tracking-widest leading-none">
+              <div className="text-[10px] text-gold-500 font-extrabold uppercase tracking-widest leading-none">
                 Fútbol Star
               </div>
               <div className="text-sm font-black italic text-white tracking-tight leading-tight mt-0.5">
@@ -1208,7 +1208,7 @@ export default function Dashboard({
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
-            <span className="text-[10px] text-amber-500 uppercase tracking-widest font-mono font-bold block mb-1">
+            <span className="text-[10px] text-burgundy-500 uppercase tracking-widest font-mono font-bold block mb-1">
               Ficha Profesional
             </span>
             <h2 className="font-extrabold text-sm text-white truncate">{playerProfile.name}</h2>
@@ -1226,61 +1226,61 @@ export default function Dashboard({
           <nav className="space-y-1">
             <button
               onClick={() => setActiveTab('carrera')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <User size={15} /> Mi Carrera
             </button>
             <button
               onClick={() => setActiveTab('mi_club')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Sparkles size={15} /> Plantilla de Club 
             </button>
             <button
               onClick={() => setActiveTab('entrenamiento')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Dumbbell size={15} /> Entrenamiento
             </button>
             <button
               onClick={() => setActiveTab('chutsocial')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Send size={15} /> ChutSocial
             </button>
             <button
               onClick={() => setActiveTab('prensa')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Radio size={15} /> Sala de Prensa
             </button>
             <button
               onClick={() => setActiveTab('traspasos')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <RefreshCw size={15} /> Traspasos
             </button>
             <button
               onClick={() => setActiveTab('tienda')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <ShoppingBag size={15} /> Tienda de Lujos
             </button>
             <button
               onClick={() => setActiveTab('patrocinios')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'patrocinios' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'patrocinios' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Award size={15} /> Patrocinios
             </button>
             <button
               onClick={() => setActiveTab('tablas')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Table size={15} /> Copas y Tablas
             </button>
             <button
               onClick={() => setActiveTab('calendario')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'calendario' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'calendario' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Calendar size={15} /> Calendario
             </button>
@@ -1308,7 +1308,7 @@ export default function Dashboard({
         <header className="bg-slate-900 border-b border-slate-800 p-4 md:px-8 flex flex-col md:flex-row gap-4 justify-between items-center z-10">
           
           <div className="flex gap-1.5 items-center flex-wrap">
-            <span className="text-emerald-400 text-sm font-black">SEMANA {playerProfile.currentWeek}</span>
+            <span className="text-gold-400 text-sm font-black">SEMANA {playerProfile.currentWeek}</span>
             <span className="text-slate-500 text-2xs">· {formatRealDate(playerProfile.currentWeek)}</span>
             {playerProfile.suspendedMatches > 0 && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-3xs font-black uppercase">
@@ -1316,7 +1316,7 @@ export default function Dashboard({
               </span>
             )}
             {playerProfile.suspendedMatches === 0 && playerProfile.yellowCards > 0 && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 text-3xs font-black uppercase">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-burgundy-500/10 border border-burgundy-500/30 text-burgundy-400 text-3xs font-black uppercase">
                 🟨 x{playerProfile.yellowCards} en la temporada
               </span>
             )}
@@ -1324,7 +1324,7 @@ export default function Dashboard({
 
           <div className="grid grid-cols-2 md:flex items-center gap-4 text-xs font-mono w-full md:w-auto">
             <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
-              <Zap size={14} className="text-amber-500" />
+              <Zap size={14} className="text-burgundy-500" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
                   <span>Energía</span>
@@ -1332,7 +1332,7 @@ export default function Dashboard({
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
                   <div 
-                    className="bg-amber-500 h-full rounded-full"
+                    className="bg-burgundy-500 h-full rounded-full"
                     style={{ width: `${playerProfile.energy}%` }}
                   />
                 </div>
@@ -1340,7 +1340,7 @@ export default function Dashboard({
             </div>
 
             <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
-              <DollarSign size={14} className="text-emerald-400 font-bold" />
+              <DollarSign size={14} className="text-gold-400 font-bold" />
               <div>
                 <span className="text-3xs text-slate-500 block leading-none font-bold uppercase">Capital</span>
                 <span className="text-xs text-white font-black">${playerProfile.capital.toLocaleString()}</span>
@@ -1405,7 +1405,7 @@ export default function Dashboard({
                 
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-                    <Award size={15} className="text-emerald-400" /> Atributos del Jugador
+                    <Award size={15} className="text-gold-400" /> Atributos del Jugador
                   </h3>
                   
                   <div className="space-y-4">
@@ -1413,11 +1413,11 @@ export default function Dashboard({
                       <div key={key}>
                         <div className="flex justify-between text-2xs text-slate-300 font-mono uppercase font-bold">
                           <span>{key}</span>
-                          <span className="text-emerald-400 font-black">{val}</span>
+                          <span className="text-gold-400 font-black">{val}</span>
                         </div>
                         <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden mt-1 border border-slate-800">
                           <div 
-                            className="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full"
+                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full"
                             style={{ width: `${(val / 99) * 100}%` }}
                           />
                         </div>
@@ -1439,7 +1439,7 @@ export default function Dashboard({
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Goles Marcados</span>
-                        <span className="text-2xl font-black text-emerald-400 font-mono block mt-1">
+                        <span className="text-2xl font-black text-gold-400 font-mono block mt-1">
                           {playerProfile.careerStats.golesHistoricos}
                         </span>
                       </div>
@@ -1459,23 +1459,23 @@ export default function Dashboard({
                   </div>
 
                   <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl mt-4">
-                    <span className="text-[10px] text-amber-500 uppercase font-mono font-bold block mb-0.5">Valor de Mercado de la Ficha</span>
+                    <span className="text-[10px] text-burgundy-500 uppercase font-mono font-bold block mb-0.5">Valor de Mercado de la Ficha</span>
                     <span className="font-extrabold text-sm text-slate-200">
                       ${playerProfile.marketValue.toLocaleString()} USD
                     </span>
                   </div>
                 </div>
 
-                <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-3xl p-6 shadow-xl flex flex-col justify-between relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-6 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
                     {nextMatchOpponent ? (
                       <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl relative">
-                        <span className="absolute top-3 right-3 text-3xs font-mono font-black uppercase bg-slate-900/80 px-2 py-1 rounded text-emerald-400 border border-slate-800">
+                        <span className="absolute top-3 right-3 text-3xs font-mono font-black uppercase bg-slate-900/80 px-2 py-1 rounded text-gold-400 border border-slate-800">
                           {nextMatchOpponent.jornada}
                         </span>
-                        <span className="text-3xs text-amber-500 uppercase font-mono font-bold block mb-3 pr-16 truncate">
+                        <span className="text-3xs text-burgundy-500 uppercase font-mono font-bold block mb-3 pr-16 truncate">
                           {nextMatchOpponent.competition}
                         </span>
                         <div className="flex items-center gap-3">
@@ -1490,7 +1490,7 @@ export default function Dashboard({
                             </span>
                             <span className="text-white font-bold text-base truncate block">vs {nextMatchOpponent.name}</span>
                             {nextMatchOpponent.rivalPos != null && (
-                              <span className="text-2xs text-emerald-400 font-mono font-bold block mt-0.5">
+                              <span className="text-2xs text-gold-400 font-mono font-bold block mt-0.5">
                                 {nextMatchOpponent.rivalPos}° {nextMatchOpponent.rivalTotal ? `de ${nextMatchOpponent.rivalTotal}` : ''} en la tabla
                               </span>
                             )}
@@ -1522,7 +1522,7 @@ export default function Dashboard({
 
                   <button
                     onClick={onAdvanceWeek}
-                    className="btn-fx w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-6"
+                    className="btn-fx w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-6"
                   >
                     {nextWeekInWorldCupBreak && !nextMatchOpponent ? 'Pasar a Siguiente Fecha' : 'Disputar Partido'} <ArrowRight size={15} />
                   </button>
@@ -1531,8 +1531,8 @@ export default function Dashboard({
               </div>
 
               {playerProfile.age >= 32 && (
-                <div className="bg-slate-900 border border-amber-900/40 rounded-3xl p-5 shadow-lg">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 mb-2 flex items-center gap-2">
+                <div className="bg-slate-900 border border-burgundy-900/40 rounded-3xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 mb-2 flex items-center gap-2">
                     🎖️ Fase Veterana de la Carrera
                   </h3>
                   <p className="text-2xs text-slate-400 leading-relaxed mb-4">
@@ -1551,7 +1551,7 @@ export default function Dashboard({
                               onReconvertPosition(pos);
                             }
                           }}
-                          className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-950 border border-slate-800 text-2xs font-bold text-slate-300 hover:border-amber-500/50 hover:text-amber-400 transition-all cursor-pointer"
+                          className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-950 border border-slate-800 text-2xs font-bold text-slate-300 hover:border-burgundy-500/50 hover:text-burgundy-400 transition-all cursor-pointer"
                         >
                           Reconvertirme a {pos}
                         </button>
@@ -1569,7 +1569,7 @@ export default function Dashboard({
                   Complejo de Preparación Física y Técnica
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-amber-500 font-bold">-20 Energía</span> y sumará permanentemente <span className="text-emerald-400 font-bold">+3 puntos</span> al atributo seleccionado.
+                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-burgundy-500 font-bold">-20 Energía</span> y sumará permanentemente <span className="text-gold-400 font-bold">+3 puntos</span> al atributo seleccionado.
                 </p>
               </div>
 
@@ -1588,11 +1588,11 @@ export default function Dashboard({
                   { key: 'pase', label: 'Visión / Pase', img: trainingPaseImg, desc: 'Clave para habilitaciones precisas entre líneas y asistencias.' },
                   { key: 'fisico', label: 'Potencia / Físico', img: trainingFisicoImg, desc: 'Incrementa la resistencia en disputas aéreas y choques hombro con hombro.' }
                 ].map(item => (
-                  <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-emerald-500/20 transition-all flex flex-col justify-between">
+                  <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-gold-500/20 transition-all flex flex-col justify-between">
                     <div className="relative h-28 shrink-0 overflow-hidden">
                       <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-                      <span className="absolute top-2 right-2 text-3xs font-mono font-black uppercase bg-slate-950/80 px-2 py-0.5 rounded text-amber-500 border border-slate-800">
+                      <span className="absolute top-2 right-2 text-3xs font-mono font-black uppercase bg-slate-950/80 px-2 py-0.5 rounded text-burgundy-500 border border-slate-800">
                         {playerProfile.attributes[item.key as keyof PlayerStats]}/99
                       </span>
                       <h4 className="absolute bottom-2 left-3 font-bold text-sm text-white drop-shadow-lg pr-3">{item.label}</h4>
@@ -1606,7 +1606,7 @@ export default function Dashboard({
                         disabled={playerProfile.energy < 20}
                         className={`btn-fx-subtle w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
                           playerProfile.energy >= 20
-                            ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 border border-slate-800 hover:border-emerald-400 cursor-pointer'
+                            ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 border border-slate-800 hover:border-gold-400 cursor-pointer'
                             : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
                         }`}
                       >
@@ -1632,12 +1632,12 @@ export default function Dashboard({
                       <div className="flex justify-between text-xs font-bold mb-1">
                         <span className="text-white">Masaje Deportivo</span>
                       </div>
-                      <p className="text-3xs text-emerald-400 font-mono">+25 Energía al Instante</p>
+                      <p className="text-3xs text-gold-400 font-mono">+25 Energía al Instante</p>
                     </div>
                     <button
                       onClick={() => onRecoverEnergy(1500, 25)}
                       disabled={playerProfile.capital < 1500 || playerProfile.energy >= 100}
-                      className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -$1,500
                     </button>
@@ -1647,12 +1647,12 @@ export default function Dashboard({
                       <div className="flex justify-between text-xs font-bold mb-1">
                         <span className="text-white">Cámara Hiperbárica</span>
                       </div>
-                      <p className="text-3xs text-emerald-400 font-mono">+60 Energía al Instante</p>
+                      <p className="text-3xs text-gold-400 font-mono">+60 Energía al Instante</p>
                     </div>
                     <button
                       onClick={() => onRecoverEnergy(3500, 60)}
                       disabled={playerProfile.capital < 3500 || playerProfile.energy >= 100}
-                      className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-emerald-400 hover:to-emerald-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="btn-fx-subtle py-2 px-4 rounded-xl bg-slate-800 text-white font-bold text-3xs uppercase tracking-wider hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -$3,500
                     </button>
@@ -1667,7 +1667,7 @@ export default function Dashboard({
               <div className="md:col-span-2 space-y-4">
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-                    <Send size={15} className="text-emerald-400" /> Red de Opinión Pública - Prensa y Afición
+                    <Send size={15} className="text-gold-400" /> Red de Opinión Pública - Prensa y Afición
                   </h3>
 
                   <div className="space-y-4">
@@ -1689,7 +1689,7 @@ export default function Dashboard({
                               )}
                               <div>
                                 <h4 className="font-bold text-xs text-white leading-none">{post.author}</h4>
-                                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider font-mono">
+                                <span className="text-[10px] text-gold-400 font-bold uppercase tracking-wider font-mono">
                                   {post.role}
                                 </span>
                               </div>
@@ -1708,7 +1708,7 @@ export default function Dashboard({
                             </button>
                             <button
                               onClick={() => setOpenCommentBox(openCommentBox === post.id ? null : post.id)}
-                              className="btn-fx-subtle flex items-center gap-1 cursor-pointer hover:text-emerald-400 transition-colors"
+                              className="btn-fx-subtle flex items-center gap-1 cursor-pointer hover:text-gold-400 transition-colors"
                             >
                               💬 {totalComments.toLocaleString()} Hilos
                             </button>
@@ -1718,7 +1718,7 @@ export default function Dashboard({
                             <div className="space-y-2 pt-2 border-t border-slate-950">
                               {comments.map(c => (
                                 <div key={c.id} className="flex items-start gap-2">
-                                  <span className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 text-[10px] font-black flex items-center justify-center shrink-0">
+                                  <span className="w-6 h-6 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-[10px] font-black flex items-center justify-center shrink-0">
                                     {playerProfile.name.charAt(0).toUpperCase()}
                                   </span>
                                   <div className="min-w-0">
@@ -1739,11 +1739,11 @@ export default function Dashboard({
                                 onChange={e => setCommentDrafts(prev => ({ ...prev, [post.id]: e.target.value }))}
                                 onKeyDown={e => { if (e.key === 'Enter') submitComment(post.id); }}
                                 placeholder="Escribí tu comentario... es libre, opiná lo que quieras"
-                                className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50"
+                                className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
                               />
                               <button
                                 onClick={() => submitComment(post.id)}
-                                className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
+                                className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
                               >
                                 Publicar
                               </button>
@@ -1775,7 +1775,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(1000, 10, 0)}
                         disabled={playerProfile.capital < 1000}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Lanzar sorteo
                       </button>
@@ -1790,7 +1790,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(3000, 15, 6)}
                         disabled={playerProfile.capital < 3000}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Financiar Evento
                       </button>
@@ -1799,12 +1799,12 @@ export default function Dashboard({
                     <div className="p-3.5 bg-slate-950 border border-slate-800 rounded-2xl">
                       <div className="flex justify-between text-xs font-bold mb-1">
                         <span className="text-white">Campaña de Patrocinio</span>
-                        <span className="text-emerald-400 font-mono">+$4,000 Corp</span>
+                        <span className="text-gold-400 font-mono">+$4,000 Corp</span>
                       </div>
                       <p className="text-3xs text-slate-400">Recibes capital inmediato, pero genera ligeras críticas por saturación publicitaria.</p>
                       <button
                         onClick={() => onLaunchPRCampaign(-4000, 5, -8)}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Firmar Contrato Comercial
                       </button>
@@ -1884,7 +1884,7 @@ export default function Dashboard({
                         <button
                           key={i}
                           onClick={() => handlePressAnswer(opt)}
-                          className="btn-fx-subtle w-full p-4 rounded-xl border border-slate-800 bg-slate-950 text-left text-xs text-slate-300 hover:border-emerald-500/40 hover:bg-slate-900 hover:text-white transition-all font-medium py-3.5 cursor-pointer"
+                          className="btn-fx-subtle w-full p-4 rounded-xl border border-slate-800 bg-slate-950 text-left text-xs text-slate-300 hover:border-gold-500/40 hover:bg-slate-900 hover:text-white transition-all font-medium py-3.5 cursor-pointer"
                         >
                           {opt.text}
                         </button>
@@ -1901,8 +1901,8 @@ export default function Dashboard({
                   </div>
                 </div>
               ) : (
-                <div className="bg-slate-900 border border-emerald-500/20 rounded-3xl p-6 shadow-xl space-y-4 text-center">
-                  <div className="inline-flex p-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 mb-2">
+                <div className="bg-slate-900 border border-gold-500/20 rounded-3xl p-6 shadow-xl space-y-4 text-center">
+                  <div className="inline-flex p-3 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 mb-2">
                     <CheckCircle size={28} />
                   </div>
                   <h3 className="text-base font-black text-white px-2">
@@ -1935,7 +1935,7 @@ export default function Dashboard({
                 const windowOpen = isTransferWindowOpen(playerProfile.currentWeek);
                 if (windowOpen) {
                   return (
-                    <div className="px-4 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center gap-2">
+                    <div className="px-4 py-2.5 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold flex items-center gap-2">
                       <RefreshCw size={13} /> Ventana de fichajes ABIERTA — podés concretar traspasos esta semana.
                     </div>
                   );
@@ -1987,7 +1987,7 @@ export default function Dashboard({
                               {getLeagueFlagText(offer.club.league)}
                             </span>
                             <span className={`text-[9px] px-1.5 py-0.2 rounded font-black uppercase text-3xs ${
-                              offer.club.division === 2 ? 'bg-amber-500/10 text-amber-500 border border-amber-500/10' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/10'
+                              offer.club.division === 2 ? 'bg-burgundy-500/10 text-burgundy-500 border border-burgundy-500/10' : 'bg-gold-500/10 text-gold-400 border border-gold-500/10'
                             }`}>
                               {offer.club.division === 2 ? '2ª Div' : '1ª Div'}
                             </span>
@@ -2001,8 +2001,8 @@ export default function Dashboard({
                       <div className="flex flex-row md:flex-col justify-between w-full md:w-auto items-center md:items-end mt-4 md:mt-0 gap-4">
                         <div className="text-left md:text-right font-mono text-xs">
                           <span className="text-slate-500 block text-3xs font-bold uppercase">Oferta Salarial</span>
-                          <span className="text-emerald-400 font-bold block">${offer.salaryOffer.toLocaleString()} / sem</span>
-                          <span className="text-amber-500 text-3xs block">Prima por Firma: +${offer.signOnBonus.toLocaleString()}</span>
+                          <span className="text-gold-400 font-bold block">${offer.salaryOffer.toLocaleString()} / sem</span>
+                          <span className="text-burgundy-500 text-3xs block">Prima por Firma: +${offer.signOnBonus.toLocaleString()}</span>
                         </div>
 
                         <div>
@@ -2021,7 +2021,7 @@ export default function Dashboard({
                                   onAcceptTransfer(offer.club.id, offer.signOnBonus);
                                 }
                               }}
-                              className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
+                              className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
                             >
                               Aceptar Traspaso
                             </button>
@@ -2054,8 +2054,8 @@ export default function Dashboard({
                       key={item.id}
                       className={`group rounded-2xl border overflow-hidden transition-all flex flex-col ${
                         item.purchased
-                          ? 'border-amber-500/40 bg-slate-900 shadow-lg shadow-amber-950/10'
-                          : 'border-slate-800 bg-slate-950/40 hover:border-emerald-500/30'
+                          ? 'border-burgundy-500/40 bg-slate-900 shadow-lg shadow-burgundy-950/10'
+                          : 'border-slate-800 bg-slate-950/40 hover:border-gold-500/30'
                       }`}
                     >
                       <div className="relative h-36 shrink-0 overflow-hidden">
@@ -2073,7 +2073,7 @@ export default function Dashboard({
                           {item.name}
                         </span>
                         {item.purchased && (
-                          <span className="absolute top-2 right-2 inline-flex gap-1 items-center px-2 py-0.5 rounded bg-emerald-500 text-slate-950 font-mono text-3xs font-black uppercase shadow">
+                          <span className="absolute top-2 right-2 inline-flex gap-1 items-center px-2 py-0.5 rounded bg-gold-500 text-slate-950 font-mono text-3xs font-black uppercase shadow">
                             Adquirido
                           </span>
                         )}
@@ -2083,7 +2083,7 @@ export default function Dashboard({
                         <p className="text-3xs text-slate-400 leading-relaxed">
                           {item.description}
                         </p>
-                        <p className="text-3xs text-emerald-400 font-mono font-bold uppercase leading-relaxed">
+                        <p className="text-3xs text-gold-400 font-mono font-bold uppercase leading-relaxed">
                           ✨ Ventaja: {item.perkText}
                         </p>
 
@@ -2104,7 +2104,7 @@ export default function Dashboard({
                               disabled={!isAffordable}
                               className={`btn-fx-subtle py-1.5 px-3.5 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
                                 isAffordable
-                                  ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:from-emerald-300 hover:to-emerald-500 cursor-pointer'
+                                  ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer'
                                   : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'
                               }`}
                             >
@@ -2135,7 +2135,7 @@ export default function Dashboard({
                 const activeSponsorships = sponsorDeals.filter(i => i.purchased).length;
                 const capReached = activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS;
                 return (
-                  <div className={`px-4 py-2.5 rounded-lg border text-xs font-bold flex items-center gap-2 ${capReached ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                  <div className={`px-4 py-2.5 rounded-lg border text-xs font-bold flex items-center gap-2 ${capReached ? 'bg-burgundy-500/10 border-burgundy-500/20 text-burgundy-400' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
                     <DollarSign size={13} /> Patrocinios activos: {activeSponsorships}/{MAX_ACTIVE_SPONSORSHIPS}
                     {capReached ? ' — agenda comercial completa, esperá a liberar un cupo.' : ''}
                   </div>
@@ -2155,7 +2155,7 @@ export default function Dashboard({
                       key={item.id}
                       className={`group rounded-2xl border overflow-hidden transition-all flex flex-col ${
                         item.purchased
-                          ? 'border-amber-500/40 bg-slate-900 shadow shadow-amber-950/10'
+                          ? 'border-burgundy-500/40 bg-slate-900 shadow shadow-burgundy-950/10'
                           : 'border-slate-800 bg-slate-950/40'
                       }`}
                     >
@@ -2176,7 +2176,7 @@ export default function Dashboard({
                           {item.name}
                         </span>
                         {item.purchased && (
-                          <span className="absolute top-2 right-2 inline-flex gap-1 items-center px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-3xs font-black uppercase shadow">
+                          <span className="absolute top-2 right-2 inline-flex gap-1 items-center px-2 py-0.5 rounded bg-burgundy-500 text-slate-950 font-mono text-3xs font-black uppercase shadow">
                             Activo
                           </span>
                         )}
@@ -2187,7 +2187,7 @@ export default function Dashboard({
                           <p className="text-3xs text-slate-400 leading-relaxed">
                             {item.description}
                           </p>
-                          <p className="text-3xs text-emerald-400 font-mono font-bold uppercase leading-relaxed">
+                          <p className="text-3xs text-gold-400 font-mono font-bold uppercase leading-relaxed">
                             Ventaja: {item.perkText}
                           </p>
                         </div>
@@ -2195,7 +2195,7 @@ export default function Dashboard({
                         <div className="flex flex-row sm:flex-col justify-between sm:justify-start items-center sm:items-end w-full sm:w-auto sm:text-right gap-3">
                           <div className="text-right font-mono">
                             <span className="text-3xs text-slate-500 block uppercase">Prima de Firma</span>
-                            <span className="text-xs font-black text-emerald-400 block">+${item.cost.toLocaleString()}</span>
+                            <span className="text-xs font-black text-gold-400 block">+${item.cost.toLocaleString()}</span>
                           </div>
 
                           <div className="sm:mt-2 flex flex-col items-end gap-1.5">
@@ -2225,7 +2225,7 @@ export default function Dashboard({
                                     onAcceptSponsor(item.id);
                                   }
                                 }}
-                                className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 hover:from-emerald-300 hover:to-emerald-500 cursor-pointer"
+                                className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer"
                               >
                                 Aceptar Patrocinio
                               </button>
@@ -2252,7 +2252,7 @@ export default function Dashboard({
               </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
-                <h3 className="text-xs font-black uppercase tracking-widest text-emerald-400 border-b border-slate-800 pb-2 flex items-center gap-2">
+                <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
                   <Table size={13} /> TABLA DE POSICIONES · {currentClub.league.toUpperCase()} {currentClub.division && currentClub.division > 1 ? `(DIV. ${currentClub.division})` : ''}
                 </h3>
 
@@ -2276,7 +2276,7 @@ export default function Dashboard({
                         {myLeagueTable.map((row, idx) => (
                           <tr
                             key={row.clubId || row.name}
-                            className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : 'text-slate-300'}`}
+                            className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-gold-400 font-bold' : 'text-slate-300'}`}
                           >
                             <td className="py-1.5 pr-2">{idx + 1}</td>
                             <td className="py-1.5 pr-2 truncate max-w-[110px] sm:max-w-[140px]">{row.name}</td>
@@ -2300,7 +2300,7 @@ export default function Dashboard({
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
                 {conmebolCup ? (
                   <>
-                    <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 border-b border-slate-800 pb-2 flex items-center gap-2">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 border-b border-slate-800 pb-2 flex items-center gap-2">
                       🏆 {conmebolCup.cupId === 'libertadores' ? 'COPA LIBERTADORES' : 'COPA SUDAMERICANA'} {conmebolCup.year} · {cupStageLabel(conmebolCup.stage)}
                     </h3>
                     {conmebolCup.stage === 'groups' ? (
@@ -2309,12 +2309,12 @@ export default function Dashboard({
                           <div key={group.id} className="p-4 bg-slate-950 border border-slate-850 rounded-2xl">
                             <h4 className="font-extrabold text-white border-b border-slate-800 pb-1.5 mb-2 flex items-center justify-between text-2xs uppercase">
                               <span>Grupo {group.id}</span>
-                              <span className="text-amber-500">🏆</span>
+                              <span className="text-burgundy-500">🏆</span>
                             </h4>
                             <ul className="space-y-1.5 text-slate-300 font-mono text-3xs">
                               {sortTable(group.table).map((row, idx) => (
                                 <li key={row.clubId || row.name} className="flex justify-between border-b border-slate-900/40 pb-0.5">
-                                  <span className={row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : ''}>
+                                  <span className={row.clubId === currentClub.id ? 'text-gold-400 font-bold' : ''}>
                                     {idx + 1}. {row.name}
                                   </span>
                                   <span className="text-slate-500">{row.puntos} Pts</span>
@@ -2332,7 +2332,7 @@ export default function Dashboard({
                   </>
                 ) : uefaCup ? (
                   <>
-                    <h3 className="text-xs font-black uppercase tracking-widest text-amber-500 border-b border-slate-800 pb-2 flex items-center gap-2">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 border-b border-slate-800 pb-2 flex items-center gap-2">
                       🏆 {uefaCup.cupId === 'champions' ? 'UEFA CHAMPIONS LEAGUE' : 'UEFA EUROPA LEAGUE'} {uefaCup.year} · {cupStageLabel(uefaCup.stage)}
                     </h3>
                     {uefaCup.stage === 'league_phase' ? (
@@ -2351,7 +2351,7 @@ export default function Dashboard({
                           </thead>
                           <tbody>
                             {sortTable(uefaCup.table).map((row, idx) => (
-                              <tr key={row.clubId || row.name} className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-emerald-400 font-bold' : 'text-slate-300'}`}>
+                              <tr key={row.clubId || row.name} className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-gold-400 font-bold' : 'text-slate-300'}`}>
                                 <td className="py-1.5 pr-2">{idx + 1}</td>
                                 <td className="py-1.5 pr-2 truncate max-w-[110px] sm:max-w-[140px]">{row.name}</td>
                                 <td className="py-1.5 px-1.5 text-center">{row.pj}</td>
@@ -2429,7 +2429,7 @@ export default function Dashboard({
                                   <div className="space-y-0.5 mt-0.5">
                                     {(calendarEventsByDay.get(day) || []).map((ev, ei) => {
                                       const resultColorClass = ev.result === 'V'
-                                        ? 'bg-emerald-700 text-white'
+                                        ? 'bg-gold-700 text-white'
                                         : ev.result === 'D'
                                         ? 'bg-red-700 text-white'
                                         : 'bg-slate-700 text-white';
@@ -2463,10 +2463,10 @@ export default function Dashboard({
                 </div>
 
                 <div className="flex flex-wrap gap-3 mt-4 pt-3 border-t border-slate-800 text-3xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-600 inline-block" /> Liga ({currentClub.league})</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-amber-500 inline-block" /> Copa Continental</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-gold-600 inline-block" /> Liga ({currentClub.league})</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-burgundy-500 inline-block" /> Copa Continental</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-red-600 inline-block" /> Playoffs</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-700 inline-block" /> Ya jugado: V</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-gold-700 inline-block" /> Ya jugado: V</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-slate-700 inline-block" /> E</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-red-700 inline-block" /> D</span>
                 </div>
@@ -2491,7 +2491,7 @@ export default function Dashboard({
                   <div className="flex items-center gap-4">
                     <ClubBadge club={currentClub} size={56} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
                     <div>
-                      <span className="text-3xs font-mono font-bold uppercase tracking-widest text-emerald-400">
+                      <span className="text-3xs font-mono font-bold uppercase tracking-widest text-gold-400">
                         {currentClub.league}
                       </span>
                       <h2 className="text-2xl font-black text-white mt-1">{currentClub.name}</h2>
@@ -2502,7 +2502,7 @@ export default function Dashboard({
                   </div>
 
                   <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 min-w-[240px]">
-                    <span className="text-[10px] text-amber-500 uppercase font-mono font-black block mb-1">Director Técnico Oficial</span>
+                    <span className="text-[10px] text-burgundy-500 uppercase font-mono font-black block mb-1">Director Técnico Oficial</span>
                     <h4 className="font-bold text-sm text-white">{currentClub.dt}</h4>
                     <div className="text-3xs text-slate-400 font-mono mt-1 space-y-0.5">
                       <p>🏟️ Liga: {currentClub.league}</p>
@@ -2512,7 +2512,7 @@ export default function Dashboard({
                 </div>
 
                 {totalJugadoresReales === 0 && (
-                  <div className="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 text-2xs text-amber-300 leading-relaxed">
+                  <div className="p-4 rounded-xl border border-burgundy-500/20 bg-burgundy-500/5 text-2xs text-burgundy-300 leading-relaxed">
                     ⚠️ Este club todavía no tiene jugadores reales cargados en el JSON de la base de datos LTA (el nombre <strong>"{currentClub.name}"</strong> no tiene coincidencias en <code>playersDatabase.json</code>). Revisa el Excel de origen para este equipo.
                   </div>
                 )}
@@ -2522,7 +2522,7 @@ export default function Dashboard({
                   <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md space-y-3">
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2 flex justify-between items-center">
                       <span>🧤 Porteros (GK)</span>
-                      <span className="text-3xs font-mono text-emerald-400 font-normal">{plantilla.porteros.length}</span>
+                      <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.porteros.length}</span>
                     </h3>
                     <div className="space-y-2">
                       {plantilla.porteros.length > 0 ? plantilla.porteros.map(player => (
@@ -2531,7 +2531,7 @@ export default function Dashboard({
                             <h4 className="font-bold text-xs text-white">{player.nombre_completo}</h4>
                             <span className="text-3xs text-slate-500 font-mono uppercase">{player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}</span>
                           </div>
-                          <span className="text-xs font-black font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">{player.media_valoracion}</span>
+                          <span className="text-xs font-black font-mono text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/10">{player.media_valoracion}</span>
                         </div>
                       )) : (
                         <p className="text-3xs text-slate-500 italic px-1">Sin datos disponibles.</p>
@@ -2542,7 +2542,7 @@ export default function Dashboard({
                   <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md space-y-3">
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2 flex justify-between items-center">
                       <span>🧱 Defensivos (DF)</span>
-                      <span className="text-3xs font-mono text-emerald-400 font-normal">{plantilla.defensivos.length}</span>
+                      <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.defensivos.length}</span>
                     </h3>
                     <div className="space-y-2">
                       {plantilla.defensivos.length > 0 ? plantilla.defensivos.map(player => (
@@ -2551,7 +2551,7 @@ export default function Dashboard({
                             <h4 className="font-bold text-xs text-white">{player.nombre_completo}</h4>
                             <span className="text-3xs text-slate-500 font-mono uppercase">{player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}</span>
                           </div>
-                          <span className="text-xs font-black font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">{player.media_valoracion}</span>
+                          <span className="text-xs font-black font-mono text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/10">{player.media_valoracion}</span>
                         </div>
                       )) : (
                         <p className="text-3xs text-slate-500 italic px-1">Sin datos disponibles.</p>
@@ -2562,7 +2562,7 @@ export default function Dashboard({
                   <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md space-y-3">
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2 flex justify-between items-center">
                       <span>🎯 Ofensivos (OF)</span>
-                      <span className="text-3xs font-mono text-emerald-400 font-normal">{plantilla.ofensivos.length}</span>
+                      <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.ofensivos.length}</span>
                     </h3>
                     <div className="space-y-2">
                       {plantilla.ofensivos.length > 0 ? plantilla.ofensivos.map(player => (
@@ -2571,7 +2571,7 @@ export default function Dashboard({
                             <h4 className="font-bold text-xs text-white">{player.nombre_completo}</h4>
                             <span className="text-3xs text-slate-500 font-mono uppercase">{player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}</span>
                           </div>
-                          <span className="text-xs font-black font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">{player.media_valoracion}</span>
+                          <span className="text-xs font-black font-mono text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/10">{player.media_valoracion}</span>
                         </div>
                       )) : (
                         <p className="text-3xs text-slate-500 italic px-1">Sin datos disponibles.</p>

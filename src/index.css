@@ -4,61 +4,94 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  
-  --color-slate-950: #020617;
-  --color-slate-900: #0f172a;
-  --color-slate-800: #1e293b;
-  --color-slate-700: #334155;
-  --color-slate-300: #cbd5e1;
-  
+
+  /* Tema "Noche de Campeones": grafito cálido casi negro + dorado (Oro Viejo) como color
+     principal + borgoña como acento secundario. emerald/amber NO se tocan acá porque
+     data.ts/clubExtras.ts los usan como el color real de camiseta de clubes puntuales. */
+  --color-slate-50: #f6f4f2;
+  --color-slate-100: #ece7e2;
+  --color-slate-200: #d6cec5;
+  --color-slate-300: #bbb0a3;
+  --color-slate-400: #8f8275;
+  --color-slate-500: #6b5f53;
+  --color-slate-600: #4f4740;
+  --color-slate-700: #3a332e;
+  --color-slate-800: #26211d;
+  --color-slate-900: #19161a;
+  --color-slate-950: #0b0a0d;
+
+  --color-gold-50: #faf6ec;
+  --color-gold-100: #f3ead0;
+  --color-gold-200: #e6d29e;
+  --color-gold-300: #d4b86a;
+  --color-gold-400: #c0a047;
+  --color-gold-500: #a8842e;
+  --color-gold-600: #8a6a22;
+  --color-gold-700: #6b511a;
+  --color-gold-800: #4d3a13;
+  --color-gold-900: #33270d;
+  --color-gold-950: #1f1808;
+
+  --color-burgundy-50: #fdf1f4;
+  --color-burgundy-100: #fbdde5;
+  --color-burgundy-200: #f5b8c8;
+  --color-burgundy-300: #e888a0;
+  --color-burgundy-400: #d1547a;
+  --color-burgundy-500: #9f1239;
+  --color-burgundy-600: #7d0e2d;
+  --color-burgundy-700: #5c0a21;
+  --color-burgundy-800: #400717;
+  --color-burgundy-900: #29040e;
+  --color-burgundy-950: #170208;
+
   --color-emerald-400: #34d399;
   --color-emerald-500: #10b981;
   --color-emerald-600: #059669;
-  
+
   --color-amber-400: #fbbf24;
   --color-amber-500: #f59e0b;
   --color-amber-600: #d97706;
 }
 
 body {
-  background-color: #020617;
-  color: #f8fafc;
+  background-color: #0b0a0d;
+  color: #f5f0e8;
   font-family: var(--font-sans);
-  background-image: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 70%),
-                    radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.03), transparent 60%);
+  background-image: radial-gradient(circle at top right, rgba(168, 132, 46, 0.09), transparent 70%),
+                    radial-gradient(circle at bottom left, rgba(159, 18, 57, 0.05), transparent 60%);
   background-attachment: fixed;
 }
 
 .sidebar-nav-item-active {
-  background: linear-gradient(to right, rgba(16, 185, 129, 0.15), transparent);
-  color: #10b981 !important;
-  border-left: 3px solid #10b981;
+  background: linear-gradient(to right, rgba(168, 132, 46, 0.18), transparent);
+  color: #c0a047 !important;
+  border-left: 3px solid #a8842e;
 }
 
 .gold-glow {
-  text-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+  text-shadow: 0 0 12px rgba(168, 132, 46, 0.45);
 }
 
 .emerald-glow {
-  text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+  text-shadow: 0 0 12px rgba(168, 132, 46, 0.45);
 }
 
 .card-sophisticated {
-  background-color: #0f172a;
-  border: 1px solid #1e293b;
+  background-color: #19161a;
+  border: 1px solid #26211d;
   border-radius: 12px;
-  box-shadow: 0 4px 20px -2px rgba(2, 6, 23, 0.5);
+  box-shadow: 0 4px 20px -2px rgba(11, 10, 13, 0.5);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-sophisticated:hover {
-  border-color: rgba(16, 185, 129, 0.25);
-  box-shadow: 0 6px 24px -2px rgba(16, 185, 129, 0.05);
+  border-color: rgba(168, 132, 46, 0.3);
+  box-shadow: 0 6px 24px -2px rgba(168, 132, 46, 0.07);
 }
 
 .btn-premium {
-  background: linear-gradient(135deg, #34d399, #10b981 55%, #059669);
-  color: #020617;
+  background: linear-gradient(135deg, #d4b86a, #a8842e 55%, #8a6a22);
+  color: #0b0a0d;
   font-weight: 800;
   padding: 12px 32px;
   border-radius: 8px;
@@ -66,13 +99,13 @@ body {
   letter-spacing: 1px;
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 20px rgba(168, 132, 46, 0.25);
   transition: all 0.2s ease-in-out;
 }
 
 .btn-premium:hover {
-  background: linear-gradient(135deg, #6ee7b7, #34d399 55%, #10b981);
-  box-shadow: 0 0 25px rgba(52, 211, 153, 0.35);
+  background: linear-gradient(135deg, #e6d29e, #d4b86a 55%, #a8842e);
+  box-shadow: 0 0 25px rgba(212, 184, 106, 0.4);
   transform: translateY(-1px);
 }
 
@@ -85,14 +118,14 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: #0b0a0d;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #26211d;
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #3a332e;
 }
 
 @keyframes fadeIn {
@@ -134,7 +167,7 @@ body {
 .btn-fx:hover:not(:disabled) {
   filter: brightness(1.08);
   transform: translateY(-1.5px);
-  box-shadow: 0 10px 24px -8px rgba(2, 6, 23, 0.55);
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.55);
 }
 
 .btn-fx:active:not(:disabled) {
@@ -155,7 +188,7 @@ body {
 
 .btn-fx-subtle:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px -8px rgba(2, 6, 23, 0.6);
+  box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.6);
 }
 
 .btn-fx-subtle:active:not(:disabled) {
@@ -166,8 +199,8 @@ body {
 /* Reemplazo del animate-bounce infantil para íconos de aviso: respiración lenta
    de escala + glow, elegante en vez de un salto juguetón. */
 @keyframes glowPulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(245, 158, 11, 0); }
-  50% { transform: scale(1.06); box-shadow: 0 0 16px rgba(245, 158, 11, 0.35); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(159, 18, 57, 0); }
+  50% { transform: scale(1.06); box-shadow: 0 0 16px rgba(159, 18, 57, 0.4); }
 }
 
 .animate-glow-pulse {
