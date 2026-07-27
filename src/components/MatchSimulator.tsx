@@ -3,6 +3,54 @@ import { PlayerProfile, MatchEvent, MatchDecision, Position, Club } from '../typ
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE } from '../data';
 
+// Nombre real de campeonato + bandera por liga (club.league), para el encabezado del partido.
+// Antes esto estaba hardcodeado a "Primera División Dimayor" (Colombia) sin importar la liga real
+// del club del jugador -- cualquier partido de España, Argentina, Brasil, etc. mostraba la bandera
+// y el campeonato colombianos por error.
+const LEAGUE_DISPLAY_INFO: Record<string, { flag: string; name: string }> = {
+  Colombiana: { flag: '🇨🇴', name: 'Primera División Dimayor' },
+  Argentina: { flag: '🇦🇷', name: 'Liga Profesional Argentina' },
+  Española: { flag: '🇪🇸', name: 'LaLiga' },
+  Brasileña: { flag: '🇧🇷', name: 'Brasileirão' },
+  Mexicana: { flag: '🇲🇽', name: 'Liga MX' },
+  Chilena: { flag: '🇨🇱', name: 'Primera División de Chile' },
+  Ecuatoriana: { flag: '🇪🇨', name: 'LigaPro Ecuador' },
+  Uruguaya: { flag: '🇺🇾', name: 'Primera División Uruguaya' },
+  Paraguaya: { flag: '🇵🇾', name: 'Primera División de Paraguay' },
+  Boliviana: { flag: '🇧🇴', name: 'Primera División de Bolivia' },
+  Peruana: { flag: '🇵🇪', name: 'Liga 1 Perú' },
+  Venezolana: { flag: '🇻🇪', name: 'Liga FUTVE' },
+  Inglesa: { flag: '🏴', name: 'Premier League' },
+  Francesa: { flag: '🇫🇷', name: 'Ligue 1' },
+  Alemana: { flag: '🇩🇪', name: 'Bundesliga' },
+  Italiana: { flag: '🇮🇹', name: 'Serie A' },
+  Holandesa: { flag: '🇳🇱', name: 'Eredivisie' },
+  Portuguesa: { flag: '🇵🇹', name: 'Primeira Liga' },
+  Estadounidense: { flag: '🇺🇸', name: 'MLS' },
+  Turca: { flag: '🇹🇷', name: 'Süper Lig' },
+  Escocesa: { flag: '🏴', name: 'Scottish Premiership' },
+  Belga: { flag: '🇧🇪', name: 'Pro League' },
+  Suiza: { flag: '🇨🇭', name: 'Super League' },
+  Austríaca: { flag: '🇦🇹', name: 'Bundesliga Austríaca' },
+  Sueca: { flag: '🇸🇪', name: 'Allsvenskan' },
+  Danesa: { flag: '🇩🇰', name: 'Superliga Danesa' },
+  Griega: { flag: '🇬🇷', name: 'Super League Ellada' },
+  Croata: { flag: '🇭🇷', name: 'Prva HNL' },
+  Serbia: { flag: '🇷🇸', name: 'Superliga Serbia' },
+  Checa: { flag: '🇨🇿', name: 'Fortuna Liga' },
+  Rumana: { flag: '🇷🇴', name: 'Superliga Rumana' },
+  Búlgara: { flag: '🇧🇬', name: 'Liga Búlgara' },
+  Húngara: { flag: '🇭🇺', name: 'NB I' },
+  Israelí: { flag: '🇮🇱', name: 'Ligat ha\'Al' },
+  Chipriota: { flag: '🇨🇾', name: 'Liga Chipriota' },
+  Kazaja: { flag: '🇰🇿', name: 'Liga Kazaja' },
+  Azerí: { flag: '🇦🇿', name: 'Liga Azerí' },
+};
+
+function getLeagueDisplay(league: string | undefined): { flag: string; name: string } {
+  return LEAGUE_DISPLAY_INFO[league ?? ''] ?? { flag: '🌍', name: 'Liga Doméstica 2026' };
+}
+
 // Pool de decisiones por posición y momento del partido (early = minuto 24, late = minuto 71 --
 // ver triggerDecisionEvent). Antes cada posición tenía EXACTAMENTE una decisión fija por momento
 // (siempre el mismo prompt y las mismas 3 opciones, partido tras partido); ahora cada momento elige
@@ -982,7 +1030,7 @@ export default function MatchSimulator({
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isWorldCup ? '🌎 COPA MUNDIAL FIFA 2026 🌎' : isLibertadores ? '🏆 COPA LIBERTADORES 2026 (Fase de Grupos) 🏆' : '🟢 LIGA DOMÉSTICA 2026 🟢';
+    const competicionContexto = isWorldCup ? '🌎 COPA MUNDIAL FIFA 2026 🌎' : isLibertadores ? '🏆 COPA LIBERTADORES 2026 (Fase de Grupos) 🏆' : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()} 2026 🟢`;
     
     setMatchLog([
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
@@ -1245,7 +1293,11 @@ export default function MatchSimulator({
         <div className="flex items-center justify-between gap-3 lg:block lg:shrink-0">
           <div>
             <span className="text-2xs font-bold text-gold-400 uppercase tracking-widest block mb-0.5">
-              {isWorldCup ? '🌎 Copa Mundial FIFA 2026' : isLibertadores ? '🏆 Copa Libertadores 2026' : '🇨🇴 Primera División Dimayor'}
+              {isWorldCup
+                ? '🌎 Copa Mundial FIFA 2026'
+                : isLibertadores
+                ? '🏆 Copa Libertadores 2026'
+                : `${getLeagueDisplay(currentClub.league).flag} ${getLeagueDisplay(currentClub.league).name}`}
             </span>
             <div className="flex items-center gap-2">
               <span className="font-mono text-2xs px-2 py-0.5 bg-slate-900 border border-slate-800 rounded font-bold whitespace-nowrap">
