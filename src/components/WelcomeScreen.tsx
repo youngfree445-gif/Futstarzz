@@ -56,12 +56,13 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
 
       {/* Logotipo y Título Principal */}
       <div className="text-center relative z-10 max-w-lg mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-[20px] bg-slate-900/80 backdrop-blur border border-white/10 shadow-[0_8px_24px_-4px_rgba(168,132,46,0.25)] mb-6">
-          <span className="text-3xl">⚽</span>
+        <div className="relative inline-flex items-center justify-center mb-4">
+          <div className="absolute inset-0 bg-gold-500/30 rounded-full blur-2xl" />
+          <Star size={52} className="relative text-gold-400" fill="currentColor" strokeWidth={1} />
         </div>
 
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-none">
-          Fut <span className="text-gold-400">Starzz</span>
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-none uppercase">
+          FutStarzz
         </h1>
 
         <div className="inline-flex items-center gap-1 mt-3.5 px-2.5 py-0.5 rounded-full border border-slate-700/70 bg-slate-900/60 text-slate-400 text-[10px] font-medium tracking-wide">
