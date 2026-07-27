@@ -1,4 +1,4 @@
-# Fútbol Star / Calcio Manager 2026
+# Fútbol Star 2026
 
 Simulador de carrera futbolística interactivo para la temporada 2026 en Colombia, Brasil y Argentina.
 

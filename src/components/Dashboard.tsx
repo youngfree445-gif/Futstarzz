@@ -1843,7 +1843,7 @@ export default function Dashboard({
                     <div className="flex flex-wrap gap-x-6 gap-y-4 -rotate-6 -translate-x-6 -translate-y-3 opacity-[0.08] whitespace-nowrap">
                       {Array.from({ length: 16 }).map((_, i) => (
                         <span key={i} className="text-2xs font-black uppercase tracking-widest text-white">
-                          ⚽ Fútbol Star · Calcio Manager
+                          ⚽ Fútbol Star
                         </span>
                       ))}
                     </div>
@@ -1896,7 +1896,7 @@ export default function Dashboard({
                   <div className="relative flex items-center justify-center gap-2 py-2.5 border-t border-white/5 bg-black/20">
                     <Radio size={11} className="opacity-50" />
                     <span className="text-3xs font-mono font-black uppercase tracking-[0.2em] text-slate-500">
-                      Fútbol Star · Calcio Manager 2026
+                      Fútbol Star 2026
                     </span>
                   </div>
                 </div>
