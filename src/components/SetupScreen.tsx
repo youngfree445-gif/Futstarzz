@@ -340,7 +340,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <ClubBadge club={club} size={40} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
+                        <ClubBadge club={club} size={40} colorFallback={false} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5">
                             <h4 className="font-black text-sm text-white truncate max-w-[100px] sm:max-w-[200px]">
