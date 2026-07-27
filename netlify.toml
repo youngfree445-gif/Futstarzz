@@ -4,3 +4,18 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Vite le pone un hash al nombre de cada archivo en /assets segun su contenido, asi que esos
+# se pueden cachear "para siempre" (un cambio de contenido = nombre de archivo distinto). Pero
+# index.html NO tiene hash en su nombre y es el que dice que archivos con hash cargar -- si el
+# navegador (o el CDN) lo cachea de mas, te puede quedar apuntando a un JS/CSS de un build viejo
+# que ya no existe en el deploy actual -> 404 en todo -> pantalla en blanco.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
