@@ -44,16 +44,28 @@ export default function ClubBadge({ club, size = 32, colorFallback = true, class
         }}
         className={`object-contain shrink-0 ${className}`}
         onError={() => setFailed(true)}
+        onLoad={(e) => {
+          // Algunos CDNs (ej. Transfermarkt) devuelven 200 OK con body vacío cuando
+          // detectan hotlinking, en vez de un error real -- onError nunca se dispara
+          // en ese caso, así que detectamos la imagen "fantasma" por naturalWidth 0.
+          if (e.currentTarget.naturalWidth === 0) setFailed(true);
+        }}
       />
     );
   }
 
+  const fallbackText = colorFallback ? getInitials(club.name) : (club.badgeLogoUrl || '⚽');
+  // El emoji del club puede tener hasta 3 caracteres (ej. '🦈🔴⚪'), que a veces no entran en
+  // una sola línea al tamaño de fuente base y se parten en dos -- lo compensamos con una
+  // fuente más chica cuando hay más de 2 caracteres, además de forzar nowrap.
+  const fontSize = Math.max(8, size * (fallbackText.length > 2 ? 0.24 : 0.32));
+
   return (
     <div
-      style={{ width: px, height: px, fontSize: Math.max(9, size * 0.32) }}
-      className={`shrink-0 flex items-center justify-center font-black rounded-md leading-none ${colorFallback ? club.badgeColor : ''} ${className}`}
+      style={{ width: px, height: px, fontSize, whiteSpace: 'nowrap' }}
+      className={`shrink-0 flex items-center justify-center font-black rounded-md leading-none overflow-hidden ${colorFallback ? club.badgeColor : ''} ${className}`}
     >
-      {colorFallback ? getInitials(club.name) : (club.badgeLogoUrl || '⚽')}
+      {fallbackText}
     </div>
   );
 }
