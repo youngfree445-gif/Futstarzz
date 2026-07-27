@@ -10,8 +10,20 @@ import { defineConfig } from 'vite';
 // La app de Capacitor (CAPACITOR=true, ver script "build:capacitor") se sirve desde el sistema
 // de archivos local del dispositivo (capacitor://... / file://...), no desde un dominio, así que
 // necesita rutas relativas ('./') y un dist propio (dist-mobile) para no pisar el build web.
+//
+// process.env.NETLIFY va primero y le gana a todo lo demas a propósito: Netlify lo inyecta el
+// solo en TODOS sus builds (no hay forma de que falte ni de que lo pongamos mal), así que si
+// alguna vez queda GH_PAGES=true pegado en las variables de entorno del panel de Netlify (pasó:
+// sirvió los assets con el prefijo de carpeta de GitHub Pages, que en Netlify no existe -> 404
+// en todo -> pantalla en blanco), esto lo pisa igual sin depender de acordarse de sacarlo.
 export default defineConfig({
-  base: process.env.CAPACITOR ? './' : process.env.GH_PAGES ? '/f-tbol-star-_-calcio-manager-2026--1-/' : '/',
+  base: process.env.CAPACITOR
+    ? './'
+    : process.env.NETLIFY
+    ? '/'
+    : process.env.GH_PAGES
+    ? '/f-tbol-star-_-calcio-manager-2026--1-/'
+    : '/',
   build: {
     outDir: process.env.CAPACITOR ? 'dist-mobile' : 'dist',
   },

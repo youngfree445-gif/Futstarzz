@@ -4,6 +4,12 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Fuerza esto vacio aca mismo: si el sitio tiene GH_PAGES=true puesto en las variables de
+  # entorno del panel de Netlify (asi quedo, sirviendo assets con el prefijo de carpeta de
+  # GitHub Pages tipo /f-tbol-star-.../ que en Netlify no existe -> 404 en todo -> pantalla en
+  # blanco), esta linea le gana porque netlify.toml tiene prioridad sobre las variables del
+  # dashboard para este build.
+  GH_PAGES = ""
 
 # Vite le pone un hash al nombre de cada archivo en /assets segun su contenido, asi que esos
 # se pueden cachear "para siempre" (un cambio de contenido = nombre de archivo distinto). Pero
