@@ -44,7 +44,7 @@ import nutritionistImg from './assets/shop/nutritionist.jpg';
 import luxuryMansionImg from './assets/shop/luxury_mansion.jpg';
 import marketingPrImg from './assets/shop/marketing_pr.jpg';
 
-export const CLUBS_DATABASE: Club[] = [
+export const CLUBS_DATABASE: Club[] = [[
   {
     "id": "junior",
     "name": "Junior de Barranquilla",
@@ -14671,17 +14671,7 @@ export const CLUBS_DATABASE: Club[] = [
     "badgeImageUrl": "https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/maccabi-tel-aviv/maccabi-tel-aviv-logo-footylogos.svg",
     "division": 1
   }
-]from './assets/shop/marketing_pr.jpg';
-
-export const CLUBS_DATABASE: Club[] = [
-[]
-]from './assets/shop/marketing_pr.jpg';
-
-export const CLUBS_DATABASE: Club[] = [
-[]
-]from './assets/shop/marketing_pr.jpg';
-
-export const CLUBS_DATABASE: Club[] = []
+]];
 // FASE 3 -- economía más dura: costos ~18-20% más altos que la versión original, y patrocinios
 // "casi infinitos" con categoría (patrocinios de la misma categoría entran en conflicto -- ver
 // handleBuyItem en App.tsx, que bloquea comprar dos del mismo rubro a la vez).
