@@ -1836,38 +1836,68 @@ export default function Dashboard({
                   <p className="text-3xs text-slate-400 font-mono">Los reporteros vuelven la semana que viene con nuevas preguntas.</p>
                 </div>
               ) : pressResponseState === 'asking' ? (
-                <div className={`bg-slate-900 border rounded-3xl p-6 shadow-xl relative overflow-hidden space-y-4 ${PRESS_QUESTIONS_POOL[selectedPressQ].mediaColor}`}>
-                  
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-3xs font-mono font-black uppercase tracking-wider">
-                    <div className="flex items-center gap-2 min-w-0">
+                <div className={`bg-slate-900 border rounded-3xl shadow-xl relative overflow-hidden ${PRESS_QUESTIONS_POOL[selectedPressQ].mediaColor}`}>
+
+                  {/* Backdrop tipo "step and repeat" de rueda de prensa real, detrás del encabezado */}
+                  <div className="absolute inset-x-0 top-0 h-28 overflow-hidden pointer-events-none select-none">
+                    <div className="flex flex-wrap gap-x-6 gap-y-4 -rotate-6 -translate-x-6 -translate-y-3 opacity-[0.08] whitespace-nowrap">
+                      {Array.from({ length: 16 }).map((_, i) => (
+                        <span key={i} className="text-2xs font-black uppercase tracking-widest text-white">
+                          ⚽ Fútbol Star · Calcio Manager
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="relative p-6 space-y-4">
+                    <div className="flex items-start gap-3.5">
                       {PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatarImg ? (
                         <img
                           src={PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatarImg}
                           alt={PRESS_QUESTIONS_POOL[selectedPressQ].reporter || PRESS_QUESTIONS_POOL[selectedPressQ].mediaName}
-                          className="w-11 h-11 shrink-0 rounded-lg object-cover border border-black/40"
+                          className="w-16 h-16 shrink-0 rounded-2xl object-cover border-2 border-black/40 shadow-lg"
                         />
                       ) : (
-                        <span className="text-sm bg-black/40 p-1 rounded-lg shrink-0">{PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatar}</span>
+                        <span className="text-2xl bg-black/40 w-16 h-16 shrink-0 rounded-2xl border-2 border-black/40 shadow-lg flex items-center justify-center">
+                          {PRESS_QUESTIONS_POOL[selectedPressQ].reporterAvatar}
+                        </span>
                       )}
-                      <span className="truncate">{PRESS_QUESTIONS_POOL[selectedPressQ].mediaName} · por <strong>{PRESS_QUESTIONS_POOL[selectedPressQ].reporter}</strong></span>
+                      <div className="min-w-0 pt-0.5">
+                        <p className="text-sm font-black text-white leading-tight truncate">
+                          {PRESS_QUESTIONS_POOL[selectedPressQ].reporter || PRESS_QUESTIONS_POOL[selectedPressQ].mediaName}
+                        </p>
+                        <p className="text-3xs font-mono font-bold uppercase tracking-wider truncate opacity-80 mt-0.5">
+                          {PRESS_QUESTIONS_POOL[selectedPressQ].mediaName}
+                        </p>
+                        <span className="inline-block mt-1.5 px-2 py-0.5 rounded bg-black/30 text-3xs font-mono font-black uppercase tracking-wider max-w-full truncate">
+                          {PRESS_QUESTIONS_POOL[selectedPressQ].context}
+                        </span>
+                      </div>
                     </div>
-                    <span className="px-2 py-0.5 rounded bg-black/30 max-w-full">{PRESS_QUESTIONS_POOL[selectedPressQ].context}</span>
+
+                    <h3 className="text-base font-black text-white italic leading-relaxed pt-1">
+                      "{PRESS_QUESTIONS_POOL[selectedPressQ].question}"
+                    </h3>
+
+                    <div className="space-y-2.5 pt-1">
+                      {PRESS_QUESTIONS_POOL[selectedPressQ].options.map((opt, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handlePressAnswer(opt)}
+                          className="btn-fx-subtle w-full p-4 rounded-xl border border-slate-800 bg-slate-950 text-left text-xs text-slate-300 hover:border-emerald-500/40 hover:bg-slate-900 hover:text-white transition-all font-medium py-3.5 cursor-pointer"
+                        >
+                          {opt.text}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  <h3 className="text-base font-black text-white italic leading-relaxed pt-2">
-                    "{PRESS_QUESTIONS_POOL[selectedPressQ].question}"
-                  </h3>
-
-                  <div className="space-y-2.5 pt-2">
-                    {PRESS_QUESTIONS_POOL[selectedPressQ].options.map((opt, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handlePressAnswer(opt)}
-                        className="btn-fx-subtle w-full p-4 rounded-xl border border-slate-800 bg-slate-950 text-left text-xs text-slate-300 hover:border-emerald-500/40 hover:bg-slate-900 hover:text-white transition-all font-medium py-3.5 cursor-pointer"
-                      >
-                        {opt.text}
-                      </button>
-                    ))}
+                  {/* Pie de marca, como el zocalo de una transmision en vivo */}
+                  <div className="relative flex items-center justify-center gap-2 py-2.5 border-t border-white/5 bg-black/20">
+                    <Radio size={11} className="opacity-50" />
+                    <span className="text-3xs font-mono font-black uppercase tracking-[0.2em] text-slate-500">
+                      Fútbol Star · Calcio Manager 2026
+                    </span>
                   </div>
                 </div>
               ) : (
