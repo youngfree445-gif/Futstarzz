@@ -1303,7 +1303,7 @@ export default function MatchSimulator({
             </span>
           </div>
 
-          <div className="shrink-0 text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(16,185,129,0.1)] whitespace-nowrap tabular-nums">
+          <div className="shrink-0 text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums">
             {isHome.current ? scoreHome : scoreAway} - {isHome.current ? scoreAway : scoreHome}
           </div>
 

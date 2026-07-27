@@ -1194,12 +1194,12 @@ export default function Dashboard({
         <div className="space-y-6">
           
           <div className="p-4 flex items-center gap-3 border-b border-slate-800">
-            <div className="w-9 h-9 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center font-black text-slate-950 italic text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <div className="w-9 h-9 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center font-black text-slate-950 italic text-sm shadow-[0_0_15px_rgba(168,132,46,0.3)]">
               FS
             </div>
             <div>
               <div className="text-[10px] text-gold-500 font-extrabold uppercase tracking-widest leading-none">
-                Fútbol Star
+                Fut Starzz
               </div>
               <div className="text-sm font-black italic text-white tracking-tight leading-tight mt-0.5">
                 CONSOLA 2026
@@ -1843,7 +1843,7 @@ export default function Dashboard({
                     <div className="flex flex-wrap gap-x-6 gap-y-4 -rotate-6 -translate-x-6 -translate-y-3 opacity-[0.08] whitespace-nowrap">
                       {Array.from({ length: 16 }).map((_, i) => (
                         <span key={i} className="text-2xs font-black uppercase tracking-widest text-white">
-                          ⚽ Fútbol Star
+                          ⚽ Fut Starzz
                         </span>
                       ))}
                     </div>
@@ -1896,7 +1896,7 @@ export default function Dashboard({
                   <div className="relative flex items-center justify-center gap-2 py-2.5 border-t border-white/5 bg-black/20">
                     <Radio size={11} className="opacity-50" />
                     <span className="text-3xs font-mono font-black uppercase tracking-[0.2em] text-slate-500">
-                      Fútbol Star 2026
+                      Fut Starzz 2026
                     </span>
                   </div>
                 </div>

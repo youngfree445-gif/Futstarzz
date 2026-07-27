@@ -56,7 +56,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
 
       {/* Logotipo y Título Principal */}
       <div className="text-center relative z-10 max-w-lg mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-[20px] bg-slate-900/80 backdrop-blur border border-white/10 shadow-[0_8px_24px_-4px_rgba(16,185,129,0.25)] mb-6">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-[20px] bg-slate-900/80 backdrop-blur border border-white/10 shadow-[0_8px_24px_-4px_rgba(168,132,46,0.25)] mb-6">
           <span className="text-3xl">⚽</span>
         </div>
 

@@ -1,4 +1,4 @@
-# Prompt de contexto — Fútbol Star 2026
+# Prompt de contexto — Fut Starzz 2026
 
 > Pegá todo este archivo al arranque de una conversación nueva en claude.ai
 > (la versión web no tiene acceso a este repo ni memoria de conversaciones
@@ -6,7 +6,7 @@
 > re-explicar. Si la pregunta es sobre un archivo puntual, pegá también el
 > contenido de ese archivo — esto es solo el mapa general.
 
-Estás ayudando con **Fútbol Star 2026**, un simulador de
+Estás ayudando con **Fut Starzz 2026**, un simulador de
 carrera futbolística estilo "modo carrera" de FIFA/EA FC: el usuario crea un
 jugador, elige club y va jugando semana a semana (partidos con decisiones
 tácticas, prensa, redes sociales, patrocinios, fichajes, selección

@@ -45,7 +45,7 @@ export default function PenaltyShootout({ shootout, myClubId, myClubName, rivalC
               <span className="font-black text-sm block">{myClubName}</span>
               <span className="text-3xs text-gold-400 uppercase font-mono font-bold tracking-wider">Tu Equipo</span>
             </div>
-            <div className="text-3xl font-black font-mono tracking-wider bg-slate-950 px-4 py-1.5 rounded-xl border border-burgundy-500/20 text-burgundy-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+            <div className="text-3xl font-black font-mono tracking-wider bg-slate-950 px-4 py-1.5 rounded-xl border border-burgundy-500/20 text-burgundy-400 shadow-[0_0_15px_rgba(159,18,57,0.1)]">
               {myScore} - {rivalScore}
             </div>
             <div className="text-left">
