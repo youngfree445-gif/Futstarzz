@@ -288,15 +288,20 @@ export default function Dashboard({
     }
   }
 
-  // Tarjeta "Próximo Partido" (estilo modo carrera FIFA/EA FC): quién es el rival de la
-  // semana que viene depende de si esa semana es de copa (isCupWeek) o de liga -- misma
-  // regla que ya usa handleAdvanceWeek en App.tsx para decidir qué partido se juega.
-  // Si la semana que viene cae dentro de la ventana del Mundial (ver isWorldCupBreakWeek en
+  // Tarjeta "Próximo Partido" (estilo modo carrera FIFA/EA FC): currentWeek YA es la semana que
+  // se va a jugar a continuación (no la última completada), así que esto debe usar currentWeek
+  // tal cual, SIN +1 -- misma semana exacta que evalúa startMatchflow() en App.tsx al apretar
+  // "Disputar Partido". Antes esta card usaba currentWeek+1 mientras startMatchflow usaba
+  // currentWeek a secas: en una semana de liga previa a una de copa, la card mostraba (bien) el
+  // rival de copa que venía, pero al apretar el botón se jugaba en realidad la liga de esa
+  // semana -- y recién en el partido SIGUIENTE aparecía la copa. Bug real detectado por el
+  // usuario ("me mete un partido de liga de la nada, y ahí sí me mete en Champions").
+  // Si esta semana cae dentro de la ventana del Mundial (ver isWorldCupBreakWeek en
   // leagueEngine.ts), NI la liga doméstica NI Libertadores/Champions tienen partido -- están
   // realmente congeladas -- así que el único rival posible es el de la selección (y solo si estás
   // convocado y tu selección todavía tiene partido pendiente esa semana puntual).
-  const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek + 1);
-  const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek + 1);
+  const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
+  const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek);
   // rivalPos/rivalTotal: posición del rival en la tabla que corresponda (liga doméstica, grupo de
   // Libertadores/Sudamericana, o fase de liga de Champions/Europa) -- null en fases sin tabla
   // (eliminación directa, Mundial). jornada es el rótulo corto para la esquina de la card.
@@ -305,13 +310,13 @@ export default function Dashboard({
     jornada: string; rivalPos: number | null; rivalTotal: number | null;
   } | null = null;
   if (nextWeekInWorldCupBreak) {
-    const wcYear = getSeasonYear(playerProfile.currentWeek + 1);
+    const wcYear = getSeasonYear(playerProfile.currentWeek);
     const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
     const isEligible = !!wcTeamId
       && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
       && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
     if (isEligible) {
-      const wcState = getOrCreateWorldCupState(wcYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[wcYear], playerProfile.currentWeek + 1);
+      const wcState = getOrCreateWorldCupState(wcYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[wcYear], playerProfile.currentWeek);
       const upcoming = getUpcomingWorldCupMatch(wcState, wcTeamId!);
       if (upcoming) {
         nextMatchOpponent = {
