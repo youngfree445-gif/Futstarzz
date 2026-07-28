@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayerProfile, MatchEvent, MatchDecision, Position, Club } from '../types';
+import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats } from '../types';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE } from '../data';
 
@@ -161,6 +161,41 @@ const DELANTERO_EARLY: MatchDecision[] = [
         effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: -3 },
         effectOnFail: { prestige: -6, fans: -8, energy: 0 },
         cardRiskOnFail: 'yellow'
+      }
+    ]
+  },
+  {
+    prompt: "Notás que tu compañero de ataque quedó desconectado del bloque y el equipo pierde el orden en la presión tras perder la pelota...",
+    choices: [
+      {
+        text: 'Gritar para reordenar el pressing y cerrar líneas de pase',
+        requiredAttr: 'fisico',
+        minVal: 50,
+        successChance: 0.55,
+        successBonus: '¡LIDERAZGO EN LA CANCHA! El equipo recupera el orden y ahoga la salida rival, terminando en pérdida forzada a tu favor.',
+        failPenalty: 'Nadie te hizo caso en el achique y el rival salió jugando cómodo desde el fondo.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 5 },
+        effectOnFail: { prestige: -2, fans: -1, energy: 6 }
+      },
+      {
+        text: 'Señalar el espacio libre a tu compañero con un gesto claro',
+        requiredAttr: 'pase',
+        minVal: 48,
+        successChance: 0.5,
+        successBonus: '¡CONEXIÓN TOTAL! Tu compañero entendió el gesto al instante y se desmarcó justo a tiempo, dejándolo en posición de gol.',
+        failPenalty: 'La seña llegó tarde y tu compañero quedó en fuera de juego posicional sin entenderte.',
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 7, fans: 6 },
+        effectOnFail: { prestige: -3, fans: -2, energy: 0 }
+      },
+      {
+        text: 'Ignorar la desconexión y seguir jugando por tu cuenta',
+        requiredAttr: 'ritmo',
+        minVal: 40,
+        successChance: 0.7,
+        successBonus: 'Resolviste solo la jugada igual, sin necesidad de coordinar con nadie más.',
+        failPenalty: 'Tu individualismo dejó al equipo descoordinado un rato más y el rival aprovechó el desorden para salir con ventaja.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 1, fans: 0 },
+        effectOnFail: { prestige: -4, fans: -3, energy: 0 }
       }
     ]
   }
@@ -377,6 +412,41 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         failPenalty: 'La jugada amasada se cortó rápido y el rival despeja el peligro sin problemas.',
         effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
         effectOnFail: { prestige: -2, fans: -1, energy: 0 }
+      }
+    ]
+  },
+  {
+    prompt: "El equipo queda partido en dos bloques tras perder la pelota en un contragolpe rival y hace falta reordenar las líneas ya...",
+    choices: [
+      {
+        text: 'Gritar instrucciones para achicar el campo entre líneas',
+        requiredAttr: 'pase',
+        minVal: 52,
+        successChance: 0.55,
+        successBonus: '¡VOZ DE MANDO! El bloque se cierra a tiempo y asfixia el contragolpe rival antes de que sea peligroso.',
+        failPenalty: 'Nadie reaccionó a tiempo: el rival encontró el pasillo libre entre líneas y avanzó con comodidad.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 7, fans: 6 },
+        effectOnFail: { prestige: -4, fans: -3, energy: 5 }
+      },
+      {
+        text: 'Correr vos mismo a tapar el hueco que dejó la desorganización',
+        requiredAttr: 'fisico',
+        minVal: 55,
+        successChance: 0.5,
+        successBonus: '¡SACRIFICIO TOTAL! Cubriste metros de más y llegaste a cortar la jugada rival vos solo.',
+        failPenalty: 'El esfuerzo no alcanzó: llegaste tarde y el rival ya había definido la jugada.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 7 },
+        effectOnFail: { prestige: -3, fans: -2, energy: 14 }
+      },
+      {
+        text: 'Confiar en que la defensa se acomode sola y quedarte de referencia',
+        requiredAttr: 'defensa',
+        minVal: 45,
+        successChance: 0.68,
+        successBonus: 'La lectura fue correcta: la línea se ordenó sin necesidad de que bajaras a tapar el hueco.',
+        failPenalty: 'La defensa no se acomodó a tiempo y quedaste mirando cómo el rival generaba una ocasión clara.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
+        effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       }
     ]
   }
@@ -600,6 +670,42 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -9, fans: -10, energy: 8 }
       }
     ]
+  },
+  {
+    prompt: "La línea defensiva queda desalineada tras un cambio de marca confuso, dejando un espacio peligroso entre el lateral y el central...",
+    choices: [
+      {
+        text: 'Gritar para que la línea suba pareja y deje en offside al delantero',
+        requiredAttr: 'defensa',
+        minVal: 52,
+        successChance: 0.5,
+        successBonus: '¡TRAMPA BIEN EJECUTADA! Toda la línea reaccionó junta y el linier levanta la bandera. Jugada anulada.',
+        failPenalty: 'La línea no te escuchó a tiempo: subiste solo y dejaste al delantero mano a mano con el arquero.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 9, fans: 8 },
+        effectOnFail: { prestige: -8, fans: -9, energy: 6 }
+      },
+      {
+        text: 'Achicar vos el hueco cubriendo la posición del compañero desubicado',
+        requiredAttr: 'pase',
+        minVal: 45,
+        successChance: 0.55,
+        successBonus: 'Cubriste bien el espacio libre y el ataque rival se quedó sin opciones claras de pase.',
+        failPenalty: 'Al cubrir el hueco dejaste libre a tu propio marcado, que recibió cómodo.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 4 },
+        effectOnFail: { prestige: -4, fans: -3, energy: 8 }
+      },
+      {
+        text: 'Salir fuerte al choque para cortar antes de que se arme la jugada',
+        requiredAttr: 'fisico',
+        minVal: 48,
+        successChance: 0.45,
+        successBonus: '¡CONTUNDENCIA TOTAL! Llegaste primero y cortaste la jugada de un planchazo lícito.',
+        failPenalty: 'Llegaste tarde al choque y el árbitro te sanciona con falta peligrosa cerca del área.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 9 },
+        effectOnFail: { prestige: -10, fans: -11, energy: 10 },
+        cardRiskOnFail: 'yellow'
+      }
+    ]
   }
 ];
 
@@ -820,6 +926,41 @@ const ARQUERO_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -6, fans: -5, energy: 0 }
       }
     ]
+  },
+  {
+    prompt: "Ves que tus centrales dudan sobre quién marca al delantero libre en un córner que están por ejecutar...",
+    choices: [
+      {
+        text: 'Gritar la marca exacta para cada central antes del centro',
+        requiredAttr: 'defensa',
+        minVal: 50,
+        successChance: 0.55,
+        successBonus: '¡ORGANIZACIÓN PERFECTA! Cada uno marcó a su hombre y el córner murió en un despeje tranquilo.',
+        failPenalty: 'No te escucharon con el ruido del estadio y el delantero quedó completamente solo.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 7 },
+        effectOnFail: { prestige: -6, fans: -6, energy: 0 }
+      },
+      {
+        text: 'Salir vos mismo a disputar el balón aéreo por encima de todos',
+        requiredAttr: 'fisico',
+        minVal: 52,
+        successChance: 0.4,
+        successBonus: '¡SALIDA DE ORO! Ganaste el salto por encima de todos y despejaste el peligro con autoridad.',
+        failPenalty: 'Calculaste mal el salto y el balón te pasó por arriba dejando el arco completamente vacío.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 12, fans: 14 },
+        effectOnFail: { prestige: -14, fans: -15, energy: 10 }
+      },
+      {
+        text: 'Confiar en la marca zonal ya acordada y quedarte en la línea',
+        requiredAttr: 'pase',
+        minVal: 40,
+        successChance: 0.65,
+        successBonus: 'La marca zonal funcionó sin sobresaltos, el córner se despejó sin que hiciera falta arriesgar.',
+        failPenalty: 'La marca zonal falló y nadie llegó a la pelota: gol del rival de cabeza sin oposición.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 2 },
+        effectOnFail: { prestige: -12, fans: -13, energy: 0 }
+      }
+    ]
   }
 ];
 
@@ -1013,6 +1154,24 @@ export default function MatchSimulator({
   const mentalHealthFactor = playerProfile.mentalHealth < 35 ? 0.88 : playerProfile.mentalHealth > 85 ? 1.08 : 1;
   const pressureMultiplier = Math.max(0.65, Math.min(1.35, tablePositionFactor * fanSupportFactor * mentalHealthFactor));
   const teamName = currentClub.name;
+
+  // Fase 2.5 -- Fatiga de temporada real: muchos partidos seguidos sin una semana de descanso
+  // (ver matchesWithoutRest, se resetea en App.tsx cada vez que no jugás) pasan factura en cancha.
+  // No toca playerProfile.attributes de forma permanente -- es un descuento que solo se aplica acá,
+  // a la hora de resolver decisiones, así que desaparece solo apenas descansás una semana.
+  const FATIGUE_MATCH_THRESHOLD = 6;
+  const FATIGUE_ATTR_PENALTY = 6;
+  const isFatigued = playerProfile.matchesWithoutRest >= FATIGUE_MATCH_THRESHOLD;
+  const effectiveAttributes: PlayerStats = isFatigued
+    ? {
+        ritmo: Math.max(10, playerProfile.attributes.ritmo - FATIGUE_ATTR_PENALTY),
+        regate: Math.max(10, playerProfile.attributes.regate - FATIGUE_ATTR_PENALTY),
+        tiro: Math.max(10, playerProfile.attributes.tiro - FATIGUE_ATTR_PENALTY),
+        defensa: Math.max(10, playerProfile.attributes.defensa - FATIGUE_ATTR_PENALTY),
+        pase: Math.max(10, playerProfile.attributes.pase - FATIGUE_ATTR_PENALTY),
+        fisico: Math.max(10, playerProfile.attributes.fisico - FATIGUE_ATTR_PENALTY)
+      }
+    : playerProfile.attributes;
 
   // Probabilidad de que el próximo gol "ambiental" (el que no sale de una decisión puntual tuya,
   // sino del resto del partido corriendo solo) lo meta tu equipo en vez del rival: centrada en
@@ -1210,7 +1369,7 @@ export default function MatchSimulator({
   const handleChoice = (choiceIndex: number) => {
     if (!activeDecision) return;
     const choice = activeDecision.choices[choiceIndex];
-    const playerAttrValue = playerProfile.attributes[choice.requiredAttr];
+    const playerAttrValue = effectiveAttributes[choice.requiredAttr];
 
     // Menos determinismo que antes: el bonus por tener el atributo por encima del mínimo requerido
     // pesa menos (0.007 en vez de 0.015) y el techo bajó de 0.85 a 0.72, así que ni con atributos
@@ -1304,6 +1463,14 @@ export default function MatchSimulator({
                 Minuto {minute}'
               </span>
               <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shrink-0" />
+              {isFatigued && (
+                <span
+                  className="text-2xs font-black text-burgundy-400 uppercase tracking-wider whitespace-nowrap"
+                  title={`${playerProfile.matchesWithoutRest} partidos seguidos sin descanso: atributos con -${FATIGUE_ATTR_PENALTY} temporal`}
+                >
+                  😮‍💨 Fatigado
+                </span>
+              )}
               {playerCards === 'yellow' && (
                 <span className="w-3 h-4 rounded-sm bg-burgundy-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0" title="Tarjeta amarilla" />
               )}
@@ -1460,7 +1627,7 @@ export default function MatchSimulator({
 
                   <div className="space-y-2 overflow-y-auto flex-1 pr-1 pb-2">
                     {activeDecision.choices.map((choice, i) => {
-                      const requiredVal = playerProfile.attributes[choice.requiredAttr];
+                      const requiredVal = effectiveAttributes[choice.requiredAttr];
                       const isPromoted = requiredVal >= choice.minVal;
                       return (
                         <button

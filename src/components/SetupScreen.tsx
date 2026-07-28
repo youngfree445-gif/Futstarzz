@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Position, Nationality, PlayerProfile, PlayerStats, Club } from '../types';
+import { Position, Nationality, PlayerProfile, PlayerStats, Club, Superstition } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
 import { User, Shield, Compass, Calendar, Award, DollarSign, ArrowRight, ArrowLeft } from 'lucide-react';
 import ClubBadge from './ClubBadge';
@@ -9,6 +9,18 @@ interface SetupScreenProps {
   onFinishSetup: (profile: PlayerProfile) => void;
 }
 
+// Fase 2.5 -- Superstición del jugador: ritual elegido una sola vez en la creación del personaje.
+// breakMessage se usa en App.tsx (handleFinishMatch) cuando el ritual "se rompe" por azar en un
+// partido y golpea un poco la mentalHealth -- ver SUPERSTITION_BREAK_CHANCE.
+export const SUPERSTITIONS_DATABASE: { id: Superstition; label: string; breakMessage: string }[] = [
+  { id: 'botin_derecho', label: 'Calzarte primero el botín derecho', breakMessage: 'Te calzaste el botín izquierdo primero sin darte cuenta' },
+  { id: 'mismo_numero', label: 'Pedir siempre el mismo dorsal', breakMessage: 'El club te asignó otro dorsal esta semana' },
+  { id: 'cancion_previa', label: 'Escuchar la misma canción antes de salir', breakMessage: 'Se te olvidaron los auriculares en la concentración' },
+  { id: 'pie_derecho_cancha', label: 'Pisar la cancha primero con el pie derecho', breakMessage: 'El apuro del túnel de vestuarios te hizo pisar con el pie izquierdo' },
+  { id: 'no_afeitarse', label: 'No afeitarte en semana de partido', breakMessage: 'Tenías un evento de sponsor y te tocó afeitarte antes del partido' },
+  { id: 'ultimo_vestuario', label: 'Ser el último en salir del vestuario', breakMessage: 'El cuerpo técnico te sacó antes de tiempo para el calentamiento' }
+];
+
 export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps) {
   const [name, setName] = useState('');
   const [position, setPosition] = useState<Position>('Delantero');
@@ -16,6 +28,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
   const [nationality, setNationality] = useState<Nationality | string>('Colombiana');
   const [selectedClubId, setSelectedClubId] = useState('');
   const [selectedDivision, setSelectedDivision] = useState<'all' | 1 | 2>('all');
+  const [superstition, setSuperstition] = useState<Superstition>('botin_derecho');
 
   // Filter clubs based on country/nationality and division
   const filteredClubs = CLUBS_DATABASE.filter(c => {
@@ -96,6 +109,10 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       suspendedMatches: 0,
       seasonHistory: [],
       lastPressAnsweredWeek: 0,
+      superstition,
+      matchesWithoutRest: 0,
+      hadBreakoutSeason: false,
+      attrSumAtSeasonStart: Object.values(defaultAttributes).reduce((sum, v) => sum + v, 0),
       attributes: defaultAttributes,
       careerStats: {
         goles: 0,
@@ -246,6 +263,31 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                     >
                       <span className="text-sm block mb-0.5">{nat.flag}</span>
                       <span className="truncate max-w-[65px]">{nat.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
+                  Superstición / Ritual Previo
+                </label>
+                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
+                  Todo futbolista tiene su manía. Si algún día no la podés cumplir, te va a costar un poco de cabeza.
+                </p>
+                <div className="grid grid-cols-1 gap-1.5">
+                  {SUPERSTITIONS_DATABASE.map(s => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setSuperstition(s.id)}
+                      className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                        superstition === s.id
+                          ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                          : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                      }`}
+                    >
+                      {s.label}
                     </button>
                   ))}
                 </div>

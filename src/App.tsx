@@ -12,7 +12,7 @@ import {
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
-import SetupScreen from './components/SetupScreen';
+import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 import Dashboard from './components/Dashboard';
 import MatchSimulator from './components/MatchSimulator';
 import PostMatch from './components/PostMatch';
@@ -179,6 +179,58 @@ function applyAgingIfNewSeason(profile: PlayerProfile, previousWeek: number, new
   };
 }
 
+// Fase 2.5 -- Adaptación a nuevo DT: reusa el mismo golpe de prestigio "hay que ganarse el lugar de
+// nuevo" que ya existe al fichar por un club nuevo (ver handleAcceptTransfer, prestige * 0.9), pero
+// triggereado por tu propio club cambiando de entrenador de una temporada a otra en vez de por un
+// traspaso -- no lo elegiste vos, así que el golpe es más chico. Se llama junto a applyAgingIfNewSeason
+// en cada cruce de temporada, sin importar qué flujo lo dispare (jugar, descansar, sanción, etc).
+const COACH_CHANGE_CHANCE_PER_SEASON = 0.25;
+const COACH_CHANGE_PRESTIGE_MULTIPLIER = 0.94;
+
+function applyCoachChangeIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (Math.random() >= COACH_CHANGE_CHANCE_PER_SEASON) return profile;
+  return { ...profile, prestige: Math.round(profile.prestige * COACH_CHANGE_PRESTIGE_MULTIPLIER) };
+}
+
+// Fase 2.5 -- Síndrome del segundo año: si la temporada que recién cierra tuvo un aporte ofensivo
+// de "batacazo" (BREAKOUT_CONTRIBUTION_THRESHOLD goles+asistencias sumando todos los clubes donde
+// jugaste ese año), se marca hadBreakoutSeason para vigilar la temporada siguiente. Si esa siguiente
+// temporada cierra sin crecimiento real de atributos (no entrenaste lo suficiente para sostener el
+// nivel), la prensa y la hinchada lo notan -- golpe chico de prestige/fans, no de attributes.
+const attrSum = (attrs: PlayerStats) => attrs.ritmo + attrs.regate + attrs.tiro + attrs.defensa + attrs.pase + attrs.fisico;
+const BREAKOUT_CONTRIBUTION_THRESHOLD = 18;
+const SOPHOMORE_SLUMP_MIN_GROWTH = 3;
+const SOPHOMORE_SLUMP_PRESTIGE_PENALTY = 5;
+const SOPHOMORE_SLUMP_FANS_PENALTY = 6;
+
+function applyBreakoutSeasonIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+
+  let next = profile;
+  if (profile.hadBreakoutSeason) {
+    const growth = attrSum(profile.attributes) - profile.attrSumAtSeasonStart;
+    if (growth < SOPHOMORE_SLUMP_MIN_GROWTH) {
+      next = {
+        ...next,
+        prestige: Math.max(0, next.prestige - SOPHOMORE_SLUMP_PRESTIGE_PENALTY),
+        fans: Math.max(0, next.fans - SOPHOMORE_SLUMP_FANS_PENALTY)
+      };
+    }
+  }
+
+  const endedSeasonYear = getSeasonYear(previousWeek);
+  const endedSeasonContribution = profile.seasonHistory
+    .filter(s => s.seasonNum === endedSeasonYear)
+    .reduce((sum, s) => sum + s.goles + s.asistencias, 0);
+
+  return {
+    ...next,
+    hadBreakoutSeason: endedSeasonContribution >= BREAKOUT_CONTRIBUTION_THRESHOLD,
+    attrSumAtSeasonStart: attrSum(next.attributes)
+  };
+}
+
 function isPastRetirementAge(profile: PlayerProfile): boolean {
   return profile.age >= FORCED_RETIREMENT_AGE;
 }
@@ -272,6 +324,15 @@ export default function App() {
     }
     if (profile.lastPressAnsweredWeek === undefined) {
       profile = { ...profile, lastPressAnsweredWeek: 0 };
+    }
+    if (profile.superstition === undefined) {
+      profile = { ...profile, superstition: SUPERSTITIONS_DATABASE[0].id };
+    }
+    if (profile.matchesWithoutRest === undefined) {
+      profile = { ...profile, matchesWithoutRest: 0 };
+    }
+    if (profile.hadBreakoutSeason === undefined) {
+      profile = { ...profile, hadBreakoutSeason: false, attrSumAtSeasonStart: attrSum(profile.attributes) };
     }
     if (profile.careerStats.sumaCalificacionesHistoricas === undefined) {
       profile = {
@@ -534,10 +595,11 @@ export default function App() {
           energy: Math.min(100, playerProfile.energy + 45),
           mentalHealth: Math.min(100, playerProfile.mentalHealth + 6), // descansar en vez de forzar la máquina te despeja la cabeza
           currentWeek: playerProfile.currentWeek + 1,
+          matchesWithoutRest: 0,
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups
         };
-        const agedRest = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+        const agedRest = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(agedRest)) {
           triggerForcedRetirement(agedRest);
           return;
@@ -616,10 +678,11 @@ export default function App() {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
           currentWeek: playerProfile.currentWeek + 1,
+          matchesWithoutRest: 0,
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups
         };
-        const aged = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+        const aged = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(aged)) {
           triggerForcedRetirement(aged);
           return;
@@ -804,12 +867,13 @@ export default function App() {
       mentalHealth: Math.max(0, playerProfile.mentalHealth - 3),
       currentWeek: playerProfile.currentWeek + 1,
       suspendedMatches: playerProfile.suspendedMatches - 1,
+      matchesWithoutRest: 0,
       leagueSeasons: updatedLeagueSeasons,
       continentalCups: suspendedSync.continentalCups,
       uefaCups: suspendedSync.uefaCups
     };
 
-    const aged = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+    const aged = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
 
     if (isPastRetirementAge(aged)) {
       triggerForcedRetirement(aged);
@@ -986,6 +1050,16 @@ export default function App() {
     const isViralPerformance = results.rating >= 8.5;
     const viralMarketBonus = isViralPerformance ? 50000 : 0;
 
+    // Fase 2.5 -- Viralización negativa: un partido paupérrimo (rating bajísimo) también te puede
+    // hacer viral, pero para mal -- memes y burlas en redes aunque no hayas cometido ninguna decisión
+    // arriesgada puntual. Antes solo una tarjeta roja o una mala decisión de partido golpeaban el
+    // prestigio/fans; esto extiende esa misma cuenta para que el rating solo (sin roja ni mala
+    // decisión) también pueda empujar netPrestigeChange por debajo del umbral de checkSponsorControversyFallout.
+    const VIRAL_NEGATIVE_RATING_THRESHOLD = 4.0;
+    const VIRAL_NEGATIVE_PRESTIGE_PENALTY = 6;
+    const VIRAL_NEGATIVE_FANS_PENALTY = 8;
+    const isViralNegativePerformance = results.rating < VIRAL_NEGATIVE_RATING_THRESHOLD;
+
     // Tarjetas, multas y sanciones: el prestigio/fans que acumularon las decisiones del partido
     // (antes muerto, nunca se aplicaba) se liquida acá. Una roja (directa o por doble amarilla)
     // suma sanción de la federación y multa, además del golpe de prestigio de la jugada en sí.
@@ -996,12 +1070,33 @@ export default function App() {
     const cardReceived: 'none' | 'yellow' | 'red' = results.cardReceived || 'none';
     const decisionPrestigeChange = results.prestigeChange || 0;
     const decisionFansChange = results.fansChange || 0;
-    const netPrestigeChange = decisionPrestigeChange - (cardReceived === 'red' ? RED_CARD_PRESTIGE_PENALTY : 0);
+    const netPrestigeChange = decisionPrestigeChange
+      - (cardReceived === 'red' ? RED_CARD_PRESTIGE_PENALTY : 0)
+      - (isViralNegativePerformance ? VIRAL_NEGATIVE_PRESTIGE_PENALTY : 0);
+    const netFansChange = decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0);
 
     let newYellowCards = playerProfile.yellowCards;
     let newSuspendedMatches = playerProfile.suspendedMatches;
     let disciplineFine = 0;
     const disciplineMessages: string[] = [];
+
+    if (isViralNegativePerformance) {
+      disciplineMessages.push(`📉 Te volviste viral por las malas: la timeline te destroza tras un partido paupérrimo (rating ${results.rating.toFixed(1)}).`);
+    }
+
+    // Fase 2.5 -- Superstición del jugador: cada partido hay una chance chica de que la rutina
+    // elegida en la creación del personaje se rompa por circunstancias fuera de tu control, con un
+    // golpecito de mentalHealth (nada grave, es un ritual, no una lesión).
+    const SUPERSTITION_BREAK_CHANCE = 0.12;
+    const SUPERSTITION_BREAK_MENTAL_PENALTY = 3;
+    const superstitionBroke = Math.random() < SUPERSTITION_BREAK_CHANCE;
+    const superstitionBreakPenalty = superstitionBroke ? SUPERSTITION_BREAK_MENTAL_PENALTY : 0;
+    if (superstitionBroke) {
+      const ritual = SUPERSTITIONS_DATABASE.find(s => s.id === playerProfile.superstition);
+      if (ritual) {
+        disciplineMessages.push(`😬 Se te rompió el ritual ("${ritual.label}"): ${ritual.breakMessage}. Quedaste con la cabeza un poco floja.`);
+      }
+    }
 
     if (cardReceived === 'red') {
       newSuspendedMatches += 1;
@@ -1041,12 +1136,13 @@ export default function App() {
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
       capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange)),
-      fans: Math.max(0, Math.min(100, playerProfile.fans + decisionFansChange)),
+      fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,
       seasonHistory: updatedSeasonHistory,
       marketValue: Math.max(100000, playerProfile.marketValue + valueChg + viralMarketBonus),
-      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange)),
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange - superstitionBreakPenalty)),
+      matchesWithoutRest: playerProfile.matchesWithoutRest + 1,
       lastMatchRating: results.rating,
       currentWeek: playerProfile.currentWeek + 1,
       leagueSeasons: updatedLeagueSeasons,
@@ -1067,7 +1163,7 @@ export default function App() {
       }
     };
 
-    const aged = applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek);
+    const aged = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
 
     if (isPastRetirementAge(aged)) {
       triggerForcedRetirement(aged);
