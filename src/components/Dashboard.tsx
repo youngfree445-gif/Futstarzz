@@ -1503,7 +1503,7 @@ export default function Dashboard({
                         </span>
                       </div>
                       <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-                        <span className="text-3xs text-slate-500 font-mono uppercase block">Asistencias</span>
+                        <span className="text-3xs text-slate-500 font-mono uppercase block w-full break-words">Asistencias</span>
                         <span className="text-2xl font-black text-yellow-500 font-mono block mt-1">
                           {playerProfile.careerStats.asistenciasHistoricos}
                         </span>
