@@ -42,7 +42,7 @@ const CALENDAR_MONTH_NAMES = [
 ];
 const CALENDAR_WEEKDAY_NAMES = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 
-// Fase 2.5 -- Rivalidad generacional: tabla estática de hitos (sin IA generativa, solo umbrales
+// Fase 2.5 -- Rivalidad generacional: tabla estática de hitos (generación automática, solo umbrales
 // fijos) contra la que se compara el aporte ofensivo acumulado de toda la carrera (goles +
 // asistencias históricos). Puramente de exhibición -- no lee ni escribe ningún campo nuevo del
 // perfil, solo re-lee careerStats que ya existía.
@@ -767,7 +767,7 @@ export default function Dashboard({
       .sort((a, b) => a.key - b.key)
       .map(x => x.club);
 
-    type Journalist = { author: string; role: string; avatarImg: string; lines: (star: string, club: string, rivalClub: string) => string[] };
+    type Journalist = { author: string; role: string; avatarImg?: string; avatar?: string; lines: (star: string, club: string, rivalClub: string) => string[] };
     const journalists: Journalist[] = [
       {
         author: 'Mau', role: 'mausportstv', avatarImg: mauSportsAvatar,
@@ -819,6 +819,13 @@ export default function Dashboard({
         ]
       },
       {
+        author: 'George Michael', role: 'ESPN Colombia · @gmdlhm', avatar: '📻',
+        lines: (star, club) => [
+          `Análisis en frío: ${star} viene sosteniendo un nivel constante con ${club} en las últimas fechas, sin necesidad de golpes de efecto. Eso también tiene mérito.`,
+          `Dato que hay que seguir de cerca: la carga de minutos de ${star} en ${club} viene en aumento. Vale la pena monitorear cómo responde en las próximas semanas.`
+        ]
+      },
+      {
         author: 'Eduardo Luis', role: 'Relatos del Estadio', avatarImg: eduardoLuisAvatar,
         lines: (star, club) => [
           `¡${star}! ¡${star} y el estadio entero de ${club} de pie! Momentos así son los que justifican amar este deporte.`,
@@ -863,7 +870,7 @@ export default function Dashboard({
         likes: 500 + Math.floor(Math.random() * 6000),
         commentsCount: 100 + Math.floor(Math.random() * 1200),
         timestamp: 'Sala de Prensa',
-        avatar: '📰',
+        avatar: j.avatar || '📰',
         avatarImg: j.avatarImg
       };
     });
@@ -891,7 +898,7 @@ export default function Dashboard({
         id: 'tweet_2',
         author: 'UltraVerde_99',
         role: 'Hincha Fiel',
-        content: `${pName} viene mostrando cosas interesantes, pero todavía no me convence del todo como titular fijo. A ver qué muestra en los próximos partidos.`,
+        content: `${pName} viene mostrando cosas interesantes, pero la neta todavía no me late del todo como titular fijo. A ver qué muestra en los próximos partidos.`,
         likes: 852,
         commentsCount: 94,
         timestamp: 'Hace 4 horas',
@@ -921,7 +928,7 @@ export default function Dashboard({
         id: 'tweet_5',
         author: 'HinchaFurioso_Trib',
         role: 'Hincha Crítico',
-        content: `Que alguien me explique por qué ${pName} sigue siendo titular. El equipo necesita más que promesas, necesita resultados YA.`,
+        content: `${pName}, explicame por qué seguís siendo titular. El equipo necesita más que promesas, necesita resultados YA.`,
         likes: 410,
         commentsCount: 260,
         timestamp: 'Hace 3 horas',
@@ -941,7 +948,7 @@ export default function Dashboard({
         id: 'tweet_7',
         author: 'MemeDeportivoCol',
         role: 'Cuenta de Memes',
-        content: `Los memes de la jugada de ${pName} del fin de semana ya son incontables. Internet no perdona ni cuando sale bien. 😂`,
+        content: `Parce, los memes de la jugada de ${pName} del fin de semana ya son una chimba de incontables. Internet no perdona ni cuando sale bien. 😂`,
         likes: 2200,
         commentsCount: 540,
         timestamp: 'Hace 8 horas',
@@ -951,11 +958,41 @@ export default function Dashboard({
         id: 'tweet_8',
         author: 'VozDeLaTribuna',
         role: 'Hincha de Base',
-        content: `Vamos ${pName}, la tribuna te banca, pero hay que subir el nivel de a poco. El hincha exige porque quiere.`,
+        content: `Vamos ${pName}, la tribuna te banca, pero vos sabés que hay que subir el nivel de a poco. El hincha exige porque quiere.`,
         likes: 510,
         commentsCount: 71,
         timestamp: 'Ayer',
         avatar: '📣'
+      },
+      {
+        id: 'tweet_9',
+        author: 'O Burrinho',
+        role: 'Predicciones & Memes',
+        content: `🔮🐴 El Burrinho ya tiene el pálpito de la fecha: ${pName} vuelve a estar entre los nombres que más se van a mencionar el domingo. Nunca falla el bicho.`,
+        likes: 3100,
+        commentsCount: 410,
+        timestamp: 'Hace 3 horas',
+        avatar: '🐴'
+      },
+      {
+        id: 'tweet_10',
+        author: 'WillyFPC',
+        role: 'Fantasy & Stats',
+        content: `Dato para el fantasy: ${pName} viene sumando puntos constantes fecha a fecha. Si todavía no lo tienes en tu equipo, la neta te estás perdiendo de algo.`,
+        likes: 780,
+        commentsCount: 96,
+        timestamp: 'Hace 5 horas',
+        avatar: '📈'
+      },
+      {
+        id: 'tweet_11',
+        author: 'untalsebs',
+        role: 'Hincha del DIM',
+        content: `Como hincha del Independiente Medellín, valoro cuando un futbolista rinde con seriedad y compromiso. El nivel de ${pName} en la última fecha fue de ese tipo de actuaciones.`,
+        likes: 640,
+        commentsCount: 88,
+        timestamp: 'Hace 7 horas',
+        avatar: '🔴'
       }
     ];
     const week = playerProfile.currentWeek;
@@ -1249,10 +1286,10 @@ export default function Dashboard({
   return (
     <div id="dashboard-view" className="min-h-screen bg-slate-950 text-white flex flex-col md:flex-row relative">
       
-      <aside className="w-full md:w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 z-20">
-        <div className="space-y-6">
-          
-          <div className="p-4 flex items-center gap-3 border-b border-slate-800">
+      <aside className="w-full md:w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-3 z-20">
+        <div className="space-y-4">
+
+          <div className="p-3 flex items-center gap-3 border-b border-slate-800">
             <div className="w-9 h-9 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(168,132,46,0.3)]">
               <Star size={18} className="text-slate-950" fill="currentColor" strokeWidth={1} />
             </div>
@@ -1266,7 +1303,7 @@ export default function Dashboard({
             </div>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+          <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800">
             <span className="text-[10px] text-burgundy-500 uppercase tracking-widest font-mono font-bold block mb-1">
               Ficha Profesional
             </span>
@@ -1285,68 +1322,68 @@ export default function Dashboard({
           <nav className="space-y-1">
             <button
               onClick={() => setActiveTab('carrera')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <User size={15} /> Mi Carrera
             </button>
             <button
               onClick={() => setActiveTab('mi_club')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Sparkles size={15} /> Plantilla de Club 
             </button>
             <button
               onClick={() => setActiveTab('entrenamiento')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Dumbbell size={15} /> Entrenamiento
             </button>
             <button
               onClick={() => setActiveTab('chutsocial')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Send size={15} /> ChutSocial
             </button>
             <button
               onClick={() => setActiveTab('prensa')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Radio size={15} /> Sala de Prensa
             </button>
             <button
               onClick={() => setActiveTab('traspasos')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <RefreshCw size={15} /> Traspasos
             </button>
             <button
               onClick={() => setActiveTab('tienda')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <ShoppingBag size={15} /> Tienda de Lujos
             </button>
             <button
               onClick={() => setActiveTab('patrocinios')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'patrocinios' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'patrocinios' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Award size={15} /> Patrocinios
             </button>
             <button
               onClick={() => setActiveTab('tablas')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Table size={15} /> Copas y Tablas
             </button>
             <button
               onClick={() => setActiveTab('calendario')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'calendario' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'calendario' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Calendar size={15} /> Calendario
             </button>
           </nav>
         </div>
 
-        <div className="space-y-2 pt-4 border-t border-slate-800">
+        <div className="space-y-1.5 pt-3 border-t border-slate-800">
           <button
             onClick={onLogout}
             className="btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-red-400 text-2xs font-mono transition-colors text-left cursor-pointer"
@@ -1364,7 +1401,7 @@ export default function Dashboard({
 
       <main className="flex-1 flex flex-col min-h-screen">
         
-        <header className="bg-slate-900 border-b border-slate-800 p-4 md:px-8 flex flex-col md:flex-row gap-4 justify-between items-center z-10">
+        <header className="bg-slate-900 border-b border-slate-800 p-3 md:px-8 md:py-3 flex flex-col md:flex-row gap-4 justify-between items-center z-10">
           
           <div className="flex gap-1.5 items-center flex-wrap">
             <span className="text-gold-400 text-sm font-black">SEMANA {playerProfile.currentWeek}</span>
@@ -1382,7 +1419,7 @@ export default function Dashboard({
           </div>
 
           <div className="grid grid-cols-2 md:flex items-center gap-4 text-xs font-mono w-full md:w-auto">
-            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Zap size={14} className="text-burgundy-500" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
@@ -1398,7 +1435,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <DollarSign size={14} className="text-gold-400 font-bold" />
               <div>
                 <span className="text-3xs text-slate-500 block leading-none font-bold uppercase">Capital</span>
@@ -1406,7 +1443,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Star size={14} className="text-yellow-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
@@ -1422,7 +1459,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Heart size={14} className="text-rose-500" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
@@ -1438,7 +1475,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Brain size={14} className="text-sky-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
@@ -1456,26 +1493,26 @@ export default function Dashboard({
           </div>
         </header>
 
-        <div className="p-4 md:p-8 flex-1">
-          
+        <div className="p-3 md:p-6 flex-1">
+
           {activeTab === 'carrera' && (
-            <div className="space-y-6 animate-fade-in">
-              <div className="grid md:grid-cols-3 gap-6">
-                
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+            <div className="space-y-4 animate-fade-in">
+              <div className="grid md:grid-cols-3 gap-4">
+
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
                     <Award size={15} className="text-gold-400" /> Atributos del Jugador
                   </h3>
-                  
-                  <div className="space-y-4">
+
+                  <div className="space-y-2.5">
                     {Object.entries(playerProfile.attributes).map(([key, val]) => (
                       <div key={key}>
                         <div className="flex justify-between text-2xs text-slate-300 font-mono uppercase font-bold">
                           <span>{key}</span>
                           <span className="text-gold-400 font-black">{val}</span>
                         </div>
-                        <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden mt-1 border border-slate-800">
-                          <div 
+                        <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden mt-1 border border-slate-800">
+                          <div
                             className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full"
                             style={{ width: `${(val / 99) * 100}%` }}
                           />
@@ -1484,31 +1521,31 @@ export default function Dashboard({
                     ))}
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-800 text-3xs font-mono text-slate-500 uppercase leading-relaxed text-center">
+                  <div className="mt-4 pt-3 border-t border-slate-800 text-3xs font-mono text-slate-500 uppercase leading-relaxed text-center">
                     Entrena de forma exigente en el complejo deportivo para potenciar tus capacidades.
                   </div>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg flex flex-col justify-between">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg flex flex-col justify-between">
                   <div>
-                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
                       🏆 Estadísticas Históricas de Carrera
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
                         <span className="text-3xs text-slate-500 font-mono uppercase min-h-[2rem] flex items-center justify-center">Goles Marcados</span>
                         <span className="text-2xl font-black text-gold-400 font-mono block mt-1">
                           {playerProfile.careerStats.golesHistoricos}
                         </span>
                       </div>
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+                      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
                         <span className="text-3xs text-slate-500 font-mono uppercase w-full break-words min-h-[2rem] flex items-center justify-center">Asistencias</span>
                         <span className="text-2xl font-black text-yellow-500 font-mono block mt-1">
                           {playerProfile.careerStats.asistenciasHistoricos}
                         </span>
                       </div>
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center col-span-2">
+                      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col items-center text-center col-span-2">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Calificación Promedio</span>
                         <span className="text-2xl font-black text-emerald-400 font-mono block mt-1">
                           {(playerProfile.careerStats.partidosHistoricos > 0
@@ -1517,21 +1554,21 @@ export default function Dashboard({
                           ).toFixed(1)}
                         </span>
                       </div>
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+                      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Tarjetas Amarillas</span>
                         <span className="text-2xl font-black text-yellow-400 font-mono mt-1 flex items-center gap-1.5">
                           <span className="w-3 h-4 rounded-sm bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.5)] shrink-0" />
                           {playerProfile.careerStats.tarjetasAmarillasHistoricas}
                         </span>
                       </div>
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+                      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Tarjetas Rojas</span>
                         <span className="text-2xl font-black text-red-500 font-mono mt-1 flex items-center gap-1.5">
                           <span className="w-3 h-4 rounded-sm bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.5)] shrink-0" />
                           {playerProfile.careerStats.tarjetasRojasHistoricas}
                         </span>
                       </div>
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center col-span-2">
+                      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center col-span-2">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Partidos Totales</span>
                         <span className="text-base font-black text-white font-mono block mt-1">
                           {playerProfile.careerStats.partidosHistoricos} encuentros oficiales
@@ -1540,14 +1577,14 @@ export default function Dashboard({
                     </div>
                   </div>
 
-                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl mt-4">
+                  <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl mt-3">
                     <span className="text-[10px] text-burgundy-500 uppercase font-mono font-bold block mb-0.5">Valor de Mercado de la Ficha</span>
                     <span className="font-extrabold text-sm text-slate-200">
                       ${playerProfile.marketValue.toLocaleString()} USD
                     </span>
                   </div>
 
-                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl mt-3">
+                  <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl mt-2.5">
                     <div className="flex justify-between items-center mb-1.5">
                       <span className="text-[10px] text-burgundy-500 uppercase font-mono font-bold">Rivalidad Generacional</span>
                       <span className="text-2xs font-black text-gold-400">{currentMilestone.label}</span>
@@ -1570,7 +1607,7 @@ export default function Dashboard({
                   </div>
                 </div>
 
-                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-6 shadow-xl flex flex-col relative overflow-hidden">
+                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-4 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
@@ -1626,7 +1663,7 @@ export default function Dashboard({
 
                   <button
                     onClick={onAdvanceWeek}
-                    className="btn-fx w-full py-4 px-6 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-6"
+                    className="btn-fx w-full py-3 px-6 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-4"
                   >
                     {nextWeekInWorldCupBreak && !nextMatchOpponent ? 'Pasar a Siguiente Fecha' : 'Disputar Partido'} <ArrowRight size={15} />
                   </button>
@@ -1641,8 +1678,8 @@ export default function Dashboard({
                   </h3>
                   <p className="text-2xs text-slate-400 leading-relaxed mb-4">
                     A los {playerProfile.age} años el cuerpo ya no responde igual que a los 18: tu ritmo y físico
-                    empiezan a bajar de a poco cada temporada, aunque entrenes. Si sentís que tu posición actual
-                    ya no rinde, todavía podés reconvertirte una vez más antes de colgar los botines.
+                    empiezan a bajar de a poco cada temporada, aunque entrenes. Si sientes que tu posición actual
+                    ya no rinde, todavía puedes reconvertirte una vez más antes de colgar los botines.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {(['Delantero', 'Mediocampista', 'Defensor', 'Arquero'] as Position[])
@@ -1685,7 +1722,7 @@ export default function Dashboard({
 
               {playerProfile.yearsAtClub >= 5 && (
                 <div className="p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
-                  <ShieldAlert size={18} /> Zona de confort: llevás {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde menos (+1 en vez de +3). Un traspaso te devuelve la ambición fresca.
+                  <ShieldAlert size={18} /> Zona de confort: llevas {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde menos (+1 en vez de +3). Un traspaso te devuelve la ambición fresca.
                 </div>
               )}
 
@@ -2143,7 +2180,7 @@ export default function Dashboard({
                 if (windowOpen) {
                   return (
                     <div className="px-4 py-2.5 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold flex items-center gap-2">
-                      <RefreshCw size={13} /> Ventana de fichajes ABIERTA — podés concretar traspasos esta semana.
+                      <RefreshCw size={13} /> Ventana de fichajes ABIERTA — puedes concretar traspasos esta semana.
                     </div>
                   );
                 }
@@ -2334,7 +2371,7 @@ export default function Dashboard({
                   Ofertas de Patrocinio
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Las marcas te contactan a vos, no al revés: cuanto más lejos llegue tu fama, más y mejores ofertas te van a llegar. Aceptar un patrocinio no cuesta nada — al contrario, te paga una prima de firma inmediata.
+                  Las marcas te contactan a ti, no al revés: cuanto más lejos llegue tu fama, más y mejores ofertas te van a llegar. Aceptar un patrocinio no cuesta nada — al contrario, te paga una prima de firma inmediata.
                 </p>
               </div>
 
@@ -2344,7 +2381,7 @@ export default function Dashboard({
                 return (
                   <div className={`px-4 py-2.5 rounded-lg border text-xs font-bold flex items-center gap-2 ${capReached ? 'bg-burgundy-500/10 border-burgundy-500/20 text-burgundy-400' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
                     <DollarSign size={13} /> Patrocinios activos: {activeSponsorships}/{MAX_ACTIVE_SPONSORSHIPS}
-                    {capReached ? ' — agenda comercial completa, esperá a liberar un cupo.' : ''}
+                    {capReached ? ' — agenda comercial completa, espera a liberar un cupo.' : ''}
                   </div>
                 );
               })()}
@@ -2724,7 +2761,7 @@ export default function Dashboard({
                     🌱 Mentoría de Jóvenes
                   </h3>
                   <p className="text-2xs text-slate-500 mb-3 leading-relaxed">
-                    Elegí a un juvenil de {MENTEE_MAX_AGE} años o menos del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumás prestigio como mentor) — o no.
+                    Elige a un juvenil de {MENTEE_MAX_AGE} años o menos del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumas prestigio como mentor) — o no.
                   </p>
                   {(() => {
                     const eligibleMentees = currentClub.starPlayers.filter(p => p !== playerProfile.name && getMenteeAge(p) <= MENTEE_MAX_AGE);
@@ -2759,7 +2796,7 @@ export default function Dashboard({
                         </div>
                         {eligibleMentees.length === 0 && (
                           <p className="text-2xs text-slate-500 mt-2 italic">
-                            Ningún jugador del plantel tiene {MENTEE_MAX_AGE} años o menos esta temporada: no podés ser mentor de nadie por ahora.
+                            Ningún jugador del plantel tiene {MENTEE_MAX_AGE} años o menos esta temporada: no puedes ser mentor de nadie por ahora.
                           </p>
                         )}
                       </>

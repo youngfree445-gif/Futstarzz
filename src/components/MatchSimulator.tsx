@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats } from '../types';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy } from 'lucide-react';
-import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE } from '../data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
 
 // Nombre real de campeonato + bandera por liga (club.league), para el encabezado del partido.
 // Antes esto estaba hardcodeado a "Primera División Dimayor" (Colombia) sin importar la liga real
@@ -94,7 +94,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "¡Contragolpe letal! Quedan 3 contra 2 con el equipo desbordando por la izquierda, tenés que decidir rápido...",
+    prompt: "¡Contragolpe letal! Quedan 3 contra 2 con el equipo desbordando por la izquierda, tienes que decidir rápido...",
     choices: [
       {
         text: 'Filtrar el balón al compañero mejor ubicado',
@@ -107,7 +107,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
-        text: 'Encarar vos mismo al último defensor con velocidad',
+        text: 'Encarar tú mismo al último defensor con velocidad',
         requiredAttr: 'ritmo',
         minVal: 55,
         successChance: 0.4,
@@ -129,7 +129,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "Marca personal asfixiante del central rival, jugás de espaldas al arco con muy poco espacio para girar...",
+    prompt: "Marca personal asfixiante del central rival, juegas de espaldas al arco con muy poco espacio para girar...",
     choices: [
       {
         text: 'Pelear el balón cuerpo a cuerpo y forzar la falta',
@@ -346,7 +346,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "El rival presiona alto buscando el error en la salida, tenés que decidir cómo manejar el ritmo del partido...",
+    prompt: "El rival presiona alto buscando el error en la salida, tienes que decidir cómo manejar el ritmo del partido...",
     choices: [
       {
         text: 'Tocar rápido en corto para romper la presión',
@@ -381,7 +381,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "Falta a favor cerca del borde del área rival. Todo el equipo te mira: sos vos quien ejecuta...",
+    prompt: "Falta a favor cerca del borde del área rival. Todo el equipo te mira: eres tú quien ejecuta...",
     choices: [
       {
         text: 'Cobrar directo al arco buscando la escuadra',
@@ -429,11 +429,11 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -4, fans: -3, energy: 5 }
       },
       {
-        text: 'Correr vos mismo a tapar el hueco que dejó la desorganización',
+        text: 'Correr tú mismo a tapar el hueco que dejó la desorganización',
         requiredAttr: 'fisico',
         minVal: 55,
         successChance: 0.5,
-        successBonus: '¡SACRIFICIO TOTAL! Cubriste metros de más y llegaste a cortar la jugada rival vos solo.',
+        successBonus: '¡SACRIFICIO TOTAL! Cubriste metros de más y llegaste a cortar la jugada rival tú solo.',
         failPenalty: 'El esfuerzo no alcanzó: llegaste tarde y el rival ya había definido la jugada.',
         effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 7 },
         effectOnFail: { prestige: -3, fans: -2, energy: 14 }
@@ -504,7 +504,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
-        text: 'Avanzar vos mismo y definir tras superar líneas',
+        text: 'Avanzar tú mismo y definir tras superar líneas',
         requiredAttr: 'tiro',
         minVal: 56,
         successChance: 0.32,
@@ -625,7 +625,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       },
       {
-        text: 'Conducir vos mismo unos metros para ganar tiempo',
+        text: 'Conducir tú mismo unos metros para ganar tiempo',
         requiredAttr: 'ritmo',
         minVal: 50,
         successChance: 0.55,
@@ -685,7 +685,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -8, fans: -9, energy: 6 }
       },
       {
-        text: 'Achicar vos el hueco cubriendo la posición del compañero desubicado',
+        text: 'Achicar tú el hueco cubriendo la posición del compañero desubicado',
         requiredAttr: 'pase',
         minVal: 45,
         successChance: 0.55,
@@ -857,7 +857,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "¡Mano a mano puro! El delantero rival quedó completamente solo frente a vos tras un error defensivo...",
+    prompt: "¡Mano a mano puro! El delantero rival quedó completamente solo frente a ti tras un error defensivo...",
     choices: [
       {
         text: 'Achicar el ángulo avanzando con calma',
@@ -941,7 +941,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -6, fans: -6, energy: 0 }
       },
       {
-        text: 'Salir vos mismo a disputar el balón aéreo por encima de todos',
+        text: 'Salir tú mismo a disputar el balón aéreo por encima de todos',
         requiredAttr: 'fisico',
         minVal: 52,
         successChance: 0.4,
@@ -1066,7 +1066,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         minVal: 35,
         successChance: 0.75,
         successBonus: 'Manejo inteligente del reloj: cada segundo cuenta y el árbitro no te sanciona por la demora.',
-        failPenalty: 'El árbitro te advierte por demorar el juego y encima perdés la concentración en el saque.',
+        failPenalty: 'El árbitro te advierte por demorar el juego y encima pierdes la concentración en el saque.',
         effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: -1 },
         effectOnFail: { prestige: -4, fans: -3, energy: 0 }
       }
@@ -1181,6 +1181,37 @@ export default function MatchSimulator({
   const pressureMultiplier = Math.max(0.65, Math.min(1.35, tablePositionFactor * fanSupportFactor * mentalHealthFactor));
   const teamName = currentClub.name;
 
+  // Modelo tipo Poisson (estilo FIFA) para los goles "ambientales" del partido: en vez de una
+  // probabilidad fija por minuto (antes 3.2% parejo sin importar rivales), cada lado tiene un
+  // lambda de goles esperados en 90' derivado de fuerza de ataque real vs. defensa rival --
+  // luego se "reparte" ese lambda uniforme en 90 minutos (Poisson thinning: P(gol en el minuto)
+  // = 1 - e^(-lambda/90)), así el resultado queda matemáticamente atado a qué tan buenos son
+  // los dos planteles y no solo a la posición en la tabla.
+  const BASE_GOALS_PER_TEAM = 1.3; // promedio real aprox. de goles por equipo en 90'
+  const rosterClub = getClubWithRoster(currentClub.name);
+  const repEstimate = 58 + currentClub.reputation * 6; // ~64 a 88 si el club no tiene roster real cargado
+  const myAttackRating = rosterClub?.plantilla?.ofensivos?.length
+    ? rosterClub.plantilla.ofensivos.reduce((sum: number, p: any) => sum + p.media_valoracion, 0) / rosterClub.plantilla.ofensivos.length
+    : repEstimate;
+  const myDefenseCandidates = [...(rosterClub?.plantilla?.defensivos || []), ...(rosterClub?.plantilla?.porteros || [])];
+  const myDefenseRating = myDefenseCandidates.length
+    ? myDefenseCandidates.reduce((sum: number, p: any) => sum + p.media_valoracion, 0) / myDefenseCandidates.length
+    : repEstimate;
+  // Al rival solo lo conocemos por nombre (no tenemos su plantel acá), así que su nivel se estima
+  // desde su posición real en la tabla (1° = fuerte, último = débil); sin tabla comparable
+  // (copas/Mundial) se asume un rival de nivel medio-alto, acorde al calibre de esos cruces.
+  const rivalRating = (myTablePosition != null && rivalTablePosition != null && leagueTeamCount && leagueTeamCount > 1)
+    ? 60 + (1 - (rivalTablePosition - 1) / (leagueTeamCount - 1)) * 30
+    : 76;
+  const ratingGapMultiplier = (gap: number) => Math.max(0.5, Math.min(2.0, 1 + gap / 50));
+  const formMultiplier = fanSupportFactor * mentalHealthFactor; // moral/apoyo -- la fuerza de tabla ya la usa rivalRating, no se pisa acá
+  const HOME_ADVANTAGE_GOALS = 0.15;
+  const lambdaMine = BASE_GOALS_PER_TEAM * ratingGapMultiplier(myAttackRating - rivalRating) * formMultiplier
+    + (isHome.current ? HOME_ADVANTAGE_GOALS : 0);
+  const lambdaRival = BASE_GOALS_PER_TEAM * ratingGapMultiplier(rivalRating - myDefenseRating)
+    + (isHome.current ? 0 : HOME_ADVANTAGE_GOALS);
+  const totalLambda = lambdaMine + lambdaRival;
+
   // Fase 2.5 -- Fatiga de temporada real: muchos partidos seguidos sin una semana de descanso
   // (ver matchesWithoutRest, se resetea en App.tsx cada vez que no jugás) pasan factura en cancha.
   // No toca playerProfile.attributes de forma permanente -- es un descuento que solo se aplica acá,
@@ -1199,14 +1230,11 @@ export default function MatchSimulator({
       }
     : playerProfile.attributes;
 
-  // Probabilidad de que el próximo gol "ambiental" (el que no sale de una decisión puntual tuya,
-  // sino del resto del partido corriendo solo) lo meta tu equipo en vez del rival: centrada en
-  // 50/50 e inclinada por el mismo pressureMultiplier de arriba (posición en la tabla + apoyo de
-  // la hinchada + salud mental) más una pequeña ventaja de localía real. Antes esto era un 52/48
-  // fijo sin importar quién era el rival, por eso salían goleadas contra cualquiera -- ahora solo
-  // golea de verdad el equipo que efectivamente está bien parado en la tabla, y un rival mejor
-  // ubicado te hace sufrir un partido apretado.
-  const teamScoreChance = Math.max(0.26, Math.min(0.76, 0.5 + (pressureMultiplier - 1) * 0.55 + (isHome.current ? 0.03 : -0.03)));
+  // Probabilidad por minuto de que ocurra CUALQUIER gol ambiental (Poisson thinning de totalLambda
+  // repartido en 90') y, dado que ocurre, qué proporción le toca a cada lado según sus lambdas --
+  // reemplaza el 3.2% fijo + reparto 50/50 de antes, que no distinguía si el rival era bueno o malo.
+  const goalProbPerMinute = 1 - Math.exp(-totalLambda / 90);
+  const teamScoreChance = totalLambda > 0 ? lambdaMine / totalLambda : 0.5;
 
   const getTeammateSample = () => {
     const list = currentClub.starPlayers.filter(p => p !== playerProfile.name);
@@ -1308,7 +1336,7 @@ export default function MatchSimulator({
 
     const dado = Math.random();
 
-    if (dado < 0.032) { // PROBABILIDAD REALISTA DE GOLES (0-0, 1-0, 2-1)
+    if (dado < goalProbPerMinute) { // Poisson thinning: ver goalProbPerMinute/lambdaMine/lambdaRival arriba
       const teamScores = Math.random() < teamScoreChance;
       const teammateName = getTeammateSample();
 

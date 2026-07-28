@@ -278,7 +278,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                   Superstición / Ritual Previo
                 </label>
                 <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
-                  Todo futbolista tiene su manía. Si algún día no la podés cumplir, te va a costar un poco de cabeza.
+                  Todo futbolista tiene su manía. Si algún día no la puedes cumplir, te va a costar un poco de cabeza.
                 </p>
                 <div className="grid grid-cols-1 gap-1.5">
                   {SUPERSTITIONS_DATABASE.map(s => (

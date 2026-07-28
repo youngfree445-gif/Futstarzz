@@ -532,7 +532,7 @@ export default function App() {
   const handleGirlfriendFlowers = () => {
     if (!playerProfile?.girlfriend) return;
     if (playerProfile.capital < GIRLFRIEND_FLOWERS_COST) {
-      alert('No tenés fondos suficientes para las flores.');
+      alert('No tienes fondos suficientes para las flores.');
       return;
     }
     const updatedProfile: PlayerProfile = {
@@ -701,13 +701,13 @@ export default function App() {
 
     const conflicting = shopItems.find(i => i.purchased && i.category === item.category && i.id !== item.id);
     if (conflicting) {
-      alert(`Ya tenés un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Esperá a que termine ese contrato antes de firmar otro del mismo rubro.`);
+      alert(`Ya tienes un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Espera a que termine ese contrato antes de firmar otro del mismo rubro.`);
       return;
     }
 
     const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
     if (activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS) {
-      alert(`Ya tenés el máximo de ${MAX_ACTIVE_SPONSORSHIPS} patrocinios activos al mismo tiempo. Tu agenda comercial está completa.`);
+      alert(`Ya tienes el máximo de ${MAX_ACTIVE_SPONSORSHIPS} patrocinios activos al mismo tiempo. Tu agenda comercial está completa.`);
       return;
     }
 
@@ -783,7 +783,7 @@ export default function App() {
 
     if (droppedNames.length > 0) {
       const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
-      alert(`📉 Tu declaración generó ruido de sobra. ${droppedNames.join(', ')} ${verb} con vos por la polémica.`);
+      alert(`📉 Tu declaración generó ruido de sobra. ${droppedNames.join(', ')} ${verb} contigo por la polémica.`);
     }
   };
 
@@ -1110,7 +1110,7 @@ export default function App() {
 
     setPlayerProfile(aged);
     saveGameState(aged, shopItems);
-    alert(`🚫 Cumpliste tu sanción esta fecha. Sin vos en el campo, ${myClub.name} ${isHomeThisMatch ? myGoals : rivalGoals}-${isHomeThisMatch ? rivalGoals : myGoals} ${opponentClub.name}.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s) más de sanción.` : ''}`);
+    alert(`🚫 Cumpliste tu sanción esta fecha. Sin ti en el campo, ${myClub.name} ${isHomeThisMatch ? myGoals : rivalGoals}-${isHomeThisMatch ? rivalGoals : myGoals} ${opponentClub.name}.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s) más de sanción.` : ''}`);
   };
 
   const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number }) => {
@@ -1140,7 +1140,7 @@ export default function App() {
 
     if (droppedNames.length > 0) {
       const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
-      alert(`📉 El escándalo llegó a la prensa. ${droppedNames.join(', ')} ${verb} con vos.`);
+      alert(`📉 El escándalo llegó a la prensa. ${droppedNames.join(', ')} ${verb} contigo.`);
     }
     if (effects.suspension) {
       alert(`🚫 Sanción disciplinaria: te perderás ${effects.suspension} partido${effects.suspension > 1 ? 's' : ''} de liga.`);
@@ -1356,7 +1356,7 @@ export default function App() {
     const { items: updatedShop, droppedNames } = checkSponsorControversyFallout(shopItems, netPrestigeChange);
     if (droppedNames.length > 0) {
       const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
-      disciplineMessages.push(`📉 ${droppedNames.join(', ')} ${verb} con vos tras lo sucedido en el partido.`);
+      disciplineMessages.push(`📉 ${droppedNames.join(', ')} ${verb} contigo tras lo sucedido en el partido.`);
     }
 
     // Trayectoria de carrera: solo partidos de CLUB (liga o copas de clubes) suman a la tabla de
@@ -1477,7 +1477,7 @@ export default function App() {
           setShopItems(updatedShopItems);
           saveGameState(steppedDown, updatedShopItems);
           setScreen('dashboard');
-          alert(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo unos años más. Menos luces, pero seguís en cancha.`);
+          alert(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo unos años más. Menos luces, pero sigues en la cancha.`);
           return;
         }
       }

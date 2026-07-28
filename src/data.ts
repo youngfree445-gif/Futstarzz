@@ -2869,7 +2869,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'airline_deal',
     name: 'Milla Viajera Oficial',
     cost: 85000,
-    description: 'Vuelos y estadías premium para vos y tu familia, cortesía de la aerolínea oficial del torneo.',
+    description: 'Vuelos y estadías premium para ti y tu familia, cortesía de la aerolínea oficial del torneo.',
     perkText: '+10 Prestigio, +10 Energía por partido avanzado.',
     effect: { prestigeBonus: 10, permanentEnergyBonus: 10 },
     category: 'viajes',
@@ -3339,7 +3339,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     reporterAvatar: "📢🇪🇸",
     reporterAvatarImg: eduAguirreAvatar,
     mediaColor: "border-fuchsia-500 text-fuchsia-300 bg-fuchsia-950/20",
-    question: "¡PEROOO ESTO ES UN ESCÁNDALO! Un excompañero tuyo dijo en esta misma mesa que tenés más fama que rendimiento real. ¿Qué le respondés EN DIRECTO?",
+    question: "¡PEROOO ESTO ES UN ESCÁNDALO! Un excompañero tuyo dijo en esta misma mesa que tienes más fama que rendimiento real. ¿Qué le respondes EN DIRECTO?",
     options: [
       {
         text: "Respeto su opinión, pero prefiero responder jugando los noventa minutos, no en un plató.",
@@ -3424,7 +3424,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
         prestigeChange: 10,
         fansChange: 8,
         energyChange: -2,
-        reaction: "Fabrizio Romano: 'Desmentido categórico. En las oficinas del club respiran tranquilos: el DT confirma que cuenta con vos para lo que viene.'"
+        reaction: "Fabrizio Romano: 'Desmentido categórico. En las oficinas del club respiran tranquilos: el DT confirma que cuenta contigo para lo que viene.'"
       },
       {
         text: "Prefiero no hablar de mercado ahora mismo, eso lo maneja mi representante.",
@@ -3483,7 +3483,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     reporterAvatar: "🗯️🇨🇴",
     reporterAvatarImg: carlosAntonioVelezAvatar,
     mediaColor: "border-neutral-500 text-neutral-300 bg-neutral-950/20",
-    question: "Yo sigo sin entender cómo con esas decisiones que tomás en cancha te siguen poniendo de titular. ¿Vos de verdad creés que te lo merecés, o el técnico te está regalando minutos?",
+    question: "Yo sigo sin entender cómo con esas decisiones que tomas en cancha te siguen poniendo de titular. ¿Tú de verdad crees que te lo mereces, o el técnico te está regalando minutos?",
     options: [
       {
         text: "Entiendo su opinión, pero los números y el técnico avalan mi lugar en el equipo. Con respeto, no la comparto.",
@@ -3700,7 +3700,7 @@ export const LOBBY_RANDOM_EVENTS = [
     description: 'En la charla técnica post-entrenamiento, el DT te para en seco frente a todo el plantel: "Acá se juega para el equipo, no para las estadísticas personales."',
     choices: [
       {
-        text: 'Responder que vos jugás para ganar, no para quedar bien con nadie',
+        text: 'Responder que tú juegas para ganar, no para quedar bien con nadie',
         cost: 0,
         outcome: 'El vestuario se divide: unos te bancan, otros creen que te faltó el respeto al técnico.',
         effects: { prestige: -12, fans: 8, energy: -5, capital: 0 }
@@ -3737,7 +3737,7 @@ export const LOBBY_RANDOM_EVENTS = [
     description: 'Un preparador físico paralelo, ajeno al club, te ofrece un suplemento "milagroso" para rendir más este fin de semana. No figura en la lista de sustancias permitidas por la federación.',
     choices: [
       {
-        text: 'Tomarlo, necesitás ese plus de rendimiento',
+        text: 'Tomarlo, necesitas ese plus de rendimiento',
         cost: 0,
         outcome: 'Salió positivo en el control antidopaje post-partido. La federación no tiene piedad: sanción ejemplar y multa.',
         effects: { prestige: -35, fans: -20, energy: 10, capital: -25000, suspension: 4 }
