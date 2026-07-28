@@ -29,6 +29,8 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
   const [selectedClubId, setSelectedClubId] = useState('');
   const [selectedDivision, setSelectedDivision] = useState<'all' | 1 | 2>('all');
   const [superstition, setSuperstition] = useState<Superstition>('botin_derecho');
+  const [dorsal, setDorsal] = useState(10);
+  const [heightCm, setHeightCm] = useState(180);
 
   // Filter clubs based on country/nationality and division
   const filteredClubs = CLUBS_DATABASE.filter(c => {
@@ -99,6 +101,8 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       position,
       age,
       nationality,
+      dorsal,
+      heightCm,
       energy: 100,
       capital: 0, // starts with no capital, relies on weekly wage
       prestige: 50, // default locker room prestige
@@ -231,6 +235,35 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                     <option value="Defensor">Defensor (Central / Lateral)</option>
                     <option value="Arquero">Arquero (Portero)</option>
                   </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-2xs uppercase text-slate-400 font-bold mb-1.5">
+                    Dorsal
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={99}
+                    value={dorsal}
+                    onChange={(e) => setDorsal(Math.max(1, Math.min(99, Number(e.target.value) || 1)))}
+                    className="w-full py-2.5 px-3 bg-slate-900 border border-slate-800 rounded-xl text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-2xs uppercase text-slate-400 font-bold mb-1.5">
+                    Altura (cm)
+                  </label>
+                  <input
+                    type="number"
+                    min={160}
+                    max={210}
+                    value={heightCm}
+                    onChange={(e) => setHeightCm(Math.max(160, Math.min(210, Number(e.target.value) || 160)))}
+                    className="w-full py-2.5 px-3 bg-slate-900 border border-slate-800 rounded-xl text-sm"
+                  />
                 </div>
               </div>
 

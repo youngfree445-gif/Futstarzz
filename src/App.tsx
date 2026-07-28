@@ -17,7 +17,7 @@ import Dashboard from './components/Dashboard';
 import MatchSimulator from './components/MatchSimulator';
 import PostMatch from './components/PostMatch';
 import DecisionCenter from './components/DecisionCenter';
-import PenaltyShootout from './components/PenaltyShootout';
+import InteractivePenaltyShootout from './components/InteractivePenaltyShootout';
 import CareerSummary from './components/CareerSummary';
 
 // Busca la tanda de penales de TU partido dentro de un bracket/llave de eliminación directa, si
@@ -335,9 +335,18 @@ export default function App() {
   const [activeLeagueTeamCount, setActiveLeagueTeamCount] = useState<number | null>(null);
   const [matchResults, setMatchResults] = useState<any>(null);
   const [activePenaltyShootout, setActivePenaltyShootout] = useState<{ result: PenaltyShootoutResult; myId: string; myName: string } | null>(null);
+  // Si tu partido de esta semana puede terminar definiéndose en una tanda de penales, se guarda acá
+  // el resultado crudo del partido (goles) mientras jugás la tanda en vivo (InteractivePenaltyShootout) --
+  // handleFinishMatch se vuelve a invocar con el resultado real de la tanda una vez que termina.
+  const [pendingMatchResults, setPendingMatchResults] = useState<any>(null);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
+  // Fase de banco/convocatoria: si sos titular, MatchSimulator arranca normal (undefined). Si sos
+  // suplente, arranca desde el banco y entra recién en un minuto random del 2do tiempo -- ver
+  // decideLineupStatus más abajo.
+  const [activeLineupStatus, setActiveLineupStatus] = useState<'starter' | 'substitute'>('starter');
+  const [activeSubEntryMinute, setActiveSubEntryMinute] = useState<number | null>(null);
 
   const saveGameState = (profile: PlayerProfile, items: ShopItem[], forcedSlotId?: string) => {
     const slot = forcedSlotId || activeSlotId;
@@ -379,6 +388,16 @@ export default function App() {
     }
     if (profile.mentalHealth === undefined) {
       profile = { ...profile, mentalHealth: 70 };
+    }
+    // Compatibilidad con saves de antes del Bloque 4 (dorsal/altura en la creación de personaje):
+    // les asignamos un valor razonable la primera vez que cargan, para no dejar campos undefined
+    // rotando por el resto de las pantallas (Dashboard/roster ya asumen que pueden existir).
+    if (profile.dorsal === undefined) {
+      profile = { ...profile, dorsal: 1 + Math.floor(Math.random() * 33) };
+    }
+    if (profile.heightCm === undefined) {
+      const defaultHeight = profile.position === 'Arquero' ? 190 : profile.position === 'Defensor' ? 185 : profile.position === 'Delantero' ? 180 : 178;
+      profile = { ...profile, heightCm: defaultHeight };
     }
     if (profile.lastMatchRating === undefined) {
       profile = { ...profile, lastMatchRating: 0 };
@@ -850,6 +869,24 @@ export default function App() {
     startMatchflow();
   };
 
+  // Convocatoria semanal: en clubes grandes (reputation alta), un jugador con poco prestige/relación
+  // con el DT tiene chance real de arrancar en el banco o directamente quedar afuera de la lista,
+  // igual que en la vida real (las jóvenes promesas de clubes top rotan menos que en clubes chicos).
+  // reputation va de 1 (chico) a 5 (élite mundial); prestige va de 0 a 100.
+  function decideLineupStatus(reputation: number, prestige: number): 'starter' | 'substitute' | 'not_called' {
+    // Umbral de prestige que un club de esa reputation exige para considerarte titular indiscutido.
+    const starterThreshold = 25 + reputation * 11; // ~36 (reputation 1) a ~80 (reputation 5)
+    const notCalledThreshold = Math.max(0, reputation * 7 - 15); // 0 (reputation <=2) a 20 (reputation 5)
+
+    if (prestige >= starterThreshold) return 'starter';
+    if (prestige <= notCalledThreshold) {
+      // No convocado es poco frecuente incluso cuando calificás: solo ~40% de las veces que tu
+      // prestige es muy bajo para el calibre del club, para que no se sienta punitivo todas las semanas.
+      return Math.random() < 0.4 ? 'not_called' : 'substitute';
+    }
+    return 'substitute';
+  }
+
   const startMatchflow = () => {
     if (!playerProfile) return;
 
@@ -1055,6 +1092,43 @@ export default function App() {
     setActiveOpposition(opName);
     setActiveOppositionClubId(opClubId);
     setActiveIsHome(isHomeThisMatch);
+
+    // Convocatoria: solo aplica a partidos de club (liga/copas continentales/UEFA) -- la selección
+    // ya filtra por prestige/partidos jugados antes de convocarte (ver WORLD_CUP_CALLUP thresholds
+    // arriba), así que si estás ahí siempre arrancás titular.
+    if (!foundWorldCupTeamId && opClubId) {
+      const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+      const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige);
+
+      if (lineupStatus === 'not_called') {
+        const { homeGoals, awayGoals } = isHomeThisMatch ? simulateMatch(myClub, CLUBS_DATABASE.find(c => c.id === opClubId) || myClub) : simulateMatch(CLUBS_DATABASE.find(c => c.id === opClubId) || myClub, myClub);
+        const myGoals = isHomeThisMatch ? homeGoals : awayGoals;
+        const rivalGoals = isHomeThisMatch ? awayGoals : homeGoals;
+        const updated: PlayerProfile = {
+          ...playerProfile,
+          energy: Math.min(100, playerProfile.energy + 18),
+          mentalHealth: Math.max(0, playerProfile.mentalHealth - 4),
+          currentWeek: playerProfile.currentWeek + 1,
+          matchesWithoutRest: 0,
+        };
+        const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
+        if (isPastRetirementAge(aged)) {
+          resolveRetirementCheckpoint(aged);
+          return;
+        }
+        setPlayerProfile(aged);
+        saveGameState(aged, shopItems);
+        alert(`📋 NO FUISTE CONVOCADO esta fecha: el DT decidió dejarte fuera de la lista de ${myClub.name}. Resultado sin vos: ${myGoals}-${rivalGoals} vs. ${opName}.`);
+        return;
+      }
+
+      setActiveLineupStatus(lineupStatus === 'substitute' ? 'substitute' : 'starter');
+      setActiveSubEntryMinute(lineupStatus === 'substitute' ? 46 + Math.floor(Math.random() * 30) : null);
+    } else {
+      setActiveLineupStatus('starter');
+      setActiveSubEntryMinute(null);
+    }
+
     setScreen('match');
   };
 
@@ -1149,7 +1223,7 @@ export default function App() {
     startMatchflow();
   };
 
-  const handleFinishMatch = (results: any) => {
+  const handleFinishMatch = (results: any, shootoutOverride?: PenaltyShootoutResult) => {
     if (!playerProfile) return;
 
     setMatchResults(results);
@@ -1194,7 +1268,7 @@ export default function App() {
       const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
       const resolvedSeason = resolvePlayerWeekForLeague(
         existingSeason, leagueClubs, playerProfile.currentWeek, myClub.id,
-        activeIsHome, results.golesMiEquipo, results.golesRival
+        activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride
       );
 
       const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId)
@@ -1222,7 +1296,7 @@ export default function App() {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const cupKey = `${activeCupId}-${year}`;
       const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek);
-      const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival);
+      const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
       if (shootout) {
         foundShootout = shootout;
@@ -1236,7 +1310,7 @@ export default function App() {
     if (isCopaLibertadores && activeUefaCupId && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], playerProfile.currentWeek);
-      const resolvedUefaCup = resolveUefaCupWeek(uefaCupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival);
+      const resolvedUefaCup = resolveUefaCupWeek(uefaCupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInTwoLegBracket(resolvedUefaCup.knockout, myClub.id, activeOppositionClubId)
         || findShootoutInTwoLegTies(resolvedUefaCup.playoff, myClub.id, activeOppositionClubId);
       if (shootout) {
@@ -1251,7 +1325,7 @@ export default function App() {
     if (isCopaLibertadores && activeWorldCupTeamId && activeOppositionClubId) {
       const year = getSeasonYear(playerProfile.currentWeek);
       const wcBeforeMatch = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek);
-      const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, WORLD_CUP_TEAMS_DATABASE, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival);
+      const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, WORLD_CUP_TEAMS_DATABASE, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedWorldCup.knockout, activeWorldCupTeamId, activeOppositionClubId);
       if (shootout) {
         foundShootout = shootout;
@@ -1259,6 +1333,16 @@ export default function App() {
         foundShootoutMyName = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === activeWorldCupTeamId)?.name || '';
       }
       updatedWorldCups = { ...playerProfile.worldCups, [year]: resolvedWorldCup };
+    }
+
+    // Si tu partido terminó igualado en eliminación directa y todavía no jugaste la tanda en vivo,
+    // pausamos acá: se muestra InteractivePenaltyShootout y, cuando termine, handleFinishMatch se
+    // vuelve a invocar con shootoutOverride para que el bracket quede consistente con lo que jugaste.
+    if (foundShootout && !shootoutOverride) {
+      setPendingMatchResults(results);
+      setActivePenaltyShootout({ result: foundShootout, myId: foundShootoutMyId, myName: foundShootoutMyName });
+      setScreen('penalty_shootout');
+      return;
     }
 
     // Mantener al día Libertadores/Sudamericana y Champions/Europa de tu club aunque esta semana
@@ -1419,17 +1503,31 @@ export default function App() {
       alert(disciplineMessages.join('\n'));
     }
 
-    if (foundShootout) {
-      setActivePenaltyShootout({ result: foundShootout, myId: foundShootoutMyId, myName: foundShootoutMyName });
-      setScreen('penalty_shootout');
-    } else {
-      setScreen('post_match');
-    }
+    setActivePenaltyShootout(null);
+    setPendingMatchResults(null);
+    setScreen('post_match');
   };
 
-  const handleContinueFromShootout = () => {
-    setActivePenaltyShootout(null);
-    setScreen('post_match');
+  const handleContinueFromShootout = (result: PenaltyShootoutResult, myClubWon: boolean) => {
+    if (!pendingMatchResults || !activePenaltyShootout || !activeOppositionClubId) return;
+    // InteractivePenaltyShootout no conoce los IDs reales de los clubes (solo nombres), así que
+    // acá remapeamos sus placeholders 'mine'/'rival' a los IDs reales antes de que el motor de
+    // brackets lo use como shootoutOverride -- ver ForcedResult en leagueEngine.ts.
+    const myRealId = activePenaltyShootout.myId;
+    const remappedResult: PenaltyShootoutResult = {
+      ...result,
+      clubAId: myRealId,
+      clubBId: activeOppositionClubId,
+      kicks: result.kicks.map(k => ({ ...k, clubId: k.clubId === 'mine' ? myRealId : activeOppositionClubId })),
+      winnerId: result.winnerId === 'mine' ? myRealId : activeOppositionClubId,
+    };
+    // Reflejamos en el resumen del partido lo que de verdad pasó en la tanda que jugaste, aunque el
+    // resultado en tiempo reglamentario haya sido empate.
+    const adjustedResults = {
+      ...pendingMatchResults,
+      resultado: myClubWon ? 'W' : 'L',
+    };
+    handleFinishMatch(adjustedResults, remappedResult);
   };
 
   const handleContinuePostMatch = () => {
@@ -1574,6 +1672,8 @@ export default function App() {
           myTablePosition={activeMyTablePosition}
           rivalTablePosition={activeRivalTablePosition}
           leagueTeamCount={activeLeagueTeamCount}
+          lineupStatus={activeLineupStatus}
+          subEntryMinute={activeSubEntryMinute}
           onFinishMatch={handleFinishMatch}
         />
       )}
@@ -1585,10 +1685,9 @@ export default function App() {
         />
       )}
 
-      {screen === 'penalty_shootout' && activePenaltyShootout && (
-        <PenaltyShootout
-          shootout={activePenaltyShootout.result}
-          myClubId={activePenaltyShootout.myId}
+      {screen === 'penalty_shootout' && activePenaltyShootout && playerProfile && (
+        <InteractivePenaltyShootout
+          playerProfile={playerProfile}
           myClubName={activePenaltyShootout.myName}
           rivalClubName={activeOpposition}
           onContinue={handleContinueFromShootout}

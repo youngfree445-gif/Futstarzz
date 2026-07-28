@@ -1,5 +1,18 @@
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 
+// Resultado forzado del partido que el usuario realmente jugó esta semana (en vez de simularlo al
+// azar como el resto de los cruces). shootoutOverride es opcional: si tu partido forzado terminó
+// en empate Y jugaste una tanda de penales interactiva (ver InteractivePenaltyShootout.tsx), acá
+// va el resultado REAL que jugaste, para que el bracket no tire su propio dado y quede
+// inconsistente con lo que viste en pantalla -- ver resolveBracketRound/resolveOneLegOfTie.
+export type ForcedResult = {
+  clubId: string;
+  isHome: boolean;
+  goals: number;
+  opponentGoals: number;
+  shootoutOverride?: PenaltyShootoutResult;
+};
+
 // Semanas de carrera por temporada (incluye semanas de Copa). Fija e igual
 // para TODAS las ligas, sin importar cuántos equipos tenga cada una —
 // esto es lo que permite sincronizar copas continentales y el ciclo de
@@ -475,7 +488,7 @@ function seedBracket(rankedClubIds: string[]): PlayoffBracket {
 function resolveBracketRound(
   bracket: PlayoffBracket,
   clubs: Club[],
-  forced?: { clubId: string; isHome: boolean; goals: number; opponentGoals: number }
+  forced?: ForcedResult
 ): PlayoffBracket {
   const roundIdx = bracket.matchesByRound.length - 1;
   const currentRound = bracket.matchesByRound[roundIdx].map(m => {
@@ -494,6 +507,11 @@ function resolveBracketRound(
     if (homeGoals === awayGoals) {
       // Sin empates en eliminación directa: se define con una tanda de penales real, no un
       // "+1 gol" invisible (eso además castigaba injustamente al local en tu propio partido).
+      // Si el partido forzado (el tuyo) empató y jugaste la tanda en vivo, ese resultado real
+      // manda sobre el dado del motor -- ver ForcedResult.shootoutOverride.
+      if (isForcedMatch && forced?.shootoutOverride) {
+        return { ...m, played: true, homeGoals, awayGoals, penaltyShootout: forced.shootoutOverride };
+      }
       const home = clubs.find(c => c.id === m.homeTeamId);
       const away = clubs.find(c => c.id === m.awayTeamId);
       if (home && away) {
@@ -558,7 +576,7 @@ function resolveApeturaClausuraStep(
   clubs: Club[],
   currentWeek: number,
   format: 'colombia' | 'argentina',
-  forced?: { clubId: string; isHome: boolean; goals: number; opponentGoals: number }
+  forced?: ForcedResult
 ): LeagueSeasonState {
   const stage = season.stage ?? 'regular';
 
@@ -632,7 +650,7 @@ function startNextSemester(
   clubs: Club[],
   currentWeek: number,
   format: 'colombia' | 'argentina',
-  forced?: { clubId: string; isHome: boolean; goals: number; opponentGoals: number }
+  forced?: ForcedResult
 ): LeagueSeasonState {
   const nextSemester: 1 | 2 = season.semester === 1 ? 2 : 1;
   const fresh = freshRegularPhase(clubs, format, nextSemester, currentWeek);
@@ -672,13 +690,15 @@ export function resolveApeturaClausuraWeek(
   playerClubId: string,
   playerIsHome: boolean,
   playerGoals: number,
-  opponentGoals: number
+  opponentGoals: number,
+  shootoutOverride?: PenaltyShootoutResult
 ): LeagueSeasonState {
   const updated = resolveApeturaClausuraStep(season, clubs, currentWeek, format, {
     clubId: playerClubId,
     isHome: playerIsHome,
     goals: playerGoals,
     opponentGoals,
+    shootoutOverride,
   });
   return { ...updated, stepsConsumed: (season.stepsConsumed ?? 0) + 1 };
 }
@@ -762,8 +782,6 @@ export function getUpcomingMatchForLeague(
 // cada copa corre como un torneo de grupos + eliminación directa
 // independiente, con su propio pool de clasificados.
 // ==========================================================================
-
-type ForcedResult = { clubId: string; isHome: boolean; goals: number; opponentGoals: number };
 
 // Reparto de cupos por país, aproximando el reparto real de Conmebol
 // (Brasil/Argentina con más cupos). Suma 32.
@@ -973,9 +991,10 @@ export function resolveCupWeek(
   playerClubId: string,
   playerIsHome: boolean,
   playerGoals: number,
-  opponentGoals: number
+  opponentGoals: number,
+  shootoutOverride?: PenaltyShootoutResult
 ): CupState {
-  const updated = resolveCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals });
+  const updated = resolveCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals, shootoutOverride });
   return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
 }
 
@@ -1093,15 +1112,23 @@ function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs
   if (aggA > aggB) winnerId = tie.clubAId;
   else if (aggB > aggA) winnerId = tie.clubBId;
   else {
-    const clubA = clubs.find(c => c.id === tie.clubAId);
-    const clubB = clubs.find(c => c.id === tie.clubBId);
-    if (clubA && clubB) {
-      penaltyShootout = simulatePenaltyShootout(clubA, clubB);
+    // Si el jugador es parte de esta llave y jugó la tanda en vivo, su resultado real manda sobre
+    // el dado del motor -- ver ForcedResult.shootoutOverride.
+    const tieIncludesForcedClub = forced && (tie.clubAId === forced.clubId || tie.clubBId === forced.clubId);
+    if (tieIncludesForcedClub && forced?.shootoutOverride) {
+      penaltyShootout = forced.shootoutOverride;
       winnerId = penaltyShootout.winnerId;
     } else {
-      const strengthA = clubA ? clubStrength(clubA) : 50;
-      const strengthB = clubB ? clubStrength(clubB) : 50;
-      winnerId = Math.random() < strengthA / (strengthA + strengthB) ? tie.clubAId : tie.clubBId;
+      const clubA = clubs.find(c => c.id === tie.clubAId);
+      const clubB = clubs.find(c => c.id === tie.clubBId);
+      if (clubA && clubB) {
+        penaltyShootout = simulatePenaltyShootout(clubA, clubB);
+        winnerId = penaltyShootout.winnerId;
+      } else {
+        const strengthA = clubA ? clubStrength(clubA) : 50;
+        const strengthB = clubB ? clubStrength(clubB) : 50;
+        winnerId = Math.random() < strengthA / (strengthA + strengthB) ? tie.clubAId : tie.clubBId;
+      }
     }
   }
   return { ...tie, secondLegGoalsA, secondLegGoalsB, played: true, winnerId, penaltyShootout };
@@ -1293,9 +1320,10 @@ export function getOrCreateUefaCupState(
 
 export function resolveUefaCupWeek(
   cup: UefaCupState, allClubs: Club[], playerClubId: string,
-  playerIsHome: boolean, playerGoals: number, opponentGoals: number
+  playerIsHome: boolean, playerGoals: number, opponentGoals: number,
+  shootoutOverride?: PenaltyShootoutResult
 ): UefaCupState {
-  const updated = resolveUefaCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals });
+  const updated = resolveUefaCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals, shootoutOverride });
   return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
 }
 
@@ -1461,9 +1489,10 @@ export function resolveWorldCupWeek(
   playerTeamId: string,
   playerIsHome: boolean,
   playerGoals: number,
-  opponentGoals: number
+  opponentGoals: number,
+  shootoutOverride?: PenaltyShootoutResult
 ): WorldCupState {
-  const updated = resolveWorldCupStep(cup, allTeams, { clubId: playerTeamId, isHome: playerIsHome, goals: playerGoals, opponentGoals });
+  const updated = resolveWorldCupStep(cup, allTeams, { clubId: playerTeamId, isHome: playerIsHome, goals: playerGoals, opponentGoals, shootoutOverride });
   return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
 }
 
@@ -1493,11 +1522,12 @@ export function resolvePlayerWeekForLeague(
   playerClubId: string,
   playerIsHome: boolean,
   playerGoals: number,
-  opponentGoals: number
+  opponentGoals: number,
+  shootoutOverride?: PenaltyShootoutResult
 ): LeagueSeasonState {
   const format = isApeturaClausuraLeague(leagueClubs[0].league);
   if (format) {
-    return resolveApeturaClausuraWeek(season, leagueClubs, currentWeek, format, playerClubId, playerIsHome, playerGoals, opponentGoals);
+    return resolveApeturaClausuraWeek(season, leagueClubs, currentWeek, format, playerClubId, playerIsHome, playerGoals, opponentGoals, shootoutOverride);
   }
   return resolvePlayerMatchweek(season, leagueClubs, currentWeek, playerClubId, playerIsHome, playerGoals, opponentGoals);
 }

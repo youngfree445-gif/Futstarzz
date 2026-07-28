@@ -18,6 +18,7 @@ import {
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
+import { fetchReactionGif, searchReactionGifs } from '../services/giphy';
 import trainingRitmoImg from '../assets/training/ritmo.jpg';
 import trainingRegateImg from '../assets/training/regate.jpg';
 import trainingTiroImg from '../assets/training/tiro.jpg';
@@ -120,6 +121,7 @@ interface SocialPost {
   timestamp: string;
   avatar: string;
   avatarImg?: string;
+  gifQuery?: string; // si está presente, Dashboard busca un GIF de reacción en Giphy para este post (ver postGifs)
 }
 
 function singleLegMatchToEvent(m: PlayoffMatch, myClubId: string): { isHome: boolean; opponentId: string; myGoals: number; rivalGoals: number } | null {
@@ -217,9 +219,17 @@ export default function Dashboard({
   // cualquier post y comentar lo que quiera, sin filtro, y su comentario aparece con miles de
   // likes automáticos bajo su propio nombre de jugador.
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
-  const [postComments, setPostComments] = useState<Record<string, { id: string; text: string; likes: number }[]>>({});
+  const [postComments, setPostComments] = useState<Record<string, { id: string; text: string; likes: number; gifUrl?: string }[]>>({});
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
   const [openCommentBox, setOpenCommentBox] = useState<string | null>(null);
+  // GIFs de reacción (vía Giphy, ver services/giphy.ts): se cargan de forma asíncrona por postId
+  // porque generateSocialFeed() es síncrona y se llama directo en el render -- no se puede hacer
+  // fetch ahí adentro. Si no hay API key configurada o falla la red, simplemente no aparece GIF.
+  const [postGifs, setPostGifs] = useState<Record<string, string>>({});
+  const [gifPickerOpenFor, setGifPickerOpenFor] = useState<string | null>(null);
+  const [gifSearchQuery, setGifSearchQuery] = useState('');
+  const [gifSearchResults, setGifSearchResults] = useState<string[]>([]);
+  const [commentGifDrafts, setCommentGifDrafts] = useState<Record<string, string>>({});
 
   const toggleLike = (postId: string) => {
     setLikedPosts(prev => {
@@ -231,16 +241,28 @@ export default function Dashboard({
 
   const submitComment = (postId: string) => {
     const text = (commentDrafts[postId] || '').trim();
-    if (!text) return;
+    const gifUrl = commentGifDrafts[postId];
+    if (!text && !gifUrl) return;
     setPostComments(prev => ({
       ...prev,
       [postId]: [...(prev[postId] || []), {
         id: `${postId}_c${(prev[postId]?.length || 0)}_${Date.now()}`,
         text,
-        likes: 1200 + Math.floor(Math.random() * 15000)
+        likes: 1200 + Math.floor(Math.random() * 15000),
+        gifUrl
       }]
     }));
     setCommentDrafts(prev => ({ ...prev, [postId]: '' }));
+    setCommentGifDrafts(prev => { const next = { ...prev }; delete next[postId]; return next; });
+  };
+
+  // Búsqueda de GIF para adjuntar a tu propio comentario -- se dispara al abrir el selector con
+  // el nombre de tu jugador como query por defecto, o lo que el usuario tipee en gifSearchQuery.
+  const searchGifsForComment = async (query: string) => {
+    setGifSearchQuery(query);
+    if (!query.trim()) { setGifSearchResults([]); return; }
+    const results = await searchReactionGifs(query);
+    setGifSearchResults(results);
   };
 
   // Al avanzar de semana vuelve a habilitarse la sala de prensa (la respuesta de la semana
@@ -522,7 +544,8 @@ export default function Dashboard({
       likes: 8000 + Math.floor(Math.random() * 25000),
       commentsCount: 900 + Math.floor(Math.random() * 3000),
       timestamp: 'Hace 1 hora',
-      avatar: celeb.avatar
+      avatar: celeb.avatar,
+      gifQuery: 'soccer goal celebration'
     }];
   };
 
@@ -549,7 +572,8 @@ export default function Dashboard({
       likes: 300 + Math.floor(Math.random() * 2000),
       commentsCount: 80 + Math.floor(Math.random() * 500),
       timestamp: 'Hace 1 hora',
-      avatar: critic.avatar
+      avatar: critic.avatar,
+      gifQuery: 'disappointed facepalm reaction'
     }];
   };
 
@@ -856,7 +880,9 @@ export default function Dashboard({
     ];
 
     const seed = week * 6151;
-    const pickedJournalists = [...journalists].sort((a, b) => (a.author.charCodeAt(0) * seed) % 101 - (b.author.charCodeAt(0) * seed) % 101).slice(0, 4);
+    // Todos los periodistas postean siempre (antes se elegían solo 4 al azar) -- para que
+    // ChutSocial se sienta lleno de contenido real cada semana, no un feed medio vacío.
+    const pickedJournalists = [...journalists].sort((a, b) => (a.author.charCodeAt(0) * seed) % 101 - (b.author.charCodeAt(0) * seed) % 101);
     return pickedJournalists.map((j, idx) => {
       const club = ranked[idx % ranked.length];
       const rivalClub = ranked[(idx + 4) % ranked.length];
@@ -888,7 +914,7 @@ export default function Dashboard({
         id: 'tweet_1',
         author: 'Fabián Torres',
         role: 'Periodista Deportivo',
-        content: `Buen aporte de ${pName} este fin de semana, aunque todavía le falta continuidad para ser un fijo indiscutido del once. #CalcioManager`,
+        content: `Buen aporte de ${pName} este fin de semana, aunque todavía le falta continuidad para ser un fijo indiscutido del once. #FutStarzz`,
         likes: 1240,
         commentsCount: 382,
         timestamp: 'Hace 2 horas',
@@ -1002,7 +1028,12 @@ export default function Dashboard({
       .map(x => x.post);
     const selectedBasePosts = shuffledBase.slice(0, 4);
 
+    // Los periodistas reales (Mau, Fabrizio Romano, Gastón Edul, Edu Aguirre, Pipe Sierra, José
+    // Hugo Illera, Carlos Antonio Vélez, George Michael, Eduardo Luis, Radio Caracol, Deportes
+    // RCN, ESPN Continental -- ver generateJournalistPosts) van primero casi siempre: son la
+    // "prensa acreditada" del feed, así que encabezan ChutSocial antes que el resto de posts.
     return [
+      ...generateJournalistPosts(),
       ...generateCelebrityShoutoutPost(),
       ...generateCriticalPressPost(),
       ...selectedBasePosts,
@@ -1010,10 +1041,25 @@ export default function Dashboard({
       ...generateRivalTransferBuzzPosts(),
       ...generateOtherPlayersCritiquePosts(),
       ...generateTransferAnnouncementPosts(),
-      ...generateJournalistPosts(),
       ...generateCupChampionPosts()
     ];
   };
+
+  // Carga los GIFs de reacción (Giphy) de los posts que los pidan (gifQuery) cada vez que cambia
+  // el rating/partido más reciente -- generateSocialFeed() es síncrona así que no puede hacer el
+  // fetch ella misma; acá se resuelve aparte y se guarda por postId en postGifs para el render.
+  useEffect(() => {
+    let cancelled = false;
+    const postsNeedingGif = generateSocialFeed().filter(p => p.gifQuery && !postGifs[p.id]);
+    postsNeedingGif.forEach(async post => {
+      const url = await fetchReactionGif(post.gifQuery!);
+      if (!cancelled && url) {
+        setPostGifs(prev => ({ ...prev, [post.id]: url }));
+      }
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playerProfile.careerStats.partidos, playerProfile.lastMatchRating]);
 
   const handlePressAnswer = (opt: any) => {
     onAnswerPress(opt.prestigeChange, opt.fansChange, opt.energyChange);
@@ -1307,10 +1353,12 @@ export default function Dashboard({
             <span className="text-[10px] text-burgundy-500 uppercase tracking-widest font-mono font-bold block mb-1">
               Ficha Profesional
             </span>
-            <h2 className="font-extrabold text-sm text-white truncate">{playerProfile.name}</h2>
+            <h2 className="font-extrabold text-sm text-white truncate">
+              {playerProfile.dorsal != null && <span className="text-gold-400">#{playerProfile.dorsal}</span>} {playerProfile.name}
+            </h2>
             <div className="flex justify-between items-center gap-2 text-3xs text-slate-400 font-mono mt-1">
               <span className="truncate">{playerProfile.position}</span>
-              <span className="shrink-0">{playerProfile.age} años</span>
+              <span className="shrink-0">{playerProfile.age} años{playerProfile.heightCm != null ? ` · ${playerProfile.heightCm}cm` : ''}</span>
             </div>
             
             <div className={`mt-2.5 p-2 rounded-xl text-xs font-bold truncate flex items-center gap-1.5 ${currentClub.badgeColor}`}>
@@ -1500,9 +1548,16 @@ export default function Dashboard({
               <div className="grid md:grid-cols-3 gap-4">
 
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
                     <Award size={15} className="text-gold-400" /> Atributos del Jugador
                   </h3>
+                  {(playerProfile.dorsal != null || playerProfile.heightCm != null) && (
+                    <p className="text-3xs text-slate-500 font-mono mb-3">
+                      {playerProfile.dorsal != null && `Dorsal #${playerProfile.dorsal}`}
+                      {playerProfile.dorsal != null && playerProfile.heightCm != null && ' · '}
+                      {playerProfile.heightCm != null && `${playerProfile.heightCm} cm`}
+                    </p>
+                  )}
 
                   <div className="space-y-2.5">
                     {Object.entries(playerProfile.attributes).map(([key, val]) => (
@@ -1846,6 +1901,13 @@ export default function Dashboard({
                           <p className="text-xs text-slate-300 leading-relaxed">
                             {post.content}
                           </p>
+                          {postGifs[post.id] && (
+                            <img
+                              src={postGifs[post.id]}
+                              alt="Reacción GIF"
+                              className="w-full max-w-xs rounded-xl border border-slate-800 mt-1"
+                            />
+                          )}
                           <div className="flex items-center gap-4 text-3xs text-slate-500 font-mono pt-2 border-t border-slate-950">
                             <button
                               onClick={() => toggleLike(post.id)}
@@ -1870,7 +1932,10 @@ export default function Dashboard({
                                   </span>
                                   <div className="min-w-0">
                                     <span className="text-[10px] text-white font-bold block">{playerProfile.name}</span>
-                                    <p className="text-2xs text-slate-300 leading-snug">{c.text}</p>
+                                    {c.text && <p className="text-2xs text-slate-300 leading-snug">{c.text}</p>}
+                                    {c.gifUrl && (
+                                      <img src={c.gifUrl} alt="GIF" className="w-32 rounded-lg border border-slate-800 mt-1" />
+                                    )}
                                     <span className="text-[9px] text-slate-500 font-mono">❤️ {c.likes.toLocaleString()} Me gusta</span>
                                   </div>
                                 </div>
@@ -1879,21 +1944,80 @@ export default function Dashboard({
                           )}
 
                           {openCommentBox === post.id && (
-                            <div className="flex items-center gap-2 pt-2 border-t border-slate-950">
-                              <input
-                                type="text"
-                                value={commentDrafts[post.id] || ''}
-                                onChange={e => setCommentDrafts(prev => ({ ...prev, [post.id]: e.target.value }))}
-                                onKeyDown={e => { if (e.key === 'Enter') submitComment(post.id); }}
-                                placeholder="Escribí tu comentario... es libre, opiná lo que quieras"
-                                className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
-                              />
-                              <button
-                                onClick={() => submitComment(post.id)}
-                                className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
-                              >
-                                Publicar
-                              </button>
+                            <div className="pt-2 border-t border-slate-950 space-y-2">
+                              {commentGifDrafts[post.id] && (
+                                <div className="relative inline-block">
+                                  <img src={commentGifDrafts[post.id]} alt="GIF elegido" className="w-28 rounded-lg border border-gold-500/40" />
+                                  <button
+                                    type="button"
+                                    onClick={() => setCommentGifDrafts(prev => { const next = { ...prev }; delete next[post.id]; return next; })}
+                                    className="btn-fx-subtle absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-3xs font-black flex items-center justify-center"
+                                  >
+                                    ✕
+                                  </button>
+                                </div>
+                              )}
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={commentDrafts[post.id] || ''}
+                                  onChange={e => setCommentDrafts(prev => ({ ...prev, [post.id]: e.target.value }))}
+                                  onKeyDown={e => { if (e.key === 'Enter') submitComment(post.id); }}
+                                  placeholder="Escribí tu comentario... es libre, opiná lo que quieras"
+                                  className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const next = gifPickerOpenFor === post.id ? null : post.id;
+                                    setGifPickerOpenFor(next);
+                                    if (next) searchGifsForComment(playerProfile.name);
+                                  }}
+                                  className="btn-fx-subtle px-2.5 py-1.5 rounded-lg border border-slate-700 text-2xs font-bold text-slate-300 hover:border-gold-500/50 shrink-0"
+                                  title="Adjuntar GIF"
+                                >
+                                  GIF
+                                </button>
+                                <button
+                                  onClick={() => submitComment(post.id)}
+                                  className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
+                                >
+                                  Publicar
+                                </button>
+                              </div>
+
+                              {gifPickerOpenFor === post.id && (
+                                <div className="p-2 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
+                                  <input
+                                    type="text"
+                                    value={gifSearchQuery}
+                                    onChange={e => searchGifsForComment(e.target.value)}
+                                    placeholder="Buscar GIF..."
+                                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
+                                  />
+                                  <div className="grid grid-cols-4 gap-1.5 max-h-40 overflow-y-auto">
+                                    {gifSearchResults.length === 0 ? (
+                                      <span className="col-span-4 text-3xs text-slate-500 text-center py-2">
+                                        {gifSearchQuery.trim() ? 'Sin resultados' : 'Escribí algo para buscar'}
+                                      </span>
+                                    ) : (
+                                      gifSearchResults.map((url, i) => (
+                                        <button
+                                          key={i}
+                                          type="button"
+                                          onClick={() => {
+                                            setCommentGifDrafts(prev => ({ ...prev, [post.id]: url }));
+                                            setGifPickerOpenFor(null);
+                                          }}
+                                          className="btn-fx-subtle rounded-lg overflow-hidden border border-slate-800 hover:border-gold-500/50"
+                                        >
+                                          <img src={url} alt="" className="w-full h-14 object-cover" />
+                                        </button>
+                                      ))
+                                    )}
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>

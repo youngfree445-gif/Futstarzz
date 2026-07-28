@@ -3821,6 +3821,67 @@ export const LOBBY_RANDOM_EVENTS = [
         effects: { prestige: -2, fans: 3, energy: 0, capital: 0 }
       }
     ]
+  },
+  // FASE 4 -- CASINO Y FAMILIA
+  {
+    title: 'Noche de Casino',
+    description: 'Un compañero te invita al casino del hotel donde se hospeda el plantel en la gira internacional. "Solo unas fichas, para relajar antes del partidazo de mañana."',
+    choices: [
+      {
+        text: 'Entrar a la mesa de póker con plata en serio ($6,000 COP/USD)',
+        cost: 6000,
+        outcome: 'Se te fue la mano en la mesa y perdiste mucho más de lo planeado. Un fotógrafo del lugar filtró la foto y el escándalo llegó a la prensa deportiva.',
+        effects: { prestige: -22, fans: -15, energy: -20, capital: -9500 }
+      },
+      {
+        text: 'Jugar solo un par de manos por diversión, sin apostar fuerte',
+        cost: 500,
+        outcome: 'Te divertiste un rato sin exponerte. Nadie hace drama al respecto.',
+        effects: { prestige: 0, fans: 0, energy: -5, capital: -500 }
+      },
+      {
+        text: 'Rechazar la invitación y volver a la habitación a descansar',
+        cost: 0,
+        outcome: 'El cuerpo técnico se entera de tu decisión y te destaca como ejemplo de profesionalismo ante el plantel.',
+        effects: { prestige: 9, fans: 0, energy: 10, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'Problemas en Casa',
+    description: 'Tu familia te llama en medio de la semana: hay una discusión fuerte entre tus padres y te piden que vuelvas a mediar, justo en plena preparación del partido.',
+    choices: [
+      {
+        text: 'Pedir permiso al club y viajar a estar con ellos',
+        cost: 0,
+        outcome: 'El DT entiende la situación personal y te da el permiso, pero llegás al partido con la cabeza dividida.',
+        effects: { prestige: 3, fans: 5, energy: -25, capital: 0 }
+      },
+      {
+        text: 'Quedarte concentrado en el equipo y llamarlos por teléfono',
+        cost: 0,
+        outcome: 'Resolvés lo que podés a la distancia. Rendís bien en el entrenamiento, pero te queda la espina de no haber estado presente.',
+        effects: { prestige: 4, fans: 0, energy: -10, capital: 0 }
+      }
+    ]
+  },
+  {
+    title: 'Fecha Especial en Familia',
+    description: 'Es el cumpleaños de uno de tus padres y toda la familia organizó una reunión sorpresa, coincidiendo con tu único día libre de la semana.',
+    choices: [
+      {
+        text: 'Ir a la fiesta y disfrutar el día completo con ellos',
+        cost: 800,
+        outcome: 'Un día hermoso en familia te recarga las pilas de una forma que ningún entrenamiento podría.',
+        effects: { prestige: 2, fans: 3, energy: 25, capital: -800 }
+      },
+      {
+        text: 'Pasar solo un par de horas y volver temprano a descansar para el partido',
+        cost: 200,
+        outcome: 'Cumplís con la familia sin descuidar la preparación física de la semana.',
+        effects: { prestige: 4, fans: 1, energy: 10, capital: -200 }
+      }
+    ]
   }
 ];
 export const OPPONENT_CLUBS_POOL: string[] = [

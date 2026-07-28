@@ -71,6 +71,8 @@ export interface PlayerProfile {
   position: Position;
   age: number;
   nationality: Nationality;
+  dorsal: number; // número de camiseta (1-99), elegido en la creación del personaje -- se muestra en Dashboard/roster
+  heightCm: number; // altura en cm, elegida en la creación del personaje -- puramente informativo/de perfil por ahora
   energy: number;
   capital: number;
   prestige: number; // 0-100 (Relación vestuario / DT)
@@ -255,6 +257,11 @@ export interface MatchEvent {
 
 export interface MatchDecision {
   prompt: string;
+  // Penal/tiro libre directo: en vez de elegir entre 3 acciones de texto distintas, elegís a dónde
+  // patear (izquierda/centro/derecha) y el resultado se resuelve contra tu atributo tiro vs. el
+  // arquero rival -- ver renderKickDirectionPicker en MatchSimulator.tsx. choices queda vacío/sin
+  // uso en este modo.
+  kickMode?: 'penalty' | 'freekick';
   choices: {
     text: string;
     requiredAttr: keyof PlayerStats;

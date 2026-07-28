@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats } from '../types';
-import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy } from 'lucide-react';
+import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
 
 // Nombre real de campeonato + bandera por liga (club.league), para el encabezado del partido.
@@ -165,6 +165,41 @@ const DELANTERO_EARLY: MatchDecision[] = [
     ]
   },
   {
+    prompt: "Recibes de espaldas al área en el círculo central, con TODA la línea defensiva rival plantada entre vos y el arco, nadie se anima a meterte presión...",
+    choices: [
+      {
+        text: 'Encarar y regatear a todo el equipo rival, uno por uno',
+        requiredAttr: 'regate',
+        minVal: 70,
+        successChance: 0.18,
+        successBonus: '¡GENIALIDAD ABSOLUTA! Dejaste en el camino a cuatro rivales con una serie de gambetas imposibles y definiste solo ante el arquero. ¡GOLAZO PARA LA HISTORIA!',
+        failPenalty: 'El quinto rival te alcanzó justo antes del área y cortó la jugada individual con una entrada limpia. El estadio abuchea el intento egoísta.',
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 20, fans: 30 },
+        effectOnFail: { prestige: -6, fans: -6, energy: 18 }
+      },
+      {
+        text: 'Simplificar con un pase seguro al primer compañero libre',
+        requiredAttr: 'pase',
+        minVal: 42,
+        successChance: 0.78,
+        successBonus: 'Jugada sin riesgo: soltaste rápido y el equipo mantiene la posesión con calma.',
+        failPenalty: 'El pase fácil salió mal calculado y el rival recuperó cerca de mitad de cancha.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 0 },
+        effectOnFail: { prestige: -3, fans: -2, energy: 0 }
+      },
+      {
+        text: 'Probar un par de gambetas cortas para ganar unos metros',
+        requiredAttr: 'regate',
+        minVal: 50,
+        successChance: 0.45,
+        successBonus: '¡BUEN QUIEBRE! Ganaste espacio con un par de amagues y habilitaste el ataque en mejor posición.',
+        failPenalty: 'Te cerraron el espacio rápido y perdiste el balón sin generar peligro.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 5 },
+        effectOnFail: { prestige: -2, fans: -1, energy: 8 }
+      }
+    ]
+  },
+  {
     prompt: "Notás que tu compañero de ataque quedó desconectado del bloque y el equipo pierde el orden en la presión tras perder la pelota...",
     choices: [
       {
@@ -198,6 +233,11 @@ const DELANTERO_EARLY: MatchDecision[] = [
         effectOnFail: { prestige: -4, fans: -3, energy: 0 }
       }
     ]
+  },
+  {
+    prompt: "¡PENAL A FAVOR! El árbitro no duda tras la falta clarísima dentro del área. El capitán te entrega el balón: te toca a vos ejecutar.",
+    kickMode: 'penalty',
+    choices: []
   }
 ];
 
@@ -269,6 +309,41 @@ const DELANTERO_LATE: MatchDecision[] = [
         failPenalty: 'El pase corto salió mal calculado y el rival te robó cerca de tu propia área.',
         effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 0 },
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
+      }
+    ]
+  },
+  {
+    prompt: "¡Centro bombeado que te queda picando de espaldas al arco, dentro del área! No hay tiempo de acomodarte, o la tocás de otra forma o se pierde la ocasión...",
+    choices: [
+      {
+        text: 'Intentar una chilena acrobática de espaldas al arco',
+        requiredAttr: 'tiro',
+        minVal: 68,
+        successChance: 0.22,
+        successBonus: '¡CHILENA DE ANTOLOGÍA! Te fuiste al piso y la clavaste imposible arriba del arquero. ¡GOLAZO PARA LOS ANALES DEL CLUB!',
+        failPenalty: 'La chilena salió desviada por completo y terminaste de espaldas en el pasto sin generar peligro real.',
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 22, fans: 32 },
+        effectOnFail: { prestige: -4, fans: -3, energy: 15 }
+      },
+      {
+        text: 'Bajarla con el pecho y girar para definir de frente',
+        requiredAttr: 'regate',
+        minVal: 55,
+        successChance: 0.4,
+        successBonus: '¡CONTROL Y GIRO PERFECTO! Bajaste el balón con clase y definiste de frente sin problemas. ¡GOL!',
+        failPenalty: 'El control se te fue largo y el defensor central llegó primero a despejar.',
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 14 },
+        effectOnFail: { prestige: -2, fans: -1, energy: 5 }
+      },
+      {
+        text: 'Dejarla caer y cederla de taco al compañero que llega de atrás',
+        requiredAttr: 'pase',
+        minVal: 50,
+        successChance: 0.5,
+        successBonus: '¡TACO GENIAL! Dejaste el balón servido para que tu compañero defina solo. ¡ASISTENCIA!',
+        failPenalty: 'El taco salió sin fuerza y el rival despejó el peligro sin drama.',
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 9 },
+        effectOnFail: { prestige: -3, fans: -1, energy: 0 }
       }
     ]
   },
@@ -416,6 +491,11 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
     ]
   },
   {
+    prompt: "¡TIRO LIBRE DIRECTO! Falta muy cerca del área rival, con ángulo de disparo. La barrera se está armando, pero el árbitro ya pitó: es tu ejecución.",
+    kickMode: 'freekick',
+    choices: []
+  },
+  {
     prompt: "El equipo queda partido en dos bloques tras perder la pelota en un contragolpe rival y hace falta reordenar las líneas ya...",
     choices: [
       {
@@ -522,6 +602,41 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         failPenalty: 'Un pase de más terminó en pérdida cerca de mitad de cancha.',
         effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 0 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
+      }
+    ]
+  },
+  {
+    prompt: "El armador rival controla el balón de espaldas a vos en el círculo central, confiado, sin saber que le venís pisando los talones...",
+    choices: [
+      {
+        text: 'Robarle el balón por detrás y lanzar el contragolpe con un pase gol inmediato',
+        requiredAttr: 'defensa',
+        minVal: 58,
+        successChance: 0.35,
+        successBonus: '¡ROBO Y PASE GOL EN UNA SOLA JUGADA! Le sacaste el balón limpio y sin parar filtraste el pase perfecto para el gol de tu compañero. ¡ASISTENCIA!',
+        failPenalty: 'Llegaste desprolijo, no tocaste el balón y el armador rival escapó con ventaja.',
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 14, fans: 15 },
+        effectOnFail: { prestige: -4, fans: -3, energy: 10 }
+      },
+      {
+        text: 'Robar el balón limpio y guardarlo, sin arriesgar el pase',
+        requiredAttr: 'defensa',
+        minVal: 48,
+        successChance: 0.55,
+        successBonus: '¡ROBO SECO! Recuperaste la pelota sin complicarte, el equipo se reorganiza con la posesión a favor.',
+        failPenalty: 'Falló el intento de robo y el rival mantuvo el balón sin problemas.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 4 },
+        effectOnFail: { prestige: -2, fans: -1, energy: 8 }
+      },
+      {
+        text: 'Marcarlo de cerca sin entrar al choque para no arriesgar tarjeta',
+        requiredAttr: 'pase',
+        minVal: 45,
+        successChance: 0.68,
+        successBonus: 'Marca inteligente: lo incomodaste lo suficiente para que perdiera tiempo en su salida.',
+        failPenalty: 'La marca pasiva no molestó lo suficiente y el armador encontró el pase que buscaba.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnFail: { prestige: -2, fans: -1, energy: 0 }
       }
     ]
   },
@@ -672,6 +787,41 @@ const DEFENSOR_EARLY: MatchDecision[] = [
     ]
   },
   {
+    prompt: "Córner a favor. Subís al área rival como sueles hacer en jugadas de pelota parada, el centro viene cargado y venenoso directo a tu zona...",
+    choices: [
+      {
+        text: 'Cabecear con toda la fuerza buscando el ángulo',
+        requiredAttr: 'fisico',
+        minVal: 58,
+        successChance: 0.35,
+        successBonus: '¡CABEZAZO DE DEFENSOR CENTRAL! Subiste como delantero y la clavaste en el ángulo. ¡GOL!',
+        failPenalty: 'El cabezazo salió débil y el arquero lo controló sin problemas.',
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 14, fans: 18 },
+        effectOnFail: { prestige: -2, fans: -1, energy: 10 }
+      },
+      {
+        text: 'Bajarla de cabeza para el compañero mejor plantado',
+        requiredAttr: 'pase',
+        minVal: 48,
+        successChance: 0.5,
+        successBonus: '¡ASISTENCIA DE LUJO! Le bajaste el balón servido a tu compañero, que definió de primera. ¡ASISTENCIA!',
+        failPenalty: 'El desvío de cabeza salió impreciso y el rival despejó sin problemas.',
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 9, fans: 8 },
+        effectOnFail: { prestige: -3, fans: -1, energy: 0 }
+      },
+      {
+        text: 'No arriesgar el salto y quedarte cubriendo por si hay contragolpe',
+        requiredAttr: 'defensa',
+        minVal: 45,
+        successChance: 0.7,
+        successBonus: 'Decisión conservadora: te quedaste atrás y cuando el córner se despejó, cortaste vos mismo el intento de contra rival.',
+        failPenalty: 'Al quedarte atrás sin necesidad, el córner se perdió sin peligro y no aportaste nada a la jugada.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnFail: { prestige: -1, fans: 0, energy: 0 }
+      }
+    ]
+  },
+  {
     prompt: "La línea defensiva queda desalineada tras un cambio de marca confuso, dejando un espacio peligroso entre el lateral y el central...",
     choices: [
       {
@@ -780,6 +930,42 @@ const DEFENSOR_LATE: MatchDecision[] = [
         effectOnSuccess: { goals: 0, assists: 0, prestige: 13, fans: 14 },
         effectOnFail: { prestige: -9, fans: -10, energy: 10 },
         cardRiskOnFail: 'yellow'
+      }
+    ]
+  },
+  {
+    prompt: "¡DESASTRE DEFENSIVO! El delantero rival quedó completamente solo, mano a mano con tu arquero ya vencido, el gol es prácticamente un hecho. Solo llegás vos, desesperado, por detrás...",
+    choices: [
+      {
+        text: 'Meter una entrada rompedora por detrás para evitar el gol como sea',
+        requiredAttr: 'defensa',
+        minVal: 40,
+        successChance: 0.85,
+        successBonus: '¡SACRIFICIO EXTREMO! Le cortaste las piernas antes del remate. El árbitro no duda: roja directa y expulsión, pero el gol cantado quedó evitado.',
+        failPenalty: 'Ni con la entrada desesperada llegaste a tiempo: te expulsan igual y el delantero define el gol de todas formas.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: -4, fans: 6 },
+        effectOnFail: { prestige: -14, fans: -12, energy: 10 },
+        cardRiskOnFail: 'red'
+      },
+      {
+        text: 'Perseguirlo intentando robarle el balón limpio sin cometer falta',
+        requiredAttr: 'ritmo',
+        minVal: 60,
+        successChance: 0.22,
+        successBonus: '¡MILAGRO DEFENSIVO! Le sacaste el balón limpio justo antes del remate, sin necesidad de falta. El estadio explota de alivio.',
+        failPenalty: 'No llegaste a tocar el balón y el delantero definió sin oposición. Gol rival.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 16, fans: 20 },
+        effectOnFail: { prestige: -10, fans: -9, energy: 15 }
+      },
+      {
+        text: 'Dejarlo definir y confiar en que tu arquero reaccione',
+        requiredAttr: 'pase',
+        minVal: 30,
+        successChance: 0.15,
+        successBonus: 'Contra todo pronóstico, el arquero saca una mano milagrosa y evita el gol sin que tuvieras que arriesgar nada.',
+        failPenalty: 'El delantero no perdonó: definió cruzado y el balón terminó en el fondo de la red. Gol rival.',
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 3 },
+        effectOnFail: { prestige: -9, fans: -8, energy: 0 }
       }
     ]
   },
@@ -1074,15 +1260,27 @@ const ARQUERO_LATE: MatchDecision[] = [
   }
 ];
 
-function getPositionDecision(pos: Position, min: number): MatchDecision {
+function getPositionDecision(pos: Position, min: number, usedPrompts: Set<string>): MatchDecision {
   const pools: Record<Position, { early: MatchDecision[]; late: MatchDecision[] }> = {
     Delantero: { early: DELANTERO_EARLY, late: DELANTERO_LATE },
     Mediocampista: { early: MEDIOCAMPISTA_EARLY, late: MEDIOCAMPISTA_LATE },
     Defensor: { early: DEFENSOR_EARLY, late: DEFENSOR_LATE },
     Arquero: { early: ARQUERO_EARLY, late: ARQUERO_LATE },
   };
-  const pool = min < 50 ? pools[pos].early : pools[pos].late;
-  return pool[Math.floor(Math.random() * pool.length)];
+  const pool = min < 45 ? pools[pos].early : pools[pos].late;
+  // Evita repetir el mismo prompt dos veces en el mismo partido (ahora que hay 4 momentos por
+  // posición, con solo 3-4 decisiones por bolsa la repetición se notaba demasiado seguido).
+  const fresh = pool.filter(d => !usedPrompts.has(d.prompt));
+  const candidates = fresh.length > 0 ? fresh : pool;
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+// Minutos de los 4 momentos clave por partido (antes eran solo 2 fijos: 24 y 71). Se reparten en
+// las 4 fases del partido para que ningún tramo del relato quede vacío, con jitter random de
+// unos minutos para que no se sientan como un reloj perfecto partido tras partido.
+function getDecisionMinutes(): number[] {
+  const jitter = () => Math.floor(Math.random() * 7) - 3; // -3 a +3
+  return [16 + jitter(), 38 + jitter(), 61 + jitter(), 83 + jitter()];
 }
 
 // El jugador ya no ve el % de éxito exacto de una decisión (comparar 65% vs 35% a ojo le sacaba toda
@@ -1109,6 +1307,8 @@ interface MatchSimulatorProps {
   myTablePosition?: number | null; // posición en la tabla de liga (1 = puntero); null si no aplica (copas/Mundial)
   rivalTablePosition?: number | null;
   leagueTeamCount?: number | null;
+  lineupStatus?: 'starter' | 'substitute'; // convocatoria de la semana -- ver decideLineupStatus en App.tsx
+  subEntryMinute?: number | null; // minuto en el que entrás desde el banco si lineupStatus es 'substitute'
   onFinishMatch: (results: {
     goles: number;
     asistencias: number;
@@ -1127,7 +1327,7 @@ interface MatchSimulatorProps {
 
 export default function MatchSimulator({
   playerProfile, opponentName, isLibertadores, cupId, uefaCupId, isWorldCup, representingTeamId, isHome: isHomeProp,
-  myTablePosition, rivalTablePosition, leagueTeamCount, onFinishMatch
+  myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, onFinishMatch
 }: MatchSimulatorProps) {
   // Nombre real de la competencia continental que se está jugando esta semana: antes acá se
   // asumía siempre "Copa Libertadores" para cualquier semana que no fuera liga doméstica ni
@@ -1162,6 +1362,16 @@ export default function MatchSimulator({
   const [decisionStage, setDecisionStage] = useState<'none' | 'choosing' | 'result'>('none');
   const [decisionOutcomeText, setDecisionOutcomeText] = useState('');
   const [decisionWasSuccess, setDecisionWasSuccess] = useState(false);
+  const decisionMinutes = useRef(getDecisionMinutes());
+  const usedPrompts = useRef(new Set<string>());
+
+  // Banco de suplentes: si arrancás afuera, no estás "en cancha" hasta tu minuto de entrada (no
+  // generás decisiones ni bonos de rating personales hasta ese momento, aunque el partido narre
+  // goles/tarjetas ambientales igual). Un rendimiento flojo puede terminar en sustitución al 70'
+  // (ver checkCoachSubstitution) -- una vez afuera, tu rating queda congelado, ya no jugás más.
+  const [onField, setOnField] = useState(lineupStatus !== 'substitute');
+  const [wasSubbedOff, setWasSubbedOff] = useState(false);
+  const hasEnteredAsSubRef = useRef(false);
 
   const currentClub = representingTeamId
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
@@ -1245,10 +1455,14 @@ export default function MatchSimulator({
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
     const competicionContexto = isWorldCup ? '🌎 COPA MUNDIAL FIFA 2026 🌎' : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} 2026 🏆` : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()} 2026 🟢`;
     
-    setMatchLog([
+    const kickoffLog: MatchEvent[] = [
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
       { minute: 4, text: `Ambiente ensordecedor en las tribunas. El recibimiento llena el aire de color.`, type: 'neutral' }
-    ]);
+    ];
+    if (lineupStatus === 'substitute') {
+      kickoffLog.push({ minute: 0, text: `📋 El técnico te deja en el banco de suplentes para arrancar este partido.`, type: 'neutral' });
+    }
+    setMatchLog(kickoffLog);
   }, []);
 
   useEffect(() => {
@@ -1264,6 +1478,36 @@ export default function MatchSimulator({
   }, [isPlaying, minute, activeDecision, speedMultiplier]);
 
   const triggerRandomMatchEvent = (currentMin: number) => {
+    // Entrada del suplente: recién ahora empezás a jugar de verdad, el técnico te manda a la cancha.
+    if (!onField && !wasSubbedOff && subEntryMinute != null && currentMin >= subEntryMinute && !hasEnteredAsSubRef.current) {
+      hasEnteredAsSubRef.current = true;
+      setOnField(true);
+      setMatchLog(prev => [...prev, {
+        minute: currentMin,
+        text: `🔄 ¡Entrás vos! El técnico te manda a la cancha desde el banco de suplentes.`,
+        type: 'highlight'
+      }]);
+    }
+
+    // Sustitución por bajo rendimiento: si venís jugando mal (rating flojo) al llegar al minuto 70,
+    // el técnico puede decidir sacarte para meter a otro jugador -- no aplica si entraste de
+    // suplente vos mismo (no te van a sacar a los pocos minutos de haber entrado).
+    if (currentMin === 70 && onField && !wasSubbedOff && lineupStatus !== 'substitute' && !isSentOff) {
+      const RATING_SUB_THRESHOLD = 5.2;
+      if (rating < RATING_SUB_THRESHOLD) {
+        const subChance = 0.45;
+        if (Math.random() < subChance) {
+          setWasSubbedOff(true);
+          setOnField(false);
+          setMatchLog(prev => [...prev, {
+            minute: currentMin,
+            text: `🔄 El técnico no está conforme con tu partido y decide sacarte de la cancha. Terminás el resto del encuentro en el banco.`,
+            type: 'bad'
+          }]);
+        }
+      }
+    }
+
     if (currentMin === 90) {
       // Un poquito de drama de último minuto: antes de pitar el final hay una chance chica
       // (más alta que la de gol normal en cualquier otro minuto) de una jugada de tiempo agregado.
@@ -1325,12 +1569,8 @@ export default function MatchSimulator({
       return;
     }
 
-    if (currentMin === 24 && !isSentOff) {
-      triggerDecisionEvent(24);
-      return;
-    }
-    if (currentMin === 71 && !isSentOff) {
-      triggerDecisionEvent(71);
+    if (decisionMinutes.current.includes(currentMin) && !isSentOff && onField) {
+      triggerDecisionEvent(currentMin);
       return;
     }
 
@@ -1348,8 +1588,9 @@ export default function MatchSimulator({
           type: 'good'
         }]);
         // Bono chico: este gol es "ambiental" (del equipo, no tuyo), así que no debería empujar
-        // tu rating casi tanto como una decisión propia con gol/asistencia real.
-        setRating(prev => Math.min(prev + 0.15, 10.0));
+        // tu rating casi tanto como una decisión propia con gol/asistencia real. Si estás en el
+        // banco (no onField), el partido sigue pero tu ficha personal no se mueve.
+        if (onField) setRating(prev => Math.min(prev + 0.15, 10.0));
       } else {
         if (isHome.current) setScoreAway(prev => prev + 1); else setScoreHome(prev => prev + 1);
         setMatchLog(prev => [...prev, {
@@ -1357,10 +1598,11 @@ export default function MatchSimulator({
           text: `¡GOL de ${opponentName}! Desatención defensiva que el rival no perdona. Balón al fondo de la red.`,
           type: 'bad'
         }]);
-        setRating(prev => Math.max(prev - 0.2, 3.5));
+        if (onField) setRating(prev => Math.max(prev - 0.2, 3.5));
       }
-    } else if (dado < 0.18) {
-      // VARIEDAD DE NARRATIVAS PARA MÁS INMERSIÓN
+    } else if (dado < 0.18 && onField) {
+      // VARIEDAD DE NARRATIVAS PARA MÁS INMERSIÓN -- textos en segunda persona, solo tienen
+      // sentido si de verdad estás en la cancha (ver onField/lineupStatus arriba).
       const mate = getTeammateSample();
       const jugadasDestacadas = [
         `Te desmarcas por la banda y recibes de ${mate}, intentas centrar pero el balón rebota. Córner.`,
@@ -1380,7 +1622,7 @@ export default function MatchSimulator({
         type: 'highlight'
       }]);
       setRating(prev => Math.min(prev + 0.1, 10.0));
-    } else if (dado < 0.21 && !isSentOff && playerCards !== 'red') {
+    } else if (dado < 0.21 && !isSentOff && playerCards !== 'red' && onField) {
       // Riesgo de tarjeta "ambiental": en la vida real la mayoría de las tarjetas salen de faltas
       // normales de juego, no de grandes decisiones puntuales -- esto se suma al cardRiskOnFail de
       // las decisiones de abajo para que de verdad te saquen tarjeta de vez en cuando.
@@ -1417,7 +1659,8 @@ export default function MatchSimulator({
   };
 
   const triggerDecisionEvent = (min: number) => {
-    const decision = getPositionDecision(playerProfile.position, min);
+    const decision = getPositionDecision(playerProfile.position, min, usedPrompts.current);
+    usedPrompts.current.add(decision.prompt);
     setActiveDecision(decision);
     setDecisionStage('choosing');
   };
@@ -1501,6 +1744,57 @@ export default function MatchSimulator({
         text: `⚠️ EVENTO DE DECISIÓN: ${choice.failPenalty}${cardLogSuffix}`,
         type: 'bad'
       }]);
+    }
+  };
+
+  // Penal y tiro libre directo en pleno partido (no la tanda de penales, ver InteractivePenaltyShootout
+  // para eso): elegís dirección real en vez de un texto de acción, y el resultado se resuelve contra
+  // tu atributo tiro y la adivinanza del arquero rival -- misma filosofía que la tanda, pero con
+  // conversión base distinta (penal ~76% real, tiro libre directo ~12% real, mucho más difícil).
+  const handleKickChoice = (direction: 'izquierda' | 'centro' | 'derecha') => {
+    if (!activeDecision || !activeDecision.kickMode) return;
+    const isPenalty = activeDecision.kickMode === 'penalty';
+    const tiroAttr = effectiveAttributes.tiro;
+
+    const goalkeeperGuessChance = isPenalty ? 0.35 : 0.3;
+    const goalkeeperGuessedRight = Math.random() < goalkeeperGuessChance;
+    const baseMissChanceIfWide = isPenalty ? 0.06 : 0.55; // en tiro libre, la barrera/palo se lleva la mayoría de los intentos aunque el arquero no adivine
+    const missedRegardless = Math.random() < Math.max(0.03, baseMissChanceIfWide - (tiroAttr - 50) * 0.006);
+    const saveChanceIfGuessed = Math.max(0.15, Math.min(0.6, 0.55 - (tiroAttr - 50) * 0.004));
+    const saved = !missedRegardless && goalkeeperGuessedRight && Math.random() < saveChanceIfGuessed;
+    const isSuccess = !missedRegardless && !saved;
+
+    const directionLabel = direction === 'izquierda' ? 'al palo izquierdo' : direction === 'derecha' ? 'al palo derecho' : 'al centro';
+
+    if (isSuccess) {
+      const successText = isPenalty
+        ? `¡GOL DE PENAL! Pateaste ${directionLabel} y la clavaste sin que el arquero pudiera hacer nada.`
+        : `¡GOLAZO DE TIRO LIBRE! El disparo ${directionLabel} se coló imposible, la barrera ni se movió a tiempo.`;
+      setDecisionOutcomeText(successText);
+      setDecisionWasSuccess(true);
+      setDecisionStage('result');
+      setPlayerGoals(prev => prev + 1);
+      if (isHome.current) setScoreHome(prev => prev + 1); else setScoreAway(prev => prev + 1);
+      const ratingBonus = isPenalty ? 1.3 : 2.0;
+      setRating(prev => Math.min(prev + ratingBonus, 10.0));
+      const prestigeGain = isPenalty ? 10 : 20;
+      const fansGain = isPenalty ? 12 : 28;
+      setPrestigeAccum(prev => prev + prestigeGain);
+      setFansAccum(prev => prev + fansGain);
+      setMatchLog(prev => [...prev, { minute, text: `⚡ EVENTO DE DECISIÓN: ${successText}`, type: 'good' }]);
+    } else {
+      const failText = missedRegardless
+        ? (isPenalty ? 'El remate se fue desviado, afuera. Penal fallado.' : 'El disparo se estrelló en la barrera sin sorpresa.')
+        : `¡ATAJADÓN! El arquero rival adivinó ${directionLabel} y contuvo el disparo.`;
+      setDecisionOutcomeText(failText);
+      setDecisionWasSuccess(false);
+      setDecisionStage('result');
+      const ratingPenalty = isPenalty ? 1.5 : 0.6;
+      setRating(prev => Math.max(prev - ratingPenalty, 3.0));
+      const prestigeLoss = isPenalty ? -8 : -2;
+      setPrestigeAccum(prev => prev + prestigeLoss);
+      setFansAccum(prev => prev + (isPenalty ? -6 : -1));
+      setMatchLog(prev => [...prev, { minute, text: `⚠️ EVENTO DE DECISIÓN: ${failText}`, type: 'bad' }]);
     }
   };
 
@@ -1690,34 +1984,53 @@ export default function MatchSimulator({
                     </h3>
                   </div>
 
-                  <div className="space-y-2 overflow-y-auto flex-1 pr-1 pb-2">
-                    {activeDecision.choices.map((choice, i) => {
-                      const requiredVal = effectiveAttributes[choice.requiredAttr];
-                      const isPromoted = requiredVal >= choice.minVal;
-                      const risk = getRiskLabel(choice.successChance);
-                      return (
+                  {activeDecision.kickMode ? (
+                    <div className="grid grid-cols-3 gap-2 pb-2">
+                      {([
+                        { key: 'izquierda' as const, label: 'Palo izquierdo', icon: <ArrowLeft size={18} /> },
+                        { key: 'centro' as const, label: 'Al medio', icon: <ArrowUp size={18} /> },
+                        { key: 'derecha' as const, label: 'Palo derecho', icon: <ArrowRight size={18} /> },
+                      ]).map(d => (
                         <button
-                          key={i}
-                          onClick={() => handleChoice(i)}
-                          className="btn-fx-subtle w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all bg-slate-900 border-slate-800 hover:border-burgundy-400/50 hover:bg-slate-850 cursor-pointer shadow-sm group"
+                          key={d.key}
+                          onClick={() => handleKickChoice(d.key)}
+                          className="btn-fx-subtle flex flex-col items-center gap-1.5 p-3 rounded-xl border border-slate-800 bg-slate-900 hover:border-burgundy-400/50 hover:bg-slate-850 text-xs font-bold text-white"
                         >
-                          <div className="max-w-[70%] pr-2">
-                            <p className="font-bold text-xs text-white leading-tight group-hover:text-burgundy-300 transition-colors">
-                              {choice.text}
-                            </p>
-                            <p className="text-[10px] text-slate-400 mt-1 font-mono">
-                              Riesgo: <span className={`font-bold ${risk.color}`}>{risk.label}</span>
-                            </p>
-                          </div>
-                          <div className="text-right shrink-0">
-                            <span className="text-[10px] font-mono uppercase bg-slate-950 px-2 py-1 rounded text-slate-400 border border-slate-800">
-                              {choice.requiredAttr}: <strong className={isPromoted ? 'text-gold-400' : 'text-burgundy-500'}>{requiredVal}</strong>/{choice.minVal}
-                            </span>
-                          </div>
+                          {d.icon}
+                          {d.label}
                         </button>
-                      );
-                    })}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="space-y-2 overflow-y-auto flex-1 pr-1 pb-2">
+                      {activeDecision.choices.map((choice, i) => {
+                        const requiredVal = effectiveAttributes[choice.requiredAttr];
+                        const isPromoted = requiredVal >= choice.minVal;
+                        const risk = getRiskLabel(choice.successChance);
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => handleChoice(i)}
+                            className="btn-fx-subtle w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all bg-slate-900 border-slate-800 hover:border-burgundy-400/50 hover:bg-slate-850 cursor-pointer shadow-sm group"
+                          >
+                            <div className="max-w-[70%] pr-2">
+                              <p className="font-bold text-xs text-white leading-tight group-hover:text-burgundy-300 transition-colors">
+                                {choice.text}
+                              </p>
+                              <p className="text-[10px] text-slate-400 mt-1 font-mono">
+                                Riesgo: <span className={`font-bold ${risk.color}`}>{risk.label}</span>
+                              </p>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <span className="text-[10px] font-mono uppercase bg-slate-950 px-2 py-1 rounded text-slate-400 border border-slate-800">
+                                {choice.requiredAttr}: <strong className={isPromoted ? 'text-gold-400' : 'text-burgundy-500'}>{requiredVal}</strong>/{choice.minVal}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="space-y-4 max-w-sm mx-auto">
@@ -1751,6 +2064,17 @@ export default function MatchSimulator({
             <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black mb-4 flex items-center gap-1.5">
               <Award size={13} className="text-burgundy-400" /> Rendimiento de {playerProfile.name}
             </h3>
+
+            {!onField && !wasSubbedOff && (
+              <div className="mb-4 p-3 rounded-xl border border-burgundy-500/30 bg-burgundy-500/10 text-2xs text-burgundy-300 font-bold text-center">
+                🪑 Arrancás en el banco de suplentes{subEntryMinute != null ? ` · Entrás cerca del minuto ${subEntryMinute}'` : ''}
+              </div>
+            )}
+            {wasSubbedOff && (
+              <div className="mb-4 p-3 rounded-xl border border-slate-700 bg-slate-950/60 text-2xs text-slate-400 font-bold text-center">
+                🪑 El técnico te sacó de la cancha. Mirás el resto del partido desde el banco.
+              </div>
+            )}
 
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 rounded-full bg-slate-950 border-2 border-gold-500 flex flex-col items-center justify-center shadow-lg shadow-gold-500/10">
