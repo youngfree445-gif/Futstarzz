@@ -1045,12 +1045,19 @@ export default function Dashboard({
     ];
   };
 
+  // El feed usa Math.random() sin semilla en varios lugares (likes/comentarios de cada post) --
+  // antes se llamaba a generateSocialFeed() directo en el JSX, así que cualquier re-render (abrir
+  // un box de comentario, tipear, etc.) recalculaba TODO el feed de nuevo con números distintos,
+  // haciendo que los contadores de likes/hilos "bailaran" sin que hubiera pasado nada real. Ahora
+  // se memoiza una sola vez por semana (currentWeek), que es lo único que debería cambiar el feed.
+  const socialFeed = React.useMemo(() => generateSocialFeed(), [playerProfile.currentWeek]);
+
   // Carga los GIFs de reacción (Giphy) de los posts que los pidan (gifQuery) cada vez que cambia
   // el rating/partido más reciente -- generateSocialFeed() es síncrona así que no puede hacer el
   // fetch ella misma; acá se resuelve aparte y se guarda por postId en postGifs para el render.
   useEffect(() => {
     let cancelled = false;
-    const postsNeedingGif = generateSocialFeed().filter(p => p.gifQuery && !postGifs[p.id]);
+    const postsNeedingGif = socialFeed.filter(p => p.gifQuery && !postGifs[p.id]);
     postsNeedingGif.forEach(async post => {
       const url = await fetchReactionGif(post.gifQuery!);
       if (!cancelled && url) {
@@ -1059,7 +1066,7 @@ export default function Dashboard({
     });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playerProfile.careerStats.partidos, playerProfile.lastMatchRating]);
+  }, [socialFeed]);
 
   const handlePressAnswer = (opt: any) => {
     onAnswerPress(opt.prestigeChange, opt.fansChange, opt.energyChange);
@@ -1873,7 +1880,7 @@ export default function Dashboard({
                   </h3>
 
                   <div className="space-y-4">
-                    {generateSocialFeed().map(post => {
+                    {socialFeed.map(post => {
                       const isLiked = likedPosts.has(post.id);
                       const totalLikes = post.likes + (isLiked ? 1 : 0);
                       const comments = postComments[post.id] || [];
@@ -1995,9 +2002,9 @@ export default function Dashboard({
                                     placeholder="Buscar GIF..."
                                     className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
                                   />
-                                  <div className="grid grid-cols-4 gap-1.5 max-h-40 overflow-y-auto">
+                                  <div className="grid grid-cols-3 gap-2 max-h-96 overflow-y-auto pr-1">
                                     {gifSearchResults.length === 0 ? (
-                                      <span className="col-span-4 text-3xs text-slate-500 text-center py-2">
+                                      <span className="col-span-3 text-3xs text-slate-500 text-center py-2">
                                         {gifSearchQuery.trim() ? 'Sin resultados' : 'Escribí algo para buscar'}
                                       </span>
                                     ) : (
@@ -2011,7 +2018,7 @@ export default function Dashboard({
                                           }}
                                           className="btn-fx-subtle rounded-lg overflow-hidden border border-slate-800 hover:border-gold-500/50"
                                         >
-                                          <img src={url} alt="" className="w-full h-14 object-cover" />
+                                          <img src={url} alt="" className="w-full h-28 object-cover" />
                                         </button>
                                       ))
                                     )}
