@@ -1085,6 +1085,18 @@ function getPositionDecision(pos: Position, min: number): MatchDecision {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
+// El jugador ya no ve el % de éxito exacto de una decisión (comparar 65% vs 35% a ojo le sacaba toda
+// la tensión a la elección) -- ve una categoría de riesgo cualitativa. El motor sigue usando el
+// número real (choice.successChance) para el roll en handleChoice, esto es puramente de UI.
+function getRiskLabel(successChance: number): { label: string; color: string } {
+  const pct = successChance * 100;
+  if (pct >= 80) return { label: 'Muy seguro', color: 'text-emerald-400' };
+  if (pct >= 60) return { label: 'Seguro', color: 'text-lime-400' };
+  if (pct >= 40) return { label: 'Arriesgado', color: 'text-amber-400' };
+  if (pct >= 20) return { label: 'Muy arriesgado', color: 'text-orange-400' };
+  return { label: 'Casi imposible', color: 'text-red-500' };
+}
+
 interface MatchSimulatorProps {
   playerProfile: PlayerProfile;
   opponentName: string;
@@ -1629,6 +1641,7 @@ export default function MatchSimulator({
                     {activeDecision.choices.map((choice, i) => {
                       const requiredVal = effectiveAttributes[choice.requiredAttr];
                       const isPromoted = requiredVal >= choice.minVal;
+                      const risk = getRiskLabel(choice.successChance);
                       return (
                         <button
                           key={i}
@@ -1640,7 +1653,7 @@ export default function MatchSimulator({
                               {choice.text}
                             </p>
                             <p className="text-[10px] text-slate-400 mt-1 font-mono">
-                              Éxito: <span className="text-gold-400 font-bold">{Math.round(choice.successChance * 100)}%</span>
+                              Riesgo: <span className={`font-bold ${risk.color}`}>{risk.label}</span>
                             </p>
                           </div>
                           <div className="text-right shrink-0">
