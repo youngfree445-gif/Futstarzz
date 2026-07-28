@@ -149,6 +149,13 @@ interface DashboardProps {
   shopItems: ShopItem[];
   onTrainAttribute: (attr: keyof PlayerStats) => void;
   onSelectMentee: (playerName: string | null) => void;
+  onFindGirlfriend: () => void;
+  onGirlfriendFlowers: () => void;
+  onGirlfriendPhoto: () => void;
+  onGirlfriendFaithful: () => void;
+  onGirlfriendCheat: () => void;
+  onGirlfriendDenyRumors: () => void;
+  onGirlfriendMoveIn: (accept: boolean) => void;
   onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
   onAcceptSponsor: (itemId: string) => void;
@@ -167,6 +174,13 @@ export default function Dashboard({
   shopItems,
   onTrainAttribute,
   onSelectMentee,
+  onFindGirlfriend,
+  onGirlfriendFlowers,
+  onGirlfriendPhoto,
+  onGirlfriendFaithful,
+  onGirlfriendCheat,
+  onGirlfriendDenyRumors,
+  onGirlfriendMoveIn,
   onReconvertPosition,
   onBuyItem,
   onAcceptSponsor,
@@ -1838,6 +1852,103 @@ export default function Dashboard({
               </div>
 
               <div className="space-y-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+                    💕 Vida Amorosa
+                  </h3>
+
+                  {!playerProfile.girlfriend ? (
+                    <>
+                      <p className="text-3xs text-slate-400 leading-relaxed mb-4">
+                        Estás soltero. La prensa del corazón siempre anda buscando algo que contar.
+                      </p>
+                      <button
+                        onClick={onFindGirlfriend}
+                        className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                      >
+                        Buscar Pareja
+                      </button>
+                    </>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="p-3.5 bg-slate-950 border border-slate-800 rounded-2xl">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs font-bold text-white">{playerProfile.girlfriend.name}</span>
+                          {playerProfile.girlfriend.livingTogether && (
+                            <span className="text-3xs font-mono uppercase text-gold-400">Conviven</span>
+                          )}
+                        </div>
+                        <div className="flex justify-between text-3xs text-slate-400 font-mono mb-1">
+                          <span>Relación</span>
+                          <span className="text-burgundy-400 font-bold">{playerProfile.girlfriend.loveMeter}/100</span>
+                        </div>
+                        <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                          <div
+                            className="bg-gradient-to-r from-burgundy-600 to-burgundy-400 h-full rounded-full"
+                            style={{ width: `${playerProfile.girlfriend.loveMeter}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          onClick={onGirlfriendFlowers}
+                          disabled={playerProfile.capital < 300}
+                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          💐 Regalar Flores
+                        </button>
+                        <button
+                          onClick={onGirlfriendPhoto}
+                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
+                        >
+                          📸 Foto Juntos
+                        </button>
+                        <button
+                          onClick={onGirlfriendFaithful}
+                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
+                        >
+                          🙏 Serle Fiel
+                        </button>
+                        <button
+                          onClick={onGirlfriendDenyRumors}
+                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
+                        >
+                          📰 Negar Rumores
+                        </button>
+                        <button
+                          onClick={onGirlfriendCheat}
+                          className="btn-fx-subtle col-span-2 py-1.5 px-2 rounded-lg bg-red-950/30 border border-red-500/20 hover:border-red-500/50 text-2xs font-bold text-red-300 cursor-pointer"
+                        >
+                          😈 Engañarla con una Modelo
+                        </button>
+                      </div>
+
+                      {playerProfile.girlfriend.loveMeter >= 70 && !playerProfile.girlfriend.livingTogether && (
+                        <div className="p-3 bg-gold-950/20 border border-gold-500/20 rounded-xl">
+                          <p className="text-3xs text-slate-300 leading-relaxed mb-2">
+                            💬 {playerProfile.girlfriend.name} te pidió que se muden juntos.
+                          </p>
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              onClick={() => onGirlfriendMoveIn(true)}
+                              className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase cursor-pointer"
+                            >
+                              Aceptar
+                            </button>
+                            <button
+                              onClick={() => onGirlfriendMoveIn(false)}
+                              className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 font-bold text-3xs uppercase cursor-pointer"
+                            >
+                              Rechazar
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     📢 Gestión de Imagen de Marca

@@ -417,6 +417,9 @@ export default function App() {
     if (profile.hasSteppedDownRetirement === undefined) {
       profile = { ...profile, hasSteppedDownRetirement: false };
     }
+    if (profile.girlfriend === undefined) {
+      profile = { ...profile, girlfriend: null };
+    }
     if (profile.careerStats.sumaCalificacionesHistoricas === undefined) {
       profile = {
         ...profile,
@@ -501,6 +504,134 @@ export default function App() {
     const updatedProfile = { ...playerProfile, mentorshipPlayerName: playerName };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
+  };
+
+  // Fase 2.5 -- Vida amorosa: relación de pareja opcional con su propia barra (loveMeter) y sus
+  // propias acciones. Todo vive acá como handlers puntuales en vez de meterlo en el sistema
+  // genérico de LOBBY_RANDOM_EVENTS/DecisionCenter porque ese sistema solo soporta el shape fijo
+  // { prestige, fans, energy, capital, suspension } y acá necesitamos tocar un campo propio
+  // (girlfriend.loveMeter) que no existe en ese contrato.
+  const GIRLFRIEND_CANDIDATES = ['Valentina Ríos', 'Camila Duarte', 'Sofía Lombardi', 'Isabella Cruz', 'Mariana Solís', 'Antonella Ferrari'];
+  const GIRLFRIEND_FLOWERS_COST = 300;
+  const GIRLFRIEND_CHEAT_CAUGHT_CHANCE = 0.35;
+  const GIRLFRIEND_CHEAT_CAUGHT_FINE = 5000;
+  const GIRLFRIEND_DENY_RUMORS_SUCCESS_CHANCE = 0.6;
+
+  const handleFindGirlfriend = () => {
+    if (!playerProfile || playerProfile.girlfriend) return;
+    const name = GIRLFRIEND_CANDIDATES[Math.floor(Math.random() * GIRLFRIEND_CANDIDATES.length)];
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      girlfriend: { name, loveMeter: 50, livingTogether: false }
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    alert(`💘 Empezaste a salir con ${name}. Cuidado con las redes.`);
+  };
+
+  const handleGirlfriendFlowers = () => {
+    if (!playerProfile?.girlfriend) return;
+    if (playerProfile.capital < GIRLFRIEND_FLOWERS_COST) {
+      alert('No tenés fondos suficientes para las flores.');
+      return;
+    }
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      capital: playerProfile.capital - GIRLFRIEND_FLOWERS_COST,
+      fans: Math.min(100, playerProfile.fans + 1),
+      girlfriend: { ...playerProfile.girlfriend, loveMeter: Math.min(100, playerProfile.girlfriend.loveMeter + 6) }
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+  };
+
+  const handleGirlfriendPhoto = () => {
+    if (!playerProfile?.girlfriend) return;
+    const gfName = playerProfile.girlfriend.name;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      fans: Math.min(100, playerProfile.fans + 6),
+      girlfriend: { ...playerProfile.girlfriend, loveMeter: Math.min(100, playerProfile.girlfriend.loveMeter + 4) }
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    alert(`📸 Publicaste una foto con ${gfName}. Los hinchas se derriten en los comentarios.`);
+  };
+
+  const handleGirlfriendFaithful = () => {
+    if (!playerProfile?.girlfriend) return;
+    const gfName = playerProfile.girlfriend.name;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      mentalHealth: Math.min(100, playerProfile.mentalHealth + 3),
+      girlfriend: { ...playerProfile.girlfriend, loveMeter: Math.min(100, playerProfile.girlfriend.loveMeter + 5) }
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    alert(`🙏 Le reafirmaste tu compromiso a ${gfName}.`);
+  };
+
+  const handleGirlfriendCheat = () => {
+    if (!playerProfile?.girlfriend) return;
+    const gfName = playerProfile.girlfriend.name;
+    const caught = Math.random() < GIRLFRIEND_CHEAT_CAUGHT_CHANCE;
+    if (caught) {
+      const hadSportsCar = shopItems.some(i => i.id === 'sports_car' && i.purchased);
+      const updatedShop = hadSportsCar ? shopItems.map(i => i.id === 'sports_car' ? { ...i, purchased: false } : i) : shopItems;
+      const updatedProfile: PlayerProfile = {
+        ...playerProfile,
+        girlfriend: null,
+        fans: Math.max(0, playerProfile.fans - 15),
+        prestige: Math.max(0, playerProfile.prestige - 10),
+        mentalHealth: Math.max(0, playerProfile.mentalHealth - 15),
+        capital: Math.max(0, playerProfile.capital - GIRLFRIEND_CHEAT_CAUGHT_FINE)
+      };
+      setPlayerProfile(updatedProfile);
+      setShopItems(updatedShop);
+      saveGameState(updatedProfile, updatedShop);
+      alert(`💥 ¡${gfName} te descubrió engañándola! ${hadSportsCar ? 'Te estrelló el auto deportivo contra el portón de tu casa y ' : ''}la ruptura se hizo pública. -$${GIRLFRIEND_CHEAT_CAUGHT_FINE.toLocaleString()}, tu imagen quedó destrozada.`);
+    } else {
+      const updatedProfile: PlayerProfile = {
+        ...playerProfile,
+        mentalHealth: Math.max(0, playerProfile.mentalHealth - 3)
+      };
+      setPlayerProfile(updatedProfile);
+      saveGameState(updatedProfile, shopItems);
+      alert('😬 Nadie se enteró... por ahora. Te queda la culpa.');
+    }
+  };
+
+  const handleGirlfriendDenyRumors = () => {
+    if (!playerProfile?.girlfriend) return;
+    const success = Math.random() < GIRLFRIEND_DENY_RUMORS_SUCCESS_CHANCE;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      fans: Math.max(0, Math.min(100, playerProfile.fans + (success ? 5 : -3))),
+      girlfriend: { ...playerProfile.girlfriend, loveMeter: Math.max(0, Math.min(100, playerProfile.girlfriend.loveMeter + (success ? 4 : -5))) }
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    alert(success
+      ? '📰 Desmentiste con calma los rumores con una modelo y te creyeron.'
+      : '📰 Nadie te creyó del todo. Los rumores con la modelo siguen circulando.');
+  };
+
+  const handleGirlfriendMoveIn = (accept: boolean) => {
+    if (!playerProfile?.girlfriend) return;
+    const gfName = playerProfile.girlfriend.name;
+    const updatedProfile: PlayerProfile = accept
+      ? {
+          ...playerProfile,
+          mentalHealth: Math.min(100, playerProfile.mentalHealth + 5),
+          girlfriend: { ...playerProfile.girlfriend, livingTogether: true, loveMeter: Math.min(100, playerProfile.girlfriend.loveMeter + 10) }
+        }
+      : {
+          ...playerProfile,
+          girlfriend: { ...playerProfile.girlfriend, loveMeter: Math.max(0, playerProfile.girlfriend.loveMeter - 20) }
+        };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    alert(accept ? `🏠 Te mudaste con ${gfName}. Un paso grande en la relación.` : `💔 Le dijiste que no estás listo para mudarte. ${gfName} se lo tomó mal.`);
   };
 
   // Fase 3 -- Modo Veterano: reconversión de posición. Solo tiene sentido ofrecerla desde el
@@ -1409,6 +1540,13 @@ export default function App() {
           shopItems={shopItems}
           onTrainAttribute={handleTrainAttribute}
           onSelectMentee={handleSelectMentee}
+          onFindGirlfriend={handleFindGirlfriend}
+          onGirlfriendFlowers={handleGirlfriendFlowers}
+          onGirlfriendPhoto={handleGirlfriendPhoto}
+          onGirlfriendFaithful={handleGirlfriendFaithful}
+          onGirlfriendCheat={handleGirlfriendCheat}
+          onGirlfriendDenyRumors={handleGirlfriendDenyRumors}
+          onGirlfriendMoveIn={handleGirlfriendMoveIn}
           onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
           onAcceptSponsor={handleAcceptSponsor}

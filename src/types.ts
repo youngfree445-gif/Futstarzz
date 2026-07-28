@@ -60,6 +60,12 @@ export type Superstition =
   | 'no_afeitarse'
   | 'ultimo_vestuario';
 
+export interface Girlfriend {
+  name: string;
+  loveMeter: number; // 0-100, barra de la relación -- ver GIRLFRIEND_CANDIDATES y handleGirlfriend* en App.tsx
+  livingTogether: boolean; // true si aceptaste mudarte juntos (ver handleGirlfriendMoveIn)
+}
+
 export interface PlayerProfile {
   name: string;
   position: Position;
@@ -82,6 +88,7 @@ export interface PlayerProfile {
   appearanceBonus: number; // Fase 2.5: cláusula de contrato fijada al fichar (ver handleAcceptTransfer/SetupScreen) -- se paga cada partido jugado, pero jugar ya exhausto para cobrarla genera fricción con el DT (ver handleFinishMatch)
   mentorshipPlayerName: string | null; // Fase 2.5: joven del plantel actual (de currentClub.starPlayers) elegido como ahijado -- cada cierre de temporada tira un roll según cómo evolucionó y suma/resta prestige (ver applyMentorshipIfNewSeason). null si no elegiste a nadie.
   hasSteppedDownRetirement: boolean; // Fase 2.5: ya usaste la única chance de "retiro escalonado" (bajar de categoría en vez de retirarte al llegar a FORCED_RETIREMENT_AGE) -- ver isPastRetirementAge/findStepDownClub en App.tsx
+  girlfriend: Girlfriend | null; // Fase 2.5: relación de pareja opcional -- null si estás soltero. Ver handleFindGirlfriend/handleGirlfriend* en App.tsx
   attributes: PlayerStats;
   careerStats: CareerStats;
   seasonHistory: SeasonHistory[]; // trayectoria club a club por temporada -- ver recordSeasonHistory en App.tsx

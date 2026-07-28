@@ -117,6 +117,7 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       appearanceBonus: currentClub ? Math.round(currentClub.initialSalary * 0.15) : 0,
       mentorshipPlayerName: null,
       hasSteppedDownRetirement: false,
+      girlfriend: null,
       attributes: defaultAttributes,
       careerStats: {
         goles: 0,
