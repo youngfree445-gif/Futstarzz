@@ -1319,7 +1319,9 @@ export default function MatchSimulator({
           text: `¡GOL de ${teamName}! Combinación magistral en el área que finaliza ${teammateName} con un remate cruzado.`,
           type: 'good'
         }]);
-        setRating(prev => Math.min(prev + 0.3, 10.0));
+        // Bono chico: este gol es "ambiental" (del equipo, no tuyo), así que no debería empujar
+        // tu rating casi tanto como una decisión propia con gol/asistencia real.
+        setRating(prev => Math.min(prev + 0.15, 10.0));
       } else {
         if (isHome.current) setScoreAway(prev => prev + 1); else setScoreHome(prev => prev + 1);
         setMatchLog(prev => [...prev, {
@@ -1444,7 +1446,16 @@ export default function MatchSimulator({
         if (isHome.current) setScoreHome(prev => prev + 1);
         else setScoreAway(prev => prev + 1);
       }
-      setRating(prev => Math.min(prev + 1.5, 10.0));
+
+      // El bono de rating ahora depende de lo que realmente aportaste: antes cualquier decisión
+      // exitosa sumaba +1.5 parejo, así que una jugada segura sin gol ni asistencia (hasta 82% de
+      // éxito) rendía el mismo rating que anotar un gol (30% de éxito) -- eso permitía llegar a
+      // 9.8 de rating con 0 goles y 0 asistencias. Ahora solo el aporte de gol/asistencia paga el
+      // bono grande; una decisión exitosa sin estadística (defensiva/táctica) suma bastante menos.
+      const decisionRatingBonus = choice.effectOnSuccess.goals > 0 ? 1.5
+        : choice.effectOnSuccess.assists > 0 ? 1.2
+        : 0.5;
+      setRating(prev => Math.min(prev + decisionRatingBonus, 10.0));
 
       setMatchLog(prev => [...prev, {
         minute,

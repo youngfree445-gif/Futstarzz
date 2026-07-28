@@ -126,9 +126,13 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
       ]
     };
 
+    // El titular "gran partido" (elogio máximo sin haber convertido gol ni asistencia) antes salía
+    // con solo rating >= 7.5, algo que se lograba fácil acumulando decisiones exitosas sin aporte
+    // real de gol/asistencia. Ahora exige un rating mucho más alto (excepcional de verdad) para
+    // que ese titular sea la excepción y no la norma en partidos sin estadísticas.
     const category = matchResults.goles > 0 ? 'goles'
       : matchResults.asistencias > 0 ? 'asistencias'
-      : rating >= 7.5 ? 'granPartido'
+      : rating >= 8.7 ? 'granPartido'
       : matchResults.resultado === 'W' ? 'victoria'
       : matchResults.resultado === 'D' ? 'empate'
       : 'derrota';

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
 import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from '../data';
+import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -68,6 +69,20 @@ interface CalendarEvent {
 function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
   return myGoals > rivalGoals ? 'V' : myGoals === rivalGoals ? 'E' : 'D';
 }
+
+// Mentoría de Jóvenes: ni starPlayers (nombres curados en CLUBS_DATABASE) ni playersDatabase.json
+// traen una edad real por jugador, así que no hay forma de filtrar por edad de verdad. Para poder
+// aplicar la regla "solo podés ser mentor de un menor de 21" (no tiene sentido guiar a alguien ya
+// veterano) de forma pareja en los 600+ clubes, generamos una edad estable a partir del nombre
+// (mismo nombre = misma edad siempre, no cambia entre renders ni al recargar la partida).
+function getMenteeAge(name: string): number {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) | 0;
+  }
+  return 17 + (Math.abs(hash) % 20); // rango 17-36
+}
+const MENTEE_MAX_AGE = 20;
 
 // Descompone una llave a ida y vuelta ya jugada en hasta 2 partidos reales de calendario (Vuelta
 // primero, por ser la más reciente) -- una llave completa son 2 fechas distintas, no un solo evento.
@@ -2709,35 +2724,47 @@ export default function Dashboard({
                     🌱 Mentoría de Jóvenes
                   </h3>
                   <p className="text-2xs text-slate-500 mb-3 leading-relaxed">
-                    Elegí a un juvenil del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumás prestigio como mentor) — o no.
+                    Elegí a un juvenil de {MENTEE_MAX_AGE} años o menos del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumás prestigio como mentor) — o no.
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => onSelectMentee(null)}
-                      className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
-                        !playerProfile.mentorshipPlayerName
-                          ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                          : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
-                      }`}
-                    >
-                      Ninguno
-                    </button>
-                    {currentClub.starPlayers.filter(p => p !== playerProfile.name).map(p => (
-                      <button
-                        key={p}
-                        type="button"
-                        onClick={() => onSelectMentee(p)}
-                        className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
-                          playerProfile.mentorshipPlayerName === p
-                            ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                            : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
-                        }`}
-                      >
-                        {p}
-                      </button>
-                    ))}
-                  </div>
+                  {(() => {
+                    const eligibleMentees = currentClub.starPlayers.filter(p => p !== playerProfile.name && getMenteeAge(p) <= MENTEE_MAX_AGE);
+                    return (
+                      <>
+                        <div className="flex flex-wrap gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => onSelectMentee(null)}
+                            className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                              !playerProfile.mentorshipPlayerName
+                                ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                                : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                            }`}
+                          >
+                            Ninguno
+                          </button>
+                          {eligibleMentees.map(p => (
+                            <button
+                              key={p}
+                              type="button"
+                              onClick={() => onSelectMentee(p)}
+                              className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                                playerProfile.mentorshipPlayerName === p
+                                  ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                                  : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                              }`}
+                            >
+                              {p}
+                            </button>
+                          ))}
+                        </div>
+                        {eligibleMentees.length === 0 && (
+                          <p className="text-2xs text-slate-500 mt-2 italic">
+                            Ningún jugador del plantel tiene {MENTEE_MAX_AGE} años o menos esta temporada: no podés ser mentor de nadie por ahora.
+                          </p>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
 
                 {totalJugadoresReales === 0 && (
@@ -2757,8 +2784,16 @@ export default function Dashboard({
                       {plantilla.porteros.length > 0 ? plantilla.porteros.map(player => (
                         <div key={player.player_id} className="p-3 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center">
                           <div>
-                            <h4 className="font-bold text-xs text-white">{player.nombre_completo}</h4>
-                            <span className="text-3xs text-slate-500 font-mono uppercase">{player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}</span>
+                            <h4 className="font-bold text-xs text-white flex items-center gap-1.5">
+                              {player.nombre_completo}
+                              {ROSTER_ENRICHMENT[player.player_id]?.dorsal != null && (
+                                <span className="text-3xs font-mono text-slate-500">#{ROSTER_ENRICHMENT[player.player_id].dorsal}</span>
+                              )}
+                            </h4>
+                            <span className="text-3xs text-slate-500 font-mono uppercase">
+                              {player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}
+                              {ROSTER_ENRICHMENT[player.player_id]?.nationality && ` · ${ROSTER_ENRICHMENT[player.player_id].nationality}`}
+                            </span>
                           </div>
                           <span className="text-xs font-black font-mono text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/10">{player.media_valoracion}</span>
                         </div>
@@ -2777,8 +2812,16 @@ export default function Dashboard({
                       {plantilla.defensivos.length > 0 ? plantilla.defensivos.map(player => (
                         <div key={player.player_id} className="p-3 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center">
                           <div>
-                            <h4 className="font-bold text-xs text-white">{player.nombre_completo}</h4>
-                            <span className="text-3xs text-slate-500 font-mono uppercase">{player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}</span>
+                            <h4 className="font-bold text-xs text-white flex items-center gap-1.5">
+                              {player.nombre_completo}
+                              {ROSTER_ENRICHMENT[player.player_id]?.dorsal != null && (
+                                <span className="text-3xs font-mono text-slate-500">#{ROSTER_ENRICHMENT[player.player_id].dorsal}</span>
+                              )}
+                            </h4>
+                            <span className="text-3xs text-slate-500 font-mono uppercase">
+                              {player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}
+                              {ROSTER_ENRICHMENT[player.player_id]?.nationality && ` · ${ROSTER_ENRICHMENT[player.player_id].nationality}`}
+                            </span>
                           </div>
                           <span className="text-xs font-black font-mono text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/10">{player.media_valoracion}</span>
                         </div>
@@ -2797,8 +2840,16 @@ export default function Dashboard({
                       {plantilla.ofensivos.length > 0 ? plantilla.ofensivos.map(player => (
                         <div key={player.player_id} className="p-3 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center">
                           <div>
-                            <h4 className="font-bold text-xs text-white">{player.nombre_completo}</h4>
-                            <span className="text-3xs text-slate-500 font-mono uppercase">{player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}</span>
+                            <h4 className="font-bold text-xs text-white flex items-center gap-1.5">
+                              {player.nombre_completo}
+                              {ROSTER_ENRICHMENT[player.player_id]?.dorsal != null && (
+                                <span className="text-3xs font-mono text-slate-500">#{ROSTER_ENRICHMENT[player.player_id].dorsal}</span>
+                              )}
+                            </h4>
+                            <span className="text-3xs text-slate-500 font-mono uppercase">
+                              {player.posicion_especifica} · €{player.valor_mercado_eur?.toLocaleString()}
+                              {ROSTER_ENRICHMENT[player.player_id]?.nationality && ` · ${ROSTER_ENRICHMENT[player.player_id].nationality}`}
+                            </span>
                           </div>
                           <span className="text-xs font-black font-mono text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/10">{player.media_valoracion}</span>
                         </div>
