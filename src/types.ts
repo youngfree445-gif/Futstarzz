@@ -78,6 +78,10 @@ export interface PlayerProfile {
   matchesWithoutRest: number; // Fase 2.5: partidos jugados seguidos sin una semana de descanso -- pasado el umbral, MatchSimulator aplica una penalización temporal a los atributos efectivos (no muta attributes real). Se resetea a 0 cualquier semana que no juegues.
   hadBreakoutSeason: boolean; // Fase 2.5: la temporada que acaba de cerrar tuvo aporte ofensivo alto (ver applyBreakoutSeasonIfNewSeason) -- si la siguiente temporada no muestra crecimiento real de atributos, dispara el "síndrome del segundo año" (golpe chico a prestige/fans)
   attrSumAtSeasonStart: number; // Fase 2.5: suma de los 6 atributos al arrancar la temporada en curso -- referencia para medir el crecimiento real de esa temporada en applyBreakoutSeasonIfNewSeason
+  yearsAtClub: number; // Fase 2.5: temporadas seguidas en el club actual -- se resetea a 0 en cada traspaso (ver handleAcceptTransfer). Pasado COMFORT_ZONE_YEARS_THRESHOLD, el entrenamiento rinde menos (ver handleTrainAttribute) -- "zona de confort"
+  appearanceBonus: number; // Fase 2.5: cláusula de contrato fijada al fichar (ver handleAcceptTransfer/SetupScreen) -- se paga cada partido jugado, pero jugar ya exhausto para cobrarla genera fricción con el DT (ver handleFinishMatch)
+  mentorshipPlayerName: string | null; // Fase 2.5: joven del plantel actual (de currentClub.starPlayers) elegido como ahijado -- cada cierre de temporada tira un roll según cómo evolucionó y suma/resta prestige (ver applyMentorshipIfNewSeason). null si no elegiste a nadie.
+  hasSteppedDownRetirement: boolean; // Fase 2.5: ya usaste la única chance de "retiro escalonado" (bajar de categoría en vez de retirarte al llegar a FORCED_RETIREMENT_AGE) -- ver isPastRetirementAge/findStepDownClub en App.tsx
   attributes: PlayerStats;
   careerStats: CareerStats;
   seasonHistory: SeasonHistory[]; // trayectoria club a club por temporada -- ver recordSeasonHistory en App.tsx

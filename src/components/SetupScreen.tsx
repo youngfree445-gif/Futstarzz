@@ -113,6 +113,10 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       matchesWithoutRest: 0,
       hadBreakoutSeason: false,
       attrSumAtSeasonStart: Object.values(defaultAttributes).reduce((sum, v) => sum + v, 0),
+      yearsAtClub: 0,
+      appearanceBonus: currentClub ? Math.round(currentClub.initialSalary * 0.15) : 0,
+      mentorshipPlayerName: null,
+      hasSteppedDownRetirement: false,
       attributes: defaultAttributes,
       careerStats: {
         goles: 0,

@@ -41,6 +41,19 @@ const CALENDAR_MONTH_NAMES = [
 ];
 const CALENDAR_WEEKDAY_NAMES = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 
+// Fase 2.5 -- Rivalidad generacional: tabla estática de hitos (sin IA generativa, solo umbrales
+// fijos) contra la que se compara el aporte ofensivo acumulado de toda la carrera (goles +
+// asistencias históricos). Puramente de exhibición -- no lee ni escribe ningún campo nuevo del
+// perfil, solo re-lee careerStats que ya existía.
+const CAREER_MILESTONES: { threshold: number; label: string }[] = [
+  { threshold: 0, label: 'Promesa del Club' },
+  { threshold: 25, label: 'Titular Indiscutido' },
+  { threshold: 50, label: 'Referente del Plantel' },
+  { threshold: 100, label: 'Ídolo de la Hinchada' },
+  { threshold: 200, label: 'Leyenda Viva' },
+  { threshold: 350, label: 'Mito Eterno del Fútbol' }
+];
+
 interface CalendarEvent {
   date: Date;
   label: string; // rótulo corto de jornada para la esquina (J3, G1, Cuartos...)
@@ -135,6 +148,7 @@ interface DashboardProps {
   playerProfile: PlayerProfile;
   shopItems: ShopItem[];
   onTrainAttribute: (attr: keyof PlayerStats) => void;
+  onSelectMentee: (playerName: string | null) => void;
   onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
   onAcceptSponsor: (itemId: string) => void;
@@ -152,6 +166,7 @@ export default function Dashboard({
   playerProfile,
   shopItems,
   onTrainAttribute,
+  onSelectMentee,
   onReconvertPosition,
   onBuyItem,
   onAcceptSponsor,
@@ -207,6 +222,16 @@ export default function Dashboard({
 
   // Corregido: Busca el club en la base de datos inyectada con el JSON
   const currentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+
+  // Fase 2.5 -- Rivalidad generacional: nivel actual (el hito más alto ya alcanzado) y progreso
+  // hacia el próximo, según CAREER_MILESTONES.
+  const careerContribution = playerProfile.careerStats.golesHistoricos + playerProfile.careerStats.asistenciasHistoricos;
+  const currentMilestoneIdx = CAREER_MILESTONES.reduce((bestIdx, m, i) => careerContribution >= m.threshold ? i : bestIdx, 0);
+  const currentMilestone = CAREER_MILESTONES[currentMilestoneIdx];
+  const nextMilestone = CAREER_MILESTONES[currentMilestoneIdx + 1] || null;
+  const milestoneProgressPct = nextMilestone
+    ? Math.min(100, Math.round(((careerContribution - currentMilestone.threshold) / (nextMilestone.threshold - currentMilestone.threshold)) * 100))
+    : 100;
   const myLeagueKey = leagueKeyFor(currentClub);
   const myLeagueTable = sortTable(playerProfile.leagueSeasons[myLeagueKey]?.table || []);
 
@@ -1492,6 +1517,28 @@ export default function Dashboard({
                       ${playerProfile.marketValue.toLocaleString()} USD
                     </span>
                   </div>
+
+                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl mt-3">
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-[10px] text-burgundy-500 uppercase font-mono font-bold">Rivalidad Generacional</span>
+                      <span className="text-2xs font-black text-gold-400">{currentMilestone.label}</span>
+                    </div>
+                    {nextMilestone ? (
+                      <>
+                        <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                          <div
+                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full"
+                            style={{ width: `${milestoneProgressPct}%` }}
+                          />
+                        </div>
+                        <p className="text-3xs text-slate-500 font-mono mt-1">
+                          {careerContribution}/{nextMilestone.threshold} aporte (G+A) para "{nextMilestone.label}"
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-3xs text-slate-500 font-mono">Ya alcanzaste el hito máximo de la tabla histórica.</p>
+                    )}
+                  </div>
                 </div>
 
                 <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-6 shadow-xl flex flex-col justify-between relative overflow-hidden">
@@ -1597,7 +1644,7 @@ export default function Dashboard({
                   Complejo de Preparación Física y Técnica
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-burgundy-500 font-bold">-20 Energía</span> y sumará permanentemente <span className="text-gold-400 font-bold">+3 puntos</span> al atributo seleccionado.
+                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-burgundy-500 font-bold">-20 Energía</span> y sumará permanentemente {playerProfile.yearsAtClub >= 5 ? <span className="text-burgundy-500 font-bold">+1 punto</span> : <span className="text-gold-400 font-bold">+3 puntos</span>} al atributo seleccionado.
                 </p>
               </div>
 
@@ -1606,6 +1653,12 @@ export default function Dashboard({
                   <ShieldAlert size={18} /> Tu estado físico es de fatiga crítica. Entrena en la Clínica o descansa.
                 </div>
               ) : null}
+
+              {playerProfile.yearsAtClub >= 5 && (
+                <div className="p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
+                  <ShieldAlert size={18} /> Zona de confort: llevás {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde menos (+1 en vez de +3). Un traspaso te devuelve la ambición fresca.
+                </div>
+              )}
 
               <div className="grid md:grid-cols-3 gap-4">
                 {[
@@ -2535,7 +2588,44 @@ export default function Dashboard({
                     <div className="text-3xs text-slate-400 font-mono mt-1 space-y-0.5">
                       <p>🏟️ Liga: {currentClub.league}</p>
                       <p>💵 Salario Semanal Base: ${currentClub.initialSalary.toLocaleString()}</p>
+                      <p>📋 Cláusula por Presencia: ${playerProfile.appearanceBonus.toLocaleString()}/partido jugado</p>
                     </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
+                    🌱 Mentoría de Jóvenes
+                  </h3>
+                  <p className="text-2xs text-slate-500 mb-3 leading-relaxed">
+                    Elegí a un juvenil del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumás prestigio como mentor) — o no.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => onSelectMentee(null)}
+                      className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                        !playerProfile.mentorshipPlayerName
+                          ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                          : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                      }`}
+                    >
+                      Ninguno
+                    </button>
+                    {currentClub.starPlayers.filter(p => p !== playerProfile.name).map(p => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => onSelectMentee(p)}
+                        className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                          playerProfile.mentorshipPlayerName === p
+                            ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                            : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
                   </div>
                 </div>
 

@@ -231,8 +231,78 @@ function applyBreakoutSeasonIfNewSeason(profile: PlayerProfile, previousWeek: nu
   };
 }
 
+// Fase 2.5 -- Zona de confort: cada temporada seguida en el mismo club (yearsAtClub, se resetea a 0
+// en cada traspaso, ver handleAcceptTransfer) suma un año; pasado el umbral, el entrenamiento rinde
+// menos (ver COMFORT_ZONE_TRAINING_GAIN en handleTrainAttribute) -- representa la comodidad de estar
+// asentado sin la ambición fresca de un jugador que recién llega a probarse en un club nuevo.
+const COMFORT_ZONE_YEARS_THRESHOLD = 5;
+const NORMAL_TRAINING_GAIN = 3;
+const COMFORT_ZONE_TRAINING_GAIN = 1;
+
+function applyYearsAtClubIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  return { ...profile, yearsAtClub: profile.yearsAtClub + 1 };
+}
+
+// Fase 2.5 -- Mentoría de jóvenes: si elegiste un ahijado del plantel actual (mentorshipPlayerName,
+// de currentClub.starPlayers -- ver handleSelectMentee), cada cierre de temporada tira un roll según
+// cómo le fue: la mayoría de las veces evoluciona bien y suma prestigio como mentor, a veces se
+// estanca (nada), y raramente decepciona (golpe chico). Sigue siendo tu ahijado temporada tras
+// temporada hasta que elijas a otro.
+const MENTORSHIP_GOOD_CHANCE = 0.55;
+const MENTORSHIP_STAGNANT_CHANCE = 0.25; // el resto (0.20) es una mala evolución
+const MENTORSHIP_PRESTIGE_GOOD = 4;
+const MENTORSHIP_PRESTIGE_BAD = -1;
+
+function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!profile.mentorshipPlayerName) return profile;
+
+  const roll = Math.random();
+  const prestigeChange = roll < MENTORSHIP_GOOD_CHANCE
+    ? MENTORSHIP_PRESTIGE_GOOD
+    : roll < MENTORSHIP_GOOD_CHANCE + MENTORSHIP_STAGNANT_CHANCE
+    ? 0
+    : MENTORSHIP_PRESTIGE_BAD;
+
+  return { ...profile, prestige: Math.max(0, Math.min(100, profile.prestige + prestigeChange)) };
+}
+
+// Agrupa todos los efectos que se disparan al cruzar de una temporada a otra (edad/declive físico,
+// cambio de DT, síndrome del segundo año, años en el club, mentoría) en un solo lugar -- se llama
+// igual sin importar qué flujo hizo avanzar currentWeek (jugar, descansar, fecha FIFA sin
+// convocatoria, sanción).
+function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  let next = applyAgingIfNewSeason(profile, previousWeek, newWeek);
+  next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
+  next = applyBreakoutSeasonIfNewSeason(next, previousWeek, newWeek);
+  next = applyYearsAtClubIfNewSeason(next, previousWeek, newWeek);
+  next = applyMentorshipIfNewSeason(next, previousWeek, newWeek);
+  return next;
+}
+
+// Fase 2.5 -- Retiro escalonado: al llegar a la edad de retiro forzado se ofrece UNA sola chance de
+// bajar de categoría (a un club de menor reputación en la misma liga) en vez de retirarte de una, ver
+// findStepDownClub más abajo y el manejo de isPastRetirementAge en cada uno de los 4 puntos donde se
+// chequea. Una vez usada esa chance (hasSteppedDownRetirement), el límite de edad final sube
+// STEP_DOWN_AGE_EXTENSION años y no se vuelve a ofrecer -- ahí sí es retiro forzado de verdad.
+const STEP_DOWN_AGE_EXTENSION = 3;
+const STEP_DOWN_MARKET_VALUE_MULTIPLIER = 0.4;
+const STEP_DOWN_PRESTIGE_MULTIPLIER = 0.85;
+
 function isPastRetirementAge(profile: PlayerProfile): boolean {
-  return profile.age >= FORCED_RETIREMENT_AGE;
+  const effectiveLimit = FORCED_RETIREMENT_AGE + (profile.hasSteppedDownRetirement ? STEP_DOWN_AGE_EXTENSION : 0);
+  return profile.age >= effectiveLimit;
+}
+
+function findStepDownClub(profile: PlayerProfile): Club | null {
+  const myClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  if (!myClub) return null;
+  const leagueKey = leagueKeyFor(myClub);
+  const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey && c.id !== myClub.id);
+  const lowerTier = leagueClubs.filter(c => c.reputation < myClub.reputation).sort((a, b) => b.reputation - a.reputation);
+  if (lowerTier.length > 0) return lowerTier[0];
+  return [...leagueClubs].sort((a, b) => a.reputation - b.reputation)[0] || null;
 }
 
 // Reconversión de posición (Fase 3): mueve un poco los atributos hacia el perfil típico de la
@@ -334,6 +404,19 @@ export default function App() {
     if (profile.hadBreakoutSeason === undefined) {
       profile = { ...profile, hadBreakoutSeason: false, attrSumAtSeasonStart: attrSum(profile.attributes) };
     }
+    if (profile.yearsAtClub === undefined) {
+      profile = { ...profile, yearsAtClub: 0 };
+    }
+    if (profile.appearanceBonus === undefined) {
+      const myClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+      profile = { ...profile, appearanceBonus: myClub ? Math.round(myClub.initialSalary * 0.15) : 0 };
+    }
+    if (profile.mentorshipPlayerName === undefined) {
+      profile = { ...profile, mentorshipPlayerName: null };
+    }
+    if (profile.hasSteppedDownRetirement === undefined) {
+      profile = { ...profile, hasSteppedDownRetirement: false };
+    }
     if (profile.careerStats.sumaCalificacionesHistoricas === undefined) {
       profile = {
         ...profile,
@@ -395,15 +478,27 @@ export default function App() {
       return;
     }
 
+    const trainingGain = playerProfile.yearsAtClub >= COMFORT_ZONE_YEARS_THRESHOLD ? COMFORT_ZONE_TRAINING_GAIN : NORMAL_TRAINING_GAIN;
+
     const updatedProfile = {
       ...playerProfile,
       energy: playerProfile.energy - 20,
       attributes: {
         ...playerProfile.attributes,
-        [attr]: Math.min(99, playerProfile.attributes[attr] + 3)
+        [attr]: Math.min(99, playerProfile.attributes[attr] + trainingGain)
       }
     };
 
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+  };
+
+  // Fase 2.5 -- Mentoría de jóvenes: elegís (o dejás de elegir, pasando null) un ahijado del
+  // plantel actual. El roll de cómo evoluciona corre solo al cierre de cada temporada, ver
+  // applyMentorshipIfNewSeason.
+  const handleSelectMentee = (playerName: string | null) => {
+    if (!playerProfile) return;
+    const updatedProfile = { ...playerProfile, mentorshipPlayerName: playerName };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
   };
@@ -576,6 +671,8 @@ export default function App() {
       currentClubId: clubId,
       capital: playerProfile.capital + signOnBonus,
       prestige: Math.round(playerProfile.prestige * 0.9),
+      yearsAtClub: 0,
+      appearanceBonus: Math.round(targetClub.initialSalary * 0.15),
       leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season }
     };
 
@@ -599,9 +696,9 @@ export default function App() {
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups
         };
-        const agedRest = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
+        const agedRest = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(agedRest)) {
-          triggerForcedRetirement(agedRest);
+          resolveRetirementCheckpoint(agedRest);
           return;
         }
         setPlayerProfile(agedRest);
@@ -682,9 +779,9 @@ export default function App() {
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups
         };
-        const aged = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
+        const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(aged)) {
-          triggerForcedRetirement(aged);
+          resolveRetirementCheckpoint(aged);
           return;
         }
         setPlayerProfile(aged);
@@ -873,10 +970,10 @@ export default function App() {
       uefaCups: suspendedSync.uefaCups
     };
 
-    const aged = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
+    const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
 
     if (isPastRetirementAge(aged)) {
-      triggerForcedRetirement(aged);
+      resolveRetirementCheckpoint(aged);
       return;
     }
 
@@ -940,7 +1037,7 @@ export default function App() {
     // tengan uno, en vez de tener un caso especial hardcodeado por cada patrocinio nuevo.
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
 
-    const totalIncome = results.salaryEarned + goalBonus + assistBonus + activePassiveDividend;
+    const totalIncome = results.salaryEarned + goalBonus + assistBonus + activePassiveDividend + playerProfile.appearanceBonus;
     const totalExtraRecover = (coachItem?.purchased ? 8 : 0) + (houseItem?.purchased ? 20 : 0);
 
     // Antes esto era rating*6000 (siempre positivo, hasta en un partido flojo) más goles/asistencias
@@ -1060,6 +1157,15 @@ export default function App() {
     const VIRAL_NEGATIVE_FANS_PENALTY = 8;
     const isViralNegativePerformance = results.rating < VIRAL_NEGATIVE_RATING_THRESHOLD;
 
+    // Fase 2.5 -- Cláusulas ocultas en contratos: el appearanceBonus fijado al fichar (ver
+    // handleAcceptTransfer/SetupScreen) se cobra por jugar, así que el club tiene incentivo a
+    // ponerte en cancha aunque llegues exhausto. Si jugaste con la energía ya crítica, eso genera
+    // fricción real con el cuerpo técnico -- un golpecito chico de prestigio, no de plata (la plata
+    // ya la cobraste con la cláusula).
+    const APPEARANCE_BONUS_FRICTION_ENERGY_THRESHOLD = 25;
+    const APPEARANCE_BONUS_FRICTION_PRESTIGE_PENALTY = 3;
+    const isAppearanceBonusFriction = playerProfile.energy < APPEARANCE_BONUS_FRICTION_ENERGY_THRESHOLD;
+
     // Tarjetas, multas y sanciones: el prestigio/fans que acumularon las decisiones del partido
     // (antes muerto, nunca se aplicaba) se liquida acá. Una roja (directa o por doble amarilla)
     // suma sanción de la federación y multa, además del golpe de prestigio de la jugada en sí.
@@ -1072,7 +1178,8 @@ export default function App() {
     const decisionFansChange = results.fansChange || 0;
     const netPrestigeChange = decisionPrestigeChange
       - (cardReceived === 'red' ? RED_CARD_PRESTIGE_PENALTY : 0)
-      - (isViralNegativePerformance ? VIRAL_NEGATIVE_PRESTIGE_PENALTY : 0);
+      - (isViralNegativePerformance ? VIRAL_NEGATIVE_PRESTIGE_PENALTY : 0)
+      - (isAppearanceBonusFriction ? APPEARANCE_BONUS_FRICTION_PRESTIGE_PENALTY : 0);
     const netFansChange = decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0);
 
     let newYellowCards = playerProfile.yellowCards;
@@ -1082,6 +1189,10 @@ export default function App() {
 
     if (isViralNegativePerformance) {
       disciplineMessages.push(`📉 Te volviste viral por las malas: la timeline te destroza tras un partido paupérrimo (rating ${results.rating.toFixed(1)}).`);
+    }
+
+    if (isAppearanceBonusFriction) {
+      disciplineMessages.push(`💰 Jugaste exhausto para que el club no perdiera la cláusula de tu bono por presencia (+$${playerProfile.appearanceBonus.toLocaleString()}), y el cuerpo técnico lo nota: fricción con el DT.`);
     }
 
     // Fase 2.5 -- Superstición del jugador: cada partido hay una chance chica de que la rutina
@@ -1163,10 +1274,10 @@ export default function App() {
       }
     };
 
-    const aged = applyBreakoutSeasonIfNewSeason(applyCoachChangeIfNewSeason(applyAgingIfNewSeason(updated, playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek), playerProfile.currentWeek, updated.currentWeek);
+    const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
 
     if (isPastRetirementAge(aged)) {
-      triggerForcedRetirement(aged);
+      resolveRetirementCheckpoint(aged, updatedShop);
       return;
     }
 
@@ -1212,6 +1323,35 @@ export default function App() {
   const triggerForcedRetirement = (profile: PlayerProfile) => {
     setPlayerProfile(profile);
     setScreen('career_summary');
+  };
+
+  // Fase 2.5 -- Punto único donde se resuelve isPastRetirementAge(profile) === true: si todavía no
+  // usaste la chance de "retiro escalonado" y hay un club de menor reputación disponible en tu
+  // misma liga, se ofrece bajar de categoría para seguir jugando en vez de cortar la carrera de una.
+  // Si ya la usaste, o no hay a dónde bajar, o el jugador prefiere retirarse -- retiro forzado normal.
+  const resolveRetirementCheckpoint = (profile: PlayerProfile, updatedShopItems: ShopItem[] = shopItems) => {
+    if (!profile.hasSteppedDownRetirement) {
+      const stepDownClub = findStepDownClub(profile);
+      if (stepDownClub) {
+        const oldClubName = CLUBS_DATABASE.find(c => c.id === profile.currentClubId)?.name || 'tu club';
+        if (confirm(`Llegaste a los ${profile.age} años, el límite físico para seguir en ${oldClubName} a este nivel. ¿Querés bajar de categoría a ${stepDownClub.name} para seguir jugando unos años más, en vez de retirarte ahora?`)) {
+          const steppedDown: PlayerProfile = {
+            ...profile,
+            currentClubId: stepDownClub.id,
+            hasSteppedDownRetirement: true,
+            marketValue: Math.max(50000, Math.round(profile.marketValue * STEP_DOWN_MARKET_VALUE_MULTIPLIER)),
+            prestige: Math.round(profile.prestige * STEP_DOWN_PRESTIGE_MULTIPLIER)
+          };
+          setPlayerProfile(steppedDown);
+          setShopItems(updatedShopItems);
+          saveGameState(steppedDown, updatedShopItems);
+          setScreen('dashboard');
+          alert(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo unos años más. Menos luces, pero seguís en cancha.`);
+          return;
+        }
+      }
+    }
+    triggerForcedRetirement(profile);
   };
 
   const handleFinishCareerSummary = () => {
@@ -1268,6 +1408,7 @@ export default function App() {
           playerProfile={playerProfile}
           shopItems={shopItems}
           onTrainAttribute={handleTrainAttribute}
+          onSelectMentee={handleSelectMentee}
           onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
           onAcceptSponsor={handleAcceptSponsor}
