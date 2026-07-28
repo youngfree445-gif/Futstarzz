@@ -1217,9 +1217,9 @@ export default function Dashboard({
               Ficha Profesional
             </span>
             <h2 className="font-extrabold text-sm text-white truncate">{playerProfile.name}</h2>
-            <div className="flex justify-between items-center text-3xs text-slate-400 font-mono mt-1">
-              <span>{playerProfile.position}</span>
-              <span>{playerProfile.age} años</span>
+            <div className="flex justify-between items-center gap-2 text-3xs text-slate-400 font-mono mt-1">
+              <span className="truncate">{playerProfile.position}</span>
+              <span className="shrink-0">{playerProfile.age} años</span>
             </div>
             
             <div className={`mt-2.5 p-2 rounded-xl text-xs font-bold truncate flex items-center gap-1.5 ${currentClub.badgeColor}`}>
@@ -1448,7 +1448,7 @@ export default function Dashboard({
                           {playerProfile.careerStats.golesHistoricos}
                         </span>
                       </div>
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center">
+                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Asistencias</span>
                         <span className="text-2xl font-black text-yellow-500 font-mono block mt-1">
                           {playerProfile.careerStats.asistenciasHistoricos}
