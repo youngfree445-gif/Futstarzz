@@ -1566,6 +1566,8 @@ export default function App() {
           playerProfile={playerProfile}
           opponentName={activeOpposition}
           isLibertadores={isCopaLibertadores}
+          cupId={activeCupId}
+          uefaCupId={activeUefaCupId}
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}
           isHome={activeIsHome}

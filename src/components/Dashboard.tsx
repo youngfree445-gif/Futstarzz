@@ -1555,7 +1555,7 @@ export default function Dashboard({
                   </div>
                 </div>
 
-                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-6 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-6 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>

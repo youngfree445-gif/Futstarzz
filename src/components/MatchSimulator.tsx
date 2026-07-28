@@ -1101,6 +1101,8 @@ interface MatchSimulatorProps {
   playerProfile: PlayerProfile;
   opponentName: string;
   isLibertadores: boolean;
+  cupId?: 'libertadores' | 'sudamericana' | null;
+  uefaCupId?: 'champions' | 'europa' | null;
   isWorldCup?: boolean;
   representingTeamId?: string | null; // si estás convocado a tu selección, el id del equipo del Mundial en vez de tu club
   isHome: boolean;
@@ -1124,9 +1126,21 @@ interface MatchSimulatorProps {
 }
 
 export default function MatchSimulator({
-  playerProfile, opponentName, isLibertadores, isWorldCup, representingTeamId, isHome: isHomeProp,
+  playerProfile, opponentName, isLibertadores, cupId, uefaCupId, isWorldCup, representingTeamId, isHome: isHomeProp,
   myTablePosition, rivalTablePosition, leagueTeamCount, onFinishMatch
 }: MatchSimulatorProps) {
+  // Nombre real de la competencia continental que se está jugando esta semana: antes acá se
+  // asumía siempre "Copa Libertadores" para cualquier semana que no fuera liga doméstica ni
+  // Mundial, así que un club europeo jugando Champions/Europa League (o uno sudamericano en
+  // Sudamericana) veía el cartel incorrecto de "Copa Libertadores" (bug real reportado por el
+  // usuario: "estoy jugando la champions y arriba dice copa libertadores").
+  const activeCupLabel = cupId === 'sudamericana'
+    ? 'Copa Sudamericana'
+    : uefaCupId === 'champions'
+    ? 'Champions League'
+    : uefaCupId === 'europa'
+    ? 'Europa League'
+    : 'Copa Libertadores';
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(450);
@@ -1201,7 +1215,7 @@ export default function MatchSimulator({
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isWorldCup ? '🌎 COPA MUNDIAL FIFA 2026 🌎' : isLibertadores ? '🏆 COPA LIBERTADORES 2026 (Fase de Grupos) 🏆' : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()} 2026 🟢`;
+    const competicionContexto = isWorldCup ? '🌎 COPA MUNDIAL FIFA 2026 🌎' : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} 2026 🏆` : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()} 2026 🟢`;
     
     setMatchLog([
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
@@ -1467,7 +1481,7 @@ export default function MatchSimulator({
               {isWorldCup
                 ? '🌎 Copa Mundial FIFA 2026'
                 : isLibertadores
-                ? '🏆 Copa Libertadores 2026'
+                ? `🏆 ${activeCupLabel} 2026`
                 : `${getLeagueDisplay(currentClub.league).flag} ${getLeagueDisplay(currentClub.league).name}`}
             </span>
             <div className="flex items-center gap-2">
