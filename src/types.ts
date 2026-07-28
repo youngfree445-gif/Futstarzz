@@ -47,6 +47,9 @@ export interface CareerStats {
   golesHistoricos: number;
   asistenciasHistoricos: number;
   partidosHistoricos: number;
+  sumaCalificacionesHistoricas: number; // suma de todas las calificaciones de partido -- promedio = suma / partidosHistoricos
+  tarjetasAmarillasHistoricas: number; // acumulado de toda la carrera (a diferencia de yellowCards, que es solo la temporada en curso y se resetea)
+  tarjetasRojasHistoricas: number;
 }
 
 export interface PlayerProfile {

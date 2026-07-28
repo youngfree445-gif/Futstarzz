@@ -1442,7 +1442,7 @@ export default function Dashboard({
                     </h3>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center">
+                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Goles Marcados</span>
                         <span className="text-2xl font-black text-gold-400 font-mono block mt-1">
                           {playerProfile.careerStats.golesHistoricos}
@@ -1452,6 +1452,29 @@ export default function Dashboard({
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Asistencias</span>
                         <span className="text-2xl font-black text-yellow-500 font-mono block mt-1">
                           {playerProfile.careerStats.asistenciasHistoricos}
+                        </span>
+                      </div>
+                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center col-span-2">
+                        <span className="text-3xs text-slate-500 font-mono uppercase block">Calificación Promedio</span>
+                        <span className="text-2xl font-black text-emerald-400 font-mono block mt-1">
+                          {(playerProfile.careerStats.partidosHistoricos > 0
+                            ? playerProfile.careerStats.sumaCalificacionesHistoricas / playerProfile.careerStats.partidosHistoricos
+                            : 0
+                          ).toFixed(1)}
+                        </span>
+                      </div>
+                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+                        <span className="text-3xs text-slate-500 font-mono uppercase block">Tarjetas Amarillas</span>
+                        <span className="text-2xl font-black text-yellow-400 font-mono mt-1 flex items-center gap-1.5">
+                          <span className="w-3 h-4 rounded-sm bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.5)] shrink-0" />
+                          {playerProfile.careerStats.tarjetasAmarillasHistoricas}
+                        </span>
+                      </div>
+                      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+                        <span className="text-3xs text-slate-500 font-mono uppercase block">Tarjetas Rojas</span>
+                        <span className="text-2xl font-black text-red-500 font-mono mt-1 flex items-center gap-1.5">
+                          <span className="w-3 h-4 rounded-sm bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.5)] shrink-0" />
+                          {playerProfile.careerStats.tarjetasRojasHistoricas}
                         </span>
                       </div>
                       <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center col-span-2">

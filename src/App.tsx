@@ -273,6 +273,17 @@ export default function App() {
     if (profile.lastPressAnsweredWeek === undefined) {
       profile = { ...profile, lastPressAnsweredWeek: 0 };
     }
+    if (profile.careerStats.sumaCalificacionesHistoricas === undefined) {
+      profile = {
+        ...profile,
+        careerStats: {
+          ...profile.careerStats,
+          sumaCalificacionesHistoricas: 0,
+          tarjetasAmarillasHistoricas: 0,
+          tarjetasRojasHistoricas: 0
+        }
+      };
+    }
     setPlayerProfile(profile);
 
     const savedShop = localStorage.getItem(`futbol_star_shop_${slotId}`);
@@ -1049,7 +1060,10 @@ export default function App() {
         campeonatos: playerProfile.careerStats.campeonatos + campeonatoGanado,
         golesHistoricos: playerProfile.careerStats.golesHistoricos + results.goles,
         asistenciasHistoricos: playerProfile.careerStats.asistenciasHistoricos + results.asistencias,
-        partidosHistoricos: playerProfile.careerStats.partidosHistoricos + 1
+        partidosHistoricos: playerProfile.careerStats.partidosHistoricos + 1,
+        sumaCalificacionesHistoricas: playerProfile.careerStats.sumaCalificacionesHistoricas + results.rating,
+        tarjetasAmarillasHistoricas: playerProfile.careerStats.tarjetasAmarillasHistoricas + (cardReceived === 'yellow' ? 1 : 0),
+        tarjetasRojasHistoricas: playerProfile.careerStats.tarjetasRojasHistoricas + (cardReceived === 'red' ? 1 : 0)
       }
     };
 

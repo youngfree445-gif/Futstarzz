@@ -104,7 +104,10 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
         campeonatos: 0,
         golesHistoricos: 0,
         asistenciasHistoricos: 0,
-        partidosHistoricos: 0
+        partidosHistoricos: 0,
+        sumaCalificacionesHistoricas: 0,
+        tarjetasAmarillasHistoricas: 0,
+        tarjetasRojasHistoricas: 0
       },
       currentClubId: selectedClubId,
       currentWeek: 1,
