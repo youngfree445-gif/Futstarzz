@@ -2088,61 +2088,71 @@ export default function MatchSimulator({
         </div>
 
         <div className="space-y-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl">
-            <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black mb-4 flex items-center gap-1.5">
-              <Award size={13} className="text-burgundy-400" /> Rendimiento de {playerProfile.name}
-            </h3>
-
-            {!onField && !wasSubbedOff && (
-              <div className="mb-4 p-3 rounded-xl border border-burgundy-500/30 bg-burgundy-500/10 text-2xs text-burgundy-300 font-bold text-center">
-                🪑 Arrancás en el banco de suplentes{subEntryMinute != null ? ` · Entrás cerca del minuto ${subEntryMinute}'` : ''}
-              </div>
-            )}
-            {wasSubbedOff && (
-              <div className="mb-4 p-3 rounded-xl border border-slate-700 bg-slate-950/60 text-2xs text-slate-400 font-bold text-center">
-                🪑 El técnico te sacó de la cancha. Mirás el resto del partido desde el banco.
-              </div>
-            )}
-
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-slate-950 border-2 border-gold-500 flex flex-col items-center justify-center shadow-lg shadow-gold-500/10">
-                <span className="text-xs font-black text-slate-400 uppercase leading-none font-mono tracking-tighter">Calificación</span>
-                <span className="text-xl font-extrabold text-white leading-none mt-1 font-mono">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
+            {/* Cabecera tipo "ficha de jugador": calificación grande a la izquierda, identidad a la derecha, degradado sutil para separarla visualmente del resto de la card. */}
+            <div className="bg-gradient-to-br from-slate-850 to-slate-900 p-5 flex items-center gap-4 border-b border-slate-800">
+              <div className="w-20 h-20 shrink-0 rounded-2xl bg-slate-950 border-2 border-gold-500 flex flex-col items-center justify-center shadow-lg shadow-gold-500/20">
+                <span className="text-4xs font-black text-slate-500 uppercase leading-none font-mono tracking-tighter">Calificación</span>
+                <span className="text-2xl font-extrabold text-gold-400 leading-none mt-1.5 font-mono">
                   {rating.toFixed(1)}
                 </span>
               </div>
-              <div>
-                <span className="text-2xs font-extrabold uppercase text-burgundy-500 bg-burgundy-500/10 px-1.5 py-0.5 rounded">
+              <div className="min-w-0">
+                <span className="text-2xs font-extrabold uppercase text-burgundy-400 bg-burgundy-500/15 px-2 py-0.5 rounded-full">
                   {playerProfile.position}
                 </span>
-                <h4 className="text-sm font-bold text-white mt-1.5">{playerProfile.name}</h4>
-                <p className="text-3xs text-slate-400 font-mono">Ficha de Temporada Oficial</p>
+                <h4 className="text-base font-black text-white mt-1.5 truncate">{playerProfile.name}</h4>
+                <p className="text-3xs text-slate-500 font-mono uppercase tracking-wide flex items-center gap-1 mt-0.5">
+                  <Award size={11} className="text-slate-600" /> Ficha de Temporada Oficial
+                </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
-                <span className="text-xs text-slate-400 block font-mono">Goles</span>
-                <span className="text-xl font-bold font-mono text-gold-400 block mt-0.5">{playerGoals}</span>
-              </div>
-              <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
-                <span className="text-xs text-slate-400 block font-mono">Asistencias</span>
-                <span className="text-xl font-bold font-mono text-burgundy-500 block mt-0.5">{playerAssists}</span>
-              </div>
-            </div>
+            <div className="p-5 space-y-5">
+              {!onField && !wasSubbedOff && (
+                <div className="p-3 rounded-xl border border-burgundy-500/30 bg-burgundy-500/10 text-2xs text-burgundy-300 font-bold text-center">
+                  🪑 Arrancás en el banco de suplentes{subEntryMinute != null ? ` · Entrás cerca del minuto ${subEntryMinute}'` : ''}
+                </div>
+              )}
+              {wasSubbedOff && (
+                <div className="p-3 rounded-xl border border-slate-700 bg-slate-950/60 text-2xs text-slate-400 font-bold text-center">
+                  🪑 El técnico te sacó de la cancha. Mirás el resto del partido desde el banco.
+                </div>
+              )}
 
-            <div className="border-t border-slate-800 mt-6 pt-4 space-y-2">
-              <div className="flex justify-between text-2xs text-slate-400 font-mono">
-                <span>Efectividad de pases</span>
-                <span className="text-white font-bold">{Math.round((rating / 10) * 85)}%</span>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex items-center gap-3">
+                  <span className="text-2xl shrink-0">⚽</span>
+                  <div className="min-w-0">
+                    <span className="text-3xs text-slate-500 uppercase font-mono font-bold block">Goles</span>
+                    <span className="text-2xl font-black font-mono text-gold-400 block leading-tight">{playerGoals}</span>
+                  </div>
+                </div>
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex items-center gap-3">
+                  <span className="text-2xl shrink-0">🎯</span>
+                  <div className="min-w-0">
+                    <span className="text-3xs text-slate-500 uppercase font-mono font-bold block">Asistencias</span>
+                    <span className="text-2xl font-black font-mono text-burgundy-400 block leading-tight">{playerAssists}</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between text-2xs text-slate-400 font-mono">
-                <span>Distancia recorrida</span>
-                <span className="text-white font-bold">{(5.2 + (minute * 0.08)).toFixed(1)} km</span>
-              </div>
-              <div className="flex justify-between text-2xs text-slate-400 font-mono">
-                <span>Tarjetas</span>
-                <span className="text-white font-bold">Ninguna</span>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
+                  <span className="text-base block mb-1">📊</span>
+                  <span className="text-sm font-bold font-mono text-white block leading-none">{Math.round((rating / 10) * 85)}%</span>
+                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Efect. de pases</span>
+                </div>
+                <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
+                  <span className="text-base block mb-1">🏃</span>
+                  <span className="text-sm font-bold font-mono text-white block leading-none">{(5.2 + (minute * 0.08)).toFixed(1)} km</span>
+                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Distancia</span>
+                </div>
+                <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
+                  <span className="text-base block mb-1">🟨</span>
+                  <span className="text-sm font-bold font-mono text-white block leading-none">Ninguna</span>
+                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Tarjetas</span>
+                </div>
               </div>
             </div>
           </div>
