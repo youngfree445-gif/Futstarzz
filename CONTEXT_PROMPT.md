@@ -73,12 +73,29 @@ corren su calendario y tabla en simultáneo de fondo.
 
 ## Empaquetado móvil (Capacitor)
 
-- `npm run build` → `dist/` (web, GitHub Pages/Netlify)
+- `npm run build` / `build:netlify` → `dist/` (Netlify, `base: '/'`)
+- `npm run build:ghpages` / `deploy` → `dist-ghpages/` (Pages, `base: '/Futstarzz/'`)
 - `npm run build:capacitor` / `npm run cap:sync` → `dist-mobile/` → se copia
-  a `android/app/src/main/assets/public` e `ios/App/App/public`
-- **Ambos builds están aislados** (`vite.config.ts` decide `outDir` y `base`
-  según `process.env.CAPACITOR`): compilar/correr la app Android nunca toca
-  el build web y viceversa, aunque comparten el mismo código fuente React.
+  a `android/app/src/main/assets/public` e `ios/App/App/public` (`base: './'`)
+- **Los tres builds están aislados** (`vite.config.ts` decide `outDir` y `base`
+  según `CAPACITOR` / `GH_PAGES`): compilar un destino nunca pisa a los otros,
+  aunque comparten el mismo código fuente React. Antes Pages y Netlify
+  compartían `dist/`, y como el build de Pages prefija los assets con
+  `/Futstarzz/`, correr `deploy` dejaba en `dist/` un build que en Netlify da
+  404 en todo → pantalla en blanco.
+
+### Netlify se sube arrastrando la carpeta a mano
+
+A Netlify se le sube `dist/` con drag & drop, **no** desde el repo. Dos
+consecuencias que hay que tener presentes:
+
+- `netlify.toml` **no se aplica** (Netlify solo lo lee cuando buildea él
+  mismo). Las reglas de caché viven además en `public/_headers`, que sí viaja
+  dentro de `dist/` y por eso sigue funcionando con drag & drop.
+- Como la subida es manual, nada valida que `dist/` sea el build correcto: por
+  eso importa que cada destino tenga su carpeta propia. Antes de arrastrar,
+  `dist/index.html` tiene que pedir `/assets/...` — si dice `/Futstarzz/assets/...`
+  es el build de Pages y va a quedar en blanco.
 - Carpeta `android/` ya generada y funcional (Gradle + Capacitor 8); appId
   `com.futstarz.app`.
 

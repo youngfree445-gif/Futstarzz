@@ -24,8 +24,16 @@ export default defineConfig({
     : process.env.GH_PAGES
     ? '/Futstarzz/'
     : '/',
+  // Cada destino escribe en su propia carpeta. Antes GH Pages y Netlify compartían dist/, y como
+  // el build de Pages lleva el prefijo /Futstarzz/ en los assets, correr "deploy" dejaba en dist/
+  // un build que en Netlify da 404 en todo -> pantalla en blanco. Como a Netlify se sube
+  // arrastrando la carpeta a mano, ese dist/ envenenado se subía sin que nada lo avisara.
   build: {
-    outDir: process.env.CAPACITOR ? 'dist-mobile' : 'dist',
+    outDir: process.env.CAPACITOR
+      ? 'dist-mobile'
+      : process.env.GH_PAGES
+      ? 'dist-ghpages'
+      : 'dist',
   },
   plugins: [
     react(),
