@@ -7,6 +7,7 @@ import ClubBadge from './ClubBadge';
 interface SetupScreenProps {
   onBack: () => void;
   onFinishSetup: (profile: PlayerProfile) => void;
+  onNotify: (message: string) => void;
 }
 
 // Fase 2.5 -- Superstición del jugador: ritual elegido una sola vez en la creación del personaje.
@@ -21,7 +22,7 @@ export const SUPERSTITIONS_DATABASE: { id: Superstition; label: string; breakMes
   { id: 'ultimo_vestuario', label: 'Ser el último en salir del vestuario', breakMessage: 'El cuerpo técnico te sacó antes de tiempo para el calentamiento' }
 ];
 
-export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps) {
+export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupScreenProps) {
   const [name, setName] = useState('');
   const [position, setPosition] = useState<Position>('Delantero');
   const [age, setAge] = useState(17);
@@ -85,12 +86,12 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
-      alert('Por favor, ingresa el nombre de tu futbolista.');
+      onNotify('Por favor, ingresa el nombre de tu futbolista.');
       return;
     }
 
     if (!selectedClubId) {
-      alert('Por favor, escoge un club inicial.');
+      onNotify('Por favor, escoge un club inicial.');
       return;
     }
 

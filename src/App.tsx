@@ -4,6 +4,7 @@ import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE
 } from './data';
+import { applyClubTheme } from './clubTheme';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
@@ -19,6 +20,7 @@ import PostMatch from './components/PostMatch';
 import DecisionCenter from './components/DecisionCenter';
 import InteractivePenaltyShootout from './components/InteractivePenaltyShootout';
 import AchievementToast from './components/AchievementToast';
+import NoticeToast from './components/NoticeToast';
 import CareerSummary from './components/CareerSummary';
 
 // Busca la tanda de penales de TU partido dentro de un bracket/llave de eliminación directa, si
@@ -368,6 +370,19 @@ export default function App() {
   // Fase 4 -- Logros: cola de notificaciones tipo Xbox pendientes de mostrar (AchievementToast en
   // App.tsx render). Se apilan si se desbloquea más de uno a la vez y se muestran de a una.
   const [achievementQueue, setAchievementQueue] = useState<Achievement[]>([]);
+  // Cola de avisos tipo toast (reemplazo no bloqueante de alert() nativo) -- ver notify() más abajo
+  // y NoticeToast en App.tsx render. Se apilan si se dispara más de uno a la vez y se muestran de a uno.
+  const [noticeQueue, setNoticeQueue] = useState<string[]>([]);
+  const notify = (message: string) => setNoticeQueue(prev => [...prev, message]);
+
+  // Theming dinámico por club: repinta el dorado/borgoña de toda la app con el color real de
+  // camiseta del club actual (ver Club.themeColor en data.ts y clubTheme.ts) cada vez que cambia
+  // de club -- ficha nueva, traspaso, etc. Si el club no tiene color curado, vuelve al dorado por
+  // defecto (applyClubTheme ya maneja ese fallback internamente).
+  useEffect(() => {
+    const currentClub = playerProfile ? CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId) : undefined;
+    applyClubTheme(currentClub);
+  }, [playerProfile?.currentClubId]);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
@@ -543,14 +558,14 @@ export default function App() {
   const handleTrainAttribute = (attr: keyof PlayerStats) => {
     if (!playerProfile) return;
     if (playerProfile.energy < TRAINING_ENERGY_COST) {
-      alert('¡No tienes suficiente energía para entrenar!');
+      notify('¡No tienes suficiente energía para entrenar!');
       return;
     }
 
     const currentClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
     const trainingCost = TRAINING_BASE_COST + (currentClub?.reputation || 1) * TRAINING_COST_PER_REPUTATION;
     if (playerProfile.capital < trainingCost) {
-      alert(`No tienes los $${trainingCost.toLocaleString()} que cuesta esta sesión de entrenamiento en ${currentClub?.name || 'tu club'}.`);
+      notify(`No tienes los $${trainingCost.toLocaleString()} que cuesta esta sesión de entrenamiento en ${currentClub?.name || 'tu club'}.`);
       return;
     }
 
@@ -604,13 +619,13 @@ export default function App() {
     if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
     setPlayerProfile(withAchievements);
     saveGameState(withAchievements, shopItems);
-    alert(`💘 Empezaste a salir con ${name}. Cuidado con las redes.`);
+    notify(`💘 Empezaste a salir con ${name}. Cuidado con las redes.`);
   };
 
   const handleGirlfriendFlowers = () => {
     if (!playerProfile?.girlfriend) return;
     if (playerProfile.capital < GIRLFRIEND_FLOWERS_COST) {
-      alert('No tienes fondos suficientes para las flores.');
+      notify('No tienes fondos suficientes para las flores.');
       return;
     }
     const updatedProfile: PlayerProfile = {
@@ -633,7 +648,7 @@ export default function App() {
     };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    alert(`📸 Publicaste una foto con ${gfName}. Los hinchas se derriten en los comentarios.`);
+    notify(`📸 Publicaste una foto con ${gfName}. Los hinchas se derriten en los comentarios.`);
   };
 
   const handleGirlfriendFaithful = () => {
@@ -646,7 +661,7 @@ export default function App() {
     };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    alert(`🙏 Le reafirmaste tu compromiso a ${gfName}.`);
+    notify(`🙏 Le reafirmaste tu compromiso a ${gfName}.`);
   };
 
   const handleGirlfriendCheat = () => {
@@ -667,7 +682,7 @@ export default function App() {
       setPlayerProfile(updatedProfile);
       setShopItems(updatedShop);
       saveGameState(updatedProfile, updatedShop);
-      alert(`💥 ¡${gfName} te descubrió engañándola! ${hadSportsCar ? 'Te estrelló el auto deportivo contra el portón de tu casa y ' : ''}la ruptura se hizo pública. -$${GIRLFRIEND_CHEAT_CAUGHT_FINE.toLocaleString()}, tu imagen quedó destrozada.`);
+      notify(`💥 ¡${gfName} te descubrió engañándola! ${hadSportsCar ? 'Te estrelló el auto deportivo contra el portón de tu casa y ' : ''}la ruptura se hizo pública. -$${GIRLFRIEND_CHEAT_CAUGHT_FINE.toLocaleString()}, tu imagen quedó destrozada.`);
     } else {
       const updatedProfile: PlayerProfile = {
         ...playerProfile,
@@ -675,7 +690,7 @@ export default function App() {
       };
       setPlayerProfile(updatedProfile);
       saveGameState(updatedProfile, shopItems);
-      alert('😬 Nadie se enteró... por ahora. Te queda la culpa.');
+      notify('😬 Nadie se enteró... por ahora. Te queda la culpa.');
     }
   };
 
@@ -689,7 +704,7 @@ export default function App() {
     };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    alert(success
+    notify(success
       ? '📰 Desmentiste con calma los rumores con una modelo y te creyeron.'
       : '📰 Nadie te creyó del todo. Los rumores con la modelo siguen circulando.');
   };
@@ -711,7 +726,7 @@ export default function App() {
     if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
     setPlayerProfile(withAchievements);
     saveGameState(withAchievements, shopItems);
-    alert(accept ? `🏠 Te mudaste con ${gfName}. Un paso grande en la relación.` : `💔 Le dijiste que no estás listo para mudarte. ${gfName} se lo tomó mal.`);
+    notify(accept ? `🏠 Te mudaste con ${gfName}. Un paso grande en la relación.` : `💔 Le dijiste que no estás listo para mudarte. ${gfName} se lo tomó mal.`);
   };
 
   // Fase 3 -- Modo Veterano: reconversión de posición. Solo tiene sentido ofrecerla desde el
@@ -735,7 +750,7 @@ export default function App() {
 
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    alert(`Te reconvertiste a ${newPosition}. El cuerpo técnico ajustó tu plan de entrenamiento a la nueva posición.`);
+    notify(`Te reconvertiste a ${newPosition}. El cuerpo técnico ajustó tu plan de entrenamiento a la nueva posición.`);
   };
 
   // Solo lujos puros (sin category, ver ShopItem en types.ts) pasan por acá -- los patrocinios
@@ -746,7 +761,7 @@ export default function App() {
     if (!item) return;
 
     if (playerProfile.capital < item.cost) {
-      alert('No cuentas con el capital suficiente para adquirir este lujo.');
+      notify('No cuentas con el capital suficiente para adquirir este lujo.');
       return;
     }
 
@@ -781,13 +796,13 @@ export default function App() {
 
     const conflicting = shopItems.find(i => i.purchased && i.category === item.category && i.id !== item.id);
     if (conflicting) {
-      alert(`Ya tienes un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Espera a que termine ese contrato antes de firmar otro del mismo rubro.`);
+      notify(`Ya tienes un patrocinio activo de la categoría "${item.category}" (${conflicting.name}). Espera a que termine ese contrato antes de firmar otro del mismo rubro.`);
       return;
     }
 
     const activeSponsorships = shopItems.filter(i => i.purchased && i.category).length;
     if (activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS) {
-      alert(`Ya tienes el máximo de ${MAX_ACTIVE_SPONSORSHIPS} patrocinios activos al mismo tiempo. Tu agenda comercial está completa.`);
+      notify(`Ya tienes el máximo de ${MAX_ACTIVE_SPONSORSHIPS} patrocinios activos al mismo tiempo. Tu agenda comercial está completa.`);
       return;
     }
 
@@ -832,7 +847,7 @@ export default function App() {
     if (!playerProfile) return;
     
     if (cost > 0 && playerProfile.capital < cost) {
-      alert('No tienes los fondos necesarios.');
+      notify('No tienes los fondos necesarios.');
       return;
     }
 
@@ -845,7 +860,7 @@ export default function App() {
 
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    alert(cost < 0 ? '¡Contrato firmado con éxito!' : 'Campaña ejecutada con éxito.');
+    notify(cost < 0 ? '¡Contrato firmado con éxito!' : 'Campaña ejecutada con éxito.');
   };
 
   const handleAnswerPress = (prestigeChange: number, fansChange: number, energyChange: number) => {
@@ -867,7 +882,7 @@ export default function App() {
 
     if (droppedNames.length > 0) {
       const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
-      alert(`📉 Tu declaración generó ruido de sobra. ${droppedNames.join(', ')} ${verb} contigo por la polémica.`);
+      notify(`📉 Tu declaración generó ruido de sobra. ${droppedNames.join(', ')} ${verb} contigo por la polémica.`);
     }
   };
 
@@ -909,7 +924,7 @@ export default function App() {
 
     setPlayerProfile(withAchievements);
     saveGameState(withAchievements, shopItems);
-    alert(`🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}.`);
+    notify(`🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}.`);
   };
 
   const handleAdvanceWeek = () => {
@@ -963,7 +978,7 @@ export default function App() {
         }
         setPlayerProfile(agedRest);
         saveGameState(agedRest, shopItems);
-        alert(`Decidiste descansar este fin de semana. Recuperas +45 de Energía.${restResultMsg}`);
+        notify(`Decidiste descansar este fin de semana. Recuperas +45 de Energía.${restResultMsg}`);
         return;
       }
     }
@@ -1064,7 +1079,7 @@ export default function App() {
         }
         setPlayerProfile(aged);
         saveGameState(aged, shopItems);
-        alert('📅 FECHA FIFA: el Mundial paraliza la actividad de clubes en todo el mundo. Esta semana no hay partido de liga ni de copa para tu club.');
+        notify('📅 FECHA FIFA: el Mundial paraliza la actividad de clubes en todo el mundo. Esta semana no hay partido de liga ni de copa para tu club.');
         return;
       }
     } else if (isCup) {
@@ -1180,7 +1195,7 @@ export default function App() {
         }
         setPlayerProfile(aged);
         saveGameState(aged, shopItems);
-        alert('🏆 Ya quedaste eliminado de la copa continental esta edición. Esta semana no hay partido de copa para tu club.');
+        notify('🏆 Ya quedaste eliminado de la copa continental esta edición. Esta semana no hay partido de copa para tu club.');
         return;
       }
 
@@ -1261,7 +1276,7 @@ export default function App() {
         }
         setPlayerProfile(aged);
         saveGameState(aged, shopItems);
-        alert(`📋 NO FUISTE CONVOCADO esta fecha: el DT decidió dejarte fuera de la lista de ${myClub.name}. Resultado sin vos: ${myGoals}-${rivalGoals} vs. ${opName}.`);
+        notify(`📋 NO FUISTE CONVOCADO esta fecha: el DT decidió dejarte fuera de la lista de ${myClub.name}. Resultado sin vos: ${myGoals}-${rivalGoals} vs. ${opName}.`);
         return;
       }
 
@@ -1327,7 +1342,7 @@ export default function App() {
 
     setPlayerProfile(aged);
     saveGameState(aged, shopItems);
-    alert(`🚫 Cumpliste tu sanción esta fecha. Sin ti en el campo, ${myClub.name} ${isHomeThisMatch ? myGoals : rivalGoals}-${isHomeThisMatch ? rivalGoals : myGoals} ${opponentClub.name}.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s) más de sanción.` : ''}`);
+    notify(`🚫 Cumpliste tu sanción esta fecha. Sin ti en el campo, ${myClub.name} ${isHomeThisMatch ? myGoals : rivalGoals}-${isHomeThisMatch ? rivalGoals : myGoals} ${opponentClub.name}.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s) más de sanción.` : ''}`);
   };
 
   const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number }) => {
@@ -1357,10 +1372,10 @@ export default function App() {
 
     if (droppedNames.length > 0) {
       const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
-      alert(`📉 El escándalo llegó a la prensa. ${droppedNames.join(', ')} ${verb} contigo.`);
+      notify(`📉 El escándalo llegó a la prensa. ${droppedNames.join(', ')} ${verb} contigo.`);
     }
     if (effects.suspension) {
-      alert(`🚫 Sanción disciplinaria: te perderás ${effects.suspension} partido${effects.suspension > 1 ? 's' : ''} de liga.`);
+      notify(`🚫 Sanción disciplinaria: te perderás ${effects.suspension} partido${effects.suspension > 1 ? 's' : ''} de liga.`);
     }
 
     startMatchflow();
@@ -1516,15 +1531,6 @@ export default function App() {
     const VIRAL_NEGATIVE_FANS_PENALTY = 8;
     const isViralNegativePerformance = results.rating < VIRAL_NEGATIVE_RATING_THRESHOLD;
 
-    // Fase 2.5 -- Cláusulas ocultas en contratos: el appearanceBonus fijado al fichar (ver
-    // handleAcceptTransfer/SetupScreen) se cobra por jugar, así que el club tiene incentivo a
-    // ponerte en cancha aunque llegues exhausto. Si jugaste con la energía ya crítica, eso genera
-    // fricción real con el cuerpo técnico -- un golpecito chico de prestigio, no de plata (la plata
-    // ya la cobraste con la cláusula).
-    const APPEARANCE_BONUS_FRICTION_ENERGY_THRESHOLD = 25;
-    const APPEARANCE_BONUS_FRICTION_PRESTIGE_PENALTY = 3;
-    const isAppearanceBonusFriction = playerProfile.energy < APPEARANCE_BONUS_FRICTION_ENERGY_THRESHOLD;
-
     // Tarjetas, multas y sanciones: el prestigio/fans que acumularon las decisiones del partido
     // (antes muerto, nunca se aplicaba) se liquida acá. Una roja (directa o por doble amarilla)
     // suma sanción de la federación y multa, además del golpe de prestigio de la jugada en sí.
@@ -1537,8 +1543,7 @@ export default function App() {
     const decisionFansChange = results.fansChange || 0;
     const netPrestigeChange = decisionPrestigeChange
       - (cardReceived === 'red' ? RED_CARD_PRESTIGE_PENALTY : 0)
-      - (isViralNegativePerformance ? VIRAL_NEGATIVE_PRESTIGE_PENALTY : 0)
-      - (isAppearanceBonusFriction ? APPEARANCE_BONUS_FRICTION_PRESTIGE_PENALTY : 0);
+      - (isViralNegativePerformance ? VIRAL_NEGATIVE_PRESTIGE_PENALTY : 0);
     const netFansChange = decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0);
 
     let newYellowCards = playerProfile.yellowCards;
@@ -1548,10 +1553,6 @@ export default function App() {
 
     if (isViralNegativePerformance) {
       disciplineMessages.push(`📉 Te volviste viral por las malas: la timeline te destroza tras un partido paupérrimo (rating ${results.rating.toFixed(1)}).`);
-    }
-
-    if (isAppearanceBonusFriction) {
-      disciplineMessages.push(`💰 Jugaste exhausto para que el club no perdiera la cláusula de tu bono por presencia (+$${playerProfile.appearanceBonus.toLocaleString()}), y el cuerpo técnico lo nota: fricción con el DT.`);
     }
 
     // Fase 2.5 -- Superstición del jugador: cada partido hay una chance chica de que la rutina
@@ -1651,7 +1652,7 @@ export default function App() {
     setShopItems(updatedShop);
     saveGameState(withAchievements, updatedShop);
     if (disciplineMessages.length > 0) {
-      alert(disciplineMessages.join('\n'));
+      notify(disciplineMessages.join('\n'));
     }
 
     setActivePenaltyShootout(null);
@@ -1726,7 +1727,7 @@ export default function App() {
           setShopItems(updatedShopItems);
           saveGameState(steppedDown, updatedShopItems);
           setScreen('dashboard');
-          alert(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo unos años más. Menos luces, pero sigues en la cancha.`);
+          notify(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo unos años más. Menos luces, pero sigues en la cancha.`);
           return;
         }
       }
@@ -1748,11 +1749,11 @@ export default function App() {
   const handleRecoverEnergy = (cost: number, energyAmount: number) => {
     if (!playerProfile) return;
     if (playerProfile.capital < cost) {
-      alert('No tienes suficientes fondos en tu cuenta bancaria para pagar este tratamiento.');
+      notify('No tienes suficientes fondos en tu cuenta bancaria para pagar este tratamiento.');
       return;
     }
     if (playerProfile.energy >= 100) {
-      alert('¡Tu energía ya está al máximo! Estás a tope para jugar.');
+      notify('¡Tu energía ya está al máximo! Estás a tope para jugar.');
       return;
     }
 
@@ -1777,6 +1778,14 @@ export default function App() {
         />
       )}
 
+      {noticeQueue.length > 0 && (
+        <NoticeToast
+          key={noticeQueue[0]}
+          message={noticeQueue[0]}
+          onDone={() => setNoticeQueue(prev => prev.slice(1))}
+        />
+      )}
+
       {screen === 'welcome' && (
         <WelcomeScreen 
           onStartNew={handleStartNew} 
@@ -1785,9 +1794,10 @@ export default function App() {
       )}
 
       {screen === 'setup' && (
-        <SetupScreen 
-          onBack={() => setScreen('welcome')} 
-          onFinishSetup={handleFinishSetup} 
+        <SetupScreen
+          onBack={() => setScreen('welcome')}
+          onFinishSetup={handleFinishSetup}
+          onNotify={notify}
         />
       )}
 

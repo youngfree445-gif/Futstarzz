@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats } from '../types';
-import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight } from 'lucide-react';
+import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
 
 // Nombre real de campeonato + bandera por liga (club.league), para el encabezado del partido.
@@ -2091,9 +2091,9 @@ export default function MatchSimulator({
           <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
             {/* Cabecera tipo "ficha de jugador": calificación grande a la izquierda, identidad a la derecha, degradado sutil para separarla visualmente del resto de la card. */}
             <div className="bg-gradient-to-br from-slate-850 to-slate-900 p-5 flex items-center gap-4 border-b border-slate-800">
-              <div className="w-20 h-20 shrink-0 rounded-2xl bg-slate-950 border-2 border-gold-500 flex flex-col items-center justify-center shadow-lg shadow-gold-500/20">
-                <span className="text-4xs font-black text-slate-500 uppercase leading-none font-mono tracking-tighter">Calificación</span>
-                <span className="text-2xl font-extrabold text-gold-400 leading-none mt-1.5 font-mono">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl bg-slate-950 border-2 border-gold-500 flex flex-col items-center justify-center shadow-lg shadow-gold-500/20 px-1">
+                <span className="text-[7px] sm:text-[8px] font-black text-slate-500 uppercase leading-none font-mono tracking-tighter text-center">Calificación</span>
+                <span className="text-xl sm:text-2xl font-extrabold text-gold-400 leading-none mt-1.5 font-mono">
                   {rating.toFixed(1)}
                 </span>
               </div>
@@ -2103,33 +2103,39 @@ export default function MatchSimulator({
                 </span>
                 <h4 className="text-base font-black text-white mt-1.5 truncate">{playerProfile.name}</h4>
                 <p className="text-3xs text-slate-500 font-mono uppercase tracking-wide flex items-center gap-1 mt-0.5">
-                  <Award size={11} className="text-slate-600" /> Ficha de Temporada Oficial
+                  <Award size={11} className="text-slate-600 shrink-0" /> <span className="truncate">Ficha de Temporada Oficial</span>
                 </p>
               </div>
             </div>
 
             <div className="p-5 space-y-5">
               {!onField && !wasSubbedOff && (
-                <div className="p-3 rounded-xl border border-burgundy-500/30 bg-burgundy-500/10 text-2xs text-burgundy-300 font-bold text-center">
-                  🪑 Arrancás en el banco de suplentes{subEntryMinute != null ? ` · Entrás cerca del minuto ${subEntryMinute}'` : ''}
+                <div className="p-3 rounded-xl border border-burgundy-500/30 bg-burgundy-500/10 text-2xs text-burgundy-300 font-bold text-center flex items-center justify-center gap-2">
+                  <Armchair size={14} className="shrink-0" />
+                  <span>Arrancás en el banco de suplentes{subEntryMinute != null ? ` · Entrás cerca del minuto ${subEntryMinute}'` : ''}</span>
                 </div>
               )}
               {wasSubbedOff && (
-                <div className="p-3 rounded-xl border border-slate-700 bg-slate-950/60 text-2xs text-slate-400 font-bold text-center">
-                  🪑 El técnico te sacó de la cancha. Mirás el resto del partido desde el banco.
+                <div className="p-3 rounded-xl border border-slate-700 bg-slate-950/60 text-2xs text-slate-400 font-bold text-center flex items-center justify-center gap-2">
+                  <Armchair size={14} className="shrink-0" />
+                  <span>El técnico te sacó de la cancha. Mirás el resto del partido desde el banco.</span>
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex items-center gap-3">
-                  <span className="text-2xl shrink-0">⚽</span>
+                  <div className="w-9 h-9 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center shrink-0">
+                    <Target size={17} className="text-gold-400" />
+                  </div>
                   <div className="min-w-0">
                     <span className="text-3xs text-slate-500 uppercase font-mono font-bold block">Goles</span>
                     <span className="text-2xl font-black font-mono text-gold-400 block leading-tight">{playerGoals}</span>
                   </div>
                 </div>
                 <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex items-center gap-3">
-                  <span className="text-2xl shrink-0">🎯</span>
+                  <div className="w-9 h-9 rounded-xl bg-burgundy-500/10 border border-burgundy-500/20 flex items-center justify-center shrink-0">
+                    <Send size={16} className="text-burgundy-400" />
+                  </div>
                   <div className="min-w-0">
                     <span className="text-3xs text-slate-500 uppercase font-mono font-bold block">Asistencias</span>
                     <span className="text-2xl font-black font-mono text-burgundy-400 block leading-tight">{playerAssists}</span>
@@ -2139,17 +2145,17 @@ export default function MatchSimulator({
 
               <div className="grid grid-cols-3 gap-2">
                 <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
-                  <span className="text-base block mb-1">📊</span>
+                  <BarChart3 size={16} className="text-slate-500 mx-auto mb-1.5" />
                   <span className="text-sm font-bold font-mono text-white block leading-none">{Math.round((rating / 10) * 85)}%</span>
                   <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Efect. de pases</span>
                 </div>
                 <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
-                  <span className="text-base block mb-1">🏃</span>
+                  <Footprints size={16} className="text-slate-500 mx-auto mb-1.5" />
                   <span className="text-sm font-bold font-mono text-white block leading-none">{(5.2 + (minute * 0.08)).toFixed(1)} km</span>
                   <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Distancia</span>
                 </div>
                 <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
-                  <span className="text-base block mb-1">🟨</span>
+                  <Square size={16} className="text-slate-600 mx-auto mb-1.5" />
                   <span className="text-sm font-bold font-mono text-white block leading-none">Ninguna</span>
                   <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Tarjetas</span>
                 </div>
@@ -2158,40 +2164,40 @@ export default function MatchSimulator({
           </div>
 
           <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl text-xs text-slate-400">
-            <h4 className="font-bold text-slate-300 uppercase tracking-wider mb-1">
-              💡 Consejo Profesional de Táctica
+            <h4 className="font-bold text-slate-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <Lightbulb size={13} className="text-gold-400 shrink-0" /> Consejo Profesional de Táctica
             </h4>
             <p className="leading-relaxed text-2xs">
               Tus elecciones críticas están vinculadas a tus atributos actuales. Si no has entrenado lo suficiente tus atributos físicos o de pase, intenta ir por las opciones seguras para evitar pérdidas de prestigio.
             </p>
             {tablePositionFactor < 0.97 && (
-              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2">
-                ⚠️ Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.
+              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
+                <AlertTriangle size={13} className="shrink-0 mt-0.5" /> <span>Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.</span>
               </p>
             )}
             {tablePositionFactor > 1.03 && (
-              <p className="leading-relaxed text-2xs text-gold-400 mt-2">
-                ✨ Rival peor ubicado en la tabla: tus decisiones tienen algo más de margen hoy.
+              <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
+                <Sparkles size={13} className="shrink-0 mt-0.5" /> <span>Rival peor ubicado en la tabla: tus decisiones tienen algo más de margen hoy.</span>
               </p>
             )}
             {playerProfile.fans < 20 && (
-              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2">
-                📣 La hinchada te viene pitando: tus decisiones tienen menos margen de éxito hoy.
+              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
+                <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te viene pitando: tus decisiones tienen menos margen de éxito hoy.</span>
               </p>
             )}
             {playerProfile.fans > 80 && (
-              <p className="leading-relaxed text-2xs text-gold-400 mt-2">
-                📣 La hinchada te banca a muerte: tus decisiones tienen algo más de margen hoy.
+              <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
+                <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te banca a muerte: tus decisiones tienen algo más de margen hoy.</span>
               </p>
             )}
             {playerProfile.mentalHealth < 35 && (
-              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2">
-                🧠 Traes la cabeza floja: tus decisiones tienen menos margen de éxito hoy.
+              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
+                <Brain size={13} className="shrink-0 mt-0.5" /> <span>Traes la cabeza floja: tus decisiones tienen menos margen de éxito hoy.</span>
               </p>
             )}
             {playerProfile.mentalHealth > 85 && (
-              <p className="leading-relaxed text-2xs text-gold-400 mt-2">
-                🧠 Estás mentalmente a tope: tus decisiones tienen algo más de margen hoy.
+              <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
+                <Brain size={13} className="shrink-0 mt-0.5" /> <span>Estás mentalmente a tope: tus decisiones tienen algo más de margen hoy.</span>
               </p>
             )}
           </div>
