@@ -22,7 +22,7 @@ export default defineConfig({
     : process.env.NETLIFY
     ? '/'
     : process.env.GH_PAGES
-    ? '/f-tbol-star-_-calcio-manager-2026--1-/'
+    ? '/futstarzz/'
     : '/',
   build: {
     outDir: process.env.CAPACITOR ? 'dist-mobile' : 'dist',
