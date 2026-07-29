@@ -51,6 +51,21 @@
   --color-amber-400: #fbbf24;
   --color-amber-500: #f59e0b;
   --color-amber-600: #d97706;
+
+  /* Escalón intermedio entre slate-800 y slate-900, usado en los degradados de cabecera
+     de las fichas (ficha de jugador en partido, tarjetas del dashboard). */
+  --color-slate-850: #1f1b1b;
+
+  /* Escalones por debajo de text-xs (0.75rem) para las etiquetas densas de las fichas:
+     stats de partido, chips de posición, pies de tarjeta. Sin estos tokens las clases
+     text-2xs/3xs/4xs que usan los componentes no generan CSS y el texto cae al tamaño
+     heredado del body, desbordando y partiéndose en varias líneas dentro de los cuadros. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 0.9rem;
+  --text-3xs: 0.625rem;
+  --text-3xs--line-height: 0.8rem;
+  --text-4xs: 0.5625rem;
+  --text-4xs--line-height: 0.75rem;
 }
 
 body {
