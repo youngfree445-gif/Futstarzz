@@ -2097,13 +2097,13 @@ export default function MatchSimulator({
                   {rating.toFixed(1)}
                 </span>
               </div>
-              <div className="min-w-0">
-                <span className="text-2xs font-extrabold uppercase text-burgundy-400 bg-burgundy-500/15 px-2 py-0.5 rounded-full">
+              <div className="min-w-0 flex-1">
+                <span className="text-3xs sm:text-2xs font-extrabold uppercase text-burgundy-400 bg-burgundy-500/15 px-2 py-0.5 rounded-full inline-block">
                   {playerProfile.position}
                 </span>
-                <h4 className="text-base font-black text-white mt-1.5 truncate">{playerProfile.name}</h4>
-                <p className="text-3xs text-slate-500 font-mono uppercase tracking-wide flex items-center gap-1 mt-0.5">
-                  <Award size={11} className="text-slate-600 shrink-0" /> <span className="truncate">Ficha de Temporada Oficial</span>
+                <h4 className="text-sm sm:text-base font-black text-white mt-1.5 truncate">{playerProfile.name}</h4>
+                <p className="text-4xs sm:text-3xs text-slate-500 font-mono uppercase tracking-wide flex items-center gap-1 mt-0.5">
+                  <Award size={10} className="text-slate-600 shrink-0" /> <span className="truncate">Temporada 26/27</span>
                 </p>
               </div>
             </div>
@@ -2123,41 +2123,41 @@ export default function MatchSimulator({
               )}
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center shrink-0">
-                    <Target size={17} className="text-gold-400" />
+                <div className="bg-slate-950 p-3 sm:p-4 rounded-2xl border border-slate-800 flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center shrink-0">
+                    <Target size={15} className="text-gold-400" />
                   </div>
                   <div className="min-w-0">
-                    <span className="text-3xs text-slate-500 uppercase font-mono font-bold block">Goles</span>
-                    <span className="text-2xl font-black font-mono text-gold-400 block leading-tight">{playerGoals}</span>
+                    <span className="text-4xs sm:text-3xs text-slate-500 uppercase font-mono font-bold block truncate">Goles</span>
+                    <span className="text-xl sm:text-2xl font-black font-mono text-gold-400 block leading-tight">{playerGoals}</span>
                   </div>
                 </div>
-                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-burgundy-500/10 border border-burgundy-500/20 flex items-center justify-center shrink-0">
-                    <Send size={16} className="text-burgundy-400" />
+                <div className="bg-slate-950 p-3 sm:p-4 rounded-2xl border border-slate-800 flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-burgundy-500/10 border border-burgundy-500/20 flex items-center justify-center shrink-0">
+                    <Send size={14} className="text-burgundy-400" />
                   </div>
                   <div className="min-w-0">
-                    <span className="text-3xs text-slate-500 uppercase font-mono font-bold block">Asistencias</span>
-                    <span className="text-2xl font-black font-mono text-burgundy-400 block leading-tight">{playerAssists}</span>
+                    <span className="text-4xs sm:text-3xs text-slate-500 uppercase font-mono font-bold block truncate">Asist.</span>
+                    <span className="text-xl sm:text-2xl font-black font-mono text-burgundy-400 block leading-tight">{playerAssists}</span>
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-2">
-                <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
-                  <BarChart3 size={16} className="text-slate-500 mx-auto mb-1.5" />
-                  <span className="text-sm font-bold font-mono text-white block leading-none">{Math.round((rating / 10) * 85)}%</span>
-                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Efect. de pases</span>
+                <div className="bg-slate-950/60 p-2 sm:p-3 rounded-xl border border-slate-800 text-center">
+                  <BarChart3 size={14} className="text-slate-500 mx-auto mb-1" />
+                  <span className="text-xs sm:text-sm font-bold font-mono text-white block leading-none whitespace-nowrap">{Math.round((rating / 10) * 85)}%</span>
+                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1 leading-tight whitespace-nowrap">Pases</span>
                 </div>
-                <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
-                  <Footprints size={16} className="text-slate-500 mx-auto mb-1.5" />
-                  <span className="text-sm font-bold font-mono text-white block leading-none">{(5.2 + (minute * 0.08)).toFixed(1)} km</span>
-                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Distancia</span>
+                <div className="bg-slate-950/60 p-2 sm:p-3 rounded-xl border border-slate-800 text-center">
+                  <Footprints size={14} className="text-slate-500 mx-auto mb-1" />
+                  <span className="text-xs sm:text-sm font-bold font-mono text-white block leading-none whitespace-nowrap">{(5.2 + (minute * 0.08)).toFixed(1)}km</span>
+                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1 leading-tight whitespace-nowrap">Distancia</span>
                 </div>
-                <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-center">
-                  <Square size={16} className="text-slate-600 mx-auto mb-1.5" />
-                  <span className="text-sm font-bold font-mono text-white block leading-none">Ninguna</span>
-                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1.5 leading-tight">Tarjetas</span>
+                <div className="bg-slate-950/60 p-2 sm:p-3 rounded-xl border border-slate-800 text-center">
+                  <Square size={14} className="text-slate-600 mx-auto mb-1" />
+                  <span className="text-xs sm:text-sm font-bold font-mono text-white block leading-none whitespace-nowrap">Ninguna</span>
+                  <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1 leading-tight whitespace-nowrap">Tarjetas</span>
                 </div>
               </div>
             </div>
