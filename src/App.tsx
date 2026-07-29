@@ -535,10 +535,22 @@ export default function App() {
     setScreen('dashboard');
   };
 
+  // Fase 4 -- Entrenamiento ya no es gratis en plata: instalaciones/preparadores de clubes top
+  // cobran más caro que las de un club chico. reputation va de 1 (chico) a 5 (élite mundial).
+  const TRAINING_ENERGY_COST = 20;
+  const TRAINING_BASE_COST = 200;
+  const TRAINING_COST_PER_REPUTATION = 150;
   const handleTrainAttribute = (attr: keyof PlayerStats) => {
     if (!playerProfile) return;
-    if (playerProfile.energy < 20) {
+    if (playerProfile.energy < TRAINING_ENERGY_COST) {
       alert('¡No tienes suficiente energía para entrenar!');
+      return;
+    }
+
+    const currentClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    const trainingCost = TRAINING_BASE_COST + (currentClub?.reputation || 1) * TRAINING_COST_PER_REPUTATION;
+    if (playerProfile.capital < trainingCost) {
+      alert(`No tienes los $${trainingCost.toLocaleString()} que cuesta esta sesión de entrenamiento en ${currentClub?.name || 'tu club'}.`);
       return;
     }
 
@@ -546,7 +558,8 @@ export default function App() {
 
     const updatedProfile = {
       ...playerProfile,
-      energy: playerProfile.energy - 20,
+      energy: playerProfile.energy - TRAINING_ENERGY_COST,
+      capital: playerProfile.capital - trainingCost,
       attributes: {
         ...playerProfile.attributes,
         [attr]: Math.min(99, playerProfile.attributes[attr] + trainingGain)
@@ -856,6 +869,19 @@ export default function App() {
       const verb = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
       alert(`📉 Tu declaración generó ruido de sobra. ${droppedNames.join(', ')} ${verb} contigo por la polémica.`);
     }
+  };
+
+  // ChutSocial: dar like o comentar te desconecta un rato del entrenamiento -- +1 de energía por
+  // interacción, tope 100. Sin saveGameState acá a propósito: es un cambio mínimo y muy frecuente
+  // (podés likear muchos posts seguidos), guardarlo en localStorage cada vez sería ruido innecesario
+  // -- se persiste solo con el próximo guardado real (avanzar semana, entrenar, etc.).
+  const SOCIAL_INTERACTION_ENERGY_GAIN = 1;
+  const handleSocialInteraction = () => {
+    if (!playerProfile) return;
+    setPlayerProfile({
+      ...playerProfile,
+      energy: Math.min(100, playerProfile.energy + SOCIAL_INTERACTION_ENERGY_GAIN)
+    });
   };
 
   const handleAcceptTransfer = (clubId: string, signOnBonus: number) => {
@@ -1290,9 +1316,10 @@ export default function App() {
     const reduction = coachItem?.purchased ? 10 : 0;
     const finalEnergySpent = Math.max(10, baseEnergySpent - reduction);
 
-    // FASE 3 -- economía más dura: bonos por gol/asistencia recortados ~25% respecto al original.
-    const goalBonus = results.goles * 380;
-    const assistBonus = results.asistencias * 180;
+    // FASE 4 -- ahora que el entrenamiento cuesta capital (ver handleTrainAttribute), el bono por
+    // partido sube ~30% respecto al valor de Fase 3 para compensar el nuevo gasto semanal.
+    const goalBonus = results.goles * 500;
+    const assistBonus = results.asistencias * 230;
     // Patrocinios "casi infinitos": sumamos el dividendo pasivo de TODOS los items comprados que
     // tengan uno, en vez de tener un caso especial hardcodeado por cada patrocinio nuevo.
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
@@ -1724,6 +1751,7 @@ export default function App() {
           onAcceptTransfer={handleAcceptTransfer}
           onAdvanceWeek={handleAdvanceWeek}
           onRecoverEnergy={handleRecoverEnergy}
+          onSocialInteraction={handleSocialInteraction}
           onLogout={() => setScreen('welcome')}
           onResetGame={handleResetGame}
         />

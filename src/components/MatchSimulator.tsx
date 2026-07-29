@@ -1657,7 +1657,9 @@ export default function MatchSimulator({
       const faltaTexto = faltasNarrativa[Math.floor(Math.random() * faltasNarrativa.length)];
       const foulRoll = Math.random();
 
-      if (foulRoll < 0.03) {
+      // Roja directa ambiental bajada de 3% a 1%: con hasta ~90 intentos por partido, un 3% se
+      // sentía como que te expulsaban demasiado seguido (reporte real del usuario).
+      if (foulRoll < 0.01) {
         const cardSuffix = playerCards === 'yellow' ? ' 🟨🟥 ¡SEGUNDA AMARILLA, EXPULSADO!' : ' 🟥 ¡ROJA DIRECTA, EXPULSADO!';
         setPlayerCards('red');
         setIsSentOff(true);

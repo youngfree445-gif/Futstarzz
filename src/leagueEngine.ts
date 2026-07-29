@@ -942,6 +942,15 @@ function freshCupState(cupId: 'libertadores' | 'sudamericana', year: number, all
 // Cuántas semanas de Copa (isCupWeek) ya transcurrieron en total desde el
 // arranque de la carrera — el equivalente de leagueMatchweeksElapsedTotal
 // pero contando las semanas que SÍ son de copa en vez de las que no.
+//
+// La usa el motor de Champions/Europa, que SÍ se pausa del todo durante el bloque del Mundial
+// (comparte fixtures de liga doméstica con jugadores de selecciones europeas). A diferencia de
+// Libertadores/Sudamericana (contador anual, ver cupWeeksElapsedInYear más abajo), este contador
+// es ACUMULATIVO GLOBAL y nunca se reinicia por año -- así que aunque el Mundial también le
+// congele el avance unas semanas, la edición en curso simplemente retoma exactamente donde había
+// quedado al terminar el Mundial, sin perder progreso ni resetearse. Por eso Champions/Europa es
+// inmune al bug que sí tenía Libertadores/Sudamericana (edición que nunca llegaba a terminar en
+// años mundialistas y se reiniciaba sola al año siguiente).
 export function cupWeeksElapsedTotal(currentWeek: number): number {
   let count = 0;
   for (let w = 1; w < currentWeek; w++) {
@@ -958,11 +967,22 @@ export function cupWeeksElapsedTotal(currentWeek: number): number {
 // catch-up resolvería TODA la edición (grupos + eliminatoria) de un solo
 // golpe sin dejarle nunca un partido real al jugador. Por eso acá contamos
 // solo las semanas de copa transcurridas DESDE el arranque de ese año.
+//
+// BUGFIX: antes esto excluía también las semanas del bloque del Mundial (isWorldCupBreakWeek),
+// igual que cupWeeksElapsedTotal. Eso dejaba solo 9 semanas de copa disponibles en un año
+// mundialista (de las 12 normales), pero Libertadores/Sudamericana necesitan 10 steps completos
+// (6 de fase de grupos ida/vuelta + 4 de eliminatoria) para coronar campeón -- el torneo nunca
+// terminaba esos años, y al arrancar el año siguiente se creaba una edición nueva desde cero
+// (reporte real: "me eliminan de Libertadores y en julio vuelve a aparecer la fase de grupos").
+// Libertadores/Sudamericana SÍ pueden seguir resolviéndose de fondo durante el Mundial (el club
+// sigue jugando su copa aunque el usuario esté con la selección esa semana puntual -- el motor ya
+// simula sin él cualquier semana que no le toque su propio partido), así que ya no se descuentan
+// esas semanas acá.
 function cupWeeksElapsedInYear(year: number, currentWeek: number): number {
   const yearStartWeek = (year - 1) * SEASON_LENGTH_WEEKS + 1;
   let count = 0;
   for (let w = yearStartWeek; w < currentWeek; w++) {
-    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
+    if (isCupWeek(w)) count++;
   }
   return count;
 }

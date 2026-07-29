@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL } from '../data';
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
@@ -182,6 +182,7 @@ interface DashboardProps {
   onAcceptTransfer: (clubId: string, signOnBonus: number) => void;
   onAdvanceWeek: () => void;
   onRecoverEnergy: (cost: number, energyAmount: number) => void;
+  onSocialInteraction: () => void;
   onLogout: () => void;
   onResetGame: () => void;
 }
@@ -207,6 +208,7 @@ export default function Dashboard({
   onAcceptTransfer,
   onAdvanceWeek,
   onRecoverEnergy,
+  onSocialInteraction,
   onLogout,
   onResetGame
 }: DashboardProps) {
@@ -239,7 +241,13 @@ export default function Dashboard({
   const toggleLike = (postId: string) => {
     setLikedPosts(prev => {
       const next = new Set(prev);
-      if (next.has(postId)) next.delete(postId); else next.add(postId);
+      if (next.has(postId)) {
+        next.delete(postId);
+      } else {
+        next.add(postId);
+        // Solo al dar like (no al sacarlo) -- desconectarte un rato con el celular recarga un poco.
+        onSocialInteraction();
+      }
       return next;
     });
   };
@@ -259,6 +267,7 @@ export default function Dashboard({
     }));
     setCommentDrafts(prev => ({ ...prev, [postId]: '' }));
     setCommentGifDrafts(prev => { const next = { ...prev }; delete next[postId]; return next; });
+    onSocialInteraction();
   };
 
   // Búsqueda de GIF para adjuntar a tu propio comentario -- se dispara al abrir el selector con
@@ -293,6 +302,8 @@ export default function Dashboard({
 
   // Corregido: Busca el club en la base de datos inyectada con el JSON
   const currentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+  // Fase 4: costo en capital de cada sesión de entrenamiento -- misma fórmula que handleTrainAttribute en App.tsx.
+  const trainingCost = 200 + currentClub.reputation * 150;
 
   // Fase 2.5 -- Rivalidad generacional: nivel actual (el hito más alto ya alcanzado) y progreso
   // hacia el próximo, según CAREER_MILESTONES.
@@ -523,7 +534,16 @@ export default function Dashboard({
     return ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== playerProfile.currentClubId).map(c => {
       const multiplier = 1 + (playerProfile.prestige / 100);
       const customSalary = Math.round(c.initialSalary * multiplier);
-      const signOnBonus = Math.round(c.marketValue * 0.01 + (playerProfile.careerStats.golesHistoricos * 750));
+      // Fase 4 -- desacoplado de marketValue total del club (ahora refleja el valor del plantel
+      // entero, no lo que le pagarían a un fichaje individual como vos -- tras calibrar salarios
+      // con datos reales, clubes top llegaron a marketValue de $700M-1.000M+). El bono de firma
+      // ahora escala con la reputation del club (rango de fichaje real de nivel medio-alto según
+      // REAL_TRANSFER_POOL: ~$2M a ~$24M) y tu propia trayectoria de carrera.
+      const signOnBonus = Math.round(
+        1500 * c.reputation * c.reputation
+        + playerProfile.careerStats.golesHistoricos * 750
+        + playerProfile.careerStats.campeonatos * 2000
+      );
       const reputationGap = c.reputation - currentClub.reputation;
       const reqPrestige = Math.round(Math.min(95, c.reputation * 12 + Math.max(0, reputationGap) * 15));
       const reqMatches = 4 + Math.max(0, reputationGap) * 5 + (c.reputation - 1) * 2;
@@ -683,22 +703,18 @@ export default function Dashboard({
     });
   };
 
-  // Fichajes YA OFICIALIZADOS entre otros clubes (a diferencia de generateRivalTransferBuzzPosts,
-  // que son rumores) -- pura ambientación de mercado, no modifica plantillas reales del juego.
+  // Fichajes YA OFICIALIZADOS -- antes se inventaba un jugador ficticio moviéndose entre dos
+  // clubes del juego; ahora usa REAL_TRANSFER_POOL (fichajes reales del fútbol mundial reciente,
+  // ver data.ts) para que el anuncio se sienta genuino, con nombre, clubes y monto real.
   const generateTransferAnnouncementPosts = () => {
-    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
-    if (candidates.length < 2) return [];
+    if (REAL_TRANSFER_POOL.length === 0) return [];
     const seed = playerProfile.currentWeek * 5303;
-    const shuffled = [...candidates].sort((a, b) => (a.id.charCodeAt(1) * seed) % 89 - (b.id.charCodeAt(1) * seed) % 89);
-    const fromClub = shuffled[0];
-    const toClub = shuffled[1];
-    if (!fromClub || !toClub) return [];
-    const star = fromClub.starPlayers[seed % fromClub.starPlayers.length];
+    const transfer = REAL_TRANSFER_POOL[seed % REAL_TRANSFER_POOL.length];
     return [{
-      id: `transferofficial_${fromClub.id}_${toClub.id}_${playerProfile.currentWeek}`,
+      id: `transferofficial_${playerProfile.currentWeek}`,
       author: 'Fichajes al Día',
       role: 'Cuenta de Mercado',
-      content: `✅ OFICIAL: ${toClub.name} anuncia la contratación de ${star}, que llega procedente de ${fromClub.name}. Firma contrato hasta 2029.`,
+      content: `✅ OFICIAL: ${transfer.to} anuncia la contratación de ${transfer.player}, que llega procedente de ${transfer.from} por €${(transfer.fee / 1_000_000).toFixed(1)}M.`,
       likes: 900 + Math.floor(Math.random() * 4000),
       commentsCount: 150 + Math.floor(Math.random() * 900),
       timestamp: 'Mercado de Pases',
@@ -1822,7 +1838,7 @@ export default function Dashboard({
                   Complejo de Preparación Física y Técnica
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-burgundy-500 font-bold">-20 Energía</span> y sumará permanentemente {playerProfile.yearsAtClub >= 5 ? <span className="text-burgundy-500 font-bold">+1 punto</span> : <span className="text-gold-400 font-bold">+3 puntos</span>} al atributo seleccionado.
+                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-burgundy-500 font-bold">-20 Energía</span> y <span className="text-burgundy-500 font-bold">-${trainingCost.toLocaleString()}</span> (instalaciones de {currentClub.name}), y sumará permanentemente {playerProfile.yearsAtClub >= 5 ? <span className="text-burgundy-500 font-bold">+1 punto</span> : <span className="text-gold-400 font-bold">+3 puntos</span>} al atributo seleccionado.
                 </p>
               </div>
 
@@ -1831,6 +1847,12 @@ export default function Dashboard({
                   <ShieldAlert size={18} /> Tu estado físico es de fatiga crítica. Entrena en la Clínica o descansa.
                 </div>
               ) : null}
+
+              {playerProfile.capital < trainingCost && (
+                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
+                  <ShieldAlert size={18} /> No tienes los ${trainingCost.toLocaleString()} que cuesta entrenar en las instalaciones de {currentClub.name}.
+                </div>
+              )}
 
               {playerProfile.yearsAtClub >= 5 && (
                 <div className="p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
@@ -1862,14 +1884,14 @@ export default function Dashboard({
 
                       <button
                         onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
-                        disabled={playerProfile.energy < 20}
+                        disabled={playerProfile.energy < 20 || playerProfile.capital < trainingCost}
                         className={`btn-fx-subtle w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
-                          playerProfile.energy >= 20
+                          playerProfile.energy >= 20 && playerProfile.capital >= trainingCost
                             ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 border border-slate-800 hover:border-gold-400 cursor-pointer'
                             : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
                         }`}
                       >
-                        Ejercitar (-20 E)
+                        Ejercitar (-20 E · -${trainingCost.toLocaleString()})
                       </button>
                     </div>
                   </div>
