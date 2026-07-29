@@ -1622,6 +1622,28 @@ export default function MatchSimulator({
         type: 'highlight'
       }]);
       setRating(prev => Math.min(prev + 0.1, 10.0));
+    } else if (dado < 0.18 && !onField) {
+      // Mientras estás en el banco (o ya te sacaron) el partido sigue igual -- el log no puede
+      // quedar en silencio 20+ minutos solo porque no estás en cancha. Misma probabilidad que la
+      // rama de arriba, pero en tercera persona (equipo/rival), sin bono de rating para vos.
+      const mate = getTeammateSample();
+      const jugadasDestacadasEnBanco = [
+        `${teamName} domina la posesión tocando de lado a lado en campo rival.`,
+        `Fuerte choque en el medio campo. El árbitro deja seguir la jugada aplicando la ley de la ventaja.`,
+        `¡UFFF! Remate de ${mate} que pasa rozando el poste derecho. Casi se abre el marcador.`,
+        `${opponentName} presiona alto buscando recuperar cerca del área rival.`,
+        `Tiro de esquina para ${teamName} tras un despeje apurado de la defensa rival.`,
+        `¡Atajadón del arquero! Sacó un remate que tenía sello de gol.`,
+        `El técnico observa desde el banco, dando indicaciones tácticas a los suplentes.`,
+        `Jugada de mérito de ${mate}, que recupera un balón dividido en la mitad de la cancha.`,
+        `¡Posición adelantada! El delantero se había escapado pero el juez de línea levantó la bandera.`,
+        `Tiro libre peligroso para ${opponentName} cerca del área.`
+      ];
+      setMatchLog(prev => [...prev, {
+        minute: currentMin,
+        text: jugadasDestacadasEnBanco[Math.floor(Math.random() * jugadasDestacadasEnBanco.length)],
+        type: 'neutral'
+      }]);
     } else if (dado < 0.21 && !isSentOff && playerCards !== 'red' && onField) {
       // Riesgo de tarjeta "ambiental": en la vida real la mayoría de las tarjetas salen de faltas
       // normales de juego, no de grandes decisiones puntuales -- esto se suma al cardRiskOnFail de

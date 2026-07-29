@@ -22,7 +22,7 @@ export default defineConfig({
     : process.env.NETLIFY
     ? '/'
     : process.env.GH_PAGES
-    ? '/futstarzz/'
+    ? '/Futstarzz/'
     : '/',
   build: {
     outDir: process.env.CAPACITOR ? 'dist-mobile' : 'dist',
