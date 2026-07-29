@@ -16,17 +16,33 @@ export interface PlayerEnrichmentData {
 export const PLAYER_ENRICHMENT: Record<string, PlayerEnrichmentData> = {
   "junior|Carlos Bacca": {
     "overall": 70,
+    "nationality": "Colombia",
     "dorsal": 70,
+    "age": 39,
+    "fechaNacimiento": "1986-09-08",
     "source": "latamfc26"
   },
   "junior|Teófilo Gutiérrez": {
     "overall": 69,
+    "nationality": "Colombia",
     "dorsal": 29,
+    "age": 41,
+    "fechaNacimiento": "1985-05-04",
+    "source": "latamfc26"
+  },
+  "junior|Luis Fernando Muriel": {
+    "overall": 76,
+    "nationality": "Colombia",
+    "age": 35,
+    "fechaNacimiento": "1991-04-16",
     "source": "latamfc26"
   },
   "junior|Yimmi Chará": {
     "overall": 72,
+    "nationality": "Colombia",
     "dorsal": 8,
+    "age": 33,
+    "fechaNacimiento": "1993-05-16",
     "source": "latamfc26"
   },
   "junior|Cristian Barrios": {
@@ -344,9 +360,11 @@ export const PLAYER_ENRICHMENT: Record<string, PlayerEnrichmentData> = {
     "fechaNacimiento": "1995-08-16",
     "source": "fc26"
   },
-  "cali|Gustavo Cuéllar (CDM)": {
-    "overall": 75,
-    "dorsal": 5,
+  "cali|Carlos Bacca (ST)": {
+    "overall": 70,
+    "nationality": "Colombia",
+    "age": 39,
+    "fechaNacimiento": "1986-09-08",
     "source": "latamfc26"
   },
   "cali|Emanuel Reynoso (CAM)": {

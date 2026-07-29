@@ -6,8 +6,8 @@ import {
 } from './data';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
-  getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek,
-  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek,
+  getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
+  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES
 } from './leagueEngine';
@@ -917,6 +917,34 @@ export default function App() {
 
     if (playerProfile.energy < 20) {
       if (!confirm('Tu nivel de fatiga física es alarmante (Energía < 20). ¿Deseas arriesgarte a saltar al campo?')) {
+        const inWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
+        const isCup = !inWorldCupBreak && isCupWeek(playerProfile.currentWeek);
+
+        // Si esta semana te tocaba partido de LIGA DOMÉSTICA, ese partido no se cancela porque
+        // vos descanses -- tu club lo juega igual, simulado sin vos (mismo criterio que una
+        // sanción, ver resolveSuspendedLeagueWeek). Antes esto quedaba en manos del catch-up lazy
+        // de leagueSeasons (sin persistir acá), así que el resultado de ESA fecha puntual nunca se
+        // le mostraba al jugador -- se sentía como si el partido hubiera quedado "colgado" (bug
+        // reportado: "a veces descansaba... y el partido se quedaba ahí").
+        let updatedLeagueSeasons = playerProfile.leagueSeasons;
+        let restResultMsg = '';
+        if (!inWorldCupBreak && !isCup) {
+          const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+          const leagueKey = leagueKeyFor(myClub);
+          const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+          const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
+          const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
+          if (upcoming) {
+            const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId)!;
+            const { homeGoals, awayGoals } = upcoming.isHome ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
+            const myGoals = upcoming.isHome ? homeGoals : awayGoals;
+            const rivalGoals = upcoming.isHome ? awayGoals : homeGoals;
+            const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, upcoming.isHome, myGoals, rivalGoals);
+            updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
+            restResultMsg = ` Sin ti en el campo, ${myClub.name} ${myGoals}-${rivalGoals} ${opponentClub.name}.`;
+          }
+        }
+
         const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
         const updated = {
           ...playerProfile,
@@ -924,6 +952,7 @@ export default function App() {
           mentalHealth: Math.min(100, playerProfile.mentalHealth + 6), // descansar en vez de forzar la máquina te despeja la cabeza
           currentWeek: playerProfile.currentWeek + 1,
           matchesWithoutRest: 0,
+          leagueSeasons: updatedLeagueSeasons,
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups
         };
@@ -934,7 +963,7 @@ export default function App() {
         }
         setPlayerProfile(agedRest);
         saveGameState(agedRest, shopItems);
-        alert('Decidiste descansar este fin de semana. Recuperas +45 de Energía.');
+        alert(`Decidiste descansar este fin de semana. Recuperas +45 de Energía.${restResultMsg}`);
         return;
       }
     }
@@ -1060,10 +1089,14 @@ export default function App() {
       let cupTeamCount: number | null = null;
 
       let foundOpponentId: string | null = null;
+      let eliminatedFromQualifiedCup = false;
       if (qualifiedCupId) {
         const cupKey = `${qualifiedCupId}-${year}`;
         const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek);
         const upcoming = getUpcomingCupMatch(cup, myClub.id);
+        if (!upcoming && !isClubStillInCup(cup, myClub.id)) {
+          eliminatedFromQualifiedCup = true;
+        }
         if (upcoming) {
           const opponentClub = CLUBS_DATABASE.find(c => c.id === upcoming.opponentId);
           opName = opponentClub?.name || '';
@@ -1100,6 +1133,9 @@ export default function App() {
         if (qualifiedUefaCupId) {
           const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], playerProfile.currentWeek);
           const upcoming = getUpcomingUefaCupMatch(uefaCup, myClub.id);
+          if (!upcoming && !isClubStillInUefaCup(uefaCup, myClub.id)) {
+            eliminatedFromQualifiedCup = true;
+          }
           if (upcoming) {
             const opponentClub = CLUBS_DATABASE.find(c => c.id === upcoming.opponentId);
             opName = opponentClub?.name || '';
@@ -1120,6 +1156,32 @@ export default function App() {
         setActiveUefaCupId(foundUefaOpponentId ? qualifiedUefaCupId : null);
       } else {
         setActiveUefaCupId(null);
+      }
+
+      // Ya quedaste eliminado de la copa a la que habías clasificado esta edición: no hay más
+      // partidos tuyos ahí, así que esta semana de copa no tiene actividad para vos -- igual que
+      // una fecha FIFA sin partido puntual, no un partido de relleno bajo el cartel de un torneo
+      // del que ya te bajaron (bug reportado: "si te eliminan de Libertadores, en julio vuelve a
+      // aparecer la fase de grupos").
+      if (eliminatedFromQualifiedCup && !foundOpponentId && !foundUefaOpponentId) {
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+        const updated = {
+          ...playerProfile,
+          energy: Math.min(100, playerProfile.energy + 20),
+          currentWeek: playerProfile.currentWeek + 1,
+          matchesWithoutRest: 0,
+          continentalCups: restSync.continentalCups,
+          uefaCups: restSync.uefaCups
+        };
+        const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
+        if (isPastRetirementAge(aged)) {
+          resolveRetirementCheckpoint(aged);
+          return;
+        }
+        setPlayerProfile(aged);
+        saveGameState(aged, shopItems);
+        alert('🏆 Ya quedaste eliminado de la copa continental esta edición. Esta semana no hay partido de copa para tu club.');
+        return;
       }
 
       // Club no clasificado a ninguna copa este año, o copa entre rondas (sin partido esta semana puntual): rival de relleno.

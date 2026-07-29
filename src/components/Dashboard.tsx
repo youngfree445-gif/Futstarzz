@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS } from '../data';
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
+import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -10,7 +11,7 @@ import {
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate,
   getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, getRealDateForLeagueStepsBehind, getRealDateForCupStepsBehind,
-  isApeturaClausuraLeague, getUpcomingMatchForLeague
+  isApeturaClausuraLeague, getUpcomingMatchForLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -71,12 +72,19 @@ function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
   return myGoals > rivalGoals ? 'V' : myGoals === rivalGoals ? 'E' : 'D';
 }
 
-// Mentoría de Jóvenes: ni starPlayers (nombres curados en CLUBS_DATABASE) ni playersDatabase.json
-// traen una edad real por jugador, así que no hay forma de filtrar por edad de verdad. Para poder
-// aplicar la regla "solo podés ser mentor de un menor de 21" (no tiene sentido guiar a alguien ya
-// veterano) de forma pareja en los 600+ clubes, generamos una edad estable a partir del nombre
-// (mismo nombre = misma edad siempre, no cambia entre renders ni al recargar la partida).
-function getMenteeAge(name: string): number {
+// Mentoría de Jóvenes: usa la edad real de PLAYER_ENRICHMENT (cruzada contra FC26/latamfc26,
+// ver playerEnrichment.ts) cuando existe para ese club+jugador. Solo cuando NO hay dato real
+// (jugador sin match en el cruce automático, ~45% de los starPlayers) caemos a una edad estable
+// generada a partir del nombre, para que la mentoría siga funcionando en los 600+ clubes.
+//
+// BUGFIX: antes esto usaba el hash SIEMPRE, ignorando la edad real ya presente en el repo -- eso
+// podía ofrecer como mentee elegible a un veterano real de 30+ años si su nombre (que puede variar
+// en formato: con/sin segundo nombre, acentos) generaba un hash bajo (reporte real: jugando con
+// Junior de Barranquilla, el sistema ofrecía a Luis Fernando Muriel -- delantero de 1991, uno de
+// los más veteranos del plantel -- como candidato a mentee).
+function getMenteeAge(clubId: string, name: string): number {
+  const real = PLAYER_ENRICHMENT[`${clubId}|${name}`]?.age;
+  if (real != null) return real;
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = (hash * 31 + name.charCodeAt(i)) | 0;
@@ -216,6 +224,15 @@ export default function Dashboard({
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
+  // Pestaña Tablas: por defecto muestra la liga del jugador, pero puede explorar cualquier otra
+  // liga del juego solo para consulta (no persiste su LeagueSeasonState -- se recalcula al vuelo
+  // con getOrCreateSeasonForLeague cada vez que la abrís, igual que hace cualquier liga que el
+  // jugador todavía no visitó).
+  const [tablesLeagueOverride, setTablesLeagueOverride] = useState<string | null>(null);
+  // Pestaña Mi Club: podés explorar la plantilla de CUALQUIER club del juego, no solo el tuyo --
+  // pero la Mentoría de Jóvenes sigue atada siempre a tu club real (currentClub), no al explorado,
+  // porque es una mecánica de tu carrera, no un dato de consulta.
+  const [rosterClubIdOverride, setRosterClubIdOverride] = useState<string | null>(null);
   // ChutSocial: likes/comentarios son interacción local de la sesión (los posts en sí ya rotan
   // semana a semana vía hash pseudo-aleatorio, no viven en el save) -- el jugador puede likear
   // cualquier post y comentar lo que quiera, sin filtro, y su comentario aparece con miles de
@@ -316,6 +333,24 @@ export default function Dashboard({
     : 100;
   const myLeagueKey = leagueKeyFor(currentClub);
   const myLeagueTable = sortTable(playerProfile.leagueSeasons[myLeagueKey]?.table || []);
+
+  // Todas las ligas del juego disponibles para explorar en la pestaña Tablas (no solo la del
+  // jugador), agrupadas por leagueKey (liga+división) -- ver tablesLeagueOverride arriba.
+  const allLeagueKeys = Array.from(new Set(ULTIMATE_CLUBS_DATABASE.map(c => leagueKeyFor(c)))).sort();
+  const selectedLeagueKey = tablesLeagueOverride ?? myLeagueKey;
+  const selectedLeagueClubs = ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === selectedLeagueKey);
+  const selectedLeagueTable = selectedLeagueKey === myLeagueKey
+    ? myLeagueTable
+    : selectedLeagueClubs.length > 0
+    ? sortTable(getOrCreateSeasonForLeague(selectedLeagueClubs, playerProfile.leagueSeasons[selectedLeagueKey], playerProfile.currentWeek).table)
+    : [];
+  // Estadísticas de jugadores de la liga seleccionada: usamos datos REALES (REAL_LEAGUE_LEADERS)
+  // cuando existen para esa liga (7 grandes europeas + 8 latinoamericanas curadas); el resto se
+  // genera de forma determinística a partir del gf/gc real de la tabla -- ver
+  // generateLeagueLeadersFromTable en leagueEngine.ts, nunca cambia si la tabla no cambió.
+  const selectedLeagueName = selectedLeagueClubs[0]?.league ?? currentClub.league;
+  const selectedLeagueLeaders = REAL_LEAGUE_LEADERS[selectedLeagueName]
+    ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable);
 
   // Copa continental real que le corresponde al club actual (si clasifica a alguna).
   const cupYear = getSeasonYear(playerProfile.currentWeek);
@@ -2717,11 +2752,24 @@ export default function Dashboard({
               </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
-                <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
-                  <Table size={13} /> TABLA DE POSICIONES · {currentClub.league.toUpperCase()} {currentClub.division && currentClub.division > 1 ? `(DIV. ${currentClub.division})` : ''}
-                </h3>
+                <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 flex-wrap">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 flex items-center gap-2">
+                    <Table size={13} /> TABLA DE POSICIONES
+                  </h3>
+                  <select
+                    value={selectedLeagueKey}
+                    onChange={(e) => setTablesLeagueOverride(e.target.value === myLeagueKey ? null : e.target.value)}
+                    className="bg-slate-950 border border-slate-800 rounded-lg text-2xs font-bold text-white py-1 px-2 focus:outline-none focus:border-gold-500"
+                  >
+                    {allLeagueKeys.map(key => {
+                      const sampleClub = ULTIMATE_CLUBS_DATABASE.find(c => leagueKeyFor(c) === key);
+                      const label = sampleClub ? `${sampleClub.league}${sampleClub.division && sampleClub.division > 1 ? ` (Div. ${sampleClub.division})` : ''}` : key;
+                      return <option key={key} value={key}>{label}</option>;
+                    })}
+                  </select>
+                </div>
 
-                {myLeagueTable.length > 0 ? (
+                {selectedLeagueTable.length > 0 ? (
                   <div className="overflow-x-auto">
                     <table className="w-full text-3xs font-mono text-left">
                       <thead>
@@ -2738,7 +2786,7 @@ export default function Dashboard({
                         </tr>
                       </thead>
                       <tbody>
-                        {myLeagueTable.map((row, idx) => (
+                        {selectedLeagueTable.map((row, idx) => (
                           <tr
                             key={row.clubId || row.name}
                             className={`border-b border-slate-900/40 ${row.clubId === currentClub.id ? 'text-gold-400 font-bold' : 'text-slate-300'}`}
@@ -2760,6 +2808,44 @@ export default function Dashboard({
                 ) : (
                   <p className="text-2xs text-slate-500">Todavía no hay datos de la tabla para esta liga.</p>
                 )}
+              </div>
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
+                <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
+                  <Award size={13} /> ESTADÍSTICAS DE JUGADORES · {selectedLeagueName.toUpperCase()}
+                </h3>
+                {(() => {
+                  const stats: { icon: string; label: string; entry: { name: string; clubName: string } | null; value: string | null }[] = [
+                    { icon: '⚽', label: 'Máximo Goleador', entry: selectedLeagueLeaders.topScorer, value: selectedLeagueLeaders.topScorer ? `${selectedLeagueLeaders.topScorer.value} goles` : null },
+                    { icon: '🎯', label: 'Máximo Asistidor', entry: selectedLeagueLeaders.topAssist, value: selectedLeagueLeaders.topAssist ? `${selectedLeagueLeaders.topAssist.value} asistencias` : null },
+                    { icon: '🧤', label: 'Portería Menos Vencida', entry: selectedLeagueLeaders.topGoalkeeper, value: null },
+                    { icon: '🟨', label: 'Más Amarillas', entry: selectedLeagueLeaders.topYellow, value: selectedLeagueLeaders.topYellow ? `${selectedLeagueLeaders.topYellow.value} amarillas` : null },
+                    { icon: '🟥', label: 'Más Rojas', entry: selectedLeagueLeaders.topRed, value: selectedLeagueLeaders.topRed ? `${selectedLeagueLeaders.topRed.value} rojas` : null },
+                  ];
+                  return (
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {stats.map(s => (
+                        <div key={s.label} className="p-3 bg-slate-950 border border-slate-850 rounded-xl flex items-center gap-3">
+                          <span className="text-xl shrink-0">{s.icon}</span>
+                          {s.entry ? (
+                            <div className="min-w-0">
+                              <p className="text-3xs uppercase font-mono text-slate-500 font-bold">{s.label}</p>
+                              <h4 className="font-bold text-xs text-white truncate">{s.entry.name}</h4>
+                              <p className="text-3xs text-gold-400 font-mono font-bold">
+                                {s.entry.clubName ? `${s.entry.clubName}${s.value ? ' · ' : ''}` : ''}{s.value ?? ''}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="min-w-0">
+                              <p className="text-3xs uppercase font-mono text-slate-500 font-bold">{s.label}</p>
+                              <p className="text-3xs text-slate-600 italic">Sin datos disponibles.</p>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
               </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
@@ -3003,39 +3089,65 @@ export default function Dashboard({
 
           {activeTab === 'mi_club' && (() => {
             // Corregido: ya no dependemos de soccerDatabase (solo 3 clubes de prueba).
-            // Buscamos la plantilla real del club actual dentro de los 32,000 jugadores del JSON.
-            const rosterClub = getClubWithRoster(currentClub.name);
+            // Buscamos la plantilla real del club explorado (el tuyo por defecto, o cualquier otro
+            // vía el selector) dentro de los 32,000 jugadores del JSON.
+            const viewedClub = rosterClubIdOverride
+              ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === rosterClubIdOverride) ?? currentClub
+              : currentClub;
+            const rosterClub = getClubWithRoster(viewedClub.name);
             const plantilla = rosterClub?.plantilla || { porteros: [], defensivos: [], ofensivos: [] };
             const totalJugadoresReales = plantilla.porteros.length + plantilla.defensivos.length + plantilla.ofensivos.length;
+            const isViewingOwnClub = viewedClub.id === currentClub.id;
 
             return (
               <div className="space-y-6 animate-fade-in max-w-5xl">
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                   <div className="flex items-center gap-4">
-                    <ClubBadge club={currentClub} size={56} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
+                    <ClubBadge club={viewedClub} size={56} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
                     <div>
                       <span className="text-3xs font-mono font-bold uppercase tracking-widest text-gold-400">
-                        {currentClub.league}
+                        {viewedClub.league}
                       </span>
-                      <h2 className="text-2xl font-black text-white mt-1">{currentClub.name}</h2>
+                      <h2 className="text-2xl font-black text-white mt-1">{viewedClub.name}</h2>
                       <p className="text-xs text-slate-400 mt-1">
-                        🏆 <strong>Reputación:</strong> {'★'.repeat(currentClub.reputation)} · 💰 <strong>Valor de Plantilla:</strong> ${currentClub.marketValue.toLocaleString()}
+                        🏆 <strong>Reputación:</strong> {'★'.repeat(viewedClub.reputation)} · 💰 <strong>Valor de Plantilla:</strong> ${viewedClub.marketValue.toLocaleString()}
                       </p>
                     </div>
                   </div>
 
-                  <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 min-w-[240px]">
-                    <span className="text-[10px] text-burgundy-500 uppercase font-mono font-black block mb-1">Director Técnico Oficial</span>
-                    <h4 className="font-bold text-sm text-white">{currentClub.dt}</h4>
-                    <div className="text-3xs text-slate-400 font-mono mt-1 space-y-0.5">
-                      <p>🏟️ Liga: {currentClub.league}</p>
-                      <p>💵 Salario Semanal Base: ${currentClub.initialSalary.toLocaleString()}</p>
-                      <p>📋 Cláusula por Presencia: ${playerProfile.appearanceBonus.toLocaleString()}/partido jugado</p>
+                  <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 min-w-[240px] space-y-3">
+                    <div>
+                      <span className="text-[10px] text-burgundy-500 uppercase font-mono font-black block mb-1">Director Técnico Oficial</span>
+                      <h4 className="font-bold text-sm text-white">{viewedClub.dt}</h4>
+                      <div className="text-3xs text-slate-400 font-mono mt-1 space-y-0.5">
+                        <p>🏟️ Liga: {viewedClub.league}</p>
+                        <p>💵 Salario Semanal Base: ${viewedClub.initialSalary.toLocaleString()}</p>
+                        {isViewingOwnClub && <p>📋 Cláusula por Presencia: ${playerProfile.appearanceBonus.toLocaleString()}/partido jugado</p>}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-slate-500 uppercase font-mono font-black block mb-1">Explorar plantilla de otro club</label>
+                      <select
+                        value={viewedClub.id}
+                        onChange={(e) => setRosterClubIdOverride(e.target.value === currentClub.id ? null : e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-800 rounded-lg text-2xs font-bold text-white py-1.5 px-2 focus:outline-none focus:border-gold-500"
+                      >
+                        <option value={currentClub.id}>{currentClub.name} (Tu club)</option>
+                        {ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id).map(c => (
+                          <option key={c.id} value={c.id}>{c.name} · {c.league}</option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md">
+                {!isViewingOwnClub && (
+                  <div className="p-3 rounded-xl border border-gold-500/20 bg-gold-500/5 text-2xs text-gold-300 leading-relaxed">
+                    👀 Estás mirando la plantilla de <strong>{viewedClub.name}</strong> solo de consulta. Volvé a "{currentClub.name} (Tu club)" en el selector para gestionar tu mentoría.
+                  </div>
+                )}
+
+                {isViewingOwnClub && <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
                     🌱 Mentoría de Jóvenes
                   </h3>
@@ -3043,7 +3155,7 @@ export default function Dashboard({
                     Elige a un juvenil de {MENTEE_MAX_AGE} años o menos del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumas prestigio como mentor) — o no.
                   </p>
                   {(() => {
-                    const eligibleMentees = currentClub.starPlayers.filter(p => p !== playerProfile.name && getMenteeAge(p) <= MENTEE_MAX_AGE);
+                    const eligibleMentees = currentClub.starPlayers.filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p) <= MENTEE_MAX_AGE);
                     return (
                       <>
                         <div className="flex flex-wrap gap-1.5">
@@ -3081,11 +3193,11 @@ export default function Dashboard({
                       </>
                     );
                   })()}
-                </div>
+                </div>}
 
                 {totalJugadoresReales === 0 && (
                   <div className="p-4 rounded-xl border border-burgundy-500/20 bg-burgundy-500/5 text-2xs text-burgundy-300 leading-relaxed">
-                    ⚠️ Este club todavía no tiene jugadores reales cargados en el JSON de la base de datos LTA (el nombre <strong>"{currentClub.name}"</strong> no tiene coincidencias en <code>playersDatabase.json</code>). Revisa el Excel de origen para este equipo.
+                    ⚠️ Este club todavía no tiene jugadores reales cargados en el JSON de la base de datos LTA (el nombre <strong>"{viewedClub.name}"</strong> no tiene coincidencias en <code>playersDatabase.json</code>). Revisa el Excel de origen para este equipo.
                   </div>
                 )}
 

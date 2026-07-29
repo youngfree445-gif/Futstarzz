@@ -291,7 +291,10 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
                     { key: 'Mexicana', label: 'México', flag: '🇲🇽' },
                     { key: 'Uruguaya', label: 'Uruguay', flag: '🇺🇾' },
                     { key: 'Ecuatoriana', label: 'Ecuador', flag: '🇪🇨' },
-                    { key: 'Chilena', label: 'Chile', flag: '🇨🇱' }
+                    { key: 'Chilena', label: 'Chile', flag: '🇨🇱' },
+                    { key: 'Paraguaya', label: 'Paraguay', flag: '🇵🇾' },
+                    { key: 'Boliviana', label: 'Bolivia', flag: '🇧🇴' },
+                    { key: 'Venezolana', label: 'Venezuela', flag: '🇻🇪' }
                   ].map(nat => (
                     <button
                       key={nat.key}

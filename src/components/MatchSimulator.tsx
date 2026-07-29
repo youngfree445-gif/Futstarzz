@@ -1491,8 +1491,12 @@ export default function MatchSimulator({
 
     // Sustitución por bajo rendimiento: si venís jugando mal (rating flojo) al llegar al minuto 70,
     // el técnico puede decidir sacarte para meter a otro jugador -- no aplica si entraste de
-    // suplente vos mismo (no te van a sacar a los pocos minutos de haber entrado).
-    if (currentMin === 70 && onField && !wasSubbedOff && lineupStatus !== 'substitute' && !isSentOff) {
+    // suplente vos mismo (no te van a sacar a los pocos minutos de haber entrado), NI si todavía
+    // te queda alguna de las 4 decisiones del partido por delante (la última cae ~min 83): el piso
+    // de "4 decisiones por partido, incluso yendo perdiendo" ya prometido al jugador no puede
+    // perforarse por esta sustitución (bug reportado: te sacaban al 70' y te quedabas con 3).
+    const hasPendingDecision = decisionMinutes.current.some(m => m >= currentMin);
+    if (currentMin === 70 && onField && !wasSubbedOff && lineupStatus !== 'substitute' && !isSentOff && !hasPendingDecision) {
       const RATING_SUB_THRESHOLD = 5.2;
       if (rating < RATING_SUB_THRESHOLD) {
         const subChance = 0.45;

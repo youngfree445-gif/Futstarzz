@@ -414,19 +414,30 @@ export function resolvePlayerMatchweek(
 
 // ==========================================================================
 // --- FORMATO APERTURA/CLAUSURA (Colombia y Argentina) ---
-// Colombia: todos-contra-todos (19 fechas, 20 clubes) -> top 8 -> Cuartos,
-// Semifinal y Final, TODO a ida y vuelta (formato real vigente desde 2024),
-// igual en los dos semestres (Apertura y Clausura) -- ver twoLegKnockout en
-// LeagueSeasonState (types.ts).
-// Argentina: 2 zonas de 15 -> todos-contra-todos intra-zona (14 fechas,
-// simplificación: no modelamos las 2 fechas interzonales reales) -> top 8
-// por zona (16 en total) -> eliminación directa a partido único, ambos
-// semestres.
+// Un semestre real (Apertura o Clausura) son 6 meses de calendario -- acá
+// eso son las primeras/segundas 19 semanas del año de 38 (ver SEASON_LENGTH_WEEKS),
+// de las que 1 de cada 3 es semana de copa (isCupWeek): quedan exactamente
+// 13 semanas de liga disponibles por semestre. Cada paso de
+// resolveApeturaClausuraStep (una fecha de fase regular, o una ida/vuelta de
+// playoff) consume UNA semana de liga, así que la fase regular + el knockout
+// completo tienen que sumar ≤13 pasos o el semestre no alcanza a terminar
+// dentro de sus 19 semanas de calendario -- el Clausura nunca llegaría a
+// arrancar y el Apertura se "comería" el año entero (bug reportado: "la liga
+// colombiana se juega la apertura todo el año").
+//
+// Colombia: fase regular corta de todos-contra-todos parcial (7 fechas, no
+// el ciclo completo de 19 que exigiría un round-robin contra los 19 rivales)
+// -> top 8 por tabla -> Cuartos, Semifinal y Final, TODO a ida y vuelta
+// (formato real vigente desde 2024, 6 pasos) -- ver twoLegKnockout en
+// LeagueSeasonState (types.ts). Total: 7+6=13 pasos.
+// Argentina: 2 zonas de 15 -> todos-contra-todos intra-zona parcial (9
+// fechas) -> top 8 por zona (16 en total) -> eliminación directa a partido
+// único (4 rondas). Total: 9+4=13 pasos.
 // ==========================================================================
 
 const REGULAR_PHASE_MATCHDAYS: Record<'colombia' | 'argentina', number> = {
-  colombia: 19,
-  argentina: 14,
+  colombia: 7,
+  argentina: 9,
 };
 
 const SEED_PAIRS_8 = [[0, 7], [3, 4], [2, 5], [1, 6]];
@@ -451,15 +462,19 @@ function assignArgentinaZones(clubIds: string[]): { zoneA: string[]; zoneB: stri
   return { zoneA: sorted.filter((_, i) => i % 2 === 0), zoneB: sorted.filter((_, i) => i % 2 === 1) };
 }
 
-// UNA sola vuelta (no ida y vuelta) — Colombia y Argentina juegan todos
-// contra todos una sola vez en la fase regular de cada semestre.
-function generateSingleRound(clubIds: string[]): Fixture[] {
+// Algoritmo del círculo: reparte los rivales de cada club a lo largo de las rondas sin
+// repetirlos. Si maxMatchdays es menor que el ciclo completo (n-1 rondas), se corta ahí --
+// cada club no llega a jugar contra todos sus rivales, pero eso es intencional: la fase
+// regular de Apertura/Clausura tiene que caber en el presupuesto de semanas de liga de UN
+// semestre (ver REGULAR_PHASE_MATCHDAYS), no en el ciclo completo de round-robin.
+function generateSingleRound(clubIds: string[], maxMatchdays?: number): Fixture[] {
   const teams = clubIds.length % 2 === 0 ? [...clubIds] : [...clubIds, '__BYE__'];
   const n = teams.length;
+  const totalRounds = Math.min(n - 1, maxMatchdays ?? n - 1);
   let arr = [...teams];
   const fixtures: Fixture[] = [];
 
-  for (let round = 0; round < n - 1; round++) {
+  for (let round = 0; round < totalRounds; round++) {
     for (let i = 0; i < n / 2; i++) {
       const a = arr[i];
       const b = arr[n - 1 - i];
@@ -543,7 +558,7 @@ function freshRegularPhase(clubs: Club[], format: 'colombia' | 'argentina', seme
     const clubIds = shuffle(clubs.map(c => c.id));
     return {
       leagueKey,
-      fixtures: generateSingleRound(clubIds),
+      fixtures: generateSingleRound(clubIds, REGULAR_PHASE_MATCHDAYS.colombia),
       table: buildInitialTable(clubs),
       round: 0,
       semester,
@@ -553,8 +568,8 @@ function freshRegularPhase(clubs: Club[], format: 'colombia' | 'argentina', seme
   }
   // Argentina: 2 zonas, fixture combinado (matchweek de ambas zonas comparten número de fecha)
   const { zoneA, zoneB } = assignArgentinaZones(shuffle(clubs.map(c => c.id)));
-  const fixturesA = generateSingleRound(zoneA);
-  const fixturesB = generateSingleRound(zoneB);
+  const fixturesA = generateSingleRound(zoneA, REGULAR_PHASE_MATCHDAYS.argentina);
+  const fixturesB = generateSingleRound(zoneB, REGULAR_PHASE_MATCHDAYS.argentina);
   return {
     leagueKey,
     fixtures: [...fixturesA, ...fixturesB],
@@ -1039,6 +1054,24 @@ export function getUpcomingCupMatch(cup: CupState, clubId: string): { opponentId
   return null;
 }
 
+// getUpcomingCupMatch(...) === null es ambiguo: puede ser "estás entre rondas, esperá a la
+// próxima fecha" (seguís vivo) o "ya te eliminaron esta edición" (nunca más vas a tener partido
+// acá). App.tsx necesita distinguir ambos casos para no mostrarte semana tras semana un partido
+// de relleno bajo el cartel de una copa de la que ya quedaste afuera (bug reportado: "si te
+// eliminan de Libertadores, en julio vuelve a aparecer la fase de grupos" -- ver
+// cupWeeksElapsedInYear más arriba para el bug hermano del contador anual).
+export function isClubStillInCup(cup: CupState, clubId: string): boolean {
+  if (cup.stage === 'groups') {
+    return cup.groups.some(g => g.clubIds.includes(clubId));
+  }
+  if (cup.stage === 'knockout' && cup.knockout) {
+    if (cup.knockout.championId) return cup.knockout.championId === clubId;
+    return cup.knockout.matchesByRound.some(round => round.some(m => m.homeTeamId === clubId || m.awayTeamId === clubId));
+  }
+  if (cup.stage === 'done') return cup.championId === clubId;
+  return false;
+}
+
 // ==========================================================================
 // --- CHAMPIONS LEAGUE / EUROPA LEAGUE (Fase 1c) ---
 // Formato Swiss simplificado: campo único en una tabla compartida, cada
@@ -1377,6 +1410,30 @@ export function getUpcomingUefaCupMatch(cup: UefaCupState, clubId: string): { op
   return null;
 }
 
+// Equivalente a isClubStillInCup pero para Champions/Europa (formato liga suiza + playoff +
+// eliminatoria ida/vuelta). Mismo motivo: getUpcomingUefaCupMatch===null no distingue "entre
+// fechas de la fase de liga" de "quedaste eliminado en el playoff/knockout" o "no clasificaste
+// directamente a esta edición".
+export function isClubStillInUefaCup(cup: UefaCupState, clubId: string): boolean {
+  if (!cup.participants.includes(clubId)) return false;
+  if (cup.stage === 'league_phase') return true;
+  if (cup.stage === 'playoff') {
+    if (!cup.playoff) return true;
+    const inPlayoff = cup.playoff.some(t => t.clubAId === clubId || t.clubBId === clubId);
+    // Top 8 de la fase de liga: pasó directo a octavos, no juega el playoff pero sigue vivo.
+    if (!inPlayoff) return true;
+    const roundDone = cup.playoff.every(t => t.played);
+    if (!roundDone) return true;
+    return cup.playoff.some(t => t.winnerId === clubId);
+  }
+  if (cup.stage === 'knockout' && cup.knockout) {
+    if (cup.knockout.championId) return cup.knockout.championId === clubId;
+    return cup.knockout.tiesByRound.some(round => round.some(t => t.clubAId === clubId || t.clubBId === clubId));
+  }
+  if (cup.stage === 'done') return cup.championId === clubId;
+  return false;
+}
+
 // ==========================================================================
 // MUNDIAL (cada 4 años) -- 48 selecciones, 12 grupos de 4 a una sola vuelta
 // (3 fechas), top 2 + mejores 8 terceros -> Ronda de 32 -> octavos -> cuartos
@@ -1533,6 +1590,111 @@ export function getUpcomingWorldCupMatch(cup: WorldCupState, teamId: string): { 
     return m.homeTeamId === teamId ? { opponentId: m.awayTeamId, isHome: true } : { opponentId: m.homeTeamId, isHome: false };
   }
   return null;
+}
+
+// ==========================================================================
+// --- ESTADÍSTICAS DE JUGADORES POR LIGA (Fase 5) ---
+// Para las ~24 ligas sin cobertura de datos reales (ver REAL_LEAGUE_LEADERS en data.ts, que cubre
+// las 7 grandes europeas + 8 latinoamericanas con fuentes reales), generamos goleador/asistidor/
+// arquero-menos-vencido/tarjetas de forma DETERMINÍSTICA a partir de los goles a favor/en contra
+// REALES que cada club ya tiene en la tabla (TableTeam.gf/gc/pj) -- nunca inventamos números
+// sueltos: siempre repartimos el total real del club entre sus starPlayers, así que el mismo
+// estado de tabla siempre produce el mismo resultado (no cambia en cada render/semana que no
+// avanzó), y la suma de goles repartidos nunca supera lo que el club realmente anotó.
+// ==========================================================================
+
+function hashSeed(s: string): number {
+  let hash = 0;
+  for (let i = 0; i < s.length; i++) {
+    hash = (hash * 31 + s.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+// Extrae "Nombre" y posición desde el formato usado en starPlayers ("Fulano (ST)" o "Fulano" a secas).
+function parseStarPlayer(raw: string): { name: string; pos: string | null } {
+  const m = raw.match(/^(.*?)\s*\(([A-Z]+)\)$/);
+  return m ? { name: m[1].trim(), pos: m[2] } : { name: raw.trim(), pos: null };
+}
+
+// Peso relativo de cada posición a la hora de repartir los goles a favor del club -- delanteros
+// concentran la mayoría, el arco no suma nunca.
+const GOAL_WEIGHT_BY_POS: Record<string, number> = {
+  ST: 5, CF: 5, LW: 4, RW: 4, CAM: 3, CM: 3, RM: 2, LM: 2, CDM: 1, RB: 1, LB: 1, CB: 1, GK: 0,
+};
+const ASSIST_WEIGHT_BY_POS: Record<string, number> = {
+  CAM: 5, CM: 4, RM: 4, LM: 4, RW: 3, LW: 3, ST: 2, CF: 2, CDM: 2, RB: 1, LB: 1, CB: 1, GK: 0,
+};
+
+export function generateLeagueLeadersFromTable(clubs: Club[], table: TableTeam[]): LeagueLeadersResult {
+  type Candidate = { name: string; clubName: string; goalShare: number; assistShare: number; pos: string | null };
+  const candidates: Candidate[] = [];
+  const goalkeepers: { name: string; clubName: string; gc: number; pj: number }[] = [];
+
+  for (const club of clubs) {
+    const row = table.find(r => r.clubId === club.id);
+    const gf = row?.gf ?? 0;
+    const gc = row?.gc ?? 0;
+    const pj = row?.pj ?? 0;
+    const parsed = club.starPlayers.map(parseStarPlayer).filter(p => p.name && !p.name.startsWith('Jugador '));
+    if (parsed.length === 0) continue;
+
+    const goalWeights = parsed.map(p => GOAL_WEIGHT_BY_POS[p.pos ?? ''] ?? 2);
+    const totalGoalWeight = goalWeights.reduce((a, b) => a + b, 0) || 1;
+    const assistWeights = parsed.map(p => ASSIST_WEIGHT_BY_POS[p.pos ?? ''] ?? 2);
+    const totalAssistWeight = assistWeights.reduce((a, b) => a + b, 0) || 1;
+
+    parsed.forEach((p, i) => {
+      candidates.push({
+        name: p.name,
+        clubName: club.name,
+        goalShare: Math.round((gf * goalWeights[i]) / totalGoalWeight),
+        assistShare: Math.round((gf * 0.65 * assistWeights[i]) / totalAssistWeight),
+        pos: p.pos,
+      });
+      if (p.pos === 'GK') {
+        goalkeepers.push({ name: p.name, clubName: club.name, gc, pj });
+      }
+    });
+    // Si ningún starPlayer tiene posición GK etiquetada, usamos el primero de la lista como portero
+    // de referencia (muchos clubes curados listan al arquero primero o último sin sufijo).
+    if (!parsed.some(p => p.pos === 'GK') && parsed.length > 0) {
+      goalkeepers.push({ name: parsed[0].name, clubName: club.name, gc, pj });
+    }
+  }
+
+  const topScorerC = candidates.filter(c => c.goalShare > 0).sort((a, b) => b.goalShare - a.goalShare)[0];
+  const topAssistC = candidates.filter(c => c.assistShare > 0).sort((a, b) => b.assistShare - a.assistShare)[0];
+  // Portería menos vencida: menor promedio de goles recibidos por partido, con mínimo de partidos jugados.
+  const topGkC = goalkeepers.filter(g => g.pj >= 3).sort((a, b) => (a.gc / a.pj) - (b.gc / b.pj))[0];
+
+  // Tarjetas: determinístico por hash de nombre+club, ponderado levemente por posición defensiva
+  // (los defensores/mediocampistas de contención acumulan más amarillas en la realidad).
+  const CARD_WEIGHT: Record<string, number> = { CB: 3, CDM: 3, LB: 2, RB: 2, CM: 2, RM: 1, LM: 1, CAM: 1, ST: 1, CF: 1, LW: 1, RW: 1, GK: 1 };
+  const cardCandidates = candidates.map(c => {
+    const seed = hashSeed(`${c.name}|${c.clubName}|card`);
+    const weight = CARD_WEIGHT[c.pos ?? ''] ?? 1;
+    return { name: c.name, clubName: c.clubName, yellow: (seed % 6) + weight, redSeed: seed % 23 };
+  });
+  const topYellowC = cardCandidates.sort((a, b) => b.yellow - a.yellow)[0];
+  const topRedCandidates = cardCandidates.filter(c => c.redSeed === 0);
+  const topRedC = topRedCandidates.length > 0 ? { name: topRedCandidates[0].name, clubName: topRedCandidates[0].clubName, red: 1 } : null;
+
+  return {
+    topScorer: topScorerC ? { name: topScorerC.name, clubName: topScorerC.clubName, value: topScorerC.goalShare } : null,
+    topAssist: topAssistC ? { name: topAssistC.name, clubName: topAssistC.clubName, value: topAssistC.assistShare } : null,
+    topGoalkeeper: topGkC ? { name: topGkC.name, clubName: topGkC.clubName } : null,
+    topYellow: topYellowC ? { name: topYellowC.name, clubName: topYellowC.clubName, value: topYellowC.yellow } : null,
+    topRed: topRedC ? { name: topRedC.name, clubName: topRedC.clubName, value: topRedC.red } : null,
+  };
+}
+
+export interface LeagueLeadersResult {
+  topScorer: { name: string; clubName: string; value: number } | null;
+  topAssist: { name: string; clubName: string; value: number } | null;
+  topGoalkeeper: { name: string; clubName: string } | null;
+  topYellow: { name: string; clubName: string; value: number } | null;
+  topRed: { name: string; clubName: string; value: number } | null;
 }
 
 export function resolvePlayerWeekForLeague(
