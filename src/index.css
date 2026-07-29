@@ -206,3 +206,15 @@ body {
 .animate-glow-pulse {
   animation: glowPulse 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
+
+/* Notificación de logro desbloqueado (ver AchievementToast.tsx): entra deslizando desde arriba con
+   un leve overshoot, se mantiene, y el propio componente la retira del DOM por temporizador. */
+@keyframes achievementSlideIn {
+  0% { opacity: 0; transform: translateY(-24px) scale(0.96); }
+  60% { opacity: 1; transform: translateY(4px) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-achievement-in {
+  animation: achievementSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

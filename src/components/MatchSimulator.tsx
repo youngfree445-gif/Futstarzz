@@ -68,7 +68,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.35,
         successBonus: '¡GOLAZO! Giraste con una fluidez brutal y la clavaste al ángulo opuesto del palo.',
         failPenalty: 'El disparo chocó en las piernas del central y salieron de contragolpe.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 8, fans: 12 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 4, fans: 12 },
         effectOnFail: { prestige: -2, fans: -1, energy: 0 }
       },
       {
@@ -78,7 +78,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.6,
         successBonus: '¡CON RETORNO! Diste un pase seguro exquisito y tu equipo conserva la posesión con ventaja.',
         failPenalty: 'Diste un pase débil directo al mediocentro defensivo rival.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 6, fans: 5 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 3, fans: 5 },
         effectOnFail: { prestige: -3, fans: -2, energy: 5 }
       },
       {
@@ -88,7 +88,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡PRESTIGIO TOTAL! El sombrerito funcionó, asistes a tu compañero que empuja el balón. ¡ASISTENCIA!',
         failPenalty: 'Te quitaron el balón con facilidad y quedaste tendido pidiendo una falta inexistente.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 15 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 5, fans: 15 },
         effectOnFail: { prestige: -5, fans: -5, energy: 5 }
       }
     ]
@@ -103,7 +103,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡LECTURA PERFECTA! El pase encontró el hueco justo y tu compañero definió sin problemas. ¡ASISTENCIA!',
         failPenalty: 'El pase se fue directo a los pies del último defensor rival, contragolpe abortado.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 9, fans: 10 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 10 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
@@ -113,7 +113,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡EXPLOSIÓN PURA! Lo dejaste en el camino y definiste solo ante el arquero. ¡GOL!',
         failPenalty: 'El defensor te alcanzó justo a tiempo y cortó el avance con una entrada limpia.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 10, fans: 14 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 5, fans: 14 },
         effectOnFail: { prestige: -2, fans: -1, energy: 10 }
       },
       {
@@ -123,7 +123,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.75,
         successBonus: 'DECISIÓN INTELIGENTE: mantuviste la posesión y reorganizaste el ataque con paciencia, sin arriesgar de más.',
         failPenalty: 'Frenaste de más y el rival recompuso la marca, se perdió la superioridad numérica.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -2, fans: -1, energy: 0 }
       }
     ]
@@ -138,7 +138,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡AGUANTE TOTAL! Protegiste la pelota con el cuerpo y el árbitro corta el juego a tu favor. Tiro libre peligroso.',
         failPenalty: 'Perdiste el pulso físico y el rival se llevó el balón limpio.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 5 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 5 },
         effectOnFail: { prestige: -2, fans: -1, energy: 8 }
       },
       {
@@ -148,7 +148,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡PARED PERFECTA! La devolución de primera dejó mano a mano a tu compañero. ¡ASISTENCIA!',
         failPenalty: 'El toque de primera salió débil y el rival cortó la jugada sin problemas.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 9, fans: 9 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 9 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
@@ -174,7 +174,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.18,
         successBonus: '¡GENIALIDAD ABSOLUTA! Dejaste en el camino a cuatro rivales con una serie de gambetas imposibles y definiste solo ante el arquero. ¡GOLAZO PARA LA HISTORIA!',
         failPenalty: 'El quinto rival te alcanzó justo antes del área y cortó la jugada individual con una entrada limpia. El estadio abuchea el intento egoísta.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 20, fans: 30 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 10, fans: 30 },
         effectOnFail: { prestige: -6, fans: -6, energy: 18 }
       },
       {
@@ -184,7 +184,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.78,
         successBonus: 'Jugada sin riesgo: soltaste rápido y el equipo mantiene la posesión con calma.',
         failPenalty: 'El pase fácil salió mal calculado y el rival recuperó cerca de mitad de cancha.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 0 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 1, fans: 0 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
@@ -194,7 +194,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.45,
         successBonus: '¡BUEN QUIEBRE! Ganaste espacio con un par de amagues y habilitaste el ataque en mejor posición.',
         failPenalty: 'Te cerraron el espacio rápido y perdiste el balón sin generar peligro.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 5 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 5 },
         effectOnFail: { prestige: -2, fans: -1, energy: 8 }
       }
     ]
@@ -209,7 +209,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡LIDERAZGO EN LA CANCHA! El equipo recupera el orden y ahoga la salida rival, terminando en pérdida forzada a tu favor.',
         failPenalty: 'Nadie te hizo caso en el achique y el rival salió jugando cómodo desde el fondo.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 5 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 5 },
         effectOnFail: { prestige: -2, fans: -1, energy: 6 }
       },
       {
@@ -219,7 +219,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡CONEXIÓN TOTAL! Tu compañero entendió el gesto al instante y se desmarcó justo a tiempo, dejándolo en posición de gol.',
         failPenalty: 'La seña llegó tarde y tu compañero quedó en fuera de juego posicional sin entenderte.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 7, fans: 6 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 6 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
@@ -252,7 +252,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡PURA CLASE! Bañaste al portero de forma deliciosa. La pelota ingresa perezosa a la red. ¡GOL!',
         failPenalty: 'El portero adivinó la vaselina y atrapó el esférico con ambas manos sin despeinarse.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 18 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 6, fans: 18 },
         effectOnFail: { prestige: -4, fans: -3, energy: 0 }
       },
       {
@@ -262,7 +262,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡FUEGO EN LOS GUANTES! El trallazo superó la resistencia del arquero por pura potencia. ¡GOL!',
         failPenalty: 'El disparo salió desviado por el lateral exterior de la red. Balón de saque de meta.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 8, fans: 10 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 4, fans: 10 },
         effectOnFail: { prestige: -1, fans: -1, energy: 10 }
       },
       {
@@ -272,7 +272,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.7,
         successBonus: '¡COMPAÑERISMO! Dejaste el ego atrás, asistes a tu par que define con el arco vacío. ¡ASISTENCIA!',
         failPenalty: 'Diste el pase demasiado largo y tu compañero no alcanzó a conectar barriéndose.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 4 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 5, fans: 4 },
         effectOnFail: { prestige: -6, fans: -2, energy: 0 }
       }
     ]
@@ -287,7 +287,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.65,
         successBonus: 'GESTIÓN PERFECTA: aguantaste la pelota pegado a la línea y el árbitro pita falta a favor. El reloj sigue corriendo.',
         failPenalty: 'Te quitaron el balón en la disputa y el rival sale rápido de contragolpe.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 2 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 2 },
         effectOnFail: { prestige: -4, fans: -3, energy: 5 }
       },
       {
@@ -297,7 +297,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡SENTENCIA! Encontraste el segundo gol que deja el partido totalmente resuelto.',
         failPenalty: 'El remate se fue desviado y el rival recupera con espacio para su última ofensiva.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 16 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 6, fans: 16 },
         effectOnFail: { prestige: -2, fans: -2, energy: 10 }
       },
       {
@@ -307,7 +307,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.72,
         successBonus: 'Manejo inteligente del balón: el equipo respira y controla el partido sin sobresaltos.',
         failPenalty: 'El pase corto salió mal calculado y el rival te robó cerca de tu propia área.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 0 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 0 },
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       }
     ]
@@ -322,7 +322,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.22,
         successBonus: '¡CHILENA DE ANTOLOGÍA! Te fuiste al piso y la clavaste imposible arriba del arquero. ¡GOLAZO PARA LOS ANALES DEL CLUB!',
         failPenalty: 'La chilena salió desviada por completo y terminaste de espaldas en el pasto sin generar peligro real.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 22, fans: 32 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 11, fans: 32 },
         effectOnFail: { prestige: -4, fans: -3, energy: 15 }
       },
       {
@@ -332,7 +332,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡CONTROL Y GIRO PERFECTO! Bajaste el balón con clase y definiste de frente sin problemas. ¡GOL!',
         failPenalty: 'El control se te fue largo y el defensor central llegó primero a despejar.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 14 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 6, fans: 14 },
         effectOnFail: { prestige: -2, fans: -1, energy: 5 }
       },
       {
@@ -342,7 +342,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡TACO GENIAL! Dejaste el balón servido para que tu compañero defina solo. ¡ASISTENCIA!',
         failPenalty: 'El taco salió sin fuerza y el rival despejó el peligro sin drama.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 9 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 5, fans: 9 },
         effectOnFail: { prestige: -3, fans: -1, energy: 0 }
       }
     ]
@@ -357,7 +357,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡CABEZAZO LETAL! Le pegaste con toda el alma y el arquero no pudo hacer nada. ¡GOL!',
         failPenalty: 'El cabezazo salió débil y el arquero controló sin problemas.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 11, fans: 15 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 6, fans: 15 },
         effectOnFail: { prestige: -2, fans: -1, energy: 8 }
       },
       {
@@ -367,7 +367,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡CONTROL DE ORFEBRE! Dejaste la pelota servida y tu compañero definió de primera. ¡ASISTENCIA!',
         failPenalty: 'El control te quedó largo y el defensor central se anticipó, despejando el peligro.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 9, fans: 8 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 8 },
         effectOnFail: { prestige: -3, fans: -1, energy: 0 }
       },
       {
@@ -377,7 +377,7 @@ const DELANTERO_LATE: MatchDecision[] = [
         successChance: 0.75,
         successBonus: 'Jugada inteligente: sin espacio para definir bien, generaste otro córner y el equipo sigue presionando.',
         failPenalty: 'Se te escapó el control por completo y el balón quedó servido para que el rival despeje sin problemas.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       }
     ]
@@ -395,7 +395,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡PINCELADA! Pase con una precisión digna de cirujano. El extremo desborda y la mete al arco. ¡ASISTENCIA!',
         failPenalty: 'El pase quedó corto y fue cortado en la medular por el pivote contrario.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 8, fans: 8 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 8 },
         effectOnFail: { prestige: -3, fans: -1, energy: 0 }
       },
       {
@@ -405,7 +405,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡PURA MAGIA! Dejaste atrás a dos rivales pegados y asistes en zona caliente para gol de tu club. ¡ASISTENCIA!',
         failPenalty: 'Te barrieron fuerte pero lícitamente y perdiste la posesión ofensiva.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 12 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 5, fans: 12 },
         effectOnFail: { prestige: -4, fans: -3, energy: 5 }
       },
       {
@@ -415,7 +415,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡MISIL TIERRA-AIRE! Sorprendiste a todo el estadio metiéndola abajo en el palo derecho. ¡GOLAZO!',
         failPenalty: 'El remate salió muy desviado hacia las gradas del estadio.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 15 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 6, fans: 15 },
         effectOnFail: { prestige: -1, fans: 0, energy: 5 }
       }
     ]
@@ -430,7 +430,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.6,
         successBonus: '¡SALIDA LIMPIA! Rompiste la presión con toques cortos y el equipo respira con la pelota controlada.',
         failPenalty: 'El toque corto fue leído por el rival, que recuperó cerca de tu área.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 3 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 3 },
         effectOnFail: { prestige: -4, fans: -3, energy: 0 }
       },
       {
@@ -440,7 +440,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡VISIÓN DE OTRO PLANETA! El pase partió en dos a la defensa rival. ¡ASISTENCIA!',
         failPenalty: 'El pase fue interceptado y el rival sale de contragolpe con espacio.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 12, fans: 14 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 6, fans: 14 },
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       },
       {
@@ -450,7 +450,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.82,
         successBonus: 'Decisión sin brillo pero efectiva: el equipo se reordena con calma y sale la presión rival.',
         failPenalty: 'El pase de vuelta salió flojo y casi genera un susto enorme en tu propia área.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 0 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 1, fans: 0 },
         effectOnFail: { prestige: -6, fans: -5, energy: 0 }
       }
     ]
@@ -465,7 +465,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.32,
         successBonus: '¡DIRECTO A LA ESCUADRA! La barrera saltó tarde y el arquero solo pudo mirarla entrar. ¡GOLAZO!',
         failPenalty: 'El remate se fue apenas desviado, rozando el travesaño.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 13, fans: 17 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 6, fans: 17 },
         effectOnFail: { prestige: -2, fans: -1, energy: 5 }
       },
       {
@@ -475,7 +475,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡CENTRO MEDIDO! Tu compañero llegó solo por el segundo palo para cabecear al gol. ¡ASISTENCIA!',
         failPenalty: 'El centro fue despejado por la defensa rival sin mayores complicaciones.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 9, fans: 9 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 9 },
         effectOnFail: { prestige: -2, fans: -1, energy: 0 }
       },
       {
@@ -485,7 +485,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.72,
         successBonus: 'Jugada colectiva bien resuelta: el equipo reorganiza el ataque con más gente cerca del área.',
         failPenalty: 'La jugada amasada se cortó rápido y el rival despeja el peligro sin problemas.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -2, fans: -1, energy: 0 }
       }
     ]
@@ -505,7 +505,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡VOZ DE MANDO! El bloque se cierra a tiempo y asfixia el contragolpe rival antes de que sea peligroso.',
         failPenalty: 'Nadie reaccionó a tiempo: el rival encontró el pasillo libre entre líneas y avanzó con comodidad.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 7, fans: 6 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 6 },
         effectOnFail: { prestige: -4, fans: -3, energy: 5 }
       },
       {
@@ -515,7 +515,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡SACRIFICIO TOTAL! Cubriste metros de más y llegaste a cortar la jugada rival tú solo.',
         failPenalty: 'El esfuerzo no alcanzó: llegaste tarde y el rival ya había definido la jugada.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 7 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 7 },
         effectOnFail: { prestige: -3, fans: -2, energy: 14 }
       },
       {
@@ -525,7 +525,7 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
         successChance: 0.68,
         successBonus: 'La lectura fue correcta: la línea se ordenó sin necesidad de que bajaras a tapar el hueco.',
         failPenalty: 'La defensa no se acomodó a tiempo y quedaste mirando cómo el rival generaba una ocasión clara.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 1, fans: 1 },
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       }
     ]
@@ -543,7 +543,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.45,
         successBonus: '¡CORTE DE HIERRO! Robaste limpiamente e iniciaste rápidamente la contra para tu equipo.',
         failPenalty: '¡Llegaste tarde! Te pintaron de amarillo y regalaste un tiro libre peligroso.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 12 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 12 },
         effectOnFail: { prestige: -6, fans: -5, energy: 10 },
         cardRiskOnFail: 'yellow'
       },
@@ -554,7 +554,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.6,
         successBonus: '¡PULMONES DE ACERO! Forzaste el error de pase del rival enviando el esférico al lateral.',
         failPenalty: 'Te pasaron con un regate simple y tu físico terminó en falta sobre el rival.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 4 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 4 },
         effectOnFail: { prestige: -2, fans: -2, energy: 15 },
         cardRiskOnFail: 'yellow'
       },
@@ -565,7 +565,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.65,
         successBonus: '¡LECTURA TÁCTICA! Cortas la línea de habilitación salvando una jugada crucial.',
         failPenalty: 'Te filtraron el balón por medio de las piernas desestabilizándote por completo.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 3 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 3 },
         effectOnFail: { prestige: -3, fans: -1, energy: 0 }
       }
     ]
@@ -580,7 +580,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.45,
         successBonus: '¡PASE QUIRÚRGICO! Encontraste el hueco exacto y tu compañero definió solo. ¡ASISTENCIA!',
         failPenalty: 'El pase fue leído a tiempo por uno de los centrales, que cortó la jugada.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 10, fans: 11 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 5, fans: 11 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
@@ -590,7 +590,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.32,
         successBonus: '¡LLEGADA DE MEDIOCAMPISTA! Avanzaste sin que nadie te frenara y definiste con clase. ¡GOL!',
         failPenalty: 'El remate final se fue apenas afuera tras la larga carrera.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 12, fans: 15 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 6, fans: 15 },
         effectOnFail: { prestige: -2, fans: -1, energy: 12 }
       },
       {
@@ -600,7 +600,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.78,
         successBonus: 'Manejo inteligente de los tiempos: el equipo controla el partido sin sobresaltos innecesarios.',
         failPenalty: 'Un pase de más terminó en pérdida cerca de mitad de cancha.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 0 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 0 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       }
     ]
@@ -615,7 +615,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.35,
         successBonus: '¡ROBO Y PASE GOL EN UNA SOLA JUGADA! Le sacaste el balón limpio y sin parar filtraste el pase perfecto para el gol de tu compañero. ¡ASISTENCIA!',
         failPenalty: 'Llegaste desprolijo, no tocaste el balón y el armador rival escapó con ventaja.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 14, fans: 15 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 7, fans: 15 },
         effectOnFail: { prestige: -4, fans: -3, energy: 10 }
       },
       {
@@ -625,7 +625,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡ROBO SECO! Recuperaste la pelota sin complicarte, el equipo se reorganiza con la posesión a favor.',
         failPenalty: 'Falló el intento de robo y el rival mantuvo el balón sin problemas.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 4 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 4 },
         effectOnFail: { prestige: -2, fans: -1, energy: 8 }
       },
       {
@@ -635,7 +635,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.68,
         successBonus: 'Marca inteligente: lo incomodaste lo suficiente para que perdiera tiempo en su salida.',
         failPenalty: 'La marca pasiva no molestó lo suficiente y el armador encontró el pase que buscaba.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -2, fans: -1, energy: 0 }
       }
     ]
@@ -650,7 +650,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.58,
         successBonus: '¡ANULADO POR COMPLETO! El armador rival no pudo tocar una sola pelota limpia en varios minutos.',
         failPenalty: 'Se te escapó en un giro rápido y quedó de cara al ataque.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 6 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 6 },
         effectOnFail: { prestige: -4, fans: -4, energy: 8 }
       },
       {
@@ -660,7 +660,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.68,
         successBonus: '¡LECTURA DE PARTIDO! Tapaste la línea de pase clave y el rival tuvo que reiniciar la jugada.',
         failPenalty: 'El rival encontró igual el hueco que intentabas cubrir.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 2 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 2 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
@@ -670,7 +670,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡ROBO Y CONTRAGOLPE! Le sacaste el balón limpio y lanzaste una contra peligrosa para tu equipo.',
         failPenalty: 'Llegaste fuerte y tarde: el árbitro no duda en sancionarte con tarjeta.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 11, fans: 12 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 6, fans: 12 },
         effectOnFail: { prestige: -6, fans: -5, energy: 10 },
         cardRiskOnFail: 'yellow'
       }
@@ -689,7 +689,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡MURO IMPENETRABLE! Lo desplazaste legalmente y saliste jugando con solvencia de crack.',
         failPenalty: 'Te ganaron la espalda por la inercia, lo derribaste tratando de recuperar y el árbitro sanciona.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 6 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 6 },
         effectOnFail: { prestige: -4, fans: -4, energy: 8 },
         cardRiskOnFail: 'yellow'
       },
@@ -700,7 +700,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.65,
         successBonus: '¡ELEGANCIA DE DEFENSOR! Quitaste con guante blanco. Limpieza absoluta.',
         failPenalty: 'Calculaste mal el timing y llegaste a destiempo, la pierna estirada pega de lleno en el rival.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 10 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 10 },
         effectOnFail: { prestige: -6, fans: -8, energy: 0 },
         cardRiskOnFail: 'yellow'
       },
@@ -711,7 +711,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡VELOCIDAD PURA! Le diste caza, forzando la pérdida y enviando el balón fuera del campo.',
         failPenalty: 'Te dejó descolocado por completo con un cambio de ritmo letal.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 4 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 4 },
         effectOnFail: { prestige: -2, fans: -2, energy: 10 }
       }
     ]
@@ -726,7 +726,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡PELOTAZO PRECISO! El balón cayó perfecto en el pecho del delantero, que definió de cara al arco. ¡ASISTENCIA!',
         failPenalty: 'El pase largo se fue directo a las manos del arquero rival.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 9, fans: 8 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 8 },
         effectOnFail: { prestige: -3, fans: -2, energy: 0 }
       },
       {
@@ -736,7 +736,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.78,
         successBonus: 'Salida limpia y sin sobresaltos: el equipo sigue construyendo desde atrás con tranquilidad.',
         failPenalty: 'El pase corto quedó corto de más y casi genera un susto en tu propia área.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       },
       {
@@ -746,7 +746,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: 'Manejaste bien los tiempos y encontraste el pase justo tras avanzar unos metros con el balón dominado.',
         failPenalty: 'Te presionaron y perdiste el balón cerca de tu propia área, situación de riesgo total.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 2 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 2 },
         effectOnFail: { prestige: -7, fans: -6, energy: 10 }
       }
     ]
@@ -761,7 +761,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡ANTICIPACIÓN PERFECTA! Cortaste el balón antes de que llegue al delantero rival.',
         failPenalty: 'No llegaste a tiempo y el delantero recibió con ventaja.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 7 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 7 },
         effectOnFail: { prestige: -4, fans: -4, energy: 8 }
       },
       {
@@ -771,7 +771,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.68,
         successBonus: 'Posicionamiento inteligente: tapaste la línea de pase sin necesidad de arriesgar el cuerpo.',
         failPenalty: 'El rival igual encontró el ángulo para filtrar el balón.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 3 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 3 },
         effectOnFail: { prestige: -3, fans: -3, energy: 0 }
       },
       {
@@ -781,7 +781,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.35,
         successBonus: '¡TRAMPA PERFECTA! Toda la línea subió al mismo tiempo y el linier levanta la bandera. Jugada anulada.',
         failPenalty: 'La línea no salió coordinada: el delantero quedó habilitado y definió sin oposición.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 9 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 9 },
         effectOnFail: { prestige: -9, fans: -10, energy: 8 }
       }
     ]
@@ -796,7 +796,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.35,
         successBonus: '¡CABEZAZO DE DEFENSOR CENTRAL! Subiste como delantero y la clavaste en el ángulo. ¡GOL!',
         failPenalty: 'El cabezazo salió débil y el arquero lo controló sin problemas.',
-        effectOnSuccess: { goals: 1, assists: 0, prestige: 14, fans: 18 },
+        effectOnSuccess: { goals: 1, assists: 0, prestige: 7, fans: 18 },
         effectOnFail: { prestige: -2, fans: -1, energy: 10 }
       },
       {
@@ -806,7 +806,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡ASISTENCIA DE LUJO! Le bajaste el balón servido a tu compañero, que definió de primera. ¡ASISTENCIA!',
         failPenalty: 'El desvío de cabeza salió impreciso y el rival despejó sin problemas.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 9, fans: 8 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 8 },
         effectOnFail: { prestige: -3, fans: -1, energy: 0 }
       },
       {
@@ -816,7 +816,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.7,
         successBonus: 'Decisión conservadora: te quedaste atrás y cuando el córner se despejó, cortaste vos mismo el intento de contra rival.',
         failPenalty: 'Al quedarte atrás sin necesidad, el córner se perdió sin peligro y no aportaste nada a la jugada.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -1, fans: 0, energy: 0 }
       }
     ]
@@ -831,7 +831,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡TRAMPA BIEN EJECUTADA! Toda la línea reaccionó junta y el linier levanta la bandera. Jugada anulada.',
         failPenalty: 'La línea no te escuchó a tiempo: subiste solo y dejaste al delantero mano a mano con el arquero.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 9, fans: 8 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 8 },
         effectOnFail: { prestige: -8, fans: -9, energy: 6 }
       },
       {
@@ -841,7 +841,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: 'Cubriste bien el espacio libre y el ataque rival se quedó sin opciones claras de pase.',
         failPenalty: 'Al cubrir el hueco dejaste libre a tu propio marcado, que recibió cómodo.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 4 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 4 },
         effectOnFail: { prestige: -4, fans: -3, energy: 8 }
       },
       {
@@ -851,7 +851,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         successChance: 0.45,
         successBonus: '¡CONTUNDENCIA TOTAL! Llegaste primero y cortaste la jugada de un planchazo lícito.',
         failPenalty: 'Llegaste tarde al choque y el árbitro te sanciona con falta peligrosa cerca del área.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 9 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 9 },
         effectOnFail: { prestige: -10, fans: -11, energy: 10 },
         cardRiskOnFail: 'yellow'
       }
@@ -870,7 +870,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡POR EL CIELO! Volaste por encima de su marca y cabeceaste fuerte fuera del área.',
         failPenalty: 'Te ganó el choque físico; su frentazo pegó en el poste salvándonos del gol por milímetros.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 10 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 10 },
         effectOnFail: { prestige: -5, fans: -5, energy: 15 },
         cardRiskOnFail: 'yellow'
       },
@@ -881,7 +881,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡EXPULSIÓN DE PELOTA! Despejaste de forma espectacular robándote los aplausos.',
         failPenalty: 'Pifiaste el esférico dándole un córner nuevo al rival totalmente gratis.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 12, fans: 15 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 15 },
         effectOnFail: { prestige: -3, fans: -3, energy: 5 }
       },
       {
@@ -891,7 +891,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.6,
         successBonus: '¡ORGANIZACIÓN IMPERIAL! Tu pase largo de reojo inicia un contragolpe directo de peligro.',
         failPenalty: 'Tu habilitación salió al lateral desaprovechando una gran recuperación defensiva.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 8, fans: 5 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 4, fans: 5 },
         effectOnFail: { prestige: -4, fans: -1, energy: 0 }
       }
     ]
@@ -906,7 +906,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.6,
         successBonus: '¡SACRIFICIO CON CABEZA FRÍA! Cortaste el avance con una falta bien calculada. Amarilla, pero peligro eliminado.',
         failPenalty: 'El árbitro interpreta que le negaste una ocasión clarísima de gol: ¡ROJA DIRECTA!',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 8 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 8 },
         effectOnFail: { prestige: -10, fans: -8, energy: 5 },
         cardRiskOnFail: 'red'
       },
@@ -917,7 +917,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.45,
         successBonus: '¡ACHIQUE PERFECTO! Le tapaste el ángulo y el remate rival se fue desviado por muy poco.',
         failPenalty: 'No lograste incomodarlo lo suficiente y definió cruzado, imposible para el arquero.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 9, fans: 9 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 9 },
         effectOnFail: { prestige: -8, fans: -9, energy: 8 }
       },
       {
@@ -927,7 +927,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡ROBO ESPECTACULAR! Le sacaste el balón limpio sin cometer falta, aplausos de todo el estadio.',
         failPenalty: 'Llegaste desprolijo, no tocaste el balón y encima el árbitro te amonesta.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 13, fans: 14 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 14 },
         effectOnFail: { prestige: -9, fans: -10, energy: 10 },
         cardRiskOnFail: 'yellow'
       }
@@ -954,7 +954,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.22,
         successBonus: '¡MILAGRO DEFENSIVO! Le sacaste el balón limpio justo antes del remate, sin necesidad de falta. El estadio explota de alivio.',
         failPenalty: 'No llegaste a tocar el balón y el delantero definió sin oposición. Gol rival.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 16, fans: 20 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 20 },
         effectOnFail: { prestige: -10, fans: -9, energy: 15 }
       },
       {
@@ -964,7 +964,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.15,
         successBonus: 'Contra todo pronóstico, el arquero saca una mano milagrosa y evita el gol sin que tuvieras que arriesgar nada.',
         failPenalty: 'El delantero no perdonó: definió cruzado y el balón terminó en el fondo de la red. Gol rival.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 3 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 3 },
         effectOnFail: { prestige: -9, fans: -8, energy: 0 }
       }
     ]
@@ -979,7 +979,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.68,
         successBonus: '¡BARRERA PERFECTA! El remate rival se estrelló contra el muro que armaste con precisión.',
         failPenalty: 'La barrera quedó mal armada y dejó un hueco que el rival aprovechó.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 7, fans: 6 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 6 },
         effectOnFail: { prestige: -7, fans: -7, energy: 0 }
       },
       {
@@ -989,7 +989,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡BLOQUEO HEROICO! Saliste en el momento justo y tapaste el remate con el cuerpo.',
         failPenalty: 'Saliste demasiado pronto y dejaste un espacio libre que el rival aprovechó al instante.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 12, fans: 13 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 13 },
         effectOnFail: { prestige: -8, fans: -8, energy: 10 }
       },
       {
@@ -999,7 +999,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
         successChance: 0.72,
         successBonus: 'Sin heroísmos, pero la barrera cumplió su función y el peligro quedó neutralizado.',
         failPenalty: 'El disparo encontró un hueco entre los cuerpos de la barrera.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 2 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 2 },
         effectOnFail: { prestige: -6, fans: -6, energy: 0 }
       }
     ]
@@ -1017,7 +1017,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.35,
         successBonus: '¡ATAJADÓN! Volaste firmemente desviando la bocha al tiro de esquina lateral.',
         failPenalty: 'Te engañó por completo pateando al centro mientras volabas a la esquina.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 15, fans: 20 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 20 },
         effectOnFail: { prestige: -2, fans: -2, energy: 5 }
       },
       {
@@ -1027,7 +1027,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡HÉROE TOTAL! Te estiraste al límite y contuviste el disparo rasante sin dar rebote.',
         failPenalty: 'El balón te pasó rozando por debajo del codo por milímetros.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 18, fans: 25 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 9, fans: 25 },
         effectOnFail: { prestige: -3, fans: -2, energy: 10 }
       },
       {
@@ -1037,7 +1037,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.25,
         successBonus: '¡PURA MENTALIDAD! Se asustó e intentó picarla, la atrapaste con una mano sonriéndole.',
         failPenalty: 'La cruzó fuerte a la red dejándote estático en el centro de la valla.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 20, fans: 30 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 30 },
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       }
     ]
@@ -1052,7 +1052,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡ACHIQUE DE MANUAL! Le tapaste todo el arco y el remate se fue directo a tus manos.',
         failPenalty: 'Se la picó por encima justo cuando avanzabas. Gol imposible de evitar.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 16, fans: 22 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 22 },
         effectOnFail: { prestige: -3, fans: -3, energy: 5 }
       },
       {
@@ -1062,7 +1062,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.42,
         successBonus: '¡SE PUSO NERVIOSO! Al no achicarte, dudó en la definición y remató directo a tu cuerpo.',
         failPenalty: 'Definió con clase por el segundo palo, sin margen para reaccionar.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 14, fans: 18 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 7, fans: 18 },
         effectOnFail: { prestige: -4, fans: -4, energy: 0 }
       },
       {
@@ -1072,7 +1072,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.35,
         successBonus: '¡ANTICIPACIÓN TOTAL! Llegaste primero al balón y cortaste el peligro antes de que definiera.',
         failPenalty: 'Calculaste mal la salida: lo tocaste a él antes que al balón. ¡PENAL Y EXPULSIÓN!',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 19, fans: 26 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 26 },
         effectOnFail: { prestige: -14, fans: -12, energy: 12 },
         cardRiskOnFail: 'red'
       }
@@ -1088,7 +1088,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.8,
         successBonus: 'Despeje sin estridencias: la pelota sale del área y el equipo respira, sin sobresaltos.',
         failPenalty: 'El despeje salió débil y quedó cerca del área, generando un córner peligroso.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -4, fans: -3, energy: 5 }
       },
       {
@@ -1098,7 +1098,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.3,
         successBonus: '¡SANGRE FRÍA DE ARQUERO MODERNO! Lo dejaste en el camino con un amague corto y saliste jugando limpio.',
         failPenalty: '¡CATÁSTROFE! Te quitaron el balón dentro del área. Gol prácticamente regalado.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 15, fans: 20 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 20 },
         effectOnFail: { prestige: -16, fans: -18, energy: 8 }
       },
       {
@@ -1108,7 +1108,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡PELOTAZO DE ORO! El balón cayó perfecto en la carrera de tu compañero, que definió solo. ¡ASISTENCIA!',
         failPenalty: 'El pase largo se fue directo a un rival, que quedó con el balón cerca de tu área.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 14, fans: 16 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 7, fans: 16 },
         effectOnFail: { prestige: -6, fans: -5, energy: 0 }
       }
     ]
@@ -1123,7 +1123,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡ORGANIZACIÓN PERFECTA! Cada uno marcó a su hombre y el córner murió en un despeje tranquilo.',
         failPenalty: 'No te escucharon con el ruido del estadio y el delantero quedó completamente solo.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 7 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 7 },
         effectOnFail: { prestige: -6, fans: -6, energy: 0 }
       },
       {
@@ -1133,7 +1133,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.4,
         successBonus: '¡SALIDA DE ORO! Ganaste el salto por encima de todos y despejaste el peligro con autoridad.',
         failPenalty: 'Calculaste mal el salto y el balón te pasó por arriba dejando el arco completamente vacío.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 12, fans: 14 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 14 },
         effectOnFail: { prestige: -14, fans: -15, energy: 10 }
       },
       {
@@ -1143,7 +1143,7 @@ const ARQUERO_EARLY: MatchDecision[] = [
         successChance: 0.65,
         successBonus: 'La marca zonal funcionó sin sobresaltos, el córner se despejó sin que hiciera falta arriesgar.',
         failPenalty: 'La marca zonal falló y nadie llegó a la pelota: gol del rival de cabeza sin oposición.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 2 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 2 },
         effectOnFail: { prestige: -12, fans: -13, energy: 0 }
       }
     ]
@@ -1161,7 +1161,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.55,
         successBonus: '¡PROPIETARIO DEL ÁREA! Derribaste marcas lícitamente y mandaste el balón al círculo central.',
         failPenalty: 'Calculaste mal la trayectoria y chocaste de lleno contra un rival. El árbitro no duda en sancionarte.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 10, fans: 8 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 5, fans: 8 },
         effectOnFail: { prestige: -5, fans: -5, energy: 10 },
         cardRiskOnFail: 'yellow'
       },
@@ -1172,7 +1172,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.65,
         successBonus: '¡GATO VOLADOR! El remate a quemarropa fue despejado milagrosamente sobre la línea de gol.',
         failPenalty: 'El cabezazo a bocajarro te batió cruzado imposible de detener.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 12, fans: 15 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 15 },
         effectOnFail: { prestige: -4, fans: -4, energy: 0 }
       },
       {
@@ -1182,7 +1182,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.6,
         successBonus: '¡VOZ DE MANDO! Tus gritos ordenaron el marcaje impidiendo remates incómodos.',
         failPenalty: 'Tus defensas se confundieron chocando entre sí y regalando una opción clara.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 4 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 4, fans: 4 },
         effectOnFail: { prestige: -3, fans: -1, energy: 0 }
       }
     ]
@@ -1197,7 +1197,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.5,
         successBonus: '¡REFLEJOS DE ACERO! Llegaste al rebote antes que nadie y sacaste una mano milagrosa.',
         failPenalty: 'No llegaste a tiempo: el rival empujó el rebote a la red vacía.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 15, fans: 20 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 8, fans: 20 },
         effectOnFail: { prestige: -6, fans: -6, energy: 10 }
       },
       {
@@ -1207,7 +1207,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.45,
         successBonus: '¡PUÑO SALVADOR! Saliste entre varios cuerpos y despejaste el peligro con autoridad.',
         failPenalty: 'Chocaste con un rival en el aire sin llegar al balón. El árbitro te amonesta.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 11, fans: 12 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 12 },
         effectOnFail: { prestige: -6, fans: -5, energy: 10 },
         cardRiskOnFail: 'yellow'
       },
@@ -1218,7 +1218,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.65,
         successBonus: '¡VOZ DE MANDO! Tu grito ordenó al defensor justo a tiempo para despejar el rebote.',
         failPenalty: 'Nadie reaccionó a tiempo al grito y el rebote terminó en el fondo de la red.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 6, fans: 4 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 4 },
         effectOnFail: { prestige: -5, fans: -4, energy: 0 }
       }
     ]
@@ -1233,7 +1233,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.45,
         successBonus: '¡SALIDA LETAL! El saque corto y rápido sorprendió al rival y terminó en un contragolpe que sentenció el partido. ¡ASISTENCIA!',
         failPenalty: 'El rival anticipó la salida corta y recuperó el balón peligrosamente cerca de tu área.',
-        effectOnSuccess: { goals: 0, assists: 1, prestige: 15, fans: 18 },
+        effectOnSuccess: { goals: 0, assists: 1, prestige: 8, fans: 18 },
         effectOnFail: { prestige: -8, fans: -8, energy: 5 }
       },
       {
@@ -1243,7 +1243,7 @@ const ARQUERO_LATE: MatchDecision[] = [
         successChance: 0.8,
         successBonus: 'Saque largo simple y efectivo: el equipo aleja el peligro sin sobresaltos.',
         failPenalty: 'El saque largo salió débil y el rival recuperó cerca de mitad de cancha.',
-        effectOnSuccess: { goals: 0, assists: 0, prestige: 3, fans: 1 },
+        effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -3, fans: -2, energy: 5 }
       },
       {
@@ -1777,7 +1777,7 @@ export default function MatchSimulator({
       if (isHome.current) setScoreHome(prev => prev + 1); else setScoreAway(prev => prev + 1);
       const ratingBonus = isPenalty ? 1.3 : 2.0;
       setRating(prev => Math.min(prev + ratingBonus, 10.0));
-      const prestigeGain = isPenalty ? 10 : 20;
+      const prestigeGain = isPenalty ? 5 : 10;
       const fansGain = isPenalty ? 12 : 28;
       setPrestigeAccum(prev => prev + prestigeGain);
       setFansAccum(prev => prev + fansGain);

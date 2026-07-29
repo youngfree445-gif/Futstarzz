@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE } from '../data';
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
@@ -15,7 +15,7 @@ import {
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
-  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake
+  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 import { fetchReactionGif, searchReactionGifs } from '../services/giphy';
@@ -210,7 +210,7 @@ export default function Dashboard({
   onLogout,
   onResetGame
 }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<'carrera' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos' | 'tienda' | 'patrocinios' | 'tablas' | 'mi_club' | 'calendario'>('carrera');
+  const [activeTab, setActiveTab] = useState<'carrera' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos' | 'tienda' | 'patrocinios' | 'tablas' | 'mi_club' | 'calendario' | 'logros'>('carrera');
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
@@ -229,7 +229,12 @@ export default function Dashboard({
   const [gifPickerOpenFor, setGifPickerOpenFor] = useState<string | null>(null);
   const [gifSearchQuery, setGifSearchQuery] = useState('');
   const [gifSearchResults, setGifSearchResults] = useState<string[]>([]);
+  const [gifSearchOffset, setGifSearchOffset] = useState(0);
+  const [gifSearchLoadingMore, setGifSearchLoadingMore] = useState(false);
   const [commentGifDrafts, setCommentGifDrafts] = useState<Record<string, string>>({});
+  // Lightbox: click en cualquier GIF ya publicado (post o comentario) lo agranda en un overlay
+  // sobre el resto del juego -- click afuera (o en el ✕) lo cierra y volvés a donde estabas.
+  const [expandedGifUrl, setExpandedGifUrl] = useState<string | null>(null);
 
   const toggleLike = (postId: string) => {
     setLikedPosts(prev => {
@@ -258,11 +263,26 @@ export default function Dashboard({
 
   // Búsqueda de GIF para adjuntar a tu propio comentario -- se dispara al abrir el selector con
   // el nombre de tu jugador como query por defecto, o lo que el usuario tipee en gifSearchQuery.
+  // Reinicia la paginación: es una búsqueda nueva, no una continuación.
   const searchGifsForComment = async (query: string) => {
     setGifSearchQuery(query);
+    setGifSearchOffset(0);
     if (!query.trim()) { setGifSearchResults([]); return; }
-    const results = await searchReactionGifs(query);
+    const results = await searchReactionGifs(query, 0);
     setGifSearchResults(results);
+  };
+
+  // "Cargar más": pide el siguiente lote de la misma búsqueda y lo agrega al final de la lista ya
+  // mostrada, en vez de reemplazarla -- así el usuario puede seguir scrolleando sin perder lo que
+  // ya vio.
+  const loadMoreGifs = async () => {
+    if (!gifSearchQuery.trim() || gifSearchLoadingMore) return;
+    setGifSearchLoadingMore(true);
+    const nextOffset = gifSearchOffset + 24;
+    const results = await searchReactionGifs(gifSearchQuery, nextOffset);
+    setGifSearchResults(prev => [...prev, ...results]);
+    setGifSearchOffset(nextOffset);
+    setGifSearchLoadingMore(false);
   };
 
   // Al avanzar de semana vuelve a habilitarse la sala de prensa (la respuesta de la semana
@@ -1338,7 +1358,28 @@ export default function Dashboard({
 
   return (
     <div id="dashboard-view" className="min-h-screen bg-slate-950 text-white flex flex-col md:flex-row relative">
-      
+
+      {expandedGifUrl && (
+        <div
+          onClick={() => setExpandedGifUrl(null)}
+          className="fixed inset-0 z-[200] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-6 cursor-pointer animate-fade-in"
+        >
+          <button
+            onClick={() => setExpandedGifUrl(null)}
+            className="btn-fx-subtle absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-900 border border-slate-700 text-white flex items-center justify-center cursor-pointer"
+            aria-label="Cerrar"
+          >
+            ✕
+          </button>
+          <img
+            src={expandedGifUrl}
+            alt="GIF ampliado"
+            onClick={e => e.stopPropagation()}
+            className="max-w-full max-h-full rounded-2xl border border-slate-700 shadow-2xl cursor-default"
+          />
+        </div>
+      )}
+
       <aside className="w-full md:w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-3 z-20">
         <div className="space-y-4">
 
@@ -1434,6 +1475,15 @@ export default function Dashboard({
               className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'calendario' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
             >
               <Calendar size={15} /> Calendario
+            </button>
+            <button
+              onClick={() => setActiveTab('logros')}
+              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'logros' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+            >
+              <Trophy size={15} /> Logros
+              <span className="ml-auto text-3xs font-mono text-slate-500">
+                {Object.keys(playerProfile.unlockedAchievements).length}/{ACHIEVEMENTS_DATABASE.length}
+              </span>
             </button>
           </nav>
         </div>
@@ -1912,7 +1962,8 @@ export default function Dashboard({
                             <img
                               src={postGifs[post.id]}
                               alt="Reacción GIF"
-                              className="w-full max-w-xs rounded-xl border border-slate-800 mt-1"
+                              onClick={() => setExpandedGifUrl(postGifs[post.id])}
+                              className="w-full max-w-xs rounded-xl border border-slate-800 mt-1 cursor-pointer hover:opacity-90 transition-opacity"
                             />
                           )}
                           <div className="flex items-center gap-4 text-3xs text-slate-500 font-mono pt-2 border-t border-slate-950">
@@ -1941,7 +1992,12 @@ export default function Dashboard({
                                     <span className="text-[10px] text-white font-bold block">{playerProfile.name}</span>
                                     {c.text && <p className="text-2xs text-slate-300 leading-snug">{c.text}</p>}
                                     {c.gifUrl && (
-                                      <img src={c.gifUrl} alt="GIF" className="w-32 rounded-lg border border-slate-800 mt-1" />
+                                      <img
+                                        src={c.gifUrl}
+                                        alt="GIF"
+                                        onClick={() => setExpandedGifUrl(c.gifUrl!)}
+                                        className="w-32 rounded-lg border border-slate-800 mt-1 cursor-pointer hover:opacity-90 transition-opacity"
+                                      />
                                     )}
                                     <span className="text-[9px] text-slate-500 font-mono">❤️ {c.likes.toLocaleString()} Me gusta</span>
                                   </div>
@@ -2002,25 +2058,37 @@ export default function Dashboard({
                                     placeholder="Buscar GIF..."
                                     className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
                                   />
-                                  <div className="grid grid-cols-3 gap-2 max-h-96 overflow-y-auto pr-1">
-                                    {gifSearchResults.length === 0 ? (
-                                      <span className="col-span-3 text-3xs text-slate-500 text-center py-2">
-                                        {gifSearchQuery.trim() ? 'Sin resultados' : 'Escribí algo para buscar'}
-                                      </span>
-                                    ) : (
-                                      gifSearchResults.map((url, i) => (
-                                        <button
-                                          key={i}
-                                          type="button"
-                                          onClick={() => {
-                                            setCommentGifDrafts(prev => ({ ...prev, [post.id]: url }));
-                                            setGifPickerOpenFor(null);
-                                          }}
-                                          className="btn-fx-subtle rounded-lg overflow-hidden border border-slate-800 hover:border-gold-500/50"
-                                        >
-                                          <img src={url} alt="" className="w-full h-28 object-cover" />
-                                        </button>
-                                      ))
+                                  <div className="max-h-96 overflow-y-auto pr-1 space-y-2">
+                                    <div className="grid grid-cols-3 gap-2">
+                                      {gifSearchResults.length === 0 ? (
+                                        <span className="col-span-3 text-3xs text-slate-500 text-center py-2">
+                                          {gifSearchQuery.trim() ? 'Sin resultados' : 'Escribí algo para buscar'}
+                                        </span>
+                                      ) : (
+                                        gifSearchResults.map((url, i) => (
+                                          <button
+                                            key={i}
+                                            type="button"
+                                            onClick={() => {
+                                              setCommentGifDrafts(prev => ({ ...prev, [post.id]: url }));
+                                              setGifPickerOpenFor(null);
+                                            }}
+                                            className="btn-fx-subtle rounded-lg overflow-hidden border border-slate-800 hover:border-gold-500/50"
+                                          >
+                                            <img src={url} alt="" className="w-full h-28 object-cover" />
+                                          </button>
+                                        ))
+                                      )}
+                                    </div>
+                                    {gifSearchResults.length > 0 && (
+                                      <button
+                                        type="button"
+                                        onClick={loadMoreGifs}
+                                        disabled={gifSearchLoadingMore}
+                                        className="btn-fx-subtle w-full py-2 rounded-lg border border-slate-800 text-2xs font-bold text-slate-300 hover:border-gold-500/50 disabled:opacity-50 disabled:cursor-wait"
+                                      >
+                                        {gifSearchLoadingMore ? 'Cargando...' : 'Cargar más GIFs'}
+                                      </button>
                                     )}
                                   </div>
                                 </div>
@@ -2163,7 +2231,7 @@ export default function Dashboard({
                       </div>
                       <p className="text-3xs text-slate-400">Impacto altamente positivo en el prestigio de la prensa especializada.</p>
                       <button
-                        onClick={() => onLaunchPRCampaign(3000, 15, 6)}
+                        onClick={() => onLaunchPRCampaign(3000, 15, 3)}
                         disabled={playerProfile.capital < 3000}
                         className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
@@ -2850,6 +2918,64 @@ export default function Dashboard({
               {calendarEvents.length === 0 && (
                 <p className="text-2xs text-slate-500">No hay más partidos programados por ahora para tu club.</p>
               )}
+            </div>
+          )}
+
+          {activeTab === 'logros' && (
+            <div className="space-y-6 animate-fade-in max-w-5xl">
+              <div>
+                <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2 flex items-center gap-2">
+                  <Trophy size={20} className="text-gold-400" /> Logros
+                </h2>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Desbloqueaste {Object.keys(playerProfile.unlockedAchievements).length} de {ACHIEVEMENTS_DATABASE.length} logros. Cada uno te da un premio chico en capital al cumplirlo.
+                </p>
+              </div>
+
+              {(['carrera', 'partido', 'personal'] as const).map(category => {
+                const categoryLabel = category === 'carrera' ? '📈 Carrera' : category === 'partido' ? '⚡ Partido Puntual' : '❤️ Vida Personal';
+                const categoryAchievements = ACHIEVEMENTS_DATABASE.filter(a => a.category === category);
+                return (
+                  <div key={category} className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">
+                      {categoryLabel}
+                    </h3>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {categoryAchievements.map(achievement => {
+                        const unlockedWeek = playerProfile.unlockedAchievements[achievement.id];
+                        const isUnlocked = unlockedWeek !== undefined;
+                        return (
+                          <div
+                            key={achievement.id}
+                            className={`p-3 rounded-2xl border flex items-center gap-3 ${
+                              isUnlocked
+                                ? 'bg-gold-950/10 border-gold-500/30'
+                                : 'bg-slate-950/60 border-slate-800 opacity-60'
+                            }`}
+                          >
+                            <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
+                              isUnlocked ? 'bg-slate-950 border-gold-500/30' : 'bg-slate-900 border-slate-800'
+                            }`}>
+                              {isUnlocked ? achievement.icon : <Lock size={16} className="text-slate-600" />}
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className={`font-bold text-xs leading-tight ${isUnlocked ? 'text-white' : 'text-slate-500'}`}>
+                                {achievement.name}
+                              </h4>
+                              <p className="text-3xs text-slate-500 leading-snug mt-0.5">
+                                {achievement.description}
+                              </p>
+                              <span className={`text-3xs font-mono font-bold block mt-1 ${isUnlocked ? 'text-gold-400' : 'text-slate-600'}`}>
+                                {isUnlocked ? `Desbloqueado · Semana ${unlockedWeek}` : `Recompensa: $${achievement.reward.toLocaleString()}`}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
 

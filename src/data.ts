@@ -11,7 +11,7 @@ const ALL_PLAYERS = rawPlayers as unknown as {
   team_name: string;
   team_id: number;
 }[];
-import { Club, PressQuestion, ShopItem } from './types';
+import { Club, PressQuestion, ShopItem, Achievement } from './types';
 import { CLUB_EXTRAS } from './clubExtras';
 import mauSportsAvatar from './assets/mau_sports.jpg';
 import fabrizioRomanoAvatar from './assets/press/FABRIZZIO ROMANO.jpg';
@@ -2742,7 +2742,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 54000,
     description: 'Un manager que redacta contratos brutales y te consigue un 20% más de salario en ofertas futuras.',
     perkText: '+15 Prestigio garantizado, habilita ofertas de gigantes continentales.',
-    effect: { prestigeBonus: 15, fatigueReduction: 0 },
+    effect: { prestigeBonus: 8, fatigueReduction: 0 },
     purchased: false,
     icon: 'briefcase',
     image: sportsAgentImg
@@ -2753,7 +2753,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 95000,
     description: 'Con motor V8 que ruge en los entrenamientos. El foco de las cámaras estará en tu coche.',
     perkText: '+25 Afición/Fans instantáneos, +12 Prestigio.',
-    effect: { fansBonus: 25, prestigeBonus: 12, attribute: 'ritmo', value: 1 },
+    effect: { fansBonus: 25, prestigeBonus: 6, attribute: 'ritmo', value: 1 },
     purchased: false,
     icon: 'car',
     image: sportsCarImg
@@ -2775,7 +2775,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 215000,
     description: 'Casa gigante con piscina olímpica, cine privado e hidratación premium para un descanso estelar.',
     perkText: '+25 Prestigio, +20 Energía por partido avanzado.',
-    effect: { prestigeBonus: 25, permanentEnergyBonus: 15 },
+    effect: { prestigeBonus: 12, permanentEnergyBonus: 15 },
     purchased: false,
     icon: 'home',
     image: luxuryMansionImg
@@ -2786,7 +2786,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 30000,
     description: 'Una campaña de relaciones públicas masiva para limpiar tu nombre en redes.',
     perkText: '+30 de Afición/Fans y +10 de Prestigio en el club.',
-    effect: { fansBonus: 30, prestigeBonus: 10 },
+    effect: { fansBonus: 30, prestigeBonus: 5 },
     purchased: false,
     icon: 'megaphone',
     image: marketingPrImg
@@ -2821,7 +2821,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 40000,
     description: 'Tu cara en cada botella de la marca oficial de hidratación de la liga.',
     perkText: '+8 Prestigio, +10 Fans.',
-    effect: { prestigeBonus: 8, fansBonus: 10 },
+    effect: { prestigeBonus: 4, fansBonus: 10 },
     category: 'bebidas',
     purchased: false,
     icon: 'droplet',
@@ -2833,7 +2833,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 70000,
     description: 'Lanzás tu propia colección de streetwear con una marca reconocida de la industria.',
     perkText: '+35 Fans, +5 Prestigio.',
-    effect: { fansBonus: 35, prestigeBonus: 5 },
+    effect: { fansBonus: 35, prestigeBonus: 2 },
     category: 'moda',
     sensitiveToControversy: true,
     purchased: false,
@@ -2846,7 +2846,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 150000,
     description: 'Una casa relojera centenaria te suma a su lista reducida de embajadores globales.',
     perkText: '+30 Prestigio.',
-    effect: { prestigeBonus: 30 },
+    effect: { prestigeBonus: 15 },
     category: 'lujo',
     sensitiveToControversy: true,
     purchased: false,
@@ -2871,7 +2871,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 85000,
     description: 'Vuelos y estadías premium para ti y tu familia, cortesía de la aerolínea oficial del torneo.',
     perkText: '+10 Prestigio, +10 Energía por partido avanzado.',
-    effect: { prestigeBonus: 10, permanentEnergyBonus: 10 },
+    effect: { prestigeBonus: 5, permanentEnergyBonus: 10 },
     category: 'viajes',
     sensitiveToControversy: true,
     purchased: false,
@@ -2884,7 +2884,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 65000,
     description: 'Tu cara en las vallas publicitarias y en la app de la compañía de telefonía más grande del país.',
     perkText: '+20 Fans, +8 Prestigio.',
-    effect: { fansBonus: 20, prestigeBonus: 8 },
+    effect: { fansBonus: 20, prestigeBonus: 4 },
     category: 'telecomunicaciones',
     sensitiveToControversy: true,
     purchased: false,
@@ -2909,7 +2909,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 110000,
     description: 'Tu tarjeta de crédito edición limitada con tu nombre grabado en el frente.',
     perkText: '+20 Prestigio, ganas de forma pasiva $2,000 cada vez que avanzas la semana.',
-    effect: { prestigeBonus: 20, passiveIncome: 2000 },
+    effect: { prestigeBonus: 10, passiveIncome: 2000 },
     category: 'banca',
     sensitiveToControversy: true,
     purchased: false,
@@ -2934,7 +2934,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     cost: 100000,
     description: 'Botines con tu inicial bordada y una línea de zapatillas urbanas con tu nombre.',
     perkText: '+15 Prestigio, +20 Fans.',
-    effect: { prestigeBonus: 15, fansBonus: 20 },
+    effect: { prestigeBonus: 8, fansBonus: 20 },
     category: 'calzado',
     sensitiveToControversy: true,
     purchased: false,
@@ -2968,14 +2968,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Es un sueño cumplido, pero esto recién empieza. Con los pies bien puestos en la tierra.",
-        prestigeChange: 4,
+        prestigeChange: 2,
         fansChange: 6,
         energyChange: -2,
         reaction: "Mau (@mausportstv): 'Declaración madura para ser su primera rueda de prensa. El chat lo ama.'"
       },
       {
         text: "Vine a ser titular indiscutido desde el día uno, no a calentar banca de suplentes.",
-        prestigeChange: 7,
+        prestigeChange: 4,
         fansChange: -6,
         energyChange: 0,
         reaction: "Mau (@mausportstv): '¡Family, esto se puso picante! El debutante ya está pidiendo la titularidad.'"
@@ -2994,14 +2994,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Mi cabeza está 100% enfocada en este club, el resto lo maneja mi representante.",
-        prestigeChange: 4,
+        prestigeChange: 2,
         fansChange: 5,
         energyChange: -2,
         reaction: "Mau (@mausportstv): 'Declaración madura del juvenil. Mantiene los pies sobre la tierra.'"
       },
       {
         text: "Totalmente. El fútbol sudamericano ya me queda chico, aspiro a ganar la Champions League pronto.",
-        prestigeChange: 8,
+        prestigeChange: 4,
         fansChange: -10,
         energyChange: 0,
         reaction: "Mau (@mausportstv): '¡Boom! El jugador exige su salida inmediata a Europa.'"
@@ -3020,14 +3020,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Sí, me río muchísimo con los memes, se los mando a mis compañeros del plantel.",
-        prestigeChange: 3,
+        prestigeChange: 2,
         fansChange: 10,
         energyChange: -1,
         reaction: "Mau (@mausportstv): 'Se lo toma con humor, el chat explota de comentarios positivos.'"
       },
       {
         text: "No tengo tiempo para andar viendo redes, estoy enfocado en el próximo rival.",
-        prestigeChange: 6,
+        prestigeChange: 3,
         fansChange: -3,
         energyChange: 0,
         reaction: "Mau (@mausportstv): 'Respuesta seria de profesional. Algunos en el chat dicen que es medio soberbio.'"
@@ -3046,7 +3046,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Total invento. Sigo 100% enfocado acá, cuando haya algo real lo van a saber de primera mano.",
-        prestigeChange: 5,
+        prestigeChange: 2,
         fansChange: 8,
         energyChange: -2,
         reaction: "Mau (@mausportstv): 'Desmentido en vivo. El chat respira tranquilo, por ahora.'"
@@ -3098,14 +3098,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Las respuestas se dan trabajando en la semana y jugando los 90 minutos el fin de semana.",
-        prestigeChange: 5,
+        prestigeChange: 2,
         fansChange: 6,
         energyChange: -4,
         reaction: "ESPN: '¡Jerarquía pura! El juvenil contesta con altura a la mesa de debate.'"
       },
       {
         text: "Debería preocuparse por su propio equipo, que viene peleando el descenso en la tabla.",
-        prestigeChange: 2,
+        prestigeChange: 1,
         fansChange: 10,
         energyChange: -2,
         reaction: "ESPN: '¡Se calentó el clásico con picantes declaraciones!'"
@@ -3123,7 +3123,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "He tenido una carga física pesada, pero sigo trabajando al 100% con los preparadores.",
-        prestigeChange: 3,
+        prestigeChange: 2,
         fansChange: 2,
         energyChange: -2,
         reaction: "Prensa Local: 'El jugador reconoce el cansancio y promete ponerse a punto en la semana.'"
@@ -3148,7 +3148,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Respetamos su estilo, pero nuestro plantel tiene la jerarquía necesaria para descifrar su arco.",
-        prestigeChange: 10,
+        prestigeChange: 5,
         fansChange: 5,
         energyChange: 0,
         reaction: "Declaración equilibrada que proyecta liderazgo maduro."
@@ -3162,7 +3162,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
       },
       {
         text: "Nosotros nos enfocamos en lo nuestro. No gastamos saliva hablando del planteamiento ajeno.",
-        prestigeChange: 8,
+        prestigeChange: 4,
         fansChange: 0,
         energyChange: 0,
         reaction: "Respuesta gris de casete. Los periodistas se aburren rápido."
@@ -3181,7 +3181,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Son calenturas normales del fútbol. Lo que pasa en la cancha, se queda en la cancha.",
-        prestigeChange: 5,
+        prestigeChange: 2,
         fansChange: 0,
         energyChange: -2,
         reaction: "Diario: 'El jugador le baja el perfil a la pelea y demuestra madurez grupal.'"
@@ -3206,7 +3206,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Yo trabajo para mi club, si llega el llamado será un orgullo, pero no presiono a nadie.",
-        prestigeChange: 8,
+        prestigeChange: 4,
         fansChange: 5,
         energyChange: 0,
         reaction: "TV: 'Mensaje humilde. El jugador respeta los tiempos del seleccionador nacional.'"
@@ -3233,14 +3233,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Mi representante escucha ofertas, es su trabajo. Yo sigo comprometido con este club hasta que decida lo contrario.",
-        prestigeChange: 3,
+        prestigeChange: 2,
         fansChange: -8,
         energyChange: -3,
         reaction: "Radio Caracol: 'Respuesta diplomática, pero la hinchada quedó con la duda sembrada.'"
       },
       {
         text: "Eso no tiene ni pies ni cabeza. Voy a hablar con mi agente para que aclare el tema hoy mismo.",
-        prestigeChange: 6,
+        prestigeChange: 3,
         fansChange: 10,
         energyChange: -2,
         reaction: "Radio Caracol: 'El jugador desmiente con firmeza. La hinchada respira, por ahora.'"
@@ -3259,14 +3259,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Un arquero también tiene partidos malos, como cualquiera de nosotros. Vamos a levantarlo entre todos.",
-        prestigeChange: 12,
+        prestigeChange: 6,
         fansChange: 4,
         energyChange: 0,
         reaction: "RCN: 'Gesto de liderazgo y compañerismo que el vestuario agradece puertas adentro.'"
       },
       {
         text: "No me corresponde evaluar a mis compañeros, esa pregunta es para el cuerpo técnico.",
-        prestigeChange: 2,
+        prestigeChange: 1,
         fansChange: -2,
         energyChange: 0,
         reaction: "RCN: 'Respuesta esquiva. Los hinchas la leyeron como una falta de respaldo al arquero.'"
@@ -3291,7 +3291,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Respeto todas las opiniones, pero el campo es el único lugar donde de verdad se demuestra algo.",
-        prestigeChange: 9,
+        prestigeChange: 4,
         fansChange: 6,
         energyChange: -2,
         reaction: "El Espectador: 'Madurez absoluta para responder a una crítica dura sin perder la calma.'"
@@ -3317,14 +3317,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Cualquier jugador sueña con dar el salto, pero hoy mi cabeza está acá y en nada más.",
-        prestigeChange: 5,
+        prestigeChange: 2,
         fansChange: 4,
         energyChange: -1,
         reaction: "Gastón Edul: 'Información confirmada por el propio jugador, aunque con mucha cautela.'"
       },
       {
         text: "Si la oferta es la indicada, no le voy a cerrar la puerta a nada. Así es este negocio.",
-        prestigeChange: 2,
+        prestigeChange: 1,
         fansChange: -8,
         energyChange: 0,
         reaction: "Gastón Edul: 'ÚLTIMA HORA: el jugador deja la puerta abierta a una salida. Se arma revuelo.'"
@@ -3343,7 +3343,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Respeto su opinión, pero prefiero responder jugando los noventa minutos, no en un plató.",
-        prestigeChange: 7,
+        prestigeChange: 4,
         fansChange: 5,
         energyChange: -2,
         reaction: "Edu Aguirre: '¡ESO ES CLASE! Respuesta elegante que deja mudo al panel entero.'"
@@ -3369,14 +3369,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Jajaja se la copié a mi sobrino, no tiene ningún misterio. Ya es tradición de familia.",
-        prestigeChange: 2,
+        prestigeChange: 1,
         fansChange: 14,
         energyChange: -1,
         reaction: "Pipe Sierra: 'Momento viral asegurado. La entrevista se vuelve tendencia por lo carismática.'"
       },
       {
         text: "Es un mensaje personal, prefiero guardármelo y que cada uno lo interprete como quiera.",
-        prestigeChange: 4,
+        prestigeChange: 2,
         fansChange: 2,
         energyChange: 0,
         reaction: "Pipe Sierra: 'Se guarda el misterio. El país sigue especulando sin respuesta clara.'"
@@ -3395,14 +3395,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Se apagó todo el estadio en mi cabeza, solo vi el arco y confié en lo que entrené toda la semana.",
-        prestigeChange: 10,
+        prestigeChange: 5,
         fansChange: 12,
         energyChange: -2,
         reaction: "José Hugo Illera: '¡QUÉ RELATO, SEÑORAS Y SEÑORES! Pura emoción en la narración del maestro.'"
       },
       {
         text: "La verdad no lo pensé, salió solo. El cuerpo ya sabe qué hacer en esos momentos.",
-        prestigeChange: 6,
+        prestigeChange: 3,
         fansChange: 6,
         energyChange: 0,
         reaction: "José Hugo Illera: 'Respuesta instintiva de crack. El maestro asiente con una sonrisa cómplice.'"
@@ -3421,7 +3421,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Desmiento totalmente. No hay ningún acuerdo, estoy 100% enfocado en este club.",
-        prestigeChange: 10,
+        prestigeChange: 5,
         fansChange: 8,
         energyChange: -2,
         reaction: "Fabrizio Romano: 'Desmentido categórico. En las oficinas del club respiran tranquilos: el DT confirma que cuenta contigo para lo que viene.'"
@@ -3454,7 +3454,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Eso es totalmente falso, ni mi representante ni yo nos reunimos con nadie. Sigo comprometido acá.",
-        prestigeChange: 9,
+        prestigeChange: 4,
         fansChange: 7,
         energyChange: -2,
         reaction: "Radio Caracol: 'Desmentido firme y sin titubeos. La directiva respira tranquila y el DT lo respalda públicamente.'"
@@ -3487,7 +3487,7 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Entiendo su opinión, pero los números y el técnico avalan mi lugar en el equipo. Con respeto, no la comparto.",
-        prestigeChange: 8,
+        prestigeChange: 4,
         fansChange: 6,
         energyChange: -2,
         reaction: "Carlos Antonio Vélez: 'Al menos respondió con carácter, aunque a mí sinceramente no me convenció ni un poco. Mi opinión no cambia.'"
@@ -3513,14 +3513,14 @@ export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
     options: [
       {
         text: "Significa todo. Cada gota de sudor es por esta gente, no los voy a defraudar jamás.",
-        prestigeChange: 6,
+        prestigeChange: 3,
         fansChange: 16,
         energyChange: -2,
         reaction: "Eduardo Luis: '¡ESO ES AMOR POR LA CAMISETA, SEÑORAS Y SEÑORES! La hinchada se emociona con la respuesta.'"
       },
       {
         text: "Es un trabajo como cualquier otro, trato de ser profesional y listo.",
-        prestigeChange: 3,
+        prestigeChange: 2,
         fansChange: -8,
         energyChange: 0,
         reaction: "Eduardo Luis: 'Respuesta fría que no cayó del todo bien entre los más sentimentales de la tribuna.'"
@@ -3538,13 +3538,13 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Ir de fiesta y pagar la ronda ($3,000 COP/USD)',
         cost: 3000,
         outcome: 'Ganas reputación con el grupo, pero el mister se entona al verte un poco fatigado.',
-        effects: { prestige: 20, fans: -5, energy: -30, capital: -3000 }
+        effects: { prestige: 10, fans: -5, energy: -30, capital: -3000 }
       },
       {
         text: 'Dormir temprano y enfocarte en el partido',
         cost: 0,
         outcome: 'El técnico te alaba por tu profesionalismo absoluto.',
-        effects: { prestige: 5, fans: 5, energy: 20, capital: 0 }
+        effects: { prestige: 2, fans: 5, energy: 20, capital: 0 }
       }
     ]
   },
@@ -3556,13 +3556,13 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Visitar al niño y regalarle tu camiseta firmada ($1,000 COP/USD)',
         cost: 1000,
         outcome: 'La historia se viraliza. Tu popularidad estalla en la comunidad.',
-        effects: { prestige: 10, fans: 30, energy: -15, capital: -1000 }
+        effects: { prestige: 5, fans: 30, energy: -15, capital: -1000 }
       },
       {
         text: 'Enviar un video de saludo amigable desde tu casa',
         cost: 0,
         outcome: 'Cumples de forma cordial sin cansarte físicamente.',
-        effects: { prestige: 5, fans: 10, energy: 5, capital: 0 }
+        effects: { prestige: 2, fans: 10, energy: 5, capital: 0 }
       }
     ]
   },
@@ -3580,7 +3580,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Rechazar la oferta y esperar algo de mayor categoría',
         cost: 0,
         outcome: 'El vestuario valora que pienses puramente en fútbol.',
-        effects: { prestige: 10, fans: -5, energy: 0, capital: 0 }
+        effects: { prestige: 5, fans: -5, energy: 0, capital: 0 }
       }
     ]
   },
@@ -3599,7 +3599,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Darle la mano y responderle jugando mejor',
         cost: 0,
         outcome: 'Mantienes la calma. El cuerpo técnico valora tu increíble frialdad y liderazgo.',
-        effects: { prestige: 15, fans: 0, energy: -5, capital: 0 }
+        effects: { prestige: 8, fans: 0, energy: -5, capital: 0 }
       }
     ]
   },
@@ -3617,7 +3617,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Rechazar por el bien de tu dieta deportiva',
         cost: 0,
         outcome: 'No ganas dinero, pero mantienes tu cuerpo como un templo para el fin de semana.',
-        effects: { prestige: 5, fans: -2, energy: 10, capital: 0 }
+        effects: { prestige: 2, fans: -2, energy: 10, capital: 0 }
       }
     ]
   },
@@ -3629,7 +3629,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Quedarte 1 hora atendiendo a todos los fans',
         cost: 0,
         outcome: 'Te conviertes en el ídolo del pueblo, pero llegas a casa agotado física y mentalmente.',
-        effects: { prestige: 5, fans: 40, energy: -25, capital: 0 }
+        effects: { prestige: 2, fans: 40, energy: -25, capital: 0 }
       },
       {
         text: 'Pedir disculpas e irte por la puerta trasera',
@@ -3654,7 +3654,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Rechazar y salir a caminar para despejarte',
         cost: 0,
         outcome: 'El preparador físico te felicita por tu disciplina delante del plantel.',
-        effects: { prestige: 8, fans: 0, energy: 10, capital: 0 }
+        effects: { prestige: 4, fans: 0, energy: 10, capital: 0 }
       }
     ]
   },
@@ -3666,13 +3666,13 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Ir y tomar hasta tarde para no quedar mal con el grupo ($2,500 COP/USD)',
         cost: 2500,
         outcome: 'Te ganas la simpatía del vestuario, pero llegas al entrenamiento del día siguiente hecho pedazos.',
-        effects: { prestige: 12, fans: -3, energy: -40, capital: -2500 }
+        effects: { prestige: 6, fans: -3, energy: -40, capital: -2500 }
       },
       {
         text: 'Pasar a saludar, tomar una copa y retirarte temprano',
         cost: 500,
         outcome: 'Cumples socialmente sin comprometer tu rendimiento de la semana.',
-        effects: { prestige: 4, fans: 2, energy: -10, capital: -500 }
+        effects: { prestige: 2, fans: 2, energy: -10, capital: -500 }
       }
     ]
   },
@@ -3684,13 +3684,13 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Sumarte a la partida ($4,000 COP/USD en juego)',
         cost: 4000,
         outcome: 'Perdiste casi todo lo que pusiste sobre la mesa. El grupo se ríe, pero tu billetera llora.',
-        effects: { prestige: 6, fans: 0, energy: -5, capital: -3600 }
+        effects: { prestige: 3, fans: 0, energy: -5, capital: -3600 }
       },
       {
         text: 'Quedarte con los audífonos puestos viendo videos tácticos',
         cost: 0,
         outcome: 'Llegas descansado y con la cabeza fría al hotel de concentración.',
-        effects: { prestige: 3, fans: 0, energy: 5, capital: 0 }
+        effects: { prestige: 2, fans: 0, energy: 5, capital: 0 }
       }
     ]
   },
@@ -3709,7 +3709,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Asentir y comprometerte a jugar más colectivo de acá en adelante',
         cost: 0,
         outcome: 'El DT valora el gesto. Tu relación con el cuerpo técnico mejora notablemente.',
-        effects: { prestige: 10, fans: -2, energy: 0, capital: 0 }
+        effects: { prestige: 5, fans: -2, energy: 0, capital: 0 }
       }
     ]
   },
@@ -3721,7 +3721,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Salir a dar la cara y escuchar sus reclamos',
         cost: 0,
         outcome: 'La hinchada valora que no te escondas. Baja la tensión en las tribunas para el próximo partido.',
-        effects: { prestige: 5, fans: 18, energy: -15, capital: 0 }
+        effects: { prestige: 2, fans: 18, energy: -15, capital: 0 }
       },
       {
         text: 'Salir por la puerta trasera junto a la delegación',
@@ -3746,7 +3746,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Rechazarlo, no vale la pena el riesgo',
         cost: 0,
         outcome: 'Tu preparador físico oficial te felicita por la decisión responsable.',
-        effects: { prestige: 6, fans: 0, energy: 0, capital: 0 }
+        effects: { prestige: 3, fans: 0, energy: 0, capital: 0 }
       }
     ]
   },
@@ -3764,7 +3764,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Salir corriendo antes de que noten tu ausencia',
         cost: 0,
         outcome: 'Llegás justo antes del pase de lista. Nadie se entera.',
-        effects: { prestige: 3, fans: 0, energy: -10, capital: 0 }
+        effects: { prestige: 2, fans: 0, energy: -10, capital: 0 }
       }
     ]
   },
@@ -3782,7 +3782,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Ignorarlo y dejar que hablen los resultados',
         cost: 0,
         outcome: 'Tu silencio es elogiado como muestra de clase por la prensa especializada.',
-        effects: { prestige: 8, fans: 2, energy: 0, capital: 0 }
+        effects: { prestige: 4, fans: 2, energy: 0, capital: 0 }
       }
     ]
   },
@@ -3800,7 +3800,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Alejarte y dejar que seguridad se encargue',
         cost: 0,
         outcome: 'Seguridad controla la situación. Tu madurez para no responder es destacada en la prensa.',
-        effects: { prestige: 10, fans: -2, energy: 0, capital: 0 }
+        effects: { prestige: 5, fans: -2, energy: 0, capital: 0 }
       }
     ]
   },
@@ -3843,7 +3843,7 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Rechazar la invitación y volver a la habitación a descansar',
         cost: 0,
         outcome: 'El cuerpo técnico se entera de tu decisión y te destaca como ejemplo de profesionalismo ante el plantel.',
-        effects: { prestige: 9, fans: 0, energy: 10, capital: 0 }
+        effects: { prestige: 4, fans: 0, energy: 10, capital: 0 }
       }
     ]
   },
@@ -3855,13 +3855,13 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Pedir permiso al club y viajar a estar con ellos',
         cost: 0,
         outcome: 'El DT entiende la situación personal y te da el permiso, pero llegás al partido con la cabeza dividida.',
-        effects: { prestige: 3, fans: 5, energy: -25, capital: 0 }
+        effects: { prestige: 2, fans: 5, energy: -25, capital: 0 }
       },
       {
         text: 'Quedarte concentrado en el equipo y llamarlos por teléfono',
         cost: 0,
         outcome: 'Resolvés lo que podés a la distancia. Rendís bien en el entrenamiento, pero te queda la espina de no haber estado presente.',
-        effects: { prestige: 4, fans: 0, energy: -10, capital: 0 }
+        effects: { prestige: 2, fans: 0, energy: -10, capital: 0 }
       }
     ]
   },
@@ -3873,13 +3873,13 @@ export const LOBBY_RANDOM_EVENTS = [
         text: 'Ir a la fiesta y disfrutar el día completo con ellos',
         cost: 800,
         outcome: 'Un día hermoso en familia te recarga las pilas de una forma que ningún entrenamiento podría.',
-        effects: { prestige: 2, fans: 3, energy: 25, capital: -800 }
+        effects: { prestige: 1, fans: 3, energy: 25, capital: -800 }
       },
       {
         text: 'Pasar solo un par de horas y volver temprano a descansar para el partido',
         cost: 200,
         outcome: 'Cumplís con la familia sin descuidar la preparación física de la semana.',
-        effects: { prestige: 4, fans: 1, energy: 10, capital: -200 }
+        effects: { prestige: 2, fans: 1, energy: 10, capital: -200 }
       }
     ]
   }
@@ -4533,6 +4533,150 @@ export const WORLD_CUP_TEAMS_DATABASE: Club[] = WORLD_CUP_2026_TEAMS_SEED.map(te
 // -> id de la selección correspondiente, para saber a qué equipo te pueden convocar.
 // Solo cubre las nacionalidades que SetupScreen ofrece elegir Y que clasificaron al Mundial
 // 2026 (Italiana y Chilena no clasificaron, por eso no están acá).
+// Fase 4 -- Logros: catálogo estático tipo Xbox/PlayStation. check() es puro (solo lee el
+// PlayerProfile actual), la lógica de "ya estaba desbloqueado antes" vive en
+// checkAndUnlockAchievements (App.tsx), que corre este catálogo entero después de cada acción
+// relevante (fin de partido, traspaso, patrocinio, novia, etc.) y compara contra
+// profile.unlockedAchievements. Recompensas chicas y parejas a propósito: el premio real es la
+// notificación/colección, no la plata.
+export const ACHIEVEMENTS_DATABASE: Achievement[] = [
+  // --- CARRERA ---
+  {
+    id: 'primer_gol', name: 'Estreno Goleador', description: 'Convertí tu primer gol como profesional.',
+    icon: '⚽', category: 'carrera', reward: 500,
+    check: p => p.careerStats.golesHistoricos >= 1
+  },
+  {
+    id: 'primer_asistencia', name: 'Primer Pase Gol', description: 'Diste tu primera asistencia.',
+    icon: '🎯', category: 'carrera', reward: 400,
+    check: p => p.careerStats.asistenciasHistoricos >= 1
+  },
+  {
+    id: 'goles_10', name: 'Rompehielos', description: 'Llegaste a 10 goles en tu carrera.',
+    icon: '🥉', category: 'carrera', reward: 600,
+    check: p => p.careerStats.golesHistoricos >= 10
+  },
+  {
+    id: 'goles_50', name: 'Referente de Área', description: 'Llegaste a 50 goles en tu carrera.',
+    icon: '🥈', category: 'carrera', reward: 1200,
+    check: p => p.careerStats.golesHistoricos >= 50
+  },
+  {
+    id: 'goles_100', name: 'Centenario', description: 'Llegaste a 100 goles en tu carrera.',
+    icon: '🥇', category: 'carrera', reward: 2000,
+    check: p => p.careerStats.golesHistoricos >= 100
+  },
+  {
+    id: 'asistencias_50', name: 'El Que Habilita', description: 'Llegaste a 50 asistencias en tu carrera.',
+    icon: '🎁', category: 'carrera', reward: 1200,
+    check: p => p.careerStats.asistenciasHistoricos >= 50
+  },
+  {
+    id: 'partidos_50', name: 'Rodaje', description: 'Jugaste 50 partidos oficiales.',
+    icon: '📅', category: 'carrera', reward: 700,
+    check: p => p.careerStats.partidosHistoricos >= 50
+  },
+  {
+    id: 'partidos_200', name: 'Veterano de Mil Batallas', description: 'Jugaste 200 partidos oficiales.',
+    icon: '🛡️', category: 'carrera', reward: 1800,
+    check: p => p.careerStats.partidosHistoricos >= 200
+  },
+  {
+    id: 'primer_titulo', name: 'Primer Trofeo', description: 'Ganaste tu primer título como jugador.',
+    icon: '🏆', category: 'carrera', reward: 1500,
+    check: p => p.careerStats.campeonatos >= 1
+  },
+  {
+    id: 'tres_titulos', name: 'Coleccionista de Copas', description: 'Ganaste 3 títulos en tu carrera.',
+    icon: '🏆', category: 'carrera', reward: 2500,
+    check: p => p.careerStats.campeonatos >= 3
+  },
+  {
+    id: 'primer_traspaso', name: 'Nueva Aventura', description: 'Fichaste por un club distinto al que arrancaste.',
+    icon: '🧳', category: 'carrera', reward: 500,
+    check: p => p.yearsAtClub === 0 && p.careerStats.partidosHistoricos > 0 && p.seasonHistory.length > 1
+  },
+  {
+    id: 'valor_1m', name: 'Cotizado', description: 'Tu valor de mercado superó el millón.',
+    icon: '💹', category: 'carrera', reward: 800,
+    check: p => p.marketValue >= 1_000_000
+  },
+  {
+    id: 'valor_10m', name: 'Activo de Lujo', description: 'Tu valor de mercado superó los 10 millones.',
+    icon: '💎', category: 'carrera', reward: 1500,
+    check: p => p.marketValue >= 10_000_000
+  },
+  {
+    id: 'promedio_alto', name: 'Consistencia de Élite', description: 'Mantuviste un promedio de calificación de carrera arriba de 7.0 con al menos 20 partidos.',
+    icon: '📈', category: 'carrera', reward: 1000,
+    check: p => p.careerStats.partidosHistoricos >= 20 && (p.careerStats.sumaCalificacionesHistoricas / p.careerStats.partidosHistoricos) >= 7.0
+  },
+
+  // --- PARTIDO PUNTUAL ---
+  {
+    id: 'hat_trick', name: 'Hat-Trick', description: 'Metiste 3 goles o más en un mismo partido.',
+    icon: '🎩', category: 'partido', reward: 900,
+    check: p => p.lastMatchGoals >= 3
+  },
+  {
+    id: 'mvp_partido', name: 'Figura del Partido', description: 'Terminaste un partido con calificación 9.0 o más.',
+    icon: '⭐', category: 'partido', reward: 800,
+    check: p => p.lastMatchRating >= 9.0
+  },
+  {
+    id: 'gano_tanda_penales', name: 'Sangre Fría', description: 'Ganaste una tanda de penales.',
+    icon: '🥅', category: 'partido', reward: 600,
+    check: p => p.lastMatchWonShootout === true
+  },
+
+  // --- PERSONAL / VIDA FUERA DE LA CANCHA ---
+  {
+    id: 'primer_patrocinio', name: 'Cara de Marca', description: 'Firmaste tu primer contrato de patrocinio.',
+    icon: '🤝', category: 'personal', reward: 500,
+    check: p => p.sponsorsSignedCount >= 1
+  },
+  {
+    id: 'tres_patrocinios', name: 'Cartera Diversificada', description: 'Firmaste 3 patrocinios distintos en tu carrera.',
+    icon: '💼', category: 'personal', reward: 900,
+    check: p => p.sponsorsSignedCount >= 3
+  },
+  {
+    id: 'primera_novia', name: 'Corazón Ocupado', description: 'Empezaste una relación.',
+    icon: '💕', category: 'personal', reward: 400,
+    check: p => p.girlfriend !== null
+  },
+  {
+    id: 'convivencia', name: 'Un Techo Compartido', description: 'Te mudaste a vivir con tu pareja.',
+    icon: '🏠', category: 'personal', reward: 600,
+    check: p => p.girlfriend?.livingTogether === true
+  },
+  {
+    id: 'fans_50', name: 'Ídolo Emergente', description: 'Llegaste a 50 de conexión con la hinchada.',
+    icon: '📣', category: 'personal', reward: 500,
+    check: p => p.fans >= 50
+  },
+  {
+    id: 'fans_90', name: 'Ídolo de Multitudes', description: 'Llegaste a 90 de conexión con la hinchada.',
+    icon: '👑', category: 'personal', reward: 1200,
+    check: p => p.fans >= 90
+  },
+  {
+    id: 'prestige_80', name: 'Referente del Vestuario', description: 'Llegaste a 80 de prestigio con el cuerpo técnico.',
+    icon: '🎖️', category: 'personal', reward: 1000,
+    check: p => p.prestige >= 80
+  },
+  {
+    id: 'mentor', name: 'Padrino de Vestuario', description: 'Elegiste un ahijado para hacerle mentoría.',
+    icon: '🧑‍🏫', category: 'personal', reward: 500,
+    check: p => p.mentorshipPlayerName !== null
+  },
+  {
+    id: 'sobrevive_escandalo', name: 'Sobreviviste al Escándalo', description: 'Tocaste fondo de prestigio con el cuerpo técnico y seguiste en pie.',
+    icon: '🛡️', category: 'personal', reward: 700,
+    check: p => p.prestige <= 15
+  },
+];
+
 export const NATIONALITY_TO_WORLD_CUP_TEAM_ID: Record<string, string> = Object.fromEntries(
   WORLD_CUP_2026_TEAMS_SEED.filter(t => t.league).map(t => [t.league as string, t.id])
 );

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
-  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS
+  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE
 } from './data';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
@@ -18,6 +18,7 @@ import MatchSimulator from './components/MatchSimulator';
 import PostMatch from './components/PostMatch';
 import DecisionCenter from './components/DecisionCenter';
 import InteractivePenaltyShootout from './components/InteractivePenaltyShootout';
+import AchievementToast from './components/AchievementToast';
 import CareerSummary from './components/CareerSummary';
 
 // Busca la tanda de penales de TU partido dentro de un bracket/llave de eliminación directa, si
@@ -152,6 +153,31 @@ function checkSponsorControversyFallout(items: ShopItem[], netPrestigeChange: nu
   return { items: updated, droppedNames };
 }
 
+// Fase 4 -- Logros: recorre ACHIEVEMENTS_DATABASE contra el perfil YA actualizado y desbloquea
+// los que todavía no estaban en unlockedAchievements. Pura respecto al perfil (no muta nada acá
+// adentro) -- devuelve el perfil con unlockedAchievements/capital actualizados y la lista de
+// logros recién desbloqueados para que el caller dispare la notificación tipo Xbox.
+function checkAndUnlockAchievements(profile: PlayerProfile): { profile: PlayerProfile; newlyUnlocked: Achievement[] } {
+  const newlyUnlocked: Achievement[] = [];
+  let updatedUnlocked = profile.unlockedAchievements;
+  let capitalGain = 0;
+
+  for (const achievement of ACHIEVEMENTS_DATABASE) {
+    if (updatedUnlocked[achievement.id] !== undefined) continue;
+    if (achievement.check(profile)) {
+      newlyUnlocked.push(achievement);
+      updatedUnlocked = { ...updatedUnlocked, [achievement.id]: profile.currentWeek };
+      capitalGain += achievement.reward;
+    }
+  }
+
+  if (newlyUnlocked.length === 0) return { profile, newlyUnlocked };
+  return {
+    profile: { ...profile, unlockedAchievements: updatedUnlocked, capital: profile.capital + capitalGain },
+    newlyUnlocked
+  };
+}
+
 // Fase 3 -- Modo Veterano: a partir de esta edad el declive físico empieza a pesar más que las
 // mejoras de entrenamiento; a partir de esta otra, se te acaba la carrera (no hay club que te
 // contrate a ese nivel físico).
@@ -251,7 +277,7 @@ function applyYearsAtClubIfNewSeason(profile: PlayerProfile, previousWeek: numbe
 // temporada hasta que elijas a otro.
 const MENTORSHIP_GOOD_CHANCE = 0.55;
 const MENTORSHIP_STAGNANT_CHANCE = 0.25; // el resto (0.20) es una mala evolución
-const MENTORSHIP_PRESTIGE_GOOD = 4;
+const MENTORSHIP_PRESTIGE_GOOD = 2;
 const MENTORSHIP_PRESTIGE_BAD = -1;
 
 function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
@@ -339,6 +365,9 @@ export default function App() {
   // el resultado crudo del partido (goles) mientras jugás la tanda en vivo (InteractivePenaltyShootout) --
   // handleFinishMatch se vuelve a invocar con el resultado real de la tanda una vez que termina.
   const [pendingMatchResults, setPendingMatchResults] = useState<any>(null);
+  // Fase 4 -- Logros: cola de notificaciones tipo Xbox pendientes de mostrar (AchievementToast en
+  // App.tsx render). Se apilan si se desbloquea más de uno a la vez y se muestran de a una.
+  const [achievementQueue, setAchievementQueue] = useState<Achievement[]>([]);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
@@ -401,6 +430,19 @@ export default function App() {
     }
     if (profile.lastMatchRating === undefined) {
       profile = { ...profile, lastMatchRating: 0 };
+    }
+    // Compatibilidad con saves de antes del sistema de logros (Fase 4).
+    if (profile.lastMatchGoals === undefined) {
+      profile = { ...profile, lastMatchGoals: 0 };
+    }
+    if (profile.lastMatchWonShootout === undefined) {
+      profile = { ...profile, lastMatchWonShootout: false };
+    }
+    if (profile.unlockedAchievements === undefined) {
+      profile = { ...profile, unlockedAchievements: {} };
+    }
+    if (profile.sponsorsSignedCount === undefined) {
+      profile = { ...profile, sponsorsSignedCount: 0 };
     }
     if (profile.yellowCards === undefined) {
       profile = { ...profile, yellowCards: 0 };
@@ -521,8 +563,10 @@ export default function App() {
   const handleSelectMentee = (playerName: string | null) => {
     if (!playerProfile) return;
     const updatedProfile = { ...playerProfile, mentorshipPlayerName: playerName };
-    setPlayerProfile(updatedProfile);
-    saveGameState(updatedProfile, shopItems);
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
+    if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+    setPlayerProfile(withAchievements);
+    saveGameState(withAchievements, shopItems);
   };
 
   // Fase 2.5 -- Vida amorosa: relación de pareja opcional con su propia barra (loveMeter) y sus
@@ -543,8 +587,10 @@ export default function App() {
       ...playerProfile,
       girlfriend: { name, loveMeter: 50, livingTogether: false }
     };
-    setPlayerProfile(updatedProfile);
-    saveGameState(updatedProfile, shopItems);
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
+    if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+    setPlayerProfile(withAchievements);
+    saveGameState(withAchievements, shopItems);
     alert(`💘 Empezaste a salir con ${name}. Cuidado con las redes.`);
   };
 
@@ -648,8 +694,10 @@ export default function App() {
           ...playerProfile,
           girlfriend: { ...playerProfile.girlfriend, loveMeter: Math.max(0, playerProfile.girlfriend.loveMeter - 20) }
         };
-    setPlayerProfile(updatedProfile);
-    saveGameState(updatedProfile, shopItems);
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
+    if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+    setPlayerProfile(withAchievements);
+    saveGameState(withAchievements, shopItems);
     alert(accept ? `🏠 Te mudaste con ${gfName}. Un paso grande en la relación.` : `💔 Le dijiste que no estás listo para mudarte. ${gfName} se lo tomó mal.`);
   };
 
@@ -734,14 +782,18 @@ export default function App() {
       ...playerProfile,
       capital: playerProfile.capital + item.cost,
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + (item.effect.prestigeBonus || 0))),
-      fans: Math.max(0, Math.min(100, playerProfile.fans + (item.effect.fansBonus || 0)))
+      fans: Math.max(0, Math.min(100, playerProfile.fans + (item.effect.fansBonus || 0))),
+      sponsorsSignedCount: playerProfile.sponsorsSignedCount + 1
     };
 
     const updatedShop = shopItems.map(i => i.id === itemId ? { ...i, purchased: true } : i);
 
-    setPlayerProfile(updatedProfile);
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
+    if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+
+    setPlayerProfile(withAchievements);
     setShopItems(updatedShop);
-    saveGameState(updatedProfile, updatedShop);
+    saveGameState(withAchievements, updatedShop);
   };
 
   // Romper un contrato de patrocinio a voluntad para liberar un cupo (ver MAX_ACTIVE_SPONSORSHIPS):
@@ -826,8 +878,11 @@ export default function App() {
       leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season }
     };
 
-    setPlayerProfile(updatedProfile);
-    saveGameState(updatedProfile, shopItems);
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
+    if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+
+    setPlayerProfile(withAchievements);
+    saveGameState(withAchievements, shopItems);
     alert(`🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}.`);
   };
 
@@ -1470,6 +1525,8 @@ export default function App() {
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange - superstitionBreakPenalty)),
       matchesWithoutRest: playerProfile.matchesWithoutRest + 1,
       lastMatchRating: results.rating,
+      lastMatchGoals: results.goles,
+      lastMatchWonShootout: !!shootoutOverride && shootoutOverride.winnerId === (activeWorldCupTeamId || playerProfile.currentClubId),
       currentWeek: playerProfile.currentWeek + 1,
       leagueSeasons: updatedLeagueSeasons,
       continentalCups: updatedContinentalCups,
@@ -1496,9 +1553,14 @@ export default function App() {
       return;
     }
 
-    setPlayerProfile(aged);
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(aged);
+    if (newlyUnlocked.length > 0) {
+      setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+    }
+
+    setPlayerProfile(withAchievements);
     setShopItems(updatedShop);
-    saveGameState(aged, updatedShop);
+    saveGameState(withAchievements, updatedShop);
     if (disciplineMessages.length > 0) {
       alert(disciplineMessages.join('\n'));
     }
@@ -1617,7 +1679,15 @@ export default function App() {
 
   return (
     <div className="bg-slate-950 min-h-screen text-slate-100 font-sans antialiased text-base">
-      
+
+      {achievementQueue.length > 0 && (
+        <AchievementToast
+          key={achievementQueue[0].id}
+          achievement={achievementQueue[0]}
+          onDone={() => setAchievementQueue(prev => prev.slice(1))}
+        />
+      )}
+
       {screen === 'welcome' && (
         <WelcomeScreen 
           onStartNew={handleStartNew} 

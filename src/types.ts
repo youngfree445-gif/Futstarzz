@@ -52,6 +52,21 @@ export interface CareerStats {
   tarjetasRojasHistoricas: number;
 }
 
+export type AchievementCategory = 'carrera' | 'partido' | 'personal';
+
+// Catálogo estático de logros (ver ACHIEVEMENTS_DATABASE en data.ts) -- check() es puro y solo lee
+// del PlayerProfile, nunca lo muta; quien llama (checkAndUnlockAchievements en App.tsx) es quien
+// decide si ya estaba desbloqueado y aplica la recompensa.
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string; // emoji
+  category: AchievementCategory;
+  reward: number; // capital que se otorga al desbloquear (montos chicos y parejos, ver diseño)
+  check: (profile: PlayerProfile) => boolean;
+}
+
 export type Superstition =
   | 'botin_derecho'
   | 'mismo_numero'
@@ -79,6 +94,8 @@ export interface PlayerProfile {
   fans: number;     // 0-100 (Relación hinchada / opinión pública)
   mentalHealth: number; // 0-100 (Fase 3): baja con derrotas/prensa hostil/rachas negativas, sube con victorias/descanso/buena prensa; afecta el % de éxito de las decisiones del partido igual que el resto de los multiplicadores
   lastMatchRating: number; // Fase 3: calificación del último partido jugado (0 si todavía no jugaste ninguno) -- dispara el post de "saludo de famoso" en ChutSocial si es muy alta
+  lastMatchGoals: number; // Fase 4: goles del último partido jugado -- usado para logros puntuales (ej. hat-trick), no se acumula, se pisa cada partido
+  lastMatchWonShootout: boolean; // Fase 4: true si el último partido se definió por penales y tu equipo ganó -- usado para el logro de la tanda
   yellowCards: number; // amarillas acumuladas en la temporada (fuera de un partido puntual); al llegar a un umbral, sanción automática -- ver handleFinishMatch
   suspendedMatches: number; // partidos de liga que te quedan por cumplir de sanción; startMatchflow los resuelve solo, sin pantalla de partido
   lastPressAnsweredWeek: number; // semana en que respondiste la última conferencia de prensa -- una sola por semana, evita farmear prestigio infinito ciclando preguntas
@@ -91,6 +108,8 @@ export interface PlayerProfile {
   mentorshipPlayerName: string | null; // Fase 2.5: joven del plantel actual (de currentClub.starPlayers) elegido como ahijado -- cada cierre de temporada tira un roll según cómo evolucionó y suma/resta prestige (ver applyMentorshipIfNewSeason). null si no elegiste a nadie.
   hasSteppedDownRetirement: boolean; // Fase 2.5: ya usaste la única chance de "retiro escalonado" (bajar de categoría en vez de retirarte al llegar a FORCED_RETIREMENT_AGE) -- ver isPastRetirementAge/findStepDownClub en App.tsx
   girlfriend: Girlfriend | null; // Fase 2.5: relación de pareja opcional -- null si estás soltero. Ver handleFindGirlfriend/handleGirlfriend* en App.tsx
+  unlockedAchievements: Record<string, number>; // Fase 4: id de logro (ver ACHIEVEMENTS_DATABASE en data.ts) -> semana de carrera en que se desbloqueó. Ver checkAndUnlockAchievements en App.tsx.
+  sponsorsSignedCount: number; // Fase 4: total de patrocinios firmados en toda la carrera (no baja si cancelás uno) -- usado para el logro "primer patrocinio", ver handleAcceptSponsor
   attributes: PlayerStats;
   careerStats: CareerStats;
   seasonHistory: SeasonHistory[]; // trayectoria club a club por temporada -- ver recordSeasonHistory en App.tsx

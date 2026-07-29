@@ -109,6 +109,10 @@ export default function SetupScreen({ onBack, onFinishSetup }: SetupScreenProps)
       fans: 35,     // default fan connection
       mentalHealth: 70, // arrancás con la cabeza fresca
       lastMatchRating: 0,
+      lastMatchGoals: 0,
+      lastMatchWonShootout: false,
+      unlockedAchievements: {},
+      sponsorsSignedCount: 0,
       yellowCards: 0,
       suspendedMatches: 0,
       seasonHistory: [],

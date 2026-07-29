@@ -8,15 +8,16 @@ const GIPHY_SEARCH_URL = 'https://api.giphy.com/v1/gifs/search';
 // sesión (el feed se regenera cada vez que cambian semana/rating, y varias tarjetas pueden pedir
 // la misma query, ej. "goal celebration").
 const gifCache = new Map<string, string | null>();
-const gifListCache = new Map<string, string[]>();
+const gifListCache = new Map<string, string[]>(); // key = `${query}::${offset}`
 
-async function searchGiphy(query: string, limit: number): Promise<string[]> {
+async function searchGiphy(query: string, limit: number, offset: number): Promise<string[]> {
   if (!GIPHY_API_KEY) return [];
   try {
     const params = new URLSearchParams({
       api_key: GIPHY_API_KEY,
       q: query,
       limit: String(limit),
+      offset: String(offset),
       rating: 'pg-13',
       lang: 'es',
     });
@@ -38,18 +39,23 @@ export async function fetchReactionGif(query: string): Promise<string | null> {
   if (!GIPHY_API_KEY) return null;
   if (gifCache.has(query)) return gifCache.get(query)!;
 
-  const results = await searchGiphy(query, 10);
+  const results = await searchGiphy(query, 10, 0);
   const pick = results.length > 0 ? results[Math.floor(Math.random() * results.length)] : null;
   gifCache.set(query, pick);
   return pick;
 }
 
 // Lista de resultados para que el jugador elija manualmente qué GIF adjuntar a su comentario.
-export async function searchReactionGifs(query: string): Promise<string[]> {
+// Paginado: offset 0 trae los primeros 24, offset 24 trae los siguientes 24, etc. -- ver el botón
+// "Cargar más" en Dashboard.tsx. Giphy tiene miles de resultados por query típica, el límite real
+// de "cuántos GIFs hay" está muy por encima de lo que alguien va a scrollear buscando uno.
+const RESULTS_PER_PAGE = 24;
+export async function searchReactionGifs(query: string, offset: number = 0): Promise<string[]> {
   if (!GIPHY_API_KEY) return [];
-  if (gifListCache.has(query)) return gifListCache.get(query)!;
+  const cacheKey = `${query}::${offset}`;
+  if (gifListCache.has(cacheKey)) return gifListCache.get(cacheKey)!;
 
-  const results = await searchGiphy(query, 12);
-  gifListCache.set(query, results);
+  const results = await searchGiphy(query, RESULTS_PER_PAGE, offset);
+  gifListCache.set(cacheKey, results);
   return results;
 }
