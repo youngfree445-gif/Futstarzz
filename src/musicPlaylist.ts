@@ -62,11 +62,9 @@ export function parsePlaylistUrl(input: string): ParsedPlaylist | null {
   // playlist). Si el usuario compartió eso, quiere la playlist entera, no el video suelto.
   const ytList = raw.match(YOUTUBE_LIST_RE);
   if (ytList && /(?:youtube\.com|youtu\.be|music\.youtube\.com)/i.test(raw)) {
-    // enablejsapi=1 es lo que permite controlar el reproductor por postMessage desde el juego
-    // (bajar el volumen en un gol). origin evita warnings de seguridad de la IFrame API.
     return {
       provider: 'youtube',
-      embedUrl: `https://www.youtube-nocookie.com/embed/videoseries?list=${ytList[1]}&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`,
+      embedUrl: buildYouTubeEmbed({ listId: ytList[1] }),
       sourceUrl: raw
     };
   }
@@ -75,12 +73,55 @@ export function parsePlaylistUrl(input: string): ParsedPlaylist | null {
   if (ytVideo) {
     return {
       provider: 'youtube',
-      embedUrl: `https://www.youtube-nocookie.com/embed/${ytVideo[1]}?enablejsapi=1&origin=${encodeURIComponent(location.origin)}`,
+      embedUrl: buildYouTubeEmbed({ videoId: ytVideo[1] }),
       sourceUrl: raw
     };
   }
 
   return null;
+}
+
+/**
+ * Arma la URL de embed de YouTube para reproducción continua de fondo.
+ *
+ * Detalles que importan y que no son obvios:
+ *
+ * - Se usa `www.youtube.com` y NO `youtube-nocookie.com`: el dominio sin cookies rechaza bastantes
+ *   playlists (sobre todo los mixes/radios de YouTube Music, los IDs que empiezan con RD), y el
+ *   iframe queda en negro con "Video no disponible". Preferimos que suene.
+ * - `loop=1` necesita que la playlist se declare igual: con `list` alcanza, pero para un video
+ *   suelto YouTube exige además `playlist=<mismo id>` o el loop se ignora en silencio.
+ * - `playsinline=1` evita que iOS abra el reproductor a pantalla completa y tape el juego.
+ * - `enablejsapi=1` habilita el control por postMessage (play/pausa/volumen desde el widget).
+ * - `autoplay=1` casi nunca alcanza por sí solo (los navegadores exigen un gesto del usuario), pero
+ *   sí sirve para reanudar cuando el jugador ya interactuó con el reproductor en esta carga.
+ */
+function buildYouTubeEmbed({ listId, videoId }: { listId?: string; videoId?: string }): string {
+  const params = new URLSearchParams({
+    enablejsapi: '1',
+    autoplay: '1',
+    loop: '1',
+    playsinline: '1',
+    // Sin esto YouTube encadena "videos recomendados" ajenos al terminar la playlist: en un juego
+    // eso significa que de golpe suena cualquier cosa.
+    rel: '0',
+    modestbranding: '1'
+  });
+
+  // origin es requerido por la IFrame API para aceptar los postMessage. En Capacitor el origin es
+  // capacitor://localhost o file://, que YouTube rechaza, así que ahí se omite: el reproductor
+  // funciona igual, solo sin control programático.
+  const origin = typeof location !== 'undefined' ? location.origin : '';
+  if (origin && /^https?:/.test(origin)) params.set('origin', origin);
+
+  if (listId) {
+    params.set('list', listId);
+    return `https://www.youtube.com/embed/videoseries?${params.toString()}`;
+  }
+
+  // Video suelto: hay que repetir el id en `playlist` para que loop=1 tenga efecto.
+  params.set('playlist', videoId!);
+  return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
 
 const STORAGE_KEY = 'futstarzz_music_playlist';

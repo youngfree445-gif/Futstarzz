@@ -48,11 +48,25 @@ corren su calendario y tabla en simultáneo de fondo.
 - **SFX (`audio.ts`)** — archivos nuestros en `public/sfx/`, así que el juego los
   dispara en el momento exacto (gol, tarjeta, silbatazo). Es la capa que da la
   sensación tipo FIFA. El volumen/mute se persisten en `localStorage`.
-- **Música (`MusicPlayer.tsx`)** — playlist del jugador embebida en un iframe de
-  Spotify/YouTube. **No se puede leer ni mezclar ese audio**: es otro dominio y
-  la política de same-origin lo impide, así que no hay forma de bajarle el
-  volumen en un gol. Por eso las dos capas están separadas y el slider del
-  widget dice explícitamente "efectos del juego" — si no, parece que está roto.
+- **Música (`MusicPlayer.tsx`)** — playlist del jugador embebida en un iframe.
+  Los dos providers no son equivalentes y la UI los trata distinto a propósito:
+  - **YouTube** (recomendado): canciones completas y encadenadas. Se controla por
+    `postMessage` (IFrame API), así que el iframe se colapsa a 1x1px y sigue
+    sonando de fondo con play/pausa/siguiente/volumen propios en el widget.
+    Colapsar con `display:none` o `width:0` **no sirve**: varios navegadores
+    pausan un iframe realmente oculto. Va a 1px con `opacity:.01`.
+    El embed usa `www.youtube.com`, **no** `youtube-nocookie.com`: el dominio sin
+    cookies rechaza muchas playlists de YouTube Music (los mixes `RD...` quedan
+    en negro con "video no disponible").
+  - **Spotify**: su embed solo da **previews de 30s** salvo que el visitante
+    tenga sesión Premium en el navegador, y no expone API de control. No se
+    arregla desde acá (haría falta el Web Playback SDK: OAuth + Premium por
+    jugador), así que su reproductor queda visible y la limitación se avisa en la
+    UI.
+  - Igual **no se puede mezclar** ninguno de los dos con el audio del juego: es
+    otro dominio y same-origin lo impide, así que no hay forma de bajar la música
+    automáticamente en un gol. De ahí que haya dos sliders separados y que el de
+    efectos diga explícitamente "efectos del partido".
 - Los navegadores **bloquean el audio hasta el primer gesto del usuario**
   (autoplay policy). No se puede esquivar: `playSfx` falla en silencio a
   propósito, y el silbatazo inicial puede no sonar si el jugador entró directo a
