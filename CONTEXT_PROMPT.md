@@ -38,6 +38,30 @@ corren su calendario y tabla en simultáneo de fondo.
   `PenaltyShootout.tsx`, `SetupScreen.tsx`, `WelcomeScreen.tsx`,
   `CareerSummary.tsx`, `ClubBadge.tsx`
 - `soccerDatabase.ts`, `clubExtras.ts` — datos auxiliares de clubes
+- `audio.ts` — motor de SFX (gol, tarjeta, silbato). Archivos en `public/sfx/`,
+  ver [docs/SFX.md](docs/SFX.md)
+- `musicPlaylist.ts` + `components/MusicPlayer.tsx` — widget flotante de música:
+  el jugador pega su playlist de Spotify/YouTube y suena mientras juega
+
+## Audio: dos capas que no se pueden mezclar
+
+- **SFX (`audio.ts`)** — archivos nuestros en `public/sfx/`, así que el juego los
+  dispara en el momento exacto (gol, tarjeta, silbatazo). Es la capa que da la
+  sensación tipo FIFA. El volumen/mute se persisten en `localStorage`.
+- **Música (`MusicPlayer.tsx`)** — playlist del jugador embebida en un iframe de
+  Spotify/YouTube. **No se puede leer ni mezclar ese audio**: es otro dominio y
+  la política de same-origin lo impide, así que no hay forma de bajarle el
+  volumen en un gol. Por eso las dos capas están separadas y el slider del
+  widget dice explícitamente "efectos del juego" — si no, parece que está roto.
+- Los navegadores **bloquean el audio hasta el primer gesto del usuario**
+  (autoplay policy). No se puede esquivar: `playSfx` falla en silencio a
+  propósito, y el silbatazo inicial puede no sonar si el jugador entró directo a
+  un partido sin haber clickeado nada antes en esa carga.
+- El widget se monta en `App.tsx` junto a los toasts, **fuera** de los bloques
+  por pantalla: si viviera dentro de `Dashboard` o `MatchSimulator`, cambiar de
+  pantalla recrearía el iframe y cortaría la canción.
+- Las rutas de los sfx se arman con `import.meta.env.BASE_URL`, no absolutas:
+  los tres destinos tienen bases distintas (`/`, `/Futstarzz/`, `./`).
 
 ## Modelo de simulación (lo no obvio)
 

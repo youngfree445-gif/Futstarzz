@@ -5,6 +5,7 @@ import {
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE
 } from './data';
 import { applyClubTheme } from './clubTheme';
+import { preloadSfx } from './audio';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
@@ -20,6 +21,7 @@ import PostMatch from './components/PostMatch';
 import DecisionCenter from './components/DecisionCenter';
 import InteractivePenaltyShootout from './components/InteractivePenaltyShootout';
 import AchievementToast from './components/AchievementToast';
+import MusicPlayer from './components/MusicPlayer';
 import NoticeToast from './components/NoticeToast';
 import CareerSummary from './components/CareerSummary';
 
@@ -383,6 +385,12 @@ export default function App() {
     const currentClub = playerProfile ? CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId) : undefined;
     applyClubTheme(currentClub);
   }, [playerProfile?.currentClubId]);
+
+  // Los sfx se descargan al arrancar y no en el primer disparo: si se pidieran recién cuando entra
+  // el gol, el sonido llegaría tarde (o directamente después del festejo) en conexiones lentas.
+  useEffect(() => {
+    preloadSfx();
+  }, []);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
@@ -1785,6 +1793,11 @@ export default function App() {
           onDone={() => setNoticeQueue(prev => prev.slice(1))}
         />
       )}
+
+      {/* Fuera de los bloques por pantalla a propósito: montado una sola vez acá, el iframe
+          sobrevive los cambios de pantalla y la canción no se corta al entrar a un partido.
+          Se esconde en welcome/setup para no competir con el arranque del juego. */}
+      <MusicPlayer hidden={screen === 'welcome' || screen === 'setup'} />
 
       {screen === 'welcome' && (
         <WelcomeScreen 

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats } from '../types';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
+import { playSfx } from '../audio';
 
 // Nombre real de campeonato + bandera por liga (club.league), para el encabezado del partido.
 // Antes esto estaba hardcodeado a "Primera División Dimayor" (Colombia) sin importar la liga real
@@ -1463,6 +1464,10 @@ export default function MatchSimulator({
       kickoffLog.push({ minute: 0, text: `📋 El técnico te deja en el banco de suplentes para arrancar este partido.`, type: 'neutral' });
     }
     setMatchLog(kickoffLog);
+    // Silbatazo inicial. Puede no sonar si el jugador todavía no interactuó con la página en esta
+    // carga (autoplay policy del navegador); playSfx falla en silencio y el resto del partido suena
+    // normal, porque para llegar acá hubo que clickear en pantallas previas de la misma sesión.
+    playSfx('whistle');
   }, []);
 
   useEffect(() => {
@@ -1570,6 +1575,7 @@ export default function MatchSimulator({
         type: 'neutral'
       }]);
       setIsPlaying(false);
+      playSfx('whistle');
       return;
     }
 
@@ -1723,10 +1729,14 @@ export default function MatchSimulator({
         setPlayerCards('red');
         setIsSentOff(true);
         setRating(prev => Math.max(prev - 2.0, 2.0));
+        // Expulsión: la silbatina del estadio además de la tarjeta, que es lo que la hace pesar.
+        playSfx('card');
+        playSfx('crowd_boo');
       } else {
         cardLogSuffix = ' 🟨 Te muestran tarjeta amarilla.';
         setPlayerCards('yellow');
         setRating(prev => Math.max(prev - 0.5, 2.5));
+        playSfx('card');
       }
     }
 
@@ -1739,11 +1749,18 @@ export default function MatchSimulator({
         setPlayerGoals(prev => prev + choice.effectOnSuccess.goals);
         if (isHome.current) setScoreHome(prev => prev + choice.effectOnSuccess.goals);
         else setScoreAway(prev => prev + choice.effectOnSuccess.goals);
-      }
-      if (choice.effectOnSuccess.assists > 0) {
+        playSfx('goal');
+        playSfx('crowd_cheer');
+      } else if (choice.effectOnSuccess.assists > 0) {
         setPlayerAssists(prev => prev + choice.effectOnSuccess.assists);
         if (isHome.current) setScoreHome(prev => prev + 1);
         else setScoreAway(prev => prev + 1);
+        // Una asistencia también termina en gol del equipo: mismo festejo, sin el golpe del 'goal'
+        // que se reserva para cuando la mete el jugador.
+        playSfx('crowd_cheer');
+      } else {
+        // Decisión exitosa sin gol ni asistencia (defensiva/táctica): confirmación seca, sin estadio.
+        playSfx('success');
       }
 
       // El bono de rating ahora depende de lo que realmente aportaste: antes cualquier decisión
@@ -1766,6 +1783,8 @@ export default function MatchSimulator({
       setDecisionWasSuccess(false);
       setDecisionStage('result');
       setRating(prev => Math.max(prev - 1.2, 3.0));
+      // Si además salió tarjeta ya sonó el 'card' arriba: encimarle el 'fail' queda a barullo.
+      if (!cardLogSuffix) playSfx('fail');
 
       setMatchLog(prev => [...prev, {
         minute,
@@ -1803,6 +1822,8 @@ export default function MatchSimulator({
       setDecisionStage('result');
       setPlayerGoals(prev => prev + 1);
       if (isHome.current) setScoreHome(prev => prev + 1); else setScoreAway(prev => prev + 1);
+      playSfx('goal');
+      playSfx('crowd_cheer');
       const ratingBonus = isPenalty ? 1.3 : 2.0;
       setRating(prev => Math.min(prev + ratingBonus, 10.0));
       const prestigeGain = isPenalty ? 5 : 10;
@@ -1817,6 +1838,8 @@ export default function MatchSimulator({
       setDecisionOutcomeText(failText);
       setDecisionWasSuccess(false);
       setDecisionStage('result');
+      // Errar un penal se abuchea; un tiro libre fallado es lo esperable y no merece silbatina.
+      playSfx(isPenalty ? 'crowd_boo' : 'fail');
       const ratingPenalty = isPenalty ? 1.5 : 0.6;
       setRating(prev => Math.max(prev - ratingPenalty, 3.0));
       const prestigeLoss = isPenalty ? -8 : -2;
