@@ -39,3 +39,8 @@ unmatched_players_fc26.txt
 
 # Backups locales
 src/data.ts.backup
+
+# Colecciones de escudos completas (467 MB): solo se copian a public/badges/clubs
+# los que un club del juego realmente usa (ver scratchpad/aplicar_escudos.py).
+src/assets/badges/Escudos/
+src/assets/badges/football-logos-main/
