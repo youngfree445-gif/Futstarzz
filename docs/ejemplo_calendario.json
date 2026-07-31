@@ -1,0 +1,69 @@
+{
+  "competition": {
+    "id": "COL1",
+    "name": "Primera A",
+    "league": "Colombiana",
+    "country": "Colombia",
+    "type": "domestic_league",
+    "format": "apertura_clausura",
+    "season": 2025
+  },
+  "aliases": {
+    "CD América de Cali": "América de Cali",
+    "Asociación Deportivo Pasto": "Deportivo Pasto",
+    "Fortaleza CEIF": "Fortaleza",
+    "Boyacá Chicó FC": "Boyacá Chicó",
+    "Junior FC": "Junior de Barranquilla",
+    "Rionegro Águilas": "Águilas Doradas"
+  },
+  "matches": [
+    {
+      "date": "2025-07-12",
+      "round": "1. Matchday",
+      "home": "Llaneros FC",
+      "away": "CD América de Cali"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "1. Matchday",
+      "home": "Once Caldas",
+      "away": "Atlético Nacional"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "1. Matchday",
+      "home": "Asociación Deportivo Pasto",
+      "away": "Deportes Tolima"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "1. Matchday",
+      "home": "Envigado FC",
+      "away": "Fortaleza CEIF"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "1. Matchday",
+      "home": "Atlético Bucaramanga",
+      "away": "Boyacá Chicó FC"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "1. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Junior FC"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "1. Matchday",
+      "home": "Independiente Medellín",
+      "away": "Alianza FC"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "1. Matchday",
+      "home": "Deportivo Pereira",
+      "away": "Independiente Santa Fe"
+    }
+  ]
+}

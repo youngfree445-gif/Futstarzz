@@ -1,0 +1,198 @@
+
+### Peruana (18 clubes)
+ADT
+Alianza Lima
+Atlético Grau
+Atlético Sullana
+Cienciano
+Comerciantes Unidos
+Cusco FC
+Deportivo Garcilaso
+FC Cajamarca
+Juan Pablo II
+Los Chankas
+Melgar
+Moquegua
+Sport Boys
+Sport Huancayo
+Sporting Cristal
+UTC
+Universitario
+
+### Chilena (16 clubes)
+Audax Italiano
+Cobresal
+Colo-Colo
+Coquimbo Unido
+Deportes Concepción
+Deportes La Serena
+Deportes Limache
+Everton
+Huachipato
+O'Higgins
+Palestino
+Universidad Católica
+Universidad de Chile
+Universidad de Concepción
+Unión La Calera
+Ñublense
+
+### Uruguaya (16 clubes)
+Albion
+Boston River
+C. Español
+Cerro
+Cerro Largo
+Danubio
+Defensor Sporting
+Juventud de Las Piedras
+Liverpool
+Maldonado
+Montevideo City Torque
+Montevideo Wanderers
+Nacional
+Peñarol
+Progreso
+Racing Club
+
+### Ecuatoriana (16 clubes)
+Aucas
+Barcelona SC
+Delfín
+Deportivo Cuenca
+Emelec
+Guayaquil City
+Independiente del Valle
+LDU Quito
+Leones FC
+Libertad FC
+Macará
+Manta FC
+Mushuc Runa
+Orense
+Técnico Universitario
+Universidad Católica
+
+### Boliviana (16 clubes)
+Always Ready
+Aurora
+Blooming
+Bolívar
+Club ABB
+Guabirá
+Gualberto Villarroel
+Independiente Petrolero
+Nacional Potosí
+Oriente Petrolero
+Real Oruro
+Real Potosí
+Real Tomayapo
+San Antonio Bulo Bulo
+The Strongest
+Universitario de Vinto
+
+### Venezolana (14 clubes)
+Academia Puerto Cabello
+Carabobo FC
+Caracas FC
+Deportivo Anzoátegui
+Deportivo La Guaira
+Deportivo Táchira
+Estudiantes de Mérida
+Metropolitanos FC
+Monagas SC
+Portuguesa FC
+Rayo Zuliano
+Trujillanos
+Universidad Central
+Zamora FC
+
+### Paraguaya (12 clubes)
+2 de Mayo
+Cerro Porteño
+Guaraní
+Libertad
+Nacional
+Olimpia
+Recoleta
+Rubio Ñu
+Sportivo Ameliano
+Sportivo Luqueño
+Sportivo San Lorenzo
+Sportivo Trinidense
+
+### Colombiana (20 clubes)
+Alianza FC
+América de Cali
+Atlético Bucaramanga
+Atlético Nacional
+Boyacá Chicó
+Deportes Tolima
+Deportivo Cali
+Deportivo Pasto
+Deportivo Pereira
+Envigado FC
+Fortaleza FC
+Independiente Medellín
+Independiente Santa Fe
+Internacional de Bogotá
+Junior de Barranquilla
+Llaneros FC
+Millonarios FC
+Once Caldas
+Unión Magdalena
+Águilas Doradas
+
+### Argentina (30 clubes)
+Aldosivi
+Argentinos Juniors
+Atlético Tucumán
+Banfield
+Barracas Central
+Belgrano de Córdoba
+Boca Juniors
+Central Córdoba
+Defensa y Justicia
+Estudiantes de La Plata
+Estudiantes de Río Cuarto
+Gimnasia de Mendoza
+Gimnasia y Esgrima La Plata
+Huracán
+Independiente
+Independiente Rivadavia
+Instituto de Córdoba
+Lanús
+Newells Old Boys
+Platense
+Racing Club de Avellaneda
+Riestra
+River Plate
+Rosario Central
+San Lorenzo de Almagro
+Sarmiento
+Talleres de Córdoba
+Tigre
+Unión de Santa Fe
+Vélez Sarsfield
+
+### Brasileña (20 clubes)
+Athletico Paranaense
+Atlético Mineiro
+Bahia
+Botafogo
+Chapecoense
+Clube do Remo
+Corinthians
+Coritiba
+Cruzeiro
+Flamengo
+Fluminense
+Grêmio
+Internacional
+Mirassol
+Palmeiras
+RB Bragantino
+Santos
+São Paulo
+Vasco da Gama
+Vitória
