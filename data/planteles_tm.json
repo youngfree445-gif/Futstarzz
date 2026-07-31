@@ -23384,5 +23384,3531 @@
       "age": 24,
       "position": "Delantero centro"
     }
+  ],
+  "Manchester City": [
+    {
+      "tmId": "315858",
+      "name": "Gianluigi Donnarumma",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "566799",
+      "name": "James Trafford",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "116648",
+      "name": "Marcus Bettinelli",
+      "age": 34,
+      "position": "Portero"
+    },
+    {
+      "tmId": "392757",
+      "name": "Marc Guéhi",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "475959",
+      "name": "Josko Gvardiol",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "258004",
+      "name": "Rúben Dias",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "763079",
+      "name": "Abdukodir Khusanov",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1005575",
+      "name": "Vitor Reis",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1121298",
+      "name": "Juma Bah",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "843595",
+      "name": "Max Alleyne",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "743413",
+      "name": "Nico O'Reilly",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "578391",
+      "name": "Rayan Aït-Nouri",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "576121",
+      "name": "Josh Wilson-Esbrand",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "601883",
+      "name": "Matheus Nunes",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "701057",
+      "name": "Rico Lewis",
+      "age": 21,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "649452",
+      "name": "Issa Kaboré",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "357565",
+      "name": "Rodri",
+      "age": 30,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "466805",
+      "name": "Nico González",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "351749",
+      "name": "Kalvin Phillips",
+      "age": 30,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "567576",
+      "name": "Elliot Anderson",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "460939",
+      "name": "Tijjani Reijnders",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "51471",
+      "name": "Mateo Kovacic",
+      "age": 32,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "607223",
+      "name": "Rayan Cherki",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "406635",
+      "name": "Phil Foden",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "994536",
+      "name": "Claudio Echeverri",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "486049",
+      "name": "Jérémy Doku",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "743591",
+      "name": "Savinho",
+      "age": 22,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "203460",
+      "name": "Jack Grealish",
+      "age": 30,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1245948",
+      "name": "Jeremy Monga",
+      "age": 17,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "583255",
+      "name": "Antoine Semenyo",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "418560",
+      "name": "Erling Haaland",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "445939",
+      "name": "Omar Marmoush",
+      "age": 27,
+      "position": "Delantero centro"
+    }
+  ],
+  "Chelsea": [
+    {
+      "tmId": "834397",
+      "name": "Mike Penders",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "403151",
+      "name": "Robert Sánchez",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "585323",
+      "name": "Filip Jørgensen",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "656316",
+      "name": "Gabriel Slonina",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "731466",
+      "name": "Teddy Sharman-Lowe",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "434224",
+      "name": "Maxence Lacroix",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "614258",
+      "name": "Levi Colwill",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "346314",
+      "name": "Trevoh Chalobah",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "475411",
+      "name": "Wesley Fofana",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "910905",
+      "name": "Mamadou Sarr",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "258878",
+      "name": "Tosin Adarabioyo",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "386047",
+      "name": "Axel Disasi",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "463603",
+      "name": "Benoît Badiashile",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1145504",
+      "name": "Aarón Anselmino",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "904802",
+      "name": "Jorrel Hato",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "746833",
+      "name": "Caleb Wiley",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1261640",
+      "name": "Denner",
+      "age": 18,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "472423",
+      "name": "Reece James",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "895937",
+      "name": "Marco Palestra",
+      "age": 21,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "620322",
+      "name": "Malo Gusto",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1004708",
+      "name": "Josh Acheampong",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "687626",
+      "name": "Moisés Caicedo",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "628451",
+      "name": "Roméo Lavia",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "670717",
+      "name": "Dário Essugo",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "648195",
+      "name": "Enzo Fernández",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "503743",
+      "name": "Morgan Rogers",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "568177",
+      "name": "Cole Palmer",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "670882",
+      "name": "Jamie Gittens",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "537860",
+      "name": "Mykhaylo Mudryk",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1056993",
+      "name": "Estêvão",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "487465",
+      "name": "Pedro Neto",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1138758",
+      "name": "Geovany Quenda",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "626724",
+      "name": "João Pedro",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "776890",
+      "name": "Nicolas Jackson",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "610849",
+      "name": "Liam Delap",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "559328",
+      "name": "Emmanuel Emegha",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "938158",
+      "name": "Marc Guiu",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "787232",
+      "name": "David Datro Fofana",
+      "age": 23,
+      "position": "Delantero centro"
+    }
+  ],
+  "Arsenal": [
+    {
+      "tmId": "262749",
+      "name": "David Raya",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "542586",
+      "name": "Illan Meslier",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "192279",
+      "name": "Kepa Arrizabalaga",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "848753",
+      "name": "Tommy Setford",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "495666",
+      "name": "William Saliba",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "435338",
+      "name": "Gabriel",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "659813",
+      "name": "Piero Hincapié",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "646750",
+      "name": "Cristhian Mosquera",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "502821",
+      "name": "Riccardo Calafiori",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "890721",
+      "name": "Myles Lewis-Skelly",
+      "age": 19,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "420243",
+      "name": "Jurriën Timber",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "335721",
+      "name": "Ben White",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "423440",
+      "name": "Martín Zubimendi",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "148367",
+      "name": "Christian Nørgaard",
+      "age": 32,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "357662",
+      "name": "Declan Rice",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "338424",
+      "name": "Mikel Merino",
+      "age": 30,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "316264",
+      "name": "Martin Ødegaard",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "479999",
+      "name": "Eberechi Eze",
+      "age": 28,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "890719",
+      "name": "Ethan Nwaneri",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "537598",
+      "name": "Fábio Vieira",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "655488",
+      "name": "Gabriel Martinelli",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "451677",
+      "name": "Christos Tzolis",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "340325",
+      "name": "Reiss Nelson",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "433177",
+      "name": "Bukayo Saka",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "503987",
+      "name": "Noni Madueke",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1187629",
+      "name": "Max Dowman",
+      "age": 16,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "325443",
+      "name": "Viktor Gyökeres",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "309400",
+      "name": "Kai Havertz",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "363205",
+      "name": "Gabriel Jesus",
+      "age": 29,
+      "position": "Delantero centro"
+    }
+  ],
+  "Liverpool": [
+    {
+      "tmId": "502676",
+      "name": "Giorgi Mamardashvili",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "105470",
+      "name": "Alisson",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "486604",
+      "name": "Vitezslav Jaros",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "226049",
+      "name": "Freddie Woodman",
+      "age": 29,
+      "position": "Portero"
+    },
+    {
+      "tmId": "706815",
+      "name": "Harvey Davies",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1004301",
+      "name": "Jérémy Jacquet",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1086619",
+      "name": "Giovanni Leoni",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "139208",
+      "name": "Virgil van Dijk",
+      "age": 35,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "256178",
+      "name": "Joe Gomez",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "730861",
+      "name": "Milos Kerkez",
+      "age": 22,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "338070",
+      "name": "Konstantinos Tsimikas",
+      "age": 30,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "484547",
+      "name": "Jeremie Frimpong",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "624258",
+      "name": "Conor Bradley",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "633652",
+      "name": "Calvin Ramsay",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "478573",
+      "name": "Ryan Gravenberch",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "146310",
+      "name": "Wataru Endo",
+      "age": 33,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "864799",
+      "name": "Stefan Bajcetic",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "534033",
+      "name": "Alexis Mac Allister",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "433188",
+      "name": "Curtis Jones",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1045123",
+      "name": "Trey Nyoni",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "598577",
+      "name": "Florian Wirtz",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "451276",
+      "name": "Dominik Szoboszlai",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "565822",
+      "name": "Harvey Elliott",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "434675",
+      "name": "Cody Gakpo",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "935231",
+      "name": "Víctor Muñoz",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1108466",
+      "name": "Rio Ngumoha",
+      "age": 17,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "341092",
+      "name": "Federico Chiesa",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "349066",
+      "name": "Alexander Isak",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "709726",
+      "name": "Hugo Ekitiké",
+      "age": 24,
+      "position": "Delantero centro"
+    }
+  ],
+  "Tottenham Hotspur": [
+    {
+      "tmId": "286047",
+      "name": "Guglielmo Vicario",
+      "age": 29,
+      "position": "Portero"
+    },
+    {
+      "tmId": "725912",
+      "name": "Antonín Kinský",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "74960",
+      "name": "Martin Dúbravka",
+      "age": 37,
+      "position": "Portero"
+    },
+    {
+      "tmId": "428016",
+      "name": "Brandon Austin",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "576314",
+      "name": "Jan Paul van Hecke",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "355915",
+      "name": "Cristian Romero",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "557459",
+      "name": "Micky van de Ven",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "469781",
+      "name": "Marcos Senesi",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "263236",
+      "name": "Kevin Danso",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "859951",
+      "name": "Ashley Phillips",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "671108",
+      "name": "Kota Takai",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "192765",
+      "name": "Ben Davies",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "556385",
+      "name": "Destiny Udogie",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1086258",
+      "name": "Souza",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "234803",
+      "name": "Andrew Robertson",
+      "age": 32,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "553875",
+      "name": "Pedro Porro",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "483348",
+      "name": "Djed Spence",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "397033",
+      "name": "Sandro Tonali",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "922693",
+      "name": "Archie Gray",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "354362",
+      "name": "Rodrigo Bentancur",
+      "age": 29,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "880245",
+      "name": "Mateus Fernandes",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "866246",
+      "name": "Lucas Bergvall",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "488362",
+      "name": "Conor Gallagher",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "568693",
+      "name": "Pape Matar Sarr",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "566931",
+      "name": "Xavi Simons",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "294057",
+      "name": "James Maddison",
+      "age": 29,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "431755",
+      "name": "Dejan Kulusevski",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1011147",
+      "name": "Mikey Moore",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "743498",
+      "name": "Wilson Odobert",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "396638",
+      "name": "Manor Solomon",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "543499",
+      "name": "Mohammed Kudus",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "258889",
+      "name": "Dominic Solanke",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "378710",
+      "name": "Richarlison",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "801734",
+      "name": "Mathys Tel",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "670883",
+      "name": "Dane Scarlett",
+      "age": 22,
+      "position": "Delantero centro"
+    }
+  ],
+  "Manchester United": [
+    {
+      "tmId": "503883",
+      "name": "Senne Lammens",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "622236",
+      "name": "Radek Vítek",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "336077",
+      "name": "Altay Bayındır",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "99397",
+      "name": "Karl Darlow",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "34130",
+      "name": "Tom Heaton",
+      "age": 40,
+      "position": "Portero"
+    },
+    {
+      "tmId": "620362",
+      "name": "Dermot Mee",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "923831",
+      "name": "Leny Yoro",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "480762",
+      "name": "Lisandro Martínez",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "326031",
+      "name": "Matthijs de Ligt",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1078163",
+      "name": "Ayden Heaven",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "177907",
+      "name": "Harry Maguire",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "926952",
+      "name": "Patrick Dorgu",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "183288",
+      "name": "Luke Shaw",
+      "age": 31,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1011738",
+      "name": "Harry Amass",
+      "age": 19,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "357147",
+      "name": "Diogo Dalot",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "340456",
+      "name": "Noussair Mazraoui",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "743600",
+      "name": "Andrey Santos",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "476701",
+      "name": "Manuel Ugarte",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "654253",
+      "name": "Toby Collyer",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "820374",
+      "name": "Kobbie Mainoo",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "249565",
+      "name": "Youri Tielemans",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1049911",
+      "name": "Tyler Fletcher",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "240306",
+      "name": "Bruno Fernandes",
+      "age": 31,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "346483",
+      "name": "Mason Mount",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1011140",
+      "name": "Jack Fletcher",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "258923",
+      "name": "Marcus Rashford",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "413039",
+      "name": "Bryan Mbeumo",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "536835",
+      "name": "Amad Diallo",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "926309",
+      "name": "Shea Lacey",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "517894",
+      "name": "Matheus Cunha",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "627442",
+      "name": "Benjamin Sesko",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "435648",
+      "name": "Joshua Zirkzee",
+      "age": 25,
+      "position": "Delantero centro"
+    }
+  ],
+  "Brighton & Hove Albion": [
+    {
+      "tmId": "565093",
+      "name": "Bart Verbruggen",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "646353",
+      "name": "Carl Rushworth",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "73564",
+      "name": "Jason Steele",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "406556",
+      "name": "Tom McGill",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "892160",
+      "name": "Luka Vuskovic",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "410708",
+      "name": "Pascal Struijk",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "318508",
+      "name": "Olivier Boscagli",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "380350",
+      "name": "Igor Julio",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "581330",
+      "name": "Eiran Cashin",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "438961",
+      "name": "Michael Svoboda",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "148153",
+      "name": "Lewis Dunk",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "369316",
+      "name": "Ferdi Kadıoğlu",
+      "age": 26,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "429915",
+      "name": "Maxim De Cuyper",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "415381",
+      "name": "Mats Wieffer",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "539252",
+      "name": "Costinha",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "973085",
+      "name": "Carlos Baleba",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "867688",
+      "name": "Jack Hinshelwood",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "667287",
+      "name": "Yasin Ayari",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "996897",
+      "name": "Diego Gómez",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "406634",
+      "name": "Matt O'Riley",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1178758",
+      "name": "Malick Yalcouyé",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "82873",
+      "name": "Pascal Groß",
+      "age": 35,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "983989",
+      "name": "Facundo Buonanotte",
+      "age": 21,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "504849",
+      "name": "Kaoru Mitoma",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1110406",
+      "name": "Ibrahim Osman",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "933018",
+      "name": "Tom Watson",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1012534",
+      "name": "Yankuba Minteh",
+      "age": 22,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1421433",
+      "name": "Zadok Yohanna",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "878150",
+      "name": "Amario Cozier-Duberry",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "538977",
+      "name": "Georginio Rutter",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1060087",
+      "name": "Charalampos Kostoulas",
+      "age": 19,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "648046",
+      "name": "Evan Ferguson",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "950091",
+      "name": "Stefanos Tzimas",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "67063",
+      "name": "Danny Welbeck",
+      "age": 35,
+      "position": "Delantero centro"
+    }
+  ],
+  "Newcastle United": [
+    {
+      "tmId": "923757",
+      "name": "Ewen Jaouen",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "192080",
+      "name": "Nick Pope",
+      "age": 34,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1019170",
+      "name": "Aidan Harris",
+      "age": 19,
+      "position": "Portero"
+    },
+    {
+      "tmId": "142389",
+      "name": "Mark Gillespie",
+      "age": 34,
+      "position": "Portero"
+    },
+    {
+      "tmId": "521964",
+      "name": "Malick Thiaw",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "361093",
+      "name": "Sven Botman",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "135343",
+      "name": "Fabian Schär",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "134270",
+      "name": "Dan Burn",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "670858",
+      "name": "Lewis Hall",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "900601",
+      "name": "Alex Murphy",
+      "age": 22,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "503981",
+      "name": "Tino Livramento",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "940858",
+      "name": "Leo Shahar",
+      "age": 19,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "975347",
+      "name": "Aladji Bamba",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "520624",
+      "name": "Bruno Guimarães",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "503749",
+      "name": "Jacob Ramsey",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "333241",
+      "name": "Joelinton",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "922769",
+      "name": "Lewis Miley",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "340329",
+      "name": "Joe Willock",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1111063",
+      "name": "Sean Steur",
+      "age": 18,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1067904",
+      "name": "Bazoumana Touré",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "398065",
+      "name": "Harvey Barnes",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "583189",
+      "name": "Anthony Elanga",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "199527",
+      "name": "Jacob Murphy",
+      "age": 31,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "455661",
+      "name": "Nick Woltemade",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "609556",
+      "name": "William Osula",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "388165",
+      "name": "Yoane Wissa",
+      "age": 29,
+      "position": "Delantero centro"
+    }
+  ],
+  "AFC Bournemouth": [
+    {
+      "tmId": "465555",
+      "name": "Djordje Petrovic",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "52570",
+      "name": "Fraser Forster",
+      "age": 38,
+      "position": "Portero"
+    },
+    {
+      "tmId": "582078",
+      "name": "Will Dennis",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "463605",
+      "name": "Bafodé Diakité",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "611793",
+      "name": "James Hill",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "989112",
+      "name": "Veljko Milosavljevic",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "994604",
+      "name": "Matai Akinmboni",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "654539",
+      "name": "Adrien Truffert",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1009658",
+      "name": "Julio Soler",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "513970",
+      "name": "Julián Araujo",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "471690",
+      "name": "Max Aarons",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "61841",
+      "name": "Adam Smith",
+      "age": 35,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "332705",
+      "name": "Tyler Adams",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "854721",
+      "name": "Ben Winterburn",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "855256",
+      "name": "Alex Scott",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "998101",
+      "name": "Alex Tóth",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "249089",
+      "name": "Lewis Cook",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "188077",
+      "name": "Ryan Christie",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "399434",
+      "name": "Marcus Tavernier",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "330659",
+      "name": "Justin Kluivert",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "532776",
+      "name": "Amine Adli",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1012564",
+      "name": "Rayan",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "719673",
+      "name": "Ben Gannon-Doak",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "277033",
+      "name": "David Brooks",
+      "age": 29,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "955357",
+      "name": "Junior Kroupi",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "711337",
+      "name": "Evanilson",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "948275",
+      "name": "Álvaro Rodríguez",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "251106",
+      "name": "Enes Ünal",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "746740",
+      "name": "Daniel Jebbison",
+      "age": 22,
+      "position": "Delantero centro"
+    }
+  ],
+  "Brentford": [
+    {
+      "tmId": "340918",
+      "name": "Caoimhín Kelleher",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "488935",
+      "name": "Hákon Valdimarsson",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "456292",
+      "name": "Ellery Balcombe",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1008553",
+      "name": "Julian Eyestone",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "541231",
+      "name": "Sepp van den Berg",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "469050",
+      "name": "Nathan Collins",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "328658",
+      "name": "Kristoffer Ajer",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "915418",
+      "name": "Jannik Schuster",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "442248",
+      "name": "Ethan Pinnock",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1071138",
+      "name": "Benjamin Fredrick",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1144158",
+      "name": "Benjamin Arthur",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "339556",
+      "name": "Rico Henry",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "954104",
+      "name": "Jayden Meghoma",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "823486",
+      "name": "Michael Kayode",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "591949",
+      "name": "Aaron Hickey",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "270171",
+      "name": "Vitaly Janelt",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1141628",
+      "name": "Yunus Konak",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "717411",
+      "name": "Yegor Yarmolyuk",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "319859",
+      "name": "Mathias Jensen",
+      "age": 30,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "340321",
+      "name": "Josh Dasilva",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "644401",
+      "name": "Keane Lewis-Potter",
+      "age": 25,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "540941",
+      "name": "Mikkel Damsgaard",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "683620",
+      "name": "Antoni Milambo",
+      "age": 21,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "559263",
+      "name": "Fábio Carvalho",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "473050",
+      "name": "Kevin Schade",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "684210",
+      "name": "Jaidon Anthony",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1086375",
+      "name": "Gustavo Nunes",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "823231",
+      "name": "Dango Ouattara",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "739443",
+      "name": "Igor Thiago",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1011936",
+      "name": "Kaye Furo",
+      "age": 19,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "123682",
+      "name": "Callum Wilson",
+      "age": 34,
+      "position": "Delantero centro"
+    }
+  ],
+  "Aston Villa": [
+    {
+      "tmId": "111873",
+      "name": "Emiliano Martínez",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "124884",
+      "name": "Marco Bizot",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "413403",
+      "name": "Ezri Konsa",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "399776",
+      "name": "Pau Torres",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1282860",
+      "name": "Modou Kéba Cissé",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "184573",
+      "name": "Victor Lindelöf",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "253677",
+      "name": "Tyrone Mings",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "485585",
+      "name": "Ian Maatsen",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "126664",
+      "name": "Lucas Digne",
+      "age": 33,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "425334",
+      "name": "Matty Cash",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "848682",
+      "name": "Kosta Nedeljkovic",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "485706",
+      "name": "Amadou Onana",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "394327",
+      "name": "Boubacar Kamara",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "645686",
+      "name": "Lamare Bogarde",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "735570",
+      "name": "João Gomes",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "193116",
+      "name": "John McGinn",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "131978",
+      "name": "Ross Barkley",
+      "age": 32,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "927353",
+      "name": "Johan Manzambi",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "811779",
+      "name": "Alejandro Garnacho",
+      "age": 22,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "321247",
+      "name": "Emiliano Buendía",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "581672",
+      "name": "Samuel Iling-Junior",
+      "age": 22,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "500689",
+      "name": "Evann Guessand",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "387626",
+      "name": "Leon Bailey",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1005583",
+      "name": "Alysson",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "324358",
+      "name": "Ollie Watkins",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "331726",
+      "name": "Tammy Abraham",
+      "age": 28,
+      "position": "Delantero centro"
+    }
+  ],
+  "Nottingham Forest": [
+    {
+      "tmId": "432914",
+      "name": "John Victor",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "127202",
+      "name": "Matz Sels",
+      "age": 34,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1005649",
+      "name": "Murillo",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "413507",
+      "name": "Nikola Milenković",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "984096",
+      "name": "Jair Cunha",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "673492",
+      "name": "Morato",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "933017",
+      "name": "Zach Abbott",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1007720",
+      "name": "Tyler Bindon",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "503680",
+      "name": "Neco Williams",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "524285",
+      "name": "Luca Netz",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "424881",
+      "name": "Omar Richards",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "236490",
+      "name": "Ola Aina",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "708072",
+      "name": "Nicolò Savona",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "897481",
+      "name": "Eric da Silva Moreira",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "375885",
+      "name": "Ibrahim Sangaré",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "497291",
+      "name": "Nicolás Domínguez",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "223979",
+      "name": "Xaver Schlager",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "425902",
+      "name": "Ryan Yates",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "429014",
+      "name": "Morgan Gibbs-White",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "583199",
+      "name": "James McAtee",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "392768",
+      "name": "Callum Hudson-Odoi",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "365108",
+      "name": "Dan Ndoye",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "741238",
+      "name": "Omari Hutchinson",
+      "age": 22,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "540664",
+      "name": "Dilane Bakwa",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "585959",
+      "name": "Arnaud Kalimuendo",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "432164",
+      "name": "Igor Jesus",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "295313",
+      "name": "Taiwo Awoniyi",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "108725",
+      "name": "Chris Wood",
+      "age": 34,
+      "position": "Delantero centro"
+    }
+  ],
+  "Crystal Palace": [
+    {
+      "tmId": "258919",
+      "name": "Dean Henderson",
+      "age": 29,
+      "position": "Portero"
+    },
+    {
+      "tmId": "296802",
+      "name": "Walter Benítez",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "196722",
+      "name": "Remi Matthews",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1006411",
+      "name": "Jaydee Canvot",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "578539",
+      "name": "Chris Richards",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "689637",
+      "name": "Chadi Riad",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "730893",
+      "name": "Tyrick Mitchell",
+      "age": 26,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "293194",
+      "name": "Borna Sosa",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1047257",
+      "name": "Rio Cardines",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "493003",
+      "name": "Daniel Muñoz",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "331505",
+      "name": "Óscar Mingueza",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1047261",
+      "name": "Caleb Kporha",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "744149",
+      "name": "Adam Wharton",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "543387",
+      "name": "Cheick Doucouré",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "262980",
+      "name": "Jefferson Lerma",
+      "age": 31,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "865993",
+      "name": "David Ozoh",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "207014",
+      "name": "Will Hughes",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "747009",
+      "name": "Justin Devenny",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "356141",
+      "name": "Daichi Kamada",
+      "age": 29,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "743597",
+      "name": "Matheus França",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "410225",
+      "name": "Ismaïla Sarr",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "568157",
+      "name": "Yéremy Pino",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "470607",
+      "name": "Brennan Johnson",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "967319",
+      "name": "Romain Esse",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "586834",
+      "name": "Jesurun Rak-Sakyi",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "429983",
+      "name": "Jørgen Strand Larsen",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "420002",
+      "name": "Jean-Philippe Mateta",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "340324",
+      "name": "Eddie Nketiah",
+      "age": 27,
+      "position": "Delantero centro"
+    }
+  ],
+  "Everton": [
+    {
+      "tmId": "130164",
+      "name": "Jordan Pickford",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "357658",
+      "name": "Mark Travers",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "215810",
+      "name": "Tom King",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "661053",
+      "name": "Jarrad Branthwaite",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "173504",
+      "name": "James Tarkowski",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "118534",
+      "name": "Michael Keane",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "404842",
+      "name": "Vitaliy Mykolenko",
+      "age": 27,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "938146",
+      "name": "Adam Aznou",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "711544",
+      "name": "Jake O'Brien",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "424015",
+      "name": "Nathan Patterson",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "505219",
+      "name": "James Garner",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "538216",
+      "name": "Hayden Hackney",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "475188",
+      "name": "Kiernan Dewsbury-Hall",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "696589",
+      "name": "Tim Iroegbunam",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "748319",
+      "name": "Carlos Alcaraz",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1107733",
+      "name": "Harrison Armstrong",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "608832",
+      "name": "Merlin Röhl",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "936874",
+      "name": "Tyrique George",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "584769",
+      "name": "Dwight McNeil",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "623570",
+      "name": "Iliman Ndiaye",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "866655",
+      "name": "Tyler Dibling",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "937941",
+      "name": "Thierno Barry",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "595809",
+      "name": "Beto",
+      "age": 28,
+      "position": "Delantero centro"
+    }
+  ],
+  "Leeds United": [
+    {
+      "tmId": "352041",
+      "name": "Lucas Perri",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "194386",
+      "name": "Alex Cairns",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "679423",
+      "name": "Tarik Muharemović",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "371851",
+      "name": "Jaka Bijol",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "297212",
+      "name": "Joe Rodon",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "338629",
+      "name": "Sebastiaan Bornauw",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "362108",
+      "name": "Gabriel Gudmundsson",
+      "age": 27,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "236953",
+      "name": "Sam Byram",
+      "age": 32,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "465717",
+      "name": "Jayden Bogle",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "413220",
+      "name": "James Justin",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "392771",
+      "name": "Ethan Ampadu",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "344069",
+      "name": "Anton Stach",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "381753",
+      "name": "Ilia Gruev",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "883539",
+      "name": "Charlie Crew",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "346707",
+      "name": "Sean Longstaff",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "489359",
+      "name": "Ao Tanaka",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "393323",
+      "name": "Brenden Aaronson",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "346890",
+      "name": "Noah Okafor",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "518644",
+      "name": "Largie Ramazani",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "279455",
+      "name": "Harry Wilson",
+      "age": 29,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "627626",
+      "name": "Wilfried Gnonto",
+      "age": 22,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "319301",
+      "name": "Daniel James",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "306024",
+      "name": "Dominic Calvert-Lewin",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "503980",
+      "name": "Joe Gelhardt",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "369962",
+      "name": "Joël Piroe",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "314288",
+      "name": "Lukas Nmecha",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "834742",
+      "name": "Mateo Joseph",
+      "age": 22,
+      "position": "Delantero centro"
+    }
+  ],
+  "Sunderland": [
+    {
+      "tmId": "646991",
+      "name": "Robin Roefs",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "475946",
+      "name": "Anthony Patterson",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "605426",
+      "name": "Melker Ellborg",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "123536",
+      "name": "Simon Moore",
+      "age": 36,
+      "position": "Portero"
+    },
+    {
+      "tmId": "503686",
+      "name": "Dan Ballard",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "353032",
+      "name": "Omar Alderete",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "617755",
+      "name": "Jenson Seelt",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "661208",
+      "name": "Leo Hjelde",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "502065",
+      "name": "Aji Alese",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "282939",
+      "name": "Luke O'Nien",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "240692",
+      "name": "Reinildo Mandava",
+      "age": 32,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "181380",
+      "name": "Arthur Masuaku",
+      "age": 32,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "515544",
+      "name": "Trai Hume",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "348026",
+      "name": "Nordi Mukiele",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "100986",
+      "name": "Thomas Meunier",
+      "age": 34,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "111455",
+      "name": "Granit Xhaka",
+      "age": 33,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "876631",
+      "name": "Habib Diarra",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "727089",
+      "name": "Noah Sadiki",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "633992",
+      "name": "Enzo Le Fée",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "277697",
+      "name": "Alan Browne",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "654412",
+      "name": "Abdoullah Ba",
+      "age": 23,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "947411",
+      "name": "Chris Rigg",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "658536",
+      "name": "Simon Adingra",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "903611",
+      "name": "Nilson Angulo",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "696181",
+      "name": "Romaine Mundle",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "743384",
+      "name": "Chemsdine Talbi",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1322090",
+      "name": "Jocelin Ta Bi",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "473169",
+      "name": "Brian Brobbey",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "494237",
+      "name": "Wilson Isidor",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1015619",
+      "name": "Ahmed Abdullahi",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "840687",
+      "name": "Luís Semedo",
+      "age": 22,
+      "position": "Delantero centro"
+    }
+  ],
+  "Fulham": [
+    {
+      "tmId": "72476",
+      "name": "Bernd Leno",
+      "age": 34,
+      "position": "Portero"
+    },
+    {
+      "tmId": "127181",
+      "name": "Benjamin Lecomte",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "461883",
+      "name": "Calvin Bassey",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "260827",
+      "name": "Joachim Andersen",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "494880",
+      "name": "Jorge Cuenca",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "392775",
+      "name": "Ryan Sessegnon",
+      "age": 26,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "349701",
+      "name": "Antonee Robinson",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "206746",
+      "name": "Kenny Tete",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "262226",
+      "name": "Timothy Castagne",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "333014",
+      "name": "Sander Berge",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "245056",
+      "name": "Saša Lukić",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "226973",
+      "name": "Harrison Reed",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "123275",
+      "name": "Tom Cairney",
+      "age": 35,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1011131",
+      "name": "Josh King",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "392765",
+      "name": "Emile Smith Rowe",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "900195",
+      "name": "Kevin",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "242631",
+      "name": "Alex Iwobi",
+      "age": 30,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "661207",
+      "name": "Oscar Bobb",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "735571",
+      "name": "Rodrigo Muniz",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1069512",
+      "name": "Jonah Kusi-Asare",
+      "age": 19,
+      "position": "Delantero centro"
+    }
+  ],
+  "West Ham United": [
+    {
+      "tmId": "400536",
+      "name": "Mads Hermansen",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "120629",
+      "name": "Alphonse Areola",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "848439",
+      "name": "Finlay Herrick",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "605184",
+      "name": "Jean-Clair Todibo",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "415912",
+      "name": "Konstantinos Mavropanos",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "525247",
+      "name": "Maximilian Kilman",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1107726",
+      "name": "Ezra Mayers",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "845321",
+      "name": "Kaelan Casey",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1111589",
+      "name": "El Hadji Malick Diouf",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "922563",
+      "name": "Oliver Scarles",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "477758",
+      "name": "Aaron Wan-Bissaka",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "341051",
+      "name": "Kyle Walker-Peters",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "745181",
+      "name": "Soungoutou Magassa",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "401356",
+      "name": "Edson Álvarez",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "283628",
+      "name": "Tomáš Souček",
+      "age": 31,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "698164",
+      "name": "Freddie Potts",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1081995",
+      "name": "Mohamadou Kanté",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "181579",
+      "name": "James Ward-Prowse",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "697280",
+      "name": "George Earthy",
+      "age": 21,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "234781",
+      "name": "Maxwel Cornet",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1004203",
+      "name": "Keiber Lamadrid",
+      "age": 22,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "314875",
+      "name": "Jarrod Bowen",
+      "age": 29,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "522784",
+      "name": "Taty Castellanos",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "817665",
+      "name": "Pablo",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "75489",
+      "name": "Niclas Füllkrug",
+      "age": 33,
+      "position": "Delantero centro"
+    }
+  ],
+  "Wolverhampton Wanderers": [
+    {
+      "tmId": "249994",
+      "name": "José Sá",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "110864",
+      "name": "Sam Johnstone",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "136401",
+      "name": "Daniel Bentley",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "345911",
+      "name": "Ladislav Krejci",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "606718",
+      "name": "Toti",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "716276",
+      "name": "Yerson Mosquera",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "438001",
+      "name": "Santiago Bueno",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "862297",
+      "name": "Nasser Djiga",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "698678",
+      "name": "Hugo Bueno",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "661427",
+      "name": "David Møller Wolfe",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "848509",
+      "name": "Jackson Tchatchoua",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1193867",
+      "name": "Pedro Lima",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "485583",
+      "name": "Ki-Jana Hoever",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "95810",
+      "name": "Kieran Trippier",
+      "age": 35,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "800176",
+      "name": "André",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "649020",
+      "name": "Boubacar Traoré",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "450050",
+      "name": "Jean-Ricner Bellegarde",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "414908",
+      "name": "Marshall Munetsi",
+      "age": 30,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "433183",
+      "name": "Tommy Doyle",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "667121",
+      "name": "Rodrigo Gomes",
+      "age": 23,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "1230661",
+      "name": "Mateus Mané",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1064471",
+      "name": "Fer López",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "724783",
+      "name": "Tawanda Chirewa",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "780147",
+      "name": "Rafiki Saïd",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1060740",
+      "name": "Enso González",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "250426",
+      "name": "Adam Armstrong",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "292246",
+      "name": "Hee-chan Hwang",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "369567",
+      "name": "Sasa Kalajdzic",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "206040",
+      "name": "Raúl Jiménez",
+      "age": 35,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "863741",
+      "name": "Nathan Fraser",
+      "age": 21,
+      "position": "Delantero centro"
+    }
+  ],
+  "Burnley": [
+    {
+      "tmId": "829299",
+      "name": "Max Weiß",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "612517",
+      "name": "Bashir Humphreys",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "392179",
+      "name": "Hjalmar Ekdal",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "415970",
+      "name": "Joe Worrall",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "403898",
+      "name": "Jordan Beyer",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "927768",
+      "name": "Lucas Pires",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "541628",
+      "name": "Oliver Sonne",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "95424",
+      "name": "Kyle Walker",
+      "age": 36,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "214666",
+      "name": "Connor Roberts",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "412937",
+      "name": "Shurandy Sambo",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "357162",
+      "name": "Florentino",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "707230",
+      "name": "Ugo Raghouber",
+      "age": 23,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "242606",
+      "name": "Josh Cullen",
+      "age": 30,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "314241",
+      "name": "Josh Laurent",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "607224",
+      "name": "Hannibal",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "646658",
+      "name": "Aaron Ramsey",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "381963",
+      "name": "Mike Tresor",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "293281",
+      "name": "Jacob Bruun Larsen",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "706889",
+      "name": "Jaydon Banel",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1101356",
+      "name": "Lluc Castell",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "314367",
+      "name": "Marcus Edwards",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "411537",
+      "name": "Zian Flemming",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "467623",
+      "name": "Lyle Foster",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "548729",
+      "name": "Zeki Amdouni",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "571743",
+      "name": "Armando Broja",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "704155",
+      "name": "Andréas Hountondji",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "444208",
+      "name": "Michael Obafemi",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "63200",
+      "name": "Ashley Barnes",
+      "age": 36,
+      "position": "Delantero centro"
+    }
   ]
 }
