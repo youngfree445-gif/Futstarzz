@@ -1,0 +1,114 @@
+{
+  "competition": {
+    "id": "CIT",
+    "name": "Coppa Italia",
+    "league": "Italiana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2020
+  },
+  "aliases": {
+    "AC Milan": "Milan",
+    "AC Monza": "Monza",
+    "AC Reggiana 1919": "Reggiana",
+    "Atalanta BC": "Atalanta",
+    "Bologna Football Club 1909": "Bologna",
+    "Brescia Calcio": "Brescia",
+    "Cagliari Calcio": "Cagliari",
+    "Carrarese Calcio 1908": "Carrarese",
+    "Cosenza Calcio": "Cosenza",
+    "FC Empoli": "Empoli",
+    "FC Südtirol": "Sudtirol",
+    "Frosinone Calcio": "Frosinone",
+    "Genoa CFC": "Genoa",
+    "Inter Milan": "Inter",
+    "Juventus FC": "Juventus",
+    "Modena FC": "Modena",
+    "Parma Calcio 1913": "Parma",
+    "Pisa Sporting Club": "Pisa",
+    "Spezia Calcio": "Spezia",
+    "Torino FC": "Torino",
+    "Udinese Calcio": "Udinese",
+    "Venezia FC": "Venezia"
+  },
+  "matches": [
+    {
+      "date": "2020-09-30",
+      "round": "Second Round",
+      "home": "Venezia FC",
+      "away": "Carrarese Calcio 1908"
+    },
+    {
+      "date": "2020-10-28",
+      "round": "Third Round",
+      "home": "Hellas Verona",
+      "away": "Venezia FC"
+    },
+    {
+      "date": "2020-11-25",
+      "round": "Fourth Round",
+      "home": "Cagliari Calcio",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2020-11-25",
+      "round": "Fourth Round",
+      "home": "FC Empoli",
+      "away": "Brescia Calcio"
+    },
+    {
+      "date": "2020-11-25",
+      "round": "Fourth Round",
+      "home": "Parma Calcio 1913",
+      "away": "Cosenza Calcio"
+    },
+    {
+      "date": "2020-11-25",
+      "round": "Fourth Round",
+      "home": "Bologna Football Club 1909",
+      "away": "Spezia Calcio"
+    },
+    {
+      "date": "2021-01-12",
+      "round": "Round of 16",
+      "home": "AC Milan",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2021-01-13",
+      "round": "Round of 16",
+      "home": "Juventus FC",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2021-01-14",
+      "round": "Round of 16",
+      "home": "Atalanta BC",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2021-01-26",
+      "round": "Quarter-Finals",
+      "home": "Inter Milan",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2021-02-02",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Inter Milan",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2021-02-09",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Juventus FC",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2021-05-19",
+      "round": "Final",
+      "home": "Atalanta BC",
+      "away": "Juventus FC"
+    }
+  ]
+}

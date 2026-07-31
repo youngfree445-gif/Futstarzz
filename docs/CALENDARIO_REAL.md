@@ -96,3 +96,60 @@ Estas ligas no son un todos-contra-todos corrido, y el calendario real lo reflej
 - **MLS**: conferencias Este/Oeste + playoffs.
 - **México**: Apertura/Clausura con liguilla.
 - **Brasil**: año calendario (no cruza de año como las europeas).
+
+---
+
+# Estado: calendarios bajados (31 ligas + 8 copas)
+
+## El problema que había en las copas
+
+El motor no le da fechas a cada copa: **avanza un paso por "semana de copa"**, y las semanas de copa
+son un cupo global (`week % 3 === 0`) que se reparten todos los torneos. Auditado con el motor real:
+
+| Copa | Pasos que necesita | Semanas disponibles | Resultado |
+|---|---|---|---|
+| Champions / Europa | 22 | 9 | tardaba **2,4 temporadas** en coronar |
+| Libertadores / Sudamericana | 11 | 9 | **no coronaba nunca** |
+
+Las cuatro estaban rotas, no solo la Champions. El presupuesto real es **9** semanas (12 menos las
+3 que se come el parón del Mundial), y de ahí venía el bug ya reportado: *"me eliminan de
+Libertadores y en julio vuelve a aparecer la fase de grupos"*.
+
+## Cómo lo arregla el calendario real
+
+Con fechas propias por competición el cupo compartido desaparece:
+
+| Copa | Semanas reales | Rondas | Margen |
+|---|---|---|---|
+| UEFA Europa League | 17 | 10 | +7 |
+| UEFA Champions League | 16 | 9 | +7 |
+| UEFA Conference League | 14 | 9 | +5 |
+| Copa del Rey | 9 | 8 | +1 |
+| Coppa Italia | 8 | 8 | 0 |
+| FA Cup | 8 | 8 | 0 |
+| DFB-Pokal | 8 | 5 | +3 |
+| KNVB Beker | 7 | 6 | +1 |
+
+**Requisito para el importador:** cada competición usa su propio calendario y se elimina el contador
+`cupWeeksElapsed*`. Mantener el sistema de pasos *y* cambiar las semanas rompería todo — es
+exactamente el bug que ya ocurrió.
+
+## Copas domésticas: qué se perdió y por qué
+
+Las copas nacionales las juegan también equipos de divisiones inferiores (Maidstone United,
+Eastleigh…) que no existen en `data.ts`, que solo modela primera. Se conservan los partidos donde
+ambos equipos existen en el juego: la FA Cup pasa de 148 a 18 partidos, la Copa del Rey de 123 a 21.
+
+Es una pérdida consciente — la FA Cup real arranca con 700 equipos; acá arranca cuando entran los de
+primera.
+
+**Dinamarca, Grecia y Escocia se descartaron**: quedaban en 0 partidos porque sus clubes viven en la
+bolsa `Internacional` sin país asignado.
+
+## Lo que sigue faltando
+
+- **Libertadores y Sudamericana**: no están en `ALLgames.json` ni las publica Transfermarkt en un
+  código que haya encontrado. Siguen con el formato inventado (32 equipos, 8 grupos).
+- **Ligas menores** (Turquía, Suecia, Bélgica, Grecia…): los calendarios están bajados, pero
+  `data.ts` solo tiene 2 clubes turcos, 1 sueco y 3 belgas. No es un problema de calendario sino de
+  los 606 clubes en `Internacional` sin país.

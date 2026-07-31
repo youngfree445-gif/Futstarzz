@@ -1,0 +1,130 @@
+{
+  "competition": {
+    "id": "FAC",
+    "name": "FA Cup",
+    "league": "Inglesa",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2023
+  },
+  "aliases": {
+    "Arsenal FC": "Arsenal",
+    "Brentford FC": "Brentford",
+    "Burnley FC": "Burnley",
+    "Chelsea FC": "Chelsea",
+    "Everton FC": "Everton",
+    "Fulham FC": "Fulham",
+    "Liverpool FC": "Liverpool",
+    "Sunderland AFC": "Sunderland"
+  },
+  "matches": [
+    {
+      "date": "2024-01-04",
+      "round": "Third Round",
+      "home": "Crystal Palace",
+      "away": "Everton FC"
+    },
+    {
+      "date": "2024-01-05",
+      "round": "Third Round",
+      "home": "Brentford FC",
+      "away": "Wolverhampton Wanderers"
+    },
+    {
+      "date": "2024-01-05",
+      "round": "Third Round",
+      "home": "Tottenham Hotspur",
+      "away": "Burnley FC"
+    },
+    {
+      "date": "2024-01-06",
+      "round": "Third Round",
+      "home": "Sunderland AFC",
+      "away": "Newcastle United"
+    },
+    {
+      "date": "2024-01-07",
+      "round": "Third Round",
+      "home": "Arsenal FC",
+      "away": "Liverpool FC"
+    },
+    {
+      "date": "2024-01-16",
+      "round": "Third Round Replay",
+      "home": "Wolverhampton Wanderers",
+      "away": "Brentford FC"
+    },
+    {
+      "date": "2024-01-17",
+      "round": "Third Round Replay",
+      "home": "Everton FC",
+      "away": "Crystal Palace"
+    },
+    {
+      "date": "2024-01-26",
+      "round": "Fourth Round",
+      "home": "Chelsea FC",
+      "away": "Aston Villa"
+    },
+    {
+      "date": "2024-01-26",
+      "round": "Fourth Round",
+      "home": "Tottenham Hotspur",
+      "away": "Manchester City"
+    },
+    {
+      "date": "2024-01-27",
+      "round": "Fourth Round",
+      "home": "Fulham FC",
+      "away": "Newcastle United"
+    },
+    {
+      "date": "2024-02-07",
+      "round": "4th round deciders",
+      "home": "Aston Villa",
+      "away": "Chelsea FC"
+    },
+    {
+      "date": "2024-02-28",
+      "round": "Fifth Round",
+      "home": "Chelsea FC",
+      "away": "Leeds United"
+    },
+    {
+      "date": "2024-02-28",
+      "round": "Fifth Round",
+      "home": "Nottingham Forest",
+      "away": "Manchester United"
+    },
+    {
+      "date": "2024-02-28",
+      "round": "Fifth Round",
+      "home": "Wolverhampton Wanderers",
+      "away": "Brighton & Hove Albion"
+    },
+    {
+      "date": "2024-03-16",
+      "round": "Quarter-Finals",
+      "home": "Manchester City",
+      "away": "Newcastle United"
+    },
+    {
+      "date": "2024-03-17",
+      "round": "Quarter-Finals",
+      "home": "Manchester United",
+      "away": "Liverpool FC"
+    },
+    {
+      "date": "2024-04-20",
+      "round": "Semi-Finals",
+      "home": "Manchester City",
+      "away": "Chelsea FC"
+    },
+    {
+      "date": "2024-05-25",
+      "round": "Final",
+      "home": "Manchester City",
+      "away": "Manchester United"
+    }
+  ]
+}

@@ -1,0 +1,647 @@
+{
+  "competition": {
+    "id": "EL",
+    "name": "UEFA Europa League",
+    "type": "international_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Associazione Sportiva Roma": "Atlético FC",
+    "Beşiktaş Jimnastik Kulübü": "Atlético FC",
+    "Dynamo Kyiv": "Atlético FC",
+    "FC Viktoria Plzen": "FC Viktoria Plzeň",
+    "Fotballklubben Bodø/Glimt": "Atlético FC",
+    "Idrottsföreningen Elfsborg": "Atlético FC",
+    "Ludogorets Razgrad": "Atlético FC",
+    "Maccabi Tel Aviv": "Maccabi Tel Aviv FC",
+    "Malmö Fotbollförening": "Atlético FC",
+    "OGC Nice": "Atlético FC",
+    "Olympiakos Syndesmos Filathlon Peiraios": "Atlético FC",
+    "Panthessalonikios Athlitikos Omilos Konstantinoupoliton": "Atlético FC",
+    "SK Slavia Prague": "Atlético FC",
+    "Società Sportiva Lazio S.p.A.": "Atlético FC",
+    "TSG 1899 Hoffenheim": "Atlético FC",
+    "Union Saint-Gilloise": "Atlético FC"
+  },
+  "matches": [
+    {
+      "date": "2024-09-25",
+      "round": "Group Stage",
+      "home": "OGC Nice",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2024-09-25",
+      "round": "Group Stage",
+      "home": "Dynamo Kyiv",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2024-09-25",
+      "round": "Group Stage",
+      "home": "FC Midtjylland",
+      "away": "TSG 1899 Hoffenheim"
+    },
+    {
+      "date": "2024-09-25",
+      "round": "Group Stage",
+      "home": "Fotballklubben Bodø/Glimt",
+      "away": "FC Porto"
+    },
+    {
+      "date": "2024-09-25",
+      "round": "Group Stage",
+      "home": "Ludogorets Razgrad",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2024-09-26",
+      "round": "Group Stage",
+      "home": "Eintracht Frankfurt",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2024-09-26",
+      "round": "Group Stage",
+      "home": "Tottenham Hotspur",
+      "away": "Qarabağ FK"
+    },
+    {
+      "date": "2024-09-26",
+      "round": "Group Stage",
+      "home": "Malmö Fotbollförening",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2024-09-26",
+      "round": "Group Stage",
+      "home": "SC Braga",
+      "away": "Maccabi Tel Aviv"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "FC Porto",
+      "away": "Manchester United"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "OGC Nice"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Olympiakos Syndesmos Filathlon Peiraios",
+      "away": "SC Braga"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Union Saint-Gilloise",
+      "away": "Fotballklubben Bodø/Glimt"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "TSG 1899 Hoffenheim",
+      "away": "Dynamo Kyiv"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Qarabağ FK",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Eintracht Frankfurt"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton",
+      "away": "FCSB"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Maccabi Tel Aviv",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "FC Viktoria Plzen",
+      "away": "Ludogorets Razgrad"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Ferencvárosi TC",
+      "away": "Tottenham Hotspur"
+    },
+    {
+      "date": "2024-10-23",
+      "round": "Group Stage",
+      "home": "SC Braga",
+      "away": "Fotballklubben Bodø/Glimt"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Associazione Sportiva Roma",
+      "away": "Dynamo Kyiv"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "FC Porto",
+      "away": "TSG 1899 Hoffenheim"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Rangers FC",
+      "away": "FCSB"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Malmö Fotbollförening",
+      "away": "Olympiakos Syndesmos Filathlon Peiraios"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "FC Midtjylland",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Maccabi Tel Aviv",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Ferencvárosi TC",
+      "away": "OGC Nice"
+    },
+    {
+      "date": "2024-11-06",
+      "round": "Group Stage",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Manchester United",
+      "away": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Eintracht Frankfurt",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "FC Porto"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Olympiakos Syndesmos Filathlon Peiraios",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Union Saint-Gilloise",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Dynamo Kyiv",
+      "away": "Ferencvárosi TC"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Fotballklubben Bodø/Glimt",
+      "away": "Qarabağ FK"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "SC Braga"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "FCSB",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "FC Viktoria Plzen",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Manchester United",
+      "away": "Fotballklubben Bodø/Glimt"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Ludogorets Razgrad"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Tottenham Hotspur",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "OGC Nice",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Dynamo Kyiv",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "FC Midtjylland",
+      "away": "Eintracht Frankfurt"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Maccabi Tel Aviv"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "FCSB",
+      "away": "Olympiakos Syndesmos Filathlon Peiraios"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "SC Braga",
+      "away": "TSG 1899 Hoffenheim"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Ferencvárosi TC",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Associazione Sportiva Roma",
+      "away": "SC Braga"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "FC Porto",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Rangers FC",
+      "away": "Tottenham Hotspur"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Real Sociedad",
+      "away": "Dynamo Kyiv"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Union Saint-Gilloise",
+      "away": "OGC Nice"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "TSG 1899 Hoffenheim",
+      "away": "FCSB"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Fotballklubben Bodø/Glimt",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Qarabağ FK"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton",
+      "away": "Ferencvárosi TC"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "FC Viktoria Plzen",
+      "away": "Manchester United"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Manchester United",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "FC Porto",
+      "away": "Olympiakos Syndesmos Filathlon Peiraios"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Eintracht Frankfurt",
+      "away": "Ferencvárosi TC"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Union Saint-Gilloise",
+      "away": "SC Braga"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "TSG 1899 Hoffenheim",
+      "away": "Tottenham Hotspur"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Fotballklubben Bodø/Glimt",
+      "away": "Maccabi Tel Aviv"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Qarabağ FK",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Ludogorets Razgrad",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "OGC Nice"
+    },
+    {
+      "date": "2025-01-23",
+      "round": "Group Stage",
+      "home": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "Associazione Sportiva Roma",
+      "away": "Eintracht Frankfurt"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "Rangers FC",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "Tottenham Hotspur",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "Real Sociedad",
+      "away": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "Olympiakos Syndesmos Filathlon Peiraios",
+      "away": "Qarabağ FK"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "OGC Nice",
+      "away": "Fotballklubben Bodø/Glimt"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "SK Slavia Prague",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "Maccabi Tel Aviv",
+      "away": "FC Porto"
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "SC Braga",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-01-30",
+      "round": "Group Stage",
+      "home": "FCSB",
+      "away": "Manchester United"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "Ferencvárosi TC",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "FC Porto",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "FC Midtjylland",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "FC Viktoria Plzen",
+      "away": "Ferencvárosi TC"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "Associazione Sportiva Roma",
+      "away": "FC Porto"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "FCSB",
+      "away": "Panthessalonikios Athlitikos Omilos Konstantinoupoliton"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "Real Sociedad",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "FC Viktoria Plzen",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "Fotballklubben Bodø/Glimt",
+      "away": "Olympiakos Syndesmos Filathlon Peiraios"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "Real Sociedad",
+      "away": "Manchester United"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "Olympiakos Syndesmos Filathlon Peiraios",
+      "away": "Fotballklubben Bodø/Glimt"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "Manchester United",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Quarter-Finals 1st leg",
+      "home": "Fotballklubben Bodø/Glimt",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Quarter-Finals 1st leg",
+      "home": "Tottenham Hotspur",
+      "away": "Eintracht Frankfurt"
+    },
+    {
+      "date": "2025-04-17",
+      "round": "Quarter-Finals 2nd leg",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Fotballklubben Bodø/Glimt"
+    },
+    {
+      "date": "2025-04-17",
+      "round": "Quarter-Finals 2nd leg",
+      "home": "Eintracht Frankfurt",
+      "away": "Tottenham Hotspur"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Tottenham Hotspur",
+      "away": "Fotballklubben Bodø/Glimt"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Fotballklubben Bodø/Glimt",
+      "away": "Tottenham Hotspur"
+    },
+    {
+      "date": "2025-05-21",
+      "round": "Final",
+      "home": "Tottenham Hotspur",
+      "away": "Manchester United"
+    }
+  ]
+}

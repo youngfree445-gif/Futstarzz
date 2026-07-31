@@ -1,0 +1,98 @@
+{
+  "competition": {
+    "id": "NLP",
+    "name": "KNVB Beker",
+    "league": "Holandesa",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2025
+  },
+  "aliases": {
+    "AZ Alkmaar": "AZ",
+    "Ajax Amsterdam": "Ajax",
+    "FC Twente Enschede": "FC Twente",
+    "Feyenoord Rotterdam": "Feyenoord",
+    "PSV Eindhoven": "PSV",
+    "Willem II Tilburg": "Willem II"
+  },
+  "matches": [
+    {
+      "date": "2025-10-29",
+      "round": "First Round",
+      "home": "NAC Breda",
+      "away": "Heracles Almelo"
+    },
+    {
+      "date": "2025-10-30",
+      "round": "First Round",
+      "home": "Sparta Rotterdam",
+      "away": "FC Groningen"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "Second Round",
+      "home": "PEC Zwolle",
+      "away": "AZ Alkmaar"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "Second Round",
+      "home": "Feyenoord Rotterdam",
+      "away": "SC Heerenveen"
+    },
+    {
+      "date": "2025-12-18",
+      "round": "Second Round",
+      "home": "Willem II Tilburg",
+      "away": "Sparta Rotterdam"
+    },
+    {
+      "date": "2026-01-13",
+      "round": "Round of 16",
+      "home": "FC Utrecht",
+      "away": "FC Twente Enschede"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "Round of 16",
+      "home": "AZ Alkmaar",
+      "away": "Ajax Amsterdam"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "Round of 16",
+      "home": "Go Ahead Eagles",
+      "away": "Heracles Almelo"
+    },
+    {
+      "date": "2026-01-15",
+      "round": "Round of 16",
+      "home": "SC Heerenveen",
+      "away": "RKC Waalwijk"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "Quarter-Finals",
+      "home": "AZ Alkmaar",
+      "away": "FC Twente Enschede"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Quarter-Finals",
+      "home": "PSV Eindhoven",
+      "away": "SC Heerenveen"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "Semi-Finals",
+      "home": "NEC Nijmegen",
+      "away": "PSV Eindhoven"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "Final",
+      "home": "AZ Alkmaar",
+      "away": "NEC Nijmegen"
+    }
+  ]
+}

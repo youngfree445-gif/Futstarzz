@@ -1,0 +1,793 @@
+{
+  "competition": {
+    "id": "CL",
+    "name": "UEFA Champions League",
+    "type": "international_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "AC Milan": "Milan",
+    "AC Sparta Prague": "Atlético FC",
+    "Arsenal FC": "Arsenal",
+    "Bayern Munich": "Atlético FC",
+    "FC Shakhtar Donetsk": "Atlético FC",
+    "Fußballclub Red Bull Salzburg": "Atlético FC",
+    "Juventus FC": "Juventus",
+    "LOSC Lille": "Atlético FC",
+    "Liverpool FC": "Liverpool",
+    "Slovan Bratislava": "Atlético FC",
+    "Sportklub Puntigamer Sturm Graz": "Atlético FC",
+    "Stade Brestois 29": "Atlético FC"
+  },
+  "matches": [
+    {
+      "date": "2024-09-17",
+      "round": "Group Stage",
+      "home": "Real Madrid",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "date": "2024-09-17",
+      "round": "Group Stage",
+      "home": "Bayern Munich",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2024-09-17",
+      "round": "Group Stage",
+      "home": "AC Milan",
+      "away": "Liverpool FC"
+    },
+    {
+      "date": "2024-09-17",
+      "round": "Group Stage",
+      "home": "Sporting CP",
+      "away": "LOSC Lille"
+    },
+    {
+      "date": "2024-09-17",
+      "round": "Group Stage",
+      "home": "BSC Young Boys",
+      "away": "Aston Villa"
+    },
+    {
+      "date": "2024-09-18",
+      "round": "Group Stage",
+      "home": "Club Brugge KV",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "date": "2024-09-18",
+      "round": "Group Stage",
+      "home": "Celtic FC",
+      "away": "Slovan Bratislava"
+    },
+    {
+      "date": "2024-09-18",
+      "round": "Group Stage",
+      "home": "AC Sparta Prague",
+      "away": "Fußballclub Red Bull Salzburg"
+    },
+    {
+      "date": "2024-09-18",
+      "round": "Group Stage",
+      "home": "Paris Saint-Germain",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2024-09-19",
+      "round": "Group Stage",
+      "home": "Atlético de Madrid",
+      "away": "RB Leipzig"
+    },
+    {
+      "date": "2024-09-19",
+      "round": "Group Stage",
+      "home": "Stade Brestois 29",
+      "away": "Sportklub Puntigamer Sturm Graz"
+    },
+    {
+      "date": "2024-09-19",
+      "round": "Group Stage",
+      "home": "AS Monaco",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2024-10-01",
+      "round": "Group Stage",
+      "home": "Borussia Dortmund",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2024-10-01",
+      "round": "Group Stage",
+      "home": "FC Barcelona",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2024-10-01",
+      "round": "Group Stage",
+      "home": "Bayer 04 Leverkusen",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2024-10-01",
+      "round": "Group Stage",
+      "home": "Arsenal FC",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2024-10-01",
+      "round": "Group Stage",
+      "home": "VfB Stuttgart",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2024-10-01",
+      "round": "Group Stage",
+      "home": "Slovan Bratislava",
+      "away": "Manchester City"
+    },
+    {
+      "date": "2024-10-01",
+      "round": "Group Stage",
+      "home": "Fußballclub Red Bull Salzburg",
+      "away": "Stade Brestois 29"
+    },
+    {
+      "date": "2024-10-02",
+      "round": "Group Stage",
+      "home": "RB Leipzig",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2024-10-02",
+      "round": "Group Stage",
+      "home": "SL Benfica",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2024-10-02",
+      "round": "Group Stage",
+      "home": "GNK Dinamo Zagreb",
+      "away": "AS Monaco"
+    },
+    {
+      "date": "2024-10-02",
+      "round": "Group Stage",
+      "home": "LOSC Lille",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2024-10-02",
+      "round": "Group Stage",
+      "home": "Sportklub Puntigamer Sturm Graz",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2024-10-02",
+      "round": "Group Stage",
+      "home": "Aston Villa",
+      "away": "Bayern Munich"
+    },
+    {
+      "date": "2024-10-22",
+      "round": "Group Stage",
+      "home": "Real Madrid",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "date": "2024-10-22",
+      "round": "Group Stage",
+      "home": "Juventus FC",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "date": "2024-10-22",
+      "round": "Group Stage",
+      "home": "Arsenal FC",
+      "away": "FC Shakhtar Donetsk"
+    },
+    {
+      "date": "2024-10-22",
+      "round": "Group Stage",
+      "home": "AC Milan",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2024-10-22",
+      "round": "Group Stage",
+      "home": "Sportklub Puntigamer Sturm Graz",
+      "away": "Sporting CP"
+    },
+    {
+      "date": "2024-10-22",
+      "round": "Group Stage",
+      "home": "Girona FC",
+      "away": "Slovan Bratislava"
+    },
+    {
+      "date": "2024-10-23",
+      "round": "Group Stage",
+      "home": "Manchester City",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2024-10-23",
+      "round": "Group Stage",
+      "home": "RB Leipzig",
+      "away": "Liverpool FC"
+    },
+    {
+      "date": "2024-10-23",
+      "round": "Group Stage",
+      "home": "FC Barcelona",
+      "away": "Bayern Munich"
+    },
+    {
+      "date": "2024-10-23",
+      "round": "Group Stage",
+      "home": "Atlético de Madrid",
+      "away": "LOSC Lille"
+    },
+    {
+      "date": "2024-10-23",
+      "round": "Group Stage",
+      "home": "Stade Brestois 29",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "date": "2024-10-23",
+      "round": "Group Stage",
+      "home": "Fußballclub Red Bull Salzburg",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2024-11-05",
+      "round": "Group Stage",
+      "home": "Real Madrid",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2024-11-05",
+      "round": "Group Stage",
+      "home": "Liverpool FC",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "date": "2024-11-05",
+      "round": "Group Stage",
+      "home": "Borussia Dortmund",
+      "away": "Sportklub Puntigamer Sturm Graz"
+    },
+    {
+      "date": "2024-11-05",
+      "round": "Group Stage",
+      "home": "Sporting CP",
+      "away": "Manchester City"
+    },
+    {
+      "date": "2024-11-05",
+      "round": "Group Stage",
+      "home": "LOSC Lille",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2024-11-05",
+      "round": "Group Stage",
+      "home": "Celtic FC",
+      "away": "RB Leipzig"
+    },
+    {
+      "date": "2024-11-05",
+      "round": "Group Stage",
+      "home": "Slovan Bratislava",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2024-11-06",
+      "round": "Group Stage",
+      "home": "Bayern Munich",
+      "away": "SL Benfica"
+    },
+    {
+      "date": "2024-11-06",
+      "round": "Group Stage",
+      "home": "Club Brugge KV",
+      "away": "Aston Villa"
+    },
+    {
+      "date": "2024-11-06",
+      "round": "Group Stage",
+      "home": "FC Shakhtar Donetsk",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2024-11-06",
+      "round": "Group Stage",
+      "home": "AC Sparta Prague",
+      "away": "Stade Brestois 29"
+    },
+    {
+      "date": "2024-11-06",
+      "round": "Group Stage",
+      "home": "Paris Saint-Germain",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2024-11-26",
+      "round": "Group Stage",
+      "home": "Bayern Munich",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2024-11-26",
+      "round": "Group Stage",
+      "home": "FC Barcelona",
+      "away": "Stade Brestois 29"
+    },
+    {
+      "date": "2024-11-26",
+      "round": "Group Stage",
+      "home": "Bayer 04 Leverkusen",
+      "away": "Fußballclub Red Bull Salzburg"
+    },
+    {
+      "date": "2024-11-26",
+      "round": "Group Stage",
+      "home": "Sporting CP",
+      "away": "Arsenal FC"
+    },
+    {
+      "date": "2024-11-26",
+      "round": "Group Stage",
+      "home": "Slovan Bratislava",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2024-11-26",
+      "round": "Group Stage",
+      "home": "AC Sparta Prague",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2024-11-27",
+      "round": "Group Stage",
+      "home": "Liverpool FC",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2024-11-27",
+      "round": "Group Stage",
+      "home": "GNK Dinamo Zagreb",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "date": "2024-11-27",
+      "round": "Group Stage",
+      "home": "Celtic FC",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2024-11-27",
+      "round": "Group Stage",
+      "home": "Sportklub Puntigamer Sturm Graz",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2024-11-27",
+      "round": "Group Stage",
+      "home": "AS Monaco",
+      "away": "SL Benfica"
+    },
+    {
+      "date": "2024-11-27",
+      "round": "Group Stage",
+      "home": "Aston Villa",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2024-12-10",
+      "round": "Group Stage",
+      "home": "RB Leipzig",
+      "away": "Aston Villa"
+    },
+    {
+      "date": "2024-12-10",
+      "round": "Group Stage",
+      "home": "Club Brugge KV",
+      "away": "Sporting CP"
+    },
+    {
+      "date": "2024-12-10",
+      "round": "Group Stage",
+      "home": "FC Shakhtar Donetsk",
+      "away": "Bayern Munich"
+    },
+    {
+      "date": "2024-12-10",
+      "round": "Group Stage",
+      "home": "GNK Dinamo Zagreb",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2024-12-10",
+      "round": "Group Stage",
+      "home": "Girona FC",
+      "away": "Liverpool FC"
+    },
+    {
+      "date": "2024-12-10",
+      "round": "Group Stage",
+      "home": "Fußballclub Red Bull Salzburg",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2024-12-11",
+      "round": "Group Stage",
+      "home": "Borussia Dortmund",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2024-12-11",
+      "round": "Group Stage",
+      "home": "Atlético de Madrid",
+      "away": "Slovan Bratislava"
+    },
+    {
+      "date": "2024-12-11",
+      "round": "Group Stage",
+      "home": "Juventus FC",
+      "away": "Manchester City"
+    },
+    {
+      "date": "2024-12-11",
+      "round": "Group Stage",
+      "home": "Arsenal FC",
+      "away": "AS Monaco"
+    },
+    {
+      "date": "2024-12-11",
+      "round": "Group Stage",
+      "home": "LOSC Lille",
+      "away": "Sportklub Puntigamer Sturm Graz"
+    },
+    {
+      "date": "2024-12-11",
+      "round": "Group Stage",
+      "home": "VfB Stuttgart",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-01-21",
+      "round": "Group Stage",
+      "home": "Liverpool FC",
+      "away": "LOSC Lille"
+    },
+    {
+      "date": "2025-01-21",
+      "round": "Group Stage",
+      "home": "Atlético de Madrid",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "date": "2025-01-21",
+      "round": "Group Stage",
+      "home": "SL Benfica",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-01-21",
+      "round": "Group Stage",
+      "home": "Club Brugge KV",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-01-21",
+      "round": "Group Stage",
+      "home": "Slovan Bratislava",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "date": "2025-01-21",
+      "round": "Group Stage",
+      "home": "AS Monaco",
+      "away": "Aston Villa"
+    },
+    {
+      "date": "2025-01-22",
+      "round": "Group Stage",
+      "home": "Real Madrid",
+      "away": "Fußballclub Red Bull Salzburg"
+    },
+    {
+      "date": "2025-01-22",
+      "round": "Group Stage",
+      "home": "RB Leipzig",
+      "away": "Sporting CP"
+    },
+    {
+      "date": "2025-01-22",
+      "round": "Group Stage",
+      "home": "Arsenal FC",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-01-22",
+      "round": "Group Stage",
+      "home": "FC Shakhtar Donetsk",
+      "away": "Stade Brestois 29"
+    },
+    {
+      "date": "2025-01-22",
+      "round": "Group Stage",
+      "home": "AC Milan",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-01-22",
+      "round": "Group Stage",
+      "home": "Celtic FC",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-01-22",
+      "round": "Group Stage",
+      "home": "Paris Saint-Germain",
+      "away": "Manchester City"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Manchester City",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Bayern Munich",
+      "away": "Slovan Bratislava"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Borussia Dortmund",
+      "away": "FC Shakhtar Donetsk"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Bayer 04 Leverkusen",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Juventus FC",
+      "away": "SL Benfica"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "GNK Dinamo Zagreb",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "VfB Stuttgart",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Sportklub Puntigamer Sturm Graz",
+      "away": "RB Leipzig"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Stade Brestois 29",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Aston Villa",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Girona FC",
+      "away": "Arsenal FC"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Group Stage",
+      "home": "Fußballclub Red Bull Salzburg",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-02-11",
+      "round": "intermediate stage 1st leg",
+      "home": "Stade Brestois 29",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2025-02-11",
+      "round": "intermediate stage 1st leg",
+      "home": "Manchester City",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-02-11",
+      "round": "intermediate stage 1st leg",
+      "home": "Sporting CP",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "date": "2025-02-12",
+      "round": "intermediate stage 1st leg",
+      "home": "AS Monaco",
+      "away": "SL Benfica"
+    },
+    {
+      "date": "2025-02-12",
+      "round": "intermediate stage 1st leg",
+      "home": "Celtic FC",
+      "away": "Bayern Munich"
+    },
+    {
+      "date": "2025-02-18",
+      "round": "intermediate stage 2nd leg",
+      "home": "SL Benfica",
+      "away": "AS Monaco"
+    },
+    {
+      "date": "2025-02-18",
+      "round": "intermediate stage 2nd leg",
+      "home": "Bayern Munich",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2025-02-19",
+      "round": "intermediate stage 2nd leg",
+      "home": "Paris Saint-Germain",
+      "away": "Stade Brestois 29"
+    },
+    {
+      "date": "2025-02-19",
+      "round": "intermediate stage 2nd leg",
+      "home": "Real Madrid",
+      "away": "Manchester City"
+    },
+    {
+      "date": "2025-02-19",
+      "round": "intermediate stage 2nd leg",
+      "home": "Borussia Dortmund",
+      "away": "Sporting CP"
+    },
+    {
+      "date": "2025-03-04",
+      "round": "last 16 1st leg",
+      "home": "Club Brugge KV",
+      "away": "Aston Villa"
+    },
+    {
+      "date": "2025-03-04",
+      "round": "last 16 1st leg",
+      "home": "Real Madrid",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-03-04",
+      "round": "last 16 1st leg",
+      "home": "Borussia Dortmund",
+      "away": "LOSC Lille"
+    },
+    {
+      "date": "2025-03-05",
+      "round": "last 16 1st leg",
+      "home": "Paris Saint-Germain",
+      "away": "Liverpool FC"
+    },
+    {
+      "date": "2025-03-05",
+      "round": "last 16 1st leg",
+      "home": "SL Benfica",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-03-05",
+      "round": "last 16 1st leg",
+      "home": "Bayern Munich",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "date": "2025-03-11",
+      "round": "last 16 2nd leg",
+      "home": "Liverpool FC",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2025-03-11",
+      "round": "last 16 2nd leg",
+      "home": "FC Barcelona",
+      "away": "SL Benfica"
+    },
+    {
+      "date": "2025-03-11",
+      "round": "last 16 2nd leg",
+      "home": "Bayer 04 Leverkusen",
+      "away": "Bayern Munich"
+    },
+    {
+      "date": "2025-03-12",
+      "round": "last 16 2nd leg",
+      "home": "Aston Villa",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2025-03-12",
+      "round": "last 16 2nd leg",
+      "home": "Atlético de Madrid",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-03-12",
+      "round": "last 16 2nd leg",
+      "home": "LOSC Lille",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "date": "2025-04-08",
+      "round": "Quarter-Finals 1st leg",
+      "home": "Arsenal FC",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "Quarter-Finals 1st leg",
+      "home": "Paris Saint-Germain",
+      "away": "Aston Villa"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "Quarter-Finals 1st leg",
+      "home": "FC Barcelona",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "date": "2025-04-15",
+      "round": "Quarter-Finals 2nd leg",
+      "home": "Aston Villa",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2025-04-15",
+      "round": "Quarter-Finals 2nd leg",
+      "home": "Borussia Dortmund",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-04-16",
+      "round": "Quarter-Finals 2nd leg",
+      "home": "Real Madrid",
+      "away": "Arsenal FC"
+    },
+    {
+      "date": "2025-04-29",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Arsenal FC",
+      "away": "Paris Saint-Germain"
+    },
+    {
+      "date": "2025-05-07",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Paris Saint-Germain",
+      "away": "Arsenal FC"
+    }
+  ]
+}

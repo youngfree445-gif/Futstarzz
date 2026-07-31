@@ -1,0 +1,716 @@
+{
+  "competition": {
+    "id": "UCOL",
+    "name": "UEFA Conference League",
+    "type": "international_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "1. Fußballclub Heidenheim 1846": "Atlético FC",
+    "ACF Fiorentina": "Atlético FC",
+    "APOEL Nicosia": "Atlético FC",
+    "Basaksehir FK": "Atlético FC",
+    "Cercle Brugge": "Atlético FC",
+    "Chelsea FC": "Chelsea",
+    "Dinamo Minsk": "Atlético FC",
+    "Djurgårdens Idrottsförening": "Atlético FC",
+    "FC Astana": "Atlético FC",
+    "FC Copenhagen": "Atlético FC",
+    "FC Lugano": "Atlético FC",
+    "FC Noah Yerevan": "Atlético FC",
+    "FC Petrocub Hincesti": "Atlético FC",
+    "FC St. Gallen 1879": "Atlético FC",
+    "FK Borac Banja Luka": "Atlético FC",
+    "FK Mlada Boleslav": "Atlético FC",
+    "FK TSC Backa Topola": "Atlético FC",
+    "HJK Helsinki": "Atlético FC",
+    "Heart of Midlothian FC": "Atlético FC",
+    "Jagiellonia Bialystok": "Atlético FC",
+    "KAA Gent": "Atlético FC",
+    "LASK": "Atlético FC",
+    "Larne FC": "Atlético FC",
+    "Legia Warszawa": "Atlético FC",
+    "Molde Fotballklubb": "Atlético FC",
+    "NK Celje": "Atlético FC",
+    "NK Olimpija Ljubljana": "Atlético FC",
+    "Omonia Nicosia": "Atlético FC",
+    "Shamrock Rovers": "Atlético FC",
+    "The New Saints": "Atlético FC",
+    "Víkingur Reykjavík": "Atlético FC"
+  },
+  "matches": [
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "FC Astana",
+      "away": "FK TSC Backa Topola"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Omonia Nicosia",
+      "away": "Víkingur Reykjavík"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "FC Petrocub Hincesti",
+      "away": "Pafos FC"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "FC Noah Yerevan",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Molde Fotballklubb",
+      "away": "Larne FC"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Dinamo Minsk",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "FC Lugano",
+      "away": "HJK Helsinki"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Cercle Brugge",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "FC Copenhagen",
+      "away": "Jagiellonia Bialystok"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "1. Fußballclub Heidenheim 1846",
+      "away": "NK Olimpija Ljubljana"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Chelsea FC",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "LASK",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "Shamrock Rovers",
+      "away": "APOEL Nicosia"
+    },
+    {
+      "date": "2024-10-03",
+      "round": "Group Stage",
+      "home": "ACF Fiorentina",
+      "away": "The New Saints"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "KAA Gent",
+      "away": "Molde Fotballklubb"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "HJK Helsinki",
+      "away": "Dinamo Minsk"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "FK Mlada Boleslav",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Pafos FC",
+      "away": "1. Fußballclub Heidenheim 1846"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "The New Saints",
+      "away": "FC Astana"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "NK Olimpija Ljubljana",
+      "away": "LASK"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "FC St. Gallen 1879",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "APOEL Nicosia",
+      "away": "FK Borac Banja Luka"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Jagiellonia Bialystok",
+      "away": "FC Petrocub Hincesti"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Víkingur Reykjavík",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "NK Celje",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "FK TSC Backa Topola",
+      "away": "Legia Warszawa"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Larne FC",
+      "away": "Shamrock Rovers"
+    },
+    {
+      "date": "2024-10-24",
+      "round": "Group Stage",
+      "home": "Heart of Midlothian FC",
+      "away": "Omonia Nicosia"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "KAA Gent",
+      "away": "Omonia Nicosia"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "HJK Helsinki",
+      "away": "NK Olimpija Ljubljana"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Pafos FC",
+      "away": "FC Astana"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "APOEL Nicosia",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Jagiellonia Bialystok",
+      "away": "Molde Fotballklubb"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Víkingur Reykjavík",
+      "away": "FK Borac Banja Luka"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Legia Warszawa",
+      "away": "Dinamo Minsk"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "FC Copenhagen",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Chelsea FC",
+      "away": "FC Noah Yerevan"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "LASK",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Shamrock Rovers",
+      "away": "The New Saints"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "FK TSC Backa Topola",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Larne FC",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2024-11-07",
+      "round": "Group Stage",
+      "home": "Heart of Midlothian FC",
+      "away": "1. Fußballclub Heidenheim 1846"
+    },
+    {
+      "date": "2024-11-27",
+      "round": "Group Stage",
+      "home": "Basaksehir FK",
+      "away": "FC Petrocub Hincesti"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Omonia Nicosia",
+      "away": "Legia Warszawa"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "FC Noah Yerevan",
+      "away": "Víkingur Reykjavík"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "The New Saints",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "NK Olimpija Ljubljana",
+      "away": "Larne FC"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "FC St. Gallen 1879",
+      "away": "FK TSC Backa Topola"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Molde Fotballklubb",
+      "away": "APOEL Nicosia"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Dinamo Minsk",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "FC Lugano",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "Cercle Brugge",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "NK Celje",
+      "away": "Jagiellonia Bialystok"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "1. Fußballclub Heidenheim 1846",
+      "away": "Chelsea FC"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "ACF Fiorentina",
+      "away": "Pafos FC"
+    },
+    {
+      "date": "2024-11-28",
+      "round": "Group Stage",
+      "home": "FK Borac Banja Luka",
+      "away": "LASK"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Basaksehir FK",
+      "away": "1. Fußballclub Heidenheim 1846"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "KAA Gent",
+      "away": "FK TSC Backa Topola"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "FC Astana",
+      "away": "Chelsea FC"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "HJK Helsinki",
+      "away": "Molde Fotballklubb"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "FC Noah Yerevan",
+      "away": "APOEL Nicosia"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "FK Mlada Boleslav",
+      "away": "Jagiellonia Bialystok"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Pafos FC",
+      "away": "NK Celje"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "NK Olimpija Ljubljana",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Dinamo Minsk",
+      "away": "Larne FC"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Víkingur Reykjavík",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Legia Warszawa",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "FC Copenhagen",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "Shamrock Rovers",
+      "away": "FK Borac Banja Luka"
+    },
+    {
+      "date": "2024-12-12",
+      "round": "Group Stage",
+      "home": "ACF Fiorentina",
+      "away": "LASK"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "APOEL Nicosia",
+      "away": "FC Astana"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "Molde Fotballklubb",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "Jagiellonia Bialystok",
+      "away": "NK Olimpija Ljubljana"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "FC Lugano",
+      "away": "Pafos FC"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "Cercle Brugge",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "NK Celje",
+      "away": "The New Saints"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Legia Warszawa"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "1. Fußballclub Heidenheim 1846",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "Chelsea FC",
+      "away": "Shamrock Rovers"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "LASK",
+      "away": "Víkingur Reykjavík"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "FK TSC Backa Topola",
+      "away": "FC Noah Yerevan"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "Larne FC",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "Heart of Midlothian FC",
+      "away": "FC Petrocub Hincesti"
+    },
+    {
+      "date": "2024-12-19",
+      "round": "Group Stage",
+      "home": "FK Borac Banja Luka",
+      "away": "Omonia Nicosia"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "FK TSC Backa Topola",
+      "away": "Jagiellonia Bialystok"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "NK Celje",
+      "away": "APOEL Nicosia"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "Molde Fotballklubb",
+      "away": "Shamrock Rovers"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "Omonia Nicosia",
+      "away": "Pafos FC"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "FK Borac Banja Luka",
+      "away": "NK Olimpija Ljubljana"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "intermediate stage 1st leg",
+      "home": "FC Copenhagen",
+      "away": "1. Fußballclub Heidenheim 1846"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "Jagiellonia Bialystok",
+      "away": "FK TSC Backa Topola"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "APOEL Nicosia",
+      "away": "NK Celje"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "Shamrock Rovers",
+      "away": "Molde Fotballklubb"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "Pafos FC",
+      "away": "Omonia Nicosia"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "NK Olimpija Ljubljana",
+      "away": "FK Borac Banja Luka"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "intermediate stage 2nd leg",
+      "home": "1. Fußballclub Heidenheim 1846",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "Jagiellonia Bialystok",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "NK Celje",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "FC Copenhagen",
+      "away": "Chelsea FC"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "Molde Fotballklubb",
+      "away": "Legia Warszawa"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "last 16 1st leg",
+      "home": "Pafos FC",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "Cercle Brugge",
+      "away": "Jagiellonia Bialystok"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "FC Lugano",
+      "away": "NK Celje"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "Chelsea FC",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "Legia Warszawa",
+      "away": "Molde Fotballklubb"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "last 16 2nd leg",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Pafos FC"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Quarter-Finals 1st leg",
+      "home": "NK Celje",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Quarter-Finals 1st leg",
+      "home": "Legia Warszawa",
+      "away": "Chelsea FC"
+    },
+    {
+      "date": "2025-04-17",
+      "round": "Quarter-Finals 2nd leg",
+      "home": "ACF Fiorentina",
+      "away": "NK Celje"
+    },
+    {
+      "date": "2025-04-17",
+      "round": "Quarter-Finals 2nd leg",
+      "home": "Chelsea FC",
+      "away": "Legia Warszawa"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Chelsea FC"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Chelsea FC",
+      "away": "Djurgårdens Idrottsförening"
+    }
+  ]
+}

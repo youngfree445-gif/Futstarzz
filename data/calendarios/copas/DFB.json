@@ -1,0 +1,138 @@
+{
+  "competition": {
+    "id": "DFB",
+    "name": "DFB-Pokal",
+    "league": "Alemana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2025
+  },
+  "aliases": {
+    "1.FC Kaiserslautern": "1. FC Kaiserslautern",
+    "1.FC Köln": "1. FC Köln",
+    "1.FC Union Berlin": "1. FC Union Berlin",
+    "1.FSV Mainz 05": "1. FSV Mainz 05"
+  },
+  "matches": [
+    {
+      "date": "2025-08-15",
+      "round": "First Round",
+      "home": "Arminia Bielefeld",
+      "away": "SV Werder Bremen"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "First Round",
+      "home": "Preußen Münster",
+      "away": "Hertha BSC"
+    },
+    {
+      "date": "2025-08-26",
+      "round": "First Round",
+      "home": "Eintracht Braunschweig",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "Second Round",
+      "home": "FC Augsburg",
+      "away": "VfL Bochum"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "Second Round",
+      "home": "Borussia Mönchengladbach",
+      "away": "Karlsruher SC"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "Second Round",
+      "home": "Eintracht Frankfurt",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "Second Round",
+      "home": "VfL Wolfsburg",
+      "away": "Holstein Kiel"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "Second Round",
+      "home": "1.FSV Mainz 05",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "Second Round",
+      "home": "Fortuna Düsseldorf",
+      "away": "SC Freiburg"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "Second Round",
+      "home": "1.FC Union Berlin",
+      "away": "Arminia Bielefeld"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "Second Round",
+      "home": "SC Paderborn 07",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "date": "2025-12-02",
+      "round": "Round of 16",
+      "home": "Borussia Dortmund",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "date": "2025-12-02",
+      "round": "Round of 16",
+      "home": "Hertha BSC",
+      "away": "1.FC Kaiserslautern"
+    },
+    {
+      "date": "2025-12-02",
+      "round": "Round of 16",
+      "home": "Borussia Mönchengladbach",
+      "away": "FC St. Pauli"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "Round of 16",
+      "home": "VfL Bochum",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "Round of 16",
+      "home": "Hamburger SV",
+      "away": "Holstein Kiel"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "Quarter-Finals",
+      "home": "Bayer 04 Leverkusen",
+      "away": "FC St. Pauli"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Quarter-Finals",
+      "home": "Holstein Kiel",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "date": "2026-02-10",
+      "round": "Quarter-Finals",
+      "home": "Hertha BSC",
+      "away": "SC Freiburg"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "Semi-Finals",
+      "home": "VfB Stuttgart",
+      "away": "SC Freiburg"
+    }
+  ]
+}
