@@ -202,9 +202,3 @@ indicando la fecha de última actualización en el encabezado.
 Este documento se rige por la legislación de la **República de Colombia**. Para
 cualquier controversia serán competentes los jueces y tribunales colombianos.
 
----
-
-> **Nota:** Este documento fue redactado como declaración de buena fe de un
-> proyecto no comercial y **no constituye asesoramiento jurídico**. Si el proyecto
-> llegara a monetizarse de cualquier forma (publicidad, compras, versión de pago),
-> el análisis legal cambia sustancialmente y conviene revisarlo con un abogado.
