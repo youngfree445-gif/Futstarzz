@@ -1,0 +1,193 @@
+{
+  "competition": {
+    "id": "MXCA",
+    "name": "Copa MX",
+    "league": "Mexicana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "CD Cruz Azul": "Cruz Azul",
+    "Dorados Sinaloa": "Dorados",
+    "Puebla FC": "Puebla",
+    "Querétaro FC": "Querétaro",
+    "San Luis": "Atlético de San Luis"
+  },
+  "matches": [
+    {
+      "date": "2018-07-26",
+      "round": "Schedule",
+      "home": "Puebla FC",
+      "away": "Venados FC"
+    },
+    {
+      "date": "2018-07-26",
+      "round": "Schedule",
+      "home": "FC Juárez",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2018-08-01",
+      "round": "Schedule",
+      "home": "Pachuca",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2018-08-02",
+      "round": "Schedule",
+      "home": "Monterrey",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2018-08-02",
+      "round": "Schedule",
+      "home": "Toluca",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2018-08-02",
+      "round": "Schedule",
+      "home": "León",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2018-08-08",
+      "round": "Schedule",
+      "home": "Venados FC",
+      "away": "Monterrey"
+    },
+    {
+      "date": "2018-08-08",
+      "round": "Schedule",
+      "home": "Dorados Sinaloa",
+      "away": "América"
+    },
+    {
+      "date": "2018-08-09",
+      "round": "Schedule",
+      "home": "Club Tijuana",
+      "away": "Toluca"
+    },
+    {
+      "date": "2018-08-09",
+      "round": "Schedule",
+      "home": "CD Cruz Azul",
+      "away": "Atlas"
+    },
+    {
+      "date": "2018-08-15",
+      "round": "Schedule",
+      "home": "Puebla FC",
+      "away": "Monterrey"
+    },
+    {
+      "date": "2018-08-16",
+      "round": "Schedule",
+      "home": "Club Tijuana",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2018-08-29",
+      "round": "Schedule",
+      "home": "Monterrey",
+      "away": "Venados FC"
+    },
+    {
+      "date": "2018-08-29",
+      "round": "Schedule",
+      "home": "Querétaro FC",
+      "away": "León"
+    },
+    {
+      "date": "2018-08-29",
+      "round": "Schedule",
+      "home": "América",
+      "away": "Dorados Sinaloa"
+    },
+    {
+      "date": "2018-08-30",
+      "round": "Schedule",
+      "home": "FC Juárez",
+      "away": "Toluca"
+    },
+    {
+      "date": "2018-08-30",
+      "round": "Schedule",
+      "home": "Santos Laguna",
+      "away": "Pachuca"
+    },
+    {
+      "date": "2018-08-30",
+      "round": "Schedule",
+      "home": "Atlas",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2018-09-05",
+      "round": "Schedule",
+      "home": "Venados FC",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2018-09-06",
+      "round": "Schedule",
+      "home": "Toluca",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2018-09-26",
+      "round": "Round of 16",
+      "home": "Necaxa",
+      "away": "León"
+    },
+    {
+      "date": "2018-09-26",
+      "round": "Round of 16",
+      "home": "América",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2018-09-26",
+      "round": "Round of 16",
+      "home": "Club Tijuana",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2018-09-27",
+      "round": "Round of 16",
+      "home": "Querétaro FC",
+      "away": "Dorados Sinaloa"
+    },
+    {
+      "date": "2018-10-03",
+      "round": "Quarter-Finals",
+      "home": "CD Cruz Azul",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2018-10-10",
+      "round": "Quarter-Finals",
+      "home": "Monterrey",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2018-10-24",
+      "round": "Semi-Finals",
+      "home": "Pachuca",
+      "away": "Monterrey"
+    },
+    {
+      "date": "2018-10-25",
+      "round": "Semi-Finals",
+      "home": "CD Cruz Azul",
+      "away": "León"
+    },
+    {
+      "date": "2018-11-01",
+      "round": "Final",
+      "home": "Monterrey",
+      "away": "CD Cruz Azul"
+    }
+  ]
+}

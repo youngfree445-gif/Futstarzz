@@ -1,0 +1,438 @@
+{
+  "competition": {
+    "id": "CH1C",
+    "name": "Copa Chile",
+    "league": "Chilena",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Antofagasta": "Deportes Antofagasta",
+    "CD Iquique": "Deportes Iquique",
+    "Copiapó": "Deportes Copiapó",
+    "La Serena": "Deportes La Serena",
+    "Limache": "Deportes Limache",
+    "Rangers Talca": "Rangers de Talca",
+    "San Luis": "San Luis de Quillota",
+    "San Marcos": "San Marcos de Arica",
+    "Santa Cruz": "Deportes Santa Cruz",
+    "Union Española": "Unión Española"
+  },
+  "matches": [
+    {
+      "date": "2025-01-26",
+      "round": "Schedule",
+      "home": "CD Iquique",
+      "away": "Antofagasta"
+    },
+    {
+      "date": "2025-01-26",
+      "round": "Schedule",
+      "home": "O'Higgins",
+      "away": "Rangers Talca"
+    },
+    {
+      "date": "2025-01-26",
+      "round": "Schedule",
+      "home": "Huachipato",
+      "away": "Deportes Temuco"
+    },
+    {
+      "date": "2025-01-26",
+      "round": "Schedule",
+      "home": "Ñublense",
+      "away": "Curicó Unido"
+    },
+    {
+      "date": "2025-01-27",
+      "round": "Schedule",
+      "home": "Cobresal",
+      "away": "La Serena"
+    },
+    {
+      "date": "2025-01-27",
+      "round": "Schedule",
+      "home": "Palestino",
+      "away": "Audax Italiano"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Schedule",
+      "home": "Copiapó",
+      "away": "Cobreloa"
+    },
+    {
+      "date": "2025-01-29",
+      "round": "Schedule",
+      "home": "San Marcos",
+      "away": "Coquimbo Unido"
+    },
+    {
+      "date": "2025-01-31",
+      "round": "Schedule",
+      "home": "Colo-Colo",
+      "away": "Limache"
+    },
+    {
+      "date": "2025-02-01",
+      "round": "Schedule",
+      "home": "Palestino",
+      "away": "Union Española"
+    },
+    {
+      "date": "2025-02-01",
+      "round": "Schedule",
+      "home": "Deportes Temuco",
+      "away": "O'Higgins"
+    },
+    {
+      "date": "2025-02-02",
+      "round": "Schedule",
+      "home": "Copiapó",
+      "away": "CD Iquique"
+    },
+    {
+      "date": "2025-02-02",
+      "round": "Schedule",
+      "home": "Cobreloa",
+      "away": "Antofagasta"
+    },
+    {
+      "date": "2025-02-02",
+      "round": "Schedule",
+      "home": "San Marcos",
+      "away": "Cobresal"
+    },
+    {
+      "date": "2025-02-02",
+      "round": "Schedule",
+      "home": "Coquimbo Unido",
+      "away": "La Serena"
+    },
+    {
+      "date": "2025-02-02",
+      "round": "Schedule",
+      "home": "Huachipato",
+      "away": "Rangers Talca"
+    },
+    {
+      "date": "2025-02-03",
+      "round": "Schedule",
+      "home": "Santa Cruz",
+      "away": "Curicó Unido"
+    },
+    {
+      "date": "2025-02-07",
+      "round": "Schedule",
+      "home": "Audax Italiano",
+      "away": "Union Española"
+    },
+    {
+      "date": "2025-02-08",
+      "round": "Schedule",
+      "home": "Cobresal",
+      "away": "Coquimbo Unido"
+    },
+    {
+      "date": "2025-02-08",
+      "round": "Schedule",
+      "home": "Rangers Talca",
+      "away": "Deportes Temuco"
+    },
+    {
+      "date": "2025-02-09",
+      "round": "Schedule",
+      "home": "La Serena",
+      "away": "San Marcos"
+    },
+    {
+      "date": "2025-02-09",
+      "round": "Schedule",
+      "home": "O'Higgins",
+      "away": "Huachipato"
+    },
+    {
+      "date": "2025-02-09",
+      "round": "Schedule",
+      "home": "Ñublense",
+      "away": "Santa Cruz"
+    },
+    {
+      "date": "2025-02-10",
+      "round": "Schedule",
+      "home": "CD Iquique",
+      "away": "Cobreloa"
+    },
+    {
+      "date": "2025-02-12",
+      "round": "Schedule",
+      "home": "Copiapó",
+      "away": "Antofagasta"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Union Española",
+      "away": "Audax Italiano"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Huachipato",
+      "away": "O'Higgins"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Antofagasta",
+      "away": "Copiapó"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "Schedule",
+      "home": "Cobreloa",
+      "away": "CD Iquique"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "Schedule",
+      "home": "San Marcos",
+      "away": "La Serena"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "Schedule",
+      "home": "Coquimbo Unido",
+      "away": "Cobresal"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "Schedule",
+      "home": "Santa Cruz",
+      "away": "Ñublense"
+    },
+    {
+      "date": "2025-03-24",
+      "round": "Schedule",
+      "home": "Deportes Temuco",
+      "away": "Rangers Talca"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "Schedule",
+      "home": "Rangers Talca",
+      "away": "Huachipato"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "Schedule",
+      "home": "O'Higgins",
+      "away": "Deportes Temuco"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "Schedule",
+      "home": "Curicó Unido",
+      "away": "Santa Cruz"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "Schedule",
+      "home": "Antofagasta",
+      "away": "Cobreloa"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "Schedule",
+      "home": "Cobresal",
+      "away": "San Marcos"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "Schedule",
+      "home": "La Serena",
+      "away": "Coquimbo Unido"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "Schedule",
+      "home": "Union Española",
+      "away": "Palestino"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "Schedule",
+      "home": "CD Iquique",
+      "away": "Copiapó"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "Schedule",
+      "home": "Cobreloa",
+      "away": "Copiapó"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "Schedule",
+      "home": "Limache",
+      "away": "Colo-Colo"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "Schedule",
+      "home": "Coquimbo Unido",
+      "away": "San Marcos"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "Schedule",
+      "home": "Deportes Temuco",
+      "away": "Huachipato"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "Schedule",
+      "home": "Curicó Unido",
+      "away": "Ñublense"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "Schedule",
+      "home": "Antofagasta",
+      "away": "CD Iquique"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "Schedule",
+      "home": "La Serena",
+      "away": "Cobresal"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "Schedule",
+      "home": "Audax Italiano",
+      "away": "Palestino"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "Schedule",
+      "home": "Rangers Talca",
+      "away": "O'Higgins"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Last 16 1st Leg",
+      "home": "San Luis",
+      "away": "La Serena"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Last 16 1st Leg",
+      "home": "Magallanes",
+      "away": "Ñublense"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Last 16 1st Leg",
+      "home": "Deportes Temuco",
+      "away": "Audax Italiano"
+    },
+    {
+      "date": "2025-06-08",
+      "round": "Last 16 1st Leg",
+      "home": "Cobreloa",
+      "away": "Limache"
+    },
+    {
+      "date": "2025-07-01",
+      "round": "Last 16 2nd Leg",
+      "home": "Ñublense",
+      "away": "Magallanes"
+    },
+    {
+      "date": "2025-07-02",
+      "round": "Last 16 2nd Leg",
+      "home": "La Serena",
+      "away": "San Luis"
+    },
+    {
+      "date": "2025-07-02",
+      "round": "Last 16 2nd Leg",
+      "home": "Audax Italiano",
+      "away": "Deportes Temuco"
+    },
+    {
+      "date": "2025-07-02",
+      "round": "Last 16 2nd Leg",
+      "home": "Limache",
+      "away": "Cobreloa"
+    },
+    {
+      "date": "2025-07-09",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Curicó Unido",
+      "away": "Audax Italiano"
+    },
+    {
+      "date": "2025-07-11",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Limache",
+      "away": "Coquimbo Unido"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Ñublense",
+      "away": "Huachipato"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Coquimbo Unido",
+      "away": "Limache"
+    },
+    {
+      "date": "2025-07-16",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Huachipato",
+      "away": "Ñublense"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Audax Italiano",
+      "away": "Curicó Unido"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Limache",
+      "away": "La Serena"
+    },
+    {
+      "date": "2025-09-30",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Audax Italiano",
+      "away": "Huachipato"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Huachipato",
+      "away": "Audax Italiano"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "La Serena",
+      "away": "Limache"
+    },
+    {
+      "date": "2025-12-11",
+      "round": "Final",
+      "home": "Huachipato",
+      "away": "Limache"
+    }
+  ]
+}

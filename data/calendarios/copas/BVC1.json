@@ -1,0 +1,238 @@
+{
+  "competition": {
+    "id": "BVC1",
+    "name": "Copa Bolivia",
+    "league": "Boliviana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Club Blooming": "Blooming",
+    "Oriente P.": "Oriente Petrolero"
+  },
+  "matches": [
+    {
+      "date": "2025-05-01",
+      "round": "Schedule",
+      "home": "Club Blooming",
+      "away": "Nacional Potosí"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "Schedule",
+      "home": "The Strongest",
+      "away": "Real Tomayapo"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "Schedule",
+      "home": "Always Ready",
+      "away": "Real Oruro"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "Schedule",
+      "home": "Bolívar",
+      "away": "Club Blooming"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "Schedule",
+      "home": "Real Tomayapo",
+      "away": "Always Ready"
+    },
+    {
+      "date": "2025-05-23",
+      "round": "Schedule",
+      "home": "Real Oruro",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-06-25",
+      "round": "Schedule",
+      "home": "Real Oruro",
+      "away": "Real Tomayapo"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "Schedule",
+      "home": "Always Ready",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "Schedule",
+      "home": "Guabirá",
+      "away": "Oriente P."
+    },
+    {
+      "date": "2025-06-27",
+      "round": "Schedule",
+      "home": "Nacional Potosí",
+      "away": "Bolívar"
+    },
+    {
+      "date": "2025-07-04",
+      "round": "Schedule",
+      "home": "The Strongest",
+      "away": "Real Oruro"
+    },
+    {
+      "date": "2025-07-11",
+      "round": "Schedule",
+      "home": "Bolívar",
+      "away": "Nacional Potosí"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "Schedule",
+      "home": "Real Tomayapo",
+      "away": "Real Oruro"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "Schedule",
+      "home": "Oriente P.",
+      "away": "Guabirá"
+    },
+    {
+      "date": "2025-07-18",
+      "round": "Schedule",
+      "home": "The Strongest",
+      "away": "Always Ready"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "Schedule",
+      "home": "Nacional Potosí",
+      "away": "Club Blooming"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "Schedule",
+      "home": "Real Oruro",
+      "away": "Always Ready"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "Schedule",
+      "home": "Real Tomayapo",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-08-13",
+      "round": "Schedule",
+      "home": "Always Ready",
+      "away": "Real Tomayapo"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "Schedule",
+      "home": "Club Blooming",
+      "away": "Bolívar"
+    },
+    {
+      "date": "2025-08-28",
+      "round": "intermediate stage",
+      "home": "Bolívar",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "intermediate stage",
+      "home": "Club Blooming",
+      "away": "Oriente P."
+    },
+    {
+      "date": "2025-09-07",
+      "round": "intermediate stage",
+      "home": "Real Tomayapo",
+      "away": "Guabirá"
+    },
+    {
+      "date": "2025-11-12",
+      "round": "Play Off 1st leg",
+      "home": "Nacional Potosí",
+      "away": "Oriente P."
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Play Off 1st leg",
+      "home": "The Strongest",
+      "away": "Aurora"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Play Off 2st leg",
+      "home": "Oriente P.",
+      "away": "Nacional Potosí"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Play Off 2st leg",
+      "home": "Aurora",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-11-19",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "The Strongest",
+      "away": "Guabirá"
+    },
+    {
+      "date": "2025-11-19",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Club Blooming",
+      "away": "Real Oruro"
+    },
+    {
+      "date": "2025-11-26",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Real Oruro",
+      "away": "Club Blooming"
+    },
+    {
+      "date": "2025-11-26",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Guabirá",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-12-16",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Club Blooming",
+      "away": "Bolívar"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "Semi-Finals 1st Leg",
+      "home": "The Strongest",
+      "away": "Nacional Potosí"
+    },
+    {
+      "date": "2025-12-18",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Nacional Potosí",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Bolívar",
+      "away": "Club Blooming"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Final 1st Leg",
+      "home": "Nacional Potosí",
+      "away": "Bolívar"
+    },
+    {
+      "date": "2025-12-23",
+      "round": "Final 2nd Leg",
+      "home": "Bolívar",
+      "away": "Nacional Potosí"
+    }
+  ]
+}

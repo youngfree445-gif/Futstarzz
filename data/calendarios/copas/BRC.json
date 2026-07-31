@@ -1,0 +1,227 @@
+{
+  "competition": {
+    "id": "BRC",
+    "name": "Copa do Brasil",
+    "league": "Brasileña",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Athletic": "Athletico Paranaense",
+    "Ceará SC": "Ceará",
+    "Coritiba FC": "Coritiba",
+    "Cuiabá-MT": "Cuiabá",
+    "Náutico": "Nautico",
+    "Operário VG": "Operário",
+    "Operário-MS": "Operário",
+    "Operário-PR": "Operário",
+    "Vila Nova FC": "Vila Nova"
+  },
+  "matches": [
+    {
+      "date": "2025-02-26",
+      "round": "First Round",
+      "home": "Operário-MS",
+      "away": "Criciúma"
+    },
+    {
+      "date": "2025-02-26",
+      "round": "First Round",
+      "home": "Operário VG",
+      "away": "Sport Recife"
+    },
+    {
+      "date": "2025-03-11",
+      "round": "Second Round",
+      "home": "Operário VG",
+      "away": "Novorizontino"
+    },
+    {
+      "date": "2025-03-12",
+      "round": "Second Round",
+      "home": "Athletic",
+      "away": "Grêmio"
+    },
+    {
+      "date": "2025-04-30",
+      "round": "3rd round 1st leg",
+      "home": "São Paulo",
+      "away": "Náutico"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "3rd round 1st leg",
+      "home": "Ceará SC",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "3rd round 1st leg",
+      "home": "Novorizontino",
+      "away": "Corinthians"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "3rd round 1st leg",
+      "home": "Operário-PR",
+      "away": "Vasco da Gama"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "3rd round 1st leg",
+      "home": "Santos",
+      "away": "CRB"
+    },
+    {
+      "date": "2025-05-01",
+      "round": "3rd round 1st leg",
+      "home": "Criciúma",
+      "away": "RB Bragantino"
+    },
+    {
+      "date": "2025-05-02",
+      "round": "3rd round 1st leg",
+      "home": "Cruzeiro",
+      "away": "Vila Nova FC"
+    },
+    {
+      "date": "2025-05-21",
+      "round": "3rd round 2nd leg",
+      "home": "Vasco da Gama",
+      "away": "Operário-PR"
+    },
+    {
+      "date": "2025-05-21",
+      "round": "3rd round 2nd leg",
+      "home": "Náutico",
+      "away": "São Paulo"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "3rd round 2nd leg",
+      "home": "Corinthians",
+      "away": "Novorizontino"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "3rd round 2nd leg",
+      "home": "Vila Nova FC",
+      "away": "Cruzeiro"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "3rd round 2nd leg",
+      "home": "Palmeiras",
+      "away": "Ceará SC"
+    },
+    {
+      "date": "2025-05-23",
+      "round": "3rd round 2nd leg",
+      "home": "CRB",
+      "away": "Santos"
+    },
+    {
+      "date": "2025-05-23",
+      "round": "3rd round 2nd leg",
+      "home": "RB Bragantino",
+      "away": "Criciúma"
+    },
+    {
+      "date": "2025-07-30",
+      "round": "Last 16 1st Leg",
+      "home": "Botafogo",
+      "away": "RB Bragantino"
+    },
+    {
+      "date": "2025-07-31",
+      "round": "Last 16 1st Leg",
+      "home": "Cruzeiro",
+      "away": "CRB"
+    },
+    {
+      "date": "2025-07-31",
+      "round": "Last 16 1st Leg",
+      "home": "Internacional",
+      "away": "Fluminense"
+    },
+    {
+      "date": "2025-07-31",
+      "round": "Last 16 1st Leg",
+      "home": "Corinthians",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-08-07",
+      "round": "Last 16 2nd Leg",
+      "home": "RB Bragantino",
+      "away": "Botafogo"
+    },
+    {
+      "date": "2025-08-07",
+      "round": "Last 16 2nd Leg",
+      "home": "Fluminense",
+      "away": "Internacional"
+    },
+    {
+      "date": "2025-08-07",
+      "round": "Last 16 2nd Leg",
+      "home": "Palmeiras",
+      "away": "Corinthians"
+    },
+    {
+      "date": "2025-08-08",
+      "round": "Last 16 2nd Leg",
+      "home": "CRB",
+      "away": "Cruzeiro"
+    },
+    {
+      "date": "2025-08-28",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Vasco da Gama",
+      "away": "Botafogo"
+    },
+    {
+      "date": "2025-09-12",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Botafogo",
+      "away": "Vasco da Gama"
+    },
+    {
+      "date": "2025-12-11",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Cruzeiro",
+      "away": "Corinthians"
+    },
+    {
+      "date": "2025-12-12",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Vasco da Gama",
+      "away": "Fluminense"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Corinthians",
+      "away": "Cruzeiro"
+    },
+    {
+      "date": "2025-12-15",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Fluminense",
+      "away": "Vasco da Gama"
+    },
+    {
+      "date": "2025-12-18",
+      "round": "Final 1st Leg",
+      "home": "Corinthians",
+      "away": "Vasco da Gama"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Final 2nd Leg",
+      "home": "Vasco da Gama",
+      "away": "Corinthians"
+    }
+  ]
+}

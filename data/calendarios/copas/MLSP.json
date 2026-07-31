@@ -1,0 +1,90 @@
+{
+  "competition": {
+    "id": "MLSP",
+    "name": "US Open Cup",
+    "league": "Estadounidense",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Austin": "Austin FC",
+    "Charlotte": "Charlotte FC",
+    "Charlotte Ind.": "Charlotte FC",
+    "Chicago": "Chicago Fire",
+    "Cincinnati 2": "FC Cincinnati",
+    "Dallas": "FC Dallas",
+    "Houston": "Houston Dynamo",
+    "Inter Miami II": "Inter Miami CF",
+    "LAFC 2": "LAFC",
+    "Minnesota": "Minnesota United",
+    "Nashville": "Nashville SC",
+    "New York": "New York City FC",
+    "New York City": "New York City FC",
+    "Orlando": "Orlando City",
+    "Portland": "Portland Timbers",
+    "St. Louis CITY": "St. Louis CITY SC"
+  },
+  "matches": [
+    {
+      "date": "2025-05-21",
+      "round": "Round of 16",
+      "home": "New England",
+      "away": "Chicago"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "Round of 16",
+      "home": "Minnesota",
+      "away": "St. Louis CITY"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "Round of 16",
+      "home": "New York",
+      "away": "Dallas"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "Round of 16",
+      "home": "Orlando",
+      "away": "Nashville"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "Round of 16",
+      "home": "Austin",
+      "away": "Houston"
+    },
+    {
+      "date": "2025-07-09",
+      "round": "Quarter-Finals",
+      "home": "Minnesota",
+      "away": "Chicago"
+    },
+    {
+      "date": "2025-08-14",
+      "round": "Quarter-Finals",
+      "home": "Philadelphia",
+      "away": "New York"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "Semi-Finals",
+      "home": "Nashville",
+      "away": "Philadelphia"
+    },
+    {
+      "date": "2025-09-18",
+      "round": "Semi-Finals",
+      "home": "Minnesota",
+      "away": "Austin"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "Final",
+      "home": "Austin",
+      "away": "Nashville"
+    }
+  ]
+}

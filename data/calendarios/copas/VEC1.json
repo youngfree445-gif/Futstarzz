@@ -1,0 +1,114 @@
+{
+  "competition": {
+    "id": "VEC1",
+    "name": "Copa Venezuela",
+    "league": "Venezolana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Anzoátegui": "Deportivo Anzoátegui",
+    "Estudiantes": "Estudiantes de Mérida",
+    "Metropolitanos": "Metropolitanos FC",
+    "Táchira": "Deportivo Táchira"
+  },
+  "matches": [
+    {
+      "date": "2025-06-04",
+      "round": "Schedule",
+      "home": "Monagas SC",
+      "away": "Mineros"
+    },
+    {
+      "date": "2025-06-18",
+      "round": "Schedule",
+      "home": "Trujillanos",
+      "away": "Rayo Zuliano"
+    },
+    {
+      "date": "2025-06-25",
+      "round": "Schedule",
+      "home": "Rayo Zuliano",
+      "away": "Trujillanos"
+    },
+    {
+      "date": "2025-07-10",
+      "round": "Schedule",
+      "home": "Mineros",
+      "away": "Monagas SC"
+    },
+    {
+      "date": "2025-07-29",
+      "round": "Last 16 1st Leg",
+      "home": "Rayo Zuliano",
+      "away": "Táchira"
+    },
+    {
+      "date": "2025-07-29",
+      "round": "Last 16 1st Leg",
+      "home": "Estudiantes",
+      "away": "Portuguesa FC"
+    },
+    {
+      "date": "2025-07-29",
+      "round": "Last 16 1st Leg",
+      "home": "Caracas FC",
+      "away": "Metropolitanos"
+    },
+    {
+      "date": "2025-08-06",
+      "round": "Last 16 2nd Leg",
+      "home": "Metropolitanos",
+      "away": "Caracas FC"
+    },
+    {
+      "date": "2025-08-07",
+      "round": "Last 16 2nd Leg",
+      "home": "Portuguesa FC",
+      "away": "Estudiantes"
+    },
+    {
+      "date": "2025-08-07",
+      "round": "Last 16 2nd Leg",
+      "home": "Táchira",
+      "away": "Rayo Zuliano"
+    },
+    {
+      "date": "2025-08-20",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Portuguesa FC",
+      "away": "Carabobo FC"
+    },
+    {
+      "date": "2025-08-20",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Monagas SC",
+      "away": "Táchira"
+    },
+    {
+      "date": "2025-08-27",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Carabobo FC",
+      "away": "Portuguesa FC"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Táchira",
+      "away": "Monagas SC"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Monagas SC",
+      "away": "Carabobo FC"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Carabobo FC",
+      "away": "Monagas SC"
+    }
+  ]
+}

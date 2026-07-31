@@ -1,0 +1,346 @@
+{
+  "competition": {
+    "id": "ECUP",
+    "name": "Copa Ecuador",
+    "league": "Ecuatoriana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "AD 9 de Octubre": "9 de Octubre",
+    "Atl. Vinotinto": "Atlético FC",
+    "Baños CF": "Atlético FC",
+    "CD El Nacional": "El Nacional",
+    "CD Macará": "Macará",
+    "CD Olmedo": "Atlético FC",
+    "CD SBC": "Atlético FC",
+    "CS Emelec": "Emelec",
+    "CS Loja": "Atlético FC",
+    "CS Patria": "Atlético FC",
+    "CSCD San Camilo": "Atlético FC",
+    "Cantera Pastaza": "Atlético FC",
+    "Cumbayá FC": "Cumbayá",
+    "Delfín SC": "Delfín",
+    "Dep. Cuenca": "Atlético FC",
+    "Dep. Ibarra": "Atlético FC",
+    "Deportivo Coca": "Atlético FC",
+    "Ecuagenera SC": "Atlético FC",
+    "Gualaceo SC": "Gualaceo",
+    "Huaquillas": "Atlético FC",
+    "Imbabura SC": "Atlético FC",
+    "Ind. Jrs.": "Atlético FC",
+    "LD de Macas": "Atlético FC",
+    "LDU Portoviejo": "Atlético FC",
+    "La Troncal FC": "Atlético FC",
+    "Luz Valdivia FC": "Atlético FC",
+    "M. Iturralde": "Atlético FC",
+    "Mineros SC": "Atlético FC",
+    "Montúfar": "Atlético FC",
+    "Mushuc Runa SC": "Mushuc Runa",
+    "Orense SC": "Orense",
+    "Panamericana SD": "Atlético FC",
+    "Quito FC": "Atlético FC",
+    "Rio Aguarico FC": "Atlético FC",
+    "SD Aucas": "Atlético FC",
+    "San Antonio FC": "San Antonio",
+    "Santo Domingo": "Atlético FC",
+    "Uni. Católica": "Atlético FC"
+  },
+  "matches": [
+    {
+      "date": "2025-04-30",
+      "round": "Qualifying Round",
+      "home": "Quito FC",
+      "away": "CS Loja"
+    },
+    {
+      "date": "2025-05-09",
+      "round": "First Round",
+      "home": "Deportivo Coca",
+      "away": "22 de Julio"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "First Round",
+      "home": "Ecuagenera SC",
+      "away": "Cumbayá FC"
+    },
+    {
+      "date": "2025-05-16",
+      "round": "First Round",
+      "home": "Mineros SC",
+      "away": "Gualaceo SC"
+    },
+    {
+      "date": "2025-05-17",
+      "round": "First Round",
+      "home": "La Troncal FC",
+      "away": "Imbabura SC"
+    },
+    {
+      "date": "2025-05-24",
+      "round": "First Round",
+      "home": "Rio Aguarico FC",
+      "away": "CS Loja"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "First Round",
+      "home": "Panamericana SD",
+      "away": "AD 9 de Octubre"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "First Round",
+      "home": "Montúfar",
+      "away": "Cantera Pastaza"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "First Round",
+      "home": "Luz Valdivia FC",
+      "away": "Santo Domingo"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "First Round",
+      "home": "Dep. Ibarra",
+      "away": "San Antonio FC"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "First Round",
+      "home": "CD SBC",
+      "away": "Leones FC"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "First Round",
+      "home": "CSCD San Camilo",
+      "away": "Guayaquil City"
+    },
+    {
+      "date": "2025-06-04",
+      "round": "First Round",
+      "home": "CS Patria",
+      "away": "M. Iturralde"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "First Round",
+      "home": "Baños CF",
+      "away": "Huaquillas"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "First Round",
+      "home": "Cuenca Jrs",
+      "away": "Atl. Vinotinto"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "First Round",
+      "home": "LDU Portoviejo",
+      "away": "Ind. Jrs."
+    },
+    {
+      "date": "2025-06-14",
+      "round": "First Round",
+      "home": "CD Olmedo",
+      "away": "LD de Macas"
+    },
+    {
+      "date": "2025-07-11",
+      "round": "Second Round",
+      "home": "Santo Domingo",
+      "away": "Delfín SC"
+    },
+    {
+      "date": "2025-07-11",
+      "round": "Second Round",
+      "home": "22 de Julio",
+      "away": "CD El Nacional"
+    },
+    {
+      "date": "2025-07-16",
+      "round": "Second Round",
+      "home": "Cantera Pastaza",
+      "away": "Libertad FC"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "Second Round",
+      "home": "CD Olmedo",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-07-23",
+      "round": "Second Round",
+      "home": "Rio Aguarico FC",
+      "away": "Uni. Católica"
+    },
+    {
+      "date": "2025-07-30",
+      "round": "Second Round",
+      "home": "Ecuagenera SC",
+      "away": "SD Aucas"
+    },
+    {
+      "date": "2025-07-31",
+      "round": "Second Round",
+      "home": "M. Iturralde",
+      "away": "CS Emelec"
+    },
+    {
+      "date": "2025-08-06",
+      "round": "Second Round",
+      "home": "Guayaquil City",
+      "away": "Mushuc Runa SC"
+    },
+    {
+      "date": "2025-08-07",
+      "round": "Second Round",
+      "home": "Imbabura SC",
+      "away": "Independiente"
+    },
+    {
+      "date": "2025-08-08",
+      "round": "Second Round",
+      "home": "Baños CF",
+      "away": "Dep. Cuenca"
+    },
+    {
+      "date": "2025-08-13",
+      "round": "Second Round",
+      "home": "San Antonio FC",
+      "away": "Manta FC"
+    },
+    {
+      "date": "2025-08-14",
+      "round": "Second Round",
+      "home": "Gualaceo SC",
+      "away": "Vinotinto FC"
+    },
+    {
+      "date": "2025-08-21",
+      "round": "Second Round",
+      "home": "Leones FC",
+      "away": "Orense SC"
+    },
+    {
+      "date": "2025-08-28",
+      "round": "Second Round",
+      "home": "LDU Portoviejo",
+      "away": "CD Macará"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "Second Round",
+      "home": "Cuenca Jrs",
+      "away": "Barcelona SC"
+    },
+    {
+      "date": "2025-09-11",
+      "round": "Round of 16",
+      "home": "SD Aucas",
+      "away": "Dep. Cuenca"
+    },
+    {
+      "date": "2025-09-19",
+      "round": "Round of 16",
+      "home": "AD 9 de Octubre",
+      "away": "CD El Nacional"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "Round of 16",
+      "home": "Cuenca Jrs",
+      "away": "Cantera Pastaza"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "Round of 16",
+      "home": "Leones FC",
+      "away": "CS Emelec"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "Round of 16",
+      "home": "LDU Portoviejo",
+      "away": "Uni. Católica"
+    },
+    {
+      "date": "2025-10-03",
+      "round": "Round of 16",
+      "home": "Santo Domingo",
+      "away": "Guayaquil City"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Round of 16",
+      "home": "Gualaceo SC",
+      "away": "Independiente"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Round of 16",
+      "home": "San Antonio FC",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Quarter-Finals",
+      "home": "Independiente",
+      "away": "Uni. Católica"
+    },
+    {
+      "date": "2025-10-22",
+      "round": "Quarter-Finals",
+      "home": "Guayaquil City",
+      "away": "CS Emelec"
+    },
+    {
+      "date": "2025-10-22",
+      "round": "Quarter-Finals",
+      "home": "Cuenca Jrs",
+      "away": "AD 9 de Octubre"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Quarter-Finals",
+      "home": "LDU Quito",
+      "away": "Dep. Cuenca"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Semi-Finals 1st Leg",
+      "home": "CS Emelec",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-11-26",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Uni. Católica",
+      "away": "Cuenca Jrs"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Cuenca Jrs",
+      "away": "Uni. Católica"
+    },
+    {
+      "date": "2025-12-04",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "LDU Quito",
+      "away": "CS Emelec"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Final",
+      "home": "LDU Quito",
+      "away": "Uni. Católica"
+    }
+  ]
+}

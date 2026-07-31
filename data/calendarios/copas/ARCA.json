@@ -1,0 +1,159 @@
+{
+  "competition": {
+    "id": "ARCA",
+    "name": "Copa Argentina",
+    "league": "Argentina",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Barracas C.": "Barracas Central",
+    "Belgrano": "Belgrano de Córdoba",
+    "Colon": "Colón",
+    "Defensa": "Defensa y Justicia",
+    "Gimnasia (J)": "Gimnasia de Jujuy",
+    "Gimnasia (M)": "Gimnasia de Mendoza",
+    "Gimnasia y Tiro": "Gimnasia y Tiro de Salta",
+    "San Lorenzo": "San Lorenzo de Almagro",
+    "San Martín (T)": "San Martín de Tucumán",
+    "Sarmiento (LB)": "Sarmiento",
+    "Sarmiento Junin": "Sarmiento",
+    "Sp. Belgrano": "SP Belgrano",
+    "Unión Santa Fe": "Unión de Santa Fe"
+  },
+  "matches": [
+    {
+      "date": "2025-02-12",
+      "round": "First Round",
+      "home": "San Martín (T)",
+      "away": "Colon"
+    },
+    {
+      "date": "2025-02-12",
+      "round": "First Round",
+      "home": "Gimnasia (M)",
+      "away": "Nueva Chicago"
+    },
+    {
+      "date": "2025-02-26",
+      "round": "First Round",
+      "home": "Vélez Sarsfield",
+      "away": "Midland"
+    },
+    {
+      "date": "2025-02-27",
+      "round": "First Round",
+      "home": "Independiente",
+      "away": "Sp. Belgrano"
+    },
+    {
+      "date": "2025-02-27",
+      "round": "First Round",
+      "home": "Godoy Cruz",
+      "away": "Excursionistas"
+    },
+    {
+      "date": "2025-03-05",
+      "round": "First Round",
+      "home": "Unión Santa Fe",
+      "away": "Colegiales"
+    },
+    {
+      "date": "2025-03-19",
+      "round": "First Round",
+      "home": "Aldosivi",
+      "away": "Gimnasia y Tiro"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "First Round",
+      "home": "Central Córdoba",
+      "away": "Quilmes"
+    },
+    {
+      "date": "2025-04-02",
+      "round": "First Round",
+      "home": "Banfield",
+      "away": "Villa Mitre"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "First Round",
+      "home": "Rosario Central",
+      "away": "Los Andes"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "First Round",
+      "home": "Sarmiento Junin",
+      "away": "Central Córdoba"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "Second Round",
+      "home": "Lanús",
+      "away": "Vélez Sarsfield"
+    },
+    {
+      "date": "2025-06-27",
+      "round": "Second Round",
+      "home": "Tigre",
+      "away": "Banfield"
+    },
+    {
+      "date": "2025-06-28",
+      "round": "Second Round",
+      "home": "Rosario Central",
+      "away": "Unión Santa Fe"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "Second Round",
+      "home": "Gimnasia (M)",
+      "away": "Independiente"
+    },
+    {
+      "date": "2025-07-05",
+      "round": "Second Round",
+      "home": "San Lorenzo",
+      "away": "Quilmes"
+    },
+    {
+      "date": "2025-08-01",
+      "round": "Round of 16",
+      "home": "Belgrano",
+      "away": "Independiente"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "Round of 16",
+      "home": "Lanús",
+      "away": "Huracán"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "Round of 16",
+      "home": "San Lorenzo",
+      "away": "Tigre"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "Second Round",
+      "home": "San Martín (T)",
+      "away": "River Plate"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "Round of 16",
+      "home": "Unión Santa Fe",
+      "away": "River Plate"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "Quarter-Finals",
+      "home": "Racing Club",
+      "away": "River Plate"
+    }
+  ]
+}

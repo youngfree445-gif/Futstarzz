@@ -153,3 +153,65 @@ bolsa `Internacional` sin país asignado.
 - **Ligas menores** (Turquía, Suecia, Bélgica, Grecia…): los calendarios están bajados, pero
   `data.ts` solo tiene 2 clubes turcos, 1 sueco y 3 belgas. No es un problema de calendario sino de
   los 606 clubes en `Internacional` sin país.
+
+---
+
+# Copas completas: 20 competiciones, 1038 partidos
+
+## Libertadores y Sudamericana: encontradas
+
+Estaban en Transfermarkt, pero bajo un endpoint distinto al de las ligas:
+`/gesamtspielplan/pokalwettbewerb/<COD>/saison_id/<X>/plus/1`. Por eso los códigos `CLI` y `CS`
+daban 302 al probarlos con la ruta de liga — no es que no existieran, es que estaban en otro sitio.
+
+El `/plus/1` es imprescindible: sin ese parámetro la página devuelve la tabla de posiciones y el
+scraper saca 0 partidos.
+
+| Copa | Cód | Partidos | Rondas | Incluye final |
+|---|---|---|---|---|
+| Copa Libertadores | `CLI` | 145 | 14 | sí |
+| Copa Sudamericana | `CS` | 150 | 11 | sí |
+
+## Copas domésticas: 16 de 31 ligas
+
+Los códigos se buscaron con el buscador de Transfermarkt, no adivinando: de 13 códigos que supuse
+al principio, **12 no existían**.
+
+Bajadas: Copa del Rey, FA Cup, Coppa Italia, DFB-Pokal, KNVB Beker, Copa Argentina, Copa do Brasil,
+Copa Colombia, Copa Chile, Copa Ecuador, Copa Bolivia, Copa Venezuela, Copa Uruguay, Copa MX,
+US Open Cup, y las tres UEFA.
+
+**Descartadas por quedar vacías tras filtrar** a los clubes que existen en `data.ts`: Coupe de
+France (503 → 1), Taça de Portugal (148 → 6), Copa de Suiza (63 → 0), Svenska Cupen (119 → 0), y
+antes Dinamarca, Grecia y Escocia. La causa siempre es la misma: esos países viven en la bolsa
+`Internacional`.
+
+**Sin código encontrado**: Turquía, Bélgica, Croacia, Serbia, Austria, Perú, Paraguay. El buscador
+no las devuelve; probablemente Transfermarkt no las cubre.
+
+## Presupuesto de semanas: todas entran
+
+| Copa | Semanas | Rondas | Margen |
+|---|---|---|---|
+| Copa Ecuador | 27 | 8 | +19 |
+| Copa Chile | 17 | 8 | +9 |
+| Champions / Europa | 16 / 17 | 9 / 10 | +7 |
+| Libertadores | 19 | 14 | +5 |
+| Sudamericana | 16 | 11 | +5 |
+| Copa do Brasil | 10 | 12 | **-2** |
+
+Solo Copa do Brasil queda con margen negativo: tiene dos rondas que caen en la misma semana, que es
+normal en el calendario real (rondas iniciales concentradas). No es un bloqueo — el importador puede
+resolver dos rondas en una semana.
+
+## El Mundial: verificado, funciona
+
+Es la única competición que ya estaba sana. Auditado con el motor real:
+
+- Se juega **cada 4 años** exactos (años 1, 5, 9, 13, 17, 21)
+- La ventana es de **9 semanas** y corona campeón en **8**, o sea entra con margen
+- Las **48 selecciones** son reales y los rivales salen del pool correcto (España, Uruguay,
+  Holanda, Senegal, Bélgica…), nunca clubes
+- Convocatoria: prestigio ≥ 82 y ≥ 40 partidos jugados
+
+No requiere cambios.

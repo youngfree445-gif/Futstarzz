@@ -1,0 +1,271 @@
+{
+  "competition": {
+    "id": "COPO",
+    "name": "Copa Colombia",
+    "league": "Colombiana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "CD América": "América de Cali",
+    "Cúcuta Dep.": "Cúcuta Deportivo",
+    "Envigado": "Envigado FC",
+    "Fortaleza CEIF": "Fortaleza FC",
+    "Jaguares FC": "Jaguares de Córdoba",
+    "Junior FC": "Junior de Barranquilla",
+    "Millonarios": "Millonarios FC",
+    "Orsomarso SC": "Orsomarso",
+    "Patriotas": "Patriotas Boyacá",
+    "Pereira": "Deportivo Pereira",
+    "Quindío": "Deportes Quindío"
+  },
+  "matches": [
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "Llaneros FC",
+      "away": "Atlético FC"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "Quindío",
+      "away": "Boyacá Chicó"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "Real Santander",
+      "away": "Unión Magdalena"
+    },
+    {
+      "date": "2025-05-30",
+      "round": "Schedule",
+      "home": "Orsomarso SC",
+      "away": "Envigado"
+    },
+    {
+      "date": "2025-05-30",
+      "round": "Schedule",
+      "home": "Fortaleza CEIF",
+      "away": "Bogotá FC"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "Schedule",
+      "home": "Atlético FC",
+      "away": "Real Santander"
+    },
+    {
+      "date": "2025-06-03",
+      "round": "Schedule",
+      "home": "Deportivo Pasto",
+      "away": "Llaneros FC"
+    },
+    {
+      "date": "2025-06-03",
+      "round": "Schedule",
+      "home": "Pereira",
+      "away": "Fortaleza CEIF"
+    },
+    {
+      "date": "2025-06-03",
+      "round": "Schedule",
+      "home": "Bogotá FC",
+      "away": "Leones FC"
+    },
+    {
+      "date": "2025-06-04",
+      "round": "Schedule",
+      "home": "Barranquilla FC",
+      "away": "Orsomarso SC"
+    },
+    {
+      "date": "2025-06-05",
+      "round": "Schedule",
+      "home": "Unión Magdalena",
+      "away": "Atlético FC"
+    },
+    {
+      "date": "2025-06-05",
+      "round": "Schedule",
+      "home": "Real Santander",
+      "away": "Deportivo Pasto"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Envigado",
+      "away": "Barranquilla FC"
+    },
+    {
+      "date": "2025-06-08",
+      "round": "Schedule",
+      "home": "Orsomarso SC",
+      "away": "Alianza FC"
+    },
+    {
+      "date": "2025-06-08",
+      "round": "Schedule",
+      "home": "Leones FC",
+      "away": "Pereira"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "Schedule",
+      "home": "Llaneros FC",
+      "away": "Real Santander"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "Deportivo Cali",
+      "away": "Quindío"
+    },
+    {
+      "date": "2025-06-11",
+      "round": "Schedule",
+      "home": "Alianza FC",
+      "away": "Envigado"
+    },
+    {
+      "date": "2025-06-12",
+      "round": "Schedule",
+      "home": "Deportivo Pasto",
+      "away": "Unión Magdalena"
+    },
+    {
+      "date": "2025-06-12",
+      "round": "Schedule",
+      "home": "Fortaleza CEIF",
+      "away": "Leones FC"
+    },
+    {
+      "date": "2025-06-14",
+      "round": "Schedule",
+      "home": "Boyacá Chicó",
+      "away": "Deportivo Cali"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "Schedule",
+      "home": "Barranquilla FC",
+      "away": "Alianza FC"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "Schedule",
+      "home": "Atlético FC",
+      "away": "Deportivo Pasto"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "Schedule",
+      "home": "Unión Magdalena",
+      "away": "Llaneros FC"
+    },
+    {
+      "date": "2025-06-16",
+      "round": "Schedule",
+      "home": "Bogotá FC",
+      "away": "Pereira"
+    },
+    {
+      "date": "2025-07-30",
+      "round": "Qualifying Round 1st leg",
+      "home": "CD América",
+      "away": "Tigres FC"
+    },
+    {
+      "date": "2025-07-31",
+      "round": "Qualifying Round 1st leg",
+      "home": "Once Caldas",
+      "away": "Patriotas"
+    },
+    {
+      "date": "2025-08-01",
+      "round": "Qualifying Round 1st leg",
+      "home": "Millonarios",
+      "away": "Real Cartagena"
+    },
+    {
+      "date": "2025-08-07",
+      "round": "Qualifying Round 2nd leg",
+      "home": "Tigres FC",
+      "away": "CD América"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "Qualifying Round 2nd leg",
+      "home": "Patriotas",
+      "away": "Once Caldas"
+    },
+    {
+      "date": "2025-08-27",
+      "round": "Qualifying Round 2nd leg",
+      "home": "Real Cartagena",
+      "away": "Millonarios"
+    },
+    {
+      "date": "2025-08-27",
+      "round": "Last 16 1st Leg",
+      "home": "Junior FC",
+      "away": "Atlético FC"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "Last 16 1st Leg",
+      "home": "Deportivo Pasto",
+      "away": "Once Caldas"
+    },
+    {
+      "date": "2025-09-03",
+      "round": "Last 16 1st Leg",
+      "home": "Envigado",
+      "away": "Millonarios"
+    },
+    {
+      "date": "2025-09-03",
+      "round": "Last 16 2nd Leg",
+      "home": "Atlético FC",
+      "away": "Junior FC"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "Last 16 2nd Leg",
+      "home": "Millonarios",
+      "away": "Envigado"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "Last 16 2nd Leg",
+      "home": "Once Caldas",
+      "away": "Deportivo Pasto"
+    },
+    {
+      "date": "2025-10-03",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Junior FC",
+      "away": "CD América"
+    },
+    {
+      "date": "2025-10-07",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Envigado",
+      "away": "Pereira"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "CD América",
+      "away": "Junior FC"
+    },
+    {
+      "date": "2025-10-22",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Pereira",
+      "away": "Envigado"
+    }
+  ]
+}

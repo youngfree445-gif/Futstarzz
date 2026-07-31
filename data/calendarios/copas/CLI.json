@@ -1,0 +1,897 @@
+{
+  "competition": {
+    "id": "CLI",
+    "name": "Copa Libertadores",
+    "type": "international_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "A. Bucaramanga": "Atlético FC",
+    "Atl. Nacional": "Atlético FC",
+    "CD Iquique": "Deportes Iquique",
+    "Club Blooming": "Blooming",
+    "Defensor SC": "Defensor Sporting",
+    "EC Bahia": "Atlético FC",
+    "Estudiantes LP": "Atlético FC",
+    "FBC Melgar": "Melgar",
+    "Indep. Santa Fe": "Atlético FC",
+    "SA Bulo Bulo": "Atlético FC",
+    "Sport. Cristal": "Sporting Cristal",
+    "Táchira": "Deportivo Táchira",
+    "U. de Chile": "Atlético FC",
+    "UCV FC": "Atlético FC"
+  },
+  "matches": [
+    {
+      "date": "2025-02-04",
+      "round": "First Round 1st leg",
+      "home": "Monagas SC",
+      "away": "Defensor SC"
+    },
+    {
+      "date": "2025-02-06",
+      "round": "First Round 1st leg",
+      "home": "Nacional",
+      "away": "Alianza Lima"
+    },
+    {
+      "date": "2025-02-11",
+      "round": "First Round 2nd leg",
+      "home": "Defensor SC",
+      "away": "Monagas SC"
+    },
+    {
+      "date": "2025-02-13",
+      "round": "First Round 2nd leg",
+      "home": "Alianza Lima",
+      "away": "Nacional"
+    },
+    {
+      "date": "2025-02-18",
+      "round": "Second Round 1st leg",
+      "home": "CD Iquique",
+      "away": "Indep. Santa Fe"
+    },
+    {
+      "date": "2025-02-19",
+      "round": "Second Round 1st leg",
+      "home": "The Strongest",
+      "away": "EC Bahia"
+    },
+    {
+      "date": "2025-02-19",
+      "round": "Second Round 1st leg",
+      "home": "Alianza Lima",
+      "away": "Boca Juniors"
+    },
+    {
+      "date": "2025-02-19",
+      "round": "Second Round 1st leg",
+      "home": "UCV FC",
+      "away": "Corinthians"
+    },
+    {
+      "date": "2025-02-19",
+      "round": "Second Round 1st leg",
+      "home": "Boston River",
+      "away": "Ñublense"
+    },
+    {
+      "date": "2025-02-20",
+      "round": "Second Round 1st leg",
+      "home": "Monagas SC",
+      "away": "Cerro Porteño"
+    },
+    {
+      "date": "2025-02-21",
+      "round": "Second Round 1st leg",
+      "home": "Deportes Tolima",
+      "away": "FBC Melgar"
+    },
+    {
+      "date": "2025-02-25",
+      "round": "Second Round 2nd leg",
+      "home": "Indep. Santa Fe",
+      "away": "CD Iquique"
+    },
+    {
+      "date": "2025-02-26",
+      "round": "Second Round 2nd leg",
+      "home": "EC Bahia",
+      "away": "The Strongest"
+    },
+    {
+      "date": "2025-02-26",
+      "round": "Second Round 2nd leg",
+      "home": "Boca Juniors",
+      "away": "Alianza Lima"
+    },
+    {
+      "date": "2025-02-26",
+      "round": "Second Round 2nd leg",
+      "home": "Ñublense",
+      "away": "Boston River"
+    },
+    {
+      "date": "2025-02-27",
+      "round": "Second Round 2nd leg",
+      "home": "Corinthians",
+      "away": "UCV FC"
+    },
+    {
+      "date": "2025-02-27",
+      "round": "Second Round 2nd leg",
+      "home": "Cerro Porteño",
+      "away": "Monagas SC"
+    },
+    {
+      "date": "2025-02-28",
+      "round": "Second Round 2nd leg",
+      "home": "FBC Melgar",
+      "away": "Deportes Tolima"
+    },
+    {
+      "date": "2025-03-04",
+      "round": "3rd round 1st leg",
+      "home": "CD Iquique",
+      "away": "Alianza Lima"
+    },
+    {
+      "date": "2025-03-05",
+      "round": "3rd round 1st leg",
+      "home": "FBC Melgar",
+      "away": "Cerro Porteño"
+    },
+    {
+      "date": "2025-03-06",
+      "round": "3rd round 1st leg",
+      "home": "Barcelona SC",
+      "away": "Corinthians"
+    },
+    {
+      "date": "2025-03-07",
+      "round": "3rd round 1st leg",
+      "home": "Boston River",
+      "away": "EC Bahia"
+    },
+    {
+      "date": "2025-03-11",
+      "round": "3rd round 2nd leg",
+      "home": "Alianza Lima",
+      "away": "CD Iquique"
+    },
+    {
+      "date": "2025-03-12",
+      "round": "3rd round 2nd leg",
+      "home": "Cerro Porteño",
+      "away": "FBC Melgar"
+    },
+    {
+      "date": "2025-03-13",
+      "round": "3rd round 2nd leg",
+      "home": "Corinthians",
+      "away": "Barcelona SC"
+    },
+    {
+      "date": "2025-03-14",
+      "round": "3rd round 2nd leg",
+      "home": "EC Bahia",
+      "away": "Boston River"
+    },
+    {
+      "date": "2025-04-02",
+      "round": "Schedule",
+      "home": "Carabobo FC",
+      "away": "Estudiantes LP"
+    },
+    {
+      "date": "2025-04-02",
+      "round": "Schedule",
+      "home": "Barcelona SC",
+      "away": "Independiente"
+    },
+    {
+      "date": "2025-04-02",
+      "round": "Schedule",
+      "home": "Alianza Lima",
+      "away": "Libertad"
+    },
+    {
+      "date": "2025-04-02",
+      "round": "Schedule",
+      "home": "A. Bucaramanga",
+      "away": "Colo-Colo"
+    },
+    {
+      "date": "2025-04-02",
+      "round": "Schedule",
+      "home": "Fortaleza",
+      "away": "Racing Club"
+    },
+    {
+      "date": "2025-04-02",
+      "round": "Schedule",
+      "home": "Cerro Porteño",
+      "away": "Bolívar"
+    },
+    {
+      "date": "2025-04-03",
+      "round": "Schedule",
+      "home": "U. de Chile",
+      "away": "Botafogo"
+    },
+    {
+      "date": "2025-04-03",
+      "round": "Schedule",
+      "home": "Universitario",
+      "away": "River Plate"
+    },
+    {
+      "date": "2025-04-03",
+      "round": "Schedule",
+      "home": "Atl. Nacional",
+      "away": "Nacional"
+    },
+    {
+      "date": "2025-04-03",
+      "round": "Schedule",
+      "home": "SA Bulo Bulo",
+      "away": "Olimpia"
+    },
+    {
+      "date": "2025-04-03",
+      "round": "Schedule",
+      "home": "Vélez Sarsfield",
+      "away": "Peñarol"
+    },
+    {
+      "date": "2025-04-04",
+      "round": "Schedule",
+      "home": "Central Córdoba",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-04-04",
+      "round": "Schedule",
+      "home": "Táchira",
+      "away": "Flamengo"
+    },
+    {
+      "date": "2025-04-04",
+      "round": "Schedule",
+      "home": "EC Bahia",
+      "away": "Internacional"
+    },
+    {
+      "date": "2025-04-04",
+      "round": "Schedule",
+      "home": "Sport. Cristal",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "Schedule",
+      "home": "Botafogo",
+      "away": "Carabobo FC"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "Schedule",
+      "home": "Estudiantes LP",
+      "away": "U. de Chile"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "Schedule",
+      "home": "River Plate",
+      "away": "Barcelona SC"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "Schedule",
+      "home": "Independiente",
+      "away": "Universitario"
+    },
+    {
+      "date": "2025-04-09",
+      "round": "Schedule",
+      "home": "Peñarol",
+      "away": "SA Bulo Bulo"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Schedule",
+      "home": "Flamengo",
+      "away": "Central Córdoba"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Schedule",
+      "home": "LDU Quito",
+      "away": "Táchira"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Schedule",
+      "home": "Nacional",
+      "away": "EC Bahia"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Schedule",
+      "home": "Bolívar",
+      "away": "Sport. Cristal"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Schedule",
+      "home": "Palmeiras",
+      "away": "Cerro Porteño"
+    },
+    {
+      "date": "2025-04-10",
+      "round": "Schedule",
+      "home": "Olimpia",
+      "away": "Vélez Sarsfield"
+    },
+    {
+      "date": "2025-04-11",
+      "round": "Schedule",
+      "home": "São Paulo",
+      "away": "Alianza Lima"
+    },
+    {
+      "date": "2025-04-11",
+      "round": "Schedule",
+      "home": "Racing Club",
+      "away": "A. Bucaramanga"
+    },
+    {
+      "date": "2025-04-11",
+      "round": "Schedule",
+      "home": "Colo-Colo",
+      "away": "Fortaleza"
+    },
+    {
+      "date": "2025-04-11",
+      "round": "Schedule",
+      "home": "Internacional",
+      "away": "Atl. Nacional"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "Schedule",
+      "home": "Carabobo FC",
+      "away": "U. de Chile"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "Schedule",
+      "home": "Barcelona SC",
+      "away": "Universitario"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "Schedule",
+      "home": "LDU Quito",
+      "away": "Flamengo"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "Schedule",
+      "home": "Colo-Colo",
+      "away": "Racing Club"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "Schedule",
+      "home": "Internacional",
+      "away": "Nacional"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "Schedule",
+      "home": "Estudiantes LP",
+      "away": "Botafogo"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "Schedule",
+      "home": "Independiente",
+      "away": "River Plate"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "Schedule",
+      "home": "Libertad",
+      "away": "São Paulo"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "Schedule",
+      "home": "A. Bucaramanga",
+      "away": "Fortaleza"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "Schedule",
+      "home": "Olimpia",
+      "away": "Peñarol"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "Schedule",
+      "home": "SA Bulo Bulo",
+      "away": "Vélez Sarsfield"
+    },
+    {
+      "date": "2025-04-25",
+      "round": "Schedule",
+      "home": "Central Córdoba",
+      "away": "Táchira"
+    },
+    {
+      "date": "2025-04-25",
+      "round": "Schedule",
+      "home": "EC Bahia",
+      "away": "Atl. Nacional"
+    },
+    {
+      "date": "2025-04-25",
+      "round": "Schedule",
+      "home": "Bolívar",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-04-25",
+      "round": "Schedule",
+      "home": "Cerro Porteño",
+      "away": "Sport. Cristal"
+    },
+    {
+      "date": "2025-05-07",
+      "round": "Schedule",
+      "home": "Carabobo FC",
+      "away": "Botafogo"
+    },
+    {
+      "date": "2025-05-07",
+      "round": "Schedule",
+      "home": "Alianza Lima",
+      "away": "São Paulo"
+    },
+    {
+      "date": "2025-05-07",
+      "round": "Schedule",
+      "home": "A. Bucaramanga",
+      "away": "Racing Club"
+    },
+    {
+      "date": "2025-05-07",
+      "round": "Schedule",
+      "home": "Fortaleza",
+      "away": "Colo-Colo"
+    },
+    {
+      "date": "2025-05-07",
+      "round": "Schedule",
+      "home": "SA Bulo Bulo",
+      "away": "Peñarol"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Schedule",
+      "home": "U. de Chile",
+      "away": "Estudiantes LP"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Schedule",
+      "home": "Táchira",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Schedule",
+      "home": "Central Córdoba",
+      "away": "Flamengo"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Schedule",
+      "home": "EC Bahia",
+      "away": "Nacional"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Schedule",
+      "home": "Cerro Porteño",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-05-08",
+      "round": "Schedule",
+      "home": "Sport. Cristal",
+      "away": "Bolívar"
+    },
+    {
+      "date": "2025-05-09",
+      "round": "Schedule",
+      "home": "Barcelona SC",
+      "away": "River Plate"
+    },
+    {
+      "date": "2025-05-09",
+      "round": "Schedule",
+      "home": "Universitario",
+      "away": "Independiente"
+    },
+    {
+      "date": "2025-05-09",
+      "round": "Schedule",
+      "home": "Atl. Nacional",
+      "away": "Internacional"
+    },
+    {
+      "date": "2025-05-09",
+      "round": "Schedule",
+      "home": "Vélez Sarsfield",
+      "away": "Olimpia"
+    },
+    {
+      "date": "2025-05-14",
+      "round": "Schedule",
+      "home": "U. de Chile",
+      "away": "Carabobo FC"
+    },
+    {
+      "date": "2025-05-14",
+      "round": "Schedule",
+      "home": "Táchira",
+      "away": "Central Córdoba"
+    },
+    {
+      "date": "2025-05-14",
+      "round": "Schedule",
+      "home": "Fortaleza",
+      "away": "A. Bucaramanga"
+    },
+    {
+      "date": "2025-05-14",
+      "round": "Schedule",
+      "home": "Sport. Cristal",
+      "away": "Cerro Porteño"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "Schedule",
+      "home": "Botafogo",
+      "away": "Estudiantes LP"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "Schedule",
+      "home": "Universitario",
+      "away": "Barcelona SC"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "Schedule",
+      "home": "São Paulo",
+      "away": "Libertad"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "Schedule",
+      "home": "Racing Club",
+      "away": "Colo-Colo"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "Schedule",
+      "home": "Atl. Nacional",
+      "away": "EC Bahia"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "Schedule",
+      "home": "Vélez Sarsfield",
+      "away": "SA Bulo Bulo"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "Schedule",
+      "home": "Peñarol",
+      "away": "Olimpia"
+    },
+    {
+      "date": "2025-05-16",
+      "round": "Schedule",
+      "home": "River Plate",
+      "away": "Independiente"
+    },
+    {
+      "date": "2025-05-16",
+      "round": "Schedule",
+      "home": "Flamengo",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-05-16",
+      "round": "Schedule",
+      "home": "Nacional",
+      "away": "Internacional"
+    },
+    {
+      "date": "2025-05-16",
+      "round": "Schedule",
+      "home": "Palmeiras",
+      "away": "Bolívar"
+    },
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "Botafogo",
+      "away": "U. de Chile"
+    },
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "Estudiantes LP",
+      "away": "Carabobo FC"
+    },
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "Independiente",
+      "away": "Barcelona SC"
+    },
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "River Plate",
+      "away": "Universitario"
+    },
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "Libertad",
+      "away": "Alianza Lima"
+    },
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "Internacional",
+      "away": "EC Bahia"
+    },
+    {
+      "date": "2025-05-28",
+      "round": "Schedule",
+      "home": "Nacional",
+      "away": "Atl. Nacional"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "Flamengo",
+      "away": "Táchira"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "LDU Quito",
+      "away": "Central Córdoba"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "Bolívar",
+      "away": "Cerro Porteño"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "Palmeiras",
+      "away": "Sport. Cristal"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "Olimpia",
+      "away": "SA Bulo Bulo"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "Schedule",
+      "home": "Peñarol",
+      "away": "Vélez Sarsfield"
+    },
+    {
+      "date": "2025-05-30",
+      "round": "Schedule",
+      "home": "Colo-Colo",
+      "away": "A. Bucaramanga"
+    },
+    {
+      "date": "2025-05-30",
+      "round": "Schedule",
+      "home": "Racing Club",
+      "away": "Fortaleza"
+    },
+    {
+      "date": "2025-08-13",
+      "round": "Last 16 1st Leg",
+      "home": "Fortaleza",
+      "away": "Vélez Sarsfield"
+    },
+    {
+      "date": "2025-08-13",
+      "round": "Last 16 1st Leg",
+      "home": "Atl. Nacional",
+      "away": "São Paulo"
+    },
+    {
+      "date": "2025-08-13",
+      "round": "Last 16 1st Leg",
+      "home": "Peñarol",
+      "away": "Racing Club"
+    },
+    {
+      "date": "2025-08-14",
+      "round": "Last 16 1st Leg",
+      "home": "Cerro Porteño",
+      "away": "Estudiantes LP"
+    },
+    {
+      "date": "2025-08-14",
+      "round": "Last 16 1st Leg",
+      "home": "Flamengo",
+      "away": "Internacional"
+    },
+    {
+      "date": "2025-08-15",
+      "round": "Last 16 1st Leg",
+      "home": "Botafogo",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-08-15",
+      "round": "Last 16 1st Leg",
+      "home": "Libertad",
+      "away": "River Plate"
+    },
+    {
+      "date": "2025-08-15",
+      "round": "Last 16 1st Leg",
+      "home": "Universitario",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-08-20",
+      "round": "Last 16 2nd Leg",
+      "home": "Vélez Sarsfield",
+      "away": "Fortaleza"
+    },
+    {
+      "date": "2025-08-20",
+      "round": "Last 16 2nd Leg",
+      "home": "São Paulo",
+      "away": "Atl. Nacional"
+    },
+    {
+      "date": "2025-08-20",
+      "round": "Last 16 2nd Leg",
+      "home": "Racing Club",
+      "away": "Peñarol"
+    },
+    {
+      "date": "2025-08-21",
+      "round": "Last 16 2nd Leg",
+      "home": "Estudiantes LP",
+      "away": "Cerro Porteño"
+    },
+    {
+      "date": "2025-08-21",
+      "round": "Last 16 2nd Leg",
+      "home": "Internacional",
+      "away": "Flamengo"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "Last 16 2nd Leg",
+      "home": "LDU Quito",
+      "away": "Botafogo"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "Last 16 2nd Leg",
+      "home": "River Plate",
+      "away": "Libertad"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "Last 16 2nd Leg",
+      "home": "Palmeiras",
+      "away": "Universitario"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Vélez Sarsfield",
+      "away": "Racing Club"
+    },
+    {
+      "date": "2025-09-18",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "River Plate",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-09-19",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "LDU Quito",
+      "away": "São Paulo"
+    },
+    {
+      "date": "2025-09-19",
+      "round": "Quarter-Finals 1st Leg",
+      "home": "Flamengo",
+      "away": "Estudiantes LP"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Racing Club",
+      "away": "Vélez Sarsfield"
+    },
+    {
+      "date": "2025-09-25",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Palmeiras",
+      "away": "River Plate"
+    },
+    {
+      "date": "2025-09-26",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "São Paulo",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-09-26",
+      "round": "Quarter-Finals 2nd Leg",
+      "home": "Estudiantes LP",
+      "away": "Flamengo"
+    },
+    {
+      "date": "2025-10-23",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Flamengo",
+      "away": "Racing Club"
+    },
+    {
+      "date": "2025-10-24",
+      "round": "Semi-Finals 1st Leg",
+      "home": "LDU Quito",
+      "away": "Palmeiras"
+    },
+    {
+      "date": "2025-10-30",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Racing Club",
+      "away": "Flamengo"
+    },
+    {
+      "date": "2025-10-31",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Palmeiras",
+      "away": "LDU Quito"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Final",
+      "home": "Palmeiras",
+      "away": "Flamengo"
+    }
+  ]
+}

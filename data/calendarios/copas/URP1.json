@@ -1,0 +1,66 @@
+{
+  "competition": {
+    "id": "URP1",
+    "name": "Copa Uruguay",
+    "league": "Uruguaya",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2024
+  },
+  "aliases": {
+    "Albion FC": "Albion",
+    "CD Maldonado": "Maldonado",
+    "Defensor SC": "Defensor Sporting",
+    "Juventud": "Juventud de Las Piedras"
+  },
+  "matches": [
+    {
+      "date": "2025-08-27",
+      "round": "First Round",
+      "home": "Huracán",
+      "away": "Nacional"
+    },
+    {
+      "date": "2025-09-10",
+      "round": "Round of 16",
+      "home": "Racing Club",
+      "away": "Boston River"
+    },
+    {
+      "date": "2025-09-12",
+      "round": "Round of 16",
+      "home": "Nacional",
+      "away": "Plaza Colonia"
+    },
+    {
+      "date": "2025-09-25",
+      "round": "Quarter-Finals",
+      "home": "Racing Club",
+      "away": "Universitario"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "Quarter-Finals",
+      "home": "Albion FC",
+      "away": "Plaza Colonia"
+    },
+    {
+      "date": "2025-10-15",
+      "round": "Semi-Finals",
+      "home": "Defensor SC",
+      "away": "Peñarol"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "Semi-Finals",
+      "home": "Racing Club",
+      "away": "Plaza Colonia"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "Final",
+      "home": "Peñarol",
+      "away": "Plaza Colonia"
+    }
+  ]
+}
