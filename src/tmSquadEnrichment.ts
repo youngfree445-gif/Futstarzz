@@ -1,14 +1,16 @@
 // Edad real (Transfermarkt) de los starPlayers de las cinco ligas cubiertas.
 //
 // Generado por scripts/scrape_kader_tm.mjs, que baja el plantel completo desde
-// /kader/verein/<id> de 264 clubes de las SIETE ligas que dominan ChutSocial:
-// Argentina (63), Espana (38), Colombia (36), Alemania (34), Brasil (33),
-// Italia (33) e Inglaterra (20) -- con sus segundas divisiones donde existen, y despues cruza por nombre contra
+// /kader/verein/<id> de 268 clubes de las SIETE ligas que dominan ChutSocial:
+// Argentina (63), Espana (42), Colombia (36), Alemania (34), Brasil (33),
+// Italia (33) e Inglaterra (20) -- con sus segundas divisiones donde el juego
+// las tiene (Inglaterra solo tiene Premier en data.ts, asi que los 24 clubes de
+// Championship quedan scrapeados en data/planteles_tm.json pero sin usar), y despues cruza por nombre contra
 // los starPlayers de ULTIMATE_CLUBS_DATABASE.
 //
 // Clave: "clubId|nombreTalCualEnStarPlayers" -- mismo formato que
 // PLAYER_ENRICHMENT (ver playerEnrichment.ts), para consultarse con la misma
-// llave. Cubre 1891 de 2638 starPlayers de esas siete ligas (71%).
+// llave. Cubre 1897 de 2638 starPlayers de esas siete ligas (71%).
 //
 // PURAMENTE ADITIVO: no reescribe ULTIMATE_CLUBS_DATABASE ni toca los escudos.
 // Los starPlayers de data.ts quedan exactamente como estaban.
@@ -27,7 +29,7 @@
 //    Millonarios primero; "Real Cundinamarca", Valledupar) y hay homonimos de
 //    otros paises (existen un Leones FC y un Tigres FC no colombianos).
 //  - currentClubName aparece solo si Transfermarkt dice que el jugador hoy
-//    juega en otro club (276 de 1891): los planteles de data.ts son de una
+//    juega en otro club (277 de 1897): los planteles de data.ts son de una
 //    temporada anterior. Es informativo y NADIE lo consume todavia -- no mueve
 //    a nadie de equipo.
 
@@ -392,6 +394,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'burgos_cf|Curro Sánchez (CAM)': { age: 30, tmId: '208116', tmName: 'Curro Sánchez', tmPosition: 'Extremo derecho' },
   'burgos_cf|Fer Niño (ST)': { age: 25, tmId: '627294', tmName: 'Fer Niño', tmPosition: 'Delantero centro', currentClubName: 'Elche CF' },
   'burgos_cf|Iñigo Córdoba (LM)': { age: 29, tmId: '251848', tmName: 'Iñigo Córdoba', tmPosition: 'Extremo izquierdo', currentClubName: 'CD Castellón' },
+  'burgos_cf|Jesús Ruiz (GK)': { age: 29, tmId: '408288', tmName: 'Jesús Ruiz', tmPosition: 'Portero', currentClubName: 'CD Mirandés' },
   'burgos_cf|Kévin Appin (CM)': { age: 28, tmId: '342223', tmName: 'Kévin Appin', tmPosition: 'Mediocentro' },
   'burgos_cf|Oier Luengo (CB)': { age: 28, tmId: '447823', tmName: 'Oier Luengo', tmPosition: 'Defensa central' },
   'burnley|Florentino (CDM)': { age: 26, tmId: '357162', tmName: 'Florentino', tmPosition: 'Pivote' },
@@ -490,6 +493,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'cd_leganes|Rubén Peña (RB)': { age: 35, tmId: '238868', tmName: 'Rubén Peña', tmPosition: 'Lateral derecho' },
   'cd_mirandes|Carlos Fernández (ST)': { age: 30, tmId: '216464', tmName: 'Carlos Fernández', tmPosition: 'Delantero centro', currentClubName: 'R. Oviedo' },
   'cd_mirandes|Hugo Novoa (RM)': { age: 23, tmId: '668276', tmName: 'Hugo Novoa', tmPosition: 'Lateral derecho', currentClubName: 'D. Alavés' },
+  'cd_mirandes|Igor Nikic (GK)': { age: 25, tmId: '938509', tmName: 'Igor Nikic', tmPosition: 'Portero' },
   'cd_mirandes|Javi Hernández (RM)': { age: 22, tmId: '946279', tmName: 'Javi Hernández', tmPosition: 'Mediocentro ofensivo', currentClubName: 'RCD Espanyol' },
   'cd_mirandes|Juan Gutiérrez (CB)': { age: 24, tmId: '581321', tmName: 'Juan Gutiérrez', tmPosition: 'Delantero centro', currentClubName: 'Defensa y Justicia' },
   'cd_mirandes|Nikola Maraš (CB)': { age: 30, tmId: '258475', tmName: 'Nikola Maras', tmPosition: 'Defensa central', currentClubName: 'D. Alavés' },
@@ -667,6 +671,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'cuiaba|Rodrigo Rodrigues (ST)': { age: 30, tmId: '638262', tmName: 'Rodrigo Rodrigues', tmPosition: 'Delantero centro', currentClubName: 'Coritiba' },
   'cultural_leonesa|Lucas Ribeiro (RM)': { age: 27, tmId: '605893', tmName: 'Lucas Ribeiro', tmPosition: 'Defensa central', currentClubName: 'Goiás' },
   'cultural_leonesa|Matia Barzić (CB)': { age: 22, tmId: '1060456', tmName: 'Matia Barzic', tmPosition: 'Defensa central', currentClubName: 'Elche CF' },
+  'cultural_leonesa|Rodri Suárez (CB)': { age: 23, tmId: '852913', tmName: 'Rodri Suárez', tmPosition: 'Defensa central' },
   'cultural_leonesa|Roger Hinojo (LB)': { age: 21, tmId: '1204959', tmName: 'Roger Hinojo', tmPosition: 'Lateral izquierdo', currentClubName: 'RCD Espanyol' },
   'cultural_leonesa|Thiago Ojeda (CDM)': { age: 23, tmId: '1030425', tmName: 'Thiago Ojeda', tmPosition: 'Mediocentro', currentClubName: 'R. Valladolid CF' },
   'cundinamarca_fc|Iván Camacho (CDM)': { age: 22, tmId: '1007731', tmName: 'Iván Camacho', tmPosition: 'Pivote' },
@@ -1503,6 +1508,8 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'real_sociedad|Zubeldia (CB)': { age: 29, tmId: '355628', tmName: 'Igor Zubeldia', tmPosition: 'Defensa central' },
   'real_sociedad|Álex Remiro (GK)': { age: 31, tmId: '212862', tmName: 'Álex Remiro', tmPosition: 'Portero' },
   'real_zaragoza|Dani Tasende (LB)': { age: 26, tmId: '627282', tmName: 'Dani Tasende', tmPosition: 'Lateral izquierdo', currentClubName: 'Córdoba CF' },
+  'real_zaragoza|Francho Serrano (CM)': { age: 24, tmId: '632930', tmName: 'Francho Serrano', tmPosition: 'Mediocentro' },
+  'real_zaragoza|Tachi (CB)': { age: 28, tmId: '354697', tmName: 'Tachi', tmPosition: 'Defensa central' },
   'reggiana|Tommaso Fumagalli (ST)': { age: 26, tmId: '691678', tmName: 'Tommaso Fumagalli', tmPosition: 'Delantero centro', currentClubName: 'Como' },
   'reggiana|Yeferson Paz (RB)': { age: 24, tmId: '655525', tmName: 'Yeferson Paz', tmPosition: 'Lateral derecho', currentClubName: 'Sassuolo' },
   'remo|Duplexe Tchamba (CB)': { age: 28, tmId: '490760', tmName: 'Tchamba', tmPosition: 'Defensa central' },
@@ -1669,6 +1676,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'sd_eibar|Sergio Álvarez (CDM)': { age: 34, tmId: '138935', tmName: 'Sergio Álvarez', tmPosition: 'Pivote' },
   'sd_huesca|Enol Rodríguez (ST)': { age: 25, tmId: '699607', tmName: 'Enol Rodríguez', tmPosition: 'Delantero centro', currentClubName: 'Córdoba CF' },
   'sd_huesca|Jordi Escobar (ST)': { age: 24, tmId: '568155', tmName: 'Jordi Escobar', tmPosition: 'Delantero centro', currentClubName: 'AD Ceuta FC' },
+  'sd_huesca|Óscar Sielva (CM)': { age: 34, tmId: '67550', tmName: 'Óscar Sielva', tmPosition: 'Mediocentro' },
   'sevilla_fc|Chidera Ejuke (LW)': { age: 28, tmId: '500067', tmName: 'Chidera Ejuke', tmPosition: 'Extremo izquierdo' },
   'sevilla_fc|Djibril Sow (CM)': { age: 29, tmId: '212723', tmName: 'Djibril Sow', tmPosition: 'Mediocentro' },
   'sevilla_fc|Juanlu Sánchez (RB)': { age: 23, tmId: '1341352', tmName: 'Juan Sánchez', tmPosition: 'Mediocentro', currentClubName: 'Bogotá FC' },

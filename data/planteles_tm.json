@@ -47158,5 +47158,475 @@
       "age": 22,
       "position": "Delantero centro"
     }
+  ],
+  "CD Mirandés": [
+    {
+      "tmId": "408288",
+      "name": "Jesús Ruiz",
+      "age": 29,
+      "position": "Portero"
+    },
+    {
+      "tmId": "938509",
+      "name": "Igor Nikic",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1130913",
+      "name": "Adrián Zango",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "434602",
+      "name": "Aritz Arambarri",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "711381",
+      "name": "Peru Rodríguez",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "221321",
+      "name": "Joaquín Fernández",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1112214",
+      "name": "Hodei Arrillaga",
+      "age": 22,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "483573",
+      "name": "Martín Aguirregabiria",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "888290",
+      "name": "Iker Pedernales",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "386668",
+      "name": "Markel Lozano",
+      "age": 30,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1074670",
+      "name": "David Dela",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "702662",
+      "name": "Adrián Verde",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1129175",
+      "name": "Raúl Martínez",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "674122",
+      "name": "Nico Espinosa",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "962144",
+      "name": "Unax del Cura",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "605466",
+      "name": "Iker Unzueta",
+      "age": 27,
+      "position": "Delantero centro"
+    }
+  ],
+  "Cultural Leonesa": [
+    {
+      "tmId": "242301",
+      "name": "Miquel Parera",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "852913",
+      "name": "Rodri Suárez",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1178600",
+      "name": "Jaime Vázquez",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "625043",
+      "name": "Oier López",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "572299",
+      "name": "Iago López",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1157610",
+      "name": "Guzmán Ortega",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "963316",
+      "name": "Assane Ndiaye",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "942988",
+      "name": "Yayo González",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "941080",
+      "name": "Jon García",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1157607",
+      "name": "Adrián Ruiz",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "127838",
+      "name": "Sergi Maestre",
+      "age": 35,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "217145",
+      "name": "Bicho",
+      "age": 30,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "835794",
+      "name": "Pedro Benito",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "645318",
+      "name": "Antón Escobar",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "979083",
+      "name": "David López",
+      "age": 22,
+      "position": "Delantero centro"
+    }
+  ],
+  "Real Zaragoza": [
+    {
+      "tmId": "595935",
+      "name": "Sem Westerveld",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "894945",
+      "name": "Anartz Peña",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "513441",
+      "name": "Diego González",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "354697",
+      "name": "Tachi",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "931385",
+      "name": "Hugo Carrillo",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1176524",
+      "name": "Hugo Barrachina",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1064413",
+      "name": "Raúl Pereira",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "93935",
+      "name": "Sergio Escudero",
+      "age": 36,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "711388",
+      "name": "Jokin Gabilondo",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "632930",
+      "name": "Francho Serrano",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1209286",
+      "name": "Yussif Saidu",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "99343",
+      "name": "Ander Herrera",
+      "age": 36,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "940764",
+      "name": "Peter Ademo",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1004516",
+      "name": "Lucas Terrer",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1262309",
+      "name": "Hugo Pinilla",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "311266",
+      "name": "Rubén Díez",
+      "age": 32,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1061122",
+      "name": "Adrián Liso",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1061123",
+      "name": "Pau Sans",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "276002",
+      "name": "Emil Hansson",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "568196",
+      "name": "Jaume Jardí",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "709804",
+      "name": "Marcos Cuenca",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "710969",
+      "name": "Samed Bazdar",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "565523",
+      "name": "Edu Espiau",
+      "age": 31,
+      "position": "Delantero centro"
+    }
+  ],
+  "SD Huesca": [
+    {
+      "tmId": "1036451",
+      "name": "Álvaro Killane",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "270314",
+      "name": "Gianfranco Gazzaniga",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "291039",
+      "name": "Quique Fornos",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "426943",
+      "name": "Mohamed Djetei",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1018563",
+      "name": "Marc Aznar",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "162063",
+      "name": "Salva Ruiz",
+      "age": 31,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "943868",
+      "name": "Iván Rodríguez",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "195762",
+      "name": "Víctor García",
+      "age": 32,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "67550",
+      "name": "Óscar Sielva",
+      "age": 34,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "595781",
+      "name": "Jimmy Suárez",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "450258",
+      "name": "Ander Gorostidi",
+      "age": 30,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "786039",
+      "name": "Mario García",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "972217",
+      "name": "Jaime Escario",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "547354",
+      "name": "Pascu",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "398183",
+      "name": "Luismi Redondo",
+      "age": 28,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "566965",
+      "name": "Diego Collado",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "632904",
+      "name": "Rafa Tresaco",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "941104",
+      "name": "Diego Gómez",
+      "age": 22,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1261327",
+      "name": "Willy Chatiliez",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "633095",
+      "name": "Sergi Armero",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1124142",
+      "name": "Diego Aznar",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "81988",
+      "name": "Sergi Enrich",
+      "age": 36,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1291792",
+      "name": "Agustín Juarez",
+      "age": 21,
+      "position": "Delantero centro"
+    }
   ]
 }
