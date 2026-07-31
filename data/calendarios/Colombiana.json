@@ -1,0 +1,2759 @@
+{
+  "competition": {
+    "id": "COL1",
+    "name": "Liga BetPlay Dimayor",
+    "league": "Colombiana",
+    "country": "Colombia",
+    "type": "domestic_league",
+    "format": "apertura_clausura",
+    "season": 2025
+  },
+  "aliases": {
+    "CD América": "América de Cali",
+    "Cúcuta Dep.": "Cúcuta Deportivo",
+    "Envigado": "Envigado FC",
+    "Fortaleza CEIF": "Fortaleza FC",
+    "Jaguares FC": "Jaguares de Córdoba",
+    "Junior FC": "Junior de Barranquilla",
+    "Millonarios": "Millonarios FC",
+    "Pereira": "Deportivo Pereira",
+    "A. Bucaramanga": "Atlético Bucaramanga",
+    "Atl. Nacional": "Atlético Nacional",
+    "Indep. Medellín": "Independiente Medellín",
+    "Indep. Santa Fe": "Independiente Santa Fe",
+    "Inter Bogotá": "Internacional de Bogotá",
+    "Rionegro Águila": "Águilas Doradas"
+  },
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "Pereira",
+      "away": "Llaneros FC",
+      "date": "2026-01-17",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Alianza FC",
+      "date": "2026-01-17",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "CD América",
+      "away": "Inter Bogotá",
+      "date": "2026-01-17",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Boyacá Chicó",
+      "date": "2026-01-18",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Millonarios",
+      "date": "2026-01-18",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Indep. Medellín",
+      "date": "2026-01-18",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Jaguares FC",
+      "away": "Deportivo Cali",
+      "date": "2026-01-18",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Junior FC",
+      "away": "Deportes Tolima",
+      "date": "2026-01-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Rionegro Águila",
+      "date": "2026-01-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "Once Caldas",
+      "date": "2026-01-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Cúcuta Dep.",
+      "date": "2026-01-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Alianza FC",
+      "date": "2026-01-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Pereira",
+      "away": "Fortaleza CEIF",
+      "date": "2026-01-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Llaneros FC",
+      "away": "A. Bucaramanga",
+      "date": "2026-01-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Indep. Medellín",
+      "date": "2026-01-25",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "CD América",
+      "date": "2026-01-25",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Deportivo Pasto",
+      "date": "2026-01-25",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Millonarios",
+      "away": "Junior FC",
+      "date": "2026-01-26",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Once Caldas",
+      "away": "Indep. Santa Fe",
+      "date": "2026-01-26",
+      "stage": "apertura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Jaguares FC",
+      "date": "2026-04-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "A. Bucaramanga",
+      "date": "2026-01-27",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Llaneros FC",
+      "date": "2026-01-28",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Deportes Tolima",
+      "date": "2026-01-28",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Alianza FC",
+      "away": "Boyacá Chicó",
+      "date": "2026-01-28",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Pereira",
+      "date": "2026-01-29",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Millonarios",
+      "date": "2026-01-29",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Deportivo Cali",
+      "date": "2026-01-29",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Jaguares FC",
+      "away": "Inter Bogotá",
+      "date": "2026-01-30",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "CD América",
+      "away": "Once Caldas",
+      "date": "2026-01-30",
+      "stage": "apertura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Junior FC",
+      "away": "Atl. Nacional",
+      "date": "2026-03-11",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "Fortaleza CEIF",
+      "date": "2026-01-31",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Indep. Santa Fe",
+      "date": "2026-02-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Alianza FC",
+      "date": "2026-02-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Deportivo Pasto",
+      "date": "2026-02-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Once Caldas",
+      "away": "Jaguares FC",
+      "date": "2026-02-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Llaneros FC",
+      "away": "Rionegro Águila",
+      "date": "2026-02-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Millonarios",
+      "away": "Indep. Medellín",
+      "date": "2026-02-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Deportes Tolima",
+      "date": "2026-02-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Pereira",
+      "away": "Junior FC",
+      "date": "2026-02-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Atl. Nacional",
+      "away": "CD América",
+      "date": "2026-02-05",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "A. Bucaramanga",
+      "date": "2026-02-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Inter Bogotá",
+      "date": "2026-02-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Cúcuta Dep.",
+      "date": "2026-02-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Llaneros FC",
+      "date": "2026-02-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Junior FC",
+      "away": "Boyacá Chicó",
+      "date": "2026-02-08",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Alianza FC",
+      "away": "Once Caldas",
+      "date": "2026-02-08",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Millonarios",
+      "date": "2026-02-09",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Jaguares FC",
+      "away": "Pereira",
+      "date": "2026-02-09",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Atl. Nacional",
+      "date": "2026-02-26",
+      "stage": "apertura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "CD América",
+      "date": "2026-04-23",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "Indep. Medellín",
+      "date": "2026-02-10",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Llaneros FC",
+      "away": "Deportivo Pasto",
+      "date": "2026-02-11",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Deportes Tolima",
+      "date": "2026-02-11",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Millonarios",
+      "away": "Rionegro Águila",
+      "date": "2026-02-12",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Deportivo Cali",
+      "date": "2026-02-12",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Jaguares FC",
+      "date": "2026-02-12",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Once Caldas",
+      "away": "Junior FC",
+      "date": "2026-02-13",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Fortaleza CEIF",
+      "date": "2026-02-13",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "CD América",
+      "away": "Indep. Santa Fe",
+      "date": "2026-02-14",
+      "stage": "apertura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Pereira",
+      "away": "Alianza FC",
+      "date": "2026-04-06",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Millonarios",
+      "away": "Llaneros FC",
+      "date": "2026-02-14",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Pereira",
+      "date": "2026-02-15",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Inter Bogotá",
+      "date": "2026-02-15",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Once Caldas",
+      "date": "2026-02-15",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Atl. Nacional",
+      "date": "2026-02-16",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Boyacá Chicó",
+      "date": "2026-02-16",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Alianza FC",
+      "away": "Cúcuta Dep.",
+      "date": "2026-02-17",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Jaguares FC",
+      "away": "Indep. Santa Fe",
+      "date": "2026-02-18",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Junior FC",
+      "away": "CD América",
+      "date": "2026-02-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Rionegro Águila",
+      "away": "A. Bucaramanga",
+      "date": "2026-04-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Llaneros FC",
+      "away": "Indep. Medellín",
+      "date": "2026-02-21",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Pereira",
+      "away": "Deportivo Pasto",
+      "date": "2026-02-21",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Once Caldas",
+      "away": "Fortaleza CEIF",
+      "date": "2026-02-21",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Deportivo Cali",
+      "date": "2026-02-21",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Alianza FC",
+      "date": "2026-02-22",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Millonarios",
+      "date": "2026-02-22",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Junior FC",
+      "date": "2026-02-22",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Rionegro Águila",
+      "date": "2026-02-23",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "CD América",
+      "away": "Jaguares FC",
+      "date": "2026-02-23",
+      "stage": "apertura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "Deportes Tolima",
+      "date": "2026-02-23",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Indep. Santa Fe",
+      "date": "2026-02-08",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Millonarios",
+      "away": "Pereira",
+      "date": "2026-02-27",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Once Caldas",
+      "away": "Boyacá Chicó",
+      "date": "2026-02-28",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Alianza FC",
+      "away": "CD América",
+      "date": "2026-02-28",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Jaguares FC",
+      "away": "Junior FC",
+      "date": "2026-03-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Indep. Medellín",
+      "away": "A. Bucaramanga",
+      "date": "2026-03-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Cúcuta Dep.",
+      "date": "2026-03-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Inter Bogotá",
+      "date": "2026-03-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Atl. Nacional",
+      "date": "2026-03-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Llaneros FC",
+      "date": "2026-04-12",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Jaguares FC",
+      "date": "2026-03-05",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Llaneros FC",
+      "away": "Inter Bogotá",
+      "date": "2026-03-06",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Junior FC",
+      "away": "Alianza FC",
+      "date": "2026-03-06",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Once Caldas",
+      "date": "2026-03-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Atl. Nacional",
+      "date": "2026-03-07",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Millonarios",
+      "away": "Cúcuta Dep.",
+      "date": "2026-03-10",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "CD América",
+      "date": "2026-03-10",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Pereira",
+      "date": "2026-03-11",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Indep. Santa Fe",
+      "date": "2026-04-05",
+      "stage": "apertura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Boyacá Chicó",
+      "date": "2026-04-23",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Once Caldas",
+      "away": "Deportivo Pasto",
+      "date": "2026-03-14",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Llaneros FC",
+      "date": "2026-03-14",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Inter Bogotá",
+      "away": "A. Bucaramanga",
+      "date": "2026-03-14",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "Deportivo Cali",
+      "date": "2026-03-14",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Millonarios",
+      "date": "2026-03-15",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Alianza FC",
+      "date": "2026-03-15",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Pereira",
+      "away": "Rionegro Águila",
+      "date": "2026-03-15",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "CD América",
+      "away": "Deportes Tolima",
+      "date": "2026-03-15",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Jaguares FC",
+      "away": "Indep. Medellín",
+      "date": "2026-03-16",
+      "stage": "apertura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Junior FC",
+      "away": "Fortaleza CEIF",
+      "date": "2026-03-16",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Llaneros FC",
+      "away": "Cúcuta Dep.",
+      "date": "2026-03-17",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Millonarios",
+      "away": "Atl. Nacional",
+      "date": "2026-03-18",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Boyacá Chicó",
+      "date": "2026-03-18",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Pereira",
+      "date": "2026-03-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Once Caldas",
+      "date": "2026-03-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Indep. Santa Fe",
+      "date": "2026-03-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Alianza FC",
+      "away": "Jaguares FC",
+      "date": "2026-03-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Fortaleza CEIF",
+      "date": "2026-03-20",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Junior FC",
+      "date": "2026-03-20",
+      "stage": "apertura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Rionegro Águila",
+      "away": "CD América",
+      "date": "2026-03-20",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Once Caldas",
+      "away": "Millonarios",
+      "date": "2026-03-22",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Inter Bogotá",
+      "date": "2026-03-22",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Alianza FC",
+      "away": "Deportivo Cali",
+      "date": "2026-03-22",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Deportes Tolima",
+      "date": "2026-03-23",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Indep. Medellín",
+      "date": "2026-03-23",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Jaguares FC",
+      "away": "Rionegro Águila",
+      "date": "2026-03-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Pereira",
+      "away": "Cúcuta Dep.",
+      "date": "2026-03-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Junior FC",
+      "away": "A. Bucaramanga",
+      "date": "2026-03-25",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Deportivo Pasto",
+      "date": "2026-03-25",
+      "stage": "apertura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "CD América",
+      "away": "Llaneros FC",
+      "date": "2026-03-26",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Alianza FC",
+      "date": "2026-03-27",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Indep. Santa Fe",
+      "date": "2026-03-28",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "Boyacá Chicó",
+      "date": "2026-03-28",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Jaguares FC",
+      "date": "2026-03-29",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Pereira",
+      "date": "2026-03-29",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Junior FC",
+      "date": "2026-03-29",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Atl. Nacional",
+      "date": "2026-03-30",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Llaneros FC",
+      "away": "Once Caldas",
+      "date": "2026-03-30",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Indep. Medellín",
+      "away": "CD América",
+      "date": "2026-03-31",
+      "stage": "apertura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Millonarios",
+      "away": "Fortaleza CEIF",
+      "date": "2026-03-31",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Rionegro Águila",
+      "date": "2026-04-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Alianza FC",
+      "away": "Deportivo Pasto",
+      "date": "2026-04-01",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Llaneros FC",
+      "date": "2026-04-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Cúcuta Dep.",
+      "date": "2026-04-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Pereira",
+      "date": "2026-04-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "CD América",
+      "away": "A. Bucaramanga",
+      "date": "2026-04-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Jaguares FC",
+      "away": "Millonarios",
+      "date": "2026-04-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Once Caldas",
+      "away": "Indep. Medellín",
+      "date": "2026-04-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Inter Bogotá",
+      "date": "2026-04-04",
+      "stage": "apertura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Junior FC",
+      "away": "Deportivo Cali",
+      "date": "2026-04-04",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Fortaleza CEIF",
+      "date": "2026-03-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Llaneros FC",
+      "away": "Jaguares FC",
+      "date": "2026-03-09",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "CD América",
+      "date": "2026-04-05",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Pereira",
+      "away": "Once Caldas",
+      "date": "2026-04-10",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Deportes Tolima",
+      "date": "2026-04-11",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Junior FC",
+      "date": "2026-04-11",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Atl. Nacional",
+      "date": "2026-04-12",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Millonarios",
+      "away": "Indep. Santa Fe",
+      "date": "2026-04-12",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Boyacá Chicó",
+      "date": "2026-04-13",
+      "stage": "apertura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Alianza FC",
+      "date": "2026-04-13",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Jaguares FC",
+      "away": "Deportivo Pasto",
+      "date": "2026-04-17",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Deportivo Cali",
+      "date": "2026-04-17",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Pereira",
+      "date": "2026-04-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Rionegro Águila",
+      "date": "2026-04-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Cúcuta Dep.",
+      "date": "2026-04-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Alianza FC",
+      "away": "Indep. Medellín",
+      "date": "2026-04-19",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Junior FC",
+      "away": "Llaneros FC",
+      "date": "2026-04-20",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "CD América",
+      "away": "Millonarios",
+      "date": "2026-04-20",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Once Caldas",
+      "away": "Inter Bogotá",
+      "date": "2026-04-21",
+      "stage": "apertura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Atl. Nacional",
+      "away": "A. Bucaramanga",
+      "date": "2026-04-21",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Indep. Santa Fe",
+      "date": "2026-04-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Millonarios",
+      "away": "Deportes Tolima",
+      "date": "2026-04-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Cúcuta Dep.",
+      "away": "Junior FC",
+      "date": "2026-04-24",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Jaguares FC",
+      "date": "2026-04-25",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Pereira",
+      "away": "Atl. Nacional",
+      "date": "2026-04-25",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Deportivo Cali",
+      "away": "CD América",
+      "date": "2026-04-26",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Fortaleza CEIF",
+      "date": "2026-04-26",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Once Caldas",
+      "date": "2026-04-26",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Llaneros FC",
+      "away": "Alianza FC",
+      "date": "2026-04-27",
+      "stage": "apertura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Boyacá Chicó",
+      "date": "2026-04-27",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Once Caldas",
+      "away": "Atl. Nacional",
+      "date": "2026-05-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Llaneros FC",
+      "date": "2026-05-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Jaguares FC",
+      "away": "Cúcuta Dep.",
+      "date": "2026-05-02",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Rionegro Águila",
+      "date": "2026-05-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Deportivo Cali",
+      "date": "2026-05-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Inter Bogotá",
+      "date": "2026-05-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Alianza FC",
+      "away": "Millonarios",
+      "date": "2026-05-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "A. Bucaramanga",
+      "date": "2026-05-03",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "CD América",
+      "away": "Pereira",
+      "date": "2026-05-04",
+      "stage": "apertura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Junior FC",
+      "away": "Deportivo Pasto",
+      "date": "2026-05-04",
+      "stage": "apertura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Llaneros FC",
+      "away": "CD América",
+      "date": "2025-07-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Once Caldas",
+      "away": "Atl. Nacional",
+      "date": "2025-07-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Deportes Tolima",
+      "date": "2025-07-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Envigado",
+      "away": "Fortaleza CEIF",
+      "date": "2025-07-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Boyacá Chicó",
+      "date": "2025-07-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Junior FC",
+      "date": "2025-07-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Alianza FC",
+      "date": "2025-07-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Pereira",
+      "away": "Indep. Santa Fe",
+      "date": "2025-07-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Rionegro Águila",
+      "date": "2025-07-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Millonarios",
+      "away": "Unión Magdalena",
+      "date": "2025-08-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Llaneros FC",
+      "date": "2025-07-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Indep. Santa Fe",
+      "date": "2025-07-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Junior FC",
+      "date": "2025-07-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Alianza FC",
+      "away": "Pereira",
+      "date": "2025-07-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Inter Bogotá",
+      "date": "2025-07-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Indep. Medellín",
+      "date": "2025-07-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Envigado",
+      "away": "Deportivo Cali",
+      "date": "2025-07-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Once Caldas",
+      "date": "2025-07-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Millonarios",
+      "away": "Deportivo Pasto",
+      "date": "2025-09-11",
+      "stage": "clausura"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "CD América",
+      "away": "A. Bucaramanga",
+      "date": "2025-09-17",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Alianza FC",
+      "away": "Deportes Tolima",
+      "date": "2025-07-22",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Rionegro Águila",
+      "date": "2025-07-23",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Pereira",
+      "away": "Atl. Nacional",
+      "date": "2025-07-23",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Llaneros FC",
+      "away": "Boyacá Chicó",
+      "date": "2025-07-23",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Junior FC",
+      "away": "Unión Magdalena",
+      "date": "2025-07-24",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Millonarios",
+      "date": "2025-07-24",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Envigado",
+      "date": "2025-07-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Fortaleza CEIF",
+      "date": "2025-07-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Once Caldas",
+      "date": "2025-09-10",
+      "stage": "clausura"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "CD América",
+      "date": "2025-09-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Pereira",
+      "date": "2025-07-26",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Indep. Santa Fe",
+      "date": "2025-07-26",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Deportivo Pasto",
+      "date": "2025-07-26",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Once Caldas",
+      "away": "Junior FC",
+      "date": "2025-07-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "CD América",
+      "away": "Rionegro Águila",
+      "date": "2025-07-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Envigado",
+      "away": "Inter Bogotá",
+      "date": "2025-07-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Indep. Medellín",
+      "date": "2025-07-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Alianza FC",
+      "date": "2025-07-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Deportivo Cali",
+      "date": "2025-07-29",
+      "stage": "clausura"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Millonarios",
+      "away": "Llaneros FC",
+      "date": "2025-07-29",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Unión Magdalena",
+      "date": "2025-08-02",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Llaneros FC",
+      "date": "2025-08-02",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Junior FC",
+      "away": "Boyacá Chicó",
+      "date": "2025-08-02",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Atl. Nacional",
+      "date": "2025-08-03",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "CD América",
+      "date": "2025-08-03",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Pereira",
+      "away": "Once Caldas",
+      "date": "2025-08-03",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Alianza FC",
+      "away": "A. Bucaramanga",
+      "date": "2025-08-03",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Millonarios",
+      "date": "2025-08-04",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Fortaleza CEIF",
+      "date": "2025-08-04",
+      "stage": "clausura"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Envigado",
+      "date": "2025-08-15",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Deportivo Pasto",
+      "date": "2025-08-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Alianza FC",
+      "date": "2025-08-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Millonarios",
+      "away": "Deportivo Cali",
+      "date": "2025-08-09",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Once Caldas",
+      "away": "Rionegro Águila",
+      "date": "2025-08-09",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "CD América",
+      "away": "Deportes Tolima",
+      "date": "2025-08-10",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Indep. Santa Fe",
+      "date": "2025-08-10",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Envigado",
+      "away": "Junior FC",
+      "date": "2025-08-10",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Pereira",
+      "date": "2025-08-11",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Llaneros FC",
+      "away": "Indep. Medellín",
+      "date": "2025-08-11",
+      "stage": "clausura"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Inter Bogotá",
+      "date": "2025-08-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Unión Magdalena",
+      "date": "2025-08-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Pereira",
+      "away": "CD América",
+      "date": "2025-08-15",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Alianza FC",
+      "away": "Once Caldas",
+      "date": "2025-08-15",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Llaneros FC",
+      "date": "2025-08-16",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Boyacá Chicó",
+      "date": "2025-08-17",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Fortaleza CEIF",
+      "date": "2025-08-17",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Millonarios",
+      "date": "2025-08-18",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Junior FC",
+      "away": "A. Bucaramanga",
+      "date": "2025-08-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Indep. Medellín",
+      "date": "2025-08-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Envigado",
+      "date": "2025-08-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Llaneros FC",
+      "away": "Deportivo Pasto",
+      "date": "2025-08-23",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Inter Bogotá",
+      "date": "2025-08-23",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Envigado",
+      "away": "Pereira",
+      "date": "2025-08-23",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Indep. Santa Fe",
+      "date": "2025-08-24",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Millonarios",
+      "away": "Junior FC",
+      "date": "2025-08-24",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Once Caldas",
+      "away": "Deportes Tolima",
+      "date": "2025-08-24",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Alianza FC",
+      "date": "2025-08-24",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "CD América",
+      "away": "Atl. Nacional",
+      "date": "2025-08-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Rionegro Águila",
+      "date": "2025-08-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Deportivo Cali",
+      "date": "2025-08-26",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Junior FC",
+      "away": "Llaneros FC",
+      "date": "2025-08-30",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Millonarios",
+      "date": "2025-08-30",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Unión Magdalena",
+      "date": "2025-08-30",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Pereira",
+      "away": "A. Bucaramanga",
+      "date": "2025-08-31",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Indep. Medellín",
+      "date": "2025-08-31",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Envigado",
+      "date": "2025-08-31",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Alianza FC",
+      "away": "CD América",
+      "date": "2025-08-31",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Fortaleza CEIF",
+      "date": "2025-09-01",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Deportivo Pasto",
+      "date": "2025-09-01",
+      "stage": "clausura"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Once Caldas",
+      "date": "2025-09-02",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Boyacá Chicó",
+      "date": "2025-09-06",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Once Caldas",
+      "away": "Pereira",
+      "date": "2025-09-06",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Alianza FC",
+      "date": "2025-09-06",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Llaneros FC",
+      "away": "Deportes Tolima",
+      "date": "2025-09-06",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Junior FC",
+      "date": "2025-09-07",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Millonarios",
+      "away": "Indep. Santa Fe",
+      "date": "2025-09-07",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Envigado",
+      "away": "Rionegro Águila",
+      "date": "2025-09-07",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "CD América",
+      "away": "Deportivo Cali",
+      "date": "2025-09-07",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Atl. Nacional",
+      "date": "2025-09-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Inter Bogotá",
+      "date": "2025-09-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Junior FC",
+      "away": "Inter Bogotá",
+      "date": "2025-09-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "CD América",
+      "date": "2025-09-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Alianza FC",
+      "away": "Millonarios",
+      "date": "2025-09-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Once Caldas",
+      "away": "Envigado",
+      "date": "2025-09-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Atl. Nacional",
+      "away": "A. Bucaramanga",
+      "date": "2025-09-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Unión Magdalena",
+      "date": "2025-09-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Deportivo Pasto",
+      "date": "2025-09-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Pereira",
+      "away": "Llaneros FC",
+      "date": "2025-09-15",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Boyacá Chicó",
+      "date": "2025-09-15",
+      "stage": "clausura"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Indep. Medellín",
+      "date": "2025-10-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Deportes Tolima",
+      "date": "2025-09-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "CD América",
+      "away": "Once Caldas",
+      "date": "2025-09-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Envigado",
+      "away": "Alianza FC",
+      "date": "2025-09-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Llaneros FC",
+      "away": "Rionegro Águila",
+      "date": "2025-09-20",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Indep. Santa Fe",
+      "date": "2025-09-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Deportivo Cali",
+      "date": "2025-09-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Millonarios",
+      "away": "Fortaleza CEIF",
+      "date": "2025-09-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Atl. Nacional",
+      "date": "2025-09-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Junior FC",
+      "date": "2025-09-22",
+      "stage": "clausura"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Pereira",
+      "date": "2025-09-22",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Once Caldas",
+      "away": "Boyacá Chicó",
+      "date": "2025-09-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "A. Bucaramanga",
+      "date": "2025-09-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Pereira",
+      "away": "Unión Magdalena",
+      "date": "2025-09-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Alianza FC",
+      "away": "Llaneros FC",
+      "date": "2025-09-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Indep. Medellín",
+      "date": "2025-09-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Millonarios",
+      "date": "2025-09-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "CD América",
+      "away": "Envigado",
+      "date": "2025-09-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Deportivo Cali",
+      "date": "2025-09-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Inter Bogotá",
+      "date": "2025-09-29",
+      "stage": "clausura"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Junior FC",
+      "away": "Deportivo Pasto",
+      "date": "2025-09-29",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Pereira",
+      "date": "2025-10-04",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Envigado",
+      "away": "A. Bucaramanga",
+      "date": "2025-10-04",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Rionegro Águila",
+      "date": "2025-10-04",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Llaneros FC",
+      "away": "Fortaleza CEIF",
+      "date": "2025-10-05",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Alianza FC",
+      "date": "2025-10-05",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Junior FC",
+      "away": "Deportes Tolima",
+      "date": "2025-10-06",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Atl. Nacional",
+      "date": "2025-10-06",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Once Caldas",
+      "date": "2025-10-07",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Millonarios",
+      "away": "CD América",
+      "date": "2025-10-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Indep. Santa Fe",
+      "date": "2025-10-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Envigado",
+      "date": "2025-10-11",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "CD América",
+      "away": "Inter Bogotá",
+      "date": "2025-10-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Llaneros FC",
+      "date": "2025-10-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Alianza FC",
+      "away": "Junior FC",
+      "date": "2025-10-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Unión Magdalena",
+      "date": "2025-10-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Deportivo Pasto",
+      "date": "2025-10-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Once Caldas",
+      "away": "Indep. Medellín",
+      "date": "2025-10-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Boyacá Chicó",
+      "date": "2025-10-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Deportivo Cali",
+      "date": "2025-10-15",
+      "stage": "clausura"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Pereira",
+      "away": "Millonarios",
+      "date": "2025-10-16",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Indep. Medellín",
+      "away": "Fortaleza CEIF",
+      "date": "2025-10-18",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Envigado",
+      "date": "2025-10-18",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Indep. Santa Fe",
+      "date": "2025-10-18",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Atl. Nacional",
+      "date": "2025-10-18",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Alianza FC",
+      "date": "2025-10-18",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Junior FC",
+      "away": "Pereira",
+      "date": "2025-10-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Deportivo Cali",
+      "away": "CD América",
+      "date": "2025-10-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Llaneros FC",
+      "away": "Once Caldas",
+      "date": "2025-10-19",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Deportes Tolima",
+      "date": "2025-10-21",
+      "stage": "clausura"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Millonarios",
+      "away": "A. Bucaramanga",
+      "date": "2025-10-22",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Alianza FC",
+      "away": "Inter Bogotá",
+      "date": "2025-10-24",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Deportivo Pasto",
+      "date": "2025-10-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Pereira",
+      "away": "Rionegro Águila",
+      "date": "2025-10-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "CD América",
+      "away": "Junior FC",
+      "date": "2025-10-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Envigado",
+      "away": "Boyacá Chicó",
+      "date": "2025-10-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Deportivo Cali",
+      "date": "2025-10-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Llaneros FC",
+      "date": "2025-10-25",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Millonarios",
+      "date": "2025-10-26",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Once Caldas",
+      "away": "Unión Magdalena",
+      "date": "2025-10-26",
+      "stage": "clausura"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Indep. Medellín",
+      "date": "2025-10-27",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "Pereira",
+      "date": "2025-10-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Envigado",
+      "date": "2025-10-28",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Alianza FC",
+      "date": "2025-10-29",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Fortaleza CEIF",
+      "date": "2025-10-29",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Indep. Medellín",
+      "away": "A. Bucaramanga",
+      "date": "2025-10-30",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Junior FC",
+      "away": "Indep. Santa Fe",
+      "date": "2025-10-30",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Millonarios",
+      "away": "Once Caldas",
+      "date": "2025-10-30",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Deportes Tolima",
+      "date": "2025-10-30",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Llaneros FC",
+      "away": "Atl. Nacional",
+      "date": "2025-10-31",
+      "stage": "clausura"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "CD América",
+      "date": "2025-11-07",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Envigado",
+      "away": "Millonarios",
+      "date": "2025-11-07",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Pereira",
+      "away": "Indep. Medellín",
+      "date": "2025-11-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Deportes Tolima",
+      "away": "Llaneros FC",
+      "date": "2025-11-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Fortaleza CEIF",
+      "away": "Junior FC",
+      "date": "2025-11-08",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Atl. Nacional",
+      "away": "Rionegro Águila",
+      "date": "2025-11-09",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "A. Bucaramanga",
+      "away": "Inter Bogotá",
+      "date": "2025-11-09",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Once Caldas",
+      "away": "Deportivo Pasto",
+      "date": "2025-11-09",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Alianza FC",
+      "away": "Boyacá Chicó",
+      "date": "2025-11-09",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "CD América",
+      "away": "Unión Magdalena",
+      "date": "2025-11-10",
+      "stage": "clausura"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Deportivo Cali",
+      "date": "2025-11-10",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Inter Bogotá",
+      "away": "Pereira",
+      "date": "2025-11-12",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Boyacá Chicó",
+      "away": "Millonarios",
+      "date": "2025-11-13",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Llaneros FC",
+      "away": "Envigado",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Indep. Santa Fe",
+      "away": "Alianza FC",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Rionegro Águila",
+      "away": "Deportes Tolima",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Indep. Medellín",
+      "away": "CD América",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Unión Magdalena",
+      "away": "Fortaleza CEIF",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Deportivo Pasto",
+      "away": "A. Bucaramanga",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Deportivo Cali",
+      "away": "Once Caldas",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Junior FC",
+      "away": "Atl. Nacional",
+      "date": "2025-11-14",
+      "stage": "clausura"
+    }
+  ]
+}
