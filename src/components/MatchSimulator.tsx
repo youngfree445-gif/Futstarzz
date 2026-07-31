@@ -5,7 +5,7 @@ import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_C
 import { playSfx } from '../audio';
 import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
-import { applySquadRetirements } from '../worldRetirements';
+import { applySquadRetirements, displayName } from '../worldRetirements';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
 // de lo que sumaba. El resto de los efectos del partido (gol, tarjeta, etc.) no se tocan.
@@ -1426,6 +1426,7 @@ export default function MatchSimulator({
 
   const getTeammateSample = () => {
     const list = applySquadRetirements(currentClub.id, currentClub.starPlayers, playerProfile.retiredWorldPlayers)
+      .map(displayName)
       .filter(p => p !== playerProfile.name);
     return list.length > 0 ? list[Math.floor(Math.random() * list.length)] : 'El volante de apoyo';
   };
@@ -1441,7 +1442,7 @@ export default function MatchSimulator({
   // motor pero queda mal leído en una crónica, así que se recorta para narrar. El sufijo, cuando
   // está, sirve además para no mandar a un arquero a definir de cabeza.
   const rivalRoster = (opponentClub
-    ? applySquadRetirements(opponentClub.id, opponentClub.starPlayers, playerProfile.retiredWorldPlayers)
+    ? applySquadRetirements(opponentClub.id, opponentClub.starPlayers, playerProfile.retiredWorldPlayers).map(displayName)
     : [])
     .map(p => {
       const pos = p.match(/\(([^)]*)\)\s*$/)?.[1]?.trim().toUpperCase() ?? null;

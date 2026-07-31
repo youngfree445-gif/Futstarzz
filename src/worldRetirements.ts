@@ -11,6 +11,7 @@
 
 import { PLAYER_ENRICHMENT } from './playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from './tmSquadEnrichment';
+import { CAREER_START_YEAR } from './leagueEngine';
 
 /**
  * Edad máxima para que un jugador del plantel pueda ser tu ahijado en la Mentoría de Jóvenes.
@@ -52,6 +53,7 @@ function hashName(name: string): number {
 /** Normaliza para comparar nombres: sin acentos, sin sufijo de posición, en minúsculas. */
 function normalizeName(s: string): string[] {
   return s
+    .replace(/#\d{4}$/, '')
     .replace(/\s*\([^)]*\)\s*$/, '')
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
@@ -93,7 +95,30 @@ const AGE_BY_CLUB_SURNAME: Record<string, number> = (() => {
  *   2. Respaldo por "clubId|apellido", que resuelve las variantes de nombre entre fuentes.
  *   3. Hash estable del nombre (17-36), para los ~600 clubes sin datos scrapeados.
  */
-export function getSquadPlayerAge(clubId: string, name: string): number {
+export function getSquadPlayerAge(clubId: string, name: string, seasonsElapsed = 0): number {
+  // Los canteranos generados llevan su año de debut marcado en el nombre (ver
+  // generateYouthPlayer). Sin eso se les sumaban TODAS las temporadas de la
+  // carrera y terminaban con 55 años: la edad se cuenta desde que subieron.
+  const debut = name.match(/#(\d{4})/);
+  if (debut) {
+    // Un canterano SIEMPRE debuta joven (17-20), sin importar qué diga el hash de
+    // su nombre: sube de las inferiores. Si se usa getBaseAge acá, el hash puede
+    // darle 29 al nacer y terminar con 48 años sin haberse retirado nunca.
+    const edadDebut = 17 + (hashName(name) % 4);
+    const anios = Math.max(0, seasonsElapsed - (Number(debut[1]) - CAREER_START_YEAR));
+    return edadDebut + anios;
+  }
+  const base = getBaseAge(clubId, name);
+  // Los datos scrapeados son una foto de la temporada inicial. Sin sumarle las
+  // temporadas jugadas, NADIE del mundo envejece nunca: en una carrera de 20
+  // años un jugador de 33 seguía teniendo 33, y los retiros solo ocurrían por el
+  // azar de la tirada, no porque la gente se hiciera vieja.
+  return base + Math.max(0, seasonsElapsed);
+}
+
+/** Edad en la temporada inicial, tal como vino de los datos. */
+function getBaseAge(clubId: string, name: string): number {
+  name = name.replace(/#\d{4}$/, '');
   const key = `${clubId}|${name}`;
   const real = PLAYER_ENRICHMENT[key]?.age ?? TM_SQUAD_ENRICHMENT[key]?.age;
   if (real != null) return real;
@@ -106,6 +131,7 @@ export function getSquadPlayerAge(clubId: string, name: string): number {
 
   return 17 + (hashName(name) % 20);
 }
+
 
 // --- Generación de reemplazos -------------------------------------------------------------
 
@@ -200,6 +226,11 @@ export function applySquadRetirements(
   return starPlayers.map(p => mapa[p] ?? p);
 }
 
+/** Nombre listo para mostrar: sin la marca interna de año de debut. */
+export function displayName(name: string): string {
+  return name.replace(/#\d{4}(?=\s|$)/, '');
+}
+
 export interface RetirementEvent {
   clubId: string;
   clubName: string;
@@ -229,7 +260,9 @@ export function resolveWorldRetirements(
     club.starPlayers.forEach((raw, idx) => {
       const name = raw.replace(/\s*\([^)]*\)\s*$/, '').trim();
       if (!name) return;
-      const age = getSquadPlayerAge(club.id, raw);
+      // seasonYear ya dice en que temporada estamos, asi que la edad se calcula
+      // sumandole los anios transcurridos desde el inicio de la carrera.
+      const age = getSquadPlayerAge(club.id, raw, seasonYear - CAREER_START_YEAR);
       if (rng() >= retirementChanceForAge(age)) return;
 
       const youth = generateYouthPlayer(club.league, seasonYear * 104729 + hashName(club.id) + idx, taken);
@@ -238,13 +271,16 @@ export function resolveWorldRetirements(
       // parsea para repartir goles, así que perderlo cambiaría el comportamiento del club.
       const suffix = raw.match(/\s*(\([^)]*\))\s*$/)?.[1] ?? '';
       replacements[club.id] = replacements[club.id] ?? {};
-      replacements[club.id][raw] = suffix ? `${youth.name} ${suffix}` : youth.name;
+      // El año de debut viaja pegado al nombre para poder calcular su edad más
+      // adelante (ver getSquadPlayerAge). displayName() lo quita al mostrarlo.
+      const conDebut = `${youth.name}#${seasonYear}`;
+      replacements[club.id][raw] = suffix ? `${conDebut} ${suffix}` : conDebut;
       events.push({
         clubId: club.id,
         clubName: club.name,
         playerName: name,
         age,
-        replacementName: youth.name,
+        replacementName: youth.name,  // sin marca de debut: va directo a ChutSocial
       });
     });
   }

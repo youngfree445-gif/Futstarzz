@@ -5,7 +5,7 @@ import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_A
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
-import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge } from '../worldRetirements';
+import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -82,6 +82,9 @@ function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
 // fuentes de edad permite que diverjan: los retiros del mundo podían considerar veterano a alguien
 // que la mentoría seguía ofreciendo como promesa.
 const getMenteeAge = getSquadPlayerAge;
+
+/** Temporadas transcurridas desde el inicio de la carrera, para envejecer al mundo. */
+const seasonsElapsed = (week: number) => Math.max(0, getSeasonYear(week) - CAREER_START_YEAR);
 
 // Ligas que dominan la conversación en ChutSocial. Son las que un hincha real sigue a diario, así
 // que el feed tiene que sonar a ellas: sin esto, de los 706 clubes con plantel solo el 43% es de
@@ -371,6 +374,9 @@ export default function Dashboard({
   // en todo lo que se muestre al jugador, o el feed seguiría hablando de gente que ya no juega.
   const squadOf = (club: Club) =>
     applySquadRetirements(club.id, club.starPlayers, playerProfile.retiredWorldPlayers);
+
+  /** Igual que squadOf pero con los nombres listos para mostrar (sin marca de debut). */
+  const squadNames = (club: Club) => squadOf(club).map(displayName);
   // Fase 4: costo en capital de cada sesión de entrenamiento -- misma fórmula que handleTrainAttribute en App.tsx.
   const trainingCost = 200 + currentClub.reputation * 150;
 
@@ -729,7 +735,7 @@ export default function Dashboard({
     if (ranked.length === 0) return [];
     const picked = ranked.slice(0, 7);
     return picked.map((club, idx) => {
-      const squad = squadOf(club);
+      const squad = squadNames(club);
       const star = squad[(week + idx) % squad.length];
       const persona = personas[(week + idx) % personas.length];
       const otherClub = ranked[(idx + 3) % ranked.length];
@@ -770,7 +776,7 @@ export default function Dashboard({
     const pickedClubs = rankClubsForSocial(ULTIMATE_CLUBS_DATABASE, currentClub.id, seed, 17).slice(0, 3);
     if (pickedClubs.length === 0) return [];
     return pickedClubs.map((club, idx) => {
-      const squad = squadOf(club);
+      const squad = squadNames(club);
       const star = squad[(seed + idx) % squad.length];
       const persona = personas[(seed + idx) % personas.length];
       const lines = [
@@ -1041,7 +1047,7 @@ export default function Dashboard({
     return pickedJournalists.map((j, idx) => {
       const club = ranked[idx % ranked.length];
       const rivalClub = ranked[(idx + 4) % ranked.length];
-      const squad = squadOf(club);
+      const squad = squadNames(club);
       const star = squad[(seed + idx) % squad.length];
       const lines = j.lines(star, club.name, rivalClub?.name || club.name);
       return {
@@ -3183,7 +3189,33 @@ export default function Dashboard({
               ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === rosterClubIdOverride) ?? currentClub
               : currentClub;
             const rosterClub = getClubWithRoster(viewedClub.name);
-            const plantilla = rosterClub?.plantilla || { porteros: [], defensivos: [], ofensivos: [] };
+            const plantillaCruda = rosterClub?.plantilla || { porteros: [], defensivos: [], ofensivos: [] };
+
+            // Los retiros del mundo (ver worldRetirements.ts) se llevan jugadores de
+            // los planteles temporada a temporada. Esta pestaña lee playersDatabase.json,
+            // que es una foto fija de 2026 y no sabe nada de eso: sin filtrar, seguiría
+            // mostrando a gente que ya colgó los botines hace 10 temporadas.
+            const retiradosDelClub = new Set(
+              Object.keys(playerProfile.retiredWorldPlayers?.[viewedClub.id] ?? {})
+                .map(n => displayName(n).replace(/\s*\([^)]*\)\s*$/, '').trim().toLowerCase())
+            );
+            const sigueActivo = (p: { nombre_completo?: string }) => {
+              const n = (p.nombre_completo ?? '').trim().toLowerCase();
+              if (!n || retiradosDelClub.size === 0) return true;
+              // Comparación por apellido además de nombre completo: las fuentes escriben
+              // al mismo jugador distinto ("Luis Muriel" vs "Luis Fernando Muriel").
+              const ap = n.split(/\s+/).slice(-1)[0];
+              for (const r of retiradosDelClub) {
+                if (r === n) return false;
+                if (ap.length > 3 && r.endsWith(' ' + ap) && r.split(/\s+/)[0] === n.split(/\s+/)[0]) return false;
+              }
+              return true;
+            };
+            const plantilla = {
+              porteros: plantillaCruda.porteros.filter(sigueActivo),
+              defensivos: plantillaCruda.defensivos.filter(sigueActivo),
+              ofensivos: plantillaCruda.ofensivos.filter(sigueActivo),
+            };
             const totalJugadoresReales = plantilla.porteros.length + plantilla.defensivos.length + plantilla.ofensivos.length;
             const isViewingOwnClub = viewedClub.id === currentClub.id;
 
@@ -3243,7 +3275,7 @@ export default function Dashboard({
                     Elige a un juvenil de {MENTEE_MAX_AGE} años o menos del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumas prestigio como mentor) — o no.
                   </p>
                   {(() => {
-                    const eligibleMentees = squadOf(currentClub).filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p) <= MENTEE_MAX_AGE);
+                    const eligibleMentees = squadOf(currentClub).filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p, seasonsElapsed(playerProfile.currentWeek)) <= MENTEE_MAX_AGE);
                     return (
                       <>
                         <div className="flex flex-wrap gap-1.5">
@@ -3269,7 +3301,7 @@ export default function Dashboard({
                                   : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
                               }`}
                             >
-                              {p}
+                              {displayName(p)}
                             </button>
                           ))}
                         </div>
