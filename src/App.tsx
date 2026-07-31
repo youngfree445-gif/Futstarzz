@@ -1655,7 +1655,11 @@ export default function App() {
     // cambia nada): jugar mal de verdad (rating < 6) te baja el valor, y solo un partidazo genuino
     // (rating alto y/o goles/asistencias) lo sube.
     const valueChg = (results.rating - 6.0) * 4500 + (results.goles * 12000) + (results.asistencias * 7000);
-    const campeonatoGanado = results.campeonatoGanado ? 1 : 0;
+    // El campeonato NO lo informa el MatchSimulator (nunca manda ese campo): se
+    // deduce de la tabla al terminar la temporada, mas abajo, cuando ya se
+    // resolvio la fecha. Sin esto careerStats.campeonatos quedaba siempre en 0 y
+    // el historial de carrera nunca mostraba un titulo.
+    let salioCampeon = false;
 
     // Si tu partido de esta semana fue de eliminación directa y terminó igualado, alguna de las
     // 4 ramas de abajo va a dejar una tanda de penales guardada en el bracket/llave correspondiente.
@@ -1681,6 +1685,17 @@ export default function App() {
         foundShootout = shootout;
         foundShootoutMyId = myClub.id;
         foundShootoutMyName = myClub.name;
+      }
+
+      // ¿Cerro la temporada y quedaste primero? Es la ultima fecha cuando ya no
+      // queda ningun partido por jugar en el fixture de tu equipo.
+      const quedanPartidos = resolvedSeason.fixtures.some(
+        f => !f.played && (f.homeTeamId === myClub.id || f.awayTeamId === myClub.id));
+      if (!quedanPartidos && resolvedSeason.table.length > 0) {
+        const lider = sortTable([...resolvedSeason.table])[0];
+        if (lider && (lider.clubId === myClub.id || lider.name === myClub.name)) {
+          salioCampeon = true;
+        }
       }
 
       updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
@@ -1844,7 +1859,7 @@ export default function App() {
           CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.name || '',
           results.goles,
           results.asistencias,
-          !!results.campeonatoGanado
+          salioCampeon
         );
 
     // Costo de haberse ido con la selección esta semana (ver pendingCountryDutyCost). Se aplica
@@ -1880,7 +1895,7 @@ export default function App() {
         goles: playerProfile.careerStats.goles + results.goles,
         asistencias: playerProfile.careerStats.asistencias + results.asistencias,
         partidos: playerProfile.careerStats.partidos + 1,
-        campeonatos: playerProfile.careerStats.campeonatos + campeonatoGanado,
+        campeonatos: playerProfile.careerStats.campeonatos + (salioCampeon ? 1 : 0),
         golesHistoricos: playerProfile.careerStats.golesHistoricos + results.goles,
         asistenciasHistoricos: playerProfile.careerStats.asistenciasHistoricos + results.asistencias,
         partidosHistoricos: playerProfile.careerStats.partidosHistoricos + 1,
