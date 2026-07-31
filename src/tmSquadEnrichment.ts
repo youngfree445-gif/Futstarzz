@@ -1,13 +1,13 @@
 // Edad real (Transfermarkt) de los starPlayers de Colombia y Argentina.
 //
 // Generado por scripts/scrape_kader_tm.mjs, que baja el plantel completo desde
-// /kader/verein/<id> de 91 clubes (36 colombianos: Dimayor I + Torneo/B; 55
+// /kader/verein/<id> de 99 clubes (36 colombianos: Dimayor I + Torneo/B; 63
 // argentinos: Clausura + Primera Nacional), y despues cruza por nombre contra
 // los starPlayers de ULTIMATE_CLUBS_DATABASE.
 //
 // Clave: "clubId|nombreTalCualEnStarPlayers" -- mismo formato que
 // PLAYER_ENRICHMENT (ver playerEnrichment.ts), para consultarse con la misma
-// llave. Cubre 557 de 923 starPlayers de esas dos ligas (60%).
+// llave. Cubre 604 de 923 starPlayers de esas dos ligas (65%).
 //
 // PURAMENTE ADITIVO: no reescribe ULTIMATE_CLUBS_DATABASE ni toca los escudos.
 // Los starPlayers de data.ts quedan exactamente como estaban.
@@ -26,7 +26,7 @@
 //    Millonarios primero; "Real Cundinamarca", Valledupar) y hay homonimos de
 //    otros paises (existen un Leones FC y un Tigres FC no colombianos).
 //  - currentClubName aparece solo si Transfermarkt dice que el jugador hoy
-//    juega en otro club (58 de 557): los planteles de data.ts son de una
+//    juega en otro club (61 de 604): los planteles de data.ts son de una
 //    temporada anterior. Es informativo y NADIE lo consume todavia -- no mueve
 //    a nadie de equipo.
 
@@ -90,6 +90,13 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'all_boys|Maximiliano Coronel (CB)': { age: 37, tmId: '125082', tmName: 'Maximiliano Coronel', tmPosition: 'Defensa central' },
   'almagro|Andrés Chávez (ST)': { age: 35, tmId: '193768', tmName: 'Andrés Chávez', tmPosition: 'Delantero centro', currentClubName: 'Aldosivi' },
   'almagro|Enzo Martínez (LM)': { age: 28, tmId: '578737', tmName: 'Enzo Martínez', tmPosition: 'Defensa central', currentClubName: 'Gimnasia y Esgrima La Plata' },
+  'almagro|Enzo Silcan (LB)': { age: 26, tmId: '873603', tmName: 'Enzo Silcan', tmPosition: 'Lateral izquierdo' },
+  'almagro|Franco Bustamante (RM)': { age: 27, tmId: '613705', tmName: 'Franco Bustamante', tmPosition: 'Interior derecho' },
+  'almagro|Gonzalo Asís (RB)': { age: 30, tmId: '549958', tmName: 'Gonzalo Asís', tmPosition: 'Lateral derecho' },
+  'almagro|Juan Pablo Zozaya (GK)': { age: 24, tmId: '830307', tmName: 'Juan Pablo Zozaya', tmPosition: 'Portero' },
+  'almagro|Julián Marchioni (CM)': { age: 33, tmId: '323920', tmName: 'Julián Marchioni', tmPosition: 'Mediocentro' },
+  'almagro|Matías Cortave (CB)': { age: 34, tmId: '443353', tmName: 'Matías Cortave', tmPosition: 'Defensa central' },
+  'almagro|Tobías Macies (CAM)': { age: 25, tmId: '991131', tmName: 'Tobías Macies', tmPosition: 'Mediocentro ofensivo' },
   'almirante_brown|Agustín Dattola (CB)': { age: 27, tmId: '865490', tmName: 'Agustín Dattola', tmPosition: 'Defensa central' },
   'almirante_brown|Facundo Quignon (CDM)': { age: 33, tmId: '131218', tmName: 'Facundo Quignón', tmPosition: 'Pivote' },
   'almirante_brown|Gustavo Cabral (CB)': { age: 40, tmId: '30677', tmName: 'Gustavo Cabral', tmPosition: 'Defensa central' },
@@ -113,6 +120,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'america_cali|Yeison Guzmán (CAM)': { age: 28, tmId: '498687', tmName: 'Yeison Guzmán', tmPosition: 'Mediocentro ofensivo' },
   'argentinos_jrs|Alan Lescano': { age: 24, tmId: '991134', tmName: 'Alan Lescano', tmPosition: 'Mediocentro ofensivo' },
   'argentinos_jrs|Diego Rodríguez': { age: 37, tmId: '90800', tmName: 'Diego Rodríguez', tmPosition: 'Portero' },
+  'argentinos_jrs|Maximiliano Romero': { age: 31, tmId: '997761', tmName: 'Maximiliano Romero', tmPosition: 'Defensa central', currentClubName: 'Atlético Mitre' },
   'atl_tucuman|Gastón Suso (CB)': { age: 35, tmId: '469776', tmName: 'Gastón Suso', tmPosition: 'Defensa central' },
   'atl_tucuman|Gianluca Ferrari (CB)': { age: 29, tmId: '340507', tmName: 'Gianluca Ferrari', tmPosition: 'Defensa central' },
   'atl_tucuman|Kevin Ortiz (CM)': { age: 25, tmId: '984079', tmName: 'Kevin Ortiz', tmPosition: 'Pivote' },
@@ -259,9 +267,17 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'colegiales|Mateo Mamaní (ST)': { age: 24, tmId: '830110', tmName: 'Mateo Mamani', tmPosition: 'Delantero centro' },
   'colegiales|Mauro Albertengo (ST)': { age: 36, tmId: '431183', tmName: 'Mauro Albertengo', tmPosition: 'Delantero centro' },
   'colegiales|Nicolás Toloza (ST)': { age: 27, tmId: '925438', tmName: 'Nicolás Toloza', tmPosition: 'Delantero centro' },
+  'colon|Agustín Toledo (CDM)': { age: 26, tmId: '876881', tmName: 'Agustín Toledo', tmPosition: 'Pivote' },
+  'colon|Darío Sarmiento (RM)': { age: 23, tmId: '668552', tmName: 'Darío Sarmiento', tmPosition: 'Extremo derecho' },
+  'colon|Emanuel Beltrán (RB)': { age: 28, tmId: '539554', tmName: 'Emanuel Beltrán', tmPosition: 'Lateral derecho' },
   'colon|Facundo Castro (ST)': { age: 30, tmId: '332252', tmName: 'Facundo Castro', tmPosition: 'Delantero centro', currentClubName: 'Nueva Chicago' },
+  'colon|Federico Lértora (CDM)': { age: 36, tmId: '125104', tmName: 'Federico Lértora', tmPosition: 'Pivote' },
+  'colon|Federico Rasmussen (CB)': { age: 34, tmId: '131219', tmName: 'Federico Rasmussen', tmPosition: 'Defensa central' },
   'colon|Lucas Cano (ST)': { age: 31, tmId: '216036', tmName: 'Lucas Cano', tmPosition: 'Delantero centro', currentClubName: 'All Boys' },
   'colon|Matías Godoy (LM)': { age: 24, tmId: '582168', tmName: 'Matías Godoy', tmPosition: 'Extremo izquierdo', currentClubName: 'Aldosivi' },
+  'colon|Mauro Peinipil (RB)': { age: 27, tmId: '989571', tmName: 'Mauro Peinipil', tmPosition: 'Lateral derecho' },
+  'colon|Nicolás Thaller (CB)': { age: 27, tmId: '563923', tmName: 'Nicolás Thaller', tmPosition: 'Defensa central' },
+  'colon|Pier Barrios (CB)': { age: 36, tmId: '118756', tmName: 'Pier Barrios', tmPosition: 'Defensa central' },
   'cucuta|Jhon Quiñones (CB)': { age: 22, tmId: '1139706', tmName: 'Jhon Alexander Quiñones', tmPosition: 'Defensa central' },
   'cucuta|Joao Abonia (RW)': { age: 26, tmId: '907797', tmName: 'Joao Abonia', tmPosition: 'Lateral derecho' },
   'cucuta|Juan Diego Ceballos (CM)': { age: 27, tmId: '653400', tmName: 'Juan Ceballos', tmPosition: 'Mediocentro' },
@@ -326,6 +342,16 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'godoy_cruz|Nahuel Ulariaga (ST)': { age: 24, tmId: '845336', tmName: 'Nahuel Ulariaga', tmPosition: 'Delantero centro' },
   'godoy_cruz|Roberto Ramírez (GK)': { age: 30, tmId: '332248', tmName: 'Roberto Ramírez', tmPosition: 'Portero' },
   'godoy_cruz|Vicente Poggi (CM)': { age: 24, tmId: '657744', tmName: 'Vicente Poggi', tmPosition: 'Mediocentro' },
+  'guemes|Axel Bordón (RB)': { age: 30, tmId: '727873', tmName: 'Axel Bordón', tmPosition: 'Lateral derecho' },
+  'guemes|David Véliz (LM)': { age: 26, tmId: '932590', tmName: 'David Véliz', tmPosition: 'Extremo izquierdo' },
+  'guemes|Fernando Godoy (CM)': { age: 36, tmId: '130452', tmName: 'Fernando Godoy', tmPosition: 'Pivote' },
+  'guemes|Gianluca Pugliese (LW)': { age: 29, tmId: '620159', tmName: 'Gian Luca Pugliese', tmPosition: 'Extremo izquierdo' },
+  'guemes|Juan Sánchez Sotelo (ST)': { age: 38, tmId: '82550', tmName: 'Juan Sánchez Sotelo', tmPosition: 'Delantero centro' },
+  'guemes|Leandro Finochietto (GK)': { age: 29, tmId: '534036', tmName: 'Leandro Finochietto', tmPosition: 'Portero' },
+  'guemes|Maico Quiroz (CDM)': { age: 24, tmId: '1001944', tmName: 'Maico Quiroz', tmPosition: 'Mediocentro ofensivo' },
+  'guemes|Marcelo Benítez (LB)': { age: 35, tmId: '96432', tmName: 'Marcelo Benítez', tmPosition: 'Lateral izquierdo' },
+  'guemes|Oscar Vanegas (CB)': { age: 30, tmId: '588985', tmName: 'Óscar Vanegas', tmPosition: 'Defensa central' },
+  'guemes|Tomás Oneto (CB)': { age: 28, tmId: '600707', tmName: 'Tomás Oneto', tmPosition: 'Defensa central' },
   'huracan|Alejandro Martínez (LW)': { age: 29, tmId: '729356', tmName: 'Alejandro Martínez', tmPosition: 'Extremo izquierdo' },
   'huracan|Fabio Pereyra (CB)': { age: 36, tmId: '610248', tmName: 'Fabio Pereyra', tmPosition: 'Defensa central' },
   'huracan|Facundo Waller (LM)': { age: 29, tmId: '322696', tmName: 'Facundo Waller', tmPosition: 'Interior izquierdo' },
@@ -463,6 +489,15 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'platense|Matías Borgogno (GK)': { age: 27, tmId: '592427', tmName: 'Matías Borgogno', tmPosition: 'Portero', currentClubName: 'Defensa y Justicia' },
   'platense|Maximiliano Amarfil (CM)': { age: 24, tmId: '990429', tmName: 'Maximiliano Amarfil', tmPosition: 'Pivote' },
   'platense|Víctor Cuesta (CB)': { age: 37, tmId: '104326', tmName: 'Victor Cuesta', tmPosition: 'Defensa central' },
+  'racing_cba|Alejandro Rébola (CB)': { age: 38, tmId: '88080', tmName: 'Alejandro Rébola', tmPosition: 'Defensa central' },
+  'racing_cba|Gabriel Aranda (CB)': { age: 25, tmId: '911962', tmName: 'Gabriel Aranda', tmPosition: 'Defensa central' },
+  'racing_cba|Gaspar Vega (CM)': { age: 34, tmId: '644108', tmName: 'Gaspar Vega', tmPosition: 'Pivote' },
+  'racing_cba|Gonzalo Laborda (GK)': { age: 31, tmId: '568846', tmName: 'Gonzalo Laborda', tmPosition: 'Portero' },
+  'racing_cba|Luciano Viano (LW)': { age: 23, tmId: '1230399', tmName: 'Luciano Viano', tmPosition: 'Extremo izquierdo' },
+  'racing_cba|Marcio Gómez (CB)': { age: 26, tmId: '997420', tmName: 'Marcio Gómez', tmPosition: 'Defensa central' },
+  'racing_cba|Pablo Chavarría (ST)': { age: 38, tmId: '118732', tmName: 'Pablo Chavarría', tmPosition: 'Delantero centro' },
+  'racing_cba|Ricardo Centurión (LM)': { age: 33, tmId: '230058', tmName: 'Ricardo Centurión', tmPosition: 'Extremo izquierdo' },
+  'racing_cba|Sergio González (ST)': { age: 31, tmId: '359148', tmName: 'Sergio González', tmPosition: 'Delantero centro' },
   'racing|Adrián Martínez': { age: 34, tmId: '598769', tmName: 'Adrián Martínez', tmPosition: 'Delantero centro' },
   'racing|Alfonso Espino': { age: 34, tmId: '311044', tmName: 'Alfonso Espino', tmPosition: 'Lateral izquierdo' },
   'racing|Gabriel Arias': { age: 38, tmId: '54330', tmName: 'Gabriel Arias', tmPosition: 'Portero', currentClubName: 'Newells Old Boys' },
@@ -503,6 +538,16 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'san_lorenzo|Adam Bareiro': { age: 30, tmId: '514120', tmName: 'Adam Bareiro', tmPosition: 'Delantero centro', currentClubName: 'Boca Juniors' },
   'san_lorenzo|Gonzalo Ábrego': { age: 26, tmId: '836493', tmName: 'Gonzalo Abrego', tmPosition: 'Mediocentro' },
   'san_lorenzo|Nahuel Barrios': { age: 28, tmId: '503377', tmName: 'Nahuel Barrios', tmPosition: 'Extremo izquierdo' },
+  'san_miguel|Alexis Cruz (LB)': { age: 26, tmId: '1375827', tmName: 'Alexis Cruz', tmPosition: 'Lateral izquierdo' },
+  'san_miguel|Bruno Nasta (ST)': { age: 33, tmId: '728528', tmName: 'Bruno Nasta', tmPosition: 'Delantero centro' },
+  'san_miguel|Daniel Juárez (ST)': { age: 25, tmId: '742539', tmName: 'Daniel Juárez', tmPosition: 'Extremo derecho' },
+  'san_miguel|Dixon Renteria (CB)': { age: 30, tmId: '628927', tmName: 'Dixon Rentería', tmPosition: 'Defensa central' },
+  'san_miguel|Facundo Omar Cardozo (LB)': { age: 31, tmId: '189420', tmName: 'Facundo Cardozo', tmPosition: 'Defensa central' },
+  'san_miguel|Leandro Desábato (CDM)': { age: 36, tmId: '181704', tmName: 'Leandro Desábato', tmPosition: 'Pivote' },
+  'san_miguel|Lucas Brochero (RM)': { age: 27, tmId: '830783', tmName: 'Lucas Brochero', tmPosition: 'Extremo derecho' },
+  'san_miguel|Lucas Delgado (ST)': { age: 31, tmId: '553853', tmName: 'Lucas Delgado', tmPosition: 'Delantero centro' },
+  'san_miguel|Lucio Pérez (RB)': { age: 29, tmId: '997502', tmName: 'Lucio Pérez', tmPosition: 'Lateral derecho' },
+  'san_miguel|Máximo Oses (LM)': { age: 20, tmId: '1266125', tmName: 'Máximo Osés', tmPosition: 'Extremo derecho' },
   'san_telmo|Elías Brítez (CM)': { age: 25, tmId: '1050567', tmName: 'Elías Brítez', tmPosition: 'Pivote' },
   'san_telmo|Emanuel Díaz (CB)': { age: 28, tmId: '871468', tmName: 'Emanuel Díaz', tmPosition: 'Defensa central' },
   'san_telmo|Fabián Henríquez (CM)': { age: 31, tmId: '400611', tmName: 'Fabián Henríquez', tmPosition: 'Pivote' },
@@ -512,6 +557,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'san_telmo|Javier Iritier (LW)': { age: 31, tmId: '471654', tmName: 'Javier Iritier', tmPosition: 'Interior derecho' },
   'san_telmo|Juan Cruz Zurbriggen (ST)': { age: 26, tmId: '728222', tmName: 'Juan Cruz Zurbriggen', tmPosition: 'Delantero centro' },
   'san_telmo|Martín Batallini (ST)': { age: 34, tmId: '595986', tmName: 'Martín Batallini', tmPosition: 'Delantero centro' },
+  'san_telmo|Matías Laba (CDM)': { age: 34, tmId: '147496', tmName: 'Matías Laba', tmPosition: 'Pivote', currentClubName: 'Almagro' },
   'santafe|Franco Fagúndez': { age: 26, tmId: '929438', tmName: 'Franco Fagúndez', tmPosition: 'Mediapunta' },
   'santafe|Helibelton Palacios': { age: 33, tmId: '211389', tmName: 'Helibelton Palacios', tmPosition: 'Lateral derecho' },
   'santafe|Hugo Rodallega': { age: 41, tmId: '37934', tmName: 'Hugo Rodallega', tmPosition: 'Delantero centro' },
@@ -575,6 +621,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'tristan_suarez|Mauricio Manuel Guzmán (CB)': { age: 26, tmId: '756813', tmName: 'Mauricio Guzmán', tmPosition: 'Defensa central' },
   'tristan_suarez|Nicolás Del Priore (CM)': { age: 29, tmId: '613357', tmName: 'Nicolás Del Priore', tmPosition: 'Mediocentro' },
   'tristan_suarez|Nicolás Sánchez (LM)': { age: 34, tmId: '268846', tmName: 'Nicolás Sánchez', tmPosition: 'Mediocentro ofensivo' },
+  'tristan_suarez|Álvaro Veliez (ST)': { age: 31, tmId: '697012', tmName: 'Álvaro Veliez', tmPosition: 'Delantero centro', currentClubName: 'San Martín de Tucumán' },
   'union_magdalena|Cristian Iguarán (ST)': { age: 21, tmId: '1258105', tmName: 'Cristian Iguarán' },
   'union_magdalena|Jimmy Congo (CDM)': { age: 28, tmId: '649794', tmName: 'Jimmy Congo', tmPosition: 'Pivote' },
   'union_magdalena|José Mercado (CM)': { age: 22, tmId: '1000701', tmName: 'José Mercado', tmPosition: 'Mediocentro' },

@@ -16062,5 +16062,1401 @@
       "age": 22,
       "position": "Delantero centro"
     }
+  ],
+  "Colón": [
+    {
+      "tmId": "873244",
+      "name": "Matías Budiño",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "639648",
+      "name": "Tomás Giménez",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1369147",
+      "name": "Tomás Paredes",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1034775",
+      "name": "Sebastián Olmedo",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "131219",
+      "name": "Federico Rasmussen",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "118756",
+      "name": "Pier Barrios",
+      "age": 36,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "563923",
+      "name": "Nicolás Thaller",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "865002",
+      "name": "Leandro Allende",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "532350",
+      "name": "Gabriel Risso Patrón",
+      "age": 30,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "578056",
+      "name": "Facundo Castet",
+      "age": 27,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "668545",
+      "name": "Conrado Ibarra",
+      "age": 22,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "989571",
+      "name": "Mauro Peinipil",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "539554",
+      "name": "Emanuel Beltrán",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "125104",
+      "name": "Federico Lértora",
+      "age": 36,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "486238",
+      "name": "Matías Muñoz",
+      "age": 30,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "876881",
+      "name": "Agustín Toledo",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "441266",
+      "name": "Ignacio Antonio",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1321196",
+      "name": "Zahir Yunis",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1369146",
+      "name": "Tomás Gallay",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1372631",
+      "name": "Agustín Giménez",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "813459",
+      "name": "Ignacio Lago",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "633041",
+      "name": "Julián Marcioni",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "997424",
+      "name": "Franco García",
+      "age": 29,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "668552",
+      "name": "Darío Sarmiento",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1292771",
+      "name": "Leandro Zabala",
+      "age": 23,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "538609",
+      "name": "Alan Bonansea",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "300308",
+      "name": "Leandro Garate",
+      "age": 32,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1394668",
+      "name": "Matías Córdoba",
+      "age": 19,
+      "position": "Delantero centro"
+    }
+  ],
+  "San Martín de Tucumán": [
+    {
+      "tmId": "526432",
+      "name": "Darío Sand",
+      "age": 38,
+      "position": "Portero"
+    },
+    {
+      "tmId": "880019",
+      "name": "Nahuel Manganelli",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "497148",
+      "name": "Juan Jaime",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1111181",
+      "name": "Guillermo Rodríguez",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "296808",
+      "name": "Nicolás Ferreyra",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "210742",
+      "name": "Ezequiel Parnisari",
+      "age": 36,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1114998",
+      "name": "Tiago Peñalba",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "370534",
+      "name": "Rodrigo Ayala",
+      "age": 31,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "548466",
+      "name": "Nahuel Gallardo",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1385551",
+      "name": "Aníbal Paz",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "347749",
+      "name": "Víctor Salazar",
+      "age": 33,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "621376",
+      "name": "Santiago Briñone",
+      "age": 29,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1118619",
+      "name": "Laureano Rodríguez",
+      "age": 23,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1157435",
+      "name": "Milton Ríos",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1409216",
+      "name": "Agustín Graneros",
+      "age": 25,
+      "position": null
+    },
+    {
+      "tmId": "931942",
+      "name": "Kevin López",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "441160",
+      "name": "Nicolás Castro",
+      "age": 36,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "840874",
+      "name": "Jorge Juárez",
+      "age": 30,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "280157",
+      "name": "Gabriel Carabajal",
+      "age": 35,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1328320",
+      "name": "Alan Cisnero",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "267393",
+      "name": "Matías García",
+      "age": 34,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "140687",
+      "name": "Gonzalo Rodríguez",
+      "age": 35,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "668551",
+      "name": "Lautaro Ovando",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "697012",
+      "name": "Álvaro Veliez",
+      "age": 31,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1235860",
+      "name": "Bruno Cabrera",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "270906",
+      "name": "Diego Diellos",
+      "age": 32,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1022573",
+      "name": "Mauro Verón",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "882081",
+      "name": "Nicolás Moreno",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1298405",
+      "name": "Luca Arfaras",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1371615",
+      "name": "Tadeo Polli",
+      "age": 21,
+      "position": "Portero"
+    }
+  ],
+  "Racing de Córdoba": [
+    {
+      "tmId": "267632",
+      "name": "Brian Olivera",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "568846",
+      "name": "Gonzalo Laborda",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "873177",
+      "name": "Lucas Soto",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1515982",
+      "name": "Valentín Dutruel",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "911962",
+      "name": "Gabriel Aranda",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "908393",
+      "name": "Matías Sánchez",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "849521",
+      "name": "Tomás Kummer",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "997420",
+      "name": "Marcio Gómez",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "88080",
+      "name": "Alejandro Rébola",
+      "age": 38,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1528232",
+      "name": "Francisco Martin",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1108131",
+      "name": "Emanuel Diaz",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "360425",
+      "name": "Jonathan Bay",
+      "age": 33,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1381362",
+      "name": "Lucas Flores",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "997375",
+      "name": "Santiago Rinaudo",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "997793",
+      "name": "Raul Chamorro",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1282482",
+      "name": "Fabrizio Ghiggia",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "866740",
+      "name": "Alan Olinick",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "832212",
+      "name": "Abel Bustos",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "443689",
+      "name": "Cristian Vega",
+      "age": 32,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "644108",
+      "name": "Gaspar Vega",
+      "age": 34,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1341948",
+      "name": "Matías Machado",
+      "age": 25,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "1293763",
+      "name": "Francisco Monticelli",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1242580",
+      "name": "Román Achaval",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "230058",
+      "name": "Ricardo Centurión",
+      "age": 33,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1230399",
+      "name": "Luciano Viano",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1515981",
+      "name": "Leandro Córdoba",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "907104",
+      "name": "Facundo Taborda",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "359148",
+      "name": "Sergio González",
+      "age": 31,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "118732",
+      "name": "Pablo Chavarría",
+      "age": 38,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "441279",
+      "name": "Ignacio Valsangiácomo",
+      "age": 29,
+      "position": "Delantero centro"
+    }
+  ],
+  "Almagro": [
+    {
+      "tmId": "688181",
+      "name": "Emiliano González",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "830307",
+      "name": "Juan Pablo Zozaya",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1397472",
+      "name": "Franco Mangudo",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "741682",
+      "name": "Brian Negro",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1019745",
+      "name": "Francisco Marco",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "443353",
+      "name": "Matías Cortave",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1070579",
+      "name": "Santiago Chamorro",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1290522",
+      "name": "Aldo Rimbelitti",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "873603",
+      "name": "Enzo Silcan",
+      "age": 26,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1103929",
+      "name": "Nicolás Tolosa",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "549958",
+      "name": "Gonzalo Asís",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1158004",
+      "name": "Juan Fernándes Pinto",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "147496",
+      "name": "Matías Laba",
+      "age": 34,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "323920",
+      "name": "Julián Marchioni",
+      "age": 33,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "376119",
+      "name": "Julián Vitale",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "613705",
+      "name": "Franco Bustamante",
+      "age": 27,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "1322311",
+      "name": "Jeremías Bustos",
+      "age": 23,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "991131",
+      "name": "Tobías Macies",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "655659",
+      "name": "Pablo Palacio",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1358623",
+      "name": "Thiago López",
+      "age": 22,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "402732",
+      "name": "Claudio Salto",
+      "age": 31,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "924535",
+      "name": "Enzo Martínez",
+      "age": 29,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "1105553",
+      "name": "Tiziano Dornell",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1143720",
+      "name": "Joel Orlando",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1022347",
+      "name": "Facundo De La Vega",
+      "age": 23,
+      "position": "Delantero centro"
+    }
+  ],
+  "Estudiantes de Río Cuarto": [
+    {
+      "tmId": "469761",
+      "name": "Lucas Bruera",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "911960",
+      "name": "Agustín Lastra",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1015898",
+      "name": "Francisco Gualtieri",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1126191",
+      "name": "Agustín Quiroga",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "667375",
+      "name": "Juan Antonini",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1214798",
+      "name": "Matías Valenti",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "844242",
+      "name": "Gonzalo Maffini",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "261240",
+      "name": "Sergio Ojeda",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1230924",
+      "name": "Lucas Baños",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "440146",
+      "name": "Facundo Cobos",
+      "age": 33,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "951909",
+      "name": "Fernando Rodríguez",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1145392",
+      "name": "Valentín Fenoglio",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "613093",
+      "name": "Raúl Lozano",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "535029",
+      "name": "Matías Ruiz Díaz",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1029299",
+      "name": "Gonzalo González",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "836253",
+      "name": "Siro Rosané",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "671895",
+      "name": "Alejandro Cabrera",
+      "age": 33,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "426533",
+      "name": "Francisco Romero",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "440865",
+      "name": "Nicolás Talpone",
+      "age": 30,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "342149",
+      "name": "Gabriel Alanís",
+      "age": 32,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "1117221",
+      "name": "Tomás González",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "981479",
+      "name": "Ezequiel Forclaz",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "642757",
+      "name": "Francesco Lo Celso",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "621403",
+      "name": "Mauro Valiente",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "695346",
+      "name": "Ibrahim Hesar",
+      "age": 32,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "174042",
+      "name": "Juan Garro",
+      "age": 33,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "610228",
+      "name": "Mateo Bajamich",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "724219",
+      "name": "Martín Garnerone",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "660198",
+      "name": "Lucas González",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "655431",
+      "name": "Yeison Moreno",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "635107",
+      "name": "Javier Ferreira",
+      "age": 34,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "556050",
+      "name": "Mauro Molina",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "88049",
+      "name": "Ramón Ábila",
+      "age": 36,
+      "position": "Delantero centro"
+    }
+  ],
+  "San Miguel": [
+    {
+      "tmId": "423438",
+      "name": "Daniel Sappa",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1074840",
+      "name": "Matías Escobar",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1305385",
+      "name": "Andrés Sosa",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1402718",
+      "name": "Mateo Ledesma Reynoso",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1516559",
+      "name": "Franco Aguirre",
+      "age": 24,
+      "position": null
+    },
+    {
+      "tmId": "1295857",
+      "name": "Santiago Albornós",
+      "age": 22,
+      "position": null
+    },
+    {
+      "tmId": "189420",
+      "name": "Facundo Cardozo",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "437960",
+      "name": "Kevin Ceceri",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "628927",
+      "name": "Dixon Rentería",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1375827",
+      "name": "Alexis Cruz",
+      "age": 26,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "572895",
+      "name": "Damián Adín",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "997502",
+      "name": "Lucio Pérez",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1250037",
+      "name": "Fabrizio Almeida",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "181704",
+      "name": "Leandro Desábato",
+      "age": 36,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1393735",
+      "name": "Thomas Carosio",
+      "age": 22,
+      "position": null
+    },
+    {
+      "tmId": "1470738",
+      "name": "Elian De La Cruz",
+      "age": 21,
+      "position": null
+    },
+    {
+      "tmId": "1240047",
+      "name": "Mateo Serra",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "531093",
+      "name": "Iván Ramírez",
+      "age": 36,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "668151",
+      "name": "David Müller",
+      "age": 32,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "730397",
+      "name": "Jorge Ferrero",
+      "age": 34,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "741999",
+      "name": "Tomás Díaz",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "830783",
+      "name": "Lucas Brochero",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "742539",
+      "name": "Daniel Juárez",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1266125",
+      "name": "Máximo Osés",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "728528",
+      "name": "Bruno Nasta",
+      "age": 33,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "553853",
+      "name": "Lucas Delgado",
+      "age": 31,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "30957",
+      "name": "Gustavo Fernández",
+      "age": 35,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1354944",
+      "name": "Tomás Jérez",
+      "age": 22,
+      "position": "Delantero centro"
+    }
+  ],
+  "Güemes": [
+    {
+      "tmId": "909397",
+      "name": "Laureano Martínez",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "534036",
+      "name": "Leandro Finochietto",
+      "age": 29,
+      "position": "Portero"
+    },
+    {
+      "tmId": "754675",
+      "name": "Alan González",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1380820",
+      "name": "Tomás Palleres",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "588985",
+      "name": "Óscar Vanegas",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "997059",
+      "name": "Walter Juárez",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "996996",
+      "name": "Emilio Lazza",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "576850",
+      "name": "Facundo Melillán",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "600707",
+      "name": "Tomás Oneto",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1027544",
+      "name": "Matías Martínez",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1327981",
+      "name": "Alan González",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "96432",
+      "name": "Marcelo Benítez",
+      "age": 35,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "492974",
+      "name": "Facundo Rizzi",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "727873",
+      "name": "Axel Bordón",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1466500",
+      "name": "Rodrigo Arnay",
+      "age": 21,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1000680",
+      "name": "Lucas Guiñazú",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "495107",
+      "name": "Gianfranco Baier",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1230639",
+      "name": "Franco Bergés",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "130452",
+      "name": "Fernando Godoy",
+      "age": 36,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1298343",
+      "name": "Santiago Farrera",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1001944",
+      "name": "Maico Quiroz",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "932590",
+      "name": "David Véliz",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "620159",
+      "name": "Gian Luca Pugliese",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1227718",
+      "name": "Milton Gerez",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "724184",
+      "name": "Gastón Espósito",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "661672",
+      "name": "Axel Pinto",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "841188",
+      "name": "Santiago Sala",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "82550",
+      "name": "Juan Sánchez Sotelo",
+      "age": 38,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1117236",
+      "name": "Ciro Leineker",
+      "age": 24,
+      "position": "Delantero centro"
+    }
+  ],
+  "Atlético Mitre": [
+    {
+      "tmId": "840952",
+      "name": "Ignacio Pietrobono",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "878744",
+      "name": "Joaquín Ledesma",
+      "age": 37,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1415987",
+      "name": "Gastón Unrein",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "997761",
+      "name": "Maximiliano Romero",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "864750",
+      "name": "Pablo Minissale",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "543894",
+      "name": "Daniel Abello",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1002335",
+      "name": "Martín Vázquez",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1218101",
+      "name": "Gianfranco Lillo Herdt",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1391276",
+      "name": "Segundo Rodríguez",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "540466",
+      "name": "Franco Ferrari",
+      "age": 34,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1373716",
+      "name": "Luciano Correa",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "987171",
+      "name": "Gonzalo Valdivia",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1335312",
+      "name": "Mateo Maldonado",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "432556",
+      "name": "Brian Mieres",
+      "age": 31,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "541862",
+      "name": "Juan Alesandroni",
+      "age": 37,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1526715",
+      "name": "Alan López",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "999432",
+      "name": "Matías Ferrari",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "728287",
+      "name": "Mateo Montenegro",
+      "age": 27,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "840954",
+      "name": "Oscar Garrido",
+      "age": 28,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "357424",
+      "name": "Santiago Rosales",
+      "age": 31,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "665396",
+      "name": "Agustín Ramírez",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "856011",
+      "name": "Enzo Avaro",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "874209",
+      "name": "Rodrigo González",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1147599",
+      "name": "Marcos Machado",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "748210",
+      "name": "Favio Cabral",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "131828",
+      "name": "Juan Pablo Zárate",
+      "age": 35,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1511199",
+      "name": "Lautaro Mendoza",
+      "age": 23,
+      "position": "Delantero centro"
+    }
   ]
 }
