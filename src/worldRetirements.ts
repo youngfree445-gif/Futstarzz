@@ -12,6 +12,13 @@
 import { PLAYER_ENRICHMENT } from './playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from './tmSquadEnrichment';
 
+/**
+ * Edad máxima para que un jugador del plantel pueda ser tu ahijado en la Mentoría de Jóvenes.
+ * Vive acá y no en Dashboard porque App.tsx también lo necesita: al cargar una partida hay que
+ * revalidar el ahijado guardado, o un mentee elegido con datos viejos sobrevive para siempre.
+ */
+export const MENTEE_MAX_AGE = 20;
+
 /** Antes de esta edad nadie se retira. */
 export const WORLD_RETIREMENT_MIN_AGE = 34;
 /** A esta edad se retira sí o sí, como el jugador humano (ver RETIREMENT_MAX_AGE en App.tsx). */

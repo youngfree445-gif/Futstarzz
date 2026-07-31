@@ -9,7 +9,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
-import { resolveWorldRetirements, applySquadRetirements } from './worldRetirements';
+import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
@@ -309,7 +309,15 @@ function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number
     ? 0
     : MENTORSHIP_PRESTIGE_BAD;
 
-  return { ...profile, prestige: Math.max(0, Math.min(100, profile.prestige + prestigeChange)) };
+  // El ahijado también cumple años: pasado el límite se "gradúa" y deja de serlo, o seguirías
+  // apadrinando al mismo jugador cuando ya tiene 30. El roll de esta temporada igual se aplica.
+  const seguiaSiendoJoven = getSquadPlayerAge(profile.currentClubId, profile.mentorshipPlayerName) < MENTEE_MAX_AGE;
+
+  return {
+    ...profile,
+    prestige: Math.max(0, Math.min(100, profile.prestige + prestigeChange)),
+    mentorshipPlayerName: seguiaSiendoJoven ? profile.mentorshipPlayerName : null,
+  };
 }
 
 // Agrupa todos los efectos que se disparan al cruzar de una temporada a otra (edad/declive físico,
@@ -606,6 +614,16 @@ export default function App() {
     if (profile.mentorshipPlayerName === undefined) {
       profile = { ...profile, mentorshipPlayerName: null };
     }
+    // El ahijado se guardaba sin revalidar: una partida creada antes de que existieran las edades
+    // reales podía tener elegido a un veterano (reporte real: Luis Fernando Muriel, 35 años, como
+    // "joven promesa" en Junior) y ese valor sobrevivía para siempre a cualquier arreglo posterior.
+    // Acá se vuelve a chequear contra la edad actual y se limpia si ya no corresponde.
+    if (profile.mentorshipPlayerName) {
+      const edad = getSquadPlayerAge(profile.currentClubId, profile.mentorshipPlayerName);
+      if (edad > MENTEE_MAX_AGE) {
+        profile = { ...profile, mentorshipPlayerName: null };
+      }
+    }
     if (profile.missedClubMatchesForCountry === undefined) {
       profile = { ...profile, missedClubMatchesForCountry: 0 };
     }
@@ -709,6 +727,12 @@ export default function App() {
   // applyMentorshipIfNewSeason.
   const handleSelectMentee = (playerName: string | null) => {
     if (!playerProfile) return;
+    // Última barrera: la UI ya filtra por edad, pero esto garantiza que ningún camino (un save
+    // manipulado, un plantel que cambió entre render y click) pueda dejar a un veterano de ahijado.
+    if (playerName && getSquadPlayerAge(playerProfile.currentClubId, playerName) > MENTEE_MAX_AGE) {
+      notify('Ese jugador ya no es un juvenil: la mentoría es solo para promesas del plantel.');
+      return;
+    }
     const updatedProfile = { ...playerProfile, mentorshipPlayerName: playerName };
     const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
     if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);

@@ -5,7 +5,7 @@ import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_A
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
-import { applySquadRetirements } from '../worldRetirements';
+import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge } from '../worldRetirements';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -75,28 +75,13 @@ function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
   return myGoals > rivalGoals ? 'V' : myGoals === rivalGoals ? 'E' : 'D';
 }
 
-// Mentoría de Jóvenes: usa la edad real cuando existe para ese club+jugador, consultando en
-// orden PLAYER_ENRICHMENT (cruce contra FC26/latamfc26, ver playerEnrichment.ts) y después
-// TM_SQUAD_ENRICHMENT (planteles de Transfermarkt, por ahora solo Dimayor I -- ver
-// tmSquadEnrichment.ts). Solo cuando NO hay dato real en ninguna de las dos caemos a una edad
-// estable generada a partir del nombre, para que la mentoría siga funcionando en los 600+ clubes.
+// Mentoría de Jóvenes: la edad sale de getSquadPlayerAge (worldRetirements.ts), que consulta
+// PLAYER_ENRICHMENT y TM_SQUAD_ENRICHMENT y solo cae a un hash del nombre cuando no hay dato real.
 //
-// BUGFIX: antes esto usaba el hash SIEMPRE, ignorando la edad real ya presente en el repo -- eso
-// podía ofrecer como mentee elegible a un veterano real de 30+ años si su nombre (que puede variar
-// en formato: con/sin segundo nombre, acentos) generaba un hash bajo (reporte real: jugando con
-// Junior de Barranquilla, el sistema ofrecía a Luis Fernando Muriel -- delantero de 1991, uno de
-// los más veteranos del plantel -- como candidato a mentee).
-function getMenteeAge(clubId: string, name: string): number {
-  const key = `${clubId}|${name}`;
-  const real = PLAYER_ENRICHMENT[key]?.age ?? TM_SQUAD_ENRICHMENT[key]?.age;
-  if (real != null) return real;
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = (hash * 31 + name.charCodeAt(i)) | 0;
-  }
-  return 17 + (Math.abs(hash) % 20); // rango 17-36
-}
-const MENTEE_MAX_AGE = 20;
+// Antes esta lógica estaba duplicada acá con su propia copia del hash. Se unificó porque tener dos
+// fuentes de edad permite que diverjan: los retiros del mundo podían considerar veterano a alguien
+// que la mentoría seguía ofreciendo como promesa.
+const getMenteeAge = getSquadPlayerAge;
 
 // Ligas que dominan la conversación en ChutSocial. Son las que un hincha real sigue a diario, así
 // que el feed tiene que sonar a ellas: sin esto, de los 706 clubes con plantel solo el 43% es de
