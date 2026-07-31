@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
@@ -6,6 +6,8 @@ import {
 } from './data';
 import { applyClubTheme } from './clubTheme';
 import { preloadSfx } from './audio';
+import { realDomesticCupFor } from './realCalendar';
+import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
@@ -302,12 +304,27 @@ function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number
 // cambio de DT, síndrome del segundo año, años en el club, mentoría) en un solo lugar -- se llama
 // igual sin importar qué flujo hizo avanzar currentWeek (jugar, descansar, fecha FIFA sin
 // convocatoria, sanción).
+// Irse con la selección una vez es normal y el club lo asume; hacerlo repetidamente en partidos
+// grandes es lo que termina de romper la relación. El golpe puntual ya se aplicó partido a partido
+// (ver pendingCountryDutyCost); esto es el saldo acumulado que se cobra al cerrar la temporada.
+function applyCountryDutyToll(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(newWeek) === getSeasonYear(previousWeek)) return profile;
+  const penalty = seasonEndPrestigePenalty(profile.missedClubMatchesForCountry);
+  return {
+    ...profile,
+    prestige: Math.max(0, Math.min(100, profile.prestige + penalty)),
+    // El contador se reinicia cada temporada: lo que se juzga es el año, no la carrera entera.
+    missedClubMatchesForCountry: 0,
+  };
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   let next = applyAgingIfNewSeason(profile, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
   next = applyBreakoutSeasonIfNewSeason(next, previousWeek, newWeek);
   next = applyYearsAtClubIfNewSeason(next, previousWeek, newWeek);
   next = applyMentorshipIfNewSeason(next, previousWeek, newWeek);
+  next = applyCountryDutyToll(next, previousWeek, newWeek);
   return next;
 }
 
@@ -359,6 +376,9 @@ export default function App() {
   // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
   // nacional (Copa del Rey, FA Cup, etc.) en vez de caer al cartel de Libertadores.
   const [activeDomesticCup, setActiveDomesticCup] = useState(false);
+  // Costo de irse con la selección, calculado al salir de la semana pero aplicado recién cuando
+  // termina el partido: si se aplicara antes, el jugador vería bajar su prestigio sin saber por qué.
+  const pendingCountryDutyCost = useRef<{ prestige: number; notice: string | null; important: boolean } | null>(null);
   const [activeWorldCupTeamId, setActiveWorldCupTeamId] = useState<string | null>(null);
   // Posiciones en la tabla al momento de armar el partido (solo liga doméstica -- en copas/Mundial
   // no hay una tabla comparable entre rivales de países distintos). Alimentan tanto el badge de
@@ -500,6 +520,9 @@ export default function App() {
     }
     if (profile.mentorshipPlayerName === undefined) {
       profile = { ...profile, mentorshipPlayerName: null };
+    }
+    if (profile.missedClubMatchesForCountry === undefined) {
+      profile = { ...profile, missedClubMatchesForCountry: 0 };
     }
     if (profile.hasSteppedDownRetirement === undefined) {
       profile = { ...profile, hasSteppedDownRetirement: false };
@@ -1071,6 +1094,21 @@ export default function App() {
         setActiveMyTablePosition(null);
         setActiveRivalTablePosition(null);
         setActiveLeagueTeamCount(null);
+
+        // El club te libera -- la FIFA lo obliga, así que irse nunca se bloquea -- pero si esa
+        // semana tu club se jugaba algo grande, la relación con el DT (prestige) se enfría.
+        // Un partido de liga en mitad de temporada es rutina y no cuesta nada.
+        const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+        const clubComp = myClub ? realDomesticCupFor(myClub.league) : undefined;
+        const importancia = classifyMissedMatch(clubComp, undefined);
+        const costo = prestigeCostOfMissing(importancia);
+        if (costo !== 0 && myClub) {
+          pendingCountryDutyCost.current = {
+            prestige: costo,
+            notice: missedMatchNotice(importancia, myClub.name, clubComp?.name ?? 'tu club'),
+            important: importancia !== 'routine',
+          };
+        }
       } else {
         // Fecha FIFA sin partido puntual para vos (no convocado, tu selección ya quedó
         // eliminada, o estás entre rondas): no hay actividad de clubes en absoluto esta semana,
@@ -1641,11 +1679,20 @@ export default function App() {
           !!results.campeonatoGanado
         );
 
+    // Costo de haberse ido con la selección esta semana (ver pendingCountryDutyCost). Se aplica
+    // acá y no al salir de la semana para que el jugador vea el efecto junto al partido que lo
+    // causó, no antes de jugarlo.
+    const countryDuty = pendingCountryDutyCost.current;
+    pendingCountryDutyCost.current = null;
+    if (countryDuty?.notice) notify(countryDuty.notice);
+
     const updated: PlayerProfile = {
       ...playerProfile,
+      missedClubMatchesForCountry:
+        playerProfile.missedClubMatchesForCountry + (countryDuty?.important ? 1 : 0),
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
       capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
-      prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange)),
+      prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange + (countryDuty?.prestige ?? 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,

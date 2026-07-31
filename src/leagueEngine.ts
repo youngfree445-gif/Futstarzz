@@ -17,10 +17,33 @@ export type ForcedResult = {
 // para TODAS las ligas, sin importar cuántos equipos tenga cada una —
 // esto es lo que permite sincronizar copas continentales y el ciclo de
 // 4 años de los torneos de selecciones más adelante.
-export const SEASON_LENGTH_WEEKS = 38;
+// Una temporada real no entra en 38 semanas: con el calendario de Transfermarkt importado (ver
+// src/realCalendar.ts) las ligas ocupan de 39 a 48 semanas de punta a punta -- LaLiga 41, Ligue 1
+// 44, la Superliga danesa 48 -- porque entre la primera y la última fecha hay parones, copas y
+// fechas FIFA. Con 38 semanas el calendario real quedaba recortado y los torneos largos no
+// llegaban a terminar.
+//
+// 52 = un año calendario completo, que además hace que la fecha real (getRealDate) avance un año
+// por temporada de forma natural.
+export const SEASON_LENGTH_WEEKS = 52;
 
+// Una de cada 3 semanas era de copa cuando la temporada duraba 38: eso daba 12 semanas (9 en año
+// mundialista) para un cupo que comparten TODAS las copas, y Champions/Europa necesitan ~18 pasos
+// para coronar campeón. Resultado: tardaban 2,4 temporadas y quedaban desfasadas de la liga.
+//
+// Con la temporada en 52 semanas, 2 de cada 5 deja 17 semanas de copa y 26 de liga descontando el
+// parón del Mundial: casi el doble de copa que antes (eran 9) sin ahogar la liga.
+//
+// Con esto Libertadores y Sudamericana entran holgadas (11 pasos) y Champions/Europa pasan de 2,4 a
+// ~1,3 temporadas. No llegan a 1,0: el motor las resuelve gastando un paso por semana de copa
+// COMPARTIDA con todos los demás torneos, y necesitan 22. Subir más el ratio arregla la Champions
+// pero deja la liga en 21 fechas de 38, que es peor.
+//
+// El arreglo de fondo no es este ratio sino el calendario real ya importado (src/realCalendar.ts):
+// ahí cada torneo tiene SUS semanas -- la Champions ocupa 16 reales -- y el cupo compartido, que es
+// la causa raíz, desaparece. Este reparto es la transición hasta que el motor consuma esas fechas.
 export function isCupWeek(week: number): boolean {
-  return week % 3 === 0;
+  return week % 5 === 3 || week % 5 === 0;
 }
 
 // Ventanas de fichajes, inspiradas en las fechas reales del fútbol colombiano (enero, antes del

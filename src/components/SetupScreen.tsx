@@ -125,6 +125,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       yearsAtClub: 0,
       appearanceBonus: currentClub ? Math.round(currentClub.initialSalary * 0.15) : 0,
       mentorshipPlayerName: null,
+      missedClubMatchesForCountry: 0,
       hasSteppedDownRetirement: false,
       girlfriend: null,
       attributes: defaultAttributes,
