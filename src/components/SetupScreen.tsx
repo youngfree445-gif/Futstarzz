@@ -1,8 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Position, Nationality, PlayerProfile, PlayerStats, Club, Superstition } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
-import { User, Shield, Compass, Calendar, Award, DollarSign, ArrowRight, ArrowLeft } from 'lucide-react';
+import { User, Shield, Compass, Calendar, Award, DollarSign, ArrowRight, ArrowLeft, Flag } from 'lucide-react';
 import ClubBadge from './ClubBadge';
+
+// Países disponibles, compartidos por los dos selectores (liga de origen y nacionalidad). Antes la
+// lista estaba escrita inline en el JSX; al necesitarla en dos lugares se extrae para que no se
+// desincronicen.
+//
+// La clave es el valor de Club.league / PlayerProfile.nationality: así se cruza con los clubes y
+// con NATIONALITY_TO_WORLD_CUP_TEAM_ID, que decide a qué selección te pueden convocar.
+const COUNTRIES: { key: string; label: string; flag: string }[] = [
+  { key: 'Colombiana', label: 'Colombia', flag: '🇨🇴' },
+  { key: 'Brasileña', label: 'Brasil', flag: '🇧🇷' },
+  { key: 'Argentina', label: 'Argentina', flag: '🇦🇷' },
+  { key: 'Inglesa', label: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+  { key: 'Española', label: 'España', flag: '🇪🇸' },
+  { key: 'Alemana', label: 'Alemania', flag: '🇩🇪' },
+  { key: 'Italiana', label: 'Italia', flag: '🇮🇹' },
+  { key: 'Francesa', label: 'Francia', flag: '🇫🇷' },
+  { key: 'Holandesa', label: 'Holanda', flag: '🇳🇱' },
+  { key: 'Portuguesa', label: 'Portugal', flag: '🇵🇹' },
+  { key: 'Estadounidense', label: 'EE.UU.', flag: '🇺🇸' },
+  { key: 'Mexicana', label: 'México', flag: '🇲🇽' },
+  { key: 'Uruguaya', label: 'Uruguay', flag: '🇺🇾' },
+  { key: 'Ecuatoriana', label: 'Ecuador', flag: '🇪🇨' },
+  { key: 'Chilena', label: 'Chile', flag: '🇨🇱' },
+  { key: 'Peruana', label: 'Perú', flag: '🇵🇪' },
+  { key: 'Paraguaya', label: 'Paraguay', flag: '🇵🇾' },
+  { key: 'Boliviana', label: 'Bolivia', flag: '🇧🇴' },
+  { key: 'Venezolana', label: 'Venezuela', flag: '🇻🇪' },
+];
 
 interface SetupScreenProps {
   onBack: () => void;
@@ -26,16 +54,23 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
   const [name, setName] = useState('');
   const [position, setPosition] = useState<Position>('Delantero');
   const [age, setAge] = useState(17);
+  // La LIGA donde empezás y tu NACIONALIDAD son cosas distintas: se puede ser colombiano y debutar
+  // en España. Antes un solo control hacía las dos cosas, así que tu selección quedaba atada al
+  // país del club -- y con eso la convocatoria al Mundial (que sale de nationality) también.
+  const [leagueOrigin, setLeagueOrigin] = useState<string>('Colombiana');
   const [nationality, setNationality] = useState<Nationality | string>('Colombiana');
+  // Mientras no se toque a mano, la nacionalidad sigue a la liga elegida: es el caso más común y
+  // evita que quien no le preste atención termine con una combinación rara sin querer.
+  const [nationalityTouched, setNationalityTouched] = useState(false);
   const [selectedClubId, setSelectedClubId] = useState('');
   const [selectedDivision, setSelectedDivision] = useState<'all' | 1 | 2>('all');
   const [superstition, setSuperstition] = useState<Superstition>('botin_derecho');
   const [dorsal, setDorsal] = useState(10);
   const [heightCm, setHeightCm] = useState(180);
 
-  // Filter clubs based on country/nationality and division
+  // Los clubes se filtran por la LIGA elegida, no por la nacionalidad: son independientes.
   const filteredClubs = CLUBS_DATABASE.filter(c => {
-    const matchLeague = c.league === nationality;
+    const matchLeague = c.league === leagueOrigin;
     if (!matchLeague) return false;
     if (selectedDivision === 'all') return true;
     return c.division === selectedDivision;
@@ -46,13 +81,18 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
     if (filteredClubs.length > 0) {
       setSelectedClubId(filteredClubs[0].id);
     } else {
-      // Fallback: search for any club in this nationality if specific division is empty
-      const fallbackClubs = CLUBS_DATABASE.filter(c => c.league === nationality);
+      // Fallback: search for any club in this league if specific division is empty
+      const fallbackClubs = CLUBS_DATABASE.filter(c => c.league === leagueOrigin);
       if (fallbackClubs.length > 0) {
         setSelectedClubId(fallbackClubs[0].id);
       }
     }
-  }, [nationality, selectedDivision]);
+  }, [leagueOrigin, selectedDivision]);
+
+  // Espejo liga -> nacionalidad hasta que el jugador la elija explícitamente.
+  useEffect(() => {
+    if (!nationalityTouched) setNationality(leagueOrigin);
+  }, [leagueOrigin, nationalityTouched]);
 
   const currentClub = CLUBS_DATABASE.find(c => c.id === selectedClubId);
 
@@ -275,33 +315,38 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
 
               <div>
                 <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
-                  Liga de Origen / Nacionalidad
+                  Liga donde empezás
                 </label>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 max-h-40 overflow-y-auto p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
-                  {[
-                    { key: 'Colombiana', label: 'Colombia', flag: '🇨🇴' },
-                    { key: 'Brasileña', label: 'Brasil', flag: '🇧🇷' },
-                    { key: 'Argentina', label: 'Argentina', flag: '🇦🇷' },
-                    { key: 'Inglesa', label: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-                    { key: 'Española', label: 'España', flag: '🇪🇸' },
-                    { key: 'Alemana', label: 'Alemania', flag: '🇩🇪' },
-                    { key: 'Italiana', label: 'Italia', flag: '🇮🇹' },
-                    { key: 'Francesa', label: 'Francia', flag: '🇫🇷' },
-                    { key: 'Holandesa', label: 'Holanda', flag: '🇳🇱' },
-                    { key: 'Portuguesa', label: 'Portugal', flag: '🇵🇹' },
-                    { key: 'Estadounidense', label: 'EE.UU.', flag: '🇺🇸' },
-                    { key: 'Mexicana', label: 'México', flag: '🇲🇽' },
-                    { key: 'Uruguaya', label: 'Uruguay', flag: '🇺🇾' },
-                    { key: 'Ecuatoriana', label: 'Ecuador', flag: '🇪🇨' },
-                    { key: 'Chilena', label: 'Chile', flag: '🇨🇱' },
-                    { key: 'Paraguaya', label: 'Paraguay', flag: '🇵🇾' },
-                    { key: 'Boliviana', label: 'Bolivia', flag: '🇧🇴' },
-                    { key: 'Venezolana', label: 'Venezuela', flag: '🇻🇪' }
-                  ].map(nat => (
+                  {COUNTRIES.map(nat => (
                     <button
                       key={nat.key}
                       type="button"
-                      onClick={() => setNationality(nat.key)}
+                      onClick={() => setLeagueOrigin(nat.key)}
+                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
+                        leagueOrigin === nat.key
+                          ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                          : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                      }`}
+                    >
+                      <span className="text-sm block mb-0.5">{nat.flag}</span>
+                      <span className="truncate max-w-[65px]">{nat.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2 flex items-center gap-1.5">
+                  <Flag size={11} className="text-gold-400 shrink-0" />
+                  Nacionalidad
+                </label>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 max-h-40 overflow-y-auto p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
+                  {COUNTRIES.map(nat => (
+                    <button
+                      key={nat.key}
+                      type="button"
+                      onClick={() => { setNationality(nat.key); setNationalityTouched(true); }}
                       className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
                         nationality === nat.key
                           ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
@@ -313,6 +358,10 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                     </button>
                   ))}
                 </div>
+                <p className="text-4xs text-slate-500 leading-relaxed mt-1.5">
+                  Define a qué selección te pueden convocar. Podés jugar en una liga y tener otra
+                  nacionalidad{nationality !== leagueOrigin ? ' — como ahora' : ''}.
+                </p>
               </div>
 
               <div>
