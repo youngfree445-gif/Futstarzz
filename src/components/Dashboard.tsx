@@ -5,6 +5,7 @@ import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_A
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
+import { applySquadRetirements } from '../worldRetirements';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -378,6 +379,12 @@ export default function Dashboard({
 
   // Corregido: Busca el club en la base de datos inyectada con el JSON
   const currentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+
+  // Plantel de un club con los retiros del mundo ya aplicados (ver worldRetirements.ts): quien se
+  // retiró aparece reemplazado por su canterano. Hay que usar esto en vez de `club.starPlayers`
+  // en todo lo que se muestre al jugador, o el feed seguiría hablando de gente que ya no juega.
+  const squadOf = (club: Club) =>
+    applySquadRetirements(club.id, club.starPlayers, playerProfile.retiredWorldPlayers);
   // Fase 4: costo en capital de cada sesión de entrenamiento -- misma fórmula que handleTrainAttribute en App.tsx.
   const trainingCost = 200 + currentClub.reputation * 150;
 
@@ -730,7 +737,8 @@ export default function Dashboard({
     if (ranked.length === 0) return [];
     const picked = ranked.slice(0, 7);
     return picked.map((club, idx) => {
-      const star = club.starPlayers[(week + idx) % club.starPlayers.length];
+      const squad = squadOf(club);
+      const star = squad[(week + idx) % squad.length];
       const persona = personas[(week + idx) % personas.length];
       const otherClub = ranked[(idx + 3) % ranked.length];
       const options = [
@@ -770,7 +778,8 @@ export default function Dashboard({
     const pickedClubs = rankClubsForSocial(ULTIMATE_CLUBS_DATABASE, currentClub.id, seed, 17).slice(0, 3);
     if (pickedClubs.length === 0) return [];
     return pickedClubs.map((club, idx) => {
-      const star = club.starPlayers[(seed + idx) % club.starPlayers.length];
+      const squad = squadOf(club);
+      const star = squad[(seed + idx) % squad.length];
       const persona = personas[(seed + idx) % personas.length];
       const lines = [
         `${star} viene de otro partido flojo con ${club.name}. La prensa local ya empieza a impacientarse con su nivel.`,
@@ -902,6 +911,39 @@ export default function Dashboard({
     });
   };
 
+  // Paso 3 -- Retiros del mundo: cuando un veterano de otro club cuelga los botines al cierre de
+  // temporada (ver applyWorldRetirementsIfNewSeason en App.tsx), ChutSocial lo cuenta y nombra al
+  // canterano que hereda su lugar. Van arriba del feed: es la noticia más fuerte de esa semana.
+  const generateRetirementPosts = (): SocialPost[] => {
+    const news = playerProfile.lastRetirementNews ?? [];
+    if (news.length === 0) return [];
+    const personas = [
+      { author: 'ESPN Continental', role: 'Medio Deportivo', avatar: '📺' },
+      { author: 'Archivo del Fútbol', role: 'Cuenta de Historia', avatar: '📼' },
+      { author: 'Tribuna Caliente', role: 'Hincha', avatar: '🗣️' },
+      { author: 'Panorama Deportivo', role: 'Medio Local', avatar: '📰' },
+    ];
+    return news.map((n, idx) => {
+      const persona = personas[idx % personas.length];
+      const options = [
+        `🎙️ SE RETIRA: ${n.playerName} deja el fútbol profesional a los ${n.age} años. Última camiseta: ${n.clubName}. En su lugar sube ${n.replacementName} desde las inferiores.`,
+        `FIN DE UNA ERA: ${n.playerName} (${n.age}) anunció su retiro. ${n.clubName} le da la camiseta a ${n.replacementName}, un pibe de la cantera.`,
+        `${n.playerName} colgó los botines a los ${n.age}. Aplausos de pie en ${n.clubName}. El que hereda el puesto es ${n.replacementName}.`,
+        `Se va un grande: ${n.playerName} se retira a los ${n.age} años. ${n.clubName} apuesta por ${n.replacementName} para reemplazarlo.`,
+      ];
+      return {
+        id: `retirement_${n.clubName}_${n.playerName}_${playerProfile.currentWeek}`.replace(/\s+/g, ''),
+        author: persona.author,
+        role: persona.role,
+        content: options[(playerProfile.currentWeek + idx * 3) % options.length],
+        likes: 2000 + Math.floor(Math.random() * 12000),
+        commentsCount: 400 + Math.floor(Math.random() * 3000),
+        timestamp: 'Fin de temporada',
+        avatar: persona.avatar,
+      };
+    });
+  };
+
   // Periodistas y medios reales de la Sala de Prensa (PRESS_QUESTIONS_POOL), ahora también viven en
   // ChutSocial con su foto real -- antes solo aparecían si te tocaba su pregunta esa semana puntual.
   // Casi todo el contenido es sobre OTROS jugadores de OTROS clubes (no vos) y a propósito no es puro
@@ -1007,7 +1049,8 @@ export default function Dashboard({
     return pickedJournalists.map((j, idx) => {
       const club = ranked[idx % ranked.length];
       const rivalClub = ranked[(idx + 4) % ranked.length];
-      const star = club.starPlayers[(seed + idx) % club.starPlayers.length];
+      const squad = squadOf(club);
+      const star = squad[(seed + idx) % squad.length];
       const lines = j.lines(star, club.name, rivalClub?.name || club.name);
       return {
         id: `journalist_${j.author.replace(/\s+/g, '')}_${week}_${idx}`,
@@ -1154,6 +1197,7 @@ export default function Dashboard({
     // RCN, ESPN Continental -- ver generateJournalistPosts) van primero casi siempre: son la
     // "prensa acreditada" del feed, así que encabezan ChutSocial antes que el resto de posts.
     return [
+      ...generateRetirementPosts(),
       ...generateJournalistPosts(),
       ...generateCelebrityShoutoutPost(),
       ...generateCriticalPressPost(),
@@ -3207,7 +3251,7 @@ export default function Dashboard({
                     Elige a un juvenil de {MENTEE_MAX_AGE} años o menos del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumas prestigio como mentor) — o no.
                   </p>
                   {(() => {
-                    const eligibleMentees = currentClub.starPlayers.filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p) <= MENTEE_MAX_AGE);
+                    const eligibleMentees = squadOf(currentClub).filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p) <= MENTEE_MAX_AGE);
                     return (
                       <>
                         <div className="flex flex-wrap gap-1.5">

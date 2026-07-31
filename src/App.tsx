@@ -9,6 +9,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
+import { resolveWorldRetirements, applySquadRetirements } from './worldRetirements';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
@@ -190,7 +191,16 @@ function checkAndUnlockAchievements(profile: PlayerProfile): { profile: PlayerPr
 // mejoras de entrenamiento; a partir de esta otra, se te acaba la carrera (no hay club que te
 // contrate a ese nivel físico).
 const VETERAN_DECLINE_START_AGE = 33;
-const FORCED_RETIREMENT_AGE = 39;
+
+// A partir de RETIREMENT_DECISION_AGE, cada cierre de temporada te pregunta si colgás los botines
+// o aguantás un año más -- la decisión es tuya, se repite todos los años y no cuesta nada más que
+// el desgaste. A RETIREMENT_MAX_AGE ya no hay pregunta: se termina la carrera.
+//
+// Los números salen de los datos reales scrapeados (ver tmSquadEnrichment.ts): en Colombia y
+// Argentina hay gente jugando a los 41 (Teófilo Gutiérrez, Rodallega, Insaurralde), así que cortar
+// a los 39 dejaba afuera una franja de veteranos que en la vida real siguen en cancha.
+const RETIREMENT_DECISION_AGE = 43;
+const RETIREMENT_MAX_AGE = 45;
 
 // Se llama una vez por cada semana que avanza la carrera; si esa semana cruza el límite de un
 // "año" (SEASON_LENGTH_WEEKS), el jugador cumple años y, si ya es veterano, sufre un pequeño
@@ -320,8 +330,45 @@ function applyCountryDutyToll(profile: PlayerProfile, previousWeek: number, newW
   };
 }
 
+// Paso 3 -- Retiros del mundo: cada cierre de temporada los veteranos de los OTROS clubes tiran
+// para colgar los botines, y al que se va lo reemplaza un canterano generado. Sin esto los
+// planteles quedan congelados para siempre. Ver worldRetirements.ts para la curva de edades.
+function applyWorldRetirementsIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+
+  // Los retiros previos ya están aplicados, así que se le pasan los planteles YA renovados: un
+  // canterano de 18 que subió la temporada pasada no puede retirarse en la siguiente.
+  const previos = profile.retiredWorldPlayers ?? {};
+  const clubs = CLUBS_DATABASE.map(c => ({
+    id: c.id,
+    name: c.name,
+    league: c.league,
+    starPlayers: applySquadRetirements(c.id, c.starPlayers, previos),
+  }));
+
+  const { events, replacements } = resolveWorldRetirements(clubs, getSeasonYear(newWeek));
+  if (events.length === 0) return { ...profile, lastRetirementNews: [] };
+
+  // Se fusiona con lo que ya había: cada club acumula sus retiros de todas las temporadas.
+  const merged: Record<string, Record<string, string>> = { ...previos };
+  for (const [clubId, mapa] of Object.entries(replacements)) {
+    merged[clubId] = { ...(merged[clubId] ?? {}), ...mapa };
+  }
+
+  return {
+    ...profile,
+    retiredWorldPlayers: merged,
+    // Solo los más resonantes van al feed: 6 alcanza para que se note sin tapar el resto.
+    lastRetirementNews: events
+      .sort((a, b) => b.age - a.age)
+      .slice(0, 6)
+      .map(e => ({ clubName: e.clubName, playerName: e.playerName, age: e.age, replacementName: e.replacementName })),
+  };
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  let next = applyAgingIfNewSeason(profile, previousWeek, newWeek);
+  let next = applyWorldRetirementsIfNewSeason(profile, previousWeek, newWeek);
+  next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
   next = applyBreakoutSeasonIfNewSeason(next, previousWeek, newWeek);
   next = applyYearsAtClubIfNewSeason(next, previousWeek, newWeek);
@@ -339,9 +386,11 @@ const STEP_DOWN_AGE_EXTENSION = 3;
 const STEP_DOWN_MARKET_VALUE_MULTIPLIER = 0.4;
 const STEP_DOWN_PRESTIGE_MULTIPLIER = 0.85;
 
+// True cuando hay que resolver algo con el retiro: o preguntarle al jugador si sigue (43-44) o
+// cortarle la carrera sin preguntar (45+). Quién de los dos casos es, lo decide
+// resolveRetirementCheckpoint.
 function isPastRetirementAge(profile: PlayerProfile): boolean {
-  const effectiveLimit = FORCED_RETIREMENT_AGE + (profile.hasSteppedDownRetirement ? STEP_DOWN_AGE_EXTENSION : 0);
-  return profile.age >= effectiveLimit;
+  return profile.age >= RETIREMENT_DECISION_AGE;
 }
 
 function findStepDownClub(profile: PlayerProfile): Club | null {
@@ -1853,33 +1902,60 @@ export default function App() {
     setScreen('career_summary');
   };
 
-  // Fase 2.5 -- Punto único donde se resuelve isPastRetirementAge(profile) === true: si todavía no
-  // usaste la chance de "retiro escalonado" y hay un club de menor reputación disponible en tu
-  // misma liga, se ofrece bajar de categoría para seguir jugando en vez de cortar la carrera de una.
-  // Si ya la usaste, o no hay a dónde bajar, o el jugador prefiere retirarse -- retiro forzado normal.
+  // Punto único donde se resuelve isPastRetirementAge(profile) === true.
+  //
+  // A los RETIREMENT_MAX_AGE la carrera se termina, sin preguntar. Antes de eso (43-44) la decisión
+  // es del jugador y se le vuelve a ofrecer cada temporada: puede colgar los botines cuando quiera
+  // o estirar hasta el límite. Si además nunca usó el retiro escalonado y hay a dónde bajar, se le
+  // ofrece primero ese camino -- seguir jugando pero en un club más chico.
   const resolveRetirementCheckpoint = (profile: PlayerProfile, updatedShopItems: ShopItem[] = shopItems) => {
+    if (profile.age >= RETIREMENT_MAX_AGE) {
+      triggerForcedRetirement(profile);
+      return;
+    }
+
+    const anosRestantes = RETIREMENT_MAX_AGE - profile.age;
+    const clubName = CLUBS_DATABASE.find(c => c.id === profile.currentClubId)?.name || 'tu club';
+
+    // Seguir en el mismo club es la opción por defecto; el jugador tiene que elegir retirarse.
+    const quiereRetirarse = confirm(
+      `Tenés ${profile.age} años y el cuerpo ya te pasa factura. Podés colgar los botines ahora, con la carrera todavía fresca en la memoria de la gente, o aguantar ${anosRestantes} ${anosRestantes === 1 ? 'año más' : 'años más'} hasta el retiro definitivo a los ${RETIREMENT_MAX_AGE}.\n\n¿Te retirás ahora?\n\nAceptar = me retiro    ·    Cancelar = sigo jugando`
+    );
+
+    if (quiereRetirarse) {
+      triggerForcedRetirement(profile);
+      return;
+    }
+
+    // Sigue jugando. Si nunca bajó de categoría y hay un club menor disponible, se le ofrece --
+    // es la forma realista de estirar la carrera cuando ya no rendís para la elite.
     if (!profile.hasSteppedDownRetirement) {
       const stepDownClub = findStepDownClub(profile);
-      if (stepDownClub) {
-        const oldClubName = CLUBS_DATABASE.find(c => c.id === profile.currentClubId)?.name || 'tu club';
-        if (confirm(`Llegaste a los ${profile.age} años, el límite físico para seguir en ${oldClubName} a este nivel. ¿Querés bajar de categoría a ${stepDownClub.name} para seguir jugando unos años más, en vez de retirarte ahora?`)) {
-          const steppedDown: PlayerProfile = {
-            ...profile,
-            currentClubId: stepDownClub.id,
-            hasSteppedDownRetirement: true,
-            marketValue: Math.max(50000, Math.round(profile.marketValue * STEP_DOWN_MARKET_VALUE_MULTIPLIER)),
-            prestige: Math.round(profile.prestige * STEP_DOWN_PRESTIGE_MULTIPLIER)
-          };
-          setPlayerProfile(steppedDown);
-          setShopItems(updatedShopItems);
-          saveGameState(steppedDown, updatedShopItems);
-          setScreen('dashboard');
-          notify(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo unos años más. Menos luces, pero sigues en la cancha.`);
-          return;
-        }
+      if (stepDownClub && confirm(
+        `Seguís. Pero a los ${profile.age} en ${clubName} vas a pelear cada minuto.\n\n¿Querés bajar a ${stepDownClub.name}, donde vas a jugar seguido aunque haya menos luces?\n\nAceptar = bajo de categoría    ·    Cancelar = me quedo`
+      )) {
+        const steppedDown: PlayerProfile = {
+          ...profile,
+          currentClubId: stepDownClub.id,
+          hasSteppedDownRetirement: true,
+          marketValue: Math.max(50000, Math.round(profile.marketValue * STEP_DOWN_MARKET_VALUE_MULTIPLIER)),
+          prestige: Math.round(profile.prestige * STEP_DOWN_PRESTIGE_MULTIPLIER)
+        };
+        setPlayerProfile(steppedDown);
+        setShopItems(updatedShopItems);
+        saveGameState(steppedDown, updatedShopItems);
+        setScreen('dashboard');
+        notify(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo. Menos luces, pero seguís en la cancha.`);
+        return;
       }
     }
-    triggerForcedRetirement(profile);
+
+    // Se queda donde está, un año más.
+    setPlayerProfile(profile);
+    setShopItems(updatedShopItems);
+    saveGameState(profile, updatedShopItems);
+    setScreen('dashboard');
+    notify(`💪 Seguís en ${clubName}. A los ${profile.age} años, cada partido es un regalo.`);
   };
 
   const handleFinishCareerSummary = () => {

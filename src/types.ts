@@ -82,6 +82,14 @@ export interface Girlfriend {
   livingTogether: boolean; // true si aceptaste mudarte juntos (ver handleGirlfriendMoveIn)
 }
 
+/** Un retiro de otro jugador del mundo, para narrarlo en ChutSocial. Ver worldRetirements.ts. */
+export interface RetirementNews {
+  clubName: string;
+  playerName: string;
+  age: number;
+  replacementName: string;
+}
+
 export interface PlayerProfile {
   name: string;
   position: Position;
@@ -110,6 +118,8 @@ export interface PlayerProfile {
   missedClubMatchesForCountry: number; // Partidos importantes del club que te perdiste por ir con la selección (fecha FIFA, eliminatorias). Irte está permitido -- el club libera al jugador, como en la realidad -- pero perderse un partido de eliminación o un clásico enfría la relación con el DT: ver resolveNationalTeamCallup en App.tsx
   hasSteppedDownRetirement: boolean; // Fase 2.5: ya usaste la única chance de "retiro escalonado" (bajar de categoría en vez de retirarte al llegar a FORCED_RETIREMENT_AGE) -- ver isPastRetirementAge/findStepDownClub en App.tsx
   girlfriend: Girlfriend | null; // Fase 2.5: relación de pareja opcional -- null si estás soltero. Ver handleFindGirlfriend/handleGirlfriend* en App.tsx
+  retiredWorldPlayers?: Record<string, Record<string, string>>; // Paso 3: retiros de OTROS jugadores del mundo. clubId -> { nombreRetirado: nombreDelCanteranoQueLoReemplaza }. Se acumula temporada a temporada (ver resolveWorldRetirements en worldRetirements.ts) y se aplica al leer cualquier plantel, para que los clubes envejezcan y se renueven solos. Opcional: las partidas viejas no lo tienen.
+  lastRetirementNews?: RetirementNews[]; // Paso 3: retiros de la última temporada, para que ChutSocial los cuente. Se pisa cada temporada -- no es un historial.
   unlockedAchievements: Record<string, number>; // Fase 4: id de logro (ver ACHIEVEMENTS_DATABASE en data.ts) -> semana de carrera en que se desbloqueó. Ver checkAndUnlockAchievements en App.tsx.
   sponsorsSignedCount: number; // Fase 4: total de patrocinios firmados en toda la carrera (no baja si cancelás uno) -- usado para el logro "primer patrocinio", ver handleAcceptSponsor
   attributes: PlayerStats;

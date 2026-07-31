@@ -5,6 +5,7 @@ import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_C
 import { playSfx } from '../audio';
 import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
+import { applySquadRetirements } from '../worldRetirements';
 
 // Pool de decisiones por posición y momento del partido (early = minuto 24, late = minuto 71 --
 // ver triggerDecisionEvent). Antes cada posición tenía EXACTAMENTE una decisión fija por momento
@@ -1419,7 +1420,8 @@ export default function MatchSimulator({
   const teamScoreChance = totalLambda > 0 ? lambdaMine / totalLambda : 0.5;
 
   const getTeammateSample = () => {
-    const list = currentClub.starPlayers.filter(p => p !== playerProfile.name);
+    const list = applySquadRetirements(currentClub.id, currentClub.starPlayers, playerProfile.retiredWorldPlayers)
+      .filter(p => p !== playerProfile.name);
     return list.length > 0 ? list[Math.floor(Math.random() * list.length)] : 'El volante de apoyo';
   };
 
@@ -1433,7 +1435,9 @@ export default function MatchSimulator({
   // Los starPlayers vienen como "Fulano" o "Fulano (ST)": el sufijo de posición es útil para el
   // motor pero queda mal leído en una crónica, así que se recorta para narrar. El sufijo, cuando
   // está, sirve además para no mandar a un arquero a definir de cabeza.
-  const rivalRoster = (opponentClub?.starPlayers ?? [])
+  const rivalRoster = (opponentClub
+    ? applySquadRetirements(opponentClub.id, opponentClub.starPlayers, playerProfile.retiredWorldPlayers)
+    : [])
     .map(p => {
       const pos = p.match(/\(([^)]*)\)\s*$/)?.[1]?.trim().toUpperCase() ?? null;
       return { name: p.replace(/\s*\([^)]*\)\s*$/, '').trim(), pos };
