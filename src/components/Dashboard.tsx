@@ -96,6 +96,62 @@ function getMenteeAge(clubId: string, name: string): number {
 }
 const MENTEE_MAX_AGE = 20;
 
+// Ligas que dominan la conversación en ChutSocial. Son las que un hincha real sigue a diario, así
+// que el feed tiene que sonar a ellas: sin esto, de los 706 clubes con plantel solo el 43% es de
+// estas 7, y más de la mitad de los posts terminaban hablando de ligas que nadie mira.
+const CHUTSOCIAL_TOP_LEAGUES = [
+  'Colombiana', 'Argentina', 'Brasileña', 'Española', 'Italiana', 'Inglesa', 'Alemana',
+];
+
+// De cada 10 posts, cuántos salen sí o sí de las ligas de arriba. No es 10/10 a propósito: dejar
+// una porción chica al resto del mundo es lo que hace que aparezca la sorpresa ocasional (un
+// crack en Portugal, un veterano en la MLS) sin que el feed deje de sentirse "de tu fútbol".
+const TOP_LEAGUE_SHARE = 0.85;
+
+/**
+ * Clubes candidatos a aparecer en ChutSocial, ordenados para que las ligas top copen el feed.
+ *
+ * Devuelve una lista ya barajada de forma estable por semana (no se reordena en cada render) en la
+ * que los primeros TOP_LEAGUE_SHARE de los puestos son de las ligas grandes. Los generadores toman
+ * `slice(0, n)` de acá, así que con solo respetar el orden ya heredan el reparto.
+ */
+function rankClubsForSocial(
+  clubs: Club[],
+  excludeClubId: string,
+  seed: number,
+  spread: number
+): Club[] {
+  const shuffle = (list: Club[]) =>
+    list
+      .map((club, i) => ({ club, key: Math.abs(Math.sin((seed + i * spread) * 78.233)) }))
+      .sort((a, b) => a.key - b.key)
+      .map(x => x.club);
+
+  const candidates = clubs.filter(c => c.id !== excludeClubId && c.starPlayers?.length > 0);
+  const top = shuffle(candidates.filter(c => CHUTSOCIAL_TOP_LEAGUES.includes(c.league)));
+  const rest = shuffle(candidates.filter(c => !CHUTSOCIAL_TOP_LEAGUES.includes(c.league)));
+  if (top.length === 0) return rest; // por las dudas: nunca dejar el feed vacío
+
+  // Intercalar respetando la proporción: cada vez que la cuota acumulada de "resto" supera 1,
+  // se cuela un club de liga menor. Con 0.85 eso es ~1 de cada 7 posts.
+  const out: Club[] = [];
+  let debt = 0;
+  let ti = 0;
+  let ri = 0;
+  while (ti < top.length || ri < rest.length) {
+    debt += 1 - TOP_LEAGUE_SHARE;
+    if (debt >= 1 && ri < rest.length) {
+      out.push(rest[ri++]);
+      debt -= 1;
+    } else if (ti < top.length) {
+      out.push(top[ti++]);
+    } else if (ri < rest.length) {
+      out.push(rest[ri++]);
+    }
+  }
+  return out;
+}
+
 // Descompone una llave a ida y vuelta ya jugada en hasta 2 partidos reales de calendario (Vuelta
 // primero, por ser la más reciente) -- una llave completa son 2 fechas distintas, no un solo evento.
 function twoLegTieToEvents(tie: TwoLegTie, myClubId: string): { leg: 'Ida' | 'Vuelta'; isHome: boolean; opponentId: string; myGoals: number; rivalGoals: number }[] {
@@ -662,8 +718,6 @@ export default function Dashboard({
   // press_13/press_14 en data.ts). Selección pseudo-aleatoria estable por semana (no se reordena
   // en cada render) para que la sección no "parpadee" distinto cada vez que Dashboard re-renderiza.
   const generateRivalTransferBuzzPosts = () => {
-    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
-    if (candidates.length === 0) return [];
     const personas = [
       { author: 'Fichajes al Día', role: 'Cuenta de Mercado', avatar: '📋' },
       { author: 'Radar de Pases', role: 'Especialista en Fichajes', avatar: '🕵️' },
@@ -672,10 +726,8 @@ export default function Dashboard({
       { author: 'Transfer Radar LatAm', role: 'Especialista Internacional', avatar: '🌎' },
     ];
     const week = playerProfile.currentWeek;
-    const ranked = candidates
-      .map((club, i) => ({ club, key: Math.abs(Math.sin((week + i * 11) * 78.233)) }))
-      .sort((a, b) => a.key - b.key)
-      .map(x => x.club);
+    const ranked = rankClubsForSocial(ULTIMATE_CLUBS_DATABASE, currentClub.id, week, 11);
+    if (ranked.length === 0) return [];
     const picked = ranked.slice(0, 7);
     return picked.map((club, idx) => {
       const star = club.starPlayers[(week + idx) % club.starPlayers.length];
@@ -708,8 +760,6 @@ export default function Dashboard({
   // Críticas/elogios de prensa e hinchas sobre OTROS jugadores de OTROS clubes -- para que
   // ChutSocial no gire únicamente alrededor tuyo (antes todo el feed te adulaba a vos siempre).
   const generateOtherPlayersCritiquePosts = () => {
-    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
-    if (candidates.length === 0) return [];
     const personas = [
       { author: 'La Lupa Deportiva', role: 'Analista Crítico', avatar: '🔍' },
       { author: 'Tribuna Caliente', role: 'Hincha Rival', avatar: '🗣️' },
@@ -717,7 +767,8 @@ export default function Dashboard({
       { author: 'El Polémico Bermúdez', role: 'Panelista de Debate', avatar: '🎤' },
     ];
     const seed = playerProfile.currentWeek * 7919; // determinístico por semana, no cambia en cada render
-    const pickedClubs = [...candidates].sort((a, b) => (a.id.charCodeAt(0) * seed) % 97 - (b.id.charCodeAt(0) * seed) % 97).slice(0, 3);
+    const pickedClubs = rankClubsForSocial(ULTIMATE_CLUBS_DATABASE, currentClub.id, seed, 17).slice(0, 3);
+    if (pickedClubs.length === 0) return [];
     return pickedClubs.map((club, idx) => {
       const star = club.starPlayers[(seed + idx) % club.starPlayers.length];
       const persona = personas[(seed + idx) % personas.length];
@@ -857,13 +908,9 @@ export default function Dashboard({
   // elogio: cada uno mantiene el tono que ya tiene en la Sala de Prensa (Vélez filoso, Edu Aguirre
   // incendiario, Mau hypeando en vivo, Fabrizio Romano con su clásico "Here we go" de fichajes, etc.).
   const generateJournalistPosts = () => {
-    const candidates = ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id && c.starPlayers?.length > 0);
-    if (candidates.length === 0) return [];
     const week = playerProfile.currentWeek;
-    const ranked = candidates
-      .map((club, i) => ({ club, key: Math.abs(Math.sin((week + i * 29) * 45.164)) }))
-      .sort((a, b) => a.key - b.key)
-      .map(x => x.club);
+    const ranked = rankClubsForSocial(ULTIMATE_CLUBS_DATABASE, currentClub.id, week, 29);
+    if (ranked.length === 0) return [];
 
     type Journalist = { author: string; role: string; avatarImg?: string; avatar?: string; lines: (star: string, club: string, rivalClub: string) => string[] };
     const journalists: Journalist[] = [
