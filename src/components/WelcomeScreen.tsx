@@ -265,6 +265,22 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
       >
         <Heart size={13} className="fill-current" /> Apoyar el proyecto
       </a>
+
+      {/* Pie legal. Deliberadamente discreto -- no compite con el botón de empezar, pero deja la
+          declaración de no afiliación a un toque de distancia desde la pantalla principal, que es
+          donde un titular de marca la buscaría. Ver docs/LEGAL.md. */}
+      <p className="mt-6 mb-2 text-[9px] leading-relaxed text-slate-600 text-center max-w-md relative z-10">
+        Juego gratuito de fanáticos, sin relación con FIFA, CONMEBOL, DIMAYOR, AFA ni ningún club o
+        futbolista. Los nombres y escudos pertenecen a sus titulares.{' '}
+        <a
+          href="https://github.com/youngfree445-gif/Futstarzz/blob/main/docs/LEGAL.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-slate-500 underline underline-offset-2 hover:text-gold-500 transition-colors"
+        >
+          Aviso legal y privacidad
+        </a>
+      </p>
     </div>
   );
 }
