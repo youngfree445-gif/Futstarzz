@@ -1253,6 +1253,9 @@ function getRiskLabel(successChance: number): { label: string; color: string } {
 interface MatchSimulatorProps {
   playerProfile: PlayerProfile;
   opponentName: string;
+  /** Id del club rival, si se conoce. Habilita nombrar a sus figuras reales en la narración
+   *  (ver getRivalSample); sin él la narración cae a "el defensor rival", como antes. */
+  opponentClubId?: string | null;
   isLibertadores: boolean;
   cupId?: 'libertadores' | 'sudamericana' | null;
   uefaCupId?: 'champions' | 'europa' | null;
@@ -1283,7 +1286,7 @@ interface MatchSimulatorProps {
 }
 
 export default function MatchSimulator({
-  playerProfile, opponentName, isLibertadores, cupId, uefaCupId, isDomesticCup, isWorldCup, representingTeamId, isHome: isHomeProp,
+  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, isWorldCup, representingTeamId, isHome: isHomeProp,
   myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, onFinishMatch
 }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
@@ -1419,6 +1422,34 @@ export default function MatchSimulator({
     const list = currentClub.starPlayers.filter(p => p !== playerProfile.name);
     return list.length > 0 ? list[Math.floor(Math.random() * list.length)] : 'El volante de apoyo';
   };
+
+  // Figuras del equipo CONTRARIO, para que la narración no hable siempre de un genérico
+  // "el defensor rival" mientras a tus compañeros sí los nombra. Se resuelve por id cuando
+  // App lo conoce (liga/copa) y, si no, por nombre contra la base de clubes.
+  const opponentClub =
+    (opponentClubId ? CLUBS_DATABASE.find(c => c.id === opponentClubId) : undefined) ??
+    CLUBS_DATABASE.find(c => c.name === opponentName);
+
+  // Los starPlayers vienen como "Fulano" o "Fulano (ST)": el sufijo de posición es útil para el
+  // motor pero queda mal leído en una crónica, así que se recorta para narrar. El sufijo, cuando
+  // está, sirve además para no mandar a un arquero a definir de cabeza.
+  const rivalRoster = (opponentClub?.starPlayers ?? [])
+    .map(p => {
+      const pos = p.match(/\(([^)]*)\)\s*$/)?.[1]?.trim().toUpperCase() ?? null;
+      return { name: p.replace(/\s*\([^)]*\)\s*$/, '').trim(), pos };
+    })
+    .filter(r => r.name);
+
+  const pick = (list: typeof rivalRoster): string | null =>
+    list.length > 0 ? list[Math.floor(Math.random() * list.length)].name : null;
+
+  /** Nombre de una figura rival, o null si no conocemos el plantel (Mundial, rivales genéricos). */
+  const getRivalSample = (): string | null => pick(rivalRoster);
+
+  /** Como getRivalSample pero evitando arqueros: para goles y remates. Si el plantel no trae
+   *  posiciones (la mayoría de los clubes), cae al sorteo normal. */
+  const getRivalAttacker = (): string | null =>
+    pick(rivalRoster.filter(r => r.pos !== 'GK')) ?? getRivalSample();
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
@@ -1571,9 +1602,12 @@ export default function MatchSimulator({
         if (onField) setRating(prev => Math.min(prev + 0.15, 10.0));
       } else {
         if (isHome.current) setScoreAway(prev => prev + 1); else setScoreHome(prev => prev + 1);
+        const goleadorRival = getRivalAttacker();
         setMatchLog(prev => [...prev, {
           minute: currentMin,
-          text: `¡GOL de ${opponentName}! Desatención defensiva que el rival no perdona. Balón al fondo de la red.`,
+          text: goleadorRival
+            ? `¡GOL de ${opponentName}! ${goleadorRival} aparece solo en el área y la manda al fondo de la red.`
+            : `¡GOL de ${opponentName}! Desatención defensiva que el rival no perdona. Balón al fondo de la red.`,
           type: 'bad'
         }]);
         if (onField) setRating(prev => Math.max(prev - 0.2, 3.5));
@@ -1582,6 +1616,7 @@ export default function MatchSimulator({
       // VARIEDAD DE NARRATIVAS PARA MÁS INMERSIÓN -- textos en segunda persona, solo tienen
       // sentido si de verdad estás en la cancha (ver onField/lineupStatus arriba).
       const mate = getTeammateSample();
+      const rival = getRivalSample();
       const jugadasDestacadas = [
         `Te desmarcas por la banda y recibes de ${mate}, intentas centrar pero el balón rebota. Córner.`,
         `Presionas la salida del central, forzando un error de despeje. La tribuna aplaude tu entrega.`,
@@ -1592,7 +1627,15 @@ export default function MatchSimulator({
         `¡Atajadón de nuestro portero! Voló para sacar un cabezazo rival que tenía sello de gol.`,
         `El técnico manda a calentar a los suplentes. Se siente la tensión en los banquillos.`,
         `Tocas rápido y de primera intención para oxigenar el juego. Buen movimiento de tu parte.`,
-        `¡Posición adelantada! Te habías escapado solo contra el portero pero el juez de línea levantó la bandera.`
+        `¡Posición adelantada! Te habías escapado solo contra el portero pero el juez de línea levantó la bandera.`,
+        // Solo si conocemos el plantel rival: si no, se filtran abajo y quedan las genéricas.
+        ...(rival ? [
+          `${rival} te gana la espalda y obliga a tu defensa a cerrar de urgencia.`,
+          `Duelo áspero con ${rival} en la mitad de la cancha. Los dos se miran, ninguno baja la pierna.`,
+          `${rival} pide la pelota entre líneas y desordena el bloque. Hay que salir a taparlo.`,
+          `Le robás un balón limpio a ${rival} y la tribuna se levanta a aplaudirte.`,
+          `¡Aviso! Remate cruzado de ${getRivalAttacker() ?? rival} que se va apenas desviado del segundo palo.`
+        ] : [])
       ];
       setMatchLog(prev => [...prev, {
         minute: currentMin,
@@ -1605,6 +1648,7 @@ export default function MatchSimulator({
       // quedar en silencio 20+ minutos solo porque no estás en cancha. Misma probabilidad que la
       // rama de arriba, pero en tercera persona (equipo/rival), sin bono de rating para vos.
       const mate = getTeammateSample();
+      const rivalBanco = getRivalSample();
       const jugadasDestacadasEnBanco = [
         `${teamName} domina la posesión tocando de lado a lado en campo rival.`,
         `Fuerte choque en el medio campo. El árbitro deja seguir la jugada aplicando la ley de la ventaja.`,
@@ -1615,7 +1659,13 @@ export default function MatchSimulator({
         `El técnico observa desde el banco, dando indicaciones tácticas a los suplentes.`,
         `Jugada de mérito de ${mate}, que recupera un balón dividido en la mitad de la cancha.`,
         `¡Posición adelantada! El delantero se había escapado pero el juez de línea levantó la bandera.`,
-        `Tiro libre peligroso para ${opponentName} cerca del área.`
+        `Tiro libre peligroso para ${opponentName} cerca del área.`,
+        ...(rivalBanco ? [
+          `${rivalBanco} se lleva a dos rivales y saca un centro venenoso que nadie llega a empujar.`,
+          `Amarilla para ${rivalBanco} por protestar una falta en la mitad de la cancha.`,
+          `${rivalBanco} la pide y la reparte: es el que está manejando los tiempos del partido.`,
+          `Buena reacción del arquero para taparle el mano a mano a ${rivalBanco}.`
+        ] : [])
       ];
       setMatchLog(prev => [...prev, {
         minute: currentMin,

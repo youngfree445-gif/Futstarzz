@@ -1989,6 +1989,7 @@ export default function App() {
         <MatchSimulator
           playerProfile={playerProfile}
           opponentName={activeOpposition}
+          opponentClubId={activeOppositionClubId}
           isLibertadores={isCopaLibertadores}
           cupId={activeCupId}
           uefaCupId={activeUefaCupId}
