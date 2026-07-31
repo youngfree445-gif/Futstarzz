@@ -414,7 +414,7 @@ export default function Dashboard({
   // goleadores que ya se retiraron.
   const isFirstSeason = getSeasonYear(playerProfile.currentWeek) === CAREER_START_YEAR;
   const selectedLeagueLeaders = (isFirstSeason ? REAL_LEAGUE_LEADERS[selectedLeagueName] : undefined)
-    ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable);
+    ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable, playerProfile.retiredWorldPlayers);
 
   // Copa continental real que le corresponde al club actual (si clasifica a alguna).
   const cupYear = getSeasonYear(playerProfile.currentWeek);

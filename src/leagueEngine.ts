@@ -1659,7 +1659,15 @@ const ASSIST_WEIGHT_BY_POS: Record<string, number> = {
   CAM: 5, CM: 4, RM: 4, LM: 4, RW: 3, LW: 3, ST: 2, CF: 2, CDM: 2, RB: 1, LB: 1, CB: 1, GK: 0,
 };
 
-export function generateLeagueLeadersFromTable(clubs: Club[], table: TableTeam[]): LeagueLeadersResult {
+export function generateLeagueLeadersFromTable(
+  clubs: Club[],
+  table: TableTeam[],
+  // Retiros del mundo (PlayerProfile.retiredWorldPlayers). Sin esto el panel de
+  // estadisticas sigue coronando goleador a alguien que ya colgo los botines:
+  // Mbappe aparecia como maximo goleador 20 temporadas seguidas, incluso despues
+  // de haberse retirado del Madrid.
+  retired?: Record<string, Record<string, string>>
+): LeagueLeadersResult {
   type Candidate = { name: string; clubName: string; goalShare: number; assistShare: number; pos: string | null };
   const candidates: Candidate[] = [];
   const goalkeepers: { name: string; clubName: string; gc: number; pj: number }[] = [];
@@ -1669,7 +1677,13 @@ export function generateLeagueLeadersFromTable(clubs: Club[], table: TableTeam[]
     const gf = row?.gf ?? 0;
     const gc = row?.gc ?? 0;
     const pj = row?.pj ?? 0;
-    const parsed = club.starPlayers.map(parseStarPlayer).filter(p => p.name && !p.name.startsWith('Jugador '));
+    const roster = retired?.[club.id]
+      ? club.starPlayers.map(p => retired[club.id][p] ?? p)
+      : club.starPlayers;
+    const parsed = roster
+      .map(p => p.replace(/#\d{4}(?=\s|$)/, ''))   // quitar marca de año de debut
+      .map(parseStarPlayer)
+      .filter(p => p.name && !p.name.startsWith('Jugador '));
     if (parsed.length === 0) continue;
 
     const goalWeights = parsed.map(p => GOAL_WEIGHT_BY_POS[p.pos ?? ''] ?? 2);

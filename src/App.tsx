@@ -390,7 +390,7 @@ function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: nu
   const season = profile.leagueSeasons?.[leagueKeyFor(club)];
   if (!season?.table?.length) return profile;
 
-  const leaders = generateLeagueLeadersFromTable(leagueClubs, season.table);
+  const leaders = generateLeagueLeadersFromTable(leagueClubs, season.table, profile.retiredWorldPlayers);
   // Si metiste más goles que el goleador simulado, el goleador sos vos: el jugador humano no
   // entra en el reparto de generateLeagueLeadersFromTable (que solo mira starPlayers).
   const meWon = leaders.topScorer != null && last.goles > leaders.topScorer.value;
