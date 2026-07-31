@@ -34880,5 +34880,6103 @@
       "age": 20,
       "position": "Delantero centro"
     }
+  ],
+  "FC Bayern München": [
+    {
+      "tmId": "607720",
+      "name": "Jonas Urbig",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "17259",
+      "name": "Manuel Neuer",
+      "age": 40,
+      "position": "Portero"
+    },
+    {
+      "tmId": "40680",
+      "name": "Sven Ulreich",
+      "age": 37,
+      "position": "Portero"
+    },
+    {
+      "tmId": "344695",
+      "name": "Dayot Upamecano",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "196357",
+      "name": "Jonathan Tah",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "503482",
+      "name": "Min-jae Kim",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "353892",
+      "name": "Hiroki Ito",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "744729",
+      "name": "Tarek Buchmann",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "691892",
+      "name": "Nathaniel Brown",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "424204",
+      "name": "Alphonso Davies",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "483046",
+      "name": "Josip Stanisic",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "223967",
+      "name": "Konrad Laimer",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "475413",
+      "name": "Sacha Boey",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "792380",
+      "name": "Aleksandar Pavlovic",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "161056",
+      "name": "Joshua Kimmich",
+      "age": 31,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "257455",
+      "name": "João Palhinha",
+      "age": 31,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1118495",
+      "name": "David Santos Daiber",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "822959",
+      "name": "Tom Bischof",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1009441",
+      "name": "Felipe Chávez",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "580195",
+      "name": "Jamal Musiala",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1075147",
+      "name": "Lennart Karl",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "702869",
+      "name": "Ismael Saibari",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "744728",
+      "name": "Arijon Ibrahimovic",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "480692",
+      "name": "Luis Díaz",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "713644",
+      "name": "Bryan Zaragoza",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "566723",
+      "name": "Michael Olise",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "159471",
+      "name": "Serge Gnabry",
+      "age": 31,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "569033",
+      "name": "Armindo Sieb",
+      "age": 23,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "132098",
+      "name": "Harry Kane",
+      "age": 33,
+      "position": "Delantero centro"
+    }
+  ],
+  "RB Leipzig": [
+    {
+      "tmId": "486046",
+      "name": "Maarten Vandevoordt",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "57071",
+      "name": "Péter Gulácsi",
+      "age": 36,
+      "position": "Portero"
+    },
+    {
+      "tmId": "160971",
+      "name": "Leopold Zingerle",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "618472",
+      "name": "Castello Lukeba",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "842341",
+      "name": "Maxime Estève",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "787912",
+      "name": "El Chadaille Bitshiabu",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1130445",
+      "name": "Abdoul Koné",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "93740",
+      "name": "Willi Orbán",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "215599",
+      "name": "Lukas Klostermann",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "318204",
+      "name": "David Raum",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "810649",
+      "name": "Max Finkgräfe",
+      "age": 22,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "420210",
+      "name": "Lutsharel Geertruida",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "327251",
+      "name": "Ridle Baku",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "202591",
+      "name": "Benjamin Henrichs",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "404950",
+      "name": "Nicolas Seiwald",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "926694",
+      "name": "Arthur Vermeeren",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1279157",
+      "name": "Benno Kaltefleiter",
+      "age": 18,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "897424",
+      "name": "Assan Ouédraogo",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "467434",
+      "name": "Rocco Reitz",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "865682",
+      "name": "Ezechiel Banzuzi",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "990146",
+      "name": "Joyeux Masanka Bungi",
+      "age": 19,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "324278",
+      "name": "Christoph Baumgartner",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "700106",
+      "name": "Brajan Gruda",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "400489",
+      "name": "Eljif Elmas",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "952779",
+      "name": "Andrija Maksimovic",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1074526",
+      "name": "Viggo Gebel",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "894914",
+      "name": "Antonio Nusa",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1235583",
+      "name": "Suleman Sani",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "955448",
+      "name": "Tidiam Gomis",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "763948",
+      "name": "Ayodele Thomas",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1390649",
+      "name": "Yan Diomande",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "565424",
+      "name": "Johan Bakayoko",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "957874",
+      "name": "Rômulo",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "807386",
+      "name": "Conrad Harder",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "941177",
+      "name": "Robert Ramsak",
+      "age": 19,
+      "position": "Delantero centro"
+    }
+  ],
+  "Bayer 04 Leverkusen": [
+    {
+      "tmId": "125714",
+      "name": "Mark Flekken",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "81173",
+      "name": "Janis Blaswich",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "85543",
+      "name": "Niklas Lomb",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "632349",
+      "name": "Jarell Quansah",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "564545",
+      "name": "Edmond Tapsoba",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "730581",
+      "name": "Loïc Badé",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "919515",
+      "name": "Jeanuël Belocian",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1077670",
+      "name": "Axel Tape",
+      "age": 18,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1182738",
+      "name": "Abdoulaye Faye",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "696164",
+      "name": "Tim Oermann",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "977464",
+      "name": "Arthur",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "221316",
+      "name": "Lucas Vázquez",
+      "age": 35,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "664708",
+      "name": "Equi Fernández",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1214123",
+      "name": "Kennet Eichhorn",
+      "age": 17,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "159088",
+      "name": "Robert Andrich",
+      "age": 31,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "401578",
+      "name": "Exequiel Palacios",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "261504",
+      "name": "Aleix García",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "743395",
+      "name": "Noah Mbamba",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "991480",
+      "name": "Naba Mensah",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "905011",
+      "name": "Ibrahim Maza",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "467437",
+      "name": "Malik Tillman",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "7161",
+      "name": "Jonas Hofmann",
+      "age": 34,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "929994",
+      "name": "Kerim Alajbegovic",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "952282",
+      "name": "Afonso Moreira",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "810895",
+      "name": "Eliesse Ben Seghir",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "442891",
+      "name": "Martin Terrier",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "718303",
+      "name": "Ernest Poku",
+      "age": 22,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "340322",
+      "name": "Nathan Tella",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1058514",
+      "name": "Montrell Culbreath",
+      "age": 18,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "897402",
+      "name": "Farid Alfa-Ruprecht",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1364454",
+      "name": "Christian Kofane",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "242086",
+      "name": "Patrik Schick",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1073625",
+      "name": "Aleksa Damjanovic",
+      "age": 17,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "656681",
+      "name": "Victor Boniface",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1392804",
+      "name": "Ndjicoura Bomba",
+      "age": 18,
+      "position": "Delantero centro"
+    }
+  ],
+  "Borussia Dortmund": [
+    {
+      "tmId": "257814",
+      "name": "Gregor Kobel",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "448705",
+      "name": "Diant Ramaj",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "76158",
+      "name": "Alexander Meyer",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "94192",
+      "name": "Patrick Drewes",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "684116",
+      "name": "Silas Ostrzinski",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "388198",
+      "name": "Nico Schlotterbeck",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1075577",
+      "name": "Joane Gadou",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "193004",
+      "name": "Waldemar Anton",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1074990",
+      "name": "Luca Reggiani",
+      "age": 18,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "284732",
+      "name": "Ramy Bensebaini",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "119296",
+      "name": "Emre Can",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "883007",
+      "name": "Filippo Mane",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "579287",
+      "name": "Daniel Svensson",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "884820",
+      "name": "Almugera Kabar",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "370789",
+      "name": "Julian Ryerson",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "627228",
+      "name": "Yan Couto",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1141179",
+      "name": "Mussa Kaba",
+      "age": 17,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "406640",
+      "name": "Felix Nmecha",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "796297",
+      "name": "Jobe Bellingham",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "659459",
+      "name": "Carney Chukwuemeka",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "106987",
+      "name": "Marcel Sabitzer",
+      "age": 32,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1185507",
+      "name": "Justin Lerma",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1193849",
+      "name": "Mathis Albert",
+      "age": 17,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1058359",
+      "name": "Samuele Inácio",
+      "age": 18,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "578392",
+      "name": "Maximilian Beier",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "270541",
+      "name": "Serhou Guirassy",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "505653",
+      "name": "Fábio Silva",
+      "age": 24,
+      "position": "Delantero centro"
+    }
+  ],
+  "VfB Stuttgart": [
+    {
+      "tmId": "800946",
+      "name": "Dennis Seimen",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "187624",
+      "name": "Fabian Bredlow",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "170517",
+      "name": "Marius Funk",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "388067",
+      "name": "Stefan Drljaca",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "924117",
+      "name": "Finn Jeltsch",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "436064",
+      "name": "Ramon Hendriks",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "303219",
+      "name": "Jeff Chabot",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "539798",
+      "name": "Luca Jaquez",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "620598",
+      "name": "Ameen Al-Dakhil",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "344598",
+      "name": "Dan-Axel Zagadou",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "282660",
+      "name": "Maximilian Mittelstädt",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "448258",
+      "name": "Josha Vagnoman",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "711969",
+      "name": "Lorenz Assignon",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "507345",
+      "name": "Leonidas Stergiou",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "842217",
+      "name": "Christopher Olivier",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "443710",
+      "name": "Angelo Stiller",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "948279",
+      "name": "Chema Andrés",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "232320",
+      "name": "Atakan Karazor",
+      "age": 29,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1131117",
+      "name": "Mirza Catovic",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "400546",
+      "name": "Nikolas Nartey",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "234029",
+      "name": "Grischa Prömel",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "960462",
+      "name": "Yanik Spalt",
+      "age": 18,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1297520",
+      "name": "Ertugrul Yigit",
+      "age": 17,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "654982",
+      "name": "Bilal El Khannouss",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "717465",
+      "name": "Laurin Ulrich",
+      "age": 21,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "272278",
+      "name": "Chris Führich",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "710886",
+      "name": "Leo Sauer",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1031774",
+      "name": "Jarzinho Malanga",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "720162",
+      "name": "Justin Diehl",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "518505",
+      "name": "Jamie Leweling",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "616344",
+      "name": "Tiago Tomás",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "707242",
+      "name": "Badredine Bouanani",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "897505",
+      "name": "Lazar Jovanovic",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "335457",
+      "name": "Ermedin Demirovic",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "339314",
+      "name": "Deniz Undav",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "943795",
+      "name": "Jovan Milosevic",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "971663",
+      "name": "Jeremy Arévalo",
+      "age": 21,
+      "position": "Delantero centro"
+    }
+  ],
+  "Eintracht Frankfurt": [
+    {
+      "tmId": "997861",
+      "name": "Kauã Santos",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "196813",
+      "name": "Michael Zetterer",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "40034",
+      "name": "Jens Grahl",
+      "age": 37,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1079622",
+      "name": "Amil Siljevic",
+      "age": 19,
+      "position": "Portero"
+    },
+    {
+      "tmId": "684315",
+      "name": "Nnamdi Collins",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "368891",
+      "name": "Arthur Theate",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "328784",
+      "name": "Robin Koch",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1094885",
+      "name": "Otávio",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1146988",
+      "name": "Keita Kosugi",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "591193",
+      "name": "Niels Nkounkou",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "744857",
+      "name": "Elias Baum",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "49723",
+      "name": "Timothy Chandler",
+      "age": 36,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "904974",
+      "name": "Noël Aséko",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "290587",
+      "name": "Ellyes Skhiri",
+      "age": 31,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "931838",
+      "name": "Hugo Larsson",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "846310",
+      "name": "Oscar Højlund",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "536482",
+      "name": "Junior Dina Ebimbe",
+      "age": 25,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "816585",
+      "name": "Can Uzun",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "855015",
+      "name": "Farès Chaïbi",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1184986",
+      "name": "Love Arrhov",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "74842",
+      "name": "Mario Götze",
+      "age": 34,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "939964",
+      "name": "Jean-Mattéo Bahoya",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1259986",
+      "name": "Malik Pimpong",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "358504",
+      "name": "Ritsu Doan",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "429874",
+      "name": "Ansgar Knauff",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "799993",
+      "name": "Ayoube Amaimouni-Echghouyab",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "333647",
+      "name": "Jonathan Burkardt",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "659542",
+      "name": "Elye Wahi",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "692368",
+      "name": "Younes Ebnoutalib",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "675535",
+      "name": "Noel Futkeu",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "179184",
+      "name": "Michy Batshuayi",
+      "age": 32,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "448177",
+      "name": "Jessic Ngankam",
+      "age": 26,
+      "position": "Delantero centro"
+    }
+  ],
+  "TSG Hoffenheim": [
+    {
+      "tmId": "55089",
+      "name": "Oliver Baumann",
+      "age": 36,
+      "position": "Portero"
+    },
+    {
+      "tmId": "432671",
+      "name": "Luca Philipp",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "718460",
+      "name": "Lúkas Petersson",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "579459",
+      "name": "Albian Hajdari",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "361260",
+      "name": "Ozan Kabak",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "620217",
+      "name": "Robin Hranac",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "415035",
+      "name": "Koki Machida",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "875332",
+      "name": "Arthur Chaves",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "907277",
+      "name": "Sean Dulic",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "983677",
+      "name": "Mats Rots",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "364258",
+      "name": "Bernardo",
+      "age": 31,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "569387",
+      "name": "Valentin Gendrey",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "157672",
+      "name": "Vladimír Coufal",
+      "age": 33,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1075143",
+      "name": "Natnael Abraha",
+      "age": 18,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "667457",
+      "name": "Leon Avdullahu",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "412953",
+      "name": "Wouter Burger",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1047136",
+      "name": "Cajetan Lenz",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1116191",
+      "name": "Luis Engelns",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1105541",
+      "name": "Nathan De Cat",
+      "age": 18,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "569031",
+      "name": "Umut Tohumcu",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "251309",
+      "name": "Dennis Geiger",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "434116",
+      "name": "Alexander Prass",
+      "age": 25,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "574193",
+      "name": "Bambasé Conté",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1108022",
+      "name": "Deniz Zeitler",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "533295",
+      "name": "Patrick Wimmer",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "46580",
+      "name": "Andrej Kramaric",
+      "age": 35,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "524290",
+      "name": "Fisnik Asllani",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "553285",
+      "name": "Tim Lemperle",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "552057",
+      "name": "Adam Hlozek",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "987770",
+      "name": "Alessandro Vogt",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "923595",
+      "name": "Max Moerstedt",
+      "age": 20,
+      "position": "Delantero centro"
+    }
+  ],
+  "SC Freiburg": [
+    {
+      "tmId": "526845",
+      "name": "Noah Atubolu",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "620295",
+      "name": "Mio Backhaus",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "284769",
+      "name": "Florian Müller",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "160954",
+      "name": "Jannik Huth",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "863759",
+      "name": "Bruno Ogbus",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "225657",
+      "name": "Philipp Lienhart",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "599419",
+      "name": "Max Rosenfelder",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "124502",
+      "name": "Matthias Ginter",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "58995",
+      "name": "Anthony Jung",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "907087",
+      "name": "Berkay Yılmaz",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "815078",
+      "name": "Jordy Makengo",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "93707",
+      "name": "Christian Günter",
+      "age": 33,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "335993",
+      "name": "Philipp Treu",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "93604",
+      "name": "Lukas Kübler",
+      "age": 33,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "907082",
+      "name": "Karl Steinmann",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "443331",
+      "name": "Patrick Osterhage",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "405670",
+      "name": "Yannik Engelhardt",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "432403",
+      "name": "Rihito Yamamoto",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "190284",
+      "name": "Maximilian Eggestein",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1159439",
+      "name": "Rouven Tarnutzer",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "820957",
+      "name": "Derry Scherhant",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "185077",
+      "name": "Vincenzo Grifo",
+      "age": 33,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "337036",
+      "name": "Florent Muslija",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "342967",
+      "name": "Niklas Beste",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1145064",
+      "name": "Cyriaque Irié",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "645774",
+      "name": "Eren Dinkçi",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "668606",
+      "name": "Yuito Suzuki",
+      "age": 24,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "605268",
+      "name": "Igor Matanovic",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "916623",
+      "name": "Keisuke Goto",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "248999",
+      "name": "Lucas Höler",
+      "age": 32,
+      "position": "Delantero centro"
+    }
+  ],
+  "1. FSV Mainz 05": [
+    {
+      "tmId": "160963",
+      "name": "Robin Zentner",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "93763",
+      "name": "Alexander Schwolow",
+      "age": 34,
+      "position": "Portero"
+    },
+    {
+      "tmId": "817521",
+      "name": "Maximilian Kinzig",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1073748",
+      "name": "Kacper Potulski",
+      "age": 18,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "370683",
+      "name": "Andreas Hanche-Olsen",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "594731",
+      "name": "Fabio Gruber",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "118847",
+      "name": "Dominik Kohr",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "85906",
+      "name": "Danny da Costa",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "82350",
+      "name": "Stefan Bell",
+      "age": 34,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "127573",
+      "name": "Phillipp Mwene",
+      "age": 32,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "453016",
+      "name": "Anthony Caci",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "168989",
+      "name": "Silvan Widmer",
+      "age": 33,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "643574",
+      "name": "Kaishu Sano",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "597000",
+      "name": "Eric Martel",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "392710",
+      "name": "Lennard Maloney",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "733371",
+      "name": "Sota Kawasaki",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "232454",
+      "name": "Nadiem Amiri",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "503160",
+      "name": "Paul Nebel",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "562948",
+      "name": "Hyun-seok Hong",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "314398",
+      "name": "Jae-sung Lee",
+      "age": 33,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "279009",
+      "name": "Marco Richter",
+      "age": 28,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "901877",
+      "name": "Otto Ruoppi",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "188888",
+      "name": "Sheraldo Becker",
+      "age": 31,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "612826",
+      "name": "Silas",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "453870",
+      "name": "Benedict Hollerbach",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "470038",
+      "name": "Ransford Königsdörffer",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "288340",
+      "name": "Phillip Tietz",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "610400",
+      "name": "William Bøving",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1392952",
+      "name": "Alynho Haidara",
+      "age": 18,
+      "position": "Delantero centro"
+    }
+  ],
+  "FC Augsburg": [
+    {
+      "tmId": "251299",
+      "name": "Finn Dahmen",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "610190",
+      "name": "Nediljko Labrovic",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "954082",
+      "name": "Tom Wisbereit",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "569383",
+      "name": "Chrislain Matsima",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "923945",
+      "name": "Noahkai Banks",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "413843",
+      "name": "Keven Schlotterbeck",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "358766",
+      "name": "Calvin Brackelmann",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "106405",
+      "name": "Jeffrey Gouweleeuw",
+      "age": 35,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "829838",
+      "name": "Hennes Behrens",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "295630",
+      "name": "Dimitrios Giannoulis",
+      "age": 30,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "288429",
+      "name": "Mads Pedersen",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "193900",
+      "name": "Marius Wolf",
+      "age": 31,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "374954",
+      "name": "Kristijan Jakic",
+      "age": 29,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "264960",
+      "name": "Robin Fellhauer",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "342039",
+      "name": "Yannik Keitel",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "569457",
+      "name": "Tim Breithaupt",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "730486",
+      "name": "Mahmut Kücüksahin",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "536508",
+      "name": "Han-Noah Massengo",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "928265",
+      "name": "Sima Suso",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "384593",
+      "name": "Alexis Claude-Maurice",
+      "age": 28,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "507341",
+      "name": "Fabian Rieder",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "777005",
+      "name": "Mert Kömür",
+      "age": 21,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "654234",
+      "name": "Anton Kade",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "557614",
+      "name": "Nathanaël Mbuku",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "604359",
+      "name": "Yusuf Kabadayi",
+      "age": 22,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1132292",
+      "name": "Faik Sakar",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "726701",
+      "name": "Rodrigo Ribeiro",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1309324",
+      "name": "Uchenna Ogundu",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "120205",
+      "name": "Michael Gregoritsch",
+      "age": 32,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "238639",
+      "name": "Steve Mounié",
+      "age": 31,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "675565",
+      "name": "Thomas Kastanaras",
+      "age": 23,
+      "position": "Delantero centro"
+    }
+  ],
+  "SV Werder Bremen": [
+    {
+      "tmId": "493513",
+      "name": "Karl Hein",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "186374",
+      "name": "Alexander Schlager",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "99451",
+      "name": "Markus Kolke",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1025989",
+      "name": "Stefan Smarkalev",
+      "age": 19,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1084638",
+      "name": "Karim Coulibaly",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "156990",
+      "name": "Marco Friedl",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "821350",
+      "name": "Oskar Wójcik",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "334221",
+      "name": "Amos Pieper",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "162434",
+      "name": "Niklas Stark",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "830108",
+      "name": "Julián Malatini",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1045986",
+      "name": "Mick Schmetgens",
+      "age": 18,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1032924",
+      "name": "Mats Heitmann",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "393512",
+      "name": "Felix Agu",
+      "age": 26,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "621802",
+      "name": "Olivier Deman",
+      "age": 26,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "119211",
+      "name": "Mitchell Weiser",
+      "age": 32,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1078750",
+      "name": "Luca Höcker",
+      "age": 19,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "338668",
+      "name": "Senne Lynen",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "855134",
+      "name": "Skelly Alvero",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "826795",
+      "name": "Dariusz Stalmach",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "289835",
+      "name": "Jens Stage",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "346853",
+      "name": "Romano Schmid",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "926763",
+      "name": "Chuki",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1114155",
+      "name": "Patrice Covic",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1071244",
+      "name": "Darwin Soylu",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "654991",
+      "name": "Samuel Mbangula",
+      "age": 22,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "391766",
+      "name": "Marco Grüll",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "596153",
+      "name": "Justin Njinmah",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1080555",
+      "name": "Paul Erevbenagie",
+      "age": 18,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "701757",
+      "name": "Keke Topp",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1178695",
+      "name": "Kenny Quetant",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1042472",
+      "name": "Salim Musah",
+      "age": 20,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "243856",
+      "name": "Cedric Itten",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "208167",
+      "name": "Dawid Kownacki",
+      "age": 29,
+      "position": "Delantero centro"
+    }
+  ],
+  "Borussia Mönchengladbach": [
+    {
+      "tmId": "284270",
+      "name": "Moritz Nicolas",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "455922",
+      "name": "Jan Olschowsky",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "90317",
+      "name": "Daniel Batz",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "31653",
+      "name": "Tobias Sippel",
+      "age": 38,
+      "position": "Portero"
+    },
+    {
+      "tmId": "192635",
+      "name": "Nico Elvedi",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "335209",
+      "name": "Kevin Diks",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "724104",
+      "name": "Fabio Chiarodia",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1118874",
+      "name": "Jan Leszczyński",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "787151",
+      "name": "Lukas Ullrich",
+      "age": 22,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "604358",
+      "name": "David Herold",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "504153",
+      "name": "Joe Scally",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "467250",
+      "name": "Yukhym Konoplya",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "387191",
+      "name": "Daiki Hashioka",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "388409",
+      "name": "Philipp Sander",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "957526",
+      "name": "Zento Uno",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "613192",
+      "name": "Jens Castrop",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "383362",
+      "name": "Enzo Leopold",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "278332",
+      "name": "Florian Neuhaus",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1070979",
+      "name": "Wael Mohya",
+      "age": 17,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "504215",
+      "name": "Giovanni Reyna",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "106872",
+      "name": "Kevin Stöger",
+      "age": 32,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "284010",
+      "name": "Robin Hack",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "667251",
+      "name": "Hugo Bolin",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "229006",
+      "name": "Franck Honorat",
+      "age": 29,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "629588",
+      "name": "Nathan Ngoumou",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "193033",
+      "name": "Tim Kleindienst",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "322073",
+      "name": "Isac Lidberg",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "550580",
+      "name": "Shuto Machino",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "544148",
+      "name": "Tomas Cvancara",
+      "age": 25,
+      "position": "Delantero centro"
+    }
+  ],
+  "1. FC Köln": [
+    {
+      "tmId": "160929",
+      "name": "Marvin Schwäbe",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "21327",
+      "name": "Ron-Robert Zieler",
+      "age": 37,
+      "position": "Portero"
+    },
+    {
+      "tmId": "227089",
+      "name": "Matthias Köbbing",
+      "age": 29,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1077676",
+      "name": "Martin James",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "942497",
+      "name": "Jahmai Simpson-Pusey",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "640556",
+      "name": "Rav van den Berg",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "322517",
+      "name": "Joël Schmied",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "744558",
+      "name": "Julian Pauli",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "345189",
+      "name": "Luka Lochoshvili",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "236981",
+      "name": "Timo Hübers",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "795762",
+      "name": "Elias Bakatukanda",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "397171",
+      "name": "Gideon Mensah",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "592387",
+      "name": "Sebastian Sebulonsen",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "405687",
+      "name": "Tom Krauß",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1064377",
+      "name": "Paul Okon-Engstler",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "579565",
+      "name": "Ísak Jóhannesson",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "340166",
+      "name": "Alessio Castro-Montes",
+      "age": 29,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "1168219",
+      "name": "Said El Mala",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "335103",
+      "name": "Linton Maina",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "116088",
+      "name": "Marius Bülter",
+      "age": 33,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1056437",
+      "name": "Reigan Heskey",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "472249",
+      "name": "Jan Thielmann",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "944331",
+      "name": "Youssoupha Niang",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "416380",
+      "name": "Ragnar Ache",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "196095",
+      "name": "Luca Waldschmidt",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "464154",
+      "name": "Imad Rondic",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1168222",
+      "name": "Malek El Mala",
+      "age": 21,
+      "position": "Delantero centro"
+    }
+  ],
+  "1. FC Union Berlin": [
+    {
+      "tmId": "107775",
+      "name": "Frederik Rönnow",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "386685",
+      "name": "Matheo Raab",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "161057",
+      "name": "Carl Klaus",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "597432",
+      "name": "Leopold Querfeld",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "738774",
+      "name": "Zeno Van Den Bosch",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "371141",
+      "name": "Stanley Nsoki",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "196231",
+      "name": "Marvin Friedrich",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "995520",
+      "name": "Oluwaseun Ogbemudia",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "798043",
+      "name": "Tom Rothe",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "391780",
+      "name": "Derrick Köhn",
+      "age": 27,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1027870",
+      "name": "Andrik Markgraf",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "362977",
+      "name": "Josip Juranovic",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "75921",
+      "name": "Christopher Trimmel",
+      "age": 39,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "692737",
+      "name": "Aljoscha Kemlein",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "124410",
+      "name": "Rani Khedira",
+      "age": 32,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1131153",
+      "name": "Tim Blaszczak",
+      "age": 18,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "454863",
+      "name": "András Schäfer",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "177779",
+      "name": "Janik Haberer",
+      "age": 32,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "270393",
+      "name": "Robert Skov",
+      "age": 30,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "297583",
+      "name": "Woo-yeong Jeong",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "519872",
+      "name": "Livan Burcu",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1378338",
+      "name": "Linus Güther",
+      "age": 16,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1033581",
+      "name": "Julien Friedrich",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1035765",
+      "name": "Ilyas Ansah",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "583699",
+      "name": "Andrej Ilic",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "341317",
+      "name": "Oliver Burke",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "838236",
+      "name": "Marin Ljubicic",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "287920",
+      "name": "Tim Skarke",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1045446",
+      "name": "Dmytro Bogdanov",
+      "age": 19,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1162925",
+      "name": "Mekhi Gray",
+      "age": 19,
+      "position": "Delantero centro"
+    }
+  ],
+  "Hamburger SV": [
+    {
+      "tmId": "549378",
+      "name": "Sander Tangvik",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "84993",
+      "name": "Daniel Heuer Fernandes",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1048715",
+      "name": "Fernando Dickes",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "649672",
+      "name": "Nicolás Capaldo",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "711996",
+      "name": "Warmed Omari",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "227110",
+      "name": "Jordan Torunarigha",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "529895",
+      "name": "Daniel Elfadli",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1125079",
+      "name": "Shafiq Nandja",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "815838",
+      "name": "Joel Agyekum",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "298603",
+      "name": "Miro Muheim",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1294853",
+      "name": "Louis Lemke",
+      "age": 16,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "592534",
+      "name": "Nicolai Remberg",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "814950",
+      "name": "Kofi Amoako",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "381967",
+      "name": "Albert Sambi Lokonga",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "659520",
+      "name": "Bilal Nadir",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "814976",
+      "name": "Martin Adeline",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "503866",
+      "name": "Albert Grønbaek",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "412935",
+      "name": "Immanuel Pherai",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1281338",
+      "name": "Mads Bröcker",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1213681",
+      "name": "Alexander Røssing-Lelesiit",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "910541",
+      "name": "Fábio Baldé",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "291222",
+      "name": "Jean-Luc Dompé",
+      "age": 30,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1149528",
+      "name": "Finn Barkowsky",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "694507",
+      "name": "Rayan Philippe",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "403177",
+      "name": "Emir Sahiti",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "415194",
+      "name": "Bakery Jatta",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1058520",
+      "name": "Otto Stange",
+      "age": 19,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "365172",
+      "name": "Patson Daka",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "157635",
+      "name": "Yussuf Poulsen",
+      "age": 32,
+      "position": "Delantero centro"
+    }
+  ],
+  "FC Schalke 04": [
+    {
+      "tmId": "85864",
+      "name": "Loris Karius",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "43824",
+      "name": "Kevin Müller",
+      "age": 35,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1047294",
+      "name": "Johannes Siebeking",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "969376",
+      "name": "Mertcan Ayhan",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "263361",
+      "name": "Maximilian Wöber",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "292812",
+      "name": "Hasan Kuruçay",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "422051",
+      "name": "Nikola Katic",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "282349",
+      "name": "Timo Becker",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1188989",
+      "name": "Dylan Leonard",
+      "age": 18,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "273132",
+      "name": "Robin Gosens",
+      "age": 32,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "919703",
+      "name": "Vitalie Becker",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "280553",
+      "name": "Anton Donkor",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "410870",
+      "name": "Adrian Gantenbein",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "287188",
+      "name": "Dejan Ljubicic",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "332392",
+      "name": "Ron Schallenberg",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "665618",
+      "name": "Satoshi Tanaka",
+      "age": 23,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1162413",
+      "name": "Luca Vozar",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "697740",
+      "name": "Soufiane El-Faouzi",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "327862",
+      "name": "Janik Bachmann",
+      "age": 30,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "241307",
+      "name": "Finn Porath",
+      "age": 29,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "569385",
+      "name": "Adil Aouchiche",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "119557",
+      "name": "Kenan Karaman",
+      "age": 32,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "460655",
+      "name": "Moussa Sylla",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "452477",
+      "name": "Junior Adamu",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "357310",
+      "name": "Christian Gomis",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "477109",
+      "name": "Bryan Lasme",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "802560",
+      "name": "Emil Højlund",
+      "age": 21,
+      "position": "Delantero centro"
+    }
+  ],
+  "SV Elversberg": [
+    {
+      "tmId": "349465",
+      "name": "Nicolas Kristof",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "85534",
+      "name": "Tim Boss",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "44536",
+      "name": "Frank Lehmann",
+      "age": 37,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1159486",
+      "name": "Elias Etringer",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "448259",
+      "name": "Lukas Pinckert",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "521928",
+      "name": "Luca Sirch",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "440386",
+      "name": "Maximilian Rohr",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "352332",
+      "name": "Florian Le Joncour",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "806007",
+      "name": "Luis Seifert",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "522245",
+      "name": "Lasse Günther",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "430034",
+      "name": "Nicholas Mickelson",
+      "age": 27,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "815322",
+      "name": "Felix Keidel",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "192840",
+      "name": "Jan Gyamerah",
+      "age": 31,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "532169",
+      "name": "Lukasz Poreba",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "207580",
+      "name": "Amara Condé",
+      "age": 29,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "604756",
+      "name": "Frederik Schmahl",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "929943",
+      "name": "Francis Onyeka",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "897480",
+      "name": "Noah Darvich",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "829316",
+      "name": "Maurice Krattenmacher",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "337097",
+      "name": "Tom Zimmerschied",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "453307",
+      "name": "Filimon Gerezgiher",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "866579",
+      "name": "Cole Campbell",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "401639",
+      "name": "Lukas Petkov",
+      "age": 25,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "390661",
+      "name": "Jason Ceka",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "910538",
+      "name": "Raif Adam",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "974894",
+      "name": "David Mokwa",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "232463",
+      "name": "Luca Pfeiffer",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "229991",
+      "name": "Luca Schnellbacher",
+      "age": 32,
+      "position": "Delantero centro"
+    }
+  ],
+  "SC Paderborn 07": [
+    {
+      "tmId": "600942",
+      "name": "Nahuel Noll",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "296741",
+      "name": "Markus Schubert",
+      "age": 28,
+      "position": "Portero"
+    },
+    {
+      "tmId": "930013",
+      "name": "Florian Pruhs",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "694132",
+      "name": "Mattes Hansen",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "509650",
+      "name": "Tjark Scheller",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "330635",
+      "name": "Felix Götze",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "570152",
+      "name": "Marcel Hoffmeier",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "521331",
+      "name": "Nyamekye Awortwie-Grant",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "798091",
+      "name": "Tristan Zobel",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1005509",
+      "name": "Santiago Castañeda",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "331637",
+      "name": "Tom Baack",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "720948",
+      "name": "Mika Baur",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "378424",
+      "name": "Sebastian Klaas",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "685484",
+      "name": "Luka Duric",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "421323",
+      "name": "Timur Gayret",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "516978",
+      "name": "Laurin Curda",
+      "age": 24,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "606113",
+      "name": "Jano ter Horst",
+      "age": 24,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "1148887",
+      "name": "Clemens Lippmann",
+      "age": 20,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "330699",
+      "name": "Raphael Obermair",
+      "age": 30,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "698843",
+      "name": "Jonah Sticker",
+      "age": 22,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "949389",
+      "name": "Niklas Mohr",
+      "age": 22,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "406614",
+      "name": "Oliver Batista Meier",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "443855",
+      "name": "Nick Bätzner",
+      "age": 26,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "814986",
+      "name": "Albert Millgramm",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "907085",
+      "name": "Ruben Müller",
+      "age": 20,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "186988",
+      "name": "Sven Michel",
+      "age": 36,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1104418",
+      "name": "Kennedy Okpala",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "829267",
+      "name": "Stefano Marino",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "296879",
+      "name": "Steffen Tigges",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1299403",
+      "name": "Lasse Eickel",
+      "age": 18,
+      "position": "Delantero centro"
+    }
+  ],
+  "VfL Wolfsburg": [
+    {
+      "tmId": "346551",
+      "name": "Kamil Grabara",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "196829",
+      "name": "Timon Wellenreuther",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1068257",
+      "name": "Jakub Zielinski",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "51977",
+      "name": "Pavao Pervan",
+      "age": 38,
+      "position": "Portero"
+    },
+    {
+      "tmId": "669380",
+      "name": "Konstantinos Koulierakis",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "734676",
+      "name": "Jonas Adjetey",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "239962",
+      "name": "Denis Vavro",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "460245",
+      "name": "Moritz Jenz",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "154147",
+      "name": "Hauke Wahl",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1075579",
+      "name": "Mathys Angély",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "943237",
+      "name": "Cleiton",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "369674",
+      "name": "Joakim Maehle",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "730484",
+      "name": "Aaron Zehnter",
+      "age": 21,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "401527",
+      "name": "Rogério",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "951579",
+      "name": "Saël Kumbedi",
+      "age": 21,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "435796",
+      "name": "Kilian Fischer",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1009440",
+      "name": "Jan Bürger",
+      "age": 19,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "663581",
+      "name": "Vini Souza",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "959294",
+      "name": "Eryk Grzywacz",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "342405",
+      "name": "Mattias Svanberg",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "503881",
+      "name": "Aster Vranckx",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "280575",
+      "name": "Elvis Rexhbecaj",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1150105",
+      "name": "Pharell Hensel",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "117674",
+      "name": "Maximilian Arnold",
+      "age": 32,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "119277",
+      "name": "Yannick Gerhardt",
+      "age": 32,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "789252",
+      "name": "Bence Dárdai",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "789898",
+      "name": "Muhammed Damar",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "69633",
+      "name": "Christian Eriksen",
+      "age": 34,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "227102",
+      "name": "Fabian Reese",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1139729",
+      "name": "Bruno Katz",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1029413",
+      "name": "Trevor Benedict",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "746910",
+      "name": "Mohamed Amoura",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "819636",
+      "name": "Dzenan Pejcinovic",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1144627",
+      "name": "Kento Shiogai",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "388160",
+      "name": "Fraser Hornby",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "659278",
+      "name": "Alessio Besio",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "196139",
+      "name": "Robert Glatzel",
+      "age": 32,
+      "position": "Delantero centro"
+    }
+  ],
+  "FC St. Pauli": [
+    {
+      "tmId": "453742",
+      "name": "Ben Voll",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "527597",
+      "name": "Simon Spari",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "292534",
+      "name": "Eric Smith",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "610795",
+      "name": "Tomoya Ando",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "451906",
+      "name": "David Nemeth",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "268216",
+      "name": "Marcus Mathisen",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "236966",
+      "name": "Adam Dzwigala",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "909860",
+      "name": "Jannik Robatsch",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "605265",
+      "name": "Louis Oppie",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "333903",
+      "name": "Lars Ritzka",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "599733",
+      "name": "Arkadiusz Pyrka",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "716897",
+      "name": "Rony Jansson",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1003534",
+      "name": "Marwin Schmitz",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "697277",
+      "name": "Joel Chima Fujita",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "268327",
+      "name": "Mathias Rasmussen",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "522223",
+      "name": "Connor Metcalfe",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "192557",
+      "name": "Jackson Irvine",
+      "age": 33,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "976123",
+      "name": "Sam Klein",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "501049",
+      "name": "Erik Ahlstrand",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1152232",
+      "name": "Nick Schmidt",
+      "age": 18,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "171209",
+      "name": "Branimir Hrgota",
+      "age": 33,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "424072",
+      "name": "Mathias Pereira Lage",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "596821",
+      "name": "Scott Banks",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "377729",
+      "name": "Martijn Kaars",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "677935",
+      "name": "Ricky-Jade Jones",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1280281",
+      "name": "Abdoulie Ceesay",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "495752",
+      "name": "Taichi Hara",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1280369",
+      "name": "Wissou Kaba",
+      "age": 18,
+      "position": "Delantero centro"
+    }
+  ],
+  "1. FC Nürnberg": [
+    {
+      "tmId": "624462",
+      "name": "Jan Reichert",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "82361",
+      "name": "Christian Mathenia",
+      "age": 34,
+      "position": "Portero"
+    },
+    {
+      "tmId": "884818",
+      "name": "Robin Lisewski",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "666167",
+      "name": "Nicolas Ortegel",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "666974",
+      "name": "Mikayil Faye",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "735354",
+      "name": "Alexios Kalogeropoulos",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "623119",
+      "name": "Styopa Mkrtchyan",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "529198",
+      "name": "Fynn Otto",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1116267",
+      "name": "Kristian Mandic",
+      "age": 18,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1152976",
+      "name": "Eric Porstner",
+      "age": 19,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "924115",
+      "name": "Tim Janisch",
+      "age": 20,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "295780",
+      "name": "Giannis Masouras",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "592878",
+      "name": "Adam Markhiev",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "974564",
+      "name": "Winners Osawe",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "745601",
+      "name": "Rafael Lubach",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "937952",
+      "name": "Javier Fernández",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "334999",
+      "name": "Finn Becker",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1361784",
+      "name": "Marko Soldic",
+      "age": 16,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "324861",
+      "name": "Julian Justvan",
+      "age": 28,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "938946",
+      "name": "Ayoub Chaikhoun",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "696026",
+      "name": "Can Moustfa",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "503291",
+      "name": "Rayan Ghrieb",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "944335",
+      "name": "Justin von der Hitz",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "935828",
+      "name": "Mohamed Alì Zoma",
+      "age": 22,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "386541",
+      "name": "Sigurd Haugen",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1143097",
+      "name": "Piet Scobel",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "69392",
+      "name": "Adriano Grimaldi",
+      "age": 35,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1185190",
+      "name": "Tino Kusanovic",
+      "age": 18,
+      "position": "Delantero centro"
+    }
+  ],
+  "Holstein Kiel": [
+    {
+      "tmId": "296428",
+      "name": "Timon Weiner",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "939807",
+      "name": "Lio Rothenhagen",
+      "age": 19,
+      "position": "Portero"
+    },
+    {
+      "tmId": "124080",
+      "name": "Marcel Engelhardt",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1200691",
+      "name": "Ben Schmit",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "469709",
+      "name": "David Zec",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "706024",
+      "name": "Marko Ivezic",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "464333",
+      "name": "Ivan Nekic",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1051739",
+      "name": "Frederik Roslyng",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "213751",
+      "name": "Sebastian Schonlau",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1147141",
+      "name": "Caspar Medlin",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "683812",
+      "name": "John Tolkin",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1045850",
+      "name": "Leon Parduzi",
+      "age": 19,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "512352",
+      "name": "Lasse Rosenboom",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1137808",
+      "name": "Hiroki Sekine",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "802513",
+      "name": "Kasper Davidsen",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "814489",
+      "name": "Taisei Abe",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "107574",
+      "name": "Jonas Meffert",
+      "age": 31,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "915433",
+      "name": "Ikem Ugoh",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "920013",
+      "name": "Hamza Muqaj",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1027770",
+      "name": "Jonas Therkelsen",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "896234",
+      "name": "Guillermo Balzi",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1215798",
+      "name": "Tayar Tasdelen",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "456492",
+      "name": "Faride Alidou",
+      "age": 25,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "719694",
+      "name": "Andu Kelati",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1084639",
+      "name": "Moritz Reimers",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "633454",
+      "name": "Alexander Bernhardsson",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "546822",
+      "name": "Adrián Kaprálik",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "606119",
+      "name": "Phil Harres",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "186233",
+      "name": "Giorgi Kvilitaia",
+      "age": 32,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "93827",
+      "name": "Steven Skrzybski",
+      "age": 33,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "698523",
+      "name": "Marcus Müller",
+      "age": 23,
+      "position": "Delantero centro"
+    }
+  ],
+  "FC Heidenheim": [
+    {
+      "tmId": "806948",
+      "name": "Frank Feller",
+      "age": 22,
+      "position": "Portero"
+    },
+    {
+      "tmId": "115979",
+      "name": "Thomas Dähne",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "519035",
+      "name": "Paul Tschernuth",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1153621",
+      "name": "Felix Mark",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "133731",
+      "name": "Patrick Mainka",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "337092",
+      "name": "Tim Siersleben",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "227084",
+      "name": "Benedikt Gimber",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "921431",
+      "name": "Adam Kölle",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "192169",
+      "name": "Jonas Föhrenbach",
+      "age": 30,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "107219",
+      "name": "Leart Paçarada",
+      "age": 31,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "117478",
+      "name": "Marnon Busch",
+      "age": 31,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "673273",
+      "name": "Oualid Mhamdi",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "530173",
+      "name": "Julian Niehues",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "825971",
+      "name": "Luka Janes",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1344455",
+      "name": "Marko Zrilić",
+      "age": 18,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "581357",
+      "name": "Jan Schöppner",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "809498",
+      "name": "Luca Kerber",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "273669",
+      "name": "Adrian Beck",
+      "age": 29,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "283497",
+      "name": "Mathias Honsak",
+      "age": 29,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1153628",
+      "name": "Yannik Wagner",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "530298",
+      "name": "Christian Conteh",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "810108",
+      "name": "Paul Hennrich",
+      "age": 21,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "307183",
+      "name": "Sirlord Conteh",
+      "age": 30,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "274274",
+      "name": "Marcel Costly",
+      "age": 30,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "471055",
+      "name": "Marvin Pieringer",
+      "age": 26,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "545332",
+      "name": "Mikkel Kaufmann",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "187097",
+      "name": "Budu Zivzivadze",
+      "age": 32,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "584254",
+      "name": "Maximilian Breunig",
+      "age": 25,
+      "position": "Delantero centro"
+    }
+  ],
+  "Hannover 96": [
+    {
+      "tmId": "583038",
+      "name": "Pascal Loretz",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "196427",
+      "name": "Leo Weinkauf",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1023809",
+      "name": "Jonas Schwanke",
+      "age": 19,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1107265",
+      "name": "Ime Okon",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "340977",
+      "name": "Virgil Ghiță",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "280581",
+      "name": "Boris Tomiak",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "695644",
+      "name": "Jean Hugonet",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "569455",
+      "name": "Bastian Allgeier",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1307411",
+      "name": "Joschua Siewert",
+      "age": 17,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "908951",
+      "name": "Noah Engelbreth",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "680447",
+      "name": "Waniss Taïbi",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "422721",
+      "name": "Stefán Teitur Thórdarson",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "567974",
+      "name": "Franz Roggow",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1465501",
+      "name": "Mwisho Mhango",
+      "age": 18,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "957531",
+      "name": "Hayate Matsuda",
+      "age": 22,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "392157",
+      "name": "Kolja Oudenne",
+      "age": 24,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "216422",
+      "name": "Maurice Neubauer",
+      "age": 30,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "510686",
+      "name": "William Kokolo",
+      "age": 26,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "455932",
+      "name": "Lars Gindorf",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "993720",
+      "name": "Alexander Vogel",
+      "age": 20,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1145570",
+      "name": "Husseyn Chakroun",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1163052",
+      "name": "Yunus Ünal",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1201298",
+      "name": "Taycan Kurt",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "602781",
+      "name": "Daisuke Yokota",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "457728",
+      "name": "Mustapha Bundu",
+      "age": 29,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "322990",
+      "name": "Benjamin Källman",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "331362",
+      "name": "Benedikt Pichler",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1282776",
+      "name": "Tom Hobrecht",
+      "age": 19,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1009443",
+      "name": "Taycan Etcibasi",
+      "age": 19,
+      "position": "Delantero centro"
+    }
+  ],
+  "Karlsruher SC": [
+    {
+      "tmId": "400535",
+      "name": "Hans Christian Bernat",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "53116",
+      "name": "Robin Himmelmann",
+      "age": 37,
+      "position": "Portero"
+    },
+    {
+      "tmId": "960834",
+      "name": "Ferdinand Gebert",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "897426",
+      "name": "Paul Scholl",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "307509",
+      "name": "Christoph Kobald",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "152435",
+      "name": "Marcel Franke",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1081907",
+      "name": "Deniz Ofli",
+      "age": 19,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "459022",
+      "name": "Viktor Bergh",
+      "age": 27,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "798542",
+      "name": "Niclas Dühring",
+      "age": 22,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1085900",
+      "name": "Rafael Pinto Pedrosa",
+      "age": 18,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "49730",
+      "name": "Sebastian Jung",
+      "age": 36,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "550957",
+      "name": "Hyeok-kyu Kwon",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "564621",
+      "name": "Santeri Väänänen",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "438315",
+      "name": "Andreas Müller",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1163673",
+      "name": "Danyal Zor",
+      "age": 19,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "119581",
+      "name": "Marvin Wanitzek",
+      "age": 33,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "917255",
+      "name": "Kevin Wiethaup",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "588747",
+      "name": "Tim Civeja",
+      "age": 24,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "472243",
+      "name": "Lilian Egloff",
+      "age": 23,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "675921",
+      "name": "Noel Eichinger",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1141053",
+      "name": "Jason Ponente-Ramirez",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1045852",
+      "name": "Louey Ben Farhat",
+      "age": 20,
+      "position": "Mediapunta"
+    },
+    {
+      "tmId": "1073997",
+      "name": "Shio Fukuda",
+      "age": 22,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1163670",
+      "name": "Eymen Laghrissi",
+      "age": 18,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "406973",
+      "name": "Moritz Broschinski",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1297467",
+      "name": "John Davis Meyer",
+      "age": 17,
+      "position": "Delantero centro"
+    }
+  ],
+  "1. FC Kaiserslautern": [
+    {
+      "tmId": "337082",
+      "name": "Julian Krahl",
+      "age": 26,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1144518",
+      "name": "Enis Kamga",
+      "age": 19,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1037925",
+      "name": "Yannick Onohiol",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "452078",
+      "name": "Maxwell Gyamfi",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "283233",
+      "name": "Jacob Rasmussen",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "322506",
+      "name": "Jan Elvedi",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "934529",
+      "name": "Kelven Frees",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1159569",
+      "name": "Ivan Knezevic",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "924087",
+      "name": "Mika Haas",
+      "age": 20,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "260657",
+      "name": "Erik Wekesser",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "806168",
+      "name": "Paul Joly",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "392131",
+      "name": "Simon Asta",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "334186",
+      "name": "Fabian Kunze",
+      "age": 28,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1290366",
+      "name": "Dion Hofmeister",
+      "age": 17,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "521142",
+      "name": "Leon Robinson",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "932375",
+      "name": "David Schramm",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "566857",
+      "name": "Semih Sahin",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1144523",
+      "name": "Erik Müller",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1144522",
+      "name": "Kian Scheer",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "270027",
+      "name": "Frank Ronstadt",
+      "age": 29,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "567309",
+      "name": "Naatan Skyttä",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "151636",
+      "name": "Marlon Ritter",
+      "age": 31,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "952980",
+      "name": "Owen Gibs",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1132628",
+      "name": "Ibrahim Kanaté",
+      "age": 19,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1224744",
+      "name": "Ben Jungfleisch",
+      "age": 18,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "790434",
+      "name": "Thierry Tazemeta",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "618898",
+      "name": "Erencan Yardımcı",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "307924",
+      "name": "Mergim Berisha",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "340700",
+      "name": "Ivan Prtajin",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "331515",
+      "name": "Jannik Mause",
+      "age": 28,
+      "position": "Delantero centro"
+    }
+  ],
+  "Hertha BSC": [
+    {
+      "tmId": "829831",
+      "name": "Konstantin Heide",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "196382",
+      "name": "Marius Gersbeck",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "822960",
+      "name": "Tim Goller",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "692734",
+      "name": "Linus Gechter",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "432281",
+      "name": "Márton Dárdai",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "820261",
+      "name": "Pascal Klemens",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "388508",
+      "name": "Niklas Kolbe",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1379283",
+      "name": "Jerome Diallo",
+      "age": 17,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1228839",
+      "name": "Mayson Grothe",
+      "age": 17,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "706617",
+      "name": "Julian Eitschberger",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "338032",
+      "name": "Deyovaisio Zeefuik",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1067659",
+      "name": "Boris Mamuzah Lum",
+      "age": 18,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "897428",
+      "name": "Selim Telib",
+      "age": 20,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "273904",
+      "name": "Leon Jensen",
+      "age": 29,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "448028",
+      "name": "Kevin Sessa",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "183780",
+      "name": "Paul Seguin",
+      "age": 31,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "897482",
+      "name": "Soufian Gouram",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1045444",
+      "name": "Kian Todorovic",
+      "age": 19,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "982081",
+      "name": "Oluwaseun Adewumi",
+      "age": 21,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "293169",
+      "name": "Josip Brekalo",
+      "age": 28,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "331739",
+      "name": "Jón Dagur Thorsteinsson",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "685680",
+      "name": "Gustav Christensen",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "574569",
+      "name": "Marten Winkler",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1062715",
+      "name": "Jelani Ndi",
+      "age": 18,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "388029",
+      "name": "Luca Schuler",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "439456",
+      "name": "Sebastian Grönning",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1163050",
+      "name": "Niklas Hildebrandt",
+      "age": 18,
+      "position": "Delantero centro"
+    }
+  ],
+  "Darmstadt 98": [
+    {
+      "tmId": "93651",
+      "name": "Marcel Schuhen",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "146693",
+      "name": "Alexander Brunst",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1008242",
+      "name": "Benedikt Börner",
+      "age": 20,
+      "position": "Portero"
+    },
+    {
+      "tmId": "391742",
+      "name": "Patric Pfeiffer",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "433388",
+      "name": "Matej Maglica",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "398851",
+      "name": "Aleksandar Vukotic",
+      "age": 31,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "627356",
+      "name": "Yannik Lührs",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "379100",
+      "name": "Meldin Dreskovic",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "821066",
+      "name": "Grayson Dettoni",
+      "age": 21,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1131113",
+      "name": "Max Pfister",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "243878",
+      "name": "Raoul Petretta",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "448027",
+      "name": "Florian Kleinhansl",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "237162",
+      "name": "Matthias Bader",
+      "age": 29,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "326921",
+      "name": "Christopher Lannert",
+      "age": 28,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "627533",
+      "name": "Hiroki Akiyama",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "332624",
+      "name": "Kai Klefisch",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "282163",
+      "name": "Carlo Sickinger",
+      "age": 29,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "405689",
+      "name": "Merveille Papela",
+      "age": 25,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "349433",
+      "name": "Fabian Nürnberger",
+      "age": 27,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "339057",
+      "name": "Luca Marseiler",
+      "age": 29,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "378316",
+      "name": "Lance Duijvestijn",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "527278",
+      "name": "Lars Kehl",
+      "age": 24,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1024747",
+      "name": "Nicolas Verkooijen",
+      "age": 19,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1191425",
+      "name": "Milian Herbst",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "392163",
+      "name": "Noah Weißhaupt",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "957535",
+      "name": "Yosuke Furukawa",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "508642",
+      "name": "Ibrahim El Kadiri",
+      "age": 24,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1125031",
+      "name": "Manolo Merx",
+      "age": 17,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "545501",
+      "name": "Ho-jae Lee",
+      "age": 25,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "528856",
+      "name": "Fynn Lakenmacher",
+      "age": 26,
+      "position": "Delantero centro"
+    }
+  ],
+  "Magdeburg": [
+    {
+      "tmId": "238722",
+      "name": "Dominik Reimann",
+      "age": 29,
+      "position": "Portero"
+    },
+    {
+      "tmId": "818246",
+      "name": "Noah Kruth",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1023784",
+      "name": "Robert Kampa",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1133120",
+      "name": "Tjark Möbius",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "631904",
+      "name": "Anselmo García MacNulty",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "284248",
+      "name": "Paul Jaeckel",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "19483",
+      "name": "Tobias Müller",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "151583",
+      "name": "Daniel Heber",
+      "age": 32,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "285944",
+      "name": "Tarek Chahed",
+      "age": 30,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "446625",
+      "name": "Alexander Nollenberger",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "333859",
+      "name": "Lubambo Musonda",
+      "age": 31,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "186477",
+      "name": "Herbert Bockhorn",
+      "age": 31,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "696011",
+      "name": "Pierre Nadjombe",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "627658",
+      "name": "Eldin Dzogovic",
+      "age": 23,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "716898",
+      "name": "Luka Hyryläinen",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "527270",
+      "name": "Falko Michel",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "815237",
+      "name": "Tony Reitz",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "368860",
+      "name": "Torben Müsel",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "316575",
+      "name": "Moritz-Broni Kwarteng",
+      "age": 28,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "161072",
+      "name": "Baris Atik",
+      "age": 31,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1154529",
+      "name": "Chung-hyun Lee",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "314245",
+      "name": "Emmanuel Iyoha",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1015959",
+      "name": "Do-young Yoon",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "1035852",
+      "name": "Magnus Baars",
+      "age": 19,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "470375",
+      "name": "Mateusz Zukowski",
+      "age": 24,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "498171",
+      "name": "Alexander Ahl-Holmström",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "390460",
+      "name": "Richmond Tachie",
+      "age": 27,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1160023",
+      "name": "Kevin Manthey",
+      "age": 19,
+      "position": "Delantero centro"
+    }
+  ],
+  "Eintracht Braunschweig": [
+    {
+      "tmId": "317444",
+      "name": "Ron-Thorben Hoffmann",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "120296",
+      "name": "Benjamin Uphoff",
+      "age": 32,
+      "position": "Portero"
+    },
+    {
+      "tmId": "1115668",
+      "name": "Nick Bodon",
+      "age": 19,
+      "position": "Portero"
+    },
+    {
+      "tmId": "760069",
+      "name": "Louis Breunig",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "447783",
+      "name": "Kevin Ehlers",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "563966",
+      "name": "Lukas Frenkert",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "656095",
+      "name": "Andi Hoti",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "405679",
+      "name": "Frederik Jäkel",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "676889",
+      "name": "Fabio Di Michele Sanchez",
+      "age": 23,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "469949",
+      "name": "Noah Katterbach",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "472242",
+      "name": "Mehmet Aydin",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "694598",
+      "name": "Damjan Kovacevic",
+      "age": 21,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "717346",
+      "name": "Sanoussy Ba",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "596881",
+      "name": "Florian Flick",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "826064",
+      "name": "Samuele Di Benedetto",
+      "age": 21,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "729176",
+      "name": "Max Marie",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "378883",
+      "name": "Lino Tempelmann",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "337042",
+      "name": "Robin Heußer",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "717345",
+      "name": "Sidney Raebiger",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "913501",
+      "name": "Tristan Wagner",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "673925",
+      "name": "Johan Gómez",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "925199",
+      "name": "Junior Zé",
+      "age": 20,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "829820",
+      "name": "Yann Sturm",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "344063",
+      "name": "Aaron Opoku",
+      "age": 27,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "673432",
+      "name": "Jovan Mijatovic",
+      "age": 21,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "410561",
+      "name": "Sidi Sané",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "403184",
+      "name": "Maximilian Entrup",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "820723",
+      "name": "Jan Urbich",
+      "age": 22,
+      "position": "Delantero centro"
+    }
+  ],
+  "VfL Bochum": [
+    {
+      "tmId": "84938",
+      "name": "Timo Horn",
+      "age": 33,
+      "position": "Portero"
+    },
+    {
+      "tmId": "169271",
+      "name": "Tino Casali",
+      "age": 30,
+      "position": "Portero"
+    },
+    {
+      "tmId": "930004",
+      "name": "Hugo Rölleke",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "375434",
+      "name": "Michael Steinwender",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "337031",
+      "name": "Philipp Strompf",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "139304",
+      "name": "Karol Mets",
+      "age": 33,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "796217",
+      "name": "Yiğit Karademir",
+      "age": 22,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "196793",
+      "name": "Maximilian Wittek",
+      "age": 30,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "893930",
+      "name": "Mikkel Rakneberg",
+      "age": 24,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "1056989",
+      "name": "Darnell Keumo",
+      "age": 18,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "400542",
+      "name": "Oliver Olsen",
+      "age": 25,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "1058515",
+      "name": "Kacper Koscierski",
+      "age": 19,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "644244",
+      "name": "Enis Cokaj",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1253286",
+      "name": "Lasse Isbruch",
+      "age": 18,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "796221",
+      "name": "Mats Pannewig",
+      "age": 21,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "335003",
+      "name": "Jean Manuel Mbom",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1162490",
+      "name": "Tom Meyer",
+      "age": 18,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "295060",
+      "name": "Koji Miyoshi",
+      "age": 29,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "747983",
+      "name": "Aurel Wagbe",
+      "age": 22,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "451380",
+      "name": "Berkan Taz",
+      "age": 27,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "190289",
+      "name": "Gerrit Holtmann",
+      "age": 31,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1127988",
+      "name": "Alessandro Crimaldi",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "610429",
+      "name": "Christian Rasmussen",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "675612",
+      "name": "Babis Drakas",
+      "age": 23,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "416809",
+      "name": "Daniel Hanslik",
+      "age": 29,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "484888",
+      "name": "Ibrahim Sissoko",
+      "age": 30,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "119037",
+      "name": "Philipp Hofmann",
+      "age": 33,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1162986",
+      "name": "Luis Pick",
+      "age": 18,
+      "position": "Delantero centro"
+    }
+  ],
+  "Greuther Fürth": [
+    {
+      "tmId": "1009438",
+      "name": "Florian Hellstern",
+      "age": 18,
+      "position": "Portero"
+    },
+    {
+      "tmId": "913422",
+      "name": "Silas Prüfrock",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "196826",
+      "name": "Christian Ortag",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "369888",
+      "name": "Jannis Heuer",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "569171",
+      "name": "Brynjar Ingi Bjarnason",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "626472",
+      "name": "Krisztián Keresztes",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "685487",
+      "name": "Noah König",
+      "age": 23,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "934317",
+      "name": "Maxim Dal",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "296378",
+      "name": "Luca Itter",
+      "age": 27,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "957669",
+      "name": "Lukas Reich",
+      "age": 19,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "211671",
+      "name": "Jannik Dehm",
+      "age": 30,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "409485",
+      "name": "Sacha Bansé",
+      "age": 25,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "356640",
+      "name": "Paul Will",
+      "age": 27,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "563841",
+      "name": "Doni Arifi",
+      "age": 24,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "729097",
+      "name": "Philipp Müller",
+      "age": 22,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "1138765",
+      "name": "Mehmet Avlayici",
+      "age": 20,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1148239",
+      "name": "Mika Wallentowitz",
+      "age": 18,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "89591",
+      "name": "Felix Klaus",
+      "age": 33,
+      "position": "Interior derecho"
+    },
+    {
+      "tmId": "727538",
+      "name": "Aaron Keller",
+      "age": 22,
+      "position": "Interior izquierdo"
+    },
+    {
+      "tmId": "452121",
+      "name": "Shinta Appelkamp",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "405690",
+      "name": "Ole Pohlmann",
+      "age": 25,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "159239",
+      "name": "Dennis Srbeny",
+      "age": 32,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "930377",
+      "name": "Omar Sillah",
+      "age": 23,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "687903",
+      "name": "Benjamin Zank",
+      "age": 21,
+      "position": "Delantero centro"
+    }
+  ],
+  "Dynamo Dresden": [
+    {
+      "tmId": "426685",
+      "name": "Tim Schreiber",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "601918",
+      "name": "Elias Bethke",
+      "age": 23,
+      "position": "Portero"
+    },
+    {
+      "tmId": "309397",
+      "name": "Lennart Grill",
+      "age": 27,
+      "position": "Portero"
+    },
+    {
+      "tmId": "150080",
+      "name": "Daniel Mesenhöler",
+      "age": 31,
+      "position": "Portero"
+    },
+    {
+      "tmId": "485747",
+      "name": "Thomas Keller",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "921485",
+      "name": "Friedrich Müller",
+      "age": 20,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "527276",
+      "name": "Kenneth Schmidt",
+      "age": 24,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "271323",
+      "name": "Ahmet Muhamedbegovic",
+      "age": 27,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "227078",
+      "name": "Lukas Boeder",
+      "age": 29,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "379114",
+      "name": "Lars Bünning",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "1070022",
+      "name": "Till Neininger",
+      "age": 19,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "296188",
+      "name": "Alexander Rossipal",
+      "age": 30,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "521474",
+      "name": "Brooklyn Ezeh",
+      "age": 25,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "528619",
+      "name": "Jonas Sterner",
+      "age": 24,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "379879",
+      "name": "Simon Straudi",
+      "age": 27,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "185427",
+      "name": "Nicolai Rapp",
+      "age": 29,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "690429",
+      "name": "Robert Wagner",
+      "age": 23,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "384745",
+      "name": "Tobias Raschl",
+      "age": 26,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "296372",
+      "name": "Luca Herrmann",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "205544",
+      "name": "Niklas Hauptmann",
+      "age": 30,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "532784",
+      "name": "Nils Fröling",
+      "age": 26,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "661711",
+      "name": "Jonas Oehmichen",
+      "age": 22,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "1149111",
+      "name": "Quentin Enold",
+      "age": 18,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "658116",
+      "name": "Ben Bobzien",
+      "age": 23,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "453324",
+      "name": "Jakob Lemmer",
+      "age": 26,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "324851",
+      "name": "Christoph Daferner",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "273054",
+      "name": "Vincent Vermeij",
+      "age": 31,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "1186442",
+      "name": "Kaan Inanoglu",
+      "age": 20,
+      "position": "Delantero centro"
+    }
+  ],
+  "Arminia Bielefeld": [
+    {
+      "tmId": "597804",
+      "name": "Jonas Kersken",
+      "age": 25,
+      "position": "Portero"
+    },
+    {
+      "tmId": "489343",
+      "name": "Leo Oppermann",
+      "age": 24,
+      "position": "Portero"
+    },
+    {
+      "tmId": "825572",
+      "name": "Philip Hildesheim",
+      "age": 21,
+      "position": "Portero"
+    },
+    {
+      "tmId": "388363",
+      "name": "Maximilian Bauer",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "528515",
+      "name": "Maximilian Großer",
+      "age": 25,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "356325",
+      "name": "Leon Schneider",
+      "age": 26,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "400532",
+      "name": "Joel Felix",
+      "age": 28,
+      "position": "Defensa central"
+    },
+    {
+      "tmId": "284177",
+      "name": "Tim Handwerker",
+      "age": 28,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "244997",
+      "name": "Arne Sicker",
+      "age": 29,
+      "position": "Lateral izquierdo"
+    },
+    {
+      "tmId": "515624",
+      "name": "Henri Koudossou",
+      "age": 26,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "749942",
+      "name": "Felix Hagmann",
+      "age": 22,
+      "position": "Lateral derecho"
+    },
+    {
+      "tmId": "343332",
+      "name": "Stefano Russo",
+      "age": 26,
+      "position": "Pivote"
+    },
+    {
+      "tmId": "786827",
+      "name": "Marius Wörl",
+      "age": 22,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "335100",
+      "name": "Sam Schreck",
+      "age": 27,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "333239",
+      "name": "Lukas Kunze",
+      "age": 28,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1259900",
+      "name": "Eyyüb Yasar",
+      "age": 18,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "1322876",
+      "name": "Till Wegener",
+      "age": 17,
+      "position": "Mediocentro"
+    },
+    {
+      "tmId": "237226",
+      "name": "Marvin Mehlem",
+      "age": 28,
+      "position": "Mediocentro ofensivo"
+    },
+    {
+      "tmId": "800988",
+      "name": "Benjamin Boakye",
+      "age": 21,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "501794",
+      "name": "Jannik Rochelt",
+      "age": 27,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "1116190",
+      "name": "Daniel Richter",
+      "age": 18,
+      "position": "Extremo izquierdo"
+    },
+    {
+      "tmId": "605242",
+      "name": "Monju Momuluh",
+      "age": 24,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "433956",
+      "name": "Isaiah Young",
+      "age": 28,
+      "position": "Extremo derecho"
+    },
+    {
+      "tmId": "503854",
+      "name": "Joel Grodowski",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "342152",
+      "name": "Roberts Uldrikis",
+      "age": 28,
+      "position": "Delantero centro"
+    },
+    {
+      "tmId": "400644",
+      "name": "Jeredy Hilterman",
+      "age": 28,
+      "position": "Delantero centro"
+    }
   ]
 }
