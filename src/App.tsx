@@ -7,6 +7,7 @@ import {
 import { applyClubTheme } from './clubTheme';
 import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
+import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import {
   leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
@@ -1054,7 +1055,26 @@ export default function App() {
     // FIFA real: mientras dura, liga doméstica y copas de club quedan congeladas de verdad (los
     // conteos de leagueMatchweeksElapsed*/cupWeeksElapsed* ya excluyen esas semanas).
     const inWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
-    const isCup = !inWorldCupBreak && isCupWeek(playerProfile.currentWeek);
+
+    // Si el club tiene calendario REAL (src/realCalendar.ts), es él quien decide si esta semana toca
+    // copa o liga, en vez del reparto aritmético isCupWeek(). Esa es la diferencia de fondo: antes
+    // todas las copas compartían un cupo global de semanas y por eso Champions/Europa necesitaban
+    // 22 pasos con 17 disponibles, quedando desfasadas 1,3 temporadas. Con las fechas reales cada
+    // torneo ocupa las suyas -- la Champions se juega entre semana, sin quitarle fechas a la liga.
+    //
+    // Los clubes sin calendario real (los 606 de la bolsa "Internacional") siguen con isCupWeek.
+    const myClubForSchedule = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    const realWeekMatches = !inWorldCupBreak && myClubForSchedule
+      ? matchesThisWeek(myClubForSchedule.name, playerProfile.currentWeek)
+      : [];
+    const realPrimary = pickPrimary(realWeekMatches);
+    const usaCalendarioReal = !!myClubForSchedule && hasRealSchedule(myClubForSchedule.name);
+
+    const isCup = !inWorldCupBreak && (
+      usaCalendarioReal
+        ? realPrimary?.competition.kind === 'continental_cup' || realPrimary?.competition.kind === 'domestic_cup'
+        : isCupWeek(playerProfile.currentWeek)
+    );
     // isCopaLibertadores es, en la práctica, un "no es liga doméstica" genérico (nombre legado de
     // antes de que existieran Champions/Mundial): debe ser true tanto en semana de copa normal
     // como en semana de Mundial con partido de selección. Si el Mundial no tiene partido puntual
@@ -1132,6 +1152,31 @@ export default function App() {
         notify('📅 FECHA FIFA: el Mundial paraliza la actividad de clubes en todo el mundo. Esta semana no hay partido de liga ni de copa para tu club.');
         return;
       }
+    } else if (isCup && usaCalendarioReal && realPrimary) {
+      // Partido de copa tomado del calendario REAL: rival, ronda y torneo salen de las fechas de
+      // Transfermarkt, no de un sorteo generado. El estado interno de la copa (tabla, bracket) lo
+      // sigue llevando el motor -- esto solo decide QUÉ se juega esta semana.
+      // Hay nombres duplicados entre países ("Athletic Club" existe en Brasil y en España), así que
+      // en una copa NACIONAL se busca primero dentro de la liga del club: un find() global devuelve
+      // el primero que coincida y puede traer el club del país equivocado.
+      const myClubForCup = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+      const rival = (realPrimary.competition.kind === 'domestic_cup' && myClubForCup
+        ? CLUBS_DATABASE.find(c => c.name === realPrimary.opponentName && c.league === myClubForCup.league)
+        : undefined) ?? CLUBS_DATABASE.find(c => c.name === realPrimary.opponentName);
+      opName = rival?.name ?? realPrimary.opponentName;
+      opClubId = rival?.id ?? null;
+      isHomeThisMatch = realPrimary.isHome;
+
+      const esContinental = realPrimary.competition.kind === 'continental_cup';
+      const nombre = realPrimary.competition.name;
+      setActiveCupId(esContinental && /Libertadores/i.test(nombre) ? 'libertadores'
+        : esContinental && /Sudamericana/i.test(nombre) ? 'sudamericana' : null);
+      setActiveUefaCupId(esContinental && /Champions/i.test(nombre) ? 'champions'
+        : esContinental && /Europa/i.test(nombre) ? 'europa' : null);
+      setActiveDomesticCup(!esContinental);
+      setActiveMyTablePosition(null);
+      setActiveRivalTablePosition(null);
+      setActiveLeagueTeamCount(null);
     } else if (isCup) {
       const year = getSeasonYear(playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
@@ -1306,6 +1351,21 @@ export default function App() {
         opName = opponentClub?.name || OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
         opClubId = upcoming.opponentId;
         isHomeThisMatch = upcoming.isHome;
+
+        // Con calendario real, el rival y la localía salen de la fecha de Transfermarkt. La TABLA
+        // la sigue llevando el motor (necesita simular los otros 19 partidos de la jornada), así
+        // que solo se pisa el rival puntual del jugador, no el estado de la liga.
+        if (usaCalendarioReal && realPrimary?.competition.kind === 'league') {
+          // Se busca dentro de leagueClubs (la propia liga) y no en toda la base: hay nombres
+          // duplicados entre países -- "Athletic Club" existe en Brasil y en España -- y un
+          // find() global devolvía el primero, metiendo un club brasileño en LaLiga.
+          const rivalReal = leagueClubs.find(c => c.name === realPrimary.opponentName);
+          if (rivalReal) {
+            opName = rivalReal.name;
+            opClubId = rivalReal.id;
+            isHomeThisMatch = realPrimary.isHome;
+          }
+        }
 
         const sortedTable = sortTable(season.table);
         const myPos = sortedTable.findIndex(row => row.clubId === myClub.id);
