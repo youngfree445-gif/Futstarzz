@@ -1,0 +1,343 @@
+{
+  "competition": {
+    "id": "EURO",
+    "name": "Eurocopa",
+    "type": "national_team_competition",
+    "format": "groups_knockout",
+    "season": 2023
+  },
+  "aliases": {
+    "Germany": "Alemania",
+    "Scotland": "Escocia",
+    "Hungary": "Hungría",
+    "Switzerland": "Suiza",
+    "Spain": "España",
+    "Croatia": "Croacia",
+    "Italy": "Italia",
+    "Albania": "Albania",
+    "Slovenia": "Eslovenia",
+    "Denmark": "Dinamarca",
+    "Serbia": "Serbia",
+    "England": "Inglaterra",
+    "Poland": "Polonia",
+    "Netherlands": "Holanda",
+    "Austria": "Austria",
+    "France": "Francia",
+    "Belgium": "Bélgica",
+    "Slovakia": "Eslovaquia",
+    "Romania": "Rumania",
+    "Ukraine": "Ucrania",
+    "Turkiye": "Türkiye",
+    "Georgia": "Georgia",
+    "Portugal": "Portugal",
+    "Czech Republic": "República Checa"
+  },
+  "matches": [
+    {
+      "date": "2024-06-14",
+      "round": "Group A",
+      "home": "Germany",
+      "away": "Scotland"
+    },
+    {
+      "date": "2024-06-15",
+      "round": "Group A",
+      "home": "Hungary",
+      "away": "Switzerland"
+    },
+    {
+      "date": "2024-06-15",
+      "round": "Group B",
+      "home": "Spain",
+      "away": "Croatia"
+    },
+    {
+      "date": "2024-06-15",
+      "round": "Group B",
+      "home": "Italy",
+      "away": "Albania"
+    },
+    {
+      "date": "2024-06-16",
+      "round": "Group C",
+      "home": "Slovenia",
+      "away": "Denmark"
+    },
+    {
+      "date": "2024-06-16",
+      "round": "Group C",
+      "home": "Serbia",
+      "away": "England"
+    },
+    {
+      "date": "2024-06-16",
+      "round": "Group D",
+      "home": "Poland",
+      "away": "Netherlands"
+    },
+    {
+      "date": "2024-06-17",
+      "round": "Group D",
+      "home": "Austria",
+      "away": "France"
+    },
+    {
+      "date": "2024-06-17",
+      "round": "Group E",
+      "home": "Belgium",
+      "away": "Slovakia"
+    },
+    {
+      "date": "2024-06-17",
+      "round": "Group E",
+      "home": "Romania",
+      "away": "Ukraine"
+    },
+    {
+      "date": "2024-06-18",
+      "round": "Group F",
+      "home": "Turkiye",
+      "away": "Georgia"
+    },
+    {
+      "date": "2024-06-18",
+      "round": "Group F",
+      "home": "Portugal",
+      "away": "Czech Republic"
+    },
+    {
+      "date": "2024-06-19",
+      "round": "Group A",
+      "home": "Germany",
+      "away": "Hungary"
+    },
+    {
+      "date": "2024-06-19",
+      "round": "Group A",
+      "home": "Scotland",
+      "away": "Switzerland"
+    },
+    {
+      "date": "2024-06-19",
+      "round": "Group B",
+      "home": "Croatia",
+      "away": "Albania"
+    },
+    {
+      "date": "2024-06-20",
+      "round": "Group B",
+      "home": "Spain",
+      "away": "Italy"
+    },
+    {
+      "date": "2024-06-20",
+      "round": "Group C",
+      "home": "Slovenia",
+      "away": "Serbia"
+    },
+    {
+      "date": "2024-06-20",
+      "round": "Group C",
+      "home": "Denmark",
+      "away": "England"
+    },
+    {
+      "date": "2024-06-21",
+      "round": "Group D",
+      "home": "Poland",
+      "away": "Austria"
+    },
+    {
+      "date": "2024-06-21",
+      "round": "Group D",
+      "home": "Netherlands",
+      "away": "France"
+    },
+    {
+      "date": "2024-06-21",
+      "round": "Group E",
+      "home": "Slovakia",
+      "away": "Ukraine"
+    },
+    {
+      "date": "2024-06-22",
+      "round": "Group E",
+      "home": "Belgium",
+      "away": "Romania"
+    },
+    {
+      "date": "2024-06-22",
+      "round": "Group F",
+      "home": "Turkiye",
+      "away": "Portugal"
+    },
+    {
+      "date": "2024-06-22",
+      "round": "Group F",
+      "home": "Georgia",
+      "away": "Czech Republic"
+    },
+    {
+      "date": "2024-06-23",
+      "round": "Group A",
+      "home": "Scotland",
+      "away": "Hungary"
+    },
+    {
+      "date": "2024-06-23",
+      "round": "Group A",
+      "home": "Switzerland",
+      "away": "Germany"
+    },
+    {
+      "date": "2024-06-24",
+      "round": "Group B",
+      "home": "Croatia",
+      "away": "Italy"
+    },
+    {
+      "date": "2024-06-24",
+      "round": "Group B",
+      "home": "Albania",
+      "away": "Spain"
+    },
+    {
+      "date": "2024-06-25",
+      "round": "Group C",
+      "home": "Denmark",
+      "away": "Serbia"
+    },
+    {
+      "date": "2024-06-25",
+      "round": "Group C",
+      "home": "England",
+      "away": "Slovenia"
+    },
+    {
+      "date": "2024-06-25",
+      "round": "Group D",
+      "home": "Netherlands",
+      "away": "Austria"
+    },
+    {
+      "date": "2024-06-25",
+      "round": "Group D",
+      "home": "France",
+      "away": "Poland"
+    },
+    {
+      "date": "2024-06-26",
+      "round": "Group E",
+      "home": "Slovakia",
+      "away": "Romania"
+    },
+    {
+      "date": "2024-06-26",
+      "round": "Group E",
+      "home": "Ukraine",
+      "away": "Belgium"
+    },
+    {
+      "date": "2024-06-26",
+      "round": "Group F",
+      "home": "Georgia",
+      "away": "Portugal"
+    },
+    {
+      "date": "2024-06-26",
+      "round": "Group F",
+      "home": "Czech Republic",
+      "away": "Turkiye"
+    },
+    {
+      "date": "2024-06-29",
+      "round": "Round of 16",
+      "home": "Germany",
+      "away": "Denmark"
+    },
+    {
+      "date": "2024-06-29",
+      "round": "Round of 16",
+      "home": "Switzerland",
+      "away": "Italy"
+    },
+    {
+      "date": "2024-06-30",
+      "round": "Round of 16",
+      "home": "Spain",
+      "away": "Georgia"
+    },
+    {
+      "date": "2024-06-30",
+      "round": "Round of 16",
+      "home": "England",
+      "away": "Slovakia"
+    },
+    {
+      "date": "2024-07-01",
+      "round": "Round of 16",
+      "home": "Portugal",
+      "away": "Slovenia"
+    },
+    {
+      "date": "2024-07-01",
+      "round": "Round of 16",
+      "home": "France",
+      "away": "Belgium"
+    },
+    {
+      "date": "2024-07-02",
+      "round": "Round of 16",
+      "home": "Romania",
+      "away": "Netherlands"
+    },
+    {
+      "date": "2024-07-02",
+      "round": "Round of 16",
+      "home": "Austria",
+      "away": "Turkiye"
+    },
+    {
+      "date": "2024-07-05",
+      "round": "Quarter-Finals",
+      "home": "Spain",
+      "away": "Germany"
+    },
+    {
+      "date": "2024-07-05",
+      "round": "Quarter-Finals",
+      "home": "Portugal",
+      "away": "France"
+    },
+    {
+      "date": "2024-07-06",
+      "round": "Quarter-Finals",
+      "home": "England",
+      "away": "Switzerland"
+    },
+    {
+      "date": "2024-07-06",
+      "round": "Quarter-Finals",
+      "home": "Netherlands",
+      "away": "Turkiye"
+    },
+    {
+      "date": "2024-07-09",
+      "round": "Semi-Finals",
+      "home": "Spain",
+      "away": "France"
+    },
+    {
+      "date": "2024-07-10",
+      "round": "Semi-Finals",
+      "home": "Netherlands",
+      "away": "England"
+    },
+    {
+      "date": "2024-07-14",
+      "round": "Final",
+      "home": "Spain",
+      "away": "England"
+    }
+  ]
+}

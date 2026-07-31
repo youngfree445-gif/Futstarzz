@@ -215,3 +215,48 @@ Es la única competición que ya estaba sana. Auditado con el motor real:
 - Convocatoria: prestigio ≥ 82 y ≥ 40 partidos jugados
 
 No requiere cambios.
+
+---
+
+# Eurocopa y Copa América
+
+Ya estaban en `src/ALLgames.json` bajo los códigos `EURO` y `COPA`: no hizo falta scrapear.
+
+| Torneo | Partidos | Selecciones | Rondas | Fechas |
+|---|---|---|---|---|
+| Eurocopa 2024 | 51 | 24 | 10 | 14 jun – 14 jul |
+| Copa América 2024 | 32 | 16 | 8 | 21 jun – 15 jul |
+
+Los dos completos, con fase de grupos y final. **0 partidos perdidos** al filtrar.
+
+## Hubo que agregar 18 selecciones
+
+`WORLD_CUP_2026_TEAMS_SEED` tiene solo las **48 clasificadas al Mundial 2026**, y ni Italia, ni
+Dinamarca, ni Chile, ni Perú clasificaron. Sin ellas la Euro quedaba en 17 de 51 partidos y la Copa
+América en 15 de 32.
+
+Las nuevas van en un array **separado** (`EXTRA_NATIONAL_TEAMS_SEED`), no en el seed del Mundial:
+
+- `WORLD_CUP_TEAMS_DATABASE` → **48 equipos**, alimenta el sorteo del Mundial. Sumarle selecciones
+  lo convertiría en un torneo de 66.
+- `ALL_NATIONAL_TEAMS_DATABASE` → **66 equipos**, es la que hay que usar para resolver rivales de
+  Eurocopa y Copa América.
+
+Verificado tras el cambio: el Mundial sigue con 48 selecciones y sigue coronando campeón en 8 de sus
+9 semanas.
+
+## Margen negativo: acá es normal
+
+| Torneo | Semanas | Rondas | Margen |
+|---|---|---|---|
+| Eurocopa | 5 | 10 | -5 |
+| Copa América | 5 | 8 | -3 |
+
+A diferencia del caso de la Champions, esto **no es un problema**: son torneos de un mes con varias
+rondas por semana (los grupos se juegan en jornadas de 2-3 días). El importador tiene que poder
+resolver varias rondas dentro de una misma semana de juego — que es lo mismo que ya requería Copa do
+Brasil.
+
+Ojo con la ventana: los dos ocupan junio-julio, exactamente donde el motor pone el parón del
+Mundial (`isWorldCupBreakWeek`). Conviene reutilizar esa ventana para Euro/Copa América en los años
+en que no hay Mundial, en vez de inventar otra.

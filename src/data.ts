@@ -4520,6 +4520,35 @@ const WORLD_CUP_2026_TEAMS_SEED: { id: string; countryName: string; league?: str
   { id: 'wc_suecia', countryName: 'Suecia', dt: 'Graham Potter', starPlayers: ['Alexander Isak', 'Viktor Gyökeres', 'Anthony Elanga', 'Lucas Bergvall', 'Yasin Ayari'], badgeLogoUrl: '🇸🇪' },
   { id: 'wc_suiza', countryName: 'Suiza', dt: 'Murat Yakin', starPlayers: ['Granit Xhaka', 'Gregor Kobel', 'Dan Ndoye', 'Denis Zakaria', 'Ardon Jashari'], badgeLogoUrl: '🇨🇭' },
   { id: 'wc_turquia', countryName: 'Türkiye', dt: 'Vincenzo Montella', starPlayers: ['Arda Güler', 'Kenan Yıldız', 'Hakan Çalhanoğlu', 'Barış Alper Yılmaz', 'Orkun Kökçü'], badgeLogoUrl: '🇹🇷' },
+
+];
+
+// Selecciones que NO clasificaron al Mundial 2026 pero sí juegan Eurocopa o Copa América. Van en un
+// array APARTE y no en el seed de arriba a propósito: WORLD_CUP_TEAMS_DATABASE alimenta el sorteo
+// del Mundial, que tiene exactamente 48 equipos, y meterlas ahí lo convertiría en un torneo de 66.
+//
+// Sin ellas, en cambio, la Euro y la Copa América quedaban a un tercio de sus partidos: la Euro
+// 2024 la jugaron Italia, Dinamarca, Serbia y Polonia, y la Copa América, Chile, Perú, Venezuela y
+// Bolivia -- ninguna está en el Mundial 2026.
+const EXTRA_NATIONAL_TEAMS_SEED: typeof WORLD_CUP_2026_TEAMS_SEED = [
+  { id: 'wc_italia', countryName: 'Italia', league: 'Italiana', dt: 'Gennaro Gattuso', starPlayers: ['Gianluigi Donnarumma', 'Nicolò Barella', 'Federico Dimarco', 'Sandro Tonali', 'Mateo Retegui'], badgeLogoUrl: '🇮🇹' },
+  { id: 'wc_dinamarca', countryName: 'Dinamarca', league: 'Danesa', dt: 'Brian Riemer', starPlayers: ['Rasmus Højlund', 'Pierre-Emile Højbjerg', 'Christian Eriksen', 'Joachim Andersen', 'Mikkel Damsgaard'], badgeLogoUrl: '🇩🇰' },
+  { id: 'wc_serbia', countryName: 'Serbia', league: 'Serbia', dt: 'Veljko Paunović', starPlayers: ['Dušan Vlahović', 'Sergej Milinković-Savić', 'Aleksandar Mitrović', 'Filip Kostić', 'Strahinja Pavlović'], badgeLogoUrl: '🇷🇸' },
+  { id: 'wc_polonia', countryName: 'Polonia', dt: 'Jan Urban', starPlayers: ['Robert Lewandowski', 'Piotr Zieliński', 'Nicola Zalewski', 'Jakub Kiwior', 'Wojciech Szczęsny'], badgeLogoUrl: '🇵🇱' },
+  { id: 'wc_ucrania', countryName: 'Ucrania', league: 'Ucraniana', dt: 'Serhiy Rebrov', starPlayers: ['Mykhailo Mudryk', 'Oleksandr Zinchenko', 'Artem Dovbyk', 'Georgiy Sudakov', 'Illia Zabarnyi'], badgeLogoUrl: '🇺🇦' },
+  { id: 'wc_hungria', countryName: 'Hungría', league: 'Húngara', dt: 'Marco Rossi', starPlayers: ['Dominik Szoboszlai', 'Milos Kerkez', 'Barnabás Varga', 'Roland Sallai', 'Willi Orbán'], badgeLogoUrl: '🇭🇺' },
+  { id: 'wc_rumania', countryName: 'Rumania', league: 'Rumana', dt: 'Mircea Lucescu', starPlayers: ['Dennis Man', 'Radu Drăgușin', 'Ianis Hagi', 'Nicolae Stanciu', 'Florinel Coman'], badgeLogoUrl: '🇷🇴' },
+  { id: 'wc_eslovaquia', countryName: 'Eslovaquia', dt: 'Francesco Calzona', starPlayers: ['Milan Škriniar', 'Stanislav Lobotka', 'Dávid Hancko', 'Lukáš Haraslín', 'Martin Dúbravka'], badgeLogoUrl: '🇸🇰' },
+  { id: 'wc_eslovenia', countryName: 'Eslovenia', dt: 'Matjaž Kek', starPlayers: ['Jan Oblak', 'Benjamin Šeško', 'Josip Iličić', 'Jaka Bijol', 'Adam Gnezda Čerin'], badgeLogoUrl: '🇸🇮' },
+  { id: 'wc_albania', countryName: 'Albania', dt: 'Sylvinho', starPlayers: ['Armando Broja', 'Kristjan Asllani', 'Nedim Bajrami', 'Berat Djimsiti', 'Thomas Strakosha'], badgeLogoUrl: '🇦🇱' },
+  { id: 'wc_georgia', countryName: 'Georgia', dt: 'Willy Sagnol', starPlayers: ['Khvicha Kvaratskhelia', 'Giorgi Mamardashvili', 'Georges Mikautadze', 'Giorgi Chakvetadze', 'Guram Kashia'], badgeLogoUrl: '🇬🇪' },
+  { id: 'wc_chile', countryName: 'Chile', league: 'Chilena', dt: 'Nicolás Córdova', starPlayers: ['Alexis Sánchez', 'Ben Brereton Díaz', 'Claudio Bravo', 'Erick Pulgar', 'Darío Osorio'], badgeLogoUrl: '🇨🇱' },
+  { id: 'wc_peru', countryName: 'Perú', league: 'Peruana', dt: 'Manuel Barreto', starPlayers: ['Paolo Guerrero', 'Gianluca Lapadula', 'Pedro Gallese', 'Renato Tapia', 'André Carrillo'], badgeLogoUrl: '🇵🇪' },
+  { id: 'wc_venezuela', countryName: 'Venezuela', league: 'Venezolana', dt: 'Fernando Batista', starPlayers: ['Salomón Rondón', 'Yeferson Soteldo', 'Darwin Machís', 'Tomás Rincón', 'Rafael Romo'], badgeLogoUrl: '🇻🇪' },
+  { id: 'wc_bolivia', countryName: 'Bolivia', league: 'Boliviana', dt: 'Óscar Villegas', starPlayers: ['Marcelo Moreno Martins', 'Miguelito', 'Carmelo Algarañaz', 'Luis Haquín', 'Guillermo Viscarra'], badgeLogoUrl: '🇧🇴' },
+  { id: 'wc_costa_rica', countryName: 'Costa Rica', dt: 'Miguel Herrera', starPlayers: ['Keylor Navas', 'Josimar Alcócer', 'Manfred Ugalde', 'Francisco Calvo', 'Brandon Aguilera'], badgeLogoUrl: '🇨🇷' },
+  { id: 'wc_jamaica', countryName: 'Jamaica', dt: 'Steve McClaren', starPlayers: ['Michail Antonio', 'Leon Bailey', 'Demarai Gray', 'Bobby De Cordova-Reid', 'Ethan Pinnock'], badgeLogoUrl: '🇯🇲' },
+  { id: 'wc_chequia_euro', countryName: 'República Checa', league: 'Checa', dt: 'Ivan Hašek', starPlayers: ['Patrik Schick', 'Tomáš Souček', 'Adam Hložek', 'Vladimír Coufal', 'Jindřich Staněk'], badgeLogoUrl: '🇨🇿' },
 ];
 
 // Puntos reales del ranking FIFA (edición 2026-06-08) por selección clasificada al Mundial 2026.
@@ -4544,7 +4573,7 @@ const WORLD_CUP_FIFA_POINTS: Record<string, number> = {
 const WC_FIFA_POINTS_MIN = 1275;
 const WC_FIFA_POINTS_MAX = 1877;
 
-export const WORLD_CUP_TEAMS_DATABASE: Club[] = WORLD_CUP_2026_TEAMS_SEED.map(team => {
+function buildNationalTeam(team: (typeof WORLD_CUP_2026_TEAMS_SEED)[number]): Club {
   const fifaPoints = WORLD_CUP_FIFA_POINTS[team.id] ?? (WC_FIFA_POINTS_MIN + WC_FIFA_POINTS_MAX) / 2;
   const normalized = Math.max(0, Math.min(1, (fifaPoints - WC_FIFA_POINTS_MIN) / (WC_FIFA_POINTS_MAX - WC_FIFA_POINTS_MIN)));
   const reputation = Math.max(1, Math.min(5, Math.round(1 + normalized * 4))) as 1 | 2 | 3 | 4 | 5;
@@ -4560,11 +4589,22 @@ export const WORLD_CUP_TEAMS_DATABASE: Club[] = WORLD_CUP_2026_TEAMS_SEED.map(te
     initialSalary: 0,
     marketValue,
     starPlayers: team.starPlayers,
-    description: `Selección masculina absoluta de ${team.countryName}, Mundial 2026.`,
+    description: `Selección masculina absoluta de ${team.countryName}.`,
     badgeColor: 'border-l-4 border-slate-500 bg-slate-900/40 text-slate-100',
     badgeLogoUrl: team.badgeLogoUrl
   };
-});
+}
+
+// SOLO las 48 del Mundial 2026: es lo que consume el sorteo, y sumarle selecciones lo convertiría
+// en un torneo de 66 equipos.
+export const WORLD_CUP_TEAMS_DATABASE: Club[] = WORLD_CUP_2026_TEAMS_SEED.map(buildNationalTeam);
+
+// Todas las selecciones que el juego conoce (Mundial + las que solo juegan Eurocopa/Copa América).
+// Es la que hay que usar para resolver rivales de esos dos torneos.
+export const ALL_NATIONAL_TEAMS_DATABASE: Club[] = [
+  ...WORLD_CUP_2026_TEAMS_SEED,
+  ...EXTRA_NATIONAL_TEAMS_SEED,
+].map(buildNationalTeam);
 
 // Mapa nacionalidad (tal como la guarda PlayerProfile.nationality, igual que Club.league)
 // -> id de la selección correspondiente, para saber a qué equipo te pueden convocar.

@@ -1,0 +1,221 @@
+{
+  "competition": {
+    "id": "COPA",
+    "name": "Copa América",
+    "type": "national_team_competition",
+    "format": "groups_knockout",
+    "season": 2025
+  },
+  "aliases": {
+    "Peru": "Perú",
+    "Chile": "Chile",
+    "Argentina": "Argentina",
+    "Mexico": "México",
+    "Jamaica": "Jamaica",
+    "Ecuador": "Ecuador",
+    "Venezuela": "Venezuela",
+    "United States": "Estados Unidos",
+    "Bolivia": "Bolivia",
+    "Uruguay": "Uruguay",
+    "Panama": "Panamá",
+    "Colombia": "Colombia",
+    "Paraguay": "Paraguay",
+    "Brazil": "Brasil",
+    "Canada": "Canadá",
+    "Costa Rica": "Costa Rica"
+  },
+  "matches": [
+    {
+      "date": "2024-06-21",
+      "round": "Group A",
+      "home": "Argentina",
+      "away": "Canada"
+    },
+    {
+      "date": "2024-06-22",
+      "round": "Group A",
+      "home": "Peru",
+      "away": "Chile"
+    },
+    {
+      "date": "2024-06-22",
+      "round": "Group B",
+      "home": "Ecuador",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2024-06-23",
+      "round": "Group B",
+      "home": "Mexico",
+      "away": "Jamaica"
+    },
+    {
+      "date": "2024-06-23",
+      "round": "Group C",
+      "home": "United States",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2024-06-24",
+      "round": "Group C",
+      "home": "Uruguay",
+      "away": "Panama"
+    },
+    {
+      "date": "2024-06-24",
+      "round": "Group D",
+      "home": "Colombia",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2024-06-25",
+      "round": "Group A",
+      "home": "Peru",
+      "away": "Canada"
+    },
+    {
+      "date": "2024-06-25",
+      "round": "Group D",
+      "home": "Brazil",
+      "away": "Costa Rica"
+    },
+    {
+      "date": "2024-06-26",
+      "round": "Group A",
+      "home": "Chile",
+      "away": "Argentina"
+    },
+    {
+      "date": "2024-06-26",
+      "round": "Group B",
+      "home": "Ecuador",
+      "away": "Jamaica"
+    },
+    {
+      "date": "2024-06-27",
+      "round": "Group B",
+      "home": "Venezuela",
+      "away": "Mexico"
+    },
+    {
+      "date": "2024-06-27",
+      "round": "Group C",
+      "home": "Panama",
+      "away": "United States"
+    },
+    {
+      "date": "2024-06-28",
+      "round": "Group C",
+      "home": "Uruguay",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2024-06-28",
+      "round": "Group D",
+      "home": "Colombia",
+      "away": "Costa Rica"
+    },
+    {
+      "date": "2024-06-29",
+      "round": "Group D",
+      "home": "Paraguay",
+      "away": "Brazil"
+    },
+    {
+      "date": "2024-06-30",
+      "round": "Group A",
+      "home": "Argentina",
+      "away": "Peru"
+    },
+    {
+      "date": "2024-06-30",
+      "round": "Group A",
+      "home": "Canada",
+      "away": "Chile"
+    },
+    {
+      "date": "2024-07-01",
+      "round": "Group B",
+      "home": "Mexico",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2024-07-01",
+      "round": "Group B",
+      "home": "Jamaica",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2024-07-02",
+      "round": "Group C",
+      "home": "United States",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2024-07-02",
+      "round": "Group C",
+      "home": "Bolivia",
+      "away": "Panama"
+    },
+    {
+      "date": "2024-07-03",
+      "round": "Group D",
+      "home": "Brazil",
+      "away": "Colombia"
+    },
+    {
+      "date": "2024-07-03",
+      "round": "Group D",
+      "home": "Costa Rica",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2024-07-05",
+      "round": "Quarter-Finals",
+      "home": "Argentina",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2024-07-06",
+      "round": "Quarter-Finals",
+      "home": "Venezuela",
+      "away": "Canada"
+    },
+    {
+      "date": "2024-07-06",
+      "round": "Quarter-Finals",
+      "home": "Colombia",
+      "away": "Panama"
+    },
+    {
+      "date": "2024-07-07",
+      "round": "Quarter-Finals",
+      "home": "Uruguay",
+      "away": "Brazil"
+    },
+    {
+      "date": "2024-07-10",
+      "round": "Semi-Finals",
+      "home": "Argentina",
+      "away": "Canada"
+    },
+    {
+      "date": "2024-07-11",
+      "round": "Semi-Finals",
+      "home": "Uruguay",
+      "away": "Colombia"
+    },
+    {
+      "date": "2024-07-14",
+      "round": "Third Place Play-Off",
+      "home": "Canada",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2024-07-15",
+      "round": "Final",
+      "home": "Argentina",
+      "away": "Colombia"
+    }
+  ]
+}
