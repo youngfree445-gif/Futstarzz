@@ -8,3 +8,34 @@ coverage/
 *.log
 .env*
 android/.idea/
+.idea/
+.claude/
+
+# Fuentes de datos crudas (Transfermarkt / FC26 / rankings).
+# Ya fueron convertidas a src/data.ts y src/*Enrichment.ts -- ninguna se
+# importa en runtime salvo playersDatabase.json, que sí está trackeado.
+src/ALLgames.json
+src/FC26_20250921.json
+src/clubs.json
+src/competitions.json
+src/fifa_ranking_*.json
+src/games.json
+src/latamfc26.json
+src/most_valuable_teams*.json
+src/national_teams.json
+src/schedule_2026.json
+src/transfers.json
+src/world_cup.json
+clubs_badge_mapping.json
+
+# Scripts de enriquecimiento de una sola pasada y sus salidas
+debug_extract.mjs
+enrich_players_fc26.mjs
+enrich_roster_fc26.mjs
+temp_extract_clubs.mjs
+update_badges.js
+update_badges.mjs
+unmatched_players_fc26.txt
+
+# Backups locales
+src/data.ts.backup
