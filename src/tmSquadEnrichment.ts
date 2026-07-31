@@ -1,7 +1,7 @@
 // Edad real (Transfermarkt) de los starPlayers de la liga colombiana.
 //
 // Generado por scripts/scrape_kader_tm.mjs, que baja el plantel completo desde
-// /kader/verein/<id> de 35 clubes colombianos (los 20 de la Dimayor I mas 15
+// /kader/verein/<id> de 36 clubes colombianos (los 20 de la Dimayor I mas 16
 // del Torneo/B), y despues cruza por nombre contra los starPlayers de
 // ULTIMATE_CLUBS_DATABASE.
 //
