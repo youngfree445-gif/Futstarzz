@@ -67,6 +67,10 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
   const [superstition, setSuperstition] = useState<Superstition>('botin_derecho');
   const [dorsal, setDorsal] = useState(10);
   const [heightCm, setHeightCm] = useState(180);
+  // Espejo en texto de los dos campos numéricos: permite dejarlos vacíos mientras se escribe. El
+  // valor real (dorsal/heightCm) se sincroniza en onBlur, ya validado al rango.
+  const [dorsalText, setDorsalText] = useState('10');
+  const [heightText, setHeightText] = useState('180');
 
   // Los clubes se filtran por la LIGA elegida, no por la nacionalidad: son independientes.
   const filteredClubs = CLUBS_DATABASE.filter(c => {
@@ -136,14 +140,19 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
     }
 
     const defaultAttributes = getInitialAttributes(position, age);
-    
+
+    // Se re-valida desde el texto: si el jugador toca "Empezar" con el campo todavía enfocado, el
+    // onBlur del input nunca corrió y `dorsal`/`heightCm` estarían con el valor anterior.
+    const finalDorsal = Math.max(1, Math.min(99, Number(dorsalText) || 10));
+    const finalHeight = Math.max(160, Math.min(210, Number(heightText) || 180));
+
     const newProfile: PlayerProfile = {
       name: name.trim(),
       position,
       age,
       nationality,
-      dorsal,
-      heightCm,
+      dorsal: finalDorsal,
+      heightCm: finalHeight,
       energy: 100,
       capital: 0, // starts with no capital, relies on weekly wage
       prestige: 50, // default locker room prestige
@@ -194,7 +203,11 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
   };
 
   return (
-    <div id="setup-screen" className="min-h-screen bg-slate-950 text-white py-12 px-4 relative flex items-center justify-center">
+    // `items-center` centraba el formulario verticalmente, y en celular eso lo recorta arriba y
+    // abajo: el contenido que sobresale queda fuera del área scrolleable y no hay forma de llegar
+    // a él. Con `items-start` el formulario arranca arriba y la página scrollea entera;
+    // `sm:items-center` conserva el centrado en pantallas donde sí entra completo.
+    <div id="setup-screen" className="min-h-screen bg-slate-950 text-white py-8 sm:py-12 px-4 relative flex items-start sm:items-center justify-center">
       {/* Visual background element */}
       <div className="absolute top-10 right-10 w-96 h-96 bg-gold-500/5 rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-80 h-80 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -284,30 +297,49 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                 </div>
               </div>
 
+              {/* Dorsal y altura: el campo guarda TEXTO mientras escribís y recién se valida al
+                  salir (onBlur). Antes se clampeaba en cada tecla, así que al borrar para poner
+                  otro número el mínimo reaparecía solo y era imposible tipear "7" o "195".
+
+                  inputMode="numeric" abre el teclado numérico en celular sin usar type="number":
+                  ese tipo, además de traer flechitas inútiles en mobile, roba el scroll de la
+                  página cuando el dedo pasa por encima del campo. */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-2xs uppercase text-slate-400 font-bold mb-1.5">
-                    Dorsal
+                    Dorsal <span className="text-slate-600 normal-case">(1-99)</span>
                   </label>
                   <input
-                    type="number"
-                    min={1}
-                    max={99}
-                    value={dorsal}
-                    onChange={(e) => setDorsal(Math.max(1, Math.min(99, Number(e.target.value) || 1)))}
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={2}
+                    value={dorsalText}
+                    onChange={(e) => setDorsalText(e.target.value.replace(/\D/g, ''))}
+                    onBlur={() => {
+                      const n = Math.max(1, Math.min(99, Number(dorsalText) || 10));
+                      setDorsal(n);
+                      setDorsalText(String(n));
+                    }}
                     className="w-full py-2.5 px-3 bg-slate-900 border border-slate-800 rounded-xl text-sm"
                   />
                 </div>
                 <div>
                   <label className="block text-2xs uppercase text-slate-400 font-bold mb-1.5">
-                    Altura (cm)
+                    Altura <span className="text-slate-600 normal-case">(160-210 cm)</span>
                   </label>
                   <input
-                    type="number"
-                    min={160}
-                    max={210}
-                    value={heightCm}
-                    onChange={(e) => setHeightCm(Math.max(160, Math.min(210, Number(e.target.value) || 160)))}
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={3}
+                    value={heightText}
+                    onChange={(e) => setHeightText(e.target.value.replace(/\D/g, ''))}
+                    onBlur={() => {
+                      const n = Math.max(160, Math.min(210, Number(heightText) || 180));
+                      setHeightCm(n);
+                      setHeightText(String(n));
+                    }}
                     className="w-full py-2.5 px-3 bg-slate-900 border border-slate-800 rounded-xl text-sm"
                   />
                 </div>
