@@ -13,7 +13,8 @@ import {
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate,
   getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, getRealDateForLeagueStepsBehind, getRealDateForCupStepsBehind,
-  isApeturaClausuraLeague, getUpcomingMatchForLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable
+  isApeturaClausuraLeague, getUpcomingMatchForLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
+  CAREER_START_YEAR
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -415,7 +416,13 @@ export default function Dashboard({
   // genera de forma determinística a partir del gf/gc real de la tabla -- ver
   // generateLeagueLeadersFromTable en leagueEngine.ts, nunca cambia si la tabla no cambió.
   const selectedLeagueName = selectedLeagueClubs[0]?.league ?? currentClub.league;
-  const selectedLeagueLeaders = REAL_LEAGUE_LEADERS[selectedLeagueName]
+  // Los datos de REAL_LEAGUE_LEADERS son una foto de la temporada real previa al inicio de la
+  // carrera, así que solo valen para la PRIMERA temporada: sirven de punto de partida creíble
+  // (arrancás viendo a Muriel goleador, como en la vida real). De la segunda en adelante manda
+  // lo que pasó en TU carrera, o el panel se quedaría congelado en 2026 para siempre mostrando
+  // goleadores que ya se retiraron.
+  const isFirstSeason = getSeasonYear(playerProfile.currentWeek) === CAREER_START_YEAR;
+  const selectedLeagueLeaders = (isFirstSeason ? REAL_LEAGUE_LEADERS[selectedLeagueName] : undefined)
     ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable);
 
   // Copa continental real que le corresponde al club actual (si clasifica a alguna).

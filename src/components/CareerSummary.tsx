@@ -10,6 +10,7 @@ interface CareerSummaryProps {
 export default function CareerSummary({ playerProfile, onContinue }: CareerSummaryProps) {
   const stats = playerProfile.careerStats;
   const titulos = playerProfile.seasonHistory.filter(s => s.titulo).length;
+  const botasDeOro = playerProfile.seasonHistory.filter(s => s.wasLeagueTopScorer).length;
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center py-12 px-4 relative">
@@ -66,6 +67,11 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
                       <th className="text-center px-3 py-2">PJ</th>
                       <th className="text-center px-3 py-2">Goles</th>
                       <th className="text-center px-3 py-2">Asist.</th>
+                      {/* Goleador de la liga en cada temporada, congelado al cerrarla (ver
+                          freezeSeasonLeadersIfNewSeason en App.tsx). El panel de estadísticas de
+                          la liga solo muestra la temporada en curso, así que este historial es el
+                          único lugar donde queda el rastro de toda la carrera. */}
+                      <th className="text-left px-3 py-2">Goleador liga</th>
                       <th className="text-left px-3 py-2">Título</th>
                     </tr>
                   </thead>
@@ -77,6 +83,17 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
                         <td className="px-3 py-2 text-center font-mono">{s.partidos}</td>
                         <td className="px-3 py-2 text-center font-mono text-gold-400">{s.goles}</td>
                         <td className="px-3 py-2 text-center font-mono text-burgundy-400">{s.asistencias}</td>
+                        <td className="px-3 py-2 text-3xs">
+                          {s.leagueTopScorer ? (
+                            <span className={s.wasLeagueTopScorer ? 'text-gold-400 font-black' : 'text-slate-400'}>
+                              {s.wasLeagueTopScorer && '👑 '}
+                              {s.leagueTopScorer.name}
+                              <span className="text-slate-600"> · {s.leagueTopScorer.value}</span>
+                            </span>
+                          ) : (
+                            <span className="text-slate-700">—</span>
+                          )}
+                        </td>
                         <td className="px-3 py-2 text-3xs">{s.titulo}</td>
                       </tr>
                     ))}
@@ -87,6 +104,11 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
             {titulos > 0 && (
               <p className="text-3xs text-burgundy-400 font-mono uppercase text-center pt-1">
                 🏆 {titulos} temporada{titulos > 1 ? 's' : ''} con título en el club
+              </p>
+            )}
+            {botasDeOro > 0 && (
+              <p className="text-3xs text-gold-400 font-mono uppercase text-center pt-1">
+                👑 {botasDeOro} vez{botasDeOro > 1 ? 'ces' : ''} máximo goleador de la liga
               </p>
             )}
           </div>

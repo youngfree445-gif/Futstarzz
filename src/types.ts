@@ -314,6 +314,13 @@ export interface SeasonHistory {
   asistencias: number;
   partidos: number;
   titulo: string; // vacío si no hubo título ese tramo; texto corto si sí (ej. "🏆 Campeón")
+  // Palmarés de la liga en la que jugaste esa temporada, congelado al cerrarla. El panel de
+  // estadísticas muestra siempre la temporada EN CURSO (se reinicia cada año), así que sin esto
+  // no quedaría rastro de quién fue goleador en las temporadas anteriores de tu carrera.
+  leagueName?: string;
+  leagueTopScorer?: { name: string; clubName: string; value: number };
+  leagueTopAssist?: { name: string; clubName: string; value: number };
+  wasLeagueTopScorer?: boolean; // true si el goleador de la liga fuiste VOS -- se resalta en el historial
 }
 
 export interface TableTeam {

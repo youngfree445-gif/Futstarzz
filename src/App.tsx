@@ -15,7 +15,7 @@ import {
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
-  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES
+  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
@@ -366,8 +366,42 @@ function applyWorldRetirementsIfNewSeason(profile: PlayerProfile, previousWeek: 
   };
 }
 
+// Congela el palmarés de la liga en la entrada de seasonHistory de la temporada que se está
+// cerrando. El panel de estadísticas siempre muestra la temporada EN CURSO (se reinicia sola,
+// porque sale del gf/pj de la tabla), así que sin esto no quedaría rastro de quién fue goleador
+// en los años anteriores de la carrera.
+function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  const history = profile.seasonHistory ?? [];
+  const last = history[history.length - 1];
+  if (!last || last.leagueTopScorer) return profile; // sin temporada que cerrar, o ya congelada
+
+  const club = CLUBS_DATABASE.find(c => c.id === last.clubId);
+  if (!club) return profile;
+  const leagueClubs = CLUBS_DATABASE.filter(c => c.league === club.league);
+  const season = profile.leagueSeasons?.[leagueKeyFor(club)];
+  if (!season?.table?.length) return profile;
+
+  const leaders = generateLeagueLeadersFromTable(leagueClubs, season.table);
+  // Si metiste más goles que el goleador simulado, el goleador sos vos: el jugador humano no
+  // entra en el reparto de generateLeagueLeadersFromTable (que solo mira starPlayers).
+  const meWon = leaders.topScorer != null && last.goles > leaders.topScorer.value;
+
+  const updated: SeasonHistory = {
+    ...last,
+    leagueName: club.league,
+    leagueTopScorer: meWon
+      ? { name: profile.name, clubName: last.clubName, value: last.goles }
+      : leaders.topScorer ?? undefined,
+    leagueTopAssist: leaders.topAssist ?? undefined,
+    wasLeagueTopScorer: meWon,
+  };
+  return { ...profile, seasonHistory: [...history.slice(0, -1), updated] };
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  let next = applyWorldRetirementsIfNewSeason(profile, previousWeek, newWeek);
+  let next = freezeSeasonLeadersIfNewSeason(profile, previousWeek, newWeek);
+  next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
   next = applyBreakoutSeasonIfNewSeason(next, previousWeek, newWeek);

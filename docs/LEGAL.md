@@ -13,7 +13,13 @@ aficionado al fútbol.
 El juego:
 
 - Es **totalmente gratuito**. No tiene compras dentro de la aplicación, ni
-  suscripciones, ni publicidad, ni ninguna forma de monetización.
+  suscripciones, ni publicidad, ni contenido de pago.
+- Puede ofrecer un enlace para realizar **donaciones voluntarias** al
+  desarrollador. Dichas donaciones son un aporte libre y desinteresado: **no
+  otorgan ningún beneficio, contenido, funcionalidad ni ventaja dentro del
+  juego**, no constituyen contraprestación por servicio alguno y no son
+  necesarias para acceder a ninguna parte del juego, que permanece íntegramente
+  disponible sin costo.
 - No comercializa datos, contenidos ni funcionalidades.
 - No presta ningún servicio profesional ni de asesoramiento.
 - Es una obra de **entretenimiento y ficción**. Las situaciones, decisiones,
