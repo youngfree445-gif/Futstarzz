@@ -1,0 +1,2303 @@
+{
+  "competition": {
+    "id": "BRA1",
+    "name": "BRA1",
+    "league": "Brasileña",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2024
+  },
+  "aliases": {
+    "Ceará Sporting Club": "Ceará",
+    "Cruzeiro Esporte Clube": "Cruzeiro",
+    "Fluminense Football Club": "Fluminense",
+    "Fortaleza Esporte Clube": "Fortaleza",
+    "Grêmio Foot-Ball Porto Alegrense": "Grêmio",
+    "Santos Futebol Clube": "Santos",
+    "Sport Club Corinthians Paulista": "Corinthians",
+    "Sport Club Internacional": "Internacional",
+    "São Paulo Futebol Clube": "São Paulo"
+  },
+  "matches": [
+    {
+      "date": "2025-03-29",
+      "round": "1. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "1. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "1. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "1. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "1. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "1. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "1. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "1. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-03-31",
+      "round": "1. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-04-01",
+      "round": "1. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "2. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "2. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-04-07",
+      "round": "2. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "3. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "3. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "3. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-04-14",
+      "round": "3. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-04-14",
+      "round": "3. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-04-16",
+      "round": "4. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-04-16",
+      "round": "4. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-04-16",
+      "round": "4. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-04-16",
+      "round": "4. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-04-16",
+      "round": "4. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-04-16",
+      "round": "4. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-04-17",
+      "round": "4. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-04-17",
+      "round": "4. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-04-17",
+      "round": "4. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-04-18",
+      "round": "4. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-04-19",
+      "round": "5. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-04-19",
+      "round": "5. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "5. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "5. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "5. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "5. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "5. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "5. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-04-21",
+      "round": "5. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-04-22",
+      "round": "5. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-04-26",
+      "round": "6. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-04-26",
+      "round": "6. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-04-26",
+      "round": "6. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-04-28",
+      "round": "6. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "7. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "7. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "7. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "7. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-05-05",
+      "round": "7. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-05-06",
+      "round": "7. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "8. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "8. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "8. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "8. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-05-12",
+      "round": "8. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-05-13",
+      "round": "8. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-05-17",
+      "round": "9. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-05-17",
+      "round": "9. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "9. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "9. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "9. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "9. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "9. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "9. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "9. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "9. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-05-24",
+      "round": "10. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-05-24",
+      "round": "10. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "10. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "10. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "10. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "10. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "10. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "10. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-05-26",
+      "round": "10. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "11. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "11. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-06-02",
+      "round": "11. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-06-05",
+      "round": "10. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-06-12",
+      "round": "12. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-06-12",
+      "round": "12. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-06-12",
+      "round": "12. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-06-13",
+      "round": "12. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-06-13",
+      "round": "12. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-06-13",
+      "round": "12. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "13. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "13. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "13. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "13. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "13. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-07-14",
+      "round": "13. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-07-14",
+      "round": "13. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-07-15",
+      "round": "13. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-07-16",
+      "round": "14. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-07-16",
+      "round": "14. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "14. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "14. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "14. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "14. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "15. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "15. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "15. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "15. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "15. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "15. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "15. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "15. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "15. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "15. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-07-23",
+      "round": "16. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-07-23",
+      "round": "16. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-07-23",
+      "round": "16. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-07-24",
+      "round": "16. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-07-24",
+      "round": "16. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-07-24",
+      "round": "16. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-07-24",
+      "round": "16. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "17. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "17. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "17. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "17. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-07-28",
+      "round": "17. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-07-30",
+      "round": "14. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "18. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "18. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-08-04",
+      "round": "18. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-08-05",
+      "round": "18. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "19. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "19. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "19. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-08-11",
+      "round": "19. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-08-12",
+      "round": "19. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "20. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "20. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "20. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "20. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "20. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-08-19",
+      "round": "20. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-08-20",
+      "round": "14. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "21. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "21. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "21. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "21. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-08-26",
+      "round": "21. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "22. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "22. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-09-01",
+      "round": "22. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-09-01",
+      "round": "22. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "23. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "23. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "23. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-09-15",
+      "round": "23. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-09-16",
+      "round": "23. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "12. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "24. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "24. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "24. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "24. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "24. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "16. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "16. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "25. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "25. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "25. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-09-29",
+      "round": "25. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-09-30",
+      "round": "25. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "26. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "26. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "26. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "26. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "26. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "26. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "26. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "26. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-10-02",
+      "round": "26. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-10-03",
+      "round": "26. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "27. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "27. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "27. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "27. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "27. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "27. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "27. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "27. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-10-06",
+      "round": "27. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-10-06",
+      "round": "27. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-10-08",
+      "round": "14. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "13. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "12. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-10-15",
+      "round": "28. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-10-15",
+      "round": "28. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "28. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "28. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "28. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "28. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "28. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "28. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-10-17",
+      "round": "28. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-10-17",
+      "round": "28. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "29. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "29. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "29. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "29. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "29. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "29. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "29. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "29. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "29. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-10-21",
+      "round": "29. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-10-22",
+      "round": "14. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "30. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "30. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "30. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "30. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "30. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "30. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "30. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "30. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "30. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "30. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "12. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "31. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "31. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "31. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "31. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "31. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "31. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "31. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "31. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "31. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "31. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-11-05",
+      "round": "32. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-11-05",
+      "round": "32. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-11-05",
+      "round": "32. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-11-05",
+      "round": "32. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-11-05",
+      "round": "32. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-11-05",
+      "round": "32. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-11-06",
+      "round": "32. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-11-06",
+      "round": "32. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-11-06",
+      "round": "32. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-11-07",
+      "round": "32. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "33. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "33. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "33. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "33. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "33. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "33. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "33. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "33. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "33. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "33. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-11-12",
+      "round": "16. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "12. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "13. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "37. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "34. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-11-19",
+      "round": "37. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-11-20",
+      "round": "34. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-11-20",
+      "round": "34. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-11-20",
+      "round": "34. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-11-20",
+      "round": "34. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-11-20",
+      "round": "34. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-11-20",
+      "round": "34. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-11-21",
+      "round": "34. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "35. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "35. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "35. Matchday",
+      "home": "Sociedade Esportiva Palmeiras",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "35. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "35. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "35. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "35. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-11-24",
+      "round": "35. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-11-25",
+      "round": "35. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-11-26",
+      "round": "36. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-11-26",
+      "round": "36. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-11-26",
+      "round": "36. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-11-27",
+      "round": "36. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "36. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "36. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "36. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "36. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "35. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Clube Atlético Mineiro"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "36. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "36. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-12-02",
+      "round": "37. Matchday",
+      "home": "Club de Regatas Vasco da Gama",
+      "away": "Mirasol Futebol Clube"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "34. Matchday",
+      "home": "Red Bull Bragantino",
+      "away": "Esporte Clube Vitória"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "37. Matchday",
+      "home": "São Paulo Futebol Clube",
+      "away": "Sport Club Internacional"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "37. Matchday",
+      "home": "Grêmio Foot-Ball Porto Alegrense",
+      "away": "Fluminense Football Club"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "37. Matchday",
+      "home": "Esporte Clube Bahia",
+      "away": "Sport Club do Recife"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "37. Matchday",
+      "home": "Fortaleza Esporte Clube",
+      "away": "Sport Club Corinthians Paulista"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "37. Matchday",
+      "home": "Esporte Clube Juventude",
+      "away": "Santos Futebol Clube"
+    },
+    {
+      "date": "2025-12-04",
+      "round": "34. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-12-04",
+      "round": "37. Matchday",
+      "home": "Clube de Regatas do Flamengo",
+      "away": "Ceará Sporting Club"
+    },
+    {
+      "date": "2025-12-04",
+      "round": "37. Matchday",
+      "home": "Cruzeiro Esporte Clube",
+      "away": "S. A. F. Botafogo"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "38. Matchday",
+      "home": "Mirasol Futebol Clube",
+      "away": "Clube de Regatas do Flamengo"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Fluminense Football Club",
+      "away": "Esporte Clube Bahia"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "S. A. F. Botafogo",
+      "away": "Fortaleza Esporte Clube"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Sport Club Corinthians Paulista",
+      "away": "Esporte Clube Juventude"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Santos Futebol Clube",
+      "away": "Cruzeiro Esporte Clube"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Clube Atlético Mineiro",
+      "away": "Club de Regatas Vasco da Gama"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Sport Club Internacional",
+      "away": "Red Bull Bragantino"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Esporte Clube Vitória",
+      "away": "São Paulo Futebol Clube"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Ceará Sporting Club",
+      "away": "Sociedade Esportiva Palmeiras"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "38. Matchday",
+      "home": "Sport Club do Recife",
+      "away": "Grêmio Foot-Ball Porto Alegrense"
+    }
+  ]
+}

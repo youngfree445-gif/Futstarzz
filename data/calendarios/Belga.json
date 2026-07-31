@@ -1,0 +1,1849 @@
+{
+  "competition": {
+    "id": "BE1",
+    "name": "BE1",
+    "league": "Belga",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2022
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2022-07-22",
+      "round": "1. Matchday",
+      "home": "Standard Liège",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-07-23",
+      "round": "1. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-07-23",
+      "round": "1. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-07-23",
+      "round": "1. Matchday",
+      "home": "Zulte Waregem",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-07-23",
+      "round": "1. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-07-24",
+      "round": "1. Matchday",
+      "home": "Club Brugge KV",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-07-24",
+      "round": "1. Matchday",
+      "home": "KV Mechelen",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-07-24",
+      "round": "1. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-07-24",
+      "round": "1. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-07-29",
+      "round": "2. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-07-30",
+      "round": "2. Matchday",
+      "home": "Cercle Brugge",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-07-30",
+      "round": "2. Matchday",
+      "home": "KV Oostende",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-07-30",
+      "round": "2. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-07-30",
+      "round": "2. Matchday",
+      "home": "KAA Gent",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-07-31",
+      "round": "2. Matchday",
+      "home": "KRC Genk",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-07-31",
+      "round": "2. Matchday",
+      "home": "KAS Eupen",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-07-31",
+      "round": "2. Matchday",
+      "home": "RFC Seraing",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-07-31",
+      "round": "2. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-08-05",
+      "round": "3. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-08-06",
+      "round": "3. Matchday",
+      "home": "KRC Genk",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-08-06",
+      "round": "3. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-08-06",
+      "round": "3. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-08-06",
+      "round": "3. Matchday",
+      "home": "KV Mechelen",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-08-07",
+      "round": "3. Matchday",
+      "home": "Standard Liège",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-08-07",
+      "round": "3. Matchday",
+      "home": "KAA Gent",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-08-07",
+      "round": "3. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-08-07",
+      "round": "3. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-08-12",
+      "round": "4. Matchday",
+      "home": "KV Oostende",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-08-13",
+      "round": "4. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-08-13",
+      "round": "4. Matchday",
+      "home": "Cercle Brugge",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-08-13",
+      "round": "4. Matchday",
+      "home": "RFC Seraing",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-08-13",
+      "round": "4. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-08-14",
+      "round": "4. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-08-14",
+      "round": "4. Matchday",
+      "home": "KAS Eupen",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-08-14",
+      "round": "4. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-08-14",
+      "round": "4. Matchday",
+      "home": "Zulte Waregem",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-08-19",
+      "round": "5. Matchday",
+      "home": "KAS Eupen",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-08-20",
+      "round": "5. Matchday",
+      "home": "KV Oostende",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-08-20",
+      "round": "5. Matchday",
+      "home": "KRC Genk",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-08-21",
+      "round": "5. Matchday",
+      "home": "Club Brugge KV",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-08-21",
+      "round": "5. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-08-21",
+      "round": "5. Matchday",
+      "home": "Standard Liège",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-08-21",
+      "round": "5. Matchday",
+      "home": "KV Mechelen",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-08-26",
+      "round": "6. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-08-27",
+      "round": "6. Matchday",
+      "home": "RFC Seraing",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-08-27",
+      "round": "6. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-08-27",
+      "round": "6. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-08-27",
+      "round": "6. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-08-28",
+      "round": "6. Matchday",
+      "home": "KAA Gent",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-08-28",
+      "round": "6. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-08-28",
+      "round": "6. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-08-28",
+      "round": "6. Matchday",
+      "home": "KVC Westerlo",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-08-31",
+      "round": "5. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-09-01",
+      "round": "5. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-09-02",
+      "round": "7. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-09-03",
+      "round": "7. Matchday",
+      "home": "Standard Liège",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-09-03",
+      "round": "7. Matchday",
+      "home": "KRC Genk",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-09-03",
+      "round": "7. Matchday",
+      "home": "KV Mechelen",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-09-03",
+      "round": "7. Matchday",
+      "home": "KAS Eupen",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-09-04",
+      "round": "7. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-09-04",
+      "round": "7. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-09-04",
+      "round": "7. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-09-04",
+      "round": "7. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-09-09",
+      "round": "8. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-09-10",
+      "round": "8. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-09-10",
+      "round": "8. Matchday",
+      "home": "KV Kortrijk",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-09-10",
+      "round": "8. Matchday",
+      "home": "RFC Seraing",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-09-10",
+      "round": "8. Matchday",
+      "home": "KV Oostende",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-09-11",
+      "round": "8. Matchday",
+      "home": "KAA Gent",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-09-11",
+      "round": "8. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-09-11",
+      "round": "8. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-09-11",
+      "round": "8. Matchday",
+      "home": "KVC Westerlo",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-09-16",
+      "round": "9. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-09-17",
+      "round": "9. Matchday",
+      "home": "Cercle Brugge",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-09-17",
+      "round": "9. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-09-17",
+      "round": "9. Matchday",
+      "home": "KV Mechelen",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-09-17",
+      "round": "9. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-09-18",
+      "round": "9. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-09-18",
+      "round": "9. Matchday",
+      "home": "Standard Liège",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-09-18",
+      "round": "9. Matchday",
+      "home": "KRC Genk",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-09-18",
+      "round": "9. Matchday",
+      "home": "KAS Eupen",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-09-30",
+      "round": "10. Matchday",
+      "home": "Standard Liège",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-10-01",
+      "round": "10. Matchday",
+      "home": "Club Brugge KV",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-10-01",
+      "round": "10. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-10-01",
+      "round": "10. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-10-01",
+      "round": "10. Matchday",
+      "home": "KV Oostende",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-10-02",
+      "round": "10. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-10-02",
+      "round": "10. Matchday",
+      "home": "KAA Gent",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-10-02",
+      "round": "10. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-10-02",
+      "round": "10. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-10-07",
+      "round": "11. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-10-08",
+      "round": "11. Matchday",
+      "home": "Club Brugge KV",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-10-08",
+      "round": "11. Matchday",
+      "home": "KRC Genk",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-10-08",
+      "round": "11. Matchday",
+      "home": "RFC Seraing",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-10-08",
+      "round": "11. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-10-09",
+      "round": "11. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-10-09",
+      "round": "11. Matchday",
+      "home": "KV Mechelen",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-10-09",
+      "round": "11. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-10-09",
+      "round": "11. Matchday",
+      "home": "KAS Eupen",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-10-14",
+      "round": "12. Matchday",
+      "home": "KVC Westerlo",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-10-15",
+      "round": "12. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-10-15",
+      "round": "12. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-10-15",
+      "round": "12. Matchday",
+      "home": "Cercle Brugge",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-10-15",
+      "round": "12. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-10-16",
+      "round": "12. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-10-16",
+      "round": "12. Matchday",
+      "home": "Standard Liège",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-10-16",
+      "round": "12. Matchday",
+      "home": "KAA Gent",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-10-16",
+      "round": "12. Matchday",
+      "home": "KV Oostende",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-10-18",
+      "round": "13. Matchday",
+      "home": "KRC Genk",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-10-18",
+      "round": "13. Matchday",
+      "home": "RFC Seraing",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-10-18",
+      "round": "13. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-10-18",
+      "round": "13. Matchday",
+      "home": "KAS Eupen",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-10-19",
+      "round": "13. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-10-19",
+      "round": "13. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-10-19",
+      "round": "13. Matchday",
+      "home": "KV Mechelen",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-10-20",
+      "round": "13. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-10-20",
+      "round": "13. Matchday",
+      "home": "Zulte Waregem",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-10-21",
+      "round": "14. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-10-22",
+      "round": "14. Matchday",
+      "home": "KV Kortrijk",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-10-22",
+      "round": "14. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-10-22",
+      "round": "14. Matchday",
+      "home": "KV Mechelen",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-10-22",
+      "round": "14. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-10-23",
+      "round": "14. Matchday",
+      "home": "Standard Liège",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-10-23",
+      "round": "14. Matchday",
+      "home": "KAA Gent",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-10-23",
+      "round": "14. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-10-23",
+      "round": "14. Matchday",
+      "home": "KV Oostende",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-10-28",
+      "round": "15. Matchday",
+      "home": "KRC Genk",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-10-29",
+      "round": "15. Matchday",
+      "home": "Club Brugge KV",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-10-29",
+      "round": "15. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-10-29",
+      "round": "15. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-10-29",
+      "round": "15. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-10-30",
+      "round": "15. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-10-30",
+      "round": "15. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-10-30",
+      "round": "15. Matchday",
+      "home": "RFC Seraing",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-10-30",
+      "round": "15. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-11-04",
+      "round": "16. Matchday",
+      "home": "KRC Genk",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2022-11-05",
+      "round": "16. Matchday",
+      "home": "RFC Seraing",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2022-11-05",
+      "round": "16. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-11-05",
+      "round": "16. Matchday",
+      "home": "KV Mechelen",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-11-05",
+      "round": "16. Matchday",
+      "home": "KAS Eupen",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-11-06",
+      "round": "16. Matchday",
+      "home": "KAA Gent",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2022-11-06",
+      "round": "16. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-11-06",
+      "round": "16. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2022-11-06",
+      "round": "16. Matchday",
+      "home": "KV Oostende",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2022-11-11",
+      "round": "17. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2022-11-12",
+      "round": "17. Matchday",
+      "home": "Zulte Waregem",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-11-12",
+      "round": "17. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-11-12",
+      "round": "17. Matchday",
+      "home": "KVC Westerlo",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-11-12",
+      "round": "17. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2022-11-13",
+      "round": "17. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2022-11-13",
+      "round": "17. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-11-13",
+      "round": "17. Matchday",
+      "home": "Standard Liège",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2022-11-13",
+      "round": "17. Matchday",
+      "home": "KV Kortrijk",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2022-12-23",
+      "round": "18. Matchday",
+      "home": "KAA Gent",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2022-12-23",
+      "round": "18. Matchday",
+      "home": "RFC Seraing",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2022-12-23",
+      "round": "18. Matchday",
+      "home": "KV Mechelen",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2022-12-26",
+      "round": "18. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2022-12-26",
+      "round": "18. Matchday",
+      "home": "KV Kortrijk",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2022-12-26",
+      "round": "18. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2022-12-26",
+      "round": "18. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2022-12-27",
+      "round": "18. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2022-12-27",
+      "round": "18. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-01-06",
+      "round": "19. Matchday",
+      "home": "Standard Liège",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-01-07",
+      "round": "19. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-01-07",
+      "round": "19. Matchday",
+      "home": "Cercle Brugge",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-01-07",
+      "round": "19. Matchday",
+      "home": "KAS Eupen",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-01-07",
+      "round": "19. Matchday",
+      "home": "KV Oostende",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-01-08",
+      "round": "19. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-01-08",
+      "round": "19. Matchday",
+      "home": "KRC Genk",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-01-08",
+      "round": "19. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-01-08",
+      "round": "19. Matchday",
+      "home": "Zulte Waregem",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-01-13",
+      "round": "20. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2023-01-14",
+      "round": "20. Matchday",
+      "home": "KRC Genk",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-01-14",
+      "round": "20. Matchday",
+      "home": "RFC Seraing",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-01-14",
+      "round": "20. Matchday",
+      "home": "KV Mechelen",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2023-01-14",
+      "round": "20. Matchday",
+      "home": "KAS Eupen",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-01-15",
+      "round": "20. Matchday",
+      "home": "Club Brugge KV",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-01-15",
+      "round": "20. Matchday",
+      "home": "KAA Gent",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-01-15",
+      "round": "20. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-01-15",
+      "round": "20. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2023-01-17",
+      "round": "21. Matchday",
+      "home": "Standard Liège",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-01-17",
+      "round": "21. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2023-01-17",
+      "round": "21. Matchday",
+      "home": "KVC Westerlo",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2023-01-18",
+      "round": "21. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-01-18",
+      "round": "21. Matchday",
+      "home": "KV Kortrijk",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-01-18",
+      "round": "21. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-01-18",
+      "round": "21. Matchday",
+      "home": "KV Oostende",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-01-19",
+      "round": "21. Matchday",
+      "home": "KAA Gent",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-01-19",
+      "round": "21. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-01-21",
+      "round": "22. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2023-01-21",
+      "round": "22. Matchday",
+      "home": "Zulte Waregem",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-01-21",
+      "round": "22. Matchday",
+      "home": "KV Mechelen",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-01-21",
+      "round": "22. Matchday",
+      "home": "KV Oostende",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2023-01-22",
+      "round": "22. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-01-22",
+      "round": "22. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-01-22",
+      "round": "22. Matchday",
+      "home": "RFC Seraing",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-01-22",
+      "round": "22. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-01-27",
+      "round": "23. Matchday",
+      "home": "Standard Liège",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2023-01-28",
+      "round": "23. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-01-28",
+      "round": "23. Matchday",
+      "home": "KV Kortrijk",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2023-01-28",
+      "round": "23. Matchday",
+      "home": "KVC Westerlo",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-01-28",
+      "round": "23. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-01-29",
+      "round": "23. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-01-29",
+      "round": "23. Matchday",
+      "home": "KRC Genk",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-01-29",
+      "round": "23. Matchday",
+      "home": "Cercle Brugge",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-01-29",
+      "round": "23. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-02-01",
+      "round": "22. Matchday",
+      "home": "KAS Eupen",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2023-02-03",
+      "round": "24. Matchday",
+      "home": "KV Oostende",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-02-04",
+      "round": "24. Matchday",
+      "home": "RFC Seraing",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2023-02-04",
+      "round": "24. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-02-04",
+      "round": "24. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-02-04",
+      "round": "24. Matchday",
+      "home": "KAS Eupen",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-02-05",
+      "round": "24. Matchday",
+      "home": "KAA Gent",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2023-02-05",
+      "round": "24. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-02-05",
+      "round": "24. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-02-05",
+      "round": "24. Matchday",
+      "home": "KV Mechelen",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-02-10",
+      "round": "25. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-02-10",
+      "round": "25. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2023-02-10",
+      "round": "25. Matchday",
+      "home": "KAS Eupen",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-02-11",
+      "round": "25. Matchday",
+      "home": "KVC Westerlo",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-02-11",
+      "round": "25. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-02-12",
+      "round": "25. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-02-12",
+      "round": "25. Matchday",
+      "home": "Standard Liège",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-02-12",
+      "round": "25. Matchday",
+      "home": "KRC Genk",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-02-12",
+      "round": "25. Matchday",
+      "home": "Zulte Waregem",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2023-02-17",
+      "round": "26. Matchday",
+      "home": "KV Mechelen",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2023-02-18",
+      "round": "26. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2023-02-18",
+      "round": "26. Matchday",
+      "home": "RFC Seraing",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-02-18",
+      "round": "26. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-02-18",
+      "round": "26. Matchday",
+      "home": "KV Oostende",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-02-19",
+      "round": "26. Matchday",
+      "home": "KAA Gent",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2023-02-19",
+      "round": "26. Matchday",
+      "home": "KV Kortrijk",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-02-19",
+      "round": "26. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-02-19",
+      "round": "26. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-02-24",
+      "round": "27. Matchday",
+      "home": "Zulte Waregem",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-02-25",
+      "round": "27. Matchday",
+      "home": "KRC Genk",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2023-02-25",
+      "round": "27. Matchday",
+      "home": "RFC Seraing",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-02-25",
+      "round": "27. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-02-25",
+      "round": "27. Matchday",
+      "home": "KAS Eupen",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2023-02-26",
+      "round": "27. Matchday",
+      "home": "Club Brugge KV",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-02-26",
+      "round": "27. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-02-26",
+      "round": "27. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-02-26",
+      "round": "27. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-03-03",
+      "round": "28. Matchday",
+      "home": "KV Oostende",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-03-04",
+      "round": "28. Matchday",
+      "home": "Standard Liège",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-03-04",
+      "round": "28. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-03-04",
+      "round": "28. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-03-04",
+      "round": "28. Matchday",
+      "home": "Cercle Brugge",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-03-05",
+      "round": "28. Matchday",
+      "home": "KAA Gent",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-03-05",
+      "round": "28. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-03-05",
+      "round": "28. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2023-03-05",
+      "round": "28. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2023-03-10",
+      "round": "29. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2023-03-11",
+      "round": "29. Matchday",
+      "home": "RFC Seraing",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-03-11",
+      "round": "29. Matchday",
+      "home": "KV Mechelen",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-03-11",
+      "round": "29. Matchday",
+      "home": "KVC Westerlo",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-03-11",
+      "round": "29. Matchday",
+      "home": "KAS Eupen",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2023-03-12",
+      "round": "29. Matchday",
+      "home": "Club Brugge KV",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-03-12",
+      "round": "29. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2023-03-12",
+      "round": "29. Matchday",
+      "home": "KRC Genk",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-03-12",
+      "round": "29. Matchday",
+      "home": "Zulte Waregem",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-03-17",
+      "round": "30. Matchday",
+      "home": "Cercle Brugge",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2023-03-18",
+      "round": "30. Matchday",
+      "home": "Standard Liège",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-03-18",
+      "round": "30. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-03-18",
+      "round": "30. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-03-18",
+      "round": "30. Matchday",
+      "home": "KV Oostende",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-03-19",
+      "round": "30. Matchday",
+      "home": "KAA Gent",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2023-03-19",
+      "round": "30. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-03-19",
+      "round": "30. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-03-19",
+      "round": "30. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-03-31",
+      "round": "31. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-04-01",
+      "round": "31. Matchday",
+      "home": "RFC Seraing",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-04-01",
+      "round": "31. Matchday",
+      "home": "Cercle Brugge",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-04-01",
+      "round": "31. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-04-01",
+      "round": "31. Matchday",
+      "home": "KV Oostende",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-04-02",
+      "round": "31. Matchday",
+      "home": "KRC Genk",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2023-04-02",
+      "round": "31. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-04-02",
+      "round": "31. Matchday",
+      "home": "KV Mechelen",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-04-02",
+      "round": "31. Matchday",
+      "home": "KAS Eupen",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-04-07",
+      "round": "32. Matchday",
+      "home": "Club Brugge KV",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-04-08",
+      "round": "32. Matchday",
+      "home": "KAA Gent",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-04-08",
+      "round": "32. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-04-08",
+      "round": "32. Matchday",
+      "home": "KV Kortrijk",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2023-04-08",
+      "round": "32. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-04-09",
+      "round": "32. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-04-09",
+      "round": "32. Matchday",
+      "home": "Standard Liège",
+      "away": "KRC Genk"
+    },
+    {
+      "date": "2023-04-09",
+      "round": "32. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2023-04-09",
+      "round": "32. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2023-04-14",
+      "round": "33. Matchday",
+      "home": "Standard Liège",
+      "away": "Royal Charleroi Sporting Club"
+    },
+    {
+      "date": "2023-04-15",
+      "round": "33. Matchday",
+      "home": "Cercle Brugge",
+      "away": "Sint-Truidense VV"
+    },
+    {
+      "date": "2023-04-15",
+      "round": "33. Matchday",
+      "home": "KVC Westerlo",
+      "away": "Club Brugge KV"
+    },
+    {
+      "date": "2023-04-15",
+      "round": "33. Matchday",
+      "home": "KAS Eupen",
+      "away": "Zulte Waregem"
+    },
+    {
+      "date": "2023-04-15",
+      "round": "33. Matchday",
+      "home": "KV Oostende",
+      "away": "Oud-Heverlee Leuven"
+    },
+    {
+      "date": "2023-04-16",
+      "round": "33. Matchday",
+      "home": "KRC Genk",
+      "away": "RSC Anderlecht"
+    },
+    {
+      "date": "2023-04-16",
+      "round": "33. Matchday",
+      "home": "Royal Antwerp FC",
+      "away": "KV Kortrijk"
+    },
+    {
+      "date": "2023-04-16",
+      "round": "33. Matchday",
+      "home": "Union Saint-Gilloise",
+      "away": "RFC Seraing"
+    },
+    {
+      "date": "2023-04-16",
+      "round": "33. Matchday",
+      "home": "KV Mechelen",
+      "away": "KAA Gent"
+    },
+    {
+      "date": "2023-04-22",
+      "round": "34. Matchday",
+      "home": "RFC Seraing",
+      "away": "KVC Westerlo"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "Club Brugge KV",
+      "away": "KAS Eupen"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "RSC Anderlecht",
+      "away": "KV Mechelen"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "KAA Gent",
+      "away": "KV Oostende"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "Oud-Heverlee Leuven",
+      "away": "Standard Liège"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "KV Kortrijk",
+      "away": "Union Saint-Gilloise"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "Zulte Waregem",
+      "away": "Cercle Brugge"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "Sint-Truidense VV",
+      "away": "Royal Antwerp FC"
+    },
+    {
+      "date": "2023-04-23",
+      "round": "34. Matchday",
+      "home": "Royal Charleroi Sporting Club",
+      "away": "KRC Genk"
+    }
+  ]
+}

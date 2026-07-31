@@ -1,0 +1,1105 @@
+{
+  "competition": {
+    "id": "DK1",
+    "name": "DK1",
+    "league": "Danesa",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2019
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2019-07-12",
+      "round": "1. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-07-14",
+      "round": "1. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-07-14",
+      "round": "1. Matchday",
+      "home": "AC Horsens",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-07-14",
+      "round": "1. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-07-14",
+      "round": "1. Matchday",
+      "home": "Odense Boldklub",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-07-14",
+      "round": "1. Matchday",
+      "home": "Bröndby IF",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-07-15",
+      "round": "1. Matchday",
+      "home": "Hobro IK",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-07-19",
+      "round": "2. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-07-21",
+      "round": "2. Matchday",
+      "home": "Silkeborg IF",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-07-21",
+      "round": "2. Matchday",
+      "home": "Aalborg BK",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-07-21",
+      "round": "2. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-07-21",
+      "round": "2. Matchday",
+      "home": "Randers FC",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-07-21",
+      "round": "2. Matchday",
+      "home": "FC Midtjylland",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-07-22",
+      "round": "2. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-07-26",
+      "round": "3. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-07-27",
+      "round": "3. Matchday",
+      "home": "AC Horsens",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-07-28",
+      "round": "3. Matchday",
+      "home": "Hobro IK",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-07-28",
+      "round": "3. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-07-28",
+      "round": "3. Matchday",
+      "home": "Aarhus GF",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-07-28",
+      "round": "3. Matchday",
+      "home": "Bröndby IF",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-07-29",
+      "round": "3. Matchday",
+      "home": "Aalborg BK",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-08-02",
+      "round": "4. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-08-03",
+      "round": "4. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-08-04",
+      "round": "4. Matchday",
+      "home": "Randers FC",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-08-04",
+      "round": "4. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-08-04",
+      "round": "4. Matchday",
+      "home": "Bröndby IF",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-08-04",
+      "round": "4. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-08-05",
+      "round": "4. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-08-09",
+      "round": "5. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-08-09",
+      "round": "5. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-08-11",
+      "round": "5. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-08-11",
+      "round": "5. Matchday",
+      "home": "Aalborg BK",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-08-11",
+      "round": "5. Matchday",
+      "home": "AC Horsens",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-08-11",
+      "round": "5. Matchday",
+      "home": "Hobro IK",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-08-12",
+      "round": "5. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-08-16",
+      "round": "6. Matchday",
+      "home": "Randers FC",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-08-16",
+      "round": "6. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-08-17",
+      "round": "6. Matchday",
+      "home": "Bröndby IF",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-08-18",
+      "round": "6. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-08-18",
+      "round": "6. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-08-18",
+      "round": "6. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-08-19",
+      "round": "6. Matchday",
+      "home": "Aarhus GF",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-08-23",
+      "round": "7. Matchday",
+      "home": "Hobro IK",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-08-25",
+      "round": "7. Matchday",
+      "home": "FC Copenhagen",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-08-25",
+      "round": "7. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-08-25",
+      "round": "7. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-08-25",
+      "round": "7. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-08-25",
+      "round": "7. Matchday",
+      "home": "Bröndby IF",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-08-26",
+      "round": "7. Matchday",
+      "home": "AC Horsens",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-08-30",
+      "round": "8. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-08-31",
+      "round": "8. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-09-01",
+      "round": "8. Matchday",
+      "home": "Aarhus GF",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-09-01",
+      "round": "8. Matchday",
+      "home": "Randers FC",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-09-01",
+      "round": "8. Matchday",
+      "home": "AC Horsens",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-09-01",
+      "round": "8. Matchday",
+      "home": "Aalborg BK",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-09-01",
+      "round": "8. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-09-13",
+      "round": "9. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-09-15",
+      "round": "9. Matchday",
+      "home": "Bröndby IF",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-09-15",
+      "round": "9. Matchday",
+      "home": "Aarhus GF",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-09-15",
+      "round": "9. Matchday",
+      "home": "Hobro IK",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-09-15",
+      "round": "9. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-09-15",
+      "round": "9. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-09-16",
+      "round": "9. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-09-20",
+      "round": "10. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-09-22",
+      "round": "10. Matchday",
+      "home": "FC Copenhagen",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-09-22",
+      "round": "10. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-09-22",
+      "round": "10. Matchday",
+      "home": "Hobro IK",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-09-22",
+      "round": "10. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-09-22",
+      "round": "10. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-09-23",
+      "round": "10. Matchday",
+      "home": "Randers FC",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-09-27",
+      "round": "11. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-09-28",
+      "round": "11. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-09-29",
+      "round": "11. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-09-29",
+      "round": "11. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-09-29",
+      "round": "11. Matchday",
+      "home": "Aalborg BK",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-09-29",
+      "round": "11. Matchday",
+      "home": "Aarhus GF",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-09-30",
+      "round": "11. Matchday",
+      "home": "AC Horsens",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-10-04",
+      "round": "12. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-10-05",
+      "round": "12. Matchday",
+      "home": "Hobro IK",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-10-06",
+      "round": "12. Matchday",
+      "home": "Bröndby IF",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-10-06",
+      "round": "12. Matchday",
+      "home": "Randers FC",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-10-06",
+      "round": "12. Matchday",
+      "home": "Odense Boldklub",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-10-06",
+      "round": "12. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-10-06",
+      "round": "12. Matchday",
+      "home": "Silkeborg IF",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-10-18",
+      "round": "13. Matchday",
+      "home": "Aalborg BK",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-10-20",
+      "round": "13. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-10-20",
+      "round": "13. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-10-20",
+      "round": "13. Matchday",
+      "home": "AC Horsens",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-10-20",
+      "round": "13. Matchday",
+      "home": "Aarhus GF",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-10-20",
+      "round": "13. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-10-21",
+      "round": "13. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-10-25",
+      "round": "14. Matchday",
+      "home": "Esbjerg fB",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-10-27",
+      "round": "14. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-10-27",
+      "round": "14. Matchday",
+      "home": "Bröndby IF",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-10-27",
+      "round": "14. Matchday",
+      "home": "Odense Boldklub",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-10-27",
+      "round": "14. Matchday",
+      "home": "Hobro IK",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-10-27",
+      "round": "14. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-10-28",
+      "round": "14. Matchday",
+      "home": "Aarhus GF",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-11-01",
+      "round": "15. Matchday",
+      "home": "Esbjerg fB",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-11-03",
+      "round": "15. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-11-03",
+      "round": "15. Matchday",
+      "home": "Aalborg BK",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-11-03",
+      "round": "15. Matchday",
+      "home": "Randers FC",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-11-03",
+      "round": "15. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-11-03",
+      "round": "15. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-11-04",
+      "round": "15. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-11-08",
+      "round": "16. Matchday",
+      "home": "Randers FC",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-11-09",
+      "round": "16. Matchday",
+      "home": "AC Horsens",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-11-10",
+      "round": "16. Matchday",
+      "home": "FC Midtjylland",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-11-10",
+      "round": "16. Matchday",
+      "home": "Bröndby IF",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-11-10",
+      "round": "16. Matchday",
+      "home": "Aarhus GF",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-11-10",
+      "round": "16. Matchday",
+      "home": "Hobro IK",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-11-10",
+      "round": "16. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-11-22",
+      "round": "17. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-11-24",
+      "round": "17. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-11-24",
+      "round": "17. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-11-24",
+      "round": "17. Matchday",
+      "home": "Aalborg BK",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-11-24",
+      "round": "17. Matchday",
+      "home": "Aarhus GF",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-11-24",
+      "round": "17. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-11-25",
+      "round": "17. Matchday",
+      "home": "Odense Boldklub",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-11-29",
+      "round": "18. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-12-01",
+      "round": "18. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2019-12-01",
+      "round": "18. Matchday",
+      "home": "Aalborg BK",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-12-01",
+      "round": "18. Matchday",
+      "home": "Randers FC",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-12-01",
+      "round": "18. Matchday",
+      "home": "AC Horsens",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2019-12-01",
+      "round": "18. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-12-02",
+      "round": "18. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-12-06",
+      "round": "19. Matchday",
+      "home": "Hobro IK",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2019-12-08",
+      "round": "19. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-12-08",
+      "round": "19. Matchday",
+      "home": "Bröndby IF",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2019-12-08",
+      "round": "19. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2019-12-08",
+      "round": "19. Matchday",
+      "home": "Aarhus GF",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2019-12-08",
+      "round": "19. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2019-12-09",
+      "round": "19. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2019-12-13",
+      "round": "20. Matchday",
+      "home": "Aalborg BK",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2019-12-15",
+      "round": "20. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2019-12-15",
+      "round": "20. Matchday",
+      "home": "Bröndby IF",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2019-12-15",
+      "round": "20. Matchday",
+      "home": "Randers FC",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2019-12-15",
+      "round": "20. Matchday",
+      "home": "AC Horsens",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2019-12-15",
+      "round": "20. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2019-12-16",
+      "round": "20. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2020-02-14",
+      "round": "21. Matchday",
+      "home": "Esbjerg fB",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2020-02-16",
+      "round": "21. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2020-02-16",
+      "round": "21. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2020-02-16",
+      "round": "21. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2020-02-17",
+      "round": "21. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2020-02-19",
+      "round": "21. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2020-02-21",
+      "round": "22. Matchday",
+      "home": "Hobro IK",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2020-02-23",
+      "round": "22. Matchday",
+      "home": "Aalborg BK",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2020-02-23",
+      "round": "22. Matchday",
+      "home": "Randers FC",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2020-02-23",
+      "round": "22. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2020-02-23",
+      "round": "22. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2020-02-23",
+      "round": "22. Matchday",
+      "home": "Silkeborg IF",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2020-02-24",
+      "round": "22. Matchday",
+      "home": "AC Horsens",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2020-02-28",
+      "round": "23. Matchday",
+      "home": "Aarhus GF",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2020-02-29",
+      "round": "23. Matchday",
+      "home": "Esbjerg fB",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2020-03-01",
+      "round": "23. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2020-03-01",
+      "round": "23. Matchday",
+      "home": "Bröndby IF",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2020-03-01",
+      "round": "23. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2020-03-01",
+      "round": "23. Matchday",
+      "home": "AC Horsens",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2020-03-02",
+      "round": "23. Matchday",
+      "home": "FC Midtjylland",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2020-03-08",
+      "round": "24. Matchday",
+      "home": "FC Copenhagen",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2020-03-08",
+      "round": "24. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2020-03-08",
+      "round": "24. Matchday",
+      "home": "Aalborg BK",
+      "away": "Lyngby Boldklub"
+    },
+    {
+      "date": "2020-03-08",
+      "round": "24. Matchday",
+      "home": "Randers FC",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2020-03-08",
+      "round": "24. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2020-03-08",
+      "round": "24. Matchday",
+      "home": "Hobro IK",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2020-03-09",
+      "round": "24. Matchday",
+      "home": "Silkeborg IF",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2020-05-28",
+      "round": "21. Matchday",
+      "home": "Aarhus GF",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2020-05-29",
+      "round": "25. Matchday",
+      "home": "Silkeborg IF",
+      "away": "FC Nordsjaelland"
+    },
+    {
+      "date": "2020-05-31",
+      "round": "25. Matchday",
+      "home": "Esbjerg fB",
+      "away": "Aalborg BK"
+    },
+    {
+      "date": "2020-06-01",
+      "round": "25. Matchday",
+      "home": "FC Midtjylland",
+      "away": "AC Horsens"
+    },
+    {
+      "date": "2020-06-01",
+      "round": "25. Matchday",
+      "home": "Randers FC",
+      "away": "Hobro IK"
+    },
+    {
+      "date": "2020-06-01",
+      "round": "25. Matchday",
+      "home": "Aarhus GF",
+      "away": "Odense Boldklub"
+    },
+    {
+      "date": "2020-06-01",
+      "round": "25. Matchday",
+      "home": "Lyngby Boldklub",
+      "away": "FC Copenhagen"
+    },
+    {
+      "date": "2020-06-02",
+      "round": "25. Matchday",
+      "home": "Bröndby IF",
+      "away": "Sönderjyske Fodbold"
+    },
+    {
+      "date": "2020-06-07",
+      "round": "26. Matchday",
+      "home": "FC Copenhagen",
+      "away": "Randers FC"
+    },
+    {
+      "date": "2020-06-07",
+      "round": "26. Matchday",
+      "home": "Sönderjyske Fodbold",
+      "away": "Silkeborg IF"
+    },
+    {
+      "date": "2020-06-07",
+      "round": "26. Matchday",
+      "home": "Aalborg BK",
+      "away": "Aarhus GF"
+    },
+    {
+      "date": "2020-06-07",
+      "round": "26. Matchday",
+      "home": "Odense Boldklub",
+      "away": "Esbjerg fB"
+    },
+    {
+      "date": "2020-06-07",
+      "round": "26. Matchday",
+      "home": "AC Horsens",
+      "away": "Bröndby IF"
+    },
+    {
+      "date": "2020-06-07",
+      "round": "26. Matchday",
+      "home": "FC Nordsjaelland",
+      "away": "FC Midtjylland"
+    },
+    {
+      "date": "2020-06-07",
+      "round": "26. Matchday",
+      "home": "Hobro IK",
+      "away": "Lyngby Boldklub"
+    }
+  ]
+}

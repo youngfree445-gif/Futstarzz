@@ -1,0 +1,1381 @@
+{
+  "competition": {
+    "id": "C1",
+    "name": "C1",
+    "league": "Suiza",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2025-07-25",
+      "round": "1. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "1. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "1. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "1. Matchday",
+      "home": "BSC Young Boys",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "1. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "1. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "2. Matchday",
+      "home": "Servette FC",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "2. Matchday",
+      "home": "FC Winterthur",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "2. Matchday",
+      "home": "FC Basel 1893",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "2. Matchday",
+      "home": "FC Thun",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "2. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "2. Matchday",
+      "home": "FC Sion",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-08-06",
+      "round": "4. Matchday",
+      "home": "FC Basel 1893",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "3. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "3. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "3. Matchday",
+      "home": "Servette FC",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "3. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "3. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "3. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "4. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "4. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "4. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "5. Matchday",
+      "home": "FC Thun",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "5. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "5. Matchday",
+      "home": "FC Sion",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "5. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "5. Matchday",
+      "home": "Servette FC",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "5. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "6. Matchday",
+      "home": "FC Thun",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "6. Matchday",
+      "home": "FC Zürich",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "6. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "6. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "6. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "6. Matchday",
+      "home": "FC Luzern",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "4. Matchday",
+      "home": "FC Sion",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "4. Matchday",
+      "home": "FC Lugano",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "7. Matchday",
+      "home": "FC Lugano",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "7. Matchday",
+      "home": "Servette FC",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "7. Matchday",
+      "home": "FC Zürich",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "7. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "7. Matchday",
+      "home": "FC Sion",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "7. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "8. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "8. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "8. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "Servette FC",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "9. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "9. Matchday",
+      "home": "FC Thun",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "9. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "9. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "9. Matchday",
+      "home": "FC Luzern",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "9. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "10. Matchday",
+      "home": "FC Sion",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "10. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "10. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "10. Matchday",
+      "home": "FC Zürich",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "10. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "10. Matchday",
+      "home": "Servette FC",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "11. Matchday",
+      "home": "FC Sion",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "11. Matchday",
+      "home": "FC Thun",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "11. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "11. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-10-30",
+      "round": "11. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-10-30",
+      "round": "11. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "12. Matchday",
+      "home": "FC Thun",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "12. Matchday",
+      "home": "FC Winterthur",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "12. Matchday",
+      "home": "FC Zürich",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "12. Matchday",
+      "home": "FC Luzern",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "12. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "13. Matchday",
+      "home": "Servette FC",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "13. Matchday",
+      "home": "FC Winterthur",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "13. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "13. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "13. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "13. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "14. Matchday",
+      "home": "FC Luzern",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "14. Matchday",
+      "home": "FC Thun",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "14. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "14. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "14. Matchday",
+      "home": "FC Sion",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "14. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-11-26",
+      "round": "12. Matchday",
+      "home": "FC Lugano",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "15. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "15. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "15. Matchday",
+      "home": "FC Zürich",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "15. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "15. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "15. Matchday",
+      "home": "Servette FC",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "16. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "16. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "16. Matchday",
+      "home": "FC Thun",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "16. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "16. Matchday",
+      "home": "FC Sion",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "16. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "17. Matchday",
+      "home": "FC Sion",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "17. Matchday",
+      "home": "FC Thun",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "17. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "17. Matchday",
+      "home": "FC Basel 1893",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "17. Matchday",
+      "home": "FC Lugano",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "17. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-12-16",
+      "round": "18. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2025-12-16",
+      "round": "18. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "18. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "18. Matchday",
+      "home": "BSC Young Boys",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "18. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "19. Matchday",
+      "home": "FC Basel 1893",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "19. Matchday",
+      "home": "FC Thun",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "19. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "19. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "19. Matchday",
+      "home": "FC Lugano",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "18. Matchday",
+      "home": "Servette FC",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "19. Matchday",
+      "home": "FC Sion",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "20. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "20. Matchday",
+      "home": "BSC Young Boys",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "20. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "20. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "20. Matchday",
+      "home": "Servette FC",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "21. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "21. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "21. Matchday",
+      "home": "FC Sion",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "21. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "21. Matchday",
+      "home": "FC Thun",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "21. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "22. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "22. Matchday",
+      "home": "Servette FC",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "22. Matchday",
+      "home": "FC Winterthur",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "22. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "22. Matchday",
+      "home": "FC Luzern",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "22. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "23. Matchday",
+      "home": "FC Sion",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "23. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "23. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "Servette FC",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-02-10",
+      "round": "24. Matchday",
+      "home": "FC Luzern",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-02-11",
+      "round": "24. Matchday",
+      "home": "FC Lugano",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-02-11",
+      "round": "24. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-02-11",
+      "round": "24. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-02-12",
+      "round": "24. Matchday",
+      "home": "FC Sion",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-02-12",
+      "round": "24. Matchday",
+      "home": "FC Thun",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "25. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "25. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "25. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "FC Thun",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-02-18",
+      "round": "20. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "26. Matchday",
+      "home": "Servette FC",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "26. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "26. Matchday",
+      "home": "FC Sion",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "26. Matchday",
+      "home": "FC Lugano",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "26. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-02-25",
+      "round": "26. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "27. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "27. Matchday",
+      "home": "FC Thun",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "27. Matchday",
+      "home": "Servette FC",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "27. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "27. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "27. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "28. Matchday",
+      "home": "FC Winterthur",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "28. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "28. Matchday",
+      "home": "FC Luzern",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "28. Matchday",
+      "home": "FC Zürich",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "28. Matchday",
+      "home": "FC Basel 1893",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "28. Matchday",
+      "home": "FC Thun",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "29. Matchday",
+      "home": "Servette FC",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "29. Matchday",
+      "home": "FC Sion",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "29. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "29. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "29. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "29. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "30. Matchday",
+      "home": "FC Thun",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "30. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "30. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "30. Matchday",
+      "home": "FC Basel 1893",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "30. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-03-17",
+      "round": "30. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "31. Matchday",
+      "home": "Servette FC",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "31. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "31. Matchday",
+      "home": "FC Sion",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "31. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "31. Matchday",
+      "home": "FC Luzern",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "31. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "32. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "32. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "32. Matchday",
+      "home": "FC Basel 1893",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "32. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "32. Matchday",
+      "home": "Servette FC",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "32. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "33. Matchday",
+      "home": "FC Winterthur",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "33. Matchday",
+      "home": "FC Zürich",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "33. Matchday",
+      "home": "FC Luzern",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "33. Matchday",
+      "home": "FC Sion",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "33. Matchday",
+      "home": "BSC Young Boys",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "33. Matchday",
+      "home": "FC Thun",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "34. Matchday",
+      "home": "FC Thun",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "34. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "34. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "34. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "34. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "34. Matchday",
+      "home": "Servette FC",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "35. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "35. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "35. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "35. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Sion"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "35. Matchday",
+      "home": "FC Lugano",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "35. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "36. Matchday",
+      "home": "FC Winterthur",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "36. Matchday",
+      "home": "FC Zürich",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "36. Matchday",
+      "home": "FC Luzern",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "FC Lugano",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "FC Sion",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-05-12",
+      "round": "37. Matchday",
+      "home": "Grasshopper Club Zurich",
+      "away": "FC Winterthur"
+    },
+    {
+      "date": "2026-05-12",
+      "round": "37. Matchday",
+      "home": "FC Luzern",
+      "away": "FC Zürich"
+    },
+    {
+      "date": "2026-05-12",
+      "round": "37. Matchday",
+      "home": "Servette FC",
+      "away": "Football Club Lausanne-Sport"
+    },
+    {
+      "date": "2026-05-14",
+      "round": "37. Matchday",
+      "home": "FC Basel 1893",
+      "away": "FC St. Gallen 1879"
+    },
+    {
+      "date": "2026-05-14",
+      "round": "37. Matchday",
+      "home": "FC Sion",
+      "away": "FC Lugano"
+    },
+    {
+      "date": "2026-05-14",
+      "round": "37. Matchday",
+      "home": "FC Thun",
+      "away": "BSC Young Boys"
+    },
+    {
+      "date": "2026-05-16",
+      "round": "38. Matchday",
+      "home": "Football Club Lausanne-Sport",
+      "away": "Grasshopper Club Zurich"
+    },
+    {
+      "date": "2026-05-16",
+      "round": "38. Matchday",
+      "home": "FC Winterthur",
+      "away": "FC Luzern"
+    },
+    {
+      "date": "2026-05-16",
+      "round": "38. Matchday",
+      "home": "FC Zürich",
+      "away": "Servette FC"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "38. Matchday",
+      "home": "FC Lugano",
+      "away": "FC Basel 1893"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "38. Matchday",
+      "home": "FC St. Gallen 1879",
+      "away": "FC Thun"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "38. Matchday",
+      "home": "BSC Young Boys",
+      "away": "FC Sion"
+    }
+  ]
+}

@@ -1,0 +1,1455 @@
+{
+  "competition": {
+    "id": "TS1",
+    "name": "TS1",
+    "league": "Checa",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "FC Viktoria Plzen": "FC Viktoria Plzeň"
+  },
+  "matches": [
+    {
+      "date": "2025-07-18",
+      "round": "1. Matchday",
+      "home": "FK Pardubice",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "1. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-07-19",
+      "round": "1. Matchday",
+      "home": "FK Teplice",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "1. Matchday",
+      "home": "FK Jablonec",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "1. Matchday",
+      "home": "MFK Karvina",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "1. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "1. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-07-20",
+      "round": "1. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "2. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "2. Matchday",
+      "home": "FC Zlin",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "2. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "2. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "2. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "2. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "2. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "2. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "3. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "3. Matchday",
+      "home": "FK Teplice",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-08-02",
+      "round": "3. Matchday",
+      "home": "FK Jablonec",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "3. Matchday",
+      "home": "MFK Karvina",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "3. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-08-03",
+      "round": "3. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "3. Matchday",
+      "home": "FK Pardubice",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "4. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "4. Matchday",
+      "home": "FC Zlin",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "4. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "4. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "4. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-08-10",
+      "round": "4. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "4. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "4. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "5. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "5. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "5. Matchday",
+      "home": "FK Jablonec",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "5. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "5. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "5. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "5. Matchday",
+      "home": "MFK Karvina",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-08-19",
+      "round": "3. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "6. Matchday",
+      "home": "FC Zlin",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "6. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "6. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "6. Matchday",
+      "home": "FK Teplice",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "6. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "6. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-08-24",
+      "round": "6. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "7. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "7. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "7. Matchday",
+      "home": "MFK Karvina",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "7. Matchday",
+      "home": "FK Pardubice",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-08-30",
+      "round": "7. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "7. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-08-31",
+      "round": "7. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "7. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "8. Matchday",
+      "home": "FC Zlin",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "8. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-09-13",
+      "round": "8. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "8. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "8. Matchday",
+      "home": "FK Teplice",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "8. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "8. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "8. Matchday",
+      "home": "FK Jablonec",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "9. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "9. Matchday",
+      "home": "FC Zlin",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "9. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "9. Matchday",
+      "home": "MFK Karvina",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "9. Matchday",
+      "home": "FK Pardubice",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "9. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-09-21",
+      "round": "9. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-09-21",
+      "round": "9. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-09-26",
+      "round": "10. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "10. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-09-27",
+      "round": "10. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "10. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "10. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "10. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "10. Matchday",
+      "home": "FK Teplice",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "10. Matchday",
+      "home": "FK Jablonec",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "5. Matchday",
+      "home": "FK Pardubice",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-10-04",
+      "round": "11. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "11. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-10-04",
+      "round": "11. Matchday",
+      "home": "FK Pardubice",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "11. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "11. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "11. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "11. Matchday",
+      "home": "FC Zlin",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-10-05",
+      "round": "11. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "12. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "12. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "12. Matchday",
+      "home": "FK Teplice",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "12. Matchday",
+      "home": "MFK Karvina",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-10-18",
+      "round": "12. Matchday",
+      "home": "FK Pardubice",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "12. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "12. Matchday",
+      "home": "FK Jablonec",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "12. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-10-22",
+      "round": "6. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "13. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "13. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "13. Matchday",
+      "home": "FC Zlin",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "13. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "13. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "13. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "13. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-10-28",
+      "round": "13. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-11-01",
+      "round": "14. Matchday",
+      "home": "FK Pardubice",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "14. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "14. Matchday",
+      "home": "FK Jablonec",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "14. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-11-02",
+      "round": "14. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-11-02",
+      "round": "14. Matchday",
+      "home": "MFK Karvina",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "14. Matchday",
+      "home": "FK Teplice",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "14. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "15. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "15. Matchday",
+      "home": "FC Zlin",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-11-08",
+      "round": "15. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "15. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "15. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "15. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "15. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "15. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "16. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-11-22",
+      "round": "16. Matchday",
+      "home": "FK Pardubice",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "16. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "16. Matchday",
+      "home": "FK Teplice",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-11-22",
+      "round": "16. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-11-23",
+      "round": "16. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "16. Matchday",
+      "home": "FK Jablonec",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "16. Matchday",
+      "home": "MFK Karvina",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "17. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "17. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "17. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "17. Matchday",
+      "home": "FC Zlin",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "17. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-11-30",
+      "round": "17. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "17. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "17. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-12-05",
+      "round": "18. Matchday",
+      "home": "FK Teplice",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "18. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "18. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "18. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "18. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "18. Matchday",
+      "home": "FK Pardubice",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "18. Matchday",
+      "home": "MFK Karvina",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2025-12-07",
+      "round": "18. Matchday",
+      "home": "FK Jablonec",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2025-12-13",
+      "round": "19. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "19. Matchday",
+      "home": "FK Teplice",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "19. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "19. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "19. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "19. Matchday",
+      "home": "FC Zlin",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2025-12-14",
+      "round": "19. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "19. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "20. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "20. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "20. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2026-01-31",
+      "round": "20. Matchday",
+      "home": "FK Jablonec",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "20. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "20. Matchday",
+      "home": "MFK Karvina",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "20. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2026-02-01",
+      "round": "20. Matchday",
+      "home": "FK Pardubice",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "21. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2026-02-07",
+      "round": "21. Matchday",
+      "home": "FK Jablonec",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "21. Matchday",
+      "home": "FK Teplice",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "21. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "21. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "21. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "21. Matchday",
+      "home": "FC Zlin",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "21. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "22. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "22. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "22. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2026-02-14",
+      "round": "22. Matchday",
+      "home": "MFK Karvina",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "22. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "22. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2026-02-15",
+      "round": "22. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "22. Matchday",
+      "home": "FK Pardubice",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "23. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "23. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "23. Matchday",
+      "home": "FK Jablonec",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "23. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "23. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "23. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "23. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "23. Matchday",
+      "home": "FK Teplice",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2026-02-27",
+      "round": "24. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "24. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "24. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2026-02-28",
+      "round": "24. Matchday",
+      "home": "FK Pardubice",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "24. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "24. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2026-03-01",
+      "round": "24. Matchday",
+      "home": "FC Zlin",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "24. Matchday",
+      "home": "MFK Karvina",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "25. Matchday",
+      "home": "FK Teplice",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "25. Matchday",
+      "home": "FK Jablonec",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2026-03-07",
+      "round": "25. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "25. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "25. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "25. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "25. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "25. Matchday",
+      "home": "MFK Karvina",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "26. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2026-03-14",
+      "round": "26. Matchday",
+      "home": "FC Zlin",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "26. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "26. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "26. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2026-03-15",
+      "round": "26. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "26. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "26. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "28. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "28. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "28. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "28. Matchday",
+      "home": "FC Zlin",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "28. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "28. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "28. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2026-04-05",
+      "round": "28. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "29. Matchday",
+      "home": "FK Jablonec",
+      "away": "FC Baník Ostrava a.s."
+    },
+    {
+      "date": "2026-04-11",
+      "round": "29. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "29. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "FK Teplice",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "MFK Karvina",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "FK Pardubice",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "FK Mlada Boleslav",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "30. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "Bohemians Praha 1905, a.s."
+    },
+    {
+      "date": "2026-04-18",
+      "round": "30. Matchday",
+      "home": "FC Zlin",
+      "away": "FK Teplice"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "30. Matchday",
+      "home": "AC Sparta Prague",
+      "away": "FK Jablonec"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "30. Matchday",
+      "home": "FK Dukla Prague",
+      "away": "MFK Karvina"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "30. Matchday",
+      "home": "FC Slovan Liberec",
+      "away": "FK Mlada Boleslav"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "30. Matchday",
+      "home": "FC Hradec Kralove",
+      "away": "SK Slavia Prague"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "30. Matchday",
+      "home": "SK Sigma Olomouc, a.s.",
+      "away": "1.FC Slovacko"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "30. Matchday",
+      "home": "FC Viktoria Plzen",
+      "away": "FK Pardubice"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "1.FC Slovacko",
+      "away": "FK Dukla Prague"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "SK Slavia Prague",
+      "away": "SK Sigma Olomouc, a.s."
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "FK Jablonec",
+      "away": "FC Slovan Liberec"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "Bohemians Praha 1905, a.s.",
+      "away": "AC Sparta Prague"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "FK Pardubice",
+      "away": "FC Zlin"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "FC Baník Ostrava a.s.",
+      "away": "FC Viktoria Plzen"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "FK Teplice",
+      "away": "FC Hradec Kralove"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "27. Matchday",
+      "home": "MFK Karvina",
+      "away": "FK Mlada Boleslav"
+    }
+  ]
+}

@@ -1,0 +1,1453 @@
+{
+  "competition": {
+    "id": "SE1",
+    "name": "SE1",
+    "league": "Sueca",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2024
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2025-03-29",
+      "round": "1. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "1. Matchday",
+      "home": "BK Häcken",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "1. Matchday",
+      "home": "Hammarby IF",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "1. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "1. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "1. Matchday",
+      "home": "Halmstads BK",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-03-31",
+      "round": "1. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-03-31",
+      "round": "1. Matchday",
+      "home": "IFK Värnamo",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "2. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "2. Matchday",
+      "home": "Östers IF",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "2. Matchday",
+      "home": "IK Sirius",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "2. Matchday",
+      "home": "Degerfors IF",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-04-07",
+      "round": "2. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "3. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "3. Matchday",
+      "home": "BK Häcken",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "Hammarby IF",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "IK Sirius",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "3. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-04-14",
+      "round": "3. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-04-14",
+      "round": "3. Matchday",
+      "home": "Halmstads BK",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-04-18",
+      "round": "4. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-04-18",
+      "round": "4. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-04-19",
+      "round": "4. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-04-19",
+      "round": "4. Matchday",
+      "home": "Degerfors IF",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "4. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "4. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "4. Matchday",
+      "home": "Östers IF",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-04-21",
+      "round": "4. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "5. Matchday",
+      "home": "Hammarby IF",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "5. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "5. Matchday",
+      "home": "BK Häcken",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-04-23",
+      "round": "5. Matchday",
+      "home": "Halmstads BK",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "5. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "5. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "5. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-04-24",
+      "round": "5. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "BK Häcken",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "IK Sirius",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "6. Matchday",
+      "home": "IFK Värnamo",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-04-28",
+      "round": "6. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-04-29",
+      "round": "6. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "7. Matchday",
+      "home": "Halmstads BK",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "7. Matchday",
+      "home": "Degerfors IF",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "Östers IF",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "7. Matchday",
+      "home": "IFK Norrköping",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-05-05",
+      "round": "7. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-05-05",
+      "round": "7. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "8. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "8. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "8. Matchday",
+      "home": "IK Sirius",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Hammarby IF",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Östers IF",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "8. Matchday",
+      "home": "Degerfors IF",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-05-12",
+      "round": "8. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-05-14",
+      "round": "9. Matchday",
+      "home": "Hammarby IF",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-05-14",
+      "round": "9. Matchday",
+      "home": "BK Häcken",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-05-14",
+      "round": "9. Matchday",
+      "home": "Halmstads BK",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "9. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "9. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "9. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "9. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "9. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "10. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "10. Matchday",
+      "home": "BK Häcken",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "10. Matchday",
+      "home": "Östers IF",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "10. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "10. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "10. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "10. Matchday",
+      "home": "IK Sirius",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "10. Matchday",
+      "home": "Degerfors IF",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "18. Matchday",
+      "home": "Hammarby IF",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-05-22",
+      "round": "18. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-05-24",
+      "round": "11. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-05-24",
+      "round": "11. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "11. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "11. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "11. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "11. Matchday",
+      "home": "Halmstads BK",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-05-26",
+      "round": "11. Matchday",
+      "home": "Hammarby IF",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-05-26",
+      "round": "11. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "6. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "12. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "12. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "12. Matchday",
+      "home": "Degerfors IF",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "12. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "12. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "12. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "12. Matchday",
+      "home": "IK Sirius",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "12. Matchday",
+      "home": "Halmstads BK",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-06-28",
+      "round": "13. Matchday",
+      "home": "Hammarby IF",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-06-28",
+      "round": "13. Matchday",
+      "home": "Östers IF",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "13. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "13. Matchday",
+      "home": "BK Häcken",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "13. Matchday",
+      "home": "Degerfors IF",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "13. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-06-30",
+      "round": "13. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-06-30",
+      "round": "13. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-07-05",
+      "round": "14. Matchday",
+      "home": "Hammarby IF",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-07-05",
+      "round": "14. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-07-05",
+      "round": "14. Matchday",
+      "home": "Östers IF",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "14. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "14. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "14. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "14. Matchday",
+      "home": "Halmstads BK",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-07-07",
+      "round": "14. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "15. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "15. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "15. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "15. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "15. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "15. Matchday",
+      "home": "BK Häcken",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "15. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-07-14",
+      "round": "15. Matchday",
+      "home": "IK Sirius",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "16. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "16. Matchday",
+      "home": "Östers IF",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "16. Matchday",
+      "home": "Degerfors IF",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "16. Matchday",
+      "home": "Hammarby IF",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "16. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "16. Matchday",
+      "home": "IK Sirius",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "16. Matchday",
+      "home": "Halmstads BK",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-07-21",
+      "round": "16. Matchday",
+      "home": "IFK Norrköping",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "17. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "17. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "17. Matchday",
+      "home": "Degerfors IF",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "BK Häcken",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "17. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-07-28",
+      "round": "17. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "18. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "18. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "BK Häcken",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "18. Matchday",
+      "home": "IK Sirius",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-08-04",
+      "round": "18. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "19. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "19. Matchday",
+      "home": "Halmstads BK",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Östers IF",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "19. Matchday",
+      "home": "Degerfors IF",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-08-11",
+      "round": "19. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-08-11",
+      "round": "19. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "20. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "20. Matchday",
+      "home": "Halmstads BK",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Hammarby IF",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "BK Häcken",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "20. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "20. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "IK Sirius",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "Degerfors IF",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "21. Matchday",
+      "home": "IFK Värnamo",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "21. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "21. Matchday",
+      "home": "Östers IF",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "22. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "22. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "22. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Hammarby IF",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "22. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "23. Matchday",
+      "home": "Halmstads BK",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "23. Matchday",
+      "home": "Degerfors IF",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "Östers IF",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "23. Matchday",
+      "home": "IK Sirius",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-09-15",
+      "round": "23. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-09-15",
+      "round": "23. Matchday",
+      "home": "BK Häcken",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "24. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "24. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "24. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "Hammarby IF",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "24. Matchday",
+      "home": "IK Sirius",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "24. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "24. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "25. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "25. Matchday",
+      "home": "BK Häcken",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "25. Matchday",
+      "home": "Halmstads BK",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-09-29",
+      "round": "25. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-09-29",
+      "round": "25. Matchday",
+      "home": "Östers IF",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "26. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "26. Matchday",
+      "home": "Östers IF",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "26. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "26. Matchday",
+      "home": "Degerfors IF",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "26. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "26. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "26. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "26. Matchday",
+      "home": "IK Sirius",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "27. Matchday",
+      "home": "BK Häcken",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "27. Matchday",
+      "home": "IFK Norrköping",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "27. Matchday",
+      "home": "Hammarby IF",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "27. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "27. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "27. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "27. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "27. Matchday",
+      "home": "Degerfors IF",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "28. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "IFK Värnamo"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "28. Matchday",
+      "home": "Östers IF",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "28. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "28. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "28. Matchday",
+      "home": "IK Sirius",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "28. Matchday",
+      "home": "Halmstads BK",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-10-27",
+      "round": "28. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-10-27",
+      "round": "28. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "29. Matchday",
+      "home": "BK Häcken",
+      "away": "Malmö Fotbollförening"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "29. Matchday",
+      "home": "IFK Norrköping",
+      "away": "IK Sirius"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "29. Matchday",
+      "home": "Djurgårdens Idrottsförening",
+      "away": "Idrottsföreningen Kamraterna Göteborg"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "29. Matchday",
+      "home": "Idrottsföreningen Elfsborg",
+      "away": "Allmänna Idrottsklubben"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "29. Matchday",
+      "home": "Göteborgs Atlet- och Idrottssällskap",
+      "away": "Östers IF"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "29. Matchday",
+      "home": "Halmstads BK",
+      "away": "Idrottsföreningen  Brommapojkarna"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "29. Matchday",
+      "home": "Degerfors IF",
+      "away": "Hammarby IF"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "29. Matchday",
+      "home": "IFK Värnamo",
+      "away": "Mjällby Almänna Idrottsförening"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "Allmänna Idrottsklubben",
+      "away": "Halmstads BK"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "Hammarby IF",
+      "away": "Idrottsföreningen Elfsborg"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "Idrottsföreningen  Brommapojkarna",
+      "away": "Degerfors IF"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "Idrottsföreningen Kamraterna Göteborg",
+      "away": "IFK Norrköping"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "Östers IF",
+      "away": "Djurgårdens Idrottsförening"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "Malmö Fotbollförening",
+      "away": "Göteborgs Atlet- och Idrottssällskap"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "Mjällby Almänna Idrottsförening",
+      "away": "BK Häcken"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "30. Matchday",
+      "home": "IK Sirius",
+      "away": "IFK Värnamo"
+    }
+  ]
+}

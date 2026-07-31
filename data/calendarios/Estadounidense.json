@@ -1,0 +1,3081 @@
+{
+  "competition": {
+    "id": "MLS1",
+    "name": "MLS1",
+    "league": "Estadounidense",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2024
+  },
+  "aliases": {
+    "Atlanta United Football Club": "Atlanta United",
+    "Charlotte Football Club": "Charlotte FC",
+    "Chicago Fire Soccer Club": "Chicago Fire",
+    "Minnesota United FC": "Minnesota United",
+    "New England Revolution": "New England",
+    "New York City Football Club": "New York City FC",
+    "Orlando City Soccer Club": "Orlando City",
+    "Philadelphia Union": "Philadelphia",
+    "San Diego Football Club": "San Diego FC",
+    "San Jose Earthquakes": "San Jose",
+    "Seattle Sounders FC": "Seattle Sounders",
+    "St. Louis City Soccer Club": "St. Louis CITY SC",
+    "Vancouver Whitecaps FC": "Vancouver Whitecaps"
+  },
+  "matches": [
+    {
+      "date": "2025-02-22",
+      "round": "1. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Columbus Crew",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "D.C. United",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Austin FC",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Houston Dynamo",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Nashville SC",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-02-23",
+      "round": "1. Matchday",
+      "home": "Portland Timbers",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-02-24",
+      "round": "1. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-03-01",
+      "round": "2. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-03-01",
+      "round": "2. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "New England Revolution",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Red Bull New York",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Colorado Rapids",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Portland Timbers",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "San Diego Football Club",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-03-02",
+      "round": "2. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-03-03",
+      "round": "2. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-03-08",
+      "round": "3. Matchday",
+      "home": "Columbus Crew",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-03-08",
+      "round": "3. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "D.C. United",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "New England Revolution",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "New York City Football Club",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Austin FC",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "FC Dallas",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Nashville SC",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Real Salt Lake",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-03-09",
+      "round": "3. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-03-15",
+      "round": "4. Matchday",
+      "home": "Red Bull New York",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-03-15",
+      "round": "4. Matchday",
+      "home": "Toronto FC",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-03-15",
+      "round": "4. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-03-15",
+      "round": "4. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-03-15",
+      "round": "4. Matchday",
+      "home": "D.C. United",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-03-15",
+      "round": "4. Matchday",
+      "home": "New York City Football Club",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "FC Dallas",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "Portland Timbers",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-03-16",
+      "round": "4. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "5. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "5. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "5. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "5. Matchday",
+      "home": "Columbus Crew",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "5. Matchday",
+      "home": "Red Bull New York",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "5. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "5. Matchday",
+      "home": "Philadelphia Union",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "5. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "5. Matchday",
+      "home": "Nashville SC",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "5. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "5. Matchday",
+      "home": "Real Salt Lake",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "5. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-03-23",
+      "round": "5. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "6. Matchday",
+      "home": "New England Revolution",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "6. Matchday",
+      "home": "Toronto FC",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "6. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "6. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "6. Matchday",
+      "home": "D.C. United",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-03-29",
+      "round": "6. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "FC Dallas",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "Nashville SC",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-03-30",
+      "round": "6. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-03-31",
+      "round": "6. Matchday",
+      "home": "Portland Timbers",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "7. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-04-05",
+      "round": "7. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Austin FC",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Columbus Crew",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Red Bull New York",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "New York City Football Club",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-04-06",
+      "round": "7. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-04-07",
+      "round": "7. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "8. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "8. Matchday",
+      "home": "Toronto FC",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-04-12",
+      "round": "8. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "D.C. United",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "New York City Football Club",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "FC Dallas",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Nashville SC",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Colorado Rapids",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-04-13",
+      "round": "8. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-04-14",
+      "round": "8. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-04-19",
+      "round": "9. Matchday",
+      "home": "Austin FC",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-04-19",
+      "round": "9. Matchday",
+      "home": "Columbus Crew",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "New England Revolution",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Red Bull New York",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Minnesota United FC",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "Portland Timbers",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-04-20",
+      "round": "9. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-04-26",
+      "round": "10. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-04-26",
+      "round": "10. Matchday",
+      "home": "Toronto FC",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-04-26",
+      "round": "10. Matchday",
+      "home": "Red Bull New York",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-04-26",
+      "round": "10. Matchday",
+      "home": "Philadelphia Union",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Columbus Crew",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Nashville SC",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-04-27",
+      "round": "10. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-04-28",
+      "round": "10. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-04-28",
+      "round": "10. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "11. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-05-03",
+      "round": "11. Matchday",
+      "home": "Toronto FC",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Columbus Crew",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "D.C. United",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Austin FC",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "San Diego Football Club",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-05-04",
+      "round": "11. Matchday",
+      "home": "New York City Football Club",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-05-05",
+      "round": "11. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "12. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "12. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-05-10",
+      "round": "12. Matchday",
+      "home": "Toronto FC",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Red Bull New York",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "New York City Football Club",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "FC Dallas",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Nashville SC",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Colorado Rapids",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-05-11",
+      "round": "12. Matchday",
+      "home": "Portland Timbers",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-05-12",
+      "round": "12. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "D.C. United",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Toronto FC",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Austin FC",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Nashville SC",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-05-15",
+      "round": "13. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-05-17",
+      "round": "14. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-05-17",
+      "round": "14. Matchday",
+      "home": "New York City Football Club",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Columbus Crew",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "New England Revolution",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Austin FC",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "FC Dallas",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Minnesota United FC",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Nashville SC",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "Portland Timbers",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-05-18",
+      "round": "14. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "14. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-05-19",
+      "round": "14. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-05-24",
+      "round": "15. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-05-24",
+      "round": "15. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "D.C. United",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Toronto FC",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Colorado Rapids",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-05-25",
+      "round": "15. Matchday",
+      "home": "New York City Football Club",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-05-26",
+      "round": "15. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "D.C. United",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Red Bull New York",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "New York City Football Club",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Toronto FC",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Columbus Crew",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Austin FC",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Portland Timbers",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-05-29",
+      "round": "16. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "17. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-05-31",
+      "round": "17. Matchday",
+      "home": "Nashville SC",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Red Bull New York",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Toronto FC",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "FC Dallas",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-06-01",
+      "round": "17. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-06-08",
+      "round": "18. Matchday",
+      "home": "D.C. United",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-06-08",
+      "round": "18. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "16. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "18. Matchday",
+      "home": "Portland Timbers",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "18. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-06-13",
+      "round": "19. Matchday",
+      "home": "New York City Football Club",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-06-14",
+      "round": "19. Matchday",
+      "home": "Portland Timbers",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-06-14",
+      "round": "19. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Columbus Crew",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "New England Revolution",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Austin FC",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Minnesota United FC",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-06-15",
+      "round": "19. Matchday",
+      "home": "Real Salt Lake",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Columbus Crew",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "New England Revolution",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Toronto FC",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "FC Dallas",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "20. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "D.C. United",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "New England Revolution",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Red Bull New York",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Toronto FC",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "FC Dallas",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Houston Dynamo",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-06-29",
+      "round": "21. Matchday",
+      "home": "Columbus Crew",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-06-30",
+      "round": "21. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-07-04",
+      "round": "22. Matchday",
+      "home": "New York City Football Club",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-07-05",
+      "round": "22. Matchday",
+      "home": "FC Dallas",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-07-05",
+      "round": "22. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-07-05",
+      "round": "22. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "D.C. United",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "Nashville SC",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "Real Salt Lake",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "Portland Timbers",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-07-06",
+      "round": "22. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-07-10",
+      "round": "17. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-07-10",
+      "round": "23. Matchday",
+      "home": "New England Revolution",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Toronto FC",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Austin FC",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Minnesota United FC",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "23. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-07-14",
+      "round": "23. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Red Bull New York",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Nashville SC",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "Portland Timbers",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-07-17",
+      "round": "24. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Columbus Crew",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "New England Revolution",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Red Bull New York",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "FC Dallas",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Nashville SC",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "Portland Timbers",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "25. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "26. Matchday",
+      "home": "Columbus Crew",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "26. Matchday",
+      "home": "New England Revolution",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "26. Matchday",
+      "home": "FC Dallas",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "26. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "26. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "D.C. United",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "Real Salt Lake",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "26. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "New England Revolution",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Austin FC",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "FC Dallas",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "27. Matchday",
+      "home": "Red Bull New York",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-08-11",
+      "round": "27. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-08-11",
+      "round": "27. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "New England Revolution",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Red Bull New York",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Toronto FC",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Austin FC",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "Portland Timbers",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "28. Matchday",
+      "home": "New York City Football Club",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "28. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "28. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Columbus Crew",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "D.C. United",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Philadelphia Union",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "FC Dallas",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Houston Dynamo",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Nashville SC",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "29. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "29. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "29. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "New England Revolution",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "Red Bull New York",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "New York City Football Club",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "Toronto FC",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "Austin FC",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "Nashville SC",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "30. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-09-01",
+      "round": "30. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "26. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "31. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "31. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "31. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "D.C. United",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "New England Revolution",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "FC Dallas",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "Portland Timbers",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "32. Matchday",
+      "home": "San Diego Football Club",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "33. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-09-18",
+      "round": "20. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-09-18",
+      "round": "27. Matchday",
+      "home": "New York City Football Club",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "33. Matchday",
+      "home": "New York City Football Club",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "33. Matchday",
+      "home": "Philadelphia Union",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "33. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Columbus Crew",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "FC Dallas",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Houston Dynamo",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "33. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "33. Matchday",
+      "home": "Austin FC",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "33. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-09-25",
+      "round": "17. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-09-25",
+      "round": "34. Matchday",
+      "home": "New York City Football Club",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "34. Matchday",
+      "home": "Toronto FC",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "D.C. United",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "New England Revolution",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Red Bull New York",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Nashville SC",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Portland Timbers",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "San Diego Football Club",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "34. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-09-29",
+      "round": "34. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-10-01",
+      "round": "30. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "35. Matchday",
+      "home": "D.C. United",
+      "away": "Charlotte Football Club"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "35. Matchday",
+      "home": "FC Dallas",
+      "away": "Los Angeles Galaxy"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "35. Matchday",
+      "home": "Club de Foot Montréal",
+      "away": "Nashville SC"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "New England Revolution"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Red Bull New York",
+      "away": "Football Club Cincinnati"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Columbus Crew"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Philadelphia Union",
+      "away": "New York City Football Club"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Austin FC",
+      "away": "St. Louis City Soccer Club"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Chicago Fire Soccer Club",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Houston Dynamo",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Minnesota United FC",
+      "away": "Sporting Kansas City"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Real Salt Lake",
+      "away": "Colorado Rapids"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Portland Timbers"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "35. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "San Jose Earthquakes"
+    },
+    {
+      "date": "2025-10-06",
+      "round": "35. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "19. Matchday",
+      "home": "Los Angeles Football Club",
+      "away": "Toronto FC"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "21. Matchday",
+      "home": "Club Internacional de Fútbol Miami",
+      "away": "Atlanta United Football Club"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "30. Matchday",
+      "home": "Orlando City Soccer Club",
+      "away": "Vancouver Whitecaps FC"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "30. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "FC Dallas"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "30. Matchday",
+      "home": "Seattle Sounders FC",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "22. Matchday",
+      "home": "Austin FC",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "Atlanta United Football Club",
+      "away": "D.C. United"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "Charlotte Football Club",
+      "away": "Philadelphia Union"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "Football Club Cincinnati",
+      "away": "Club de Foot Montréal"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "Columbus Crew",
+      "away": "Red Bull New York"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "Nashville SC",
+      "away": "Club Internacional de Fútbol Miami"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "New England Revolution",
+      "away": "Chicago Fire Soccer Club"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "New York City Football Club",
+      "away": "Seattle Sounders FC"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "36. Matchday",
+      "home": "Toronto FC",
+      "away": "Orlando City Soccer Club"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "36. Matchday",
+      "home": "Colorado Rapids",
+      "away": "Los Angeles Football Club"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "36. Matchday",
+      "home": "Sporting Kansas City",
+      "away": "Houston Dynamo"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "36. Matchday",
+      "home": "Los Angeles Galaxy",
+      "away": "Minnesota United FC"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "36. Matchday",
+      "home": "Portland Timbers",
+      "away": "San Diego Football Club"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "36. Matchday",
+      "home": "San Jose Earthquakes",
+      "away": "Austin FC"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "36. Matchday",
+      "home": "St. Louis City Soccer Club",
+      "away": "Real Salt Lake"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "36. Matchday",
+      "home": "Vancouver Whitecaps FC",
+      "away": "FC Dallas"
+    }
+  ]
+}

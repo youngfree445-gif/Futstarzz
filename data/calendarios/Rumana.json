@@ -1,0 +1,1453 @@
+{
+  "competition": {
+    "id": "RO1",
+    "name": "RO1",
+    "league": "Rumana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2025-07-11",
+      "round": "1. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-07-11",
+      "round": "1. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "1. Matchday",
+      "home": "UTA Arad",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-07-12",
+      "round": "1. Matchday",
+      "home": "FCSB",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "1. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-07-13",
+      "round": "1. Matchday",
+      "home": "CFR Cluj",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-07-14",
+      "round": "1. Matchday",
+      "home": "FC Botosani",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-07-14",
+      "round": "1. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-07-18",
+      "round": "2. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-07-18",
+      "round": "2. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "2. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-07-19",
+      "round": "2. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "2. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-07-20",
+      "round": "2. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-07-21",
+      "round": "2. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-07-21",
+      "round": "2. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-07-25",
+      "round": "3. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-07-25",
+      "round": "3. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "3. Matchday",
+      "home": "UTA Arad",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-07-26",
+      "round": "3. Matchday",
+      "home": "FCSB",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "3. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-07-27",
+      "round": "3. Matchday",
+      "home": "CFR Cluj",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-07-28",
+      "round": "3. Matchday",
+      "home": "FC Botosani",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-07-28",
+      "round": "3. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-08-01",
+      "round": "4. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-08-01",
+      "round": "4. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "4. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "4. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "4. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "4. Matchday",
+      "home": "CFR Cluj",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-08-04",
+      "round": "4. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-08-04",
+      "round": "4. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-08-08",
+      "round": "5. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "5. Matchday",
+      "home": "UTA Arad",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "5. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "5. Matchday",
+      "home": "FCSB",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "5. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-08-11",
+      "round": "5. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-08-11",
+      "round": "5. Matchday",
+      "home": "FC Botosani",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-08-15",
+      "round": "6. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-08-15",
+      "round": "6. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "6. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "6. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "6. Matchday",
+      "home": "CFR Cluj",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "6. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "6. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "6. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "7. Matchday",
+      "home": "UTA Arad",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "7. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "7. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "7. Matchday",
+      "home": "FC Botosani",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "7. Matchday",
+      "home": "FCSB",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "7. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "7. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "7. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "8. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "8. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "8. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "8. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "8. Matchday",
+      "home": "CFR Cluj",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "8. Matchday",
+      "home": "FC Botosani",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-09-01",
+      "round": "8. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-09-01",
+      "round": "8. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-09-12",
+      "round": "9. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "9. Matchday",
+      "home": "UTA Arad",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "9. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "9. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "9. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "24. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-09-15",
+      "round": "9. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-09-15",
+      "round": "9. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-09-19",
+      "round": "10. Matchday",
+      "home": "FC Botosani",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "10. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "10. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "10. Matchday",
+      "home": "CFR Cluj",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "10. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "10. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "10. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "10. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-09-26",
+      "round": "11. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-09-26",
+      "round": "11. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "11. Matchday",
+      "home": "UTA Arad",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "11. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "11. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "11. Matchday",
+      "home": "FCSB",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-09-29",
+      "round": "11. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-09-29",
+      "round": "11. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-10-03",
+      "round": "12. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "12. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "12. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "12. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "12. Matchday",
+      "home": "CFR Cluj",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "12. Matchday",
+      "home": "FCSB",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-10-06",
+      "round": "12. Matchday",
+      "home": "FC Botosani",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-10-06",
+      "round": "12. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-10-16",
+      "round": "5. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-10-17",
+      "round": "13. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "13. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "13. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "13. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "13. Matchday",
+      "home": "UTA Arad",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "13. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "13. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "13. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-10-24",
+      "round": "14. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-10-24",
+      "round": "14. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "14. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "14. Matchday",
+      "home": "CFR Cluj",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "14. Matchday",
+      "home": "FCSB",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "14. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-10-27",
+      "round": "14. Matchday",
+      "home": "FC Botosani",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-10-27",
+      "round": "14. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-10-31",
+      "round": "15. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "15. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "15. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "15. Matchday",
+      "home": "UTA Arad",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "15. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "15. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "15. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "15. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-11-07",
+      "round": "16. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-11-07",
+      "round": "16. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "16. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "16. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "16. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "16. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "16. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "16. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-11-21",
+      "round": "17. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-11-21",
+      "round": "17. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "17. Matchday",
+      "home": "UTA Arad",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "17. Matchday",
+      "home": "FCSB",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "17. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "17. Matchday",
+      "home": "CFR Cluj",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-11-24",
+      "round": "17. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-11-24",
+      "round": "17. Matchday",
+      "home": "FC Botosani",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "18. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "18. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "18. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "18. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "18. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "18. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-12-01",
+      "round": "18. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-12-01",
+      "round": "18. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-12-05",
+      "round": "19. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "19. Matchday",
+      "home": "FCSB",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "19. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "19. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "19. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "19. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-12-08",
+      "round": "19. Matchday",
+      "home": "UTA Arad",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-12-08",
+      "round": "19. Matchday",
+      "home": "FC Botosani",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-12-12",
+      "round": "20. Matchday",
+      "home": "CFR Cluj",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "20. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "20. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "20. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "20. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "20. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2025-12-15",
+      "round": "20. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2025-12-15",
+      "round": "20. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FCSB"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "21. Matchday",
+      "home": "FC Botosani",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "21. Matchday",
+      "home": "UTA Arad",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "21. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "21. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "21. Matchday",
+      "home": "FCSB",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "21. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "21. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2025-12-22",
+      "round": "21. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2026-01-16",
+      "round": "22. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FCSB"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "22. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "22. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "22. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "22. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "22. Matchday",
+      "home": "CFR Cluj",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "22. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2026-01-19",
+      "round": "22. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "23. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "23. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "23. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "23. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "23. Matchday",
+      "home": "FCSB",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "23. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "23. Matchday",
+      "home": "UTA Arad",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "23. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2026-01-30",
+      "round": "24. Matchday",
+      "home": "CFR Cluj",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2026-01-30",
+      "round": "24. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "24. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "24. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "24. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "9. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FCSB"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "24. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "24. Matchday",
+      "home": "FC Botosani",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "25. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "25. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "25. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "25. Matchday",
+      "home": "UTA Arad",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "25. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "25. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2026-02-05",
+      "round": "25. Matchday",
+      "home": "FCSB",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2026-02-05",
+      "round": "25. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2026-02-06",
+      "round": "26. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2026-02-06",
+      "round": "26. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "26. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "26. Matchday",
+      "home": "CFR Cluj",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "26. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "26. Matchday",
+      "home": "FC Botosani",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "26. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FCSB"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "26. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2026-02-13",
+      "round": "27. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "27. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "27. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "27. Matchday",
+      "home": "UTA Arad",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "27. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "27. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FCSB"
+    },
+    {
+      "date": "2026-02-16",
+      "round": "27. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2026-02-16",
+      "round": "27. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "28. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "28. Matchday",
+      "home": "FC Botosani",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "28. Matchday",
+      "home": "CFR Cluj",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "28. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "FC Dinamo 1948"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "28. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "28. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2026-02-23",
+      "round": "28. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2026-02-23",
+      "round": "28. Matchday",
+      "home": "FCSB",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2026-02-27",
+      "round": "29. Matchday",
+      "home": "FC Universitatea Cluj",
+      "away": "SC Otelul Galati"
+    },
+    {
+      "date": "2026-02-27",
+      "round": "29. Matchday",
+      "home": "FC Hermannstadt",
+      "away": "FC Botosani"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "29. Matchday",
+      "home": "FCV Farul Constanta",
+      "away": "CFR Cluj"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "29. Matchday",
+      "home": "Universitatea Craiova",
+      "away": "FC Metaloglobus Bucharest"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "29. Matchday",
+      "home": "UTA Arad",
+      "away": "FCSB"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "29. Matchday",
+      "home": "Petrolul Ploiesti",
+      "away": "FK Csikszereda Miercurea Ciuc"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "29. Matchday",
+      "home": "FC Dinamo 1948",
+      "away": "ACSC FC Arges"
+    },
+    {
+      "date": "2026-03-02",
+      "round": "29. Matchday",
+      "home": "AFC Unirea 04 Slobozia",
+      "away": "FC Rapid 1923"
+    },
+    {
+      "date": "2026-03-06",
+      "round": "30. Matchday",
+      "home": "FK Csikszereda Miercurea Ciuc",
+      "away": "FCV Farul Constanta"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "30. Matchday",
+      "home": "FC Metaloglobus Bucharest",
+      "away": "UTA Arad"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "30. Matchday",
+      "home": "FCSB",
+      "away": "FC Universitatea Cluj"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "30. Matchday",
+      "home": "FC Botosani",
+      "away": "Petrolul Ploiesti"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "30. Matchday",
+      "home": "SC Otelul Galati",
+      "away": "FC Hermannstadt"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "30. Matchday",
+      "home": "ACSC FC Arges",
+      "away": "AFC Unirea 04 Slobozia"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "30. Matchday",
+      "home": "FC Rapid 1923",
+      "away": "Universitatea Craiova"
+    },
+    {
+      "date": "2026-03-09",
+      "round": "30. Matchday",
+      "home": "CFR Cluj",
+      "away": "FC Dinamo 1948"
+    }
+  ]
+}

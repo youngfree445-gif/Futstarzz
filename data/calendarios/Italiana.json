@@ -1,0 +1,2315 @@
+{
+  "competition": {
+    "id": "IT1",
+    "name": "IT1",
+    "league": "Italiana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "AC Milan": "Milan",
+    "Atalanta BC": "Atalanta",
+    "Bologna Football Club 1909": "Bologna",
+    "Cagliari Calcio": "Cagliari",
+    "Como 1907": "Como",
+    "Genoa CFC": "Genoa",
+    "Inter Milan": "Inter",
+    "Juventus FC": "Juventus",
+    "Parma Calcio 1913": "Parma",
+    "Pisa Sporting Club": "Pisa",
+    "Torino FC": "Torino",
+    "Udinese Calcio": "Udinese",
+    "Associazione Sportiva Roma": "Roma",
+    "SSC Napoli": "Napoli",
+    "US Lecce": "Lecce",
+    "US Cremonese": "Cremonese",
+    "US Sassuolo": "Sassuolo",
+    "Hellas Verona": "Hellas Verona",
+    "FC Empoli": "Empoli",
+    "ACF Fiorentina": "Fiorentina",
+    "Società Sportiva Lazio S.p.A.": "Lazio"
+  },
+  "matches": [
+    {
+      "date": "2025-08-23",
+      "round": "1. Matchday",
+      "home": "Genoa CFC",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "1. Matchday",
+      "home": "AC Milan",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "1. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "1. Matchday",
+      "home": "US Sassuolo",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "1. Matchday",
+      "home": "Atalanta BC",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "1. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "1. Matchday",
+      "home": "Como 1907",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-08-24",
+      "round": "1. Matchday",
+      "home": "Juventus FC",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "1. Matchday",
+      "home": "Inter Milan",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "1. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "2. Matchday",
+      "home": "US Cremonese",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "2. Matchday",
+      "home": "US Lecce",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "2. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "2. Matchday",
+      "home": "SSC Napoli",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "2. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "2. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "2. Matchday",
+      "home": "Genoa CFC",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "2. Matchday",
+      "home": "Inter Milan",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "2. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "2. Matchday",
+      "home": "Torino FC",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "3. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "3. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "3. Matchday",
+      "home": "Juventus FC",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "3. Matchday",
+      "home": "Atalanta BC",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "3. Matchday",
+      "home": "AC Milan",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "3. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "3. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "3. Matchday",
+      "home": "US Sassuolo",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-09-15",
+      "round": "3. Matchday",
+      "home": "Como 1907",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2025-09-15",
+      "round": "3. Matchday",
+      "home": "Hellas Verona",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-09-19",
+      "round": "4. Matchday",
+      "home": "US Lecce",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "4. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "4. Matchday",
+      "home": "Udinese Calcio",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "4. Matchday",
+      "home": "Hellas Verona",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "4. Matchday",
+      "home": "US Cremonese",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "4. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "4. Matchday",
+      "home": "Inter Milan",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "4. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "4. Matchday",
+      "home": "Torino FC",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "4. Matchday",
+      "home": "SSC Napoli",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "5. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "5. Matchday",
+      "home": "Como 1907",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "5. Matchday",
+      "home": "Juventus FC",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "5. Matchday",
+      "home": "US Lecce",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "5. Matchday",
+      "home": "AC Milan",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "5. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "5. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "5. Matchday",
+      "home": "US Sassuolo",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-09-29",
+      "round": "5. Matchday",
+      "home": "Genoa CFC",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-09-29",
+      "round": "5. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-10-03",
+      "round": "6. Matchday",
+      "home": "Hellas Verona",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "6. Matchday",
+      "home": "Atalanta BC",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "6. Matchday",
+      "home": "Inter Milan",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "6. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "6. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "6. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "6. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "6. Matchday",
+      "home": "Juventus FC",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "6. Matchday",
+      "home": "SSC Napoli",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "6. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "7. Matchday",
+      "home": "US Lecce",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "7. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "7. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "7. Matchday",
+      "home": "Torino FC",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "7. Matchday",
+      "home": "Atalanta BC",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-10-19",
+      "round": "7. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "7. Matchday",
+      "home": "Como 1907",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "7. Matchday",
+      "home": "Genoa CFC",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "7. Matchday",
+      "home": "AC Milan",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "7. Matchday",
+      "home": "US Cremonese",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-10-24",
+      "round": "8. Matchday",
+      "home": "AC Milan",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "8. Matchday",
+      "home": "US Cremonese",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "8. Matchday",
+      "home": "SSC Napoli",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "8. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "8. Matchday",
+      "home": "Udinese Calcio",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "8. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "8. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "8. Matchday",
+      "home": "US Sassuolo",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "8. Matchday",
+      "home": "Torino FC",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "8. Matchday",
+      "home": "Hellas Verona",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "9. Matchday",
+      "home": "Atalanta BC",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-10-28",
+      "round": "9. Matchday",
+      "home": "US Lecce",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "9. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "9. Matchday",
+      "home": "Como 1907",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "9. Matchday",
+      "home": "Genoa CFC",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "9. Matchday",
+      "home": "Inter Milan",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "9. Matchday",
+      "home": "Juventus FC",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-10-29",
+      "round": "9. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2025-10-30",
+      "round": "9. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-10-30",
+      "round": "9. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-11-01",
+      "round": "10. Matchday",
+      "home": "US Cremonese",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "10. Matchday",
+      "home": "SSC Napoli",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "10. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "10. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "10. Matchday",
+      "home": "AC Milan",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "10. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "10. Matchday",
+      "home": "Torino FC",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "10. Matchday",
+      "home": "Hellas Verona",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "10. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "10. Matchday",
+      "home": "US Sassuolo",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2025-11-07",
+      "round": "11. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "11. Matchday",
+      "home": "Como 1907",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "11. Matchday",
+      "home": "Juventus FC",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "11. Matchday",
+      "home": "US Lecce",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "11. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "11. Matchday",
+      "home": "Atalanta BC",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "11. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "11. Matchday",
+      "home": "Genoa CFC",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "11. Matchday",
+      "home": "Inter Milan",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-11-09",
+      "round": "11. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "12. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "12. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "12. Matchday",
+      "home": "SSC Napoli",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "12. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "12. Matchday",
+      "home": "US Cremonese",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "12. Matchday",
+      "home": "Inter Milan",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "12. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "12. Matchday",
+      "home": "Hellas Verona",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2025-11-24",
+      "round": "12. Matchday",
+      "home": "US Sassuolo",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-11-24",
+      "round": "12. Matchday",
+      "home": "Torino FC",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "13. Matchday",
+      "home": "Como 1907",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "13. Matchday",
+      "home": "Genoa CFC",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "13. Matchday",
+      "home": "Juventus FC",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "13. Matchday",
+      "home": "AC Milan",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-11-29",
+      "round": "13. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "13. Matchday",
+      "home": "Atalanta BC",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "13. Matchday",
+      "home": "US Lecce",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "13. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "13. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-12-01",
+      "round": "13. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "14. Matchday",
+      "home": "Inter Milan",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "14. Matchday",
+      "home": "US Sassuolo",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "14. Matchday",
+      "home": "Hellas Verona",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "14. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "14. Matchday",
+      "home": "US Cremonese",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "14. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "14. Matchday",
+      "home": "SSC Napoli",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-12-08",
+      "round": "14. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2025-12-08",
+      "round": "14. Matchday",
+      "home": "Torino FC",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2025-12-08",
+      "round": "14. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2025-12-12",
+      "round": "15. Matchday",
+      "home": "US Lecce",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "15. Matchday",
+      "home": "Atalanta BC",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "15. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-12-13",
+      "round": "15. Matchday",
+      "home": "Torino FC",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "15. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "15. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "15. Matchday",
+      "home": "Genoa CFC",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "15. Matchday",
+      "home": "AC Milan",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "15. Matchday",
+      "home": "Udinese Calcio",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-12-15",
+      "round": "15. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "16. Matchday",
+      "home": "Juventus FC",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "16. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "16. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "16. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "16. Matchday",
+      "home": "Genoa CFC",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "16. Matchday",
+      "home": "US Sassuolo",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2025-12-27",
+      "round": "17. Matchday",
+      "home": "US Lecce",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2025-12-27",
+      "round": "17. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2025-12-27",
+      "round": "17. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2025-12-27",
+      "round": "17. Matchday",
+      "home": "Torino FC",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2025-12-27",
+      "round": "17. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2025-12-28",
+      "round": "17. Matchday",
+      "home": "Atalanta BC",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2025-12-28",
+      "round": "17. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2025-12-28",
+      "round": "17. Matchday",
+      "home": "US Cremonese",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2025-12-28",
+      "round": "17. Matchday",
+      "home": "AC Milan",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2025-12-29",
+      "round": "17. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-01-02",
+      "round": "18. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "Atalanta BC",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "Como 1907",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "Genoa CFC",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "Juventus FC",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "US Sassuolo",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "Inter Milan",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "Hellas Verona",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-01-06",
+      "round": "19. Matchday",
+      "home": "US Lecce",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-01-06",
+      "round": "19. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-01-06",
+      "round": "19. Matchday",
+      "home": "US Sassuolo",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-01-07",
+      "round": "19. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-01-07",
+      "round": "19. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-01-07",
+      "round": "19. Matchday",
+      "home": "SSC Napoli",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-01-07",
+      "round": "19. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-01-07",
+      "round": "19. Matchday",
+      "home": "Torino FC",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-01-08",
+      "round": "19. Matchday",
+      "home": "US Cremonese",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-01-08",
+      "round": "19. Matchday",
+      "home": "AC Milan",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "20. Matchday",
+      "home": "Atalanta BC",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "20. Matchday",
+      "home": "Como 1907",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "20. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "20. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "20. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "20. Matchday",
+      "home": "Inter Milan",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "20. Matchday",
+      "home": "US Lecce",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "20. Matchday",
+      "home": "Hellas Verona",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-01-12",
+      "round": "20. Matchday",
+      "home": "Genoa CFC",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-01-12",
+      "round": "20. Matchday",
+      "home": "Juventus FC",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "16. Matchday",
+      "home": "Inter Milan",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "16. Matchday",
+      "home": "SSC Napoli",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-01-15",
+      "round": "16. Matchday",
+      "home": "Como 1907",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-01-15",
+      "round": "16. Matchday",
+      "home": "Hellas Verona",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-01-16",
+      "round": "21. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "21. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "21. Matchday",
+      "home": "SSC Napoli",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "21. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "21. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "21. Matchday",
+      "home": "AC Milan",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "21. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "21. Matchday",
+      "home": "Torino FC",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-01-19",
+      "round": "21. Matchday",
+      "home": "US Cremonese",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-01-19",
+      "round": "21. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "22. Matchday",
+      "home": "Inter Milan",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "22. Matchday",
+      "home": "Como 1907",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "22. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "22. Matchday",
+      "home": "US Lecce",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-01-25",
+      "round": "22. Matchday",
+      "home": "Atalanta BC",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "22. Matchday",
+      "home": "Genoa CFC",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "22. Matchday",
+      "home": "Juventus FC",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "22. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "22. Matchday",
+      "home": "US Sassuolo",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "22. Matchday",
+      "home": "Hellas Verona",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-01-30",
+      "round": "23. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "23. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "23. Matchday",
+      "home": "SSC Napoli",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "23. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "23. Matchday",
+      "home": "Como 1907",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "23. Matchday",
+      "home": "US Cremonese",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "23. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "23. Matchday",
+      "home": "Torino FC",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "23. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "23. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-02-06",
+      "round": "24. Matchday",
+      "home": "Hellas Verona",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "24. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "24. Matchday",
+      "home": "Genoa CFC",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "24. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "24. Matchday",
+      "home": "Juventus FC",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-02-08",
+      "round": "24. Matchday",
+      "home": "US Lecce",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "24. Matchday",
+      "home": "US Sassuolo",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "24. Matchday",
+      "home": "Atalanta BC",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "24. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-02-13",
+      "round": "25. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "25. Matchday",
+      "home": "Como 1907",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "25. Matchday",
+      "home": "Inter Milan",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "25. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "US Cremonese",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "SSC Napoli",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "Torino FC",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "25. Matchday",
+      "home": "Udinese Calcio",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-02-16",
+      "round": "25. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-02-18",
+      "round": "24. Matchday",
+      "home": "AC Milan",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "26. Matchday",
+      "home": "US Sassuolo",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "26. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-02-21",
+      "round": "26. Matchday",
+      "home": "Juventus FC",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "26. Matchday",
+      "home": "US Lecce",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "26. Matchday",
+      "home": "Atalanta BC",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "26. Matchday",
+      "home": "Genoa CFC",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "26. Matchday",
+      "home": "AC Milan",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "26. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-02-23",
+      "round": "26. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-02-23",
+      "round": "26. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-02-27",
+      "round": "27. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "27. Matchday",
+      "home": "Como 1907",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "27. Matchday",
+      "home": "Inter Milan",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "27. Matchday",
+      "home": "Hellas Verona",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "27. Matchday",
+      "home": "US Cremonese",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "27. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "27. Matchday",
+      "home": "US Sassuolo",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "27. Matchday",
+      "home": "Torino FC",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-03-02",
+      "round": "27. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-03-02",
+      "round": "27. Matchday",
+      "home": "Udinese Calcio",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-03-06",
+      "round": "28. Matchday",
+      "home": "SSC Napoli",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "28. Matchday",
+      "home": "Atalanta BC",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "28. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "28. Matchday",
+      "home": "Juventus FC",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "28. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "28. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "28. Matchday",
+      "home": "Genoa CFC",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "28. Matchday",
+      "home": "US Lecce",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "28. Matchday",
+      "home": "AC Milan",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-03-09",
+      "round": "28. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-03-13",
+      "round": "29. Matchday",
+      "home": "Torino FC",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "29. Matchday",
+      "home": "Inter Milan",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "29. Matchday",
+      "home": "SSC Napoli",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "29. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "29. Matchday",
+      "home": "Como 1907",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "29. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "29. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "29. Matchday",
+      "home": "US Sassuolo",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "29. Matchday",
+      "home": "Hellas Verona",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "29. Matchday",
+      "home": "US Cremonese",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-03-20",
+      "round": "30. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-03-20",
+      "round": "30. Matchday",
+      "home": "Genoa CFC",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "30. Matchday",
+      "home": "Juventus FC",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "30. Matchday",
+      "home": "AC Milan",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "30. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "30. Matchday",
+      "home": "Atalanta BC",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "30. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-03-22",
+      "round": "30. Matchday",
+      "home": "Como 1907",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "30. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "30. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "31. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "31. Matchday",
+      "home": "US Sassuolo",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "31. Matchday",
+      "home": "Hellas Verona",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "31. Matchday",
+      "home": "US Cremonese",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "31. Matchday",
+      "home": "Inter Milan",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "31. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "31. Matchday",
+      "home": "Juventus FC",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "31. Matchday",
+      "home": "US Lecce",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "31. Matchday",
+      "home": "SSC Napoli",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "31. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-04-10",
+      "round": "32. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "32. Matchday",
+      "home": "Atalanta BC",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "32. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "32. Matchday",
+      "home": "AC Milan",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "32. Matchday",
+      "home": "Torino FC",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "32. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "32. Matchday",
+      "home": "Como 1907",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "32. Matchday",
+      "home": "Genoa CFC",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "32. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "32. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-04-17",
+      "round": "33. Matchday",
+      "home": "Inter Milan",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-04-17",
+      "round": "33. Matchday",
+      "home": "US Sassuolo",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "33. Matchday",
+      "home": "SSC Napoli",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-04-18",
+      "round": "33. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "33. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "33. Matchday",
+      "home": "US Cremonese",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "33. Matchday",
+      "home": "Juventus FC",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "33. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "33. Matchday",
+      "home": "Hellas Verona",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "33. Matchday",
+      "home": "US Lecce",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-04-24",
+      "round": "34. Matchday",
+      "home": "SSC Napoli",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "34. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "34. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "34. Matchday",
+      "home": "Hellas Verona",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "34. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "34. Matchday",
+      "home": "Genoa CFC",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "34. Matchday",
+      "home": "AC Milan",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "34. Matchday",
+      "home": "Torino FC",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "34. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "34. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-05-01",
+      "round": "35. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "35. Matchday",
+      "home": "Atalanta BC",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "35. Matchday",
+      "home": "Como 1907",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "35. Matchday",
+      "home": "Udinese Calcio",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "35. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "35. Matchday",
+      "home": "Inter Milan",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "35. Matchday",
+      "home": "Juventus FC",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "35. Matchday",
+      "home": "US Sassuolo",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-05-04",
+      "round": "35. Matchday",
+      "home": "US Cremonese",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-05-04",
+      "round": "35. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-05-08",
+      "round": "36. Matchday",
+      "home": "Torino FC",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "36. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "36. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "36. Matchday",
+      "home": "US Lecce",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "US Cremonese",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "AC Milan",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "Associazione Sportiva Roma"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "36. Matchday",
+      "home": "Hellas Verona",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-05-11",
+      "round": "36. Matchday",
+      "home": "SSC Napoli",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Atalanta BC",
+      "away": "Bologna Football Club 1909"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Cagliari Calcio",
+      "away": "Torino FC"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Como 1907",
+      "away": "Parma Calcio 1913"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Genoa CFC",
+      "away": "AC Milan"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Inter Milan",
+      "away": "Hellas Verona"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Juventus FC",
+      "away": "ACF Fiorentina"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Pisa Sporting Club",
+      "away": "SSC Napoli"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Associazione Sportiva Roma",
+      "away": "Società Sportiva Lazio S.p.A."
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "US Sassuolo",
+      "away": "US Lecce"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Udinese Calcio",
+      "away": "US Cremonese"
+    },
+    {
+      "date": "2026-05-22",
+      "round": "38. Matchday",
+      "home": "ACF Fiorentina",
+      "away": "Atalanta BC"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Bologna Football Club 1909",
+      "away": "Inter Milan"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Società Sportiva Lazio S.p.A.",
+      "away": "Pisa Sporting Club"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "US Cremonese",
+      "away": "Como 1907"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "US Lecce",
+      "away": "Genoa CFC"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "AC Milan",
+      "away": "Cagliari Calcio"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "SSC Napoli",
+      "away": "Udinese Calcio"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "Parma Calcio 1913",
+      "away": "US Sassuolo"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "Torino FC",
+      "away": "Juventus FC"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "Hellas Verona",
+      "away": "Associazione Sportiva Roma"
+    }
+  ]
+}

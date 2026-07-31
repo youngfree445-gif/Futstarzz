@@ -1,0 +1,1381 @@
+{
+  "competition": {
+    "id": "SC1",
+    "name": "SC1",
+    "league": "Escocesa",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2016
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2016-08-06",
+      "round": "1. Matchday",
+      "home": "Rangers FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-08-06",
+      "round": "1. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-08-06",
+      "round": "1. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-08-06",
+      "round": "1. Matchday",
+      "home": "Ross County FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-08-07",
+      "round": "1. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-08-07",
+      "round": "1. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-08-13",
+      "round": "2. Matchday",
+      "home": "Dundee FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-08-13",
+      "round": "2. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-08-13",
+      "round": "2. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-08-13",
+      "round": "2. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-08-13",
+      "round": "2. Matchday",
+      "home": "Motherwell FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-08-19",
+      "round": "3. Matchday",
+      "home": "Dundee FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-08-20",
+      "round": "3. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-08-20",
+      "round": "3. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-08-20",
+      "round": "3. Matchday",
+      "home": "Rangers FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-08-20",
+      "round": "3. Matchday",
+      "home": "Ross County FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-08-20",
+      "round": "3. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-08-26",
+      "round": "4. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-08-27",
+      "round": "4. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-08-27",
+      "round": "4. Matchday",
+      "home": "Motherwell FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-08-27",
+      "round": "4. Matchday",
+      "home": "Celtic FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-08-27",
+      "round": "4. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-08-27",
+      "round": "4. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-09-10",
+      "round": "5. Matchday",
+      "home": "Celtic FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-09-10",
+      "round": "5. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-09-10",
+      "round": "5. Matchday",
+      "home": "Dundee FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-09-10",
+      "round": "5. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-09-10",
+      "round": "5. Matchday",
+      "home": "Ross County FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-09-10",
+      "round": "5. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-09-17",
+      "round": "6. Matchday",
+      "home": "Motherwell FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-09-17",
+      "round": "6. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-09-17",
+      "round": "6. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-09-17",
+      "round": "6. Matchday",
+      "home": "Rangers FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-09-18",
+      "round": "6. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-09-18",
+      "round": "6. Matchday",
+      "home": "Dundee FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-09-24",
+      "round": "7. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-09-24",
+      "round": "7. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-09-24",
+      "round": "7. Matchday",
+      "home": "Celtic FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-09-24",
+      "round": "7. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-09-25",
+      "round": "7. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-09-25",
+      "round": "7. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-09-30",
+      "round": "8. Matchday",
+      "home": "Motherwell FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-10-01",
+      "round": "8. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-10-01",
+      "round": "8. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-10-01",
+      "round": "8. Matchday",
+      "home": "Dundee FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-10-01",
+      "round": "8. Matchday",
+      "home": "Rangers FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-10-01",
+      "round": "8. Matchday",
+      "home": "Ross County FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-10-14",
+      "round": "9. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-10-15",
+      "round": "9. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-10-15",
+      "round": "9. Matchday",
+      "home": "Celtic FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-10-15",
+      "round": "9. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-10-15",
+      "round": "9. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-10-15",
+      "round": "9. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-10-22",
+      "round": "10. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-10-22",
+      "round": "10. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-10-23",
+      "round": "10. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-10-25",
+      "round": "11. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-10-26",
+      "round": "11. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-10-26",
+      "round": "11. Matchday",
+      "home": "Motherwell FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-10-26",
+      "round": "11. Matchday",
+      "home": "Rangers FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-10-26",
+      "round": "11. Matchday",
+      "home": "Ross County FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-10-26",
+      "round": "11. Matchday",
+      "home": "Dundee FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-10-29",
+      "round": "12. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-10-29",
+      "round": "12. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-10-29",
+      "round": "12. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-10-29",
+      "round": "12. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-10-29",
+      "round": "12. Matchday",
+      "home": "Rangers FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-10-29",
+      "round": "12. Matchday",
+      "home": "Motherwell FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-11-04",
+      "round": "13. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-11-05",
+      "round": "13. Matchday",
+      "home": "Celtic FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-11-05",
+      "round": "13. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-11-05",
+      "round": "13. Matchday",
+      "home": "Dundee FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-11-05",
+      "round": "13. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-11-06",
+      "round": "13. Matchday",
+      "home": "Ross County FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-11-18",
+      "round": "14. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-11-19",
+      "round": "14. Matchday",
+      "home": "Motherwell FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-11-19",
+      "round": "14. Matchday",
+      "home": "Rangers FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-11-19",
+      "round": "14. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-11-19",
+      "round": "14. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-11-21",
+      "round": "14. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-11-26",
+      "round": "15. Matchday",
+      "home": "Dundee FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-11-26",
+      "round": "15. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-11-26",
+      "round": "15. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-11-26",
+      "round": "15. Matchday",
+      "home": "Ross County FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-11-30",
+      "round": "10. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-12-03",
+      "round": "16. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-12-03",
+      "round": "16. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-12-03",
+      "round": "16. Matchday",
+      "home": "Ross County FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-12-03",
+      "round": "16. Matchday",
+      "home": "Motherwell FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-12-03",
+      "round": "16. Matchday",
+      "home": "Rangers FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-12-03",
+      "round": "16. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-12-06",
+      "round": "15. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-12-09",
+      "round": "17. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-12-10",
+      "round": "17. Matchday",
+      "home": "Aberdeen FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-12-10",
+      "round": "17. Matchday",
+      "home": "Dundee FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-12-10",
+      "round": "17. Matchday",
+      "home": "Rangers FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-12-10",
+      "round": "17. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-12-10",
+      "round": "17. Matchday",
+      "home": "Motherwell FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-12-13",
+      "round": "10. Matchday",
+      "home": "Celtic FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-12-16",
+      "round": "18. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-12-17",
+      "round": "18. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-12-17",
+      "round": "18. Matchday",
+      "home": "Ross County FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-12-17",
+      "round": "18. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-12-17",
+      "round": "18. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-12-17",
+      "round": "18. Matchday",
+      "home": "Celtic FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-12-20",
+      "round": "2. Matchday",
+      "home": "Celtic FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-12-23",
+      "round": "19. Matchday",
+      "home": "Motherwell FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-12-23",
+      "round": "19. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-12-23",
+      "round": "19. Matchday",
+      "home": "Dundee FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2016-12-23",
+      "round": "19. Matchday",
+      "home": "Ross County FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2016-12-24",
+      "round": "19. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-12-24",
+      "round": "19. Matchday",
+      "home": "Rangers FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-12-27",
+      "round": "20. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-12-27",
+      "round": "20. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2016-12-28",
+      "round": "20. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2016-12-28",
+      "round": "20. Matchday",
+      "home": "Celtic FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2016-12-28",
+      "round": "20. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2016-12-28",
+      "round": "20. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2016-12-30",
+      "round": "21. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2016-12-31",
+      "round": "21. Matchday",
+      "home": "Rangers FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2016-12-31",
+      "round": "21. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2016-12-31",
+      "round": "21. Matchday",
+      "home": "Dundee FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2016-12-31",
+      "round": "21. Matchday",
+      "home": "Ross County FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2016-12-31",
+      "round": "21. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-01-25",
+      "round": "15. Matchday",
+      "home": "Celtic FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-01-27",
+      "round": "22. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-01-28",
+      "round": "22. Matchday",
+      "home": "Motherwell FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-01-28",
+      "round": "22. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-01-28",
+      "round": "22. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-01-28",
+      "round": "22. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-01-29",
+      "round": "22. Matchday",
+      "home": "Celtic FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-01-31",
+      "round": "23. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-01-31",
+      "round": "23. Matchday",
+      "home": "Ross County FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-02-01",
+      "round": "23. Matchday",
+      "home": "Celtic FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-02-01",
+      "round": "23. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-02-01",
+      "round": "23. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-02-04",
+      "round": "24. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-02-04",
+      "round": "24. Matchday",
+      "home": "Motherwell FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-02-04",
+      "round": "24. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-02-04",
+      "round": "24. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-02-04",
+      "round": "24. Matchday",
+      "home": "Rangers FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-02-05",
+      "round": "24. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-02-11",
+      "round": "23. Matchday",
+      "home": "Dundee FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-02-15",
+      "round": "10. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-02-18",
+      "round": "25. Matchday",
+      "home": "Celtic FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-02-18",
+      "round": "25. Matchday",
+      "home": "Ross County FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-02-18",
+      "round": "25. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-02-18",
+      "round": "25. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-02-19",
+      "round": "25. Matchday",
+      "home": "Dundee FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-02-19",
+      "round": "25. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-02-24",
+      "round": "26. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-02-25",
+      "round": "26. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-02-25",
+      "round": "26. Matchday",
+      "home": "Celtic FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-02-25",
+      "round": "26. Matchday",
+      "home": "Motherwell FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-02-25",
+      "round": "26. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-02-25",
+      "round": "26. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-02-28",
+      "round": "27. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-03-01",
+      "round": "27. Matchday",
+      "home": "Rangers FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-03-01",
+      "round": "27. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-03-01",
+      "round": "27. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-03-01",
+      "round": "27. Matchday",
+      "home": "Dundee FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-03-04",
+      "round": "27. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-03-11",
+      "round": "28. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-03-11",
+      "round": "28. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-03-11",
+      "round": "28. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-03-11",
+      "round": "28. Matchday",
+      "home": "Ross County FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-03-11",
+      "round": "28. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-03-12",
+      "round": "28. Matchday",
+      "home": "Celtic FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-03-18",
+      "round": "29. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-03-18",
+      "round": "29. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-03-18",
+      "round": "29. Matchday",
+      "home": "Motherwell FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-03-18",
+      "round": "29. Matchday",
+      "home": "Rangers FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-03-18",
+      "round": "29. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-03-19",
+      "round": "29. Matchday",
+      "home": "Dundee FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-03-31",
+      "round": "30. Matchday",
+      "home": "Dundee FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-04-01",
+      "round": "30. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-04-01",
+      "round": "30. Matchday",
+      "home": "Rangers FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-04-01",
+      "round": "30. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-04-01",
+      "round": "30. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-04-02",
+      "round": "30. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-04-04",
+      "round": "31. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-04-04",
+      "round": "31. Matchday",
+      "home": "Ross County FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-04-05",
+      "round": "31. Matchday",
+      "home": "Celtic FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-04-05",
+      "round": "31. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-04-05",
+      "round": "31. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-04-05",
+      "round": "31. Matchday",
+      "home": "Motherwell FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-04-08",
+      "round": "32. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-04-08",
+      "round": "32. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-04-08",
+      "round": "32. Matchday",
+      "home": "Celtic FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-04-08",
+      "round": "32. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-04-08",
+      "round": "32. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-04-09",
+      "round": "32. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-04-14",
+      "round": "33. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-04-15",
+      "round": "33. Matchday",
+      "home": "Motherwell FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-04-15",
+      "round": "33. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-04-15",
+      "round": "33. Matchday",
+      "home": "Dundee FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-04-15",
+      "round": "33. Matchday",
+      "home": "Rangers FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-04-16",
+      "round": "33. Matchday",
+      "home": "Ross County FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-04-28",
+      "round": "34. Matchday",
+      "home": "Ross County FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-04-29",
+      "round": "34. Matchday",
+      "home": "Rangers FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-04-29",
+      "round": "34. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-04-29",
+      "round": "34. Matchday",
+      "home": "Motherwell FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-04-29",
+      "round": "34. Matchday",
+      "home": "Aberdeen FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-04-29",
+      "round": "34. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-05-06",
+      "round": "35. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-05-06",
+      "round": "35. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-05-06",
+      "round": "35. Matchday",
+      "home": "Motherwell FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-05-06",
+      "round": "35. Matchday",
+      "home": "Celtic FC",
+      "away": "St. Johnstone FC"
+    },
+    {
+      "date": "2017-05-07",
+      "round": "35. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Rangers FC"
+    },
+    {
+      "date": "2017-05-07",
+      "round": "35. Matchday",
+      "home": "Heart of Midlothian FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-05-12",
+      "round": "36. Matchday",
+      "home": "Aberdeen FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-05-13",
+      "round": "36. Matchday",
+      "home": "Rangers FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-05-13",
+      "round": "36. Matchday",
+      "home": "Dundee FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-05-13",
+      "round": "36. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-05-13",
+      "round": "36. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-05-13",
+      "round": "36. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Partick Thistle FC"
+    },
+    {
+      "date": "2017-05-16",
+      "round": "37. Matchday",
+      "home": "Motherwell FC",
+      "away": "Kilmarnock FC"
+    },
+    {
+      "date": "2017-05-16",
+      "round": "37. Matchday",
+      "home": "Ross County FC",
+      "away": "Hamilton Academical FC"
+    },
+    {
+      "date": "2017-05-17",
+      "round": "37. Matchday",
+      "home": "Dundee FC",
+      "away": "Inverness Caledonian Thistle FC"
+    },
+    {
+      "date": "2017-05-17",
+      "round": "37. Matchday",
+      "home": "Rangers FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-05-17",
+      "round": "37. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-05-18",
+      "round": "37. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Celtic FC"
+    },
+    {
+      "date": "2017-05-20",
+      "round": "38. Matchday",
+      "home": "Hamilton Academical FC",
+      "away": "Dundee FC"
+    },
+    {
+      "date": "2017-05-20",
+      "round": "38. Matchday",
+      "home": "Inverness Caledonian Thistle FC",
+      "away": "Motherwell FC"
+    },
+    {
+      "date": "2017-05-20",
+      "round": "38. Matchday",
+      "home": "Kilmarnock FC",
+      "away": "Ross County FC"
+    },
+    {
+      "date": "2017-05-21",
+      "round": "38. Matchday",
+      "home": "Celtic FC",
+      "away": "Heart of Midlothian FC"
+    },
+    {
+      "date": "2017-05-21",
+      "round": "38. Matchday",
+      "home": "Partick Thistle FC",
+      "away": "Aberdeen FC"
+    },
+    {
+      "date": "2017-05-21",
+      "round": "38. Matchday",
+      "home": "St. Johnstone FC",
+      "away": "Rangers FC"
+    }
+  ]
+}

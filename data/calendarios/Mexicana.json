@@ -1,0 +1,945 @@
+{
+  "competition": {
+    "id": "MEX1",
+    "name": "MEX1",
+    "league": "Mexicana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "Atlas Guadalajara": "Atlas",
+    "CD Cruz Azul": "Cruz Azul",
+    "CF América": "América",
+    "CF Monterrey": "Monterrey",
+    "CF Pachuca": "Pachuca",
+    "Club León FC": "León",
+    "Club Necaxa": "Necaxa",
+    "Deportivo Guadalajara": "Guadalajara",
+    "Deportivo Toluca": "Toluca",
+    "Puebla FC": "Puebla",
+    "Querétaro FC": "Querétaro",
+    "UNAM Pumas": "Pumas U.N.A.M.",
+    "Tigres UANL": "Tigres U.A.N.L."
+  },
+  "matches": [
+    {
+      "date": "2026-01-10",
+      "round": "1. Matchday",
+      "home": "Mazatlán FC",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "1. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "1. Matchday",
+      "home": "Club Tijuana",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "1. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "1. Matchday",
+      "home": "Club León FC",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "1. Matchday",
+      "home": "Santos Laguna",
+      "away": "Club Necaxa"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "1. Matchday",
+      "home": "CF Monterrey",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "1. Matchday",
+      "home": "UNAM Pumas",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-01-12",
+      "round": "1. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-01-13",
+      "round": "2. Matchday",
+      "home": "Puebla FC",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "2. Matchday",
+      "home": "Club Necaxa",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "2. Matchday",
+      "home": "CF Pachuca",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "2. Matchday",
+      "home": "FC Juárez",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "2. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-01-15",
+      "round": "2. Matchday",
+      "home": "Querétaro FC",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-01-15",
+      "round": "2. Matchday",
+      "home": "CF América",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-01-15",
+      "round": "2. Matchday",
+      "home": "Tigres UANL",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-01-15",
+      "round": "2. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "3. Matchday",
+      "home": "Mazatlán FC",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "3. Matchday",
+      "home": "Club Necaxa",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "3. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "3. Matchday",
+      "home": "Tigres UANL",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "3. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "3. Matchday",
+      "home": "Club Tijuana",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "3. Matchday",
+      "home": "UNAM Pumas",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "3. Matchday",
+      "home": "Santos Laguna",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-01-19",
+      "round": "3. Matchday",
+      "home": "CF Pachuca",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "4. Matchday",
+      "home": "Puebla FC",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "4. Matchday",
+      "home": "UNAM Pumas",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "4. Matchday",
+      "home": "FC Juárez",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "4. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "4. Matchday",
+      "home": "CF América",
+      "away": "Club Necaxa"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "4. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "4. Matchday",
+      "home": "Club León FC",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "4. Matchday",
+      "home": "CF Monterrey",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "4. Matchday",
+      "home": "Querétaro FC",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "5. Matchday",
+      "home": "Tigres UANL",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "5. Matchday",
+      "home": "Club Necaxa",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "5. Matchday",
+      "home": "Club Tijuana",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "5. Matchday",
+      "home": "Mazatlán FC",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "5. Matchday",
+      "home": "Querétaro FC",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "5. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "5. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "5. Matchday",
+      "home": "CF Pachuca",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "5. Matchday",
+      "home": "CF América",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "6. Matchday",
+      "home": "Puebla FC",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "6. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "6. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "6. Matchday",
+      "home": "CF Pachuca",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "6. Matchday",
+      "home": "FC Juárez",
+      "away": "Club Necaxa"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "6. Matchday",
+      "home": "CF Monterrey",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "6. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "6. Matchday",
+      "home": "Santos Laguna",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "6. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "7. Matchday",
+      "home": "Tigres UANL",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "7. Matchday",
+      "home": "Puebla FC",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "7. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "7. Matchday",
+      "home": "Club León FC",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "7. Matchday",
+      "home": "Club Necaxa",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "7. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "7. Matchday",
+      "home": "UNAM Pumas",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "7. Matchday",
+      "home": "Club Tijuana",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "8. Matchday",
+      "home": "Mazatlán FC",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "8. Matchday",
+      "home": "Querétaro FC",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "8. Matchday",
+      "home": "Club Tijuana",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "8. Matchday",
+      "home": "FC Juárez",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "8. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "8. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "8. Matchday",
+      "home": "Club León FC",
+      "away": "Club Necaxa"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "8. Matchday",
+      "home": "CF Monterrey",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "8. Matchday",
+      "home": "CF América",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "9. Matchday",
+      "home": "CF Pachuca",
+      "away": "Club Necaxa"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "9. Matchday",
+      "home": "Santos Laguna",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "9. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "9. Matchday",
+      "home": "UNAM Pumas",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "9. Matchday",
+      "home": "CF Monterrey",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "9. Matchday",
+      "home": "Puebla FC",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "9. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "9. Matchday",
+      "home": "CF América",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "10. Matchday",
+      "home": "Mazatlán FC",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "10. Matchday",
+      "home": "Club Necaxa",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "10. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "10. Matchday",
+      "home": "Querétaro FC",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "10. Matchday",
+      "home": "CF Pachuca",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "10. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "10. Matchday",
+      "home": "Tigres UANL",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "10. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-03-09",
+      "round": "10. Matchday",
+      "home": "Club Tijuana",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "11. Matchday",
+      "home": "Puebla FC",
+      "away": "Club Necaxa"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "11. Matchday",
+      "home": "FC Juárez",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "11. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "11. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "Tigres UANL",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "Club León FC",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "UNAM Pumas",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "11. Matchday",
+      "home": "CF América",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-03-19",
+      "round": "9. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Club Necaxa",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Mazatlán FC",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "CF Pachuca",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "CF Monterrey",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "UNAM Pumas",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "Santos Laguna",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-03-23",
+      "round": "12. Matchday",
+      "home": "FC Juárez",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "13. Matchday",
+      "home": "Puebla FC",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "13. Matchday",
+      "home": "Club Necaxa",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "13. Matchday",
+      "home": "Club Tijuana",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "CF Monterrey",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "Club León FC",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "Santos Laguna",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "Querétaro FC",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "13. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-04-08",
+      "round": "7. Matchday",
+      "home": "Querétaro FC",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "14. Matchday",
+      "home": "Puebla FC",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "14. Matchday",
+      "home": "FC Juárez",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Querétaro FC",
+      "away": "Club Necaxa"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Tigres UANL",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "CF Pachuca",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "CF América",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "UNAM Pumas",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "14. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "15. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "15. Matchday",
+      "home": "Mazatlán FC",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "Club Necaxa",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "CF Monterrey",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "Club León FC",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "CF América",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "15. Matchday",
+      "home": "Santos Laguna",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "16. Matchday",
+      "home": "Querétaro FC",
+      "away": "CD Cruz Azul"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "16. Matchday",
+      "home": "UNAM Pumas",
+      "away": "FC Juárez"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "16. Matchday",
+      "home": "Club León FC",
+      "away": "CF América"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "16. Matchday",
+      "home": "CF Monterrey",
+      "away": "Puebla FC"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "16. Matchday",
+      "home": "Atlas Guadalajara",
+      "away": "Tigres UANL"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "16. Matchday",
+      "home": "Atlético de San Luis",
+      "away": "Santos Laguna"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "16. Matchday",
+      "home": "Mazatlán FC",
+      "away": "Deportivo Toluca"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "16. Matchday",
+      "home": "Club Necaxa",
+      "away": "Deportivo Guadalajara"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "16. Matchday",
+      "home": "Club Tijuana",
+      "away": "CF Pachuca"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "17. Matchday",
+      "home": "Puebla FC",
+      "away": "Querétaro FC"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "17. Matchday",
+      "home": "CF Pachuca",
+      "away": "UNAM Pumas"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "17. Matchday",
+      "home": "Tigres UANL",
+      "away": "Mazatlán FC"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "17. Matchday",
+      "home": "Deportivo Guadalajara",
+      "away": "Club Tijuana"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "17. Matchday",
+      "home": "Deportivo Toluca",
+      "away": "Club León FC"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "17. Matchday",
+      "home": "CF América",
+      "away": "Atlas Guadalajara"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "17. Matchday",
+      "home": "FC Juárez",
+      "away": "Atlético de San Luis"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "17. Matchday",
+      "home": "Santos Laguna",
+      "away": "CF Monterrey"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "17. Matchday",
+      "home": "CD Cruz Azul",
+      "away": "Club Necaxa"
+    }
+  ]
+}

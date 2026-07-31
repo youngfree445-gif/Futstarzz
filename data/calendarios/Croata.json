@@ -1,0 +1,1093 @@
+{
+  "competition": {
+    "id": "KR1",
+    "name": "KR1",
+    "league": "Croata",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2025-08-01",
+      "round": "1. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-08-02",
+      "round": "1. Matchday",
+      "home": "NK Osijek",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "1. Matchday",
+      "home": "HNK Rijeka",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-08-03",
+      "round": "1. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-08-04",
+      "round": "1. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-08-08",
+      "round": "2. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "2. Matchday",
+      "home": "NK Istra 1961",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-08-09",
+      "round": "2. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "2. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-08-10",
+      "round": "2. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-08-15",
+      "round": "3. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "3. Matchday",
+      "home": "HNK Rijeka",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "3. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "3. Matchday",
+      "home": "NK Varazdin",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "3. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "4. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "4. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "4. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "4. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "4. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "5. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "5. Matchday",
+      "home": "NK Varazdin",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "5. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "5. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "5. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-09-12",
+      "round": "6. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "6. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "6. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "6. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "6. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "7. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "7. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "7. Matchday",
+      "home": "NK Istra 1961",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "7. Matchday",
+      "home": "HNK Gorica",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-09-22",
+      "round": "7. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-09-26",
+      "round": "8. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "8. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "8. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "8. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "8. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-10-03",
+      "round": "9. Matchday",
+      "home": "NK Istra 1961",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "9. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "9. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "9. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "9. Matchday",
+      "home": "HNK Gorica",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-10-17",
+      "round": "10. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "10. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "10. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "10. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "10. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-10-24",
+      "round": "11. Matchday",
+      "home": "HNK Gorica",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "11. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "11. Matchday",
+      "home": "NK Varazdin",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-10-27",
+      "round": "11. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-10-27",
+      "round": "11. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "12. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "12. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "12. Matchday",
+      "home": "NK Osijek",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "12. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "12. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-11-07",
+      "round": "13. Matchday",
+      "home": "HNK Gorica",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "13. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "13. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "13. Matchday",
+      "home": "NK Istra 1961",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "13. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-11-21",
+      "round": "14. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "14. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "14. Matchday",
+      "home": "HNK Rijeka",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "14. Matchday",
+      "home": "NK Osijek",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "14. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "15. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "15. Matchday",
+      "home": "NK Istra 1961",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "15. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "15. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2025-12-01",
+      "round": "15. Matchday",
+      "home": "HNK Gorica",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-12-05",
+      "round": "16. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "16. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "16. Matchday",
+      "home": "HNK Rijeka",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "16. Matchday",
+      "home": "NK Varazdin",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "16. Matchday",
+      "home": "NK Osijek",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-12-12",
+      "round": "17. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "17. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "17. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "17. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "18. Matchday",
+      "home": "NK Varazdin",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "18. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "18. Matchday",
+      "home": "NK Osijek",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "18. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "18. Matchday",
+      "home": "HNK Rijeka",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-01-20",
+      "round": "17. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "19. Matchday",
+      "home": "HNK Rijeka",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "19. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "19. Matchday",
+      "home": "NK Osijek",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "19. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "19. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-01-30",
+      "round": "20. Matchday",
+      "home": "NK Istra 1961",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "20. Matchday",
+      "home": "HNK Gorica",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "20. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "20. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "20. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-02-06",
+      "round": "21. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "21. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "21. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "21. Matchday",
+      "home": "HNK Rijeka",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "21. Matchday",
+      "home": "NK Varazdin",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-02-13",
+      "round": "22. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "22. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "22. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "22. Matchday",
+      "home": "HNK Gorica",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "22. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "23. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "23. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "23. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "23. Matchday",
+      "home": "NK Varazdin",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "23. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-02-27",
+      "round": "24. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "24. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "24. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "24. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "24. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-03-06",
+      "round": "25. Matchday",
+      "home": "NK Istra 1961",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "25. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "25. Matchday",
+      "home": "HNK Gorica",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "25. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "25. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-03-13",
+      "round": "26. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "26. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "26. Matchday",
+      "home": "NK Osijek",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "26. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "26. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-03-20",
+      "round": "27. Matchday",
+      "home": "NK Istra 1961",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "27. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "27. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "27. Matchday",
+      "home": "HNK Gorica",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "27. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-04-03",
+      "round": "28. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "28. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "28. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-04-07",
+      "round": "28. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-04-07",
+      "round": "28. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "29. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "NK Varazdin",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "29. Matchday",
+      "home": "HNK Rijeka",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "29. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-04-17",
+      "round": "30. Matchday",
+      "home": "NK Osijek",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-04-17",
+      "round": "30. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-04-17",
+      "round": "30. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "30. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "30. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "31. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "31. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "31. Matchday",
+      "home": "NK Istra 1961",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "31. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "31. Matchday",
+      "home": "NK Varazdin",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "32. Matchday",
+      "home": "NK Osijek",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "32. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "32. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "32. Matchday",
+      "home": "HNK Rijeka",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "32. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "33. Matchday",
+      "home": "HNK Gorica",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "33. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "33. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "33. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-05-04",
+      "round": "33. Matchday",
+      "home": "NK Istra 1961",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-05-08",
+      "round": "34. Matchday",
+      "home": "HNK Rijeka",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "34. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "34. Matchday",
+      "home": "NK Varazdin",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "34. Matchday",
+      "home": "NK Osijek",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "34. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "HNK Gorica"
+    },
+    {
+      "date": "2026-05-15",
+      "round": "35. Matchday",
+      "home": "HNK Vukovar 1991",
+      "away": "NK Varazdin"
+    },
+    {
+      "date": "2026-05-16",
+      "round": "35. Matchday",
+      "home": "HNK Gorica",
+      "away": "NK Osijek"
+    },
+    {
+      "date": "2026-05-16",
+      "round": "35. Matchday",
+      "home": "NK Lokomotiva Zagreb",
+      "away": "HNK Hajduk Split"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "35. Matchday",
+      "home": "Slaven Belupo Koprivnica",
+      "away": "GNK Dinamo Zagreb"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "35. Matchday",
+      "home": "NK Istra 1961",
+      "away": "HNK Rijeka"
+    },
+    {
+      "date": "2026-05-22",
+      "round": "36. Matchday",
+      "home": "HNK Hajduk Split",
+      "away": "HNK Vukovar 1991"
+    },
+    {
+      "date": "2026-05-22",
+      "round": "36. Matchday",
+      "home": "NK Osijek",
+      "away": "Slaven Belupo Koprivnica"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "36. Matchday",
+      "home": "GNK Dinamo Zagreb",
+      "away": "NK Lokomotiva Zagreb"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "36. Matchday",
+      "home": "NK Varazdin",
+      "away": "NK Istra 1961"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "36. Matchday",
+      "home": "HNK Rijeka",
+      "away": "HNK Gorica"
+    }
+  ]
+}

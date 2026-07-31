@@ -1,0 +1,2300 @@
+{
+  "competition": {
+    "id": "ES1",
+    "name": "ES1",
+    "league": "Española",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "Athletic Bilbao": "Athletic Club",
+    "Celta de Vigo": "Celta",
+    "Deportivo Alavés": "D. Alavés",
+    "RCD Espanyol Barcelona": "RCD Espanyol",
+    "Real Betis Balompié": "Real Betis",
+    "Real Oviedo": "R. Oviedo"
+  },
+  "matches": [
+    {
+      "date": "2025-08-15",
+      "round": "1. Matchday",
+      "home": "Girona FC",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-08-15",
+      "round": "1. Matchday",
+      "home": "Villarreal CF",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "1. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "1. Matchday",
+      "home": "RCD Mallorca",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-08-16",
+      "round": "1. Matchday",
+      "home": "Valencia CF",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "1. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "1. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-08-17",
+      "round": "1. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-08-18",
+      "round": "1. Matchday",
+      "home": "Elche CF",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-08-19",
+      "round": "1. Matchday",
+      "home": "Real Madrid",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-08-22",
+      "round": "2. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "2. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "2. Matchday",
+      "home": "Levante UD",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-08-23",
+      "round": "2. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "2. Matchday",
+      "home": "Villarreal CF",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "2. Matchday",
+      "home": "CA Osasuna",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "2. Matchday",
+      "home": "Real Oviedo",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-08-24",
+      "round": "2. Matchday",
+      "home": "Real Sociedad",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "2. Matchday",
+      "home": "Sevilla FC",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-08-25",
+      "round": "2. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-08-27",
+      "round": "6. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "3. Matchday",
+      "home": "Valencia CF",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-08-29",
+      "round": "3. Matchday",
+      "home": "Elche CF",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "3. Matchday",
+      "home": "Real Madrid",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "3. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "3. Matchday",
+      "home": "Girona FC",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "3. Matchday",
+      "home": "Real Oviedo",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "3. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "3. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "3. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "3. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-09-12",
+      "round": "4. Matchday",
+      "home": "Sevilla FC",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "4. Matchday",
+      "home": "Real Sociedad",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "4. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "4. Matchday",
+      "home": "Getafe CF",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-09-13",
+      "round": "4. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "4. Matchday",
+      "home": "FC Barcelona",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "4. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "4. Matchday",
+      "home": "CA Osasuna",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "4. Matchday",
+      "home": "Levante UD",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-09-15",
+      "round": "4. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-09-19",
+      "round": "5. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "5. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "5. Matchday",
+      "home": "Girona FC",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "5. Matchday",
+      "home": "Valencia CF",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "5. Matchday",
+      "home": "Real Madrid",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "5. Matchday",
+      "home": "Villarreal CF",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "5. Matchday",
+      "home": "FC Barcelona",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "5. Matchday",
+      "home": "Elche CF",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "5. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "5. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-09-23",
+      "round": "6. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-09-23",
+      "round": "6. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-09-23",
+      "round": "6. Matchday",
+      "home": "Levante UD",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-09-23",
+      "round": "6. Matchday",
+      "home": "Sevilla FC",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "6. Matchday",
+      "home": "Real Sociedad",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "6. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-09-24",
+      "round": "6. Matchday",
+      "home": "Getafe CF",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-09-25",
+      "round": "6. Matchday",
+      "home": "Real Oviedo",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-09-25",
+      "round": "6. Matchday",
+      "home": "CA Osasuna",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-09-26",
+      "round": "7. Matchday",
+      "home": "Girona FC",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "7. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "7. Matchday",
+      "home": "Getafe CF",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "7. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-09-27",
+      "round": "7. Matchday",
+      "home": "Villarreal CF",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "7. Matchday",
+      "home": "FC Barcelona",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "7. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "7. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-09-28",
+      "round": "7. Matchday",
+      "home": "Elche CF",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-09-30",
+      "round": "7. Matchday",
+      "home": "Valencia CF",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-10-03",
+      "round": "8. Matchday",
+      "home": "CA Osasuna",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "8. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "8. Matchday",
+      "home": "Girona FC",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "8. Matchday",
+      "home": "Real Madrid",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2025-10-04",
+      "round": "8. Matchday",
+      "home": "Real Oviedo",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "Sevilla FC",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-10-05",
+      "round": "8. Matchday",
+      "home": "Real Sociedad",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-10-17",
+      "round": "9. Matchday",
+      "home": "Real Oviedo",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "9. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "9. Matchday",
+      "home": "FC Barcelona",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "9. Matchday",
+      "home": "Villarreal CF",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "9. Matchday",
+      "home": "Sevilla FC",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "9. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "9. Matchday",
+      "home": "Getafe CF",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "9. Matchday",
+      "home": "Levante UD",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "9. Matchday",
+      "home": "Elche CF",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-10-20",
+      "round": "9. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-10-24",
+      "round": "10. Matchday",
+      "home": "Real Sociedad",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "10. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "10. Matchday",
+      "home": "Girona FC",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "10. Matchday",
+      "home": "Valencia CF",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "10. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "10. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "10. Matchday",
+      "home": "Real Madrid",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "10. Matchday",
+      "home": "CA Osasuna",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "10. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-10-27",
+      "round": "10. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-10-31",
+      "round": "11. Matchday",
+      "home": "Getafe CF",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "11. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "11. Matchday",
+      "home": "Real Madrid",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "11. Matchday",
+      "home": "Real Sociedad",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-11-01",
+      "round": "11. Matchday",
+      "home": "Villarreal CF",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "11. Matchday",
+      "home": "FC Barcelona",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "11. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "11. Matchday",
+      "home": "Levante UD",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-11-02",
+      "round": "11. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2025-11-03",
+      "round": "11. Matchday",
+      "home": "Real Oviedo",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-11-07",
+      "round": "12. Matchday",
+      "home": "Elche CF",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "12. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "12. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "12. Matchday",
+      "home": "Girona FC",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-11-08",
+      "round": "12. Matchday",
+      "home": "Sevilla FC",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "12. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "12. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "12. Matchday",
+      "home": "Celta de Vigo",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "12. Matchday",
+      "home": "Valencia CF",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-11-09",
+      "round": "12. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-11-21",
+      "round": "13. Matchday",
+      "home": "Valencia CF",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "13. Matchday",
+      "home": "CA Osasuna",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "13. Matchday",
+      "home": "FC Barcelona",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "13. Matchday",
+      "home": "Villarreal CF",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "13. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "13. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "13. Matchday",
+      "home": "Elche CF",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "13. Matchday",
+      "home": "Real Oviedo",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "13. Matchday",
+      "home": "Getafe CF",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-11-24",
+      "round": "13. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "14. Matchday",
+      "home": "Getafe CF",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "14. Matchday",
+      "home": "RCD Mallorca",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "14. Matchday",
+      "home": "FC Barcelona",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "14. Matchday",
+      "home": "Levante UD",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "14. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "14. Matchday",
+      "home": "Girona FC",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "14. Matchday",
+      "home": "Real Sociedad",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "14. Matchday",
+      "home": "Sevilla FC",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "14. Matchday",
+      "home": "Celta de Vigo",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2025-12-01",
+      "round": "14. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-12-02",
+      "round": "19. Matchday",
+      "home": "FC Barcelona",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-12-03",
+      "round": "19. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-12-05",
+      "round": "15. Matchday",
+      "home": "Real Oviedo",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "15. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "15. Matchday",
+      "home": "Villarreal CF",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "15. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-12-06",
+      "round": "15. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "15. Matchday",
+      "home": "Elche CF",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "15. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "15. Matchday",
+      "home": "Real Madrid",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-12-07",
+      "round": "15. Matchday",
+      "home": "Valencia CF",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-12-08",
+      "round": "15. Matchday",
+      "home": "CA Osasuna",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2025-12-12",
+      "round": "16. Matchday",
+      "home": "Real Sociedad",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "16. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "16. Matchday",
+      "home": "Getafe CF",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "16. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2025-12-13",
+      "round": "16. Matchday",
+      "home": "FC Barcelona",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "16. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "16. Matchday",
+      "home": "Sevilla FC",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2025-12-14",
+      "round": "16. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2025-12-15",
+      "round": "16. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "17. Matchday",
+      "home": "Valencia CF",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "17. Matchday",
+      "home": "Real Madrid",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "17. Matchday",
+      "home": "CA Osasuna",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "17. Matchday",
+      "home": "Real Oviedo",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "17. Matchday",
+      "home": "Levante UD",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "17. Matchday",
+      "home": "Girona FC",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "17. Matchday",
+      "home": "Villarreal CF",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "17. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "17. Matchday",
+      "home": "Elche CF",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2025-12-22",
+      "round": "17. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-01-02",
+      "round": "18. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "CA Osasuna",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-01-03",
+      "round": "18. Matchday",
+      "home": "Elche CF",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "Real Sociedad",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "Real Madrid",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "Sevilla FC",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-01-04",
+      "round": "18. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-01-09",
+      "round": "19. Matchday",
+      "home": "Getafe CF",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "19. Matchday",
+      "home": "Villarreal CF",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "19. Matchday",
+      "home": "Real Oviedo",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "19. Matchday",
+      "home": "Valencia CF",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "19. Matchday",
+      "home": "Girona FC",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "19. Matchday",
+      "home": "Levante UD",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "19. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-01-12",
+      "round": "19. Matchday",
+      "home": "Sevilla FC",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-01-16",
+      "round": "20. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "20. Matchday",
+      "home": "CA Osasuna",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "20. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "20. Matchday",
+      "home": "Real Madrid",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-01-17",
+      "round": "20. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "20. Matchday",
+      "home": "Getafe CF",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "20. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "20. Matchday",
+      "home": "Real Sociedad",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-01-18",
+      "round": "20. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-01-19",
+      "round": "20. Matchday",
+      "home": "Elche CF",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "21. Matchday",
+      "home": "Levante UD",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "21. Matchday",
+      "home": "Valencia CF",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "21. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "21. Matchday",
+      "home": "Villarreal CF",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "21. Matchday",
+      "home": "Sevilla FC",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "21. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "21. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "21. Matchday",
+      "home": "FC Barcelona",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "21. Matchday",
+      "home": "Real Sociedad",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "21. Matchday",
+      "home": "Girona FC",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-01-30",
+      "round": "22. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "22. Matchday",
+      "home": "Levante UD",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "22. Matchday",
+      "home": "Elche CF",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "22. Matchday",
+      "home": "Real Oviedo",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "22. Matchday",
+      "home": "CA Osasuna",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "22. Matchday",
+      "home": "Getafe CF",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "22. Matchday",
+      "home": "Real Madrid",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "22. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "22. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "22. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-02-06",
+      "round": "23. Matchday",
+      "home": "Celta de Vigo",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "23. Matchday",
+      "home": "Real Sociedad",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "23. Matchday",
+      "home": "FC Barcelona",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "Sevilla FC",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "Valencia CF",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "23. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "23. Matchday",
+      "home": "Villarreal CF",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-02-13",
+      "round": "24. Matchday",
+      "home": "Elche CF",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "24. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "24. Matchday",
+      "home": "Getafe CF",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "24. Matchday",
+      "home": "Real Madrid",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "24. Matchday",
+      "home": "Sevilla FC",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "24. Matchday",
+      "home": "Real Oviedo",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "24. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "24. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "24. Matchday",
+      "home": "Levante UD",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-02-16",
+      "round": "24. Matchday",
+      "home": "Girona FC",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-02-18",
+      "round": "16. Matchday",
+      "home": "Levante UD",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "25. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "25. Matchday",
+      "home": "CA Osasuna",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "25. Matchday",
+      "home": "Real Sociedad",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "25. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "25. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "25. Matchday",
+      "home": "Getafe CF",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "25. Matchday",
+      "home": "Villarreal CF",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "25. Matchday",
+      "home": "FC Barcelona",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "25. Matchday",
+      "home": "Celta de Vigo",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-02-23",
+      "round": "25. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-02-27",
+      "round": "26. Matchday",
+      "home": "Levante UD",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "26. Matchday",
+      "home": "Real Oviedo",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "26. Matchday",
+      "home": "FC Barcelona",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "26. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "26. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "26. Matchday",
+      "home": "Girona FC",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "26. Matchday",
+      "home": "Valencia CF",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "26. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "26. Matchday",
+      "home": "Elche CF",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-03-02",
+      "round": "26. Matchday",
+      "home": "Real Madrid",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "23. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-03-06",
+      "round": "27. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "27. Matchday",
+      "home": "Levante UD",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "27. Matchday",
+      "home": "CA Osasuna",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "27. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-03-07",
+      "round": "27. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "27. Matchday",
+      "home": "Sevilla FC",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "27. Matchday",
+      "home": "Valencia CF",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "27. Matchday",
+      "home": "Getafe CF",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-03-08",
+      "round": "27. Matchday",
+      "home": "Villarreal CF",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-03-09",
+      "round": "27. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-03-13",
+      "round": "28. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "28. Matchday",
+      "home": "Real Madrid",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "28. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "28. Matchday",
+      "home": "Real Oviedo",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "28. Matchday",
+      "home": "Girona FC",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "28. Matchday",
+      "home": "RCD Mallorca",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "28. Matchday",
+      "home": "Real Sociedad",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "28. Matchday",
+      "home": "FC Barcelona",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "28. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "28. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-03-20",
+      "round": "29. Matchday",
+      "home": "Villarreal CF",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "29. Matchday",
+      "home": "CA Osasuna",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "29. Matchday",
+      "home": "Elche CF",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "29. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "29. Matchday",
+      "home": "Levante UD",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "29. Matchday",
+      "home": "Sevilla FC",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "29. Matchday",
+      "home": "Real Madrid",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "29. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "29. Matchday",
+      "home": "FC Barcelona",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "29. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-04-03",
+      "round": "30. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "30. Matchday",
+      "home": "Real Sociedad",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "30. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "30. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "30. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "30. Matchday",
+      "home": "Valencia CF",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "30. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "30. Matchday",
+      "home": "Real Oviedo",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "30. Matchday",
+      "home": "Getafe CF",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "30. Matchday",
+      "home": "Girona FC",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-04-10",
+      "round": "31. Matchday",
+      "home": "Real Madrid",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "31. Matchday",
+      "home": "FC Barcelona",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "31. Matchday",
+      "home": "Elche CF",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "31. Matchday",
+      "home": "Real Sociedad",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "31. Matchday",
+      "home": "Sevilla FC",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "31. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "31. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "31. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "31. Matchday",
+      "home": "CA Osasuna",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "31. Matchday",
+      "home": "Levante UD",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "33. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "33. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "33. Matchday",
+      "home": "Real Madrid",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "33. Matchday",
+      "home": "Girona FC",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "33. Matchday",
+      "home": "Real Sociedad",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "33. Matchday",
+      "home": "FC Barcelona",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "33. Matchday",
+      "home": "Elche CF",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "33. Matchday",
+      "home": "Levante UD",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "33. Matchday",
+      "home": "Real Oviedo",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "33. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-04-24",
+      "round": "32. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "32. Matchday",
+      "home": "Valencia CF",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "32. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "32. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "32. Matchday",
+      "home": "Getafe CF",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "32. Matchday",
+      "home": "CA Osasuna",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "32. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "32. Matchday",
+      "home": "Villarreal CF",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "32. Matchday",
+      "home": "Real Oviedo",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "32. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-05-01",
+      "round": "34. Matchday",
+      "home": "Girona FC",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "34. Matchday",
+      "home": "Villarreal CF",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "34. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "34. Matchday",
+      "home": "Valencia CF",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "34. Matchday",
+      "home": "CA Osasuna",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "34. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "34. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "34. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "34. Matchday",
+      "home": "Getafe CF",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-05-04",
+      "round": "34. Matchday",
+      "home": "Sevilla FC",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-05-08",
+      "round": "35. Matchday",
+      "home": "Levante UD",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "35. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "35. Matchday",
+      "home": "Elche CF",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "35. Matchday",
+      "home": "Real Sociedad",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-05-09",
+      "round": "35. Matchday",
+      "home": "Sevilla FC",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "35. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "35. Matchday",
+      "home": "FC Barcelona",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "35. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-05-10",
+      "round": "35. Matchday",
+      "home": "Real Oviedo",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-05-11",
+      "round": "35. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-05-12",
+      "round": "36. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-05-12",
+      "round": "36. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-05-12",
+      "round": "36. Matchday",
+      "home": "CA Osasuna",
+      "away": "Atlético de Madrid"
+    },
+    {
+      "date": "2026-05-13",
+      "round": "36. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-05-13",
+      "round": "36. Matchday",
+      "home": "Getafe CF",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-05-13",
+      "round": "36. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-05-13",
+      "round": "36. Matchday",
+      "home": "Villarreal CF",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-05-14",
+      "round": "36. Matchday",
+      "home": "Girona FC",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-05-14",
+      "round": "36. Matchday",
+      "home": "Valencia CF",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-05-14",
+      "round": "36. Matchday",
+      "home": "Real Madrid",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Athletic Bilbao",
+      "away": "Celta de Vigo"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Atlético de Madrid",
+      "away": "Girona FC"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "FC Barcelona",
+      "away": "Real Betis Balompié"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Elche CF",
+      "away": "Getafe CF"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Levante UD",
+      "away": "RCD Mallorca"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Rayo Vallecano",
+      "away": "Villarreal CF"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Real Sociedad",
+      "away": "Valencia CF"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Real Oviedo",
+      "away": "Deportivo Alavés"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "CA Osasuna",
+      "away": "RCD Espanyol Barcelona"
+    },
+    {
+      "date": "2026-05-17",
+      "round": "37. Matchday",
+      "home": "Sevilla FC",
+      "away": "Real Madrid"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Deportivo Alavés",
+      "away": "Rayo Vallecano"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Real Betis Balompié",
+      "away": "Levante UD"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Celta de Vigo",
+      "away": "Sevilla FC"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "RCD Espanyol Barcelona",
+      "away": "Real Sociedad"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Getafe CF",
+      "away": "CA Osasuna"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "RCD Mallorca",
+      "away": "Real Oviedo"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Real Madrid",
+      "away": "Athletic Bilbao"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Valencia CF",
+      "away": "FC Barcelona"
+    },
+    {
+      "date": "2026-05-23",
+      "round": "38. Matchday",
+      "home": "Girona FC",
+      "away": "Elche CF"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "38. Matchday",
+      "home": "Villarreal CF",
+      "away": "Atlético de Madrid"
+    }
+  ]
+}

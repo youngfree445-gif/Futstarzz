@@ -1,0 +1,1475 @@
+{
+  "competition": {
+    "id": "ARG1",
+    "name": "ARG1",
+    "league": "Argentina",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "Asociación Atlética Argentinos Juniors": "Argentinos Juniors",
+    "Club Atlético Aldosivi": "Aldosivi",
+    "Club Atlético Banfield": "Banfield",
+    "Club Atlético Barracas Central": "Barracas Central",
+    "Club Atlético Belgrano": "Belgrano de Córdoba",
+    "Club Atlético Boca Juniors": "Boca Juniors",
+    "Club Atlético Central Córdoba": "Central Córdoba",
+    "Club Atlético Huracán": "Huracán",
+    "Club Atlético Independiente de Avellaneda": "Independiente",
+    "Club Atlético Lanús": "Lanús",
+    "Club Atlético Platense": "Platense",
+    "Club Atlético River Plate": "River Plate",
+    "Club Atlético Rosario Central": "Rosario Central",
+    "Club Atlético San Lorenzo de Almagro": "San Lorenzo de Almagro",
+    "Club Atlético Sarmiento": "Sarmiento",
+    "Club Atlético Tigre": "Tigre",
+    "Club Atlético Tucumán": "Atlético Tucumán",
+    "Club Atlético Unión": "Unión de Santa Fe",
+    "Club Atlético Vélez Sársfield": "Vélez Sarsfield",
+    "Club Estudiantes de La Plata": "Estudiantes de La Plata",
+    "Club de Gimnasia y Esgrima La Plata": "Gimnasia y Esgrima La Plata"
+  },
+  "matches": [
+    {
+      "date": "2026-01-22",
+      "round": "1. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-01-22",
+      "round": "1. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-01-22",
+      "round": "1. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "1. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "1. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "1. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-01-23",
+      "round": "1. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "1. Matchday",
+      "home": "Club Atlético Talleres",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "1. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "1. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-01-24",
+      "round": "1. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "1. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-01-25",
+      "round": "1. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "1. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "1. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-01-26",
+      "round": "2. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Instituto Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-01-27",
+      "round": "2. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-01-27",
+      "round": "2. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-01-27",
+      "round": "2. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Club Sportivo Independiente Rivadavia"
+    },
+    {
+      "date": "2026-01-28",
+      "round": "2. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-01-28",
+      "round": "2. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-01-28",
+      "round": "2. Matchday",
+      "home": "Racing Club Asociación Civil de Avellaneda",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-01-28",
+      "round": "2. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-01-28",
+      "round": "2. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-01-29",
+      "round": "2. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-01-29",
+      "round": "2. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-01-29",
+      "round": "2. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-01-29",
+      "round": "2. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-01-30",
+      "round": "2. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-01-30",
+      "round": "2. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Asociación Atlética Argentinos Juniors"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "3. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-01-31",
+      "round": "3. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "3. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "3. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "3. Matchday",
+      "home": "Club Atlético Talleres",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-02-01",
+      "round": "3. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "3. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "3. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "3. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-02-02",
+      "round": "3. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "3. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "3. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "3. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "3. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "3. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "4. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "4. Matchday",
+      "home": "Racing Club Asociación Civil de Avellaneda",
+      "away": "Asociación Atlética Argentinos Juniors"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "4. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-02-07",
+      "round": "4. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "4. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "4. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "4. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "4. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-02-08",
+      "round": "4. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "4. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Instituto Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "4. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "4. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "4. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-02-09",
+      "round": "4. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-02-10",
+      "round": "4. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Club Sportivo Independiente Rivadavia"
+    },
+    {
+      "date": "2026-02-12",
+      "round": "5. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-02-13",
+      "round": "5. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-02-13",
+      "round": "5. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "5. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "5. Matchday",
+      "home": "Club Atlético Talleres",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "5. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "5. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-02-14",
+      "round": "5. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "5. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "5. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "5. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-02-15",
+      "round": "5. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-02-16",
+      "round": "5. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-02-16",
+      "round": "5. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-02-16",
+      "round": "5. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "6. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "6. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "6. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-02-20",
+      "round": "6. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "6. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "6. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "6. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "6. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "6. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-02-21",
+      "round": "6. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "6. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "6. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-02-22",
+      "round": "6. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-02-23",
+      "round": "6. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-02-24",
+      "round": "7. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Instituto Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-02-24",
+      "round": "7. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-02-24",
+      "round": "7. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-02-25",
+      "round": "7. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-02-25",
+      "round": "7. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-02-25",
+      "round": "7. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-02-25",
+      "round": "7. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-02-25",
+      "round": "7. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-02-25",
+      "round": "7. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-02-26",
+      "round": "7. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-02-26",
+      "round": "7. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-02-26",
+      "round": "7. Matchday",
+      "home": "Racing Club Asociación Civil de Avellaneda",
+      "away": "Club Sportivo Independiente Rivadavia"
+    },
+    {
+      "date": "2026-02-26",
+      "round": "7. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-02-27",
+      "round": "8. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-02-28",
+      "round": "8. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "8. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "8. Matchday",
+      "home": "Club Atlético Talleres",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "8. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-03-01",
+      "round": "8. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-03-02",
+      "round": "8. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-03-02",
+      "round": "8. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-03-02",
+      "round": "8. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-03-02",
+      "round": "8. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "8. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "8. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "8. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "8. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "8. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "7. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-03-10",
+      "round": "10. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-03-10",
+      "round": "10. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-03-11",
+      "round": "10. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-03-11",
+      "round": "10. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-03-11",
+      "round": "10. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-03-11",
+      "round": "10. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-03-11",
+      "round": "10. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-03-12",
+      "round": "10. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-03-12",
+      "round": "10. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-03-12",
+      "round": "10. Matchday",
+      "home": "Club Atlético Talleres",
+      "away": "Instituto Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-03-12",
+      "round": "10. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-03-12",
+      "round": "10. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-03-12",
+      "round": "10. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-03-13",
+      "round": "10. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "10. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-03-14",
+      "round": "11. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Club Sportivo Independiente Rivadavia"
+    },
+    {
+      "date": "2026-03-15",
+      "round": "11. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "11. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "11. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "11. Matchday",
+      "home": "Racing Club Asociación Civil de Avellaneda",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "11. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "11. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-03-16",
+      "round": "11. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Asociación Atlética Argentinos Juniors"
+    },
+    {
+      "date": "2026-03-17",
+      "round": "11. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-03-17",
+      "round": "11. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-03-18",
+      "round": "11. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-03-18",
+      "round": "11. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-03-21",
+      "round": "12. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Instituto Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-03-22",
+      "round": "12. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-03-23",
+      "round": "12. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-03-23",
+      "round": "12. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-03-23",
+      "round": "12. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-03-24",
+      "round": "12. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-03-25",
+      "round": "12. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-03-27",
+      "round": "6. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-03-31",
+      "round": "7. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Asociación Atlética Argentinos Juniors"
+    },
+    {
+      "date": "2026-04-02",
+      "round": "13. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-04-02",
+      "round": "13. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-04-02",
+      "round": "13. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Club Sportivo Independiente Rivadavia"
+    },
+    {
+      "date": "2026-04-03",
+      "round": "13. Matchday",
+      "home": "Club Atlético Talleres",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-04-03",
+      "round": "13. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-04-03",
+      "round": "13. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-04-03",
+      "round": "13. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "13. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-04-04",
+      "round": "13. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-04-05",
+      "round": "13. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "13. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-04-06",
+      "round": "13. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-04-07",
+      "round": "13. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "14. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Asociación Atlética Argentinos Juniors"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "14. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "14. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "14. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Instituto Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-04-11",
+      "round": "14. Matchday",
+      "home": "Club Atlético Boca Juniors",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-04-12",
+      "round": "14. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "14. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "14. Matchday",
+      "home": "Racing Club Asociación Civil de Avellaneda",
+      "away": "Club Atlético River Plate"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "14. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-04-13",
+      "round": "14. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-04-14",
+      "round": "14. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "15. Matchday",
+      "home": "Club Atlético Independiente de Avellaneda",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "15. Matchday",
+      "home": "Instituto Atlético Central Córdoba",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "15. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-04-18",
+      "round": "15. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Asociación Atlética Estudiantes"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Racing Club Asociación Civil de Avellaneda"
+    },
+    {
+      "date": "2026-04-19",
+      "round": "15. Matchday",
+      "home": "Asociación Atlética Argentinos Juniors",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "15. Matchday",
+      "home": "Club Atlético Talleres",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "15. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Club Atlético Vélez Sársfield"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "15. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Club Atlético Platense"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "15. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Club Atlético Belgrano"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "15. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-04-20",
+      "round": "15. Matchday",
+      "home": "Club Atlético Banfield",
+      "away": "Club Sportivo Independiente Rivadavia"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "15. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Club Atlético Lanús"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "15. Matchday",
+      "home": "Club Atlético Tigre",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-04-24",
+      "round": "16. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Club Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-04-24",
+      "round": "16. Matchday",
+      "home": "Asociación de Fomento Deportivo Riestra Barrio Colón",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-04-24",
+      "round": "16. Matchday",
+      "home": "Club Social y Deportivo Defensa y Justicia",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-04-24",
+      "round": "16. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Club Atlético Rosario Central"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "16. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Club Atlético San Lorenzo de Almagro"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "16. Matchday",
+      "home": "Club Estudiantes de La Plata",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "16. Matchday",
+      "home": "Club Atlético Sarmiento",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-04-25",
+      "round": "16. Matchday",
+      "home": "Racing Club Asociación Civil de Avellaneda",
+      "away": "Club Atlético Barracas Central"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "16. Matchday",
+      "home": "Club Sportivo Independiente Rivadavia",
+      "away": "Club Atlético Gimnasia y Esgrima de Mendoza"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "16. Matchday",
+      "home": "Club Atlético Newell’s Old Boys",
+      "away": "Instituto Atlético Central Córdoba"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "16. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Club de Gimnasia y Esgrima La Plata"
+    },
+    {
+      "date": "2026-04-26",
+      "round": "16. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club Atlético Aldosivi"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "16. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Club Atlético Unión"
+    },
+    {
+      "date": "2026-04-27",
+      "round": "16. Matchday",
+      "home": "Club Atlético Tucumán",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-04-28",
+      "round": "16. Matchday",
+      "home": "Club Atlético Huracán",
+      "away": "Asociación Atlética Argentinos Juniors"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "9. Matchday",
+      "home": "Club Atlético Unión",
+      "away": "Club Atlético Talleres"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "9. Matchday",
+      "home": "Club Atlético San Lorenzo de Almagro",
+      "away": "Club Atlético Independiente de Avellaneda"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "9. Matchday",
+      "home": "Club Atlético Central Córdoba",
+      "away": "Club Atlético Boca Juniors"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "9. Matchday",
+      "home": "Club Atlético Lanús",
+      "away": "Asociación de Fomento Deportivo Riestra Barrio Colón"
+    },
+    {
+      "date": "2026-05-02",
+      "round": "9. Matchday",
+      "home": "Club Atlético Barracas Central",
+      "away": "Club Atlético Banfield"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "9. Matchday",
+      "home": "Club Atlético Platense",
+      "away": "Club Estudiantes de La Plata"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "9. Matchday",
+      "home": "Club Atlético Belgrano",
+      "away": "Club Atlético Sarmiento"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "9. Matchday",
+      "home": "Racing Club Asociación Civil de Avellaneda",
+      "away": "Club Atlético Huracán"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "9. Matchday",
+      "home": "Club Atlético River Plate",
+      "away": "Club Atlético Tucumán"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "9. Matchday",
+      "home": "Club Atlético Aldosivi",
+      "away": "Club Sportivo Independiente Rivadavia"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "9. Matchday",
+      "home": "Club de Gimnasia y Esgrima La Plata",
+      "away": "Asociación Atlética Argentinos Juniors"
+    },
+    {
+      "date": "2026-05-03",
+      "round": "9. Matchday",
+      "home": "Club Atlético Rosario Central",
+      "away": "Club Atlético Tigre"
+    },
+    {
+      "date": "2026-05-04",
+      "round": "9. Matchday",
+      "home": "Club Atlético Gimnasia y Esgrima de Mendoza",
+      "away": "Club Social y Deportivo Defensa y Justicia"
+    },
+    {
+      "date": "2026-05-04",
+      "round": "9. Matchday",
+      "home": "Club Atlético Vélez Sársfield",
+      "away": "Club Atlético Newell’s Old Boys"
+    },
+    {
+      "date": "2026-05-05",
+      "round": "9. Matchday",
+      "home": "Asociación Atlética Estudiantes",
+      "away": "Instituto Atlético Central Córdoba"
+    }
+  ]
+}

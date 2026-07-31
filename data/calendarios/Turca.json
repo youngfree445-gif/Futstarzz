@@ -1,0 +1,2296 @@
+{
+  "competition": {
+    "id": "TR1",
+    "name": "TR1",
+    "league": "Turca",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2023
+  },
+  "aliases": {
+    "Fenerbahce": "Fenerbahçe SK",
+    "Galatasaray": "Galatasaray SK"
+  },
+  "matches": [
+    {
+      "date": "2023-08-11",
+      "round": "1. Matchday",
+      "home": "Trabzonspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-08-12",
+      "round": "1. Matchday",
+      "home": "Kayserispor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-08-12",
+      "round": "1. Matchday",
+      "home": "Pendikspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-08-12",
+      "round": "1. Matchday",
+      "home": "Kasimpasa",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-08-12",
+      "round": "1. Matchday",
+      "home": "Konyaspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-08-13",
+      "round": "1. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-08-13",
+      "round": "1. Matchday",
+      "home": "Fenerbahce",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-08-13",
+      "round": "1. Matchday",
+      "home": "Sivasspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-08-14",
+      "round": "1. Matchday",
+      "home": "Alanyaspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-08-14",
+      "round": "1. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-08-18",
+      "round": "2. Matchday",
+      "home": "Istanbulspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-08-18",
+      "round": "2. Matchday",
+      "home": "Antalyaspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-08-19",
+      "round": "2. Matchday",
+      "home": "Hatayspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-08-19",
+      "round": "2. Matchday",
+      "home": "Galatasaray",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-08-19",
+      "round": "2. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-08-20",
+      "round": "2. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-08-20",
+      "round": "2. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-08-20",
+      "round": "2. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-08-21",
+      "round": "2. Matchday",
+      "home": "Samsunspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-08-21",
+      "round": "2. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-08-25",
+      "round": "3. Matchday",
+      "home": "Konyaspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-08-26",
+      "round": "3. Matchday",
+      "home": "Kasimpasa",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-08-26",
+      "round": "3. Matchday",
+      "home": "Trabzonspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-08-26",
+      "round": "3. Matchday",
+      "home": "Sivasspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-08-27",
+      "round": "3. Matchday",
+      "home": "Kayserispor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-08-27",
+      "round": "3. Matchday",
+      "home": "Alanyaspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-08-27",
+      "round": "3. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-09-01",
+      "round": "4. Matchday",
+      "home": "Kasimpasa",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-09-01",
+      "round": "4. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-09-02",
+      "round": "4. Matchday",
+      "home": "Pendikspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-09-02",
+      "round": "4. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-09-02",
+      "round": "4. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-09-02",
+      "round": "4. Matchday",
+      "home": "Antalyaspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-09-03",
+      "round": "4. Matchday",
+      "home": "Hatayspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-09-03",
+      "round": "4. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-09-03",
+      "round": "4. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-09-16",
+      "round": "5. Matchday",
+      "home": "Kayserispor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-09-16",
+      "round": "5. Matchday",
+      "home": "Galatasaray",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-09-16",
+      "round": "5. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-09-16",
+      "round": "5. Matchday",
+      "home": "Konyaspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-09-17",
+      "round": "5. Matchday",
+      "home": "Istanbulspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-09-17",
+      "round": "5. Matchday",
+      "home": "Alanyaspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-09-17",
+      "round": "5. Matchday",
+      "home": "Trabzonspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-09-17",
+      "round": "5. Matchday",
+      "home": "Fenerbahce",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-09-18",
+      "round": "5. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-09-18",
+      "round": "5. Matchday",
+      "home": "Sivasspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-09-22",
+      "round": "6. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-09-23",
+      "round": "6. Matchday",
+      "home": "Pendikspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-09-23",
+      "round": "6. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-09-23",
+      "round": "6. Matchday",
+      "home": "Antalyaspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-09-23",
+      "round": "6. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-09-24",
+      "round": "6. Matchday",
+      "home": "Kasimpasa",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-09-24",
+      "round": "6. Matchday",
+      "home": "Alanyaspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-09-24",
+      "round": "6. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-09-24",
+      "round": "6. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-09-25",
+      "round": "6. Matchday",
+      "home": "Hatayspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-09-26",
+      "round": "3. Matchday",
+      "home": "Istanbulspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-09-27",
+      "round": "3. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-09-28",
+      "round": "3. Matchday",
+      "home": "Fenerbahce",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-09-29",
+      "round": "7. Matchday",
+      "home": "Samsunspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-09-30",
+      "round": "7. Matchday",
+      "home": "Istanbulspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-09-30",
+      "round": "7. Matchday",
+      "home": "Galatasaray",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-09-30",
+      "round": "7. Matchday",
+      "home": "Trabzonspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-09-30",
+      "round": "7. Matchday",
+      "home": "Sivasspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-10-01",
+      "round": "7. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-10-01",
+      "round": "7. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-10-01",
+      "round": "7. Matchday",
+      "home": "Fenerbahce",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-10-01",
+      "round": "7. Matchday",
+      "home": "Konyaspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-10-02",
+      "round": "7. Matchday",
+      "home": "Kayserispor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-10-06",
+      "round": "8. Matchday",
+      "home": "Alanyaspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-10-06",
+      "round": "8. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-10-07",
+      "round": "8. Matchday",
+      "home": "Pendikspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-10-07",
+      "round": "8. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-10-07",
+      "round": "8. Matchday",
+      "home": "Antalyaspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-10-07",
+      "round": "8. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-10-08",
+      "round": "8. Matchday",
+      "home": "Hatayspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-10-08",
+      "round": "8. Matchday",
+      "home": "Kasimpasa",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-10-08",
+      "round": "8. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-10-08",
+      "round": "8. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-10-21",
+      "round": "9. Matchday",
+      "home": "Kayserispor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-10-21",
+      "round": "9. Matchday",
+      "home": "Galatasaray",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-10-21",
+      "round": "9. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-10-21",
+      "round": "9. Matchday",
+      "home": "Konyaspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-10-22",
+      "round": "9. Matchday",
+      "home": "Istanbulspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-10-22",
+      "round": "9. Matchday",
+      "home": "Samsunspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-10-22",
+      "round": "9. Matchday",
+      "home": "Fenerbahce",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-10-22",
+      "round": "9. Matchday",
+      "home": "Sivasspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-10-23",
+      "round": "9. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-10-23",
+      "round": "9. Matchday",
+      "home": "Trabzonspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-10-27",
+      "round": "10. Matchday",
+      "home": "Hatayspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-10-27",
+      "round": "10. Matchday",
+      "home": "Kasimpasa",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-10-28",
+      "round": "10. Matchday",
+      "home": "Alanyaspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-10-28",
+      "round": "10. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-10-28",
+      "round": "10. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-10-29",
+      "round": "10. Matchday",
+      "home": "Pendikspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-10-29",
+      "round": "10. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-10-29",
+      "round": "10. Matchday",
+      "home": "Antalyaspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-10-29",
+      "round": "10. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-10-30",
+      "round": "10. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-11-03",
+      "round": "11. Matchday",
+      "home": "Galatasaray",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-11-04",
+      "round": "11. Matchday",
+      "home": "Istanbulspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-11-04",
+      "round": "11. Matchday",
+      "home": "Samsunspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-11-04",
+      "round": "11. Matchday",
+      "home": "Fenerbahce",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-11-05",
+      "round": "11. Matchday",
+      "home": "Basaksehir FK",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-11-05",
+      "round": "11. Matchday",
+      "home": "Antalyaspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-11-05",
+      "round": "11. Matchday",
+      "home": "Sivasspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-11-05",
+      "round": "11. Matchday",
+      "home": "Konyaspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-11-06",
+      "round": "11. Matchday",
+      "home": "Kayserispor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-11-06",
+      "round": "11. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-11-08",
+      "round": "4. Matchday",
+      "home": "Samsunspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-11-10",
+      "round": "12. Matchday",
+      "home": "Trabzonspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-11-10",
+      "round": "12. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-11-11",
+      "round": "12. Matchday",
+      "home": "Hatayspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-11-11",
+      "round": "12. Matchday",
+      "home": "Kasimpasa",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-11-11",
+      "round": "12. Matchday",
+      "home": "Alanyaspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-11-11",
+      "round": "12. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-11-12",
+      "round": "12. Matchday",
+      "home": "Pendikspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-11-12",
+      "round": "12. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-11-12",
+      "round": "12. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-11-12",
+      "round": "12. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-11-25",
+      "round": "13. Matchday",
+      "home": "Istanbulspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-11-25",
+      "round": "13. Matchday",
+      "home": "Galatasaray",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-11-25",
+      "round": "13. Matchday",
+      "home": "Gaziantep FK",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-11-25",
+      "round": "13. Matchday",
+      "home": "Konyaspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-11-26",
+      "round": "13. Matchday",
+      "home": "Kayserispor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-11-26",
+      "round": "13. Matchday",
+      "home": "Samsunspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-11-26",
+      "round": "13. Matchday",
+      "home": "Antalyaspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-11-26",
+      "round": "13. Matchday",
+      "home": "Fenerbahce",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-11-27",
+      "round": "13. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-11-27",
+      "round": "13. Matchday",
+      "home": "Sivasspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-12-01",
+      "round": "14. Matchday",
+      "home": "Hatayspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-12-01",
+      "round": "14. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-12-02",
+      "round": "14. Matchday",
+      "home": "Pendikspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-12-02",
+      "round": "14. Matchday",
+      "home": "Alanyaspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-12-02",
+      "round": "14. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2023-12-02",
+      "round": "14. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-12-03",
+      "round": "14. Matchday",
+      "home": "Kasimpasa",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-12-03",
+      "round": "14. Matchday",
+      "home": "Trabzonspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-12-03",
+      "round": "14. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-12-04",
+      "round": "14. Matchday",
+      "home": "Fenerbahce",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-12-08",
+      "round": "15. Matchday",
+      "home": "Galatasaray",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-12-09",
+      "round": "15. Matchday",
+      "home": "Samsunspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-12-09",
+      "round": "15. Matchday",
+      "home": "Antalyaspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-12-09",
+      "round": "15. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-12-10",
+      "round": "15. Matchday",
+      "home": "Kayserispor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-12-10",
+      "round": "15. Matchday",
+      "home": "Istanbulspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-12-10",
+      "round": "15. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-12-10",
+      "round": "15. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-12-11",
+      "round": "15. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-12-11",
+      "round": "15. Matchday",
+      "home": "Konyaspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-12-19",
+      "round": "17. Matchday",
+      "home": "Istanbulspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2023-12-19",
+      "round": "17. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2023-12-19",
+      "round": "17. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2023-12-20",
+      "round": "17. Matchday",
+      "home": "Kayserispor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2023-12-20",
+      "round": "17. Matchday",
+      "home": "Galatasaray",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2023-12-20",
+      "round": "17. Matchday",
+      "home": "Antalyaspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2023-12-21",
+      "round": "17. Matchday",
+      "home": "Samsunspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2023-12-21",
+      "round": "17. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2023-12-21",
+      "round": "17. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2023-12-21",
+      "round": "17. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2023-12-23",
+      "round": "18. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2023-12-23",
+      "round": "18. Matchday",
+      "home": "Trabzonspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2023-12-23",
+      "round": "18. Matchday",
+      "home": "Sivasspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2023-12-24",
+      "round": "18. Matchday",
+      "home": "Fenerbahce",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2023-12-24",
+      "round": "18. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2023-12-24",
+      "round": "18. Matchday",
+      "home": "Konyaspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2023-12-25",
+      "round": "18. Matchday",
+      "home": "Hatayspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2023-12-25",
+      "round": "18. Matchday",
+      "home": "Pendikspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2023-12-25",
+      "round": "18. Matchday",
+      "home": "Kasimpasa",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2023-12-25",
+      "round": "18. Matchday",
+      "home": "Alanyaspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-01-05",
+      "round": "19. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-01-05",
+      "round": "19. Matchday",
+      "home": "Antalyaspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-01-05",
+      "round": "19. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-01-06",
+      "round": "19. Matchday",
+      "home": "Samsunspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-01-06",
+      "round": "19. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-01-06",
+      "round": "19. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-01-06",
+      "round": "19. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-01-07",
+      "round": "19. Matchday",
+      "home": "Kayserispor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-01-07",
+      "round": "19. Matchday",
+      "home": "Istanbulspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-01-07",
+      "round": "19. Matchday",
+      "home": "Galatasaray",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-01-09",
+      "round": "16. Matchday",
+      "home": "Pendikspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-01-09",
+      "round": "16. Matchday",
+      "home": "Kasimpasa",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-01-09",
+      "round": "16. Matchday",
+      "home": "Alanyaspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-01-09",
+      "round": "16. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-01-10",
+      "round": "16. Matchday",
+      "home": "Hatayspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-01-10",
+      "round": "16. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-01-10",
+      "round": "16. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-01-10",
+      "round": "16. Matchday",
+      "home": "Fenerbahce",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-01-11",
+      "round": "16. Matchday",
+      "home": "Trabzonspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-01-11",
+      "round": "16. Matchday",
+      "home": "Sivasspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-01-13",
+      "round": "20. Matchday",
+      "home": "Hatayspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-01-13",
+      "round": "20. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-01-13",
+      "round": "20. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-01-13",
+      "round": "20. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-01-13",
+      "round": "20. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-01-14",
+      "round": "20. Matchday",
+      "home": "Antalyaspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-01-14",
+      "round": "20. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-01-14",
+      "round": "20. Matchday",
+      "home": "Samsunspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-01-14",
+      "round": "20. Matchday",
+      "home": "Istanbulspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-01-15",
+      "round": "20. Matchday",
+      "home": "Galatasaray",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-01-20",
+      "round": "21. Matchday",
+      "home": "Kasimpasa",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-01-20",
+      "round": "21. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-01-20",
+      "round": "21. Matchday",
+      "home": "Pendikspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-01-20",
+      "round": "21. Matchday",
+      "home": "Adana Demirspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-01-20",
+      "round": "21. Matchday",
+      "home": "Alanyaspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-01-21",
+      "round": "21. Matchday",
+      "home": "Trabzonspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-01-21",
+      "round": "21. Matchday",
+      "home": "Fenerbahce",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-01-21",
+      "round": "21. Matchday",
+      "home": "Sivasspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-01-21",
+      "round": "21. Matchday",
+      "home": "Konyaspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-01-22",
+      "round": "21. Matchday",
+      "home": "Kayserispor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-01-23",
+      "round": "22. Matchday",
+      "home": "Pendikspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-01-23",
+      "round": "22. Matchday",
+      "home": "Hatayspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-01-23",
+      "round": "22. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-01-24",
+      "round": "22. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-01-24",
+      "round": "22. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-01-24",
+      "round": "22. Matchday",
+      "home": "Antalyaspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-01-24",
+      "round": "22. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-01-25",
+      "round": "22. Matchday",
+      "home": "Samsunspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-01-25",
+      "round": "22. Matchday",
+      "home": "Galatasaray",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-01-25",
+      "round": "22. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-01-27",
+      "round": "23. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-01-27",
+      "round": "23. Matchday",
+      "home": "Alanyaspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-01-28",
+      "round": "23. Matchday",
+      "home": "Konyaspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-01-28",
+      "round": "23. Matchday",
+      "home": "Sivasspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-01-28",
+      "round": "23. Matchday",
+      "home": "Fenerbahce",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-01-28",
+      "round": "23. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-01-29",
+      "round": "23. Matchday",
+      "home": "Trabzonspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-01-29",
+      "round": "23. Matchday",
+      "home": "Istanbulspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-01-29",
+      "round": "23. Matchday",
+      "home": "Galatasaray",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-01-29",
+      "round": "23. Matchday",
+      "home": "Kayserispor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-02-02",
+      "round": "24. Matchday",
+      "home": "Samsunspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-02-02",
+      "round": "24. Matchday",
+      "home": "Hatayspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-02-02",
+      "round": "24. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-02-03",
+      "round": "24. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-02-03",
+      "round": "24. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-02-03",
+      "round": "24. Matchday",
+      "home": "Antalyaspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-02-03",
+      "round": "24. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-02-04",
+      "round": "24. Matchday",
+      "home": "Kasimpasa",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-02-04",
+      "round": "24. Matchday",
+      "home": "Pendikspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-02-04",
+      "round": "24. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-02-09",
+      "round": "25. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-02-10",
+      "round": "25. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-02-10",
+      "round": "25. Matchday",
+      "home": "Galatasaray",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-02-11",
+      "round": "25. Matchday",
+      "home": "Fenerbahce",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-02-11",
+      "round": "25. Matchday",
+      "home": "Istanbulspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-02-11",
+      "round": "25. Matchday",
+      "home": "Konyaspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-02-11",
+      "round": "25. Matchday",
+      "home": "Sivasspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-02-12",
+      "round": "25. Matchday",
+      "home": "Trabzonspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-02-12",
+      "round": "25. Matchday",
+      "home": "Samsunspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-02-12",
+      "round": "25. Matchday",
+      "home": "Kayserispor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-02-16",
+      "round": "26. Matchday",
+      "home": "Kasimpasa",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-02-17",
+      "round": "26. Matchday",
+      "home": "Antalyaspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-02-17",
+      "round": "26. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-02-17",
+      "round": "26. Matchday",
+      "home": "Hatayspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-02-18",
+      "round": "26. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-02-18",
+      "round": "26. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-02-18",
+      "round": "26. Matchday",
+      "home": "Alanyaspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-02-18",
+      "round": "26. Matchday",
+      "home": "Pendikspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-02-19",
+      "round": "26. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-02-19",
+      "round": "26. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-02-23",
+      "round": "27. Matchday",
+      "home": "Samsunspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-02-24",
+      "round": "27. Matchday",
+      "home": "Konyaspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-02-24",
+      "round": "27. Matchday",
+      "home": "Fenerbahce",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-02-24",
+      "round": "27. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-02-24",
+      "round": "27. Matchday",
+      "home": "Kayserispor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-02-25",
+      "round": "27. Matchday",
+      "home": "Sivasspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-02-25",
+      "round": "27. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-02-25",
+      "round": "27. Matchday",
+      "home": "Trabzonspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-02-25",
+      "round": "27. Matchday",
+      "home": "Istanbulspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-02-26",
+      "round": "27. Matchday",
+      "home": "Galatasaray",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-03-01",
+      "round": "28. Matchday",
+      "home": "Kasimpasa",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-03-02",
+      "round": "28. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-03-02",
+      "round": "28. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-03-02",
+      "round": "28. Matchday",
+      "home": "Hatayspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-03-03",
+      "round": "28. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-03-03",
+      "round": "28. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-03-03",
+      "round": "28. Matchday",
+      "home": "Pendikspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-03-04",
+      "round": "28. Matchday",
+      "home": "Antalyaspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-03-04",
+      "round": "28. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-03-04",
+      "round": "28. Matchday",
+      "home": "Alanyaspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-03-08",
+      "round": "29. Matchday",
+      "home": "Galatasaray",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-03-09",
+      "round": "29. Matchday",
+      "home": "Sivasspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-03-09",
+      "round": "29. Matchday",
+      "home": "Konyaspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-03-09",
+      "round": "29. Matchday",
+      "home": "Trabzonspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-03-09",
+      "round": "29. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-03-10",
+      "round": "29. Matchday",
+      "home": "Kayserispor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-03-10",
+      "round": "29. Matchday",
+      "home": "Fenerbahce",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-03-10",
+      "round": "29. Matchday",
+      "home": "Istanbulspor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-03-10",
+      "round": "29. Matchday",
+      "home": "Samsunspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-03-11",
+      "round": "29. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-03-15",
+      "round": "30. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-03-15",
+      "round": "30. Matchday",
+      "home": "Pendikspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-03-16",
+      "round": "30. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-03-16",
+      "round": "30. Matchday",
+      "home": "Alanyaspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-03-16",
+      "round": "30. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-03-16",
+      "round": "30. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-03-17",
+      "round": "30. Matchday",
+      "home": "Trabzonspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-03-17",
+      "round": "30. Matchday",
+      "home": "Kasimpasa",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-03-17",
+      "round": "30. Matchday",
+      "home": "Hatayspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-03-17",
+      "round": "30. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-04-02",
+      "round": "31. Matchday",
+      "home": "Galatasaray",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-04-02",
+      "round": "31. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-04-02",
+      "round": "31. Matchday",
+      "home": "Antalyaspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-04-02",
+      "round": "31. Matchday",
+      "home": "Istanbulspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-04-03",
+      "round": "31. Matchday",
+      "home": "Kayserispor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-04-03",
+      "round": "31. Matchday",
+      "home": "Fenerbahce",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-04-03",
+      "round": "31. Matchday",
+      "home": "Sivasspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-04-03",
+      "round": "31. Matchday",
+      "home": "Konyaspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-04-04",
+      "round": "31. Matchday",
+      "home": "Samsunspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-04-04",
+      "round": "31. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-04-12",
+      "round": "32. Matchday",
+      "home": "Trabzonspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-04-13",
+      "round": "32. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-04-13",
+      "round": "32. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-04-13",
+      "round": "32. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-04-13",
+      "round": "32. Matchday",
+      "home": "Kasimpasa",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-04-14",
+      "round": "32. Matchday",
+      "home": "Hatayspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-04-14",
+      "round": "32. Matchday",
+      "home": "Pendikspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-04-14",
+      "round": "32. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-04-14",
+      "round": "32. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-04-15",
+      "round": "32. Matchday",
+      "home": "Alanyaspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-04-19",
+      "round": "33. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-04-20",
+      "round": "33. Matchday",
+      "home": "Konyaspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-04-20",
+      "round": "33. Matchday",
+      "home": "Samsunspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-04-20",
+      "round": "33. Matchday",
+      "home": "Istanbulspor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-04-20",
+      "round": "33. Matchday",
+      "home": "Kayserispor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-04-21",
+      "round": "33. Matchday",
+      "home": "Antalyaspor",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-04-21",
+      "round": "33. Matchday",
+      "home": "Galatasaray",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-04-21",
+      "round": "33. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-04-21",
+      "round": "33. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-04-22",
+      "round": "33. Matchday",
+      "home": "Sivasspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-04-26",
+      "round": "34. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-04-27",
+      "round": "34. Matchday",
+      "home": "Kasimpasa",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-04-27",
+      "round": "34. Matchday",
+      "home": "Hatayspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-04-27",
+      "round": "34. Matchday",
+      "home": "Fenerbahce",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-04-27",
+      "round": "34. Matchday",
+      "home": "Sivasspor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-04-28",
+      "round": "34. Matchday",
+      "home": "Pendikspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-04-28",
+      "round": "34. Matchday",
+      "home": "Alanyaspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-04-28",
+      "round": "34. Matchday",
+      "home": "Trabzonspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-04-28",
+      "round": "34. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-04-29",
+      "round": "34. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-05-03",
+      "round": "35. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-05-03",
+      "round": "35. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-05-04",
+      "round": "35. Matchday",
+      "home": "Istanbulspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-05-04",
+      "round": "35. Matchday",
+      "home": "Kayserispor",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-05-04",
+      "round": "35. Matchday",
+      "home": "Samsunspor",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-05-05",
+      "round": "35. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-05-05",
+      "round": "35. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-05-05",
+      "round": "35. Matchday",
+      "home": "Galatasaray",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-05-06",
+      "round": "35. Matchday",
+      "home": "Antalyaspor",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-05-06",
+      "round": "35. Matchday",
+      "home": "Konyaspor",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Fenerbahce",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Trabzonspor",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Konyaspor",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Sivasspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Kasimpasa",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Alanyaspor",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Hatayspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-05-12",
+      "round": "36. Matchday",
+      "home": "Pendikspor",
+      "away": "Caykur Rizespor"
+    },
+    {
+      "date": "2024-05-17",
+      "round": "37. Matchday",
+      "home": "Antalyaspor",
+      "away": "Adana Demirspor"
+    },
+    {
+      "date": "2024-05-17",
+      "round": "37. Matchday",
+      "home": "Istanbulspor",
+      "away": "Sivasspor"
+    },
+    {
+      "date": "2024-05-18",
+      "round": "37. Matchday",
+      "home": "Beşiktaş Jimnastik Kulübü",
+      "away": "Hatayspor"
+    },
+    {
+      "date": "2024-05-18",
+      "round": "37. Matchday",
+      "home": "MKE Ankaragücü",
+      "away": "Pendikspor"
+    },
+    {
+      "date": "2024-05-18",
+      "round": "37. Matchday",
+      "home": "Caykur Rizespor",
+      "away": "Kasimpasa"
+    },
+    {
+      "date": "2024-05-18",
+      "round": "37. Matchday",
+      "home": "Samsunspor",
+      "away": "Alanyaspor"
+    },
+    {
+      "date": "2024-05-18",
+      "round": "37. Matchday",
+      "home": "Gaziantep FK",
+      "away": "Fatih Karagümrük"
+    },
+    {
+      "date": "2024-05-18",
+      "round": "37. Matchday",
+      "home": "Basaksehir FK",
+      "away": "Trabzonspor"
+    },
+    {
+      "date": "2024-05-18",
+      "round": "37. Matchday",
+      "home": "Kayserispor",
+      "away": "Konyaspor"
+    },
+    {
+      "date": "2024-05-19",
+      "round": "37. Matchday",
+      "home": "Galatasaray",
+      "away": "Fenerbahce"
+    },
+    {
+      "date": "2024-05-24",
+      "round": "38. Matchday",
+      "home": "Alanyaspor",
+      "away": "Antalyaspor"
+    },
+    {
+      "date": "2024-05-25",
+      "round": "38. Matchday",
+      "home": "Sivasspor",
+      "away": "Kayserispor"
+    },
+    {
+      "date": "2024-05-25",
+      "round": "38. Matchday",
+      "home": "Fatih Karagümrük",
+      "away": "Samsunspor"
+    },
+    {
+      "date": "2024-05-26",
+      "round": "38. Matchday",
+      "home": "Fenerbahce",
+      "away": "Istanbulspor"
+    },
+    {
+      "date": "2024-05-26",
+      "round": "38. Matchday",
+      "home": "Konyaspor",
+      "away": "Galatasaray"
+    },
+    {
+      "date": "2024-05-26",
+      "round": "38. Matchday",
+      "home": "Pendikspor",
+      "away": "Gaziantep FK"
+    },
+    {
+      "date": "2024-05-26",
+      "round": "38. Matchday",
+      "home": "Adana Demirspor",
+      "away": "Basaksehir FK"
+    },
+    {
+      "date": "2024-05-26",
+      "round": "38. Matchday",
+      "home": "Kasimpasa",
+      "away": "Beşiktaş Jimnastik Kulübü"
+    },
+    {
+      "date": "2024-05-26",
+      "round": "38. Matchday",
+      "home": "Trabzonspor",
+      "away": "MKE Ankaragücü"
+    },
+    {
+      "date": "2024-05-26",
+      "round": "38. Matchday",
+      "home": "Hatayspor",
+      "away": "Caykur Rizespor"
+    }
+  ]
+}
