@@ -1701,16 +1701,32 @@ export function generateLeagueLeadersFromTable(clubs: Club[], table: TableTeam[]
   // Portería menos vencida: menor promedio de goles recibidos por partido, con mínimo de partidos jugados.
   const topGkC = goalkeepers.filter(g => g.pj >= 3).sort((a, b) => (a.gc / a.pj) - (b.gc / b.pj))[0];
 
-  // Tarjetas: determinístico por hash de nombre+club, ponderado levemente por posición defensiva
-  // (los defensores/mediocampistas de contención acumulan más amarillas en la realidad).
+  // Tarjetas: escalan con los partidos DISPUTADOS en la temporada, igual que los goles escalan con
+  // gf. El hash solo decide qué tan propenso es cada jugador; los partidos deciden cuántas lleva.
+  //
+  // Antes el total salía solo del hash de nombre+club, así que era el mismo número en la fecha 1
+  // que en la 38 y no se reiniciaba nunca entre temporadas: el panel mostraba "8 amarillas" con la
+  // liga recién arrancada. Ponderado por posición, que en la realidad pesa mucho (centrales y
+  // volantes de contención acumulan bastante más que un extremo).
   const CARD_WEIGHT: Record<string, number> = { CB: 3, CDM: 3, LB: 2, RB: 2, CM: 2, RM: 1, LM: 1, CAM: 1, ST: 1, CF: 1, LW: 1, RW: 1, GK: 1 };
+  const maxPj = Math.max(...table.map(t => t.pj ?? 0), 0);
   const cardCandidates = candidates.map(c => {
     const seed = hashSeed(`${c.name}|${c.clubName}|card`);
     const weight = CARD_WEIGHT[c.pos ?? ''] ?? 1;
-    return { name: c.name, clubName: c.clubName, yellow: (seed % 6) + weight, redSeed: seed % 23 };
+    // Ritmo de amarillas por partido: entre ~0.10 y ~0.28 según el hash, escalado por posición.
+    // Sobre 38 fechas eso da un máximo realista de 10-12 para el líder de la tabla.
+    const ratePerMatch = (0.10 + (seed % 7) * 0.03) * (0.6 + weight * 0.2);
+    return {
+      name: c.name,
+      clubName: c.clubName,
+      yellow: Math.floor(maxPj * ratePerMatch),
+      // Una roja aparece recién pasado cierto punto de la temporada, no en la fecha 1.
+      red: seed % 23 === 0 && maxPj >= 8 ? 1 : 0,
+    };
   });
-  const topYellowC = cardCandidates.sort((a, b) => b.yellow - a.yellow)[0];
-  const topRedCandidates = cardCandidates.filter(c => c.redSeed === 0);
+  // Sin partidos jugados no hay tarjetas que mostrar: el panel dirá "Sin datos disponibles".
+  const topYellowC = cardCandidates.filter(c => c.yellow > 0).sort((a, b) => b.yellow - a.yellow)[0];
+  const topRedCandidates = cardCandidates.filter(c => c.red > 0);
   const topRedC = topRedCandidates.length > 0 ? { name: topRedCandidates[0].name, clubName: topRedCandidates[0].clubName, red: 1 } : null;
 
   return {

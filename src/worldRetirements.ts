@@ -49,14 +49,61 @@ function hashName(name: string): number {
   return Math.abs(h);
 }
 
+/** Normaliza para comparar nombres: sin acentos, sin sufijo de posición, en minúsculas. */
+function normalizeName(s: string): string[] {
+  return s
+    .replace(/\s*\([^)]*\)\s*$/, '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
 /**
- * Edad de un starPlayer. Prioriza el dato real; si no existe, cae al hash (17-36) para que el
- * sistema funcione igual en los ~600 clubes que todavía no tienen datos scrapeados.
+ * Índice de respaldo por "clubId|apellido" construido una sola vez.
+ *
+ * Hace falta porque el mismo jugador aparece con nombres distintos según la fuente: los
+ * starPlayers de data.ts dicen "Luis Fernando Muriel" mientras playersDatabase.json (la base de
+ * 30.499 jugadores que alimenta la pestaña Mi Club) dice "Luis Muriel". Buscar por clave exacta
+ * fallaba y caía al hash, que para "Luis Muriel" da exactamente 20 -- es decir, el sistema
+ * ofrecía a un delantero de 35 años como juvenil de la cantera.
+ */
+const AGE_BY_CLUB_SURNAME: Record<string, number> = (() => {
+  const idx: Record<string, number> = {};
+  for (const source of [PLAYER_ENRICHMENT, TM_SQUAD_ENRICHMENT] as Record<string, { age?: number }>[]) {
+    for (const [key, data] of Object.entries(source)) {
+      if (data?.age == null) continue;
+      const [clubId, rawName] = key.split('|');
+      const parts = normalizeName(rawName ?? '');
+      if (parts.length === 0) continue;
+      const surname = parts[parts.length - 1];
+      const k = `${clubId}|${surname}`;
+      // Ante colisión gana la edad MAYOR: para decidir "¿es un juvenil?" equivocarse por arriba
+      // deja a alguien fuera de la mentoría, y equivocarse por abajo mete a un veterano.
+      idx[k] = Math.max(idx[k] ?? 0, data.age);
+    }
+  }
+  return idx;
+})();
+
+/**
+ * Edad de un jugador del plantel. Busca en orden:
+ *   1. Clave exacta "clubId|nombre" en los dos enriquecimientos.
+ *   2. Respaldo por "clubId|apellido", que resuelve las variantes de nombre entre fuentes.
+ *   3. Hash estable del nombre (17-36), para los ~600 clubes sin datos scrapeados.
  */
 export function getSquadPlayerAge(clubId: string, name: string): number {
   const key = `${clubId}|${name}`;
   const real = PLAYER_ENRICHMENT[key]?.age ?? TM_SQUAD_ENRICHMENT[key]?.age;
   if (real != null) return real;
+
+  const parts = normalizeName(name);
+  if (parts.length > 0) {
+    const bySurname = AGE_BY_CLUB_SURNAME[`${clubId}|${parts[parts.length - 1]}`];
+    if (bySurname != null) return bySurname;
+  }
+
   return 17 + (hashName(name) % 20);
 }
 

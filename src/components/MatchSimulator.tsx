@@ -7,6 +7,11 @@ import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements } from '../worldRetirements';
 
+// Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
+// de lo que sumaba. El resto de los efectos del partido (gol, tarjeta, etc.) no se tocan.
+// Para volver a activarlo alcanza con poner true acá -- el audio y su carga siguen en su lugar.
+const WHISTLE_SFX_ENABLED = false;
+
 // Pool de decisiones por posición y momento del partido (early = minuto 24, late = minuto 71 --
 // ver triggerDecisionEvent). Antes cada posición tenía EXACTAMENTE una decisión fija por momento
 // (siempre el mismo prompt y las mismas 3 opciones, partido tras partido); ahora cada momento elige
@@ -1467,10 +1472,9 @@ export default function MatchSimulator({
       kickoffLog.push({ minute: 0, text: `📋 El técnico te deja en el banco de suplentes para arrancar este partido.`, type: 'neutral' });
     }
     setMatchLog(kickoffLog);
-    // Silbatazo inicial. Puede no sonar si el jugador todavía no interactuó con la página en esta
-    // carga (autoplay policy del navegador); playSfx falla en silencio y el resto del partido suena
-    // normal, porque para llegar acá hubo que clickear en pantallas previas de la misma sesión.
-    playSfx('whistle');
+    // Silbatazo inicial: desactivado por ahora a pedido (ver WHISTLE_SFX_ENABLED arriba). El resto
+    // de los efectos del partido siguen sonando normalmente.
+    if (WHISTLE_SFX_ENABLED) playSfx('whistle');
   }, []);
 
   useEffect(() => {
@@ -1578,7 +1582,7 @@ export default function MatchSimulator({
         type: 'neutral'
       }]);
       setIsPlaying(false);
-      playSfx('whistle_end');
+      if (WHISTLE_SFX_ENABLED) playSfx('whistle_end');
       return;
     }
 
