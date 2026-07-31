@@ -50,7 +50,7 @@ export function weeksUntilTransferWindow(currentWeek: number): number {
 // Apertura colombiano, y de paso la ventana de fichajes 1, ver arriba), y cada semana de carrera
 // suma 7 días. Puramente cosmético — no reemplaza currentWeek, que sigue siendo la base de
 // fixtures, copas y mundiales.
-const CAREER_START_YEAR = 2026;
+export const CAREER_START_YEAR = 2026;
 const CAREER_START_MONTH = 0; // enero (0-indexado)
 const CAREER_START_DAY = 18;
 
@@ -60,8 +60,18 @@ const MONTH_NAMES_ES = [
 ];
 
 export function getRealDate(currentWeek: number): Date {
-  const date = new Date(CAREER_START_YEAR, CAREER_START_MONTH, CAREER_START_DAY);
-  date.setDate(date.getDate() + (currentWeek - 1) * 7);
+  // La temporada dura SEASON_LENGTH_WEEKS (38) semanas de juego, que a 7 días por semana son 266
+  // días: ~8.8 meses, no un año. Si se avanzara la fecha 7 días por semana de forma corrida, el
+  // calendario se atrasaría ~3.3 meses por temporada -- en una carrera larga la temporada 2047
+  // terminaba mostrando fechas de 2041 (6 años de desfase).
+  //
+  // Por eso la fecha se ancla al AÑO de la temporada (getSeasonYear) y las semanas solo mueven el
+  // día dentro de ese año. Así el calendario y el año de la temporada nunca divergen, y cada
+  // temporada arranca en su enero real.
+  const seasonIndex = getSeasonYear(currentWeek) - 1;
+  const weekInSeason = ((currentWeek - 1) % SEASON_LENGTH_WEEKS);
+  const date = new Date(CAREER_START_YEAR + seasonIndex, CAREER_START_MONTH, CAREER_START_DAY);
+  date.setDate(date.getDate() + weekInSeason * 7);
   return date;
 }
 

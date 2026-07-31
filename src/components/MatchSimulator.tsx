@@ -3,54 +3,8 @@ import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats }
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
 import { playSfx } from '../audio';
-
-// Nombre real de campeonato + bandera por liga (club.league), para el encabezado del partido.
-// Antes esto estaba hardcodeado a "Primera División Dimayor" (Colombia) sin importar la liga real
-// del club del jugador -- cualquier partido de España, Argentina, Brasil, etc. mostraba la bandera
-// y el campeonato colombianos por error.
-const LEAGUE_DISPLAY_INFO: Record<string, { flag: string; name: string }> = {
-  Colombiana: { flag: '🇨🇴', name: 'Primera División Dimayor' },
-  Argentina: { flag: '🇦🇷', name: 'Liga Profesional Argentina' },
-  Española: { flag: '🇪🇸', name: 'LaLiga' },
-  Brasileña: { flag: '🇧🇷', name: 'Brasileirão' },
-  Mexicana: { flag: '🇲🇽', name: 'Liga MX' },
-  Chilena: { flag: '🇨🇱', name: 'Primera División de Chile' },
-  Ecuatoriana: { flag: '🇪🇨', name: 'LigaPro Ecuador' },
-  Uruguaya: { flag: '🇺🇾', name: 'Primera División Uruguaya' },
-  Paraguaya: { flag: '🇵🇾', name: 'Primera División de Paraguay' },
-  Boliviana: { flag: '🇧🇴', name: 'Primera División de Bolivia' },
-  Peruana: { flag: '🇵🇪', name: 'Liga 1 Perú' },
-  Venezolana: { flag: '🇻🇪', name: 'Liga FUTVE' },
-  Inglesa: { flag: '🏴', name: 'Premier League' },
-  Francesa: { flag: '🇫🇷', name: 'Ligue 1' },
-  Alemana: { flag: '🇩🇪', name: 'Bundesliga' },
-  Italiana: { flag: '🇮🇹', name: 'Serie A' },
-  Holandesa: { flag: '🇳🇱', name: 'Eredivisie' },
-  Portuguesa: { flag: '🇵🇹', name: 'Primeira Liga' },
-  Estadounidense: { flag: '🇺🇸', name: 'MLS' },
-  Turca: { flag: '🇹🇷', name: 'Süper Lig' },
-  Escocesa: { flag: '🏴', name: 'Scottish Premiership' },
-  Belga: { flag: '🇧🇪', name: 'Pro League' },
-  Suiza: { flag: '🇨🇭', name: 'Super League' },
-  Austríaca: { flag: '🇦🇹', name: 'Bundesliga Austríaca' },
-  Sueca: { flag: '🇸🇪', name: 'Allsvenskan' },
-  Danesa: { flag: '🇩🇰', name: 'Superliga Danesa' },
-  Griega: { flag: '🇬🇷', name: 'Super League Ellada' },
-  Croata: { flag: '🇭🇷', name: 'Prva HNL' },
-  Serbia: { flag: '🇷🇸', name: 'Superliga Serbia' },
-  Checa: { flag: '🇨🇿', name: 'Fortuna Liga' },
-  Rumana: { flag: '🇷🇴', name: 'Superliga Rumana' },
-  Búlgara: { flag: '🇧🇬', name: 'Liga Búlgara' },
-  Húngara: { flag: '🇭🇺', name: 'NB I' },
-  Israelí: { flag: '🇮🇱', name: 'Ligat ha\'Al' },
-  Chipriota: { flag: '🇨🇾', name: 'Liga Chipriota' },
-  Kazaja: { flag: '🇰🇿', name: 'Liga Kazaja' },
-  Azerí: { flag: '🇦🇿', name: 'Liga Azerí' },
-};
-
-function getLeagueDisplay(league: string | undefined): { flag: string; name: string } {
-  return LEAGUE_DISPLAY_INFO[league ?? ''] ?? { flag: '🌍', name: 'Liga Doméstica 2026' };
-}
+import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
+import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 
 // Pool de decisiones por posición y momento del partido (early = minuto 24, late = minuto 71 --
 // ver triggerDecisionEvent). Antes cada posición tenía EXACTAMENTE una decisión fija por momento
@@ -1302,6 +1256,8 @@ interface MatchSimulatorProps {
   isLibertadores: boolean;
   cupId?: 'libertadores' | 'sudamericana' | null;
   uefaCupId?: 'champions' | 'europa' | null;
+  /** Semana de copa sin copa continental: se juega la copa nacional del país del club. */
+  isDomesticCup?: boolean;
   isWorldCup?: boolean;
   representingTeamId?: string | null; // si estás convocado a tu selección, el id del equipo del Mundial en vez de tu club
   isHome: boolean;
@@ -1327,21 +1283,9 @@ interface MatchSimulatorProps {
 }
 
 export default function MatchSimulator({
-  playerProfile, opponentName, isLibertadores, cupId, uefaCupId, isWorldCup, representingTeamId, isHome: isHomeProp,
+  playerProfile, opponentName, isLibertadores, cupId, uefaCupId, isDomesticCup, isWorldCup, representingTeamId, isHome: isHomeProp,
   myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, onFinishMatch
 }: MatchSimulatorProps) {
-  // Nombre real de la competencia continental que se está jugando esta semana: antes acá se
-  // asumía siempre "Copa Libertadores" para cualquier semana que no fuera liga doméstica ni
-  // Mundial, así que un club europeo jugando Champions/Europa League (o uno sudamericano en
-  // Sudamericana) veía el cartel incorrecto de "Copa Libertadores" (bug real reportado por el
-  // usuario: "estoy jugando la champions y arriba dice copa libertadores").
-  const activeCupLabel = cupId === 'sudamericana'
-    ? 'Copa Sudamericana'
-    : uefaCupId === 'champions'
-    ? 'Champions League'
-    : uefaCupId === 'europa'
-    ? 'Europa League'
-    : 'Copa Libertadores';
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [speedMultiplier, setSpeedMultiplier] = useState(450);
@@ -1377,6 +1321,30 @@ export default function MatchSimulator({
   const currentClub = representingTeamId
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+
+  // Nombre real de la competencia que se está jugando esta semana. Antes acá se asumía siempre
+  // "Copa Libertadores" para cualquier semana que no fuera liga doméstica ni Mundial, así que un
+  // club europeo en Champions/Europa veía el cartel incorrecto (bug reportado: "estoy jugando la
+  // champions y arriba dice copa libertadores"), y peor: el 87% de los clubes de la base no juega
+  // ninguna copa continental y caía igual en ese cartel, jugando la "Libertadores" contra Boca.
+  // Ahora esa rama es la copa nacional del país del club (Copa del Rey, DFB-Pokal, etc.).
+  const activeCupLabel = isDomesticCup
+    ? getDomesticCupName(currentClub?.league)
+    : cupId === 'sudamericana'
+    ? 'Copa Sudamericana'
+    : cupId === 'libertadores'
+    ? 'Copa Libertadores'
+    : uefaCupId === 'champions'
+    ? 'Champions League'
+    : uefaCupId === 'europa'
+    ? 'Europa League'
+    // Sin ninguna copa identificada no se inventa un torneo: rótulo genérico.
+    : 'Copa Nacional';
+
+  // Año de la temporada en curso, calculado desde la semana real de la carrera. Antes estaba
+  // hardcodeado "2026" en el encabezado y en el relato del partido, así que en la temporada 20 de
+  // una carrera larga el partido seguía anunciándose como 2026.
+  const seasonYear = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
 
   // Multiplicador de dificultad combinado: fuerza del rival en la tabla (un rival mejor ubicado
   // achica tu ventana de éxito, uno peor ubicado la agranda; sin tabla comparable en copas/Mundial
@@ -1454,7 +1422,7 @@ export default function MatchSimulator({
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isWorldCup ? '🌎 COPA MUNDIAL FIFA 2026 🌎' : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} 2026 🏆` : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()} 2026 🟢`;
+    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${seasonYear} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()} ${seasonYear} 🟢`;
     
     const kickoffLog: MatchEvent[] = [
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
@@ -1863,9 +1831,9 @@ export default function MatchSimulator({
           <div>
             <span className="text-2xs font-bold text-gold-400 uppercase tracking-widest block mb-0.5">
               {isWorldCup
-                ? '🌎 Copa Mundial FIFA 2026'
+                ? `🌎 Copa Mundial FIFA ${seasonYear}`
                 : isLibertadores
-                ? `🏆 ${activeCupLabel} 2026`
+                ? `🏆 ${activeCupLabel} ${seasonYear}`
                 : `${getLeagueDisplay(currentClub.league).flag} ${getLeagueDisplay(currentClub.league).name}`}
             </span>
             <div className="flex items-center gap-2">
@@ -2126,7 +2094,7 @@ export default function MatchSimulator({
                 </span>
                 <h4 className="text-sm sm:text-base font-black text-white mt-1.5 truncate">{playerProfile.name}</h4>
                 <p className="text-4xs sm:text-3xs text-slate-500 font-mono uppercase tracking-wide flex items-center gap-1 mt-0.5">
-                  <Award size={10} className="text-slate-600 shrink-0" /> <span className="truncate">Temporada 26/27</span>
+                  <Award size={10} className="text-slate-600 shrink-0" /> <span className="truncate">Temporada {String(seasonYear).slice(-2)}/{String(seasonYear + 1).slice(-2)}</span>
                 </p>
               </div>
             </div>

@@ -2746,8 +2746,10 @@ export default function Dashboard({
                 <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
                   Panel de Competiciones Oficiales
                 </h2>
+                {/* Genérico a propósito: este panel lo ve tanto un club sudamericano como uno
+                    europeo, así que no puede nombrar una copa puntual ni un año fijo. */}
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Monitorea las fases de la prestigiosa Copa Libertadores de América 2026 y la situación clasificatoria actual.
+                  Monitorea las fases de tus competiciones y la situación clasificatoria actual.
                 </p>
               </div>
 

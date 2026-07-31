@@ -356,6 +356,9 @@ export default function App() {
   const [isCopaLibertadores, setIsCopaLibertadores] = useState(false);
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
+  // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
+  // nacional (Copa del Rey, FA Cup, etc.) en vez de caer al cartel de Libertadores.
+  const [activeDomesticCup, setActiveDomesticCup] = useState(false);
   const [activeWorldCupTeamId, setActiveWorldCupTeamId] = useState<string | null>(null);
   // Posiciones en la tabla al momento de armar el partido (solo liga doméstica -- en copas/Mundial
   // no hay una tabla comparable entre rivales de países distintos). Alimentan tanto el badge de
@@ -1064,6 +1067,7 @@ export default function App() {
         foundWorldCupTeamId = wcTeamId;
         setActiveCupId(null);
         setActiveUefaCupId(null);
+        setActiveDomesticCup(false);
         setActiveMyTablePosition(null);
         setActiveRivalTablePosition(null);
         setActiveLeagueTeamCount(null);
@@ -1207,15 +1211,42 @@ export default function App() {
         return;
       }
 
-      // Club no clasificado a ninguna copa este año, o copa entre rondas (sin partido esta semana puntual): rival de relleno.
+      // Club no clasificado a ninguna copa continental, o copa entre rondas (sin partido esta
+      // semana puntual): se juega la COPA NACIONAL contra un rival del propio país.
+      //
+      // Antes acá se sorteaba un nombre de un pool fijo de gigantes sudamericanos (Flamengo, Boca,
+      // River...) y el partido salía bajo el cartel de "Copa Libertadores", porque isCopaLibertadores
+      // es un "no es liga doméstica" genérico y activeCupLabel cae a Libertadores cuando no hay
+      // cupId ni uefaCupId. Resultado: el 87% de los clubes de la base (887 de 1023) veía a un club
+      // alemán o español jugando la Libertadores contra Boca, 12 veces por temporada. Encima esos
+      // 8 nombres no existen en CLUBS_DATABASE, así que el rival quedaba sin escudo ni datos.
       if (!foundOpponentId && !foundUefaOpponentId) {
-        const giants = ['CR Flamengo', 'SE Palmeiras', 'CA Boca Juniors', 'CA River Plate', 'Fluminense FC', 'SC Corinthians', 'Peñarol (URU)', 'Nacional (URU)'];
-        opName = giants[Math.floor(Math.random() * giants.length)];
+        const myClubForCup = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+        const domesticRivals = myClubForCup
+          ? CLUBS_DATABASE.filter(c => c.id !== myClubForCup.id && c.league === myClubForCup.league)
+          : [];
+        const rival = domesticRivals.length
+          ? domesticRivals[Math.floor(Math.random() * domesticRivals.length)]
+          : null;
+        if (rival) {
+          opName = rival.name;
+          opClubId = rival.id;
+        } else {
+          // Liga de un solo equipo en la base: no hay rival nacional posible, se cae al pool
+          // genérico de rivales que ya usa la liga doméstica.
+          opName = OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+        }
+        setActiveDomesticCup(true);
+      } else {
+        setActiveDomesticCup(false);
       }
       setActiveMyTablePosition(cupMyPos);
       setActiveRivalTablePosition(cupRivalPos);
       setActiveLeagueTeamCount(cupTeamCount);
     } else {
+      // Semana de liga doméstica: limpiar el flag de copa nacional para que no quede pegado de una
+      // semana de copa anterior y rotule mal el partido de liga.
+      setActiveDomesticCup(false);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
@@ -1849,6 +1880,7 @@ export default function App() {
           isLibertadores={isCopaLibertadores}
           cupId={activeCupId}
           uefaCupId={activeUefaCupId}
+          isDomesticCup={activeDomesticCup}
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}
           isHome={activeIsHome}

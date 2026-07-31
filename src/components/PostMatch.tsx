@@ -2,6 +2,8 @@ import React from 'react';
 import { PlayerProfile, Club } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from '../data';
 import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
+import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
+import { getLeagueDisplay } from '../leagueDisplay';
 
 interface PostMatchProps {
   playerProfile: PlayerProfile;
@@ -167,8 +169,10 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
         {/* Newspaper Gacetilla section with authentic layout */}
         <div className="p-6 md:p-8 bg-burgundy-40/10 bg-slate-950 border-b border-slate-800/80 relative overflow-hidden">
           <div className="flex justify-between items-center text-xs font-mono text-burgundy-500 font-bold tracking-widest mb-4">
-            <span>📰 EL DIARIO DEPORTIVO 2026</span>
-            <span>Edición Semanal · Colombia-Brasil-Arg</span>
+            {/* Año y cobertura salían fijos ("2026", "Colombia-Brasil-Arg") aunque el jugador
+                estuviera en Europa y en la temporada 20 de su carrera. */}
+            <span>📰 EL DIARIO DEPORTIVO {CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1}</span>
+            <span className="truncate">Edición Semanal · {getLeagueDisplay(currentClub?.league).name}</span>
           </div>
 
           <div className="border border-burgundy-500/20 bg-burgundy-500/5 p-5 md:p-6 rounded-2xl relative">
