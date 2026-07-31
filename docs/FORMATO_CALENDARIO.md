@@ -186,6 +186,56 @@ Hay un ejemplo real y válido en [`ejemplo_calendario.json`](ejemplo_calendario.
 
 ---
 
+## Bajarlo automático de Transfermarkt
+
+Hay un scraper que genera este mismo formato:
+
+```
+node scripts/scrape_transfermarkt.mjs <CODIGO> <saison_id> <jornadas> <liga> > salida.json
+node scripts/scrape_transfermarkt.mjs TDeC 2025 19 Peruana > peru.json
+npx tsx scripts/validar_calendario.ts peru.json
+```
+
+Sin dependencias (Node 18+ trae `fetch`; el HTML se parsea con regex, sin jsdom).
+
+### Códigos verificados (responden 200)
+
+| Código | Liga |
+|---|---|
+| `TDeC` | Perú — Liga 1 |
+| `CHL1` | Chile |
+| `URU1` | Uruguay |
+| `AR1N` | Argentina |
+| `BRA1` | Brasil |
+| `ES1` / `GB1` / `IT1` / `L1` / `FR1` | España / Inglaterra / Italia / Alemania / Francia |
+
+**`PER1` no existe** (ni `CHI1`, `ECU1`, `BOL1`, `VEN1`, `PAR1`): Transfermarkt no devuelve 404 con
+un código inválido, **redirige al índice de competiciones**. Un scraper ingenuo parsea esa página y
+devuelve 0 partidos sin explicar por qué; este detecta la redirección y aborta con un mensaje claro.
+
+Faltan por identificar los códigos de Ecuador, Bolivia, Venezuela y Paraguay.
+
+### Trampas del HTML real (verificadas, no supuestas)
+
+Si escribís tu propio scraper, estas tres cosas lo rompen:
+
+1. **`.responsive-table` y `.items` ya no existen.** Transfermarkt cambió el markup; esos selectores
+   devuelven cero filas. La tabla es `<table class="auflistung">`.
+2. **La fecha va DESPUÉS de sus partidos**, en una fila `colspan=5` que los cierra — no antes.
+   Asumir lo contrario descarta el primer partido de cada jornada.
+3. **Cada equipo aparece dos veces por fila** (nombre largo + abreviatura), o sea 4 enlaces por
+   partido. Leer los enlaces de corrido mezcla la abreviatura de una fila con la siguiente e inventa
+   partidos que no existen.
+
+Además la fecha canónica está en el href `/datum/YYYY-MM-DD`, ya en ISO: conviene usar eso y no el
+texto visible `dd/mm/yyyy`, que depende del locale y se presta a invertir día y mes.
+
+### Los nombres vienen abreviados
+
+El scraper devuelve los nombres tal como los muestra Transfermarkt (`"Sport. Cristal"`,
+`"FBC Melgar"`, `"AD Tarma"`), que no siempre coinciden con `data.ts`. El validador los detecta y
+sugiere el correcto; se completan en el bloque `aliases`.
+
 ## Lo mínimo que sirve
 
 Si conseguir todo es difícil, **con esto ya se puede trabajar**:
