@@ -1,13 +1,13 @@
 // Edad real (Transfermarkt) de los starPlayers de la liga colombiana.
 //
 // Generado por scripts/scrape_kader_tm.mjs, que baja el plantel completo desde
-// /kader/verein/<id> de 29 clubes colombianos (los 20 de la Dimayor I mas 10 de
-// la B/Torneo), y despues cruza por nombre contra los starPlayers de
+// /kader/verein/<id> de 35 clubes colombianos (los 20 de la Dimayor I mas 15
+// del Torneo/B), y despues cruza por nombre contra los starPlayers de
 // ULTIMATE_CLUBS_DATABASE.
 //
 // Clave: "clubId|nombreTalCualEnStarPlayers" -- mismo formato que
 // PLAYER_ENRICHMENT (ver playerEnrichment.ts), para consultarse con la misma
-// llave. Cubre 155 de 238 starPlayers colombianos (65%).
+// llave. Cubre 174 de 238 starPlayers colombianos (73%).
 //
 // PURAMENTE ADITIVO: no reescribe ULTIMATE_CLUBS_DATABASE ni toca los escudos.
 // Los starPlayers de data.ts quedan exactamente como estaban.
@@ -26,7 +26,7 @@
 //    Millonarios primero; "Real Cundinamarca", Valledupar) y hay homonimos de
 //    otros paises (existen un Leones FC y un Tigres FC no colombianos).
 //  - currentClubName aparece solo si Transfermarkt dice que el jugador hoy
-//    juega en otro club (29 de 155): los planteles de data.ts son de una
+//    juega en otro club (31 de 174): los planteles de data.ts son de una
 //    temporada anterior. Es informativo y NADIE lo consume todavia -- no mueve
 //    a nadie de equipo.
 
@@ -69,6 +69,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'barranquilla_fc|Miller Bacca (ST)': { age: 22, tmId: '1124476', tmName: 'Miller Bacca', tmPosition: 'Delantero centro' },
   'barranquilla_fc|Sebastián Guerra (GK)': { age: 25, tmId: '567016', tmName: 'Sebastián Guerra', tmPosition: 'Portero' },
   'barranquilla_fc|Yeferson Moreno (RB)': { age: 22, tmId: '1040937', tmName: 'Yeferson Moreno', tmPosition: 'Lateral derecho' },
+  'boca_cali|José Torres': { age: 18, tmId: '1258246', tmName: 'José Torres', currentClubName: 'Real Santander' },
   'bogota_fc|Andrés Buelvas (ST)': { age: 25, tmId: '1460233', tmName: 'Andrés Buelvas' },
   'bogota_fc|Brayan Castro (RW)': { age: 24, tmId: '1116430', tmName: 'Brayan Castro', tmPosition: 'Extremo derecho' },
   'bogota_fc|Cristián Mosquera (RB)': { age: 25, tmId: '659709', tmName: 'Cristian Mosquera', tmPosition: 'Lateral derecho' },
@@ -119,6 +120,16 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'cucuta|Omar Albornoz (LM)': { age: 30, tmId: '387605', tmName: 'Omar Albornoz', tmPosition: 'Extremo izquierdo', currentClubName: 'Atlético Bucaramanga' },
   'cucuta|Sebastián Rodríguez (CB)': { age: 25, tmId: '649878', tmName: 'Sebastián Rodríguez', tmPosition: 'Defensa central', currentClubName: 'Águilas Doradas' },
   'cucuta|Víctor Mejía (CM)': { age: 33, tmId: '287534', tmName: 'Víctor Mejía', tmPosition: 'Pivote' },
+  'cundinamarca_fc|Iván Camacho (CDM)': { age: 22, tmId: '1007731', tmName: 'Iván Camacho', tmPosition: 'Pivote' },
+  'cundinamarca_fc|Jhon Córtes (LB)': { age: 22, tmId: '1408999', tmName: 'Jhon Cortés' },
+  'cundinamarca_fc|Jhon Suaza (CB)': { age: 24, tmId: '1047549', tmName: 'Jhon Suaza', tmPosition: 'Defensa central' },
+  'cundinamarca_fc|Jose Cundumi (ST)': { age: 21, tmId: '1232886', tmName: 'Jose Cundumi' },
+  'cundinamarca_fc|Juan David Hoyos (CDM)': { age: 21, tmId: '911081', tmName: 'Juan David Hoyos', tmPosition: 'Pivote' },
+  'cundinamarca_fc|Juan Salcedo (ST)': { age: 33, tmId: '460694', tmName: 'Juan Salcedo', tmPosition: 'Delantero centro' },
+  'cundinamarca_fc|Leider Montaño (ST)': { age: 22, tmId: '1246629', tmName: 'Leider Montaño', tmPosition: 'Delantero centro' },
+  'cundinamarca_fc|Onel Acosta (LB)': { age: 26, tmId: '907564', tmName: 'Onel Acosta', tmPosition: 'Lateral izquierdo' },
+  'cundinamarca_fc|William Dávila (CAM)': { age: 25, tmId: '1038870', tmName: 'William Dávila', tmPosition: 'Mediocentro ofensivo' },
+  'cundinamarca_fc|Yan Vega (ST)': { age: 21, tmId: '1385743', tmName: 'Yan Vega' },
   'envigado_fc|Joan Parra': { age: 26, tmId: '610566', tmName: 'Joan Parra', tmPosition: 'Portero', currentClubName: 'Once Caldas' },
   'envigado_fc|Luis Díaz (Jr)': { age: 22, tmId: '926365', tmName: 'Luis Díaz', tmPosition: 'Extremo derecho' },
   'fortaleza_fc|Adrián Parra': { age: 29, tmId: '421011', tmName: 'Adrián Parra', tmPosition: 'Delantero centro', currentClubName: 'Deportes Tolima' },
@@ -160,7 +171,14 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'pereira|Darwin Quintero': { age: 38, tmId: '55666', tmName: 'Darwin Quintero', tmPosition: 'Mediocentro ofensivo', currentClubName: 'Millonarios FC' },
   'pereira|Jean Pestaña': { age: 28, tmId: '572076', tmName: 'Jean Carlos Pestaña', tmPosition: 'Defensa central', currentClubName: 'Junior de Barranquilla' },
   'pereira|Salvador Ichazo': { age: 34, tmId: '131098', tmName: 'Salvador Ichazo', tmPosition: 'Portero', currentClubName: 'Independiente Medellín' },
+  'real_santander|Faiber Mendoza (CM)': { age: 25, tmId: '911030', tmName: 'Faiber Mendoza', tmPosition: 'Mediocentro' },
+  'real_santander|Harlem Salas (LW)': { age: 26, tmId: '1077149', tmName: 'Harlem Salas', tmPosition: 'Extremo izquierdo' },
   'real_santander|Jaime Mora (GK)': { age: 29, tmId: '480680', tmName: 'Jaime Mora', tmPosition: 'Portero', currentClubName: 'Envigado FC' },
+  'real_santander|Jordi Hernández (CB)': { age: 20, tmId: '1299626', tmName: 'Jordi Hernández' },
+  'real_santander|Juan Ararat (RW)': { age: 23, tmId: '1234584', tmName: 'Juan Ararat', tmPosition: 'Extremo derecho' },
+  'real_santander|Juan David Rueda (ST)': { age: 25, tmId: '907548', tmName: 'Juan David Rueda', tmPosition: 'Delantero centro' },
+  'real_santander|Kevin Chacón (GK)': { age: 23, tmId: '983588', tmName: 'Kevin Chacón', tmPosition: 'Portero' },
+  'real_santander|Rafael Tapia (ST)': { age: 26, tmId: '711141', tmName: 'Rafael Tapia', tmPosition: 'Extremo derecho' },
   'santafe|Fabián Sambueza': { age: 37, tmId: '358015', tmName: 'Fabián Sambueza', tmPosition: 'Mediocentro ofensivo', currentClubName: 'Atlético Bucaramanga' },
   'santafe|Franco Fagúndez': { age: 26, tmId: '929438', tmName: 'Franco Fagúndez', tmPosition: 'Mediapunta' },
   'santafe|Helibelton Palacios': { age: 33, tmId: '211389', tmName: 'Helibelton Palacios', tmPosition: 'Lateral derecho' },
@@ -187,6 +205,7 @@ export const TM_SQUAD_ENRICHMENT: Record<string, TmSquadData> = {
   'tolima|Neto Volpi (GK)': { age: 33, tmId: '202959', tmName: 'Neto Volpi', tmPosition: 'Portero' },
   'tolima|Sebastián Guzmán (CDM)': { age: 29, tmId: '580422', tmName: 'Sebastián Guzmán', tmPosition: 'Pivote' },
   'union_magdalena|Cristian Iguarán (ST)': { age: 21, tmId: '1258105', tmName: 'Cristian Iguarán' },
+  'union_magdalena|Jhon Lerma (RB)': { age: 23, tmId: '983539', tmName: 'Jhon Lerma', tmPosition: 'Lateral derecho', currentClubName: 'Independiente Valle del Cauca' },
   'union_magdalena|Jimmy Congo (CDM)': { age: 28, tmId: '649794', tmName: 'Jimmy Congo', tmPosition: 'Pivote' },
   'union_magdalena|José Mercado (CM)': { age: 22, tmId: '1000701', tmName: 'José Mercado', tmPosition: 'Mediocentro' },
   'union_magdalena|José Palacios (RM)': { age: 29, tmId: '474620', tmName: 'José Palacios', tmPosition: 'Extremo izquierdo' },
