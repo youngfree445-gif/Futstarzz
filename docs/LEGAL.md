@@ -100,11 +100,17 @@ formalidad especial alguna.
 
 ## 4. Derechos sobre el código y los contenidos propios
 
-El código fuente, la interfaz, los textos originales, la mecánica de juego y el
-nombre **Fut Starzz** son obra del desarrollador y se encuentran protegidos por la
-**Ley 23 de 1982 sobre Derechos de Autor**, la **Ley 1915 de 2018** y la **Decisión
-Andina 351 de 1993**, sin perjuicio de los derechos de terceros señalados en la
-Sección 3.
+El código fuente, el diseño de la interfaz y los textos originales del juego son
+obra del desarrollador y se encuentran protegidos por la **Ley 23 de 1982 sobre
+Derechos de Autor**, la **Ley 1915 de 2018** y la **Decisión Andina 351 de 1993**,
+sin perjuicio de los derechos de terceros señalados en la Sección 3.
+
+La protección comprende la vida del autor y **80 años adicionales**, conforme al
+régimen colombiano.
+
+Se deja constancia de que el derecho de autor protege la **expresión** (el código
+y los textos tal como fueron escritos), no las ideas ni las reglas de juego
+subyacentes, que no son objeto de esta protección.
 
 ---
 
