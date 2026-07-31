@@ -1,0 +1,563 @@
+{
+  "competition": {
+    "id": "WMQ4",
+    "name": "Eliminatorias Sudamericanas",
+    "type": "national_team_competition",
+    "format": "round_robin",
+    "season": 2023
+  },
+  "aliases": {
+    "Brazil": "Selección de Brasil",
+    "Peru": "Selección de Perú",
+    "Colombia": "Selección de Colombia",
+    "Venezuela": "Selección de Venezuela",
+    "Argentina": "Selección de Argentina",
+    "Ecuador": "Selección de Ecuador",
+    "Uruguay": "Selección de Uruguay",
+    "Chile": "Selección de Chile",
+    "Bolivia": "Selección de Bolivia",
+    "Paraguay": "Selección de Paraguay"
+  },
+  "matches": [
+    {
+      "date": "2023-09-08",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Peru"
+    },
+    {
+      "date": "2023-09-08",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2023-09-08",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2023-09-09",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Chile"
+    },
+    {
+      "date": "2023-09-09",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2023-09-12",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Argentina"
+    },
+    {
+      "date": "2023-09-12",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2023-09-13",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2023-09-13",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Colombia"
+    },
+    {
+      "date": "2023-09-13",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Brazil"
+    },
+    {
+      "date": "2023-10-12",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2023-10-13",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2023-10-13",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2023-10-13",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Peru"
+    },
+    {
+      "date": "2023-10-13",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2023-10-17",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Chile"
+    },
+    {
+      "date": "2023-10-18",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2023-10-18",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Colombia"
+    },
+    {
+      "date": "2023-10-18",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Brazil"
+    },
+    {
+      "date": "2023-10-18",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Argentina"
+    },
+    {
+      "date": "2023-11-16",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Peru"
+    },
+    {
+      "date": "2023-11-16",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2023-11-17",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2023-11-17",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Brazil"
+    },
+    {
+      "date": "2023-11-17",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2023-11-22",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Colombia"
+    },
+    {
+      "date": "2023-11-22",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Chile"
+    },
+    {
+      "date": "2023-11-22",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2023-11-22",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Argentina"
+    },
+    {
+      "date": "2023-11-22",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2024-09-05",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2024-09-06",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Chile"
+    },
+    {
+      "date": "2024-09-07",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2024-09-07",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2024-09-07",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Colombia"
+    },
+    {
+      "date": "2024-09-10",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Argentina"
+    },
+    {
+      "date": "2024-09-10",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2024-09-10",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Peru"
+    },
+    {
+      "date": "2024-09-11",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2024-09-11",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Brazil"
+    },
+    {
+      "date": "2024-10-10",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Colombia"
+    },
+    {
+      "date": "2024-10-10",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2024-10-10",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Argentina"
+    },
+    {
+      "date": "2024-10-11",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Brazil"
+    },
+    {
+      "date": "2024-10-12",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2024-10-15",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Chile"
+    },
+    {
+      "date": "2024-10-16",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2024-10-16",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2024-10-16",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2024-10-16",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Peru"
+    },
+    {
+      "date": "2024-11-14",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Brazil"
+    },
+    {
+      "date": "2024-11-15",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Argentina"
+    },
+    {
+      "date": "2024-11-15",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2024-11-16",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Colombia"
+    },
+    {
+      "date": "2024-11-16",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Chile"
+    },
+    {
+      "date": "2024-11-19",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2024-11-20",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2024-11-20",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2024-11-20",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Peru"
+    },
+    {
+      "date": "2024-11-20",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Chile"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Colombia"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Argentina"
+    },
+    {
+      "date": "2025-03-25",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2025-03-26",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Peru"
+    },
+    {
+      "date": "2025-03-26",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2025-03-26",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Brazil"
+    },
+    {
+      "date": "2025-03-26",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Brazil"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Argentina"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Peru"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Chile"
+    },
+    {
+      "date": "2025-06-11",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2025-06-11",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Colombia"
+    },
+    {
+      "date": "2025-06-11",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2025-06-11",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Argentina",
+      "away": "Venezuela"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Colombia",
+      "away": "Bolivia"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Paraguay",
+      "away": "Ecuador"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Uruguay",
+      "away": "Peru"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Brazil",
+      "away": "Chile"
+    },
+    {
+      "date": "2025-09-10",
+      "round": "Schedule",
+      "home": "Ecuador",
+      "away": "Argentina"
+    },
+    {
+      "date": "2025-09-10",
+      "round": "Schedule",
+      "home": "Bolivia",
+      "away": "Brazil"
+    },
+    {
+      "date": "2025-09-10",
+      "round": "Schedule",
+      "home": "Chile",
+      "away": "Uruguay"
+    },
+    {
+      "date": "2025-09-10",
+      "round": "Schedule",
+      "home": "Peru",
+      "away": "Paraguay"
+    },
+    {
+      "date": "2025-09-10",
+      "round": "Schedule",
+      "home": "Venezuela",
+      "away": "Colombia"
+    }
+  ]
+}
