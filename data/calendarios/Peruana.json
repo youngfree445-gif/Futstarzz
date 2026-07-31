@@ -1,0 +1,940 @@
+{
+  "competition": {
+    "id": "TDeC",
+    "name": "TDeC",
+    "league": "Peruana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2024
+  },
+  "aliases": {
+    "Comerciantes": "Comerciantes Unidos",
+    "FBC Melgar": "Melgar",
+    "Sport. Cristal": "Sporting Cristal",
+    "Dep. Garcilaso": "Deportivo Garcilaso",
+    "AD Tarma": "ADT",
+    "Dep. Moquegua": "Moquegua",
+    "Alianza Atl.": "Atlético Sullana",
+    "Alianza UDH": "Alianza Universidad"
+  },
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "Alianza Atl.",
+      "away": "Sport Huancayo",
+      "date": "2025-07-18"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "Los Chankas",
+      "date": "2025-07-19"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Universitario",
+      "away": "Comerciantes",
+      "date": "2025-07-19"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "UTC",
+      "away": "FBC Melgar",
+      "date": "2025-07-19"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "AD Tarma",
+      "away": "Cienciano",
+      "date": "2025-07-19"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Cusco FC",
+      "away": "Alianza Lima",
+      "date": "2025-07-20"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Sport. Cristal",
+      "away": "Alianza UDH",
+      "date": "2025-07-20"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Ayacucho FC",
+      "away": "Atlético Grau",
+      "date": "2025-07-20"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Juan Pablo II",
+      "away": "Sport Boys",
+      "date": "2025-07-20"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Juan Pablo II",
+      "date": "2025-07-25"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Alianza UDH",
+      "away": "Ayacucho FC",
+      "date": "2025-07-26"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Sport Boys",
+      "away": "Sport. Cristal",
+      "date": "2025-07-26"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Cienciano",
+      "away": "Universitario",
+      "date": "2025-07-27"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "FBC Melgar",
+      "away": "Cusco FC",
+      "date": "2025-07-27"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Comerciantes",
+      "away": "Dep. Garcilaso",
+      "date": "2025-07-27"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Alianza Lima",
+      "away": "Alianza Atl.",
+      "date": "2025-07-28"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Atlético Grau",
+      "away": "AD Tarma",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Ayacucho FC",
+      "away": "Sport Boys",
+      "date": "2025-07-30"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Sport. Cristal",
+      "away": "Sport Huancayo",
+      "date": "2025-07-30"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "AD Tarma",
+      "away": "Alianza UDH",
+      "date": "2025-07-31"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Juan Pablo II",
+      "away": "Alianza Lima",
+      "date": "2025-08-01"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Universitario",
+      "away": "Atlético Grau",
+      "date": "2025-08-01"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Los Chankas",
+      "away": "Comerciantes",
+      "date": "2025-08-01"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Alianza Atl.",
+      "away": "FBC Melgar",
+      "date": "2025-08-01"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "Cienciano",
+      "date": "2025-08-02"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Ayacucho FC",
+      "date": "2025-08-03"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "UTC",
+      "away": "Cusco FC",
+      "date": "2025-08-04"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Sport Boys",
+      "away": "AD Tarma",
+      "date": "2025-08-04"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Cienciano",
+      "away": "Los Chankas",
+      "date": "2025-08-05"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Alianza UDH",
+      "away": "Universitario",
+      "date": "2025-08-05"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "FBC Melgar",
+      "away": "Juan Pablo II",
+      "date": "2025-08-05"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Alianza Lima",
+      "away": "Sport. Cristal",
+      "date": "2025-08-06"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Atlético Grau",
+      "away": "Dep. Garcilaso",
+      "date": "2025-08-06"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Comerciantes",
+      "away": "Cienciano",
+      "date": "2025-08-08"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Ayacucho FC",
+      "away": "Alianza Lima",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "AD Tarma",
+      "away": "Sport Huancayo",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Universitario",
+      "away": "Sport Boys",
+      "date": "2025-08-10"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Sport. Cristal",
+      "away": "FBC Melgar",
+      "date": "2025-08-10"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Los Chankas",
+      "away": "Atlético Grau",
+      "date": "2025-08-10"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Alianza Atl.",
+      "away": "UTC",
+      "date": "2025-08-11"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "Alianza UDH",
+      "date": "2025-08-12"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Atlético Grau",
+      "away": "Comerciantes",
+      "date": "2025-08-15"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Sport Boys",
+      "away": "Dep. Garcilaso",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "UTC",
+      "away": "Juan Pablo II",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Alianza Lima",
+      "away": "AD Tarma",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Universitario",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "FBC Melgar",
+      "away": "Ayacucho FC",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Cusco FC",
+      "away": "Alianza Atl.",
+      "date": "2025-08-18"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Alianza UDH",
+      "away": "Los Chankas",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Juan Pablo II",
+      "away": "Cusco FC",
+      "date": "2025-08-22"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Sport. Cristal",
+      "away": "UTC",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Los Chankas",
+      "away": "Sport Boys",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Comerciantes",
+      "away": "Alianza UDH",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "Sport Huancayo",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "AD Tarma",
+      "away": "FBC Melgar",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Cienciano",
+      "away": "Atlético Grau",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Universitario",
+      "away": "Alianza Lima",
+      "date": "2025-08-25"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "UTC",
+      "away": "Ayacucho FC",
+      "date": "2025-09-12"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Los Chankas",
+      "date": "2025-09-12"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Sport Boys",
+      "away": "Comerciantes",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Alianza Atl.",
+      "away": "Juan Pablo II",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Alianza Lima",
+      "away": "Dep. Garcilaso",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Alianza UDH",
+      "away": "Cienciano",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "FBC Melgar",
+      "away": "Universitario",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Cusco FC",
+      "away": "Sport. Cristal",
+      "date": "2025-09-15"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "AD Tarma",
+      "away": "UTC",
+      "date": "2025-09-16"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Sport. Cristal",
+      "away": "Alianza Atl.",
+      "date": "2025-09-17"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Comerciantes",
+      "away": "Sport Huancayo",
+      "date": "2025-09-17"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Cienciano",
+      "away": "Sport Boys",
+      "date": "2025-09-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Ayacucho FC",
+      "away": "Cusco FC",
+      "date": "2025-09-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Atlético Grau",
+      "away": "Alianza UDH",
+      "date": "2025-09-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "FBC Melgar",
+      "date": "2025-09-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Los Chankas",
+      "away": "Alianza Lima",
+      "date": "2025-11-05"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "UTC",
+      "away": "Universitario",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "FBC Melgar",
+      "away": "Los Chankas",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Juan Pablo II",
+      "away": "Sport. Cristal",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Cienciano",
+      "date": "2025-09-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Alianza Lima",
+      "away": "Comerciantes",
+      "date": "2025-09-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Alianza Atl.",
+      "away": "Ayacucho FC",
+      "date": "2025-09-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Cusco FC",
+      "away": "AD Tarma",
+      "date": "2025-09-23"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Sport Boys",
+      "away": "Atlético Grau",
+      "date": "2025-09-23"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Ayacucho FC",
+      "away": "Juan Pablo II",
+      "date": "2025-09-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "UTC",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Alianza UDH",
+      "away": "Sport Boys",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "AD Tarma",
+      "away": "Alianza Atl.",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Atlético Grau",
+      "away": "Sport Huancayo",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Comerciantes",
+      "away": "FBC Melgar",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Universitario",
+      "away": "Cusco FC",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Cienciano",
+      "away": "Alianza Lima",
+      "date": "2025-09-29"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "UTC",
+      "away": "Los Chankas",
+      "date": "2025-09-29"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Sport. Cristal",
+      "away": "Ayacucho FC",
+      "date": "2025-09-29"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Alianza UDH",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Juan Pablo II",
+      "away": "AD Tarma",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Cusco FC",
+      "away": "Dep. Garcilaso",
+      "date": "2025-10-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Alianza Atl.",
+      "away": "Universitario",
+      "date": "2025-10-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Alianza Lima",
+      "away": "Atlético Grau",
+      "date": "2025-10-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "FBC Melgar",
+      "away": "Cienciano",
+      "date": "2025-10-03"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Comerciantes",
+      "away": "UTC",
+      "date": "2025-10-03"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Los Chankas",
+      "away": "Cusco FC",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "AD Tarma",
+      "away": "Sport. Cristal",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Sport Boys",
+      "away": "Sport Huancayo",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Alianza UDH",
+      "away": "Alianza Lima",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Atlético Grau",
+      "away": "FBC Melgar",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "Alianza Atl.",
+      "date": "2025-10-06"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Universitario",
+      "away": "Juan Pablo II",
+      "date": "2025-10-06"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Ayacucho FC",
+      "away": "AD Tarma",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Alianza Atl.",
+      "away": "Los Chankas",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Cusco FC",
+      "away": "Comerciantes",
+      "date": "2025-10-13"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "UTC",
+      "away": "Cienciano",
+      "date": "2025-10-13"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Juan Pablo II",
+      "away": "Dep. Garcilaso",
+      "date": "2025-10-13"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "FBC Melgar",
+      "away": "Alianza UDH",
+      "date": "2025-10-15"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Alianza Lima",
+      "away": "Sport Boys",
+      "date": "2025-10-17"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Sport. Cristal",
+      "away": "Universitario",
+      "date": "2025-10-24"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Los Chankas",
+      "away": "Juan Pablo II",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Comerciantes",
+      "away": "Alianza Atl.",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Cienciano",
+      "away": "Cusco FC",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Atlético Grau",
+      "away": "UTC",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "Sport. Cristal",
+      "date": "2025-10-20"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Alianza Lima",
+      "date": "2025-10-20"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Sport Boys",
+      "away": "FBC Melgar",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Universitario",
+      "away": "Ayacucho FC",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Juan Pablo II",
+      "away": "Comerciantes",
+      "date": "2025-10-24"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Ayacucho FC",
+      "away": "Dep. Garcilaso",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Alianza Atl.",
+      "away": "Cienciano",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Cusco FC",
+      "away": "Atlético Grau",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Sport. Cristal",
+      "away": "Los Chankas",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "UTC",
+      "away": "Alianza UDH",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "AD Tarma",
+      "away": "Universitario",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "FBC Melgar",
+      "away": "Sport Huancayo",
+      "date": "2025-10-27"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Alianza Lima",
+      "away": "FBC Melgar",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Los Chankas",
+      "away": "Ayacucho FC",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Comerciantes",
+      "away": "Sport. Cristal",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Dep. Garcilaso",
+      "away": "AD Tarma",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Alianza UDH",
+      "away": "Cusco FC",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Atlético Grau",
+      "away": "Alianza Atl.",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Sport Boys",
+      "away": "UTC",
+      "date": "2025-11-03"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Cienciano",
+      "away": "Juan Pablo II",
+      "date": "2025-11-03"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Cusco FC",
+      "away": "Sport Boys",
+      "date": "2025-11-07"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Sport. Cristal",
+      "away": "Cienciano",
+      "date": "2025-11-07"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Universitario",
+      "away": "Dep. Garcilaso",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Ayacucho FC",
+      "away": "Comerciantes",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Juan Pablo II",
+      "away": "Atlético Grau",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "UTC",
+      "away": "Sport Huancayo",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Alianza Atl.",
+      "away": "Alianza UDH",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "AD Tarma",
+      "away": "Los Chankas",
+      "date": "2025-11-10"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Sport Boys",
+      "away": "Alianza Atl.",
+      "date": "2025-11-16"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Atlético Grau",
+      "away": "Sport. Cristal",
+      "date": "2025-11-19"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Los Chankas",
+      "away": "Universitario",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Alianza UDH",
+      "away": "Juan Pablo II",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Comerciantes",
+      "away": "AD Tarma",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Sport Huancayo",
+      "away": "Cusco FC",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Cienciano",
+      "away": "Ayacucho FC",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Alianza Lima",
+      "away": "UTC",
+      "date": "2025-11-23"
+    }
+  ]
+}

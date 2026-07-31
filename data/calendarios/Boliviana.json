@@ -1,0 +1,693 @@
+{
+  "competition": {
+    "id": "BO1A",
+    "name": "BO1A",
+    "league": "Boliviana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "Club Blooming": "Blooming",
+    "Oriente P.": "Oriente Petrolero",
+    "Ind. Petrolero": "Independiente Petrolero",
+    "SA Bulo Bulo": "San Antonio Bulo Bulo",
+    "Univ. de Vinto": "Universitario de Vinto",
+    "GV San José": "Gualberto Villarroel",
+    "Club A.B.B.": "Club ABB"
+  },
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "Bolívar",
+      "away": "Real Oruro",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Ind. Petrolero",
+      "away": "Nacional Potosí",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Club Blooming",
+      "away": "Guabirá",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Always Ready",
+      "away": "Real Tomayapo",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Real Potosí",
+      "away": "Aurora",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Oriente P.",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "GV San José",
+      "away": "Club A.B.B.",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Univ. de Vinto",
+      "away": "The Strongest",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Guabirá",
+      "away": "Ind. Petrolero",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Club A.B.B.",
+      "away": "Bolívar",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Nacional Potosí",
+      "away": "Univ. de Vinto",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Aurora",
+      "away": "Always Ready",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Real Oruro",
+      "away": "Club Blooming",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "The Strongest",
+      "away": "SA Bulo Bulo",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Oriente P.",
+      "away": "GV San José",
+      "date": "2026-04-13"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Real Tomayapo",
+      "away": "Real Potosí",
+      "date": "2026-04-14"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Univ. de Vinto",
+      "away": "Club A.B.B.",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "GV San José",
+      "away": "Aurora",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Bolívar",
+      "away": "Ind. Petrolero",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Always Ready",
+      "away": "Oriente P.",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Real Potosí",
+      "away": "Guabirá",
+      "date": "2026-04-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Club Blooming",
+      "away": "Nacional Potosí",
+      "date": "2026-04-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Real Oruro",
+      "date": "2026-04-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Real Tomayapo",
+      "away": "The Strongest",
+      "date": "2026-04-24"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Guabirá",
+      "away": "Always Ready",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Ind. Petrolero",
+      "away": "Univ. de Vinto",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Nacional Potosí",
+      "away": "GV San José",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Club A.B.B.",
+      "away": "Club Blooming",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Real Oruro",
+      "away": "The Strongest",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Bolívar",
+      "away": "Real Tomayapo",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Oriente P.",
+      "away": "Real Potosí",
+      "date": "2026-04-27"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Aurora",
+      "away": "SA Bulo Bulo",
+      "date": "2026-04-28"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Ind. Petrolero",
+      "date": "2026-05-01"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Real Potosí",
+      "away": "Real Oruro",
+      "date": "2026-05-01"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Always Ready",
+      "away": "Nacional Potosí",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Aurora",
+      "away": "Guabirá",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Oriente P.",
+      "away": "Real Tomayapo",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "GV San José",
+      "away": "Bolívar",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "The Strongest",
+      "away": "Club A.B.B.",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Univ. de Vinto",
+      "away": "Club Blooming",
+      "date": "2026-05-05"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Guabirá",
+      "away": "GV San José",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Real Tomayapo",
+      "away": "SA Bulo Bulo",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Ind. Petrolero",
+      "away": "Always Ready",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "The Strongest",
+      "away": "Real Potosí",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Club Blooming",
+      "away": "Bolívar",
+      "date": "2026-05-11"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Club A.B.B.",
+      "away": "Oriente P.",
+      "date": "2026-05-11"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Real Oruro",
+      "away": "Univ. de Vinto",
+      "date": "2026-07-09"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Nacional Potosí",
+      "away": "Aurora",
+      "date": "2026-07-10"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Univ. de Vinto",
+      "date": "2026-05-12"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Aurora",
+      "away": "Real Oruro",
+      "date": "2026-05-13"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Ind. Petrolero",
+      "away": "Club Blooming",
+      "date": "2026-05-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Bolívar",
+      "away": "Nacional Potosí",
+      "date": "2026-05-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Always Ready",
+      "away": "The Strongest",
+      "date": "2026-05-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Oriente P.",
+      "away": "Guabirá",
+      "date": "2026-05-15"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "GV San José",
+      "away": "Real Tomayapo",
+      "date": "2026-07-08"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Real Potosí",
+      "away": "Club A.B.B.",
+      "date": "2026-07-09"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Real Tomayapo",
+      "away": "Aurora",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Univ. de Vinto",
+      "away": "Bolívar",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Guabirá",
+      "away": "Nacional Potosí",
+      "date": "2026-05-18"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Real Oruro",
+      "away": "Always Ready",
+      "date": "2026-07-15"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Club Blooming",
+      "away": "GV San José",
+      "date": "2026-07-15"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Real Potosí",
+      "away": "SA Bulo Bulo",
+      "date": "2026-07-16"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "The Strongest",
+      "away": "Oriente P.",
+      "date": "2026-07-16"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Club A.B.B.",
+      "away": "Ind. Petrolero",
+      "date": "2026-07-16"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Bolívar",
+      "away": "Guabirá",
+      "date": "2026-07-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Always Ready",
+      "away": "Univ. de Vinto",
+      "date": "2026-07-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Aurora",
+      "away": "Oriente P.",
+      "date": "2026-07-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "GV San José",
+      "away": "The Strongest",
+      "date": "2026-07-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Club Blooming",
+      "away": "Real Tomayapo",
+      "date": "2026-07-20"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Club A.B.B.",
+      "date": "2026-07-20"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Nacional Potosí",
+      "away": "Real Oruro",
+      "date": "2026-07-21"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Ind. Petrolero",
+      "away": "Real Potosí",
+      "date": "2026-07-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Guabirá",
+      "date": "2026-05-29"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Club A.B.B.",
+      "away": "Always Ready",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Oriente P.",
+      "away": "Club Blooming",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Univ. de Vinto",
+      "away": "Aurora",
+      "date": "2026-06-02"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Real Oruro",
+      "away": "GV San José",
+      "date": "2026-07-11"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Real Potosí",
+      "away": "Nacional Potosí",
+      "date": "2026-07-12"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "The Strongest",
+      "away": "Bolívar",
+      "date": "2026-07-12"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Real Tomayapo",
+      "away": "Ind. Petrolero",
+      "date": "2026-07-13"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Aurora",
+      "away": "Club A.B.B.",
+      "date": "2026-07-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Always Ready",
+      "away": "SA Bulo Bulo",
+      "date": "2026-07-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Guabirá",
+      "away": "Real Oruro",
+      "date": "2026-07-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Ind. Petrolero",
+      "away": "Oriente P.",
+      "date": "2026-07-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Club Blooming",
+      "away": "The Strongest",
+      "date": "2026-07-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Bolívar",
+      "away": "Real Potosí",
+      "date": "2026-07-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Nacional Potosí",
+      "away": "Real Tomayapo",
+      "date": "2026-07-27"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "GV San José",
+      "away": "Univ. de Vinto",
+      "date": "2026-07-27"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Univ. de Vinto",
+      "away": "Guabirá",
+      "date": "2026-07-31"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "The Strongest",
+      "away": "Aurora",
+      "date": "2026-07-31"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Real Tomayapo",
+      "away": "Club A.B.B.",
+      "date": "2026-08-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Real Oruro",
+      "away": "Ind. Petrolero",
+      "date": "2026-08-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Club Blooming",
+      "date": "2026-08-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Real Potosí",
+      "away": "GV San José",
+      "date": "2026-08-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Always Ready",
+      "away": "Bolívar",
+      "date": "2026-08-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Oriente P.",
+      "away": "Nacional Potosí",
+      "date": "2026-08-03"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Club A.B.B.",
+      "away": "Real Oruro",
+      "date": "2026-08-04"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Ind. Petrolero",
+      "away": "Aurora",
+      "date": "2026-08-05"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Guabirá",
+      "away": "Real Tomayapo",
+      "date": "2026-08-05"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "GV San José",
+      "away": "SA Bulo Bulo",
+      "date": "2026-08-05"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Nacional Potosí",
+      "away": "The Strongest",
+      "date": "2026-08-06"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Bolívar",
+      "away": "Oriente P.",
+      "date": "2026-08-06"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Univ. de Vinto",
+      "away": "Real Potosí",
+      "date": "2026-08-06"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Club Blooming",
+      "away": "Always Ready",
+      "date": "2026-08-07"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Club A.B.B.",
+      "away": "Guabirá",
+      "date": "2026-08-07"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Real Tomayapo",
+      "away": "Real Oruro",
+      "date": "2026-08-08"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "SA Bulo Bulo",
+      "away": "Nacional Potosí",
+      "date": "2026-08-08"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "The Strongest",
+      "away": "Ind. Petrolero",
+      "date": "2026-08-08"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Aurora",
+      "away": "Bolívar",
+      "date": "2026-08-09"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "GV San José",
+      "away": "Always Ready",
+      "date": "2026-08-09"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Real Potosí",
+      "away": "Club Blooming",
+      "date": "2026-08-09"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Oriente P.",
+      "away": "Univ. de Vinto",
+      "date": "2026-08-10"
+    }
+  ]
+}

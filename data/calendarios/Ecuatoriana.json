@@ -1,0 +1,743 @@
+{
+  "competition": {
+    "id": "EC1N",
+    "name": "EC1N",
+    "league": "Ecuatoriana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "CD Macará": "Macará",
+    "CS Emelec": "Emelec",
+    "Delfín SC": "Delfín",
+    "Dep. Cuenca": "Atlético FC",
+    "Mushuc Runa SC": "Mushuc Runa",
+    "Orense SC": "Orense",
+    "SD Aucas": "Atlético FC",
+    "Uni. Católica": "Atlético FC",
+    "Técnico U.": "Técnico Universitario"
+  },
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "Orense SC",
+      "away": "LDU Quito",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "SD Aucas",
+      "away": "Mushuc Runa SC",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Barcelona SC",
+      "away": "Técnico U.",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "CD Macará",
+      "away": "Leones FC",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Delfín SC",
+      "away": "Dep. Cuenca",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Independiente",
+      "away": "Guayaquil City",
+      "date": "2026-02-23"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Libertad FC",
+      "away": "Manta FC",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Uni. Católica",
+      "away": "CS Emelec",
+      "date": "2026-04-09"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Técnico U.",
+      "away": "Orense SC",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Leones FC",
+      "away": "Libertad FC",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Guayaquil City",
+      "away": "SD Aucas",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "CS Emelec",
+      "away": "Delfín SC",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "LDU Quito",
+      "away": "CD Macará",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "Uni. Católica",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Dep. Cuenca",
+      "away": "Barcelona SC",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Manta FC",
+      "away": "Independiente",
+      "date": "2026-03-03"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Delfín SC",
+      "away": "Guayaquil City",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Barcelona SC",
+      "away": "CS Emelec",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Independiente",
+      "away": "Mushuc Runa SC",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Libertad FC",
+      "away": "LDU Quito",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "SD Aucas",
+      "away": "Dep. Cuenca",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "CD Macará",
+      "away": "Técnico U.",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Uni. Católica",
+      "away": "Leones FC",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Orense SC",
+      "away": "Manta FC",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Técnico U.",
+      "away": "Libertad FC",
+      "date": "2026-03-13"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Dep. Cuenca",
+      "away": "Leones FC",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Independiente",
+      "away": "SD Aucas",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Delfín SC",
+      "away": "Manta FC",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "LDU Quito",
+      "away": "Uni. Católica",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "CD Macará",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "CS Emelec",
+      "away": "Orense SC",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Guayaquil City",
+      "away": "Barcelona SC",
+      "date": "2026-03-16"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Uni. Católica",
+      "away": "Dep. Cuenca",
+      "date": "2026-03-17"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Leones FC",
+      "away": "LDU Quito",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "CD Macará",
+      "away": "Delfín SC",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Manta FC",
+      "away": "Guayaquil City",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Libertad FC",
+      "away": "Barcelona SC",
+      "date": "2026-03-19"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "SD Aucas",
+      "away": "Técnico U.",
+      "date": "2026-03-19"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Orense SC",
+      "away": "Mushuc Runa SC",
+      "date": "2026-03-19"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "CS Emelec",
+      "away": "Independiente",
+      "date": "2026-03-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Delfín SC",
+      "away": "Libertad FC",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Dep. Cuenca",
+      "away": "CD Macará",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "LDU Quito",
+      "away": "Manta FC",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Técnico U.",
+      "away": "Independiente",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Barcelona SC",
+      "away": "Uni. Católica",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "CS Emelec",
+      "date": "2026-03-23"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Guayaquil City",
+      "away": "Leones FC",
+      "date": "2026-03-23"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "SD Aucas",
+      "away": "Orense SC",
+      "date": "2026-03-24"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "LDU Quito",
+      "away": "Barcelona SC",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Independiente",
+      "away": "Orense SC",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Uni. Católica",
+      "away": "Guayaquil City",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "CS Emelec",
+      "away": "Dep. Cuenca",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Leones FC",
+      "away": "Delfín SC",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Manta FC",
+      "away": "Técnico U.",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "CD Macará",
+      "away": "SD Aucas",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Libertad FC",
+      "away": "Mushuc Runa SC",
+      "date": "2026-04-07"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Delfín SC",
+      "away": "LDU Quito",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Barcelona SC",
+      "away": "Leones FC",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "Manta FC",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Orense SC",
+      "away": "Libertad FC",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Técnico U.",
+      "away": "Uni. Católica",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Dep. Cuenca",
+      "away": "Independiente",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Guayaquil City",
+      "away": "CD Macará",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "SD Aucas",
+      "away": "CS Emelec",
+      "date": "2026-04-13"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Leones FC",
+      "away": "SD Aucas",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "CS Emelec",
+      "away": "Guayaquil City",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "Técnico U.",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Uni. Católica",
+      "away": "Libertad FC",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Orense SC",
+      "away": "Delfín SC",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Manta FC",
+      "away": "Dep. Cuenca",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Independiente",
+      "away": "LDU Quito",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "CD Macará",
+      "away": "Barcelona SC",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Libertad FC",
+      "away": "Guayaquil City",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Técnico U.",
+      "away": "CS Emelec",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Leones FC",
+      "away": "Manta FC",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Delfín SC",
+      "away": "Independiente",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Dep. Cuenca",
+      "away": "Orense SC",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Barcelona SC",
+      "away": "Mushuc Runa SC",
+      "date": "2026-04-23"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "LDU Quito",
+      "away": "SD Aucas",
+      "date": "2026-04-23"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Uni. Católica",
+      "away": "CD Macará",
+      "date": "2026-04-24"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "Dep. Cuenca",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Independiente",
+      "away": "Leones FC",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "CS Emelec",
+      "away": "LDU Quito",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "CD Macará",
+      "away": "Libertad FC",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Guayaquil City",
+      "away": "Técnico U.",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Orense SC",
+      "away": "Barcelona SC",
+      "date": "2026-04-27"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Manta FC",
+      "away": "Uni. Católica",
+      "date": "2026-04-27"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "SD Aucas",
+      "away": "Delfín SC",
+      "date": "2026-04-28"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Uni. Católica",
+      "away": "Independiente",
+      "date": "2026-05-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Libertad FC",
+      "away": "SD Aucas",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Dep. Cuenca",
+      "away": "Técnico U.",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "LDU Quito",
+      "away": "Guayaquil City",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Barcelona SC",
+      "away": "Manta FC",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "CD Macará",
+      "away": "Orense SC",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Delfín SC",
+      "away": "Mushuc Runa SC",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Leones FC",
+      "away": "CS Emelec",
+      "date": "2026-05-04"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Orense SC",
+      "away": "Leones FC",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Técnico U.",
+      "away": "Delfín SC",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Guayaquil City",
+      "away": "Dep. Cuenca",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "SD Aucas",
+      "away": "Uni. Católica",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Independiente",
+      "away": "Barcelona SC",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "CS Emelec",
+      "away": "Libertad FC",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Manta FC",
+      "away": "CD Macará",
+      "date": "2026-05-11"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "LDU Quito",
+      "date": "2026-05-12"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "LDU Quito",
+      "away": "Técnico U.",
+      "date": "2026-05-15"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Libertad FC",
+      "away": "Dep. Cuenca",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "CD Macará",
+      "away": "Independiente",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Uni. Católica",
+      "away": "Delfín SC",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Barcelona SC",
+      "away": "SD Aucas",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Leones FC",
+      "away": "Mushuc Runa SC",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Manta FC",
+      "away": "CS Emelec",
+      "date": "2026-05-18"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Guayaquil City",
+      "away": "Orense SC",
+      "date": "2026-05-19"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Independiente",
+      "away": "Libertad FC",
+      "date": "2026-05-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Mushuc Runa SC",
+      "away": "Guayaquil City",
+      "date": "2026-05-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Orense SC",
+      "away": "Uni. Católica",
+      "date": "2026-05-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Dep. Cuenca",
+      "away": "LDU Quito",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Técnico U.",
+      "away": "Leones FC",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "CS Emelec",
+      "away": "CD Macará",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Delfín SC",
+      "away": "Barcelona SC",
+      "date": "2026-05-25"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "SD Aucas",
+      "away": "Manta FC",
+      "date": "2026-05-26"
+    }
+  ]
+}

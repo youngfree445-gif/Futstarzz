@@ -1047,6 +1047,10 @@ export const CLUBS_DATABASE: Club[] = [
     badgeImageUrl: 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/fc-cajamarca/fc-cajamarca-logo-footylogos.svg', division: 1 },
   { id: 'moquegua', name: 'Moquegua', league: 'Peruana', dt: 'DT Genérico', reputation: 2, initialSalary: 1000, marketValue: 3500000, starPlayers: ['Juan Diego Lojas (CB)', 'Diego Ramírez (CM)', 'Yorman Zapata (LM)', 'Jefferson Collazos (ST)', 'Carlos Grados (GK)', 'Nicolás Chávez (CAM)', 'Cristian Enciso (CB)', 'Allonso Dávila (LW)', 'Kevin Moreno (CB)', 'Claudio Ramírez (CDM)', 'Bryan Angulo (ST)'], description: 'Liga 1 Te Apuesto.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
     badgeImageUrl: 'https://tmssl.akamaized.net/scapps/cpn/img/wappen/normal/17467.png', division: 1 },
+  // Faltaba en la base y sí juega la Liga 1 (ver data/calendarios/Peruana.json): sin él se
+  // descartaban 17 partidos por temporada. "Alianza Atlético" no se agrega porque ya está en la
+  // base como 'Atlético Sullana' (es el mismo club, Alianza Atlético de Sullana).
+  { id: 'alianza_udh', name: 'Alianza Universidad', league: 'Peruana', dt: 'DT Genérico', reputation: 2, initialSalary: 900, marketValue: 2500000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Liga 1 Te Apuesto.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽', division: 1 },
 
   // ==========================================
   // --- ECUADOR (LIGA PRO A Y B) ---

@@ -1,0 +1,525 @@
+{
+  "competition": {
+    "id": "VZ1A",
+    "name": "VZ1A",
+    "league": "Venezolana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "Anzoátegui": "Deportivo Anzoátegui",
+    "Estudiantes": "Estudiantes de Mérida",
+    "Metropolitanos": "Metropolitanos FC",
+    "Táchira": "Deportivo Táchira",
+    "Dep. La Guaira": "Deportivo La Guaira",
+    "Puerto Cabello": "Academia Puerto Cabello",
+    "UCV FC": "Universidad Central"
+  },
+  "matches": [
+    {
+      "round": "2. Matchday",
+      "home": "Portuguesa FC",
+      "away": "Táchira",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Anzoátegui",
+      "away": "Rayo Zuliano",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Zamora FC",
+      "away": "Estudiantes",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Caracas FC",
+      "away": "Puerto Cabello",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Monagas SC",
+      "away": "UCV FC",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Trujillanos",
+      "away": "Carabobo FC",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Metropolitanos",
+      "away": "Dep. La Guaira",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Estudiantes",
+      "away": "Rayo Zuliano",
+      "date": "2026-02-13"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Carabobo FC",
+      "away": "Monagas SC",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "UCV FC",
+      "away": "Metropolitanos",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Dep. La Guaira",
+      "away": "Caracas FC",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Táchira",
+      "away": "Trujillanos",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Portuguesa FC",
+      "away": "Anzoátegui",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Puerto Cabello",
+      "away": "Zamora FC",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Metropolitanos",
+      "away": "Carabobo FC",
+      "date": "2026-02-20"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Rayo Zuliano",
+      "away": "Puerto Cabello",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Trujillanos",
+      "away": "Portuguesa FC",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Caracas FC",
+      "away": "UCV FC",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Monagas SC",
+      "away": "Táchira",
+      "date": "2026-02-23"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Zamora FC",
+      "away": "Dep. La Guaira",
+      "date": "2026-02-23"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Anzoátegui",
+      "away": "Estudiantes",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Portuguesa FC",
+      "away": "Monagas SC",
+      "date": "2026-02-27"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Puerto Cabello",
+      "away": "Estudiantes",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "UCV FC",
+      "away": "Zamora FC",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Carabobo FC",
+      "away": "Caracas FC",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Táchira",
+      "away": "Metropolitanos",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Trujillanos",
+      "away": "Anzoátegui",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Dep. La Guaira",
+      "away": "Rayo Zuliano",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Estudiantes",
+      "away": "Dep. La Guaira",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Zamora FC",
+      "away": "Carabobo FC",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Caracas FC",
+      "away": "Táchira",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Anzoátegui",
+      "away": "Puerto Cabello",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Rayo Zuliano",
+      "away": "UCV FC",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Metropolitanos",
+      "away": "Portuguesa FC",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Monagas SC",
+      "away": "Trujillanos",
+      "date": "2026-03-09"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Dep. La Guaira",
+      "away": "Puerto Cabello",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Trujillanos",
+      "away": "Metropolitanos",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "UCV FC",
+      "away": "Estudiantes",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Portuguesa FC",
+      "away": "Caracas FC",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Monagas SC",
+      "away": "Anzoátegui",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Carabobo FC",
+      "away": "Rayo Zuliano",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Táchira",
+      "away": "Zamora FC",
+      "date": "2026-03-16"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Anzoátegui",
+      "away": "Dep. La Guaira",
+      "date": "2026-03-17"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Puerto Cabello",
+      "away": "UCV FC",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Caracas FC",
+      "away": "Trujillanos",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Rayo Zuliano",
+      "away": "Táchira",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Estudiantes",
+      "away": "Carabobo FC",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Zamora FC",
+      "away": "Portuguesa FC",
+      "date": "2026-03-19"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Metropolitanos",
+      "away": "Monagas SC",
+      "date": "2026-03-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "UCV FC",
+      "away": "Dep. La Guaira",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Trujillanos",
+      "away": "Zamora FC",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Táchira",
+      "away": "Estudiantes",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Monagas SC",
+      "away": "Caracas FC",
+      "date": "2026-03-23"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Portuguesa FC",
+      "away": "Rayo Zuliano",
+      "date": "2026-03-23"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Carabobo FC",
+      "away": "Puerto Cabello",
+      "date": "2026-03-24"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Metropolitanos",
+      "away": "Anzoátegui",
+      "date": "2026-03-24"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Dep. La Guaira",
+      "away": "Carabobo FC",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Anzoátegui",
+      "away": "UCV FC",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Caracas FC",
+      "away": "Metropolitanos",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Rayo Zuliano",
+      "away": "Trujillanos",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Zamora FC",
+      "away": "Monagas SC",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Puerto Cabello",
+      "away": "Táchira",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Estudiantes",
+      "away": "Portuguesa FC",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Táchira",
+      "away": "Dep. La Guaira",
+      "date": "2026-04-10"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Portuguesa FC",
+      "away": "Puerto Cabello",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Monagas SC",
+      "away": "Rayo Zuliano",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Metropolitanos",
+      "away": "Zamora FC",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Carabobo FC",
+      "away": "UCV FC",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Trujillanos",
+      "away": "Estudiantes",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Caracas FC",
+      "away": "Anzoátegui",
+      "date": "2026-04-13"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Rayo Zuliano",
+      "away": "Metropolitanos",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Estudiantes",
+      "away": "Monagas SC",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "UCV FC",
+      "away": "Táchira",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Zamora FC",
+      "away": "Caracas FC",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Carabobo FC",
+      "away": "Anzoátegui",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Dep. La Guaira",
+      "away": "Portuguesa FC",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Puerto Cabello",
+      "away": "Trujillanos",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Caracas FC",
+      "away": "Rayo Zuliano",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Monagas SC",
+      "away": "Puerto Cabello",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Táchira",
+      "away": "Carabobo FC",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Anzoátegui",
+      "away": "Zamora FC",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Portuguesa FC",
+      "away": "UCV FC",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Trujillanos",
+      "away": "Dep. La Guaira",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Metropolitanos",
+      "away": "Estudiantes",
+      "date": "2026-04-26"
+    }
+  ]
+}

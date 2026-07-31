@@ -1,0 +1,838 @@
+{
+  "competition": {
+    "id": "CLPD",
+    "name": "CLPD",
+    "league": "Chilena",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "La Serena": "Deportes La Serena",
+    "Limache": "Deportes Limache",
+    "U. de Chile": "Universidad de Chile",
+    "La Calera": "Unión La Calera",
+    "D. Concepción": "Deportes Concepción",
+    "U. Concepción": "Universidad de Concepción",
+    "CD Everton": "Everton",
+    "U. Católica": "Universidad Católica"
+  },
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "U. de Chile",
+      "away": "Audax Italiano",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Limache",
+      "away": "Colo-Colo",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "U. Concepción",
+      "away": "Coquimbo Unido",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Cobresal",
+      "away": "Huachipato",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "La Serena",
+      "away": "U. Católica",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Palestino",
+      "away": "Ñublense",
+      "date": "2026-02-02"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "CD Everton",
+      "away": "La Calera",
+      "date": "2026-02-02"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "O'Higgins",
+      "away": "D. Concepción",
+      "date": "2026-02-03"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Audax Italiano",
+      "away": "U. Concepción",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "Palestino",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "O'Higgins",
+      "away": "La Serena",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Colo-Colo",
+      "away": "CD Everton",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Huachipato",
+      "away": "U. de Chile",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Ñublense",
+      "away": "Limache",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "U. Católica",
+      "away": "D. Concepción",
+      "date": "2026-02-09"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "La Calera",
+      "away": "Cobresal",
+      "date": "2026-02-10"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "CD Everton",
+      "away": "Huachipato",
+      "date": "2026-02-13"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Palestino",
+      "away": "U. de Chile",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "La Serena",
+      "away": "Coquimbo Unido",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Limache",
+      "away": "O'Higgins",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Cobresal",
+      "away": "U. Católica",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "U. Concepción",
+      "away": "D. Concepción",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Ñublense",
+      "away": "Audax Italiano",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Colo-Colo",
+      "away": "La Calera",
+      "date": "2026-02-16"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "La Calera",
+      "away": "Ñublense",
+      "date": "2026-02-20"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "D. Concepción",
+      "away": "Cobresal",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Huachipato",
+      "away": "Palestino",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "O'Higgins",
+      "away": "Colo-Colo",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "U. Católica",
+      "away": "Coquimbo Unido",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "La Serena",
+      "away": "U. Concepción",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Audax Italiano",
+      "away": "CD Everton",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "U. de Chile",
+      "away": "Limache",
+      "date": "2026-02-23"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Cobresal",
+      "away": "La Serena",
+      "date": "2026-02-27"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "La Calera",
+      "away": "Audax Italiano",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "D. Concepción",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Limache",
+      "away": "Huachipato",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Palestino",
+      "away": "O'Higgins",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "U. Concepción",
+      "away": "CD Everton",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Colo-Colo",
+      "away": "U. de Chile",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Ñublense",
+      "away": "U. Católica",
+      "date": "2026-03-02"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "La Serena",
+      "away": "La Calera",
+      "date": "2026-03-06"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "D. Concepción",
+      "away": "Ñublense",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Huachipato",
+      "away": "Coquimbo Unido",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "CD Everton",
+      "away": "Limache",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Audax Italiano",
+      "away": "Colo-Colo",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "O'Higgins",
+      "away": "U. Católica",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Palestino",
+      "away": "Cobresal",
+      "date": "2026-03-09"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "U. de Chile",
+      "away": "U. Concepción",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Audax Italiano",
+      "away": "D. Concepción",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "U. de Chile",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "U. Católica",
+      "away": "CD Everton",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "U. Concepción",
+      "away": "Palestino",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Cobresal",
+      "away": "Limache",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Ñublense",
+      "away": "La Serena",
+      "date": "2026-03-16"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "La Calera",
+      "away": "O'Higgins",
+      "date": "2026-03-16"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Colo-Colo",
+      "away": "Huachipato",
+      "date": "2026-03-17"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "U. Católica",
+      "away": "Palestino",
+      "date": "2026-04-02"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "Cobresal",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "O'Higgins",
+      "away": "Audax Italiano",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Limache",
+      "away": "La Calera",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "CD Everton",
+      "away": "Ñublense",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "D. Concepción",
+      "away": "Colo-Colo",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "U. de Chile",
+      "away": "La Serena",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Huachipato",
+      "away": "U. Concepción",
+      "date": "2026-04-07"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "O'Higgins",
+      "away": "Huachipato",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "La Serena",
+      "away": "CD Everton",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Audax Italiano",
+      "away": "U. Católica",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Palestino",
+      "away": "Limache",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Ñublense",
+      "away": "U. de Chile",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "U. Concepción",
+      "away": "Cobresal",
+      "date": "2026-04-13"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "La Calera",
+      "away": "D. Concepción",
+      "date": "2026-04-14"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Colo-Colo",
+      "away": "Coquimbo Unido",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Limache",
+      "away": "U. Concepción",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "CD Everton",
+      "away": "U. de Chile",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "D. Concepción",
+      "away": "La Serena",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "Ñublense",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Cobresal",
+      "away": "O'Higgins",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Colo-Colo",
+      "away": "Palestino",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Huachipato",
+      "away": "Audax Italiano",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "U. Católica",
+      "away": "La Calera",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Palestino",
+      "away": "D. Concepción",
+      "date": "2026-04-24"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "La Calera",
+      "away": "Coquimbo Unido",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Audax Italiano",
+      "away": "Limache",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Ñublense",
+      "away": "O'Higgins",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "U. de Chile",
+      "away": "U. Católica",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "La Serena",
+      "away": "Huachipato",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "U. Concepción",
+      "away": "Colo-Colo",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "CD Everton",
+      "away": "Cobresal",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Palestino",
+      "away": "La Serena",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "Audax Italiano",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "O'Higgins",
+      "away": "U. Concepción",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Limache",
+      "away": "U. Católica",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Huachipato",
+      "away": "La Calera",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Cobresal",
+      "away": "U. de Chile",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Colo-Colo",
+      "away": "Ñublense",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "D. Concepción",
+      "away": "CD Everton",
+      "date": "2026-05-18"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "CD Everton",
+      "away": "Coquimbo Unido",
+      "date": "2026-05-22"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Audax Italiano",
+      "away": "Cobresal",
+      "date": "2026-05-23"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Ñublense",
+      "away": "U. Concepción",
+      "date": "2026-05-23"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "La Calera",
+      "away": "Palestino",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "D. Concepción",
+      "away": "Huachipato",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "La Serena",
+      "away": "Limache",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "U. Católica",
+      "away": "Colo-Colo",
+      "date": "2026-05-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "U. de Chile",
+      "away": "O'Higgins",
+      "date": "2026-06-19"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Cobresal",
+      "away": "Ñublense",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "U. Concepción",
+      "away": "La Calera",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "La Serena",
+      "away": "Colo-Colo",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "U. de Chile",
+      "away": "D. Concepción",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Limache",
+      "away": "Coquimbo Unido",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Huachipato",
+      "away": "U. Católica",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "O'Higgins",
+      "away": "CD Everton",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Palestino",
+      "away": "Audax Italiano",
+      "date": "2026-06-01"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Audax Italiano",
+      "away": "La Serena",
+      "date": "2026-06-13"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "O'Higgins",
+      "date": "2026-06-13"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "CD Everton",
+      "away": "Palestino",
+      "date": "2026-06-13"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Colo-Colo",
+      "away": "Cobresal",
+      "date": "2026-06-13"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Ñublense",
+      "away": "Huachipato",
+      "date": "2026-06-14"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "D. Concepción",
+      "away": "Limache",
+      "date": "2026-06-14"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "La Calera",
+      "away": "U. de Chile",
+      "date": "2026-06-14"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "U. Católica",
+      "away": "U. Concepción",
+      "date": "2026-06-14"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Colo-Colo",
+      "away": "Limache",
+      "date": "2026-07-25"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Coquimbo Unido",
+      "away": "U. Concepción",
+      "date": "2026-07-25"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Huachipato",
+      "away": "Cobresal",
+      "date": "2026-07-25"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "U. Católica",
+      "away": "La Serena",
+      "date": "2026-07-26"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Ñublense",
+      "away": "Palestino",
+      "date": "2026-07-26"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Audax Italiano",
+      "away": "U. de Chile",
+      "date": "2026-07-26"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "D. Concepción",
+      "away": "O'Higgins",
+      "date": "2026-07-27"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "La Calera",
+      "away": "CD Everton",
+      "date": "2026-07-28"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "U. Concepción",
+      "away": "Audax Italiano",
+      "date": "2026-08-01"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Cobresal",
+      "away": "La Calera",
+      "date": "2026-08-01"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "CD Everton",
+      "away": "Colo-Colo",
+      "date": "2026-08-01"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Palestino",
+      "away": "Coquimbo Unido",
+      "date": "2026-08-01"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Limache",
+      "away": "Ñublense",
+      "date": "2026-08-02"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "D. Concepción",
+      "away": "U. Católica",
+      "date": "2026-08-02"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "La Serena",
+      "away": "O'Higgins",
+      "date": "2026-08-02"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "U. de Chile",
+      "away": "Huachipato",
+      "date": "2026-08-02"
+    }
+  ]
+}

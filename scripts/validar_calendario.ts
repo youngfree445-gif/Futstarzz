@@ -20,12 +20,16 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 function loadClubs(): { name: string; league: string }[] {
   const src = readFileSync(join(HERE, '..', 'src', 'data.ts'), 'utf8');
   const out: { name: string; league: string }[] = [];
-  // Cada club declara name y league en el mismo literal, en ese orden. Se exige que el nombre no
-  // contenga comillas sin escapar para no capturar fragmentos de textos de eventos que también
-  // tienen "name:" cerca de un "league:".
-  const re = /name:\s*(["'])([^"'\\]{2,60})\1[\s\S]{0,400}?league:\s*(["'])([^"'\\]{2,40})\3/g;
+  // Cada club declara name y league en el mismo literal, en ese orden. El cuerpo del nombre puede
+  // contener la OTRA comilla (O"Higgins se declara con dobles, Ligat ha'Al con simples), así que se
+  // excluye solo el delimitador propio -- excluir ambas descartaba esos clubes y los reportaba como
+  // "no reconocidos" aunque estuvieran perfectos en data.ts.
+  const re = /name:\s*(["'])((?:\\.|(?!\1)[^\\]){2,60})\1[\s\S]{0,400}?league:\s*(["'])((?:\\.|(?!\3)[^\\]){2,40})\3/g;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(src))) out.push({ name: m[2], league: m[4] });
+  // Desescapar: en data.ts O'Higgins se declara como 'O\'Higgins', y el nombre real no lleva la
+  // barra. Sin esto no matchea nunca contra el dato del scraper.
+  const unesc = (s: string) => s.replace(/\\(.)/g, '$1');
+  while ((m = re.exec(src))) out.push({ name: unesc(m[2]), league: unesc(m[4]) });
   // Deduplicar: un mismo club puede aparecer más de una vez si el regex solapa.
   const byName = new Map(out.map(c => [c.name, c]));
   return [...byName.values()];
@@ -93,11 +97,19 @@ if (!matches.length) {
 }
 
 // --- nombres de club ---
-const byName = new Map(CLUBS.map(c => [c.name.toLowerCase(), c]));
+// Hay homónimos entre países: "Universidad Católica" existe en Chile y Ecuador, "Liverpool" en
+// Uruguay e Inglaterra. Un Map global se queda con uno solo y el otro queda "no reconocido" para
+// siempre, así que se resuelve primero dentro de la liga declarada en el archivo.
+const declaredLeague: string | undefined = competition.league;
+const inLeague = new Map(
+  CLUBS.filter(c => c.league === declaredLeague).map(c => [c.name.toLowerCase(), c])
+);
+const anyLeague = new Map(CLUBS.map(c => [c.name.toLowerCase(), c]));
+
 const resolve = (n: string) => {
   if (!n) return null;
-  const alias = aliases[n] ?? n;
-  return byName.get(alias.toLowerCase()) ?? null;
+  const key = (aliases[n] ?? n).toLowerCase();
+  return inLeague.get(key) ?? anyLeague.get(key) ?? null;
 };
 
 const unknown = new Map<string, number>();

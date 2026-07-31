@@ -1,0 +1,745 @@
+{
+  "competition": {
+    "id": "URU1",
+    "name": "URU1",
+    "league": "Uruguaya",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "Albion FC": "Albion",
+    "CA Cerro": "Cerro",
+    "CA Progreso": "Progreso",
+    "CD Maldonado": "Maldonado",
+    "Danubio FC": "Danubio",
+    "Defensor SC": "Defensor Sporting",
+    "Juventud": "Juventud de Las Piedras",
+    "Wanderers": "Montevideo Wanderers",
+    "Mvd City Torque": "Montevideo City Torque",
+    "Central Español": "C. Español",
+    "Liverpool FC": "Liverpool"
+  },
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "Albion FC",
+      "away": "Liverpool FC",
+      "date": "2026-02-06"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Wanderers",
+      "away": "Defensor SC",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "CA Progreso",
+      "away": "Central Español",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Peñarol",
+      "away": "Mvd City Torque",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Juventud",
+      "away": "Cerro Largo",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Racing Club",
+      "away": "CD Maldonado",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Boston River",
+      "away": "Nacional",
+      "date": "2026-02-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "CA Cerro",
+      "away": "Danubio FC",
+      "date": "2026-02-10"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Cerro Largo",
+      "away": "Wanderers",
+      "date": "2026-02-13"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Liverpool FC",
+      "away": "Defensor SC",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "CD Maldonado",
+      "away": "CA Progreso",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Nacional",
+      "away": "Racing Club",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Danubio FC",
+      "away": "Boston River",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Central Español",
+      "away": "Peñarol",
+      "date": "2026-02-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Albion FC",
+      "away": "CA Cerro",
+      "date": "2026-02-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Mvd City Torque",
+      "away": "Juventud",
+      "date": "2026-02-17"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "CA Cerro",
+      "away": "Liverpool FC",
+      "date": "2026-02-20"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Defensor SC",
+      "away": "Cerro Largo",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Racing Club",
+      "away": "Danubio FC",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Boston River",
+      "away": "Albion FC",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "CA Progreso",
+      "away": "Nacional",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Wanderers",
+      "away": "Mvd City Torque",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Juventud",
+      "away": "Central Español",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Peñarol",
+      "away": "CD Maldonado",
+      "date": "2026-02-23"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Mvd City Torque",
+      "away": "Defensor SC",
+      "date": "2026-02-26"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "CA Cerro",
+      "away": "Boston River",
+      "date": "2026-02-27"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Albion FC",
+      "away": "Racing Club",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Danubio FC",
+      "away": "CA Progreso",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Central Español",
+      "away": "Wanderers",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Liverpool FC",
+      "away": "Cerro Largo",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Nacional",
+      "away": "Peñarol",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "CD Maldonado",
+      "away": "Juventud",
+      "date": "2026-03-02"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Wanderers",
+      "away": "CD Maldonado",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "CA Progreso",
+      "away": "Albion FC",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Peñarol",
+      "away": "Danubio FC",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Racing Club",
+      "away": "CA Cerro",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Juventud",
+      "away": "Nacional",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Defensor SC",
+      "away": "Central Español",
+      "date": "2026-03-09"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Cerro Largo",
+      "away": "Mvd City Torque",
+      "date": "2026-03-09"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Boston River",
+      "away": "Liverpool FC",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Nacional",
+      "away": "Wanderers",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "CA Cerro",
+      "away": "CA Progreso",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Boston River",
+      "away": "Racing Club",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Albion FC",
+      "away": "Peñarol",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Central Español",
+      "away": "Cerro Largo",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "CD Maldonado",
+      "away": "Defensor SC",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Danubio FC",
+      "away": "Juventud",
+      "date": "2026-03-16"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Liverpool FC",
+      "away": "Mvd City Torque",
+      "date": "2026-03-17"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Cerro Largo",
+      "away": "CD Maldonado",
+      "date": "2026-03-20"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Defensor SC",
+      "away": "Nacional",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Racing Club",
+      "away": "Liverpool FC",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Mvd City Torque",
+      "away": "Central Español",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Wanderers",
+      "away": "Danubio FC",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Peñarol",
+      "away": "CA Cerro",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Juventud",
+      "away": "Albion FC",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "CA Progreso",
+      "away": "Boston River",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "CD Maldonado",
+      "away": "Mvd City Torque",
+      "date": "2026-03-24"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Liverpool FC",
+      "away": "Central Español",
+      "date": "2026-03-24"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Nacional",
+      "away": "Cerro Largo",
+      "date": "2026-03-25"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Albion FC",
+      "away": "Wanderers",
+      "date": "2026-03-25"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "CA Cerro",
+      "away": "Juventud",
+      "date": "2026-03-25"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Boston River",
+      "away": "Peñarol",
+      "date": "2026-03-26"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Racing Club",
+      "away": "CA Progreso",
+      "date": "2026-03-26"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Danubio FC",
+      "away": "Defensor SC",
+      "date": "2026-03-26"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Wanderers",
+      "away": "CA Cerro",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Mvd City Torque",
+      "away": "Nacional",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Peñarol",
+      "away": "Racing Club",
+      "date": "2026-03-30"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Juventud",
+      "away": "Boston River",
+      "date": "2026-03-30"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Cerro Largo",
+      "away": "Danubio FC",
+      "date": "2026-03-31"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Central Español",
+      "away": "CD Maldonado",
+      "date": "2026-03-31"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "CA Progreso",
+      "away": "Liverpool FC",
+      "date": "2026-03-31"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Defensor SC",
+      "away": "Albion FC",
+      "date": "2026-04-01"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Boston River",
+      "away": "Wanderers",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Nacional",
+      "away": "Central Español",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Racing Club",
+      "away": "Juventud",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Danubio FC",
+      "away": "Mvd City Torque",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "CA Progreso",
+      "away": "Peñarol",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Albion FC",
+      "away": "Cerro Largo",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "CA Cerro",
+      "away": "Defensor SC",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Liverpool FC",
+      "away": "CD Maldonado",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Cerro Largo",
+      "away": "CA Cerro",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Mvd City Torque",
+      "away": "Albion FC",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Defensor SC",
+      "away": "Boston River",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "CD Maldonado",
+      "away": "Nacional",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Central Español",
+      "away": "Danubio FC",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Juventud",
+      "away": "CA Progreso",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Wanderers",
+      "away": "Racing Club",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Peñarol",
+      "away": "Liverpool FC",
+      "date": "2026-04-14"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Albion FC",
+      "away": "Central Español",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "CA Progreso",
+      "away": "Wanderers",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Racing Club",
+      "away": "Defensor SC",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "CA Cerro",
+      "away": "Mvd City Torque",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Danubio FC",
+      "away": "CD Maldonado",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Liverpool FC",
+      "away": "Nacional",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Boston River",
+      "away": "Cerro Largo",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Peñarol",
+      "away": "Juventud",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Mvd City Torque",
+      "away": "Boston River",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Juventud",
+      "away": "Liverpool FC",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "CD Maldonado",
+      "away": "Albion FC",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Nacional",
+      "away": "Danubio FC",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Central Español",
+      "away": "CA Cerro",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Cerro Largo",
+      "away": "Racing Club",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Wanderers",
+      "away": "Peñarol",
+      "date": "2026-04-27"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Defensor SC",
+      "away": "CA Progreso",
+      "date": "2026-04-28"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Juventud",
+      "away": "Wanderers",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "CA Cerro",
+      "away": "CD Maldonado",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Liverpool FC",
+      "away": "Danubio FC",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "CA Progreso",
+      "away": "Cerro Largo",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Boston River",
+      "away": "Central Español",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Racing Club",
+      "away": "Mvd City Torque",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Albion FC",
+      "away": "Nacional",
+      "date": "2026-05-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Peñarol",
+      "away": "Defensor SC",
+      "date": "2026-05-05"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Wanderers",
+      "away": "Liverpool FC",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Danubio FC",
+      "away": "Albion FC",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Central Español",
+      "away": "Racing Club",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Defensor SC",
+      "away": "Juventud",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Mvd City Torque",
+      "away": "CA Progreso",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Nacional",
+      "away": "CA Cerro",
+      "date": "2026-05-11"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "CD Maldonado",
+      "away": "Boston River",
+      "date": "2026-05-11"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Cerro Largo",
+      "away": "Peñarol",
+      "date": "2026-05-12"
+    }
+  ]
+}
