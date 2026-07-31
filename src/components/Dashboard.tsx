@@ -4,6 +4,7 @@ import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLeg
 import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS } from '../data';
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
+import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -72,10 +73,11 @@ function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
   return myGoals > rivalGoals ? 'V' : myGoals === rivalGoals ? 'E' : 'D';
 }
 
-// Mentoría de Jóvenes: usa la edad real de PLAYER_ENRICHMENT (cruzada contra FC26/latamfc26,
-// ver playerEnrichment.ts) cuando existe para ese club+jugador. Solo cuando NO hay dato real
-// (jugador sin match en el cruce automático, ~45% de los starPlayers) caemos a una edad estable
-// generada a partir del nombre, para que la mentoría siga funcionando en los 600+ clubes.
+// Mentoría de Jóvenes: usa la edad real cuando existe para ese club+jugador, consultando en
+// orden PLAYER_ENRICHMENT (cruce contra FC26/latamfc26, ver playerEnrichment.ts) y después
+// TM_SQUAD_ENRICHMENT (planteles de Transfermarkt, por ahora solo Dimayor I -- ver
+// tmSquadEnrichment.ts). Solo cuando NO hay dato real en ninguna de las dos caemos a una edad
+// estable generada a partir del nombre, para que la mentoría siga funcionando en los 600+ clubes.
 //
 // BUGFIX: antes esto usaba el hash SIEMPRE, ignorando la edad real ya presente en el repo -- eso
 // podía ofrecer como mentee elegible a un veterano real de 30+ años si su nombre (que puede variar
@@ -83,7 +85,8 @@ function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
 // Junior de Barranquilla, el sistema ofrecía a Luis Fernando Muriel -- delantero de 1991, uno de
 // los más veteranos del plantel -- como candidato a mentee).
 function getMenteeAge(clubId: string, name: string): number {
-  const real = PLAYER_ENRICHMENT[`${clubId}|${name}`]?.age;
+  const key = `${clubId}|${name}`;
+  const real = PLAYER_ENRICHMENT[key]?.age ?? TM_SQUAD_ENRICHMENT[key]?.age;
   if (real != null) return real;
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
