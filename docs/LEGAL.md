@@ -20,6 +20,11 @@ El juego:
   juego**, no constituyen contraprestación por servicio alguno y no son
   necesarias para acceder a ninguna parte del juego, que permanece íntegramente
   disponible sin costo.
+
+  Las plataformas utilizadas para procesar dichas donaciones son gestionadas por
+  terceros, operan bajo sus propios términos de servicio y son responsables del
+  tratamiento de los datos personales y financieros que el usuario decida
+  proporcionarles.
 - No comercializa datos, contenidos ni funcionalidades.
 - No presta ningún servicio profesional ni de asesoramiento.
 - Es una obra de **entretenimiento y ficción**. Las situaciones, decisiones,
@@ -120,8 +125,13 @@ usuarios.** En particular:
   o en el dispositivo del usuario.
 - **No se emplean cookies de seguimiento, píxeles, analítica de terceros ni
   herramientas de publicidad.**
-- **No hay comunicaciones a terceros**, ni transferencias nacionales o
-  internacionales de datos, porque no existen datos que transferir.
+- **El desarrollador no comunica ni transfiere datos a terceros**, ni a nivel
+  nacional ni internacional, porque no recopila datos que pudiera transferir.
+- **Infraestructura técnica.** Aunque el juego no recopila datos, el proveedor de
+  alojamiento web (GitHub Pages, Netlify) puede registrar automáticamente datos
+  técnicos básicos como direcciones IP para el funcionamiento y la seguridad del
+  servidor. Dicho tratamiento es ajeno al desarrollador y se rige por la política
+  de privacidad de cada proveedor.
 
 ### 5.2. Información guardada en su propio dispositivo
 
