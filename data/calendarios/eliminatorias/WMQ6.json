@@ -1,0 +1,1219 @@
+{
+  "competition": {
+    "id": "WMQ6",
+    "name": "Eliminatorias UEFA",
+    "type": "national_team_competition",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {
+    "Malta": "Selección de Malta",
+    "Finland": "Selección de Finlandia",
+    "Poland": "Selección de Polonia",
+    "Lithuania": "Selección de Lituania",
+    "Cyprus": "Selección de Chipre",
+    "San Marino": "Selección de San Marino",
+    "Romania": "Selección de Rumania",
+    "Bosnia": "Selección de Bosnia y Herzegovina",
+    "England": "Selección de Inglaterra",
+    "Albania": "Selección de Albania",
+    "Andorra": "Selección de Andorra",
+    "Latvia": "Selección de Letonia",
+    "Moldova": "Selección de Moldavia",
+    "Norway": "Selección de Noruega",
+    "Israel": "Selección de Israel",
+    "Estonia": "Selección de Estonia",
+    "Liechtenstein": "Selección de Liechtenstein",
+    "North Macedonia": "Selección de Macedonia del Norte",
+    "Wales": "Selección de Gales",
+    "Kazakhstan": "Selección de Kazajistán",
+    "Montenegro": "Selección de Montenegro",
+    "Gibraltar": "Selección de Gibraltar",
+    "Czechia": "Selección de República Checa",
+    "Faroe Islands": "Selección de Islas Feroe",
+    "Italy": "Selección de Italia",
+    "Belgium": "Selección de Bélgica",
+    "Croatia": "Selección de Croacia",
+    "Netherlands": "Selección de Holanda",
+    "Austria": "Selección de Austria",
+    "Serbia": "Selección de Serbia",
+    "Slovakia": "Selección de Eslovaquia",
+    "Germany": "Selección de Alemania",
+    "Luxembourg": "Selección de Luxemburgo",
+    "N. Ireland": "Selección de Irlanda del Norte",
+    "Georgia": "Selección de Georgia",
+    "Turkiye": "Selección de Türkiye",
+    "Bulgaria": "Selección de Bulgaria",
+    "Spain": "Selección de España",
+    "Switzerland": "Selección de Suiza",
+    "Kosovo": "Selección de Kosovo",
+    "Slovenia": "Selección de Eslovenia",
+    "Sweden": "Selección de Suecia",
+    "Greece": "Selección de Grecia",
+    "Belarus": "Selección de Bielorrusia",
+    "Denmark": "Selección de Dinamarca",
+    "Scotland": "Selección de Escocia",
+    "Ukraine": "Selección de Ucrania",
+    "France": "Selección de Francia",
+    "Iceland": "Selección de Islandia",
+    "Azerbaijan": "Selección de Azerbaiyán",
+    "Armenia": "Selección de Armenia",
+    "Portugal": "Selección de Portugal",
+    "Ireland": "Selección de Irlanda",
+    "Hungary": "Selección de Hungría"
+  },
+  "matches": [
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Malta",
+      "away": "Finland"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Poland",
+      "away": "Lithuania"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Cyprus",
+      "away": "San Marino"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Romania",
+      "away": "Bosnia"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "England",
+      "away": "Albania"
+    },
+    {
+      "date": "2025-03-21",
+      "round": "Schedule",
+      "home": "Andorra",
+      "away": "Latvia"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Moldova",
+      "away": "Norway"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Israel",
+      "away": "Estonia"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Liechtenstein",
+      "away": "North Macedonia"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Wales",
+      "away": "Kazakhstan"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Montenegro",
+      "away": "Gibraltar"
+    },
+    {
+      "date": "2025-03-22",
+      "round": "Schedule",
+      "home": "Czechia",
+      "away": "Faroe Islands"
+    },
+    {
+      "date": "2025-03-24",
+      "round": "Schedule",
+      "home": "Lithuania",
+      "away": "Finland"
+    },
+    {
+      "date": "2025-03-24",
+      "round": "Schedule",
+      "home": "Poland",
+      "away": "Malta"
+    },
+    {
+      "date": "2025-03-24",
+      "round": "Schedule",
+      "home": "San Marino",
+      "away": "Romania"
+    },
+    {
+      "date": "2025-03-24",
+      "round": "Schedule",
+      "home": "Bosnia",
+      "away": "Cyprus"
+    },
+    {
+      "date": "2025-03-24",
+      "round": "Schedule",
+      "home": "England",
+      "away": "Latvia"
+    },
+    {
+      "date": "2025-03-24",
+      "round": "Schedule",
+      "home": "Albania",
+      "away": "Andorra"
+    },
+    {
+      "date": "2025-03-25",
+      "round": "Schedule",
+      "home": "Moldova",
+      "away": "Estonia"
+    },
+    {
+      "date": "2025-03-25",
+      "round": "Schedule",
+      "home": "Israel",
+      "away": "Norway"
+    },
+    {
+      "date": "2025-03-25",
+      "round": "Schedule",
+      "home": "North Macedonia",
+      "away": "Wales"
+    },
+    {
+      "date": "2025-03-25",
+      "round": "Schedule",
+      "home": "Liechtenstein",
+      "away": "Kazakhstan"
+    },
+    {
+      "date": "2025-03-25",
+      "round": "Schedule",
+      "home": "Gibraltar",
+      "away": "Czechia"
+    },
+    {
+      "date": "2025-03-25",
+      "round": "Schedule",
+      "home": "Montenegro",
+      "away": "Faroe Islands"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Norway",
+      "away": "Italy"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Estonia",
+      "away": "Israel"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Wales",
+      "away": "Liechtenstein"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "North Macedonia",
+      "away": "Belgium"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Gibraltar",
+      "away": "Croatia"
+    },
+    {
+      "date": "2025-06-06",
+      "round": "Schedule",
+      "home": "Czechia",
+      "away": "Montenegro"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Malta",
+      "away": "Lithuania"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Finland",
+      "away": "Netherlands"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Bosnia",
+      "away": "San Marino"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Austria",
+      "away": "Romania"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Andorra",
+      "away": "England"
+    },
+    {
+      "date": "2025-06-07",
+      "round": "Schedule",
+      "home": "Albania",
+      "away": "Serbia"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "Schedule",
+      "home": "Italy",
+      "away": "Moldova"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "Schedule",
+      "home": "Estonia",
+      "away": "Norway"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "Schedule",
+      "home": "Kazakhstan",
+      "away": "North Macedonia"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "Schedule",
+      "home": "Belgium",
+      "away": "Wales"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "Schedule",
+      "home": "Faroe Islands",
+      "away": "Gibraltar"
+    },
+    {
+      "date": "2025-06-09",
+      "round": "Schedule",
+      "home": "Croatia",
+      "away": "Czechia"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "Netherlands",
+      "away": "Malta"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "Finland",
+      "away": "Poland"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "Romania",
+      "away": "Cyprus"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "San Marino",
+      "away": "Austria"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "Serbia",
+      "away": "Andorra"
+    },
+    {
+      "date": "2025-06-10",
+      "round": "Schedule",
+      "home": "Latvia",
+      "away": "Albania"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Slovakia",
+      "away": "Germany"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Luxembourg",
+      "away": "N. Ireland"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Georgia",
+      "away": "Turkiye"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Bulgaria",
+      "away": "Spain"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Lithuania",
+      "away": "Malta"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Netherlands",
+      "away": "Poland"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Kazakhstan",
+      "away": "Wales"
+    },
+    {
+      "date": "2025-09-04",
+      "round": "Schedule",
+      "home": "Liechtenstein",
+      "away": "Belgium"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Switzerland",
+      "away": "Kosovo"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Slovenia",
+      "away": "Sweden"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Greece",
+      "away": "Belarus"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Denmark",
+      "away": "Scotland"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Ukraine",
+      "away": "France"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Iceland",
+      "away": "Azerbaijan"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Italy",
+      "away": "Estonia"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Moldova",
+      "away": "Israel"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Faroe Islands",
+      "away": "Croatia"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "Schedule",
+      "home": "Montenegro",
+      "away": "Czechia"
+    },
+    {
+      "date": "2025-09-06",
+      "round": "Schedule",
+      "home": "Armenia",
+      "away": "Portugal"
+    },
+    {
+      "date": "2025-09-06",
+      "round": "Schedule",
+      "home": "Ireland",
+      "away": "Hungary"
+    },
+    {
+      "date": "2025-09-06",
+      "round": "Schedule",
+      "home": "San Marino",
+      "away": "Bosnia"
+    },
+    {
+      "date": "2025-09-06",
+      "round": "Schedule",
+      "home": "Austria",
+      "away": "Cyprus"
+    },
+    {
+      "date": "2025-09-06",
+      "round": "Schedule",
+      "home": "Latvia",
+      "away": "Serbia"
+    },
+    {
+      "date": "2025-09-06",
+      "round": "Schedule",
+      "home": "England",
+      "away": "Andorra"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "Luxembourg",
+      "away": "Slovakia"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "Germany",
+      "away": "N. Ireland"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "Georgia",
+      "away": "Bulgaria"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "Turkiye",
+      "away": "Spain"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "Lithuania",
+      "away": "Netherlands"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "Poland",
+      "away": "Finland"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "North Macedonia",
+      "away": "Liechtenstein"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "Schedule",
+      "home": "Belgium",
+      "away": "Kazakhstan"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Schedule",
+      "home": "Switzerland",
+      "away": "Slovenia"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Schedule",
+      "home": "Kosovo",
+      "away": "Sweden"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Schedule",
+      "home": "Greece",
+      "away": "Denmark"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Schedule",
+      "home": "Belarus",
+      "away": "Scotland"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Schedule",
+      "home": "Israel",
+      "away": "Italy"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Schedule",
+      "home": "Croatia",
+      "away": "Montenegro"
+    },
+    {
+      "date": "2025-09-08",
+      "round": "Schedule",
+      "home": "Gibraltar",
+      "away": "Faroe Islands"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Azerbaijan",
+      "away": "Ukraine"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "France",
+      "away": "Iceland"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Armenia",
+      "away": "Ireland"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Hungary",
+      "away": "Portugal"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Cyprus",
+      "away": "Romania"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Bosnia",
+      "away": "Austria"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Norway",
+      "away": "Moldova"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Serbia",
+      "away": "England"
+    },
+    {
+      "date": "2025-09-09",
+      "round": "Schedule",
+      "home": "Albania",
+      "away": "Latvia"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Scotland",
+      "away": "Greece"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Belarus",
+      "away": "Denmark"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Finland",
+      "away": "Lithuania"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Malta",
+      "away": "Netherlands"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Cyprus",
+      "away": "Bosnia"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Austria",
+      "away": "San Marino"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Czechia",
+      "away": "Croatia"
+    },
+    {
+      "date": "2025-10-09",
+      "round": "Schedule",
+      "home": "Faroe Islands",
+      "away": "Montenegro"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "N. Ireland",
+      "away": "Slovakia"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "Germany",
+      "away": "Luxembourg"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "Sweden",
+      "away": "Switzerland"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "Kosovo",
+      "away": "Slovenia"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "France",
+      "away": "Azerbaijan"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "Iceland",
+      "away": "Ukraine"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "Kazakhstan",
+      "away": "Liechtenstein"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "Schedule",
+      "home": "Belgium",
+      "away": "North Macedonia"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Bulgaria",
+      "away": "Turkiye"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Spain",
+      "away": "Georgia"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Hungary",
+      "away": "Armenia"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Portugal",
+      "away": "Ireland"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Norway",
+      "away": "Israel"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Estonia",
+      "away": "Italy"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Latvia",
+      "away": "Andorra"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "Schedule",
+      "home": "Serbia",
+      "away": "Albania"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "Scotland",
+      "away": "Belarus"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "Denmark",
+      "away": "Greece"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "Netherlands",
+      "away": "Finland"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "Lithuania",
+      "away": "Poland"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "San Marino",
+      "away": "Cyprus"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "Romania",
+      "away": "Austria"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "Faroe Islands",
+      "away": "Czechia"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "Schedule",
+      "home": "Croatia",
+      "away": "Gibraltar"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "Slovakia",
+      "away": "Luxembourg"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "N. Ireland",
+      "away": "Germany"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "Sweden",
+      "away": "Kosovo"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "Slovenia",
+      "away": "Switzerland"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "Ukraine",
+      "away": "Azerbaijan"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "Iceland",
+      "away": "France"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "North Macedonia",
+      "away": "Kazakhstan"
+    },
+    {
+      "date": "2025-10-13",
+      "round": "Schedule",
+      "home": "Wales",
+      "away": "Belgium"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Turkiye",
+      "away": "Georgia"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Spain",
+      "away": "Bulgaria"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Ireland",
+      "away": "Armenia"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Portugal",
+      "away": "Hungary"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Estonia",
+      "away": "Moldova"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Italy",
+      "away": "Israel"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Latvia",
+      "away": "England"
+    },
+    {
+      "date": "2025-10-14",
+      "round": "Schedule",
+      "home": "Andorra",
+      "away": "Serbia"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "Azerbaijan",
+      "away": "Iceland"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "France",
+      "away": "Ukraine"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "Armenia",
+      "away": "Hungary"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "Ireland",
+      "away": "Portugal"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "Norway",
+      "away": "Estonia"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "Moldova",
+      "away": "Italy"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "Andorra",
+      "away": "Albania"
+    },
+    {
+      "date": "2025-11-13",
+      "round": "Schedule",
+      "home": "England",
+      "away": "Serbia"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Schedule",
+      "home": "Slovakia",
+      "away": "N. Ireland"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Schedule",
+      "home": "Luxembourg",
+      "away": "Germany"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Schedule",
+      "home": "Finland",
+      "away": "Malta"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Schedule",
+      "home": "Poland",
+      "away": "Netherlands"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Schedule",
+      "home": "Gibraltar",
+      "away": "Montenegro"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Schedule",
+      "home": "Croatia",
+      "away": "Faroe Islands"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Switzerland",
+      "away": "Sweden"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Slovenia",
+      "away": "Kosovo"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Greece",
+      "away": "Scotland"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Denmark",
+      "away": "Belarus"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Turkiye",
+      "away": "Bulgaria"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Georgia",
+      "away": "Spain"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Cyprus",
+      "away": "Austria"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Bosnia",
+      "away": "Romania"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Kazakhstan",
+      "away": "Belgium"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Schedule",
+      "home": "Liechtenstein",
+      "away": "Wales"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Ukraine",
+      "away": "Iceland"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Azerbaijan",
+      "away": "France"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Hungary",
+      "away": "Ireland"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Portugal",
+      "away": "Armenia"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Italy",
+      "away": "Norway"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Israel",
+      "away": "Moldova"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Albania",
+      "away": "England"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Schedule",
+      "home": "Serbia",
+      "away": "Latvia"
+    },
+    {
+      "date": "2025-11-17",
+      "round": "Schedule",
+      "home": "N. Ireland",
+      "away": "Luxembourg"
+    },
+    {
+      "date": "2025-11-17",
+      "round": "Schedule",
+      "home": "Germany",
+      "away": "Slovakia"
+    },
+    {
+      "date": "2025-11-17",
+      "round": "Schedule",
+      "home": "Netherlands",
+      "away": "Lithuania"
+    },
+    {
+      "date": "2025-11-17",
+      "round": "Schedule",
+      "home": "Malta",
+      "away": "Poland"
+    },
+    {
+      "date": "2025-11-17",
+      "round": "Schedule",
+      "home": "Montenegro",
+      "away": "Croatia"
+    },
+    {
+      "date": "2025-11-17",
+      "round": "Schedule",
+      "home": "Czechia",
+      "away": "Gibraltar"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Sweden",
+      "away": "Slovenia"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Kosovo",
+      "away": "Switzerland"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Scotland",
+      "away": "Denmark"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Belarus",
+      "away": "Greece"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Bulgaria",
+      "away": "Georgia"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Spain",
+      "away": "Turkiye"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Romania",
+      "away": "San Marino"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Austria",
+      "away": "Bosnia"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Wales",
+      "away": "North Macedonia"
+    },
+    {
+      "date": "2025-11-18",
+      "round": "Schedule",
+      "home": "Belgium",
+      "away": "Liechtenstein"
+    }
+  ]
+}

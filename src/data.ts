@@ -4549,6 +4549,37 @@ const EXTRA_NATIONAL_TEAMS_SEED: typeof WORLD_CUP_2026_TEAMS_SEED = [
   { id: 'wc_costa_rica', countryName: 'Costa Rica', dt: 'Miguel Herrera', starPlayers: ['Keylor Navas', 'Josimar Alcócer', 'Manfred Ugalde', 'Francisco Calvo', 'Brandon Aguilera'], badgeLogoUrl: '🇨🇷' },
   { id: 'wc_jamaica', countryName: 'Jamaica', dt: 'Steve McClaren', starPlayers: ['Michail Antonio', 'Leon Bailey', 'Demarai Gray', 'Bobby De Cordova-Reid', 'Ethan Pinnock'], badgeLogoUrl: '🇯🇲' },
   { id: 'wc_chequia_euro', countryName: 'República Checa', league: 'Checa', dt: 'Ivan Hašek', starPlayers: ['Patrik Schick', 'Tomáš Souček', 'Adam Hložek', 'Vladimír Coufal', 'Jindřich Staněk'], badgeLogoUrl: '🇨🇿' },
+
+  // Resto de selecciones UEFA, necesarias para las eliminatorias europeas rumbo al Mundial: las
+  // juegan las 54 federaciones y sin estas 27 solo el 20% de los partidos era representable.
+  // Son las rivales "chicas" del grupo -- las que hacen que una eliminatoria se sienta larga.
+  { id: 'wc_gales', countryName: 'Gales', dt: 'Craig Bellamy', starPlayers: ['Aaron Ramsey', 'Brennan Johnson', 'Harry Wilson', 'Ben Davies', 'Daniel James'], badgeLogoUrl: '🏴' },
+  { id: 'wc_irlanda', countryName: 'Irlanda', dt: 'Heimir Hallgrímsson', starPlayers: ['Evan Ferguson', 'Caoimhín Kelleher', 'Josh Cullen', 'Nathan Collins', 'Chiedozie Ogbene'], badgeLogoUrl: '🇮🇪' },
+  { id: 'wc_irlanda_norte', countryName: 'Irlanda del Norte', dt: 'Michael O\'Neill', starPlayers: ['Conor Bradley', 'Isaac Price', 'Trai Hume', 'Dan Ballard', 'Bailey Peacock-Farrell'], badgeLogoUrl: '🏴' },
+  { id: 'wc_grecia', countryName: 'Grecia', league: 'Griega', dt: 'Ivan Jovanović', starPlayers: ['Konstantinos Mavropanos', 'Fotis Ioannidis', 'Anastasios Bakasetas', 'Giorgos Masouras', 'Odysseas Vlachodimos'], badgeLogoUrl: '🇬🇷' },
+  { id: 'wc_islandia', countryName: 'Islandia', dt: 'Arnar Viðarsson', starPlayers: ['Albert Guðmundsson', 'Hákon Haraldsson', 'Jón Daði Böðvarsson', 'Sverrir Ingason', 'Elías Ólafsson'], badgeLogoUrl: '🇮🇸' },
+  { id: 'wc_finlandia', countryName: 'Finlandia', dt: 'Jacob Friis', starPlayers: ['Teemu Pukki', 'Lukáš Hrádecký', 'Robin Lod', 'Leo Väisänen', 'Oliver Antman'], badgeLogoUrl: '🇫🇮' },
+  { id: 'wc_macedonia', countryName: 'Macedonia del Norte', dt: 'Blagoja Milevski', starPlayers: ['Eljif Elmas', 'Enis Bardhi', 'Bojan Miovski', 'Stole Dimitrievski', 'Ezgjan Alioski'], badgeLogoUrl: '🇲🇰' },
+  { id: 'wc_montenegro', countryName: 'Montenegro', dt: 'Robert Prosinečki', starPlayers: ['Stefan Savić', 'Stevan Jovetić', 'Nikola Krstović', 'Milutin Osmajić', 'Matija Šarkić'], badgeLogoUrl: '🇲🇪' },
+  { id: 'wc_kosovo', countryName: 'Kosovo', dt: 'Franco Foda', starPlayers: ['Vedat Muriqi', 'Milot Rashica', 'Amir Rrahmani', 'Elvis Rexhbeçaj', 'Arijanet Muric'], badgeLogoUrl: '🇽🇰' },
+  { id: 'wc_bulgaria', countryName: 'Bulgaria', dt: 'Ilian Iliev', starPlayers: ['Kiril Despodov', 'Ilia Gruev', 'Valentin Antov', 'Georgi Rusev', 'Svetoslav Vutsov'], badgeLogoUrl: '🇧🇬' },
+  { id: 'wc_bielorrusia', countryName: 'Bielorrusia', dt: 'Karlos Alós', starPlayers: ['Max Ebong', 'Vitali Lisakovich', 'Yuri Kendysh', 'Denis Laptev', 'Fedor Lapoukhov'], badgeLogoUrl: '🇧🇾' },
+  { id: 'wc_israel', countryName: 'Israel', league: 'Israelí', dt: 'Ran Ben Shimon', starPlayers: ['Manor Solomon', 'Oscar Gloukh', 'Eran Zahavi', 'Daniel Peretz', 'Idan Nachmias'], badgeLogoUrl: '🇮🇱' },
+  { id: 'wc_kazajistan', countryName: 'Kazajistán', league: 'Kazaja', dt: 'Talgat Baysufinov', starPlayers: ['Bakhtiyar Zaynutdinov', 'Askhat Tagybergen', 'Abat Aymbetov', 'Nuraly Alip', 'Stas Pokatilov'], badgeLogoUrl: '🇰🇿' },
+  { id: 'wc_azerbaiyan', countryName: 'Azerbaiyán', league: 'Azerí', dt: 'Aykhan Abbasov', starPlayers: ['Emin Makhmudov', 'Renat Dadashov', 'Bahlul Mustafazade', 'Rahil Mammadov', 'Shahrudin Mahammadaliyev'], badgeLogoUrl: '🇦🇿' },
+  { id: 'wc_armenia', countryName: 'Armenia', dt: 'Yeghishe Melikyan', starPlayers: ['Eduard Spertsyan', 'Lucas Zelarayán', 'Grant-Leon Ranos', 'Nair Tiknizyan', 'David Yurchenko'], badgeLogoUrl: '🇦🇲' },
+  { id: 'wc_moldavia', countryName: 'Moldavia', dt: 'Serghei Cleșcenco', starPlayers: ['Ion Nicolaescu', 'Vadim Rață', 'Oleg Reabciuk', 'Vladislav Baboglo', 'Cristian Avram'], badgeLogoUrl: '🇲🇩' },
+  { id: 'wc_letonia', countryName: 'Letonia', dt: 'Paolo Nicolato', starPlayers: ['Vladislavs Gutkovskis', 'Roberts Uldriķis', 'Alvis Jaunzems', 'Antonijs Černomordijs', 'Krišjānis Zviedris'], badgeLogoUrl: '🇱🇻' },
+  { id: 'wc_lituania', countryName: 'Lituania', dt: 'Edgaras Jankauskas', starPlayers: ['Fedor Černych', 'Gvidas Gineitis', 'Edvinas Girdvainis', 'Justas Lasickas', 'Edvinas Gertmonas'], badgeLogoUrl: '🇱🇹' },
+  { id: 'wc_estonia', countryName: 'Estonia', dt: 'Jürgen Henn', starPlayers: ['Rauno Sappinen', 'Karol Mets', 'Mattias Käit', 'Märten Kuusk', 'Karl Hein'], badgeLogoUrl: '🇪🇪' },
+  { id: 'wc_chipre', countryName: 'Chipre', league: 'Chipriota', dt: 'Apostolos Mantzios', starPlayers: ['Ioannis Pittas', 'Grigoris Kastanos', 'Andronikos Kakoullis', 'Konstantinos Laifis', 'Neofytos Michael'], badgeLogoUrl: '🇨🇾' },
+  { id: 'wc_malta', countryName: 'Malta', dt: 'Emilio De Leo', starPlayers: ['Teddy Teuma', 'Jurgen Degabriele', 'Matthew Guillaumier', 'Enrico Pepe', 'Henry Bonello'], badgeLogoUrl: '🇲🇹' },
+  { id: 'wc_luxemburgo', countryName: 'Luxemburgo', dt: 'Jeff Strasser', starPlayers: ['Gerson Rodrigues', 'Leandro Barreiro', 'Danel Sinani', 'Mathias Olesen', 'Anthony Moris'], badgeLogoUrl: '🇱🇺' },
+  { id: 'wc_islas_feroe', countryName: 'Islas Feroe', dt: 'Eyðun Klakstein', starPlayers: ['Brandur Olsen', 'Klæmint Olsen', 'Jóannes Bjartalíð', 'Hallur Hansson', 'Gunnar Nielsen'], badgeLogoUrl: '🇫🇴' },
+  { id: 'wc_andorra', countryName: 'Andorra', dt: 'Koldo Álvarez', starPlayers: ['Marc Vales', 'Ricard Fernández', 'Cristian Martínez', 'Marc Pujol', 'Josep Gómes'], badgeLogoUrl: '🇦🇩' },
+  { id: 'wc_san_marino', countryName: 'San Marino', dt: 'Roberto Cevoli', starPlayers: ['Nicola Nanni', 'Alessandro Golinucci', 'Filippo Fabbri', 'Michael Battistini', 'Elia Benedettini'], badgeLogoUrl: '🇸🇲' },
+  { id: 'wc_liechtenstein', countryName: 'Liechtenstein', dt: 'Konrad Fünfstück', starPlayers: ['Noah Frick', 'Aron Sele', 'Jens Hofer', 'Fabio Luque Notaro', 'Benjamin Büchel'], badgeLogoUrl: '🇱🇮' },
+  { id: 'wc_gibraltar', countryName: 'Gibraltar', dt: 'Scott Wiseman', starPlayers: ['Tjay De Barr', 'Liam Walker', 'Reece Styche', 'Ethan Britto', 'Dayle Coleing'], badgeLogoUrl: '🇬🇮' },
 ];
 
 // Puntos reales del ranking FIFA (edición 2026-06-08) por selección clasificada al Mundial 2026.

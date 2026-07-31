@@ -260,3 +260,48 @@ Brasil.
 Ojo con la ventana: los dos ocupan junio-julio, exactamente donde el motor pone el parón del
 Mundial (`isWorldCupBreakWeek`). Conviene reutilizar esa ventana para Euro/Copa América en los años
 en que no hay Mundial, en vez de inventar otra.
+
+---
+
+# Eliminatorias rumbo al Mundial
+
+Transfermarkt publica las seis confederaciones bajo `/pokalwettbewerb/`:
+`WMQ1` Asia, `WMQ2` África, `WMQ3` Concacaf, `WMQ4` Sudamérica, `WMQ5` Oceanía, `WMQ6` Europa.
+
+| Confederación | Partidos | Selecciones | Fechas FIFA | Estado |
+|---|---|---|---|---|
+| Sudamérica (`WMQ4`) | 90 | 10 | 9 | **bajada** |
+| UEFA (`WMQ6`) | 192 | 54 | 5 | **bajada** |
+| Concacaf (`WMQ3`) | 100 | 32 | — | descartada |
+
+Las dos bajadas quedan al **100%**: todos sus partidos son representables.
+
+## Por qué Concacaf quedó fuera
+
+Solo el **2%** de sus partidos era aprovechable. De 32 selecciones, 28 no existen en `data.ts` y son
+del Caribe (Anguilla, Turks & Caicos, Montserrat, Bahamas, Islas Vírgenes…). Habría que agregar 28
+selecciones que casi nunca aparecerían en juego.
+
+Los datos están y el scraper funciona, así que se puede retomar cuando se quiera.
+
+## Hubo que agregar 27 selecciones UEFA
+
+Las eliminatorias europeas las juegan las **54 federaciones**, y `data.ts` solo tenía 27 de ellas:
+el resto son las rivales "chicas" del grupo (Malta, San Marino, Andorra, Gibraltar, Islas Feroe…),
+justamente las que hacen que una eliminatoria se sienta larga.
+
+Con ellas la cobertura pasa de **20% a 100%**.
+
+Van en `EXTRA_NATIONAL_TEAMS_SEED`, igual que las de Euro/Copa América, así que:
+
+- `WORLD_CUP_TEAMS_DATABASE` → sigue en **48** (solo Mundial)
+- `ALL_NATIONAL_TEAMS_DATABASE` → **93** selecciones
+
+Verificado tras el cambio: el Mundial sigue coronando campeón en 8 de sus 9 semanas.
+
+## Nota para el importador
+
+Las eliminatorias se juegan en **fechas FIFA**: ventanas de una semana con 1-2 partidos por
+selección, repartidas a lo largo de dos años. Encajan bien con el modelo de "una semana de juego =
+una fecha", pero ocupan semanas que hoy son de liga. Habrá que decidir si el club libera al jugador
+esas semanas (como en la realidad) o si se solapan.
