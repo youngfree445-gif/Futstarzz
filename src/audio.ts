@@ -16,6 +16,7 @@ export type SfxName =
   | 'goal'
   | 'card'
   | 'whistle'
+  | 'whistle_end'
   | 'crowd_cheer'
   | 'crowd_boo'
   | 'click'
@@ -33,6 +34,9 @@ const SFX_FILES: Record<SfxName, string> = {
   goal: 'sfx/goal.wav',
   card: 'sfx/card.wav',
   whistle: 'sfx/whistle.wav',
+  // El final del partido son TRES pitidos, como en la cancha: un archivo aparte y no tres playSfx
+  // seguidos, porque el mismo efecto no puede solaparse consigo mismo (se reinicia, ver playSfx).
+  whistle_end: 'sfx/whistle_end.wav',
   crowd_cheer: 'sfx/crowd_cheer.wav',
   crowd_boo: 'sfx/crowd_boo.wav',
   click: 'sfx/click.wav',
@@ -44,7 +48,8 @@ const SFX_FILES: Record<SfxName, string> = {
 // click quedan estridentes al mismo volumen que un coro de estadio. Se ajusta acá y no editando los
 // mp3 para poder cambiarlo sin volver a exportar nada.
 const SFX_GAIN: Partial<Record<SfxName, number>> = {
-  whistle: 0.55,
+  whistle: 0.5,
+  whistle_end: 0.5,
   click: 0.35,
   card: 0.7,
   crowd_cheer: 0.85,

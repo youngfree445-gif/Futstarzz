@@ -26,6 +26,7 @@ import InteractivePenaltyShootout from './components/InteractivePenaltyShootout'
 import AchievementToast from './components/AchievementToast';
 import MusicPlayer from './components/MusicPlayer';
 import NoticeToast from './components/NoticeToast';
+import SoundSettings from './components/SoundSettings';
 import CareerSummary from './components/CareerSummary';
 
 // Busca la tanda de penales de TU partido dentro de un bracket/llave de eliminación directa, si
@@ -1936,6 +1937,10 @@ export default function App() {
           sobrevive los cambios de pantalla y la canción no se corta al entrar a un partido.
           Se esconde en welcome/setup para no competir con el arranque del juego. */}
       <MusicPlayer hidden={screen === 'welcome' || screen === 'setup'} />
+
+      {/* Ajustes de sonido siempre a mano: sirve para silenciar el juego sin abrir el reproductor
+          de música. Comparte estado con él (todo vive en audio.ts). */}
+      <SoundSettings hidden={screen === 'welcome' || screen === 'setup'} />
 
       {screen === 'welcome' && (
         <WelcomeScreen 

@@ -1543,7 +1543,7 @@ export default function MatchSimulator({
         type: 'neutral'
       }]);
       setIsPlaying(false);
-      playSfx('whistle');
+      playSfx('whistle_end');
       return;
     }
 

@@ -365,6 +365,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'El equipo heroico de Cartagena de Indias. Con un plantel de experimentados de primera y DT de jerarquía buscando el ascenso.',
     badgeColor: 'border-l-4 border-yellow-500 bg-emerald-950/25 text-yellow-101',
     badgeLogoUrl: '🔰🟡🟢',
+    badgeImageUrl: 'badges/colombia/cartagena.jpg',
     division: 2
   },
   {
@@ -439,6 +440,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'El equipo lancero de Tunja. Fuerte en la altura.',
     badgeColor: 'border-l-4 border-red-600 bg-red-950/20 text-white',
     badgeLogoUrl: '🛡️🔴',
+    badgeImageUrl: 'badges/colombia/patriotas.jpg',
     division: 2
   },
   {
@@ -497,6 +499,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'Nueva franquicia compitiendo con fuerza en el Valle.',
     badgeColor: 'border-l-4 border-blue-500 bg-slate-900 text-white',
     badgeLogoUrl: '🌴🔵',
+    badgeImageUrl: 'badges/colombia/internacional_palmira.png',
     division: 2
   },
   {
@@ -511,6 +514,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'Representativo de la sabana, juega de local en Mosquera desde 2026.',
     badgeColor: 'border-l-4 border-sky-500 bg-slate-900 text-white',
     badgeLogoUrl: '🦅🩵',
+    badgeImageUrl: 'badges/colombia/real_cundinamarca.png',
     division: 2
   },
   {
@@ -525,6 +529,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'Equipo rocoso y complicado de Palmira.',
     badgeColor: 'border-l-4 border-blue-800 bg-white text-blue-900',
     badgeLogoUrl: '🔵⚪',
+    badgeImageUrl: 'badges/colombia/orsomarso.png',
     division: 2
   },
   {
@@ -539,6 +544,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'Equipo formativo del oriente colombiano.',
     badgeColor: 'border-l-4 border-cyan-400 bg-slate-900 text-white',
     badgeLogoUrl: '🩵⚪',
+    badgeImageUrl: 'badges/colombia/real_santander.png',
     division: 2
   },
   {
@@ -553,6 +559,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'El equipo de la capital que lucha en la B.',
     badgeColor: 'border-l-4 border-yellow-500 bg-red-600 text-yellow-300',
     badgeLogoUrl: '🟡🔴',
+    badgeImageUrl: 'badges/colombia/bogota_fc.png',
     division: 2
   },
   {
@@ -567,6 +574,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'Felinos bogotanos buscando dar el zarpazo al ascenso.',
     badgeColor: 'border-l-4 border-gray-400 bg-slate-900 text-white',
     badgeLogoUrl: '🐯⚪',
+    badgeImageUrl: 'badges/colombia/tigres_fc.jpg',
     division: 2
   },
   {
@@ -581,6 +589,7 @@ export const CLUBS_DATABASE: Club[] = [
     description: 'El otro equipo de Cali con ganas de llegar a Primera.',
     badgeColor: 'border-l-4 border-blue-600 bg-yellow-500 text-blue-900',
     badgeLogoUrl: '🔵🟡',
+    badgeImageUrl: 'badges/colombia/atletico_cali.png',
     division: 2
   },
 // ==========================================
