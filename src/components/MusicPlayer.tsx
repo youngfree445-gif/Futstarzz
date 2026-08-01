@@ -1,5 +1,5 @@
 import { ChevronDown, Music, Pause, Play, Plus, Shuffle, SkipForward, Volume2, VolumeX } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { getSfxVolume, isSfxMuted, playSfx, setSfxMuted, setSfxVolume } from '../audio';
 import {
   loadSavedPlaylist,
@@ -180,7 +180,11 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
   // Mantiene cada reproductor pegado al hueco que le reserva el panel. Se re-mide ante cualquier
   // cosa que lo mueva (abrir/cerrar, rotar el teléfono, aparecer el teclado, scroll) porque los
   // iframes están en position:fixed y no se reacomodan solos con el layout.
-  useEffect(() => {
+  //
+  // useLayoutEffect y no useEffect: con useEffect la medición ocurre DESPUÉS de que el navegador
+  // pintó, así que en ese primer frame el iframe se dibujaba con las coordenadas viejas (o sin
+  // ninguna) y aparecía arriba a la izquierda, tapando el menú lateral, antes de saltar a su lugar.
+  useLayoutEffect(() => {
     if (!open) { setYoutubeSlot(null); setSpotifySlot(null); return; }
 
     const slotRef = isYouTube ? youtubeSlotRef : isSpotify ? spotifySlotRef : null;
@@ -191,6 +195,9 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
       const el = slotRef.current;
       if (!el) return;
       const r = el.getBoundingClientRect();
+      // Un rect de 0x0 significa que el hueco todavía no tiene layout: aplicarlo dejaría el iframe
+      // pegado a la esquina superior izquierda del viewport, encima del menú.
+      if (r.width === 0 || r.height === 0) return;
       aplicar({ top: r.top, left: r.left, width: r.width, height: r.height });
     };
     medir();
