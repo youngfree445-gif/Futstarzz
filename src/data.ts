@@ -2439,16 +2439,34 @@ export const CLUBS_DATABASE: Club[] = [
     badgeImageUrl: 'badges/clubs/as_saint_etienne.png', division: 2 },
   { id: 'brest', name: 'Brest', league: 'Francesa', dt: 'Julien Lachuer', reputation: 4, initialSalary: 2000, marketValue: 114600000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Brest. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
     badgeImageUrl: 'badges/clubs/brest.png', division: 1 },
+  // Los cuatro que faltaban para completar la Ligue 1: el calendario FR1 les da 38 partidos a cada
+  // uno, pero no existían en CLUBS_DATABASE, así que la generación dinámica los creaba como clubes
+  // sueltos de la bolsa "Internacional" (gen_724, gen_863, gen_828) y Ajaccio directamente no
+  // aparecía. Valores de mercado verificados en Transfermarkt (verein 1147, 3524, 1095 y 1158).
+  { id: 'ac_ajaccio', name: 'AC Ajaccio', league: 'Francesa', dt: 'Régis Brouard', reputation: 2, initialSalary: 900, marketValue: 12000000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'L\'Athletic Club Ajaccien, el club corso.', badgeColor: 'border-l-4 border-red-600 bg-slate-900 text-white', badgeLogoUrl: '🔴',
+    badgeImageUrl: 'badges/clubs/ac_ajaccio.png', division: 2 },
+  { id: 'clermont_foot', name: 'Clermont Foot 63', league: 'Francesa', dt: 'Grégory Proment', reputation: 2, initialSalary: 900, marketValue: 3400000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Les Lanciers, de Clermont-Ferrand.', badgeColor: 'border-l-4 border-red-700 bg-blue-900 text-white', badgeLogoUrl: '🔵',
+    badgeImageUrl: 'badges/clubs/clermont_foot.png', division: 2 },
+  { id: 'estac_troyes', name: 'ESTAC Troyes', league: 'Francesa', dt: 'Stéphane Dumont', reputation: 3, initialSalary: 1200, marketValue: 31450000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'L\'Espérance Sportive Troyes Aube Champagne.', badgeColor: 'border-l-4 border-blue-500 bg-slate-900 text-white', badgeLogoUrl: '🔷',
+    badgeImageUrl: 'badges/clubs/estac_troyes.png', division: 1 },
+  { id: 'fc_lorient', name: 'FC Lorient', league: 'Francesa', dt: 'Olivier Pantaloni', reputation: 3, initialSalary: 1200, marketValue: 77050000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Les Merlus, de la Bretaña sur.', badgeColor: 'border-l-4 border-orange-500 bg-slate-900 text-white', badgeLogoUrl: '🟠',
+    badgeImageUrl: 'badges/clubs/fc_lorient.png', division: 1 },
+  // Ascendidos que estaban como clubes sueltos de la bolsa "Internacional": los dos juegan la
+  // Ligue 1 26/27. Valores de mercado tomados de la tabla de Transfermarkt de esa temporada.
+  { id: 'paris_fc', name: 'Paris FC', league: 'Francesa', dt: 'Stéphane Gilli', reputation: 3, initialSalary: 1500, marketValue: 181900000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'El otro club de la capital, de vuelta en la élite.', badgeColor: 'border-l-4 border-blue-600 bg-slate-900 text-white', badgeLogoUrl: '🔵',
+    division: 1 },
+  { id: 'le_mans_fc', name: 'Le Mans FC', league: 'Francesa', dt: 'Julien Le Cardinal', reputation: 2, initialSalary: 800, marketValue: 20250000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Les Sang et Or du Maine.', badgeColor: 'border-l-4 border-yellow-500 bg-red-900 text-white', badgeLogoUrl: '🟡',
+    division: 1 },
   { id: 'le_havre_ac', name: 'Le Havre AC', league: 'Francesa', dt: 'Didier Digard', reputation: 4, initialSalary: 2000, marketValue: 73650000, starPlayers: ['Abdoulaye Touré (CDM)', 'Arouna Sangante (CB)', 'Gautier Lloris (CB)', 'Sofiane Boufal (CAM)', 'Issa Soumaré (LM)', 'Yassine Kechta (CM)', 'Mory Diaw (GK)', 'Ayumu Seko (CDM)', 'Rassoul Ndiaye (CM)', 'Loïc Négo (RB)', 'Étienne Youté Kinkoué (CB)'], description: 'Le Havre AC. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
-    badgeImageUrl: 'badges/clubs/le_havre_ac.png', division: 2 },
+    badgeImageUrl: 'badges/clubs/le_havre_ac.png', division: 1 },
   { id: 'lens', name: 'Lens', league: 'Francesa', dt: 'Dino Toppmöller', reputation: 4, initialSalary: 2000, marketValue: 98650000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Lens. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
     badgeImageUrl: 'badges/tm/leon.png', division: 1 },
   { id: 'lille_osc', name: 'Lille OSC', league: 'Francesa', dt: 'Davide Ancelotti', reputation: 4, initialSalary: 52300, marketValue: 272000000, starPlayers: ['Benjamin André (CDM)', 'Alexsandro Victor de Souza Ribeiro (CB)', 'Olivier Jonathan Giroud (ST)', 'Hákon Arnar Haraldsson (CAM)'], description: 'Lille OSC. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
     badgeImageUrl: 'https://assets.football-logos.cc/logos/france/1500x1500/lille.682b7a4f.png', division: 1 },
   { id: 'montpellier_hsc', name: 'Montpellier HSC', league: 'Francesa', dt: 'Zoumana Camara', reputation: 4, initialSalary: 2000, marketValue: 48775000, starPlayers: ['Téji Savanier (CAM)', 'Julien Laporte (CB)', 'Enzo Tchato (RB)', 'Christopher Jullien (CB)', 'Alexandre Mendy (ST)', 'Nathanaël Mbuku (RM)', 'Khalil Fayad (CM)', 'Théo Sainte-Luce (LB)', 'Lucas Mincarelli (LB)', 'Simon Ngapandouetnbu (GK)', 'Mathieu Michel (GK)'], description: 'Montpellier HSC. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
-    badgeImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Montpellier_H%C3%A9rault_Sport_Club_%28logo%2C_2000%29.svg', division: 1 },
+    badgeImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Montpellier_H%C3%A9rault_Sport_Club_%28logo%2C_2000%29.svg', division: 2 },
   { id: 'nantes', name: 'Nantes', league: 'Francesa', dt: 'Michel Der Zakarian', reputation: 4, initialSalary: 2000, marketValue: 102950000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Nantes. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
-    badgeImageUrl: 'badges/clubs/nantes.png', division: 1 },
+    badgeImageUrl: 'badges/clubs/nantes.png', division: 2 },
   { id: 'nice', name: 'Nice', league: 'Francesa', dt: 'Olivier Pantaloni', reputation: 4, initialSalary: 2000, marketValue: 183325000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Nice. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
     badgeImageUrl: 'badges/clubs/nice.png', division: 1 },
   { id: 'olympique_lyonnais', name: 'Olympique Lyonnais', league: 'Francesa', dt: 'Paulo Fonseca', reputation: 4, initialSalary: 67000, marketValue: 180925000, starPlayers: ['Corentin Tolisso (CM)', 'Moussa Niakhaté (CB)', 'Dominik Greif (GK)', 'Nicolás Tagliafico (LB)', 'Tyler Morton (CDM)', 'Endrick (ST)', 'Pavel Šulc (CAM)', 'Malick Fofana (LM)', 'Ainsley Maitland-Niles (RB)', 'Clinton Mata (CB)', 'Tanner Tessmann (CDM)'], description: 'Olympique Lyonnais. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
@@ -2460,7 +2478,7 @@ export const CLUBS_DATABASE: Club[] = [
   { id: 'racing_club_de_strasbourg_alsace', name: 'Racing Club de Strasbourg Alsace', league: 'Francesa', dt: 'Hugo Oliveira', reputation: 4, initialSalary: 2000, marketValue: 10000000, starPlayers: ['Jugador 1', 'Jugador 2'], description: 'Racing Club de Strasbourg Alsace. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
     badgeImageUrl: strasbourgBadge, division: 1 },
   { id: 'stade_de_reims', name: 'Stade de Reims', league: 'Francesa', dt: 'Nicolas Usaï', reputation: 4, initialSalary: 2000, marketValue: 10000000, starPlayers: ['Keito Nakamura (LM)', 'Nicolas Pallois (CB)', 'Joseph Okumu (CB)', 'Akieme (LB)', 'Théo Leoni (CDM)', 'Mory Gbane (CDM)', 'Yassine Benhattab (RW)', 'Ewen Jaouen (GK)', 'Maxime Busi (RB)', 'Hiroki Sekine (RB)', 'Alexandre Olliero (GK)'], description: 'Stade de Reims. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
-    badgeImageUrl: 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/stade-de-reims/stade-de-reims-logo-footylogos.svg', division: 1 },
+    badgeImageUrl: 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/stade-de-reims/stade-de-reims-logo-footylogos.svg', division: 2 },
   { id: 'stade_rennais_fc', name: 'Stade Rennais FC', league: 'Francesa', dt: 'Franck Haise', reputation: 4, initialSalary: 35600, marketValue: 264000000, starPlayers: ['Brice Lauriche Samba (GK)', 'Valentin Rongier (CDM)', 'Mahdi Camara (CM)', 'Seko Mohamed Fofana (CM)'], description: 'Stade Rennais FC. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
     badgeImageUrl: 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/stade-rennais/stade-rennais-logo-footylogos.svg', division: 1 },
   { id: 'toulouse_fc', name: 'Toulouse FC', league: 'Francesa', dt: 'Jens Berthel Askou', reputation: 4, initialSalary: 2000, marketValue: 10000000, starPlayers: ['Guillaume Restes (GK)', 'Charlie Cresswell (CB)', 'Rasmus Nicolaisen (CB)', 'Yann Gboho (LW)', 'Djibril Sidibé (RB)', 'Aron Dønnum (RM)', 'Mark McKenzie (CB)', 'Cristian Cásseres Jr (CDM)', 'Emersonn (ST)', 'Warren Kamanzi (RB)', 'Frank Magri (ST)'], description: 'Toulouse FC. Compite en Ligue 1 McDonalds.', badgeColor: 'border-l-4 border-slate-500 bg-slate-900 text-white', badgeLogoUrl: '⚽',
@@ -4049,6 +4067,10 @@ function getJugadoresMudados(): Map<string, Set<string>> {
  * Mapea el "name" de tu CLUBS_DATABASE con el "team_name" exacto del archivo JSON.
  */
 const EQUIPO_SYNONYMS: Record<string, string> = {
+  // El JSON de jugadores lo llama "Clermont Foot" y el calendario "Clermont Foot 63". Sin este
+  // sinónimo la generación dinámica lo creaba además como club suelto de la bolsa (gen_724), y el
+  // de Ligue 1 quedaba sin plantel.
+  "Clermont Foot 63": "Clermont Foot",
   "Junior de Barranquilla": "Junior",
   "Club Atlético Boca Juniors": "Boca Juniors",
   "Real Madrid Club de Fútbol": "Real Madrid",
