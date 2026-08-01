@@ -1,6 +1,7 @@
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 import { REAL_CALENDARS, type RealCompetition } from './realCalendar';
 import { ALIAS_CALENDARIO } from './clubAliases';
+import { displayName } from './worldRetirements';
 
 // Resultado forzado del partido que el usuario realmente jugó esta semana (en vez de simularlo al
 // azar como el resto de los cruces). shootoutOverride es opcional: si tu partido forzado terminó
@@ -1738,7 +1739,7 @@ export function generateLeagueLeadersFromTable(
       ? club.starPlayers.map(p => retired[club.id][p] ?? p)
       : club.starPlayers;
     const parsed = roster
-      .map(p => p.replace(/#\d{4}(?=\s|$)/, ''))   // quitar marca de año de debut
+      .map(displayName)                            // quitar la marca interna de año de debut
       .map(parseStarPlayer)
       .filter(p => p.name && !p.name.startsWith('Jugador '));
     if (parsed.length === 0) continue;

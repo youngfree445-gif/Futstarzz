@@ -228,7 +228,13 @@ export function applySquadRetirements(
 
 /** Nombre listo para mostrar: sin la marca interna de año de debut. */
 export function displayName(name: string): string {
-  return name.replace(/#\d{4}(?=\s|$)/, '');
+  // Se quitan TODAS las marcas, no solo la primera: un canterano que a su vez se retira genera un
+  // reemplazo sobre un nombre que ya traía marca, y la vieja quedaba pegada al nombre visible
+  // ("Kai Evans#3" salía así en la tabla de goleadores).
+  //
+  // El año puede tener menos de 4 dígitos si la marca quedó cortada por un reemplazo anterior, así
+  // que se acepta cualquier cantidad: lo que sigue a un '#' nunca es parte del nombre real.
+  return name.replace(/#\d+/g, '').replace(/\s{2,}/g, ' ').trim();
 }
 
 export interface RetirementEvent {
