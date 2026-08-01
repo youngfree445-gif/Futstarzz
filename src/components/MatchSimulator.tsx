@@ -1364,9 +1364,16 @@ export default function MatchSimulator({
     const positionDiff = myTablePosition - rivalTablePosition; // positivo = rival mejor ubicado que vos
     return Math.max(0.8, Math.min(1.2, 1 - positionDiff * 0.01));
   })();
-  const fanSupportFactor = playerProfile.fans < 20 ? 0.9 : playerProfile.fans > 80 ? 1.05 : 1;
-  const mentalHealthFactor = playerProfile.mentalHealth < 35 ? 0.88 : playerProfile.mentalHealth > 85 ? 1.08 : 1;
-  const pressureMultiplier = Math.max(0.65, Math.min(1.35, tablePositionFactor * fanSupportFactor * mentalHealthFactor));
+  const fanSupportFactor = playerProfile.fans < 20 ? 0.95 : playerProfile.fans > 80 ? 1.05 : 1;
+  const mentalHealthFactor = playerProfile.mentalHealth < 35 ? 0.94 : playerProfile.mentalHealth > 85 ? 1.08 : 1;
+  // Los castigos se multiplican entre sí, así que un mal momento se componía: último en la tabla +
+  // hinchada en contra + cabeza floja daba 0.8*0.9*0.88 = 0.63, un 37% menos de éxito en TODAS las
+  // jugadas. Y como fallar baja la moral, era una espiral de la que no se salía.
+  //
+  // El piso sube a 0.82 (mala racha = te cuesta, no que sea imposible) y los castigos individuales
+  // se suavizan. El techo se mantiene: ir primero con la hinchada a favor sigue dando la misma
+  // ventaja que antes.
+  const pressureMultiplier = Math.max(0.82, Math.min(1.35, tablePositionFactor * fanSupportFactor * mentalHealthFactor));
   const teamName = currentClub.name;
 
   // Modelo tipo Poisson (estilo FIFA) para los goles "ambientales" del partido: en vez de una
@@ -1388,10 +1395,20 @@ export default function MatchSimulator({
   // Al rival solo lo conocemos por nombre (no tenemos su plantel acá), así que su nivel se estima
   // desde su posición real en la tabla (1° = fuerte, último = débil); sin tabla comparable
   // (copas/Mundial) se asume un rival de nivel medio-alto, acorde al calibre de esos cruces.
+  // La escala iba de 60 (último) a 90 (líder), pero el ataque de un plantel grande ronda 85: contra
+  // el puntero jugabas siempre por debajo y hasta un equipo top perdía el 43% de esos partidos.
+  // Sumado a los empates, el campeón terminaba con ~63 puntos en 38 fechas -- mitad de tabla en una
+  // liga real -- así que llevar a tu club a la gloria dependía de la suerte más que del nivel.
+  //
+  // Ahora va de 56 a 80: el líder sigue siendo el rival más duro del torneo, pero un equipo grande
+  // termina con ~81 puntos y pelea el título de verdad, mientras uno chico se queda en ~50.
   const rivalRating = (myTablePosition != null && rivalTablePosition != null && leagueTeamCount && leagueTeamCount > 1)
-    ? 60 + (1 - (rivalTablePosition - 1) / (leagueTeamCount - 1)) * 30
-    : 76;
-  const ratingGapMultiplier = (gap: number) => Math.max(0.5, Math.min(2.0, 1 + gap / 50));
+    ? 56 + (1 - (rivalTablePosition - 1) / (leagueTeamCount - 1)) * 24
+    : 70;
+  // Divisor 50 aplanaba demasiado la diferencia de nivel: un grande y un chico terminaban separados
+  // por ~20 puntos en 38 fechas, cuando en una liga real son 50-60. Con 32 la jerarquía se nota y
+  // ganar la liga con un equipo top deja de ser cuestión de suerte.
+  const ratingGapMultiplier = (gap: number) => Math.max(0.5, Math.min(2.0, 1 + gap / 32));
   const formMultiplier = fanSupportFactor * mentalHealthFactor; // moral/apoyo -- la fuerza de tabla ya la usa rivalRating, no se pisa acá
   const HOME_ADVANTAGE_GOALS = 0.15;
   const lambdaMine = BASE_GOALS_PER_TEAM * ratingGapMultiplier(myAttackRating - rivalRating) * formMultiplier
@@ -1731,13 +1748,21 @@ export default function MatchSimulator({
     const choice = activeDecision.choices[choiceIndex];
     const playerAttrValue = effectiveAttributes[choice.requiredAttr];
 
-    // Menos determinismo que antes: el bonus por tener el atributo por encima del mínimo requerido
-    // pesa menos (0.007 en vez de 0.015) y el techo bajó de 0.85 a 0.72, así que ni con atributos
-    // al tope una decisión se vuelve un éxito casi garantizado -- además se suma un ruido aleatorio
-    // de hasta ±6% para que dos intentos idénticos no salgan siempre igual.
+    // Cuánto pesa el atributo sobre la jugada. Los valores anteriores (bonus 0.007, techo 0.72,
+    // ruido ±6%) dejaban al mejor jugador del mundo en 72% y a uno mediocre en 54%: solo 18 puntos
+    // de diferencia, de los que el ruido se comía un tercio. Entrenar no se notaba y cada elección
+    // se sentía un 50/50, sin importar a quién habías construido.
+    //
+    // Ahora el atributo pesa el doble (0.014), el techo sube a 0.88 y el ruido baja a ±3%: un crack
+    // acierta ~9 de cada 10 jugadas que domina, y uno flojo sigue rondando la mitad. La jugada
+    // difícil sigue siendo difícil -- lo que cambia es que entrenar el atributo correcto se nota.
+    // El déficit pesa la mitad que el excedente: quedar corto de atributo te penaliza, pero no tanto
+    // como para que arrancar la carrera se sienta injusto. Con esto un novato queda igual que antes
+    // y toda la ganancia va a quien entrenó el atributo que la jugada pide.
     const statDiff = playerAttrValue - choice.minVal;
-    const randomNoise = (Math.random() - 0.5) * 0.12;
-    const adjustedChance = Math.max(0.12, Math.min(0.72, (choice.successChance + (statDiff * 0.007)) * pressureMultiplier + randomNoise));
+    const statBonus = statDiff >= 0 ? statDiff * 0.014 : statDiff * 0.007;
+    const randomNoise = (Math.random() - 0.5) * 0.06;
+    const adjustedChance = Math.max(0.15, Math.min(0.88, (choice.successChance + statBonus) * pressureMultiplier + randomNoise));
 
     const isSuccess = Math.random() < adjustedChance;
 
