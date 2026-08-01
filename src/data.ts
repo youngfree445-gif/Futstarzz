@@ -1,3 +1,4 @@
+import { nombreMostrable } from './clubAliases';
 import rawPlayers from './playersDatabase.json';
 import operarioBadge from './assets/badges/operario.png';
 import strasbourgBadge from './assets/badges/strasbourg.png';
@@ -4071,6 +4072,8 @@ const EQUIPO_SYNONYMS: Record<string, string> = {
   // sinónimo la generación dinámica lo creaba además como club suelto de la bolsa (gen_724), y el
   // de Ligue 1 quedaba sin plantel.
   "Clermont Foot 63": "Clermont Foot",
+  // Mismo caso: el JSON omite el año fundacional y quedaban como dos clubes distintos.
+  "FC Basel 1893": "FC Basel",
   "Junior de Barranquilla": "Junior",
   "Club Atlético Boca Juniors": "Boca Juniors",
   "Real Madrid Club de Fútbol": "Real Madrid",
@@ -4494,6 +4497,37 @@ const GENERATED_CLUB_CRESTS: Record<string, string> = {
   'gen_1025': 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/fc-seoul/fc-seoul-logo-footylogos.svg',
 };
 
+/**
+ * Nombre de club reducido a lo comparable: sin acentos, sin puntuación y sin las siglas de forma
+ * societaria (FC, CF, SC, CD, Club...). Sirve para detectar que "Millonarios" del JSON de jugadores
+ * y "Millonarios FC" de CLUBS_DATABASE son el mismo equipo.
+ */
+function nombreClubComparable(nombre: string): string {
+  return nombre
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/\b(fc|cf|ca|ac|sc|cd|club|de|del|la|el)\b/g, '')
+    .replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * Selecciones nacionales que el JSON de jugadores trae como si fueran clubes. No son las selecciones
+ * jugables del Mundial -- esas están en WORLD_CUP_TEAMS_DATABASE, con su propio torneo -- sino
+ * duplicados que se colaban en la bolsa "Internacional" y aparecían mezclados con clubes en los
+ * sorteos de rivales.
+ */
+const ES_SELECCION_NACIONAL = new Set([
+  'serbia', 'peru', 'colombia', 'bolivia', 'canada', 'chile', 'ecuador', 'panama', 'jamaica',
+  'venezuela', 'inglaterra', 'austria', 'belgica', 'croacia', 'dinamarca', 'escocia', 'eslovaquia',
+  'eslovenia', 'espana', 'francia', 'georgia', 'hungria', 'italia', 'paisesbajos', 'polonia',
+  'portugal', 'republicacheca', 'rumania', 'suiza', 'turquia', 'ucrania', 'alemania', 'argentina',
+  'brasil', 'uruguay', 'paraguay', 'mexico', 'estadosunidos', 'costarica', 'honduras', 'japon',
+  'coreadelsur', 'australia', 'marruecos', 'senegal', 'nigeria', 'ghana', 'egipto', 'tunez',
+  'argelia', 'camerun', 'irán', 'iran', 'arabiasaudi', 'catar', 'gales', 'irlanda', 'noruega',
+  'suecia', 'grecia', 'israel',
+]);
+
 // GENERACIÓN DINÁMICA DE LA BASE DE DATOS DEFINITIVA
 export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
   // 1. Obtenemos una lista de todos los equipos únicos reales que existen en el JSON de jugadores
@@ -4536,11 +4570,28 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
   uniqueJsonTeams.forEach((teamName, index) => {
     const cleanTeamName = teamName.trim();
     
-    // Verificamos si ya lo tenemos detallado de forma manual (evitar duplicados)
+    // Verificamos si ya lo tenemos detallado de forma manual (evitar duplicados).
+    //
+    // La comparación es tolerante a la forma societaria: el JSON escribe "Millonarios" y data.ts
+    // "Millonarios FC", así que comparar el nombre exacto los daba por distintos y el club terminaba
+    // existiendo DOS veces -- uno en su liga real y otro suelto en la bolsa "Internacional", con
+    // datos inventados. Eran 47 casos: Millonarios, Envigado, Tijuana, O'Higgins, Club Nacional...
+    // Además de la comparación tolerante, se pasa el nombre por la tabla de alias de calendario:
+    // el JSON de jugadores abrevia igual que la vista de copa de Transfermarkt ("Atl. Nacional",
+    // "U. de Chile", "Benfica"), así que sin esto 22 clubes grandes seguían duplicándose.
+    const nombreCanonico = nombreMostrable(cleanTeamName);
     const alreadyExists = detailedClubs.some(
-      c => c.name.toLowerCase() === cleanTeamName.toLowerCase() || 
-           (EQUIPO_SYNONYMS[c.name] && EQUIPO_SYNONYMS[c.name].toLowerCase() === cleanTeamName.toLowerCase())
+      c => c.name.toLowerCase() === cleanTeamName.toLowerCase() ||
+           c.name.toLowerCase() === nombreCanonico.toLowerCase() ||
+           (EQUIPO_SYNONYMS[c.name] && EQUIPO_SYNONYMS[c.name].toLowerCase() === cleanTeamName.toLowerCase()) ||
+           nombreClubComparable(c.name) === nombreClubComparable(cleanTeamName)
     );
+
+    // Selecciones nacionales coladas en la base de CLUBES: el JSON de jugadores trae 33 países
+    // (Serbia, Perú, Colombia, Inglaterra...) como si fueran equipos, y aparecían mezclados con los
+    // clubes en sorteos de rivales y listados. Las selecciones de verdad viven en su propia base,
+    // WORLD_CUP_TEAMS_DATABASE, y son las que juegan el Mundial.
+    if (ES_SELECCION_NACIONAL.has(nombreClubComparable(cleanTeamName))) return;
 
     if (!alreadyExists) {
       const jugadoresDelClub = ALL_PLAYERS.filter(p => p.team_name === teamName);
