@@ -6,6 +6,8 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
+import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
+import { getLeagueDisplay } from '../leagueDisplay';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -217,6 +219,22 @@ function roundLabelByMatchCount(n: number): string {
   if (n === 4) return 'Cuartos';
   if (n === 8) return 'Octavos';
   return `Ronda de ${n * 2}`;
+}
+
+/**
+ * Cómo va la llave para el club del jugador: si es la ida, si es la vuelta y con qué global llega.
+ * En una eliminatoria a dos partidos el resultado de la ida es la información que más importa antes
+ * de salir a la cancha, y no se mostraba en ningún lado.
+ */
+function tieStatusLabel(tie: TwoLegTie, myClubId: string): { leg: 'Ida' | 'Vuelta'; global: string | null } {
+  const soyA = tie.clubAId === myClubId;
+  const idaJugada = tie.firstLegGoalsA !== null && tie.firstLegGoalsB !== null;
+  if (!idaJugada) return { leg: 'Ida', global: null };
+
+  // En la vuelta se invierte la localía, así que el global se arma sumando ambas piernas.
+  const misGoles = (soyA ? tie.firstLegGoalsA : tie.firstLegGoalsB) ?? 0;
+  const susGoles = (soyA ? tie.firstLegGoalsB : tie.firstLegGoalsA) ?? 0;
+  return { leg: 'Vuelta', global: `${misGoles}-${susGoles}` };
 }
 
 interface DashboardProps {
@@ -595,11 +613,13 @@ export default function Dashboard({
       } else if (uefaCup) {
         const round = uefaCup.knockout?.tiesByRound[uefaCup.knockout.tiesByRound.length - 1];
         jornada = round ? roundLabelByMatchCount(round.length) : 'Eliminatoria';
-        // Las llaves europeas son a ida y vuelta: sin esta marca, "Cuartos de final" se leía igual
-        // en los dos partidos y no había forma de saber cuál te tocaba.
+        // Las llaves europeas son a ida y vuelta: sin esto, "Cuartos de final" se leía igual en los
+        // dos partidos, y en la vuelta no se veía con qué global llegabas.
         const miLlave = round?.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
         if (miLlave) {
-          jornada += miLlave.firstLegGoalsA === null ? ' · Ida' : ' · Vuelta';
+          const { leg, global } = tieStatusLabel(miLlave, currentClub.id);
+          jornada += ` · ${leg}`;
+          if (global) jornada += ` · Global ${global}`;
         }
       }
       nextMatchOpponent = {
@@ -615,13 +635,31 @@ export default function Dashboard({
   }
   if (!nextMatchOpponent && !nextWeekInWorldCupBreak && upcomingLeagueFixtures.length > 0) {
     const next = upcomingLeagueFixtures[0];
-    const idx = myLeagueTable.findIndex(r => r.clubId === next.opponentId);
+
+    // El rival que se anuncia tiene que ser el MISMO que va a salir al arrancar el partido. App.tsx
+    // resuelve la semana con el calendario real (realSchedule) cuando el club tiene fechas
+    // importadas, y solo cae al fixture generado si no las tiene. El panel leía siempre el fixture
+    // generado, así que en Dimayor anunciaba un rival distinto al real en 32 de las 52 semanas:
+    // decía "vs Llaneros FC" y salías a jugar contra Once Caldas.
+    const realDeLaSemana = hasRealSchedule(currentClub.name)
+      ? pickPrimary(matchesThisWeek(currentClub.name, playerProfile.currentWeek))
+      : null;
+    const realDeLiga = realDeLaSemana?.competition.kind === 'league' ? realDeLaSemana : null;
+    const rivalReal = realDeLiga
+      ? ULTIMATE_CLUBS_DATABASE.find(c => c.name === realDeLiga.opponentName && leagueKeyFor(c) === myLeagueKey)
+      : null;
+
+    const opponentId = rivalReal?.id ?? next.opponentId;
+    const opponentName = rivalReal?.name ?? next.opponentName;
+    const isHome = realDeLiga ? realDeLiga.isHome : next.isHome;
+    const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
+
     nextMatchOpponent = {
-      club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === next.opponentId),
-      name: next.opponentName,
-      isHome: next.isHome,
+      club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
+      name: opponentName,
+      isHome,
       competition: currentClub.league,
-      jornada: `Jornada ${next.matchweek}`,
+      jornada: realDeLiga ? realDeLiga.match.round : `Jornada ${next.matchweek}`,
       rivalPos: idx >= 0 ? idx + 1 : null,
       rivalTotal: myLeagueTable.length || null
     };
@@ -880,6 +918,42 @@ export default function Dashboard({
         avatar: '🏆'
       });
     }
+    // Campeones de liga de TODO el mundo, no solo la tuya: si el Madrid gana LaLiga o Flamengo el
+    // Brasileirão mientras vos jugás en Dimayor, ChutSocial lo comenta igual. Se recorren las ligas
+    // que ya están corriendo en la partida (leagueSeasons) y se corona al líder de las que
+    // terminaron su fixture.
+    for (const [key, season] of Object.entries(playerProfile.leagueSeasons)) {
+      if (!season?.table?.length) continue;
+      const quedanPartidos = season.fixtures?.some(f => !f.played) ?? false;
+      if (quedanPartidos) continue;
+
+      const lider = sortTable([...season.table])[0];
+      if (!lider) continue;
+      const sample = ULTIMATE_CLUBS_DATABASE.find(c => leagueKeyFor(c) === key);
+      if (!sample) continue;
+
+      const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+      const formato = isApeturaClausuraLeague(sample.league);
+      // El id lleva el semestre: en Apertura/Clausura hay dos campeones por año y con un solo id
+      // el segundo título nunca aparecería (React los deduplica por key).
+      const sufijo = formato ? `${anio}_s${season.semester ?? 1}` : `${anio}`;
+      const torneo = formato
+        ? `${season.semester === 2 ? 'Clausura' : 'Apertura'} ${anio}`
+        : `${getLeagueDisplay(sample.league).name} ${anio}`;
+      const esMiLiga = key === myLeagueKey;
+
+      posts.push({
+        id: `champion_league_${key}_${sufijo}`,
+        author: esMiLiga ? 'Liga Oficial' : 'Fútbol Mundial',
+        role: 'Organismo Rector',
+        content: `🏆 ¡${lider.name} campeón de ${torneo}! ${lider.puntos} puntos en ${lider.pj} fechas para quedarse con el título.`,
+        likes: (esMiLiga ? 9000 : 3000) + Math.floor(Math.random() * 6000),
+        commentsCount: (esMiLiga ? 1200 : 400) + Math.floor(Math.random() * 1500),
+        timestamp: esMiLiga ? 'Tu liga' : 'Fútbol Mundial',
+        avatar: '🏆'
+      });
+    }
+
     if (wcState?.stage === 'done' && wcState.championId) {
       const champName = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === wcState.championId)?.name || '';
       posts.push({
@@ -1310,7 +1384,10 @@ export default function Dashboard({
         const round = myLeagueSeason.twoLegKnockout.tiesByRound[myLeagueSeason.twoLegKnockout.tiesByRound.length - 1];
         roundLabel = roundLabelByMatchCount(round.length);
         const tie = round.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
-        legLabel = tie && tie.firstLegGoalsA === null ? ' (Ida)' : ' (Vuelta)';
+        if (tie) {
+          const { leg, global } = tieStatusLabel(tie, currentClub.id);
+          legLabel = global ? ` (${leg}, global ${global})` : ` (${leg})`;
+        }
       } else if (myLeagueSeason.knockout) {
         const round = myLeagueSeason.knockout.matchesByRound[myLeagueSeason.knockout.matchesByRound.length - 1];
         roundLabel = roundLabelByMatchCount(round.length);

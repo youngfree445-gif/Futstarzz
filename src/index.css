@@ -233,3 +233,18 @@ body {
 .animate-achievement-in {
   animation: achievementSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+/* Confeti de la pantalla de campeón (ver ChampionOverlay.tsx): cae de arriba girando sobre sí
+   mismo. Cada partícula usa su propio delay y duración para que la lluvia no se vea sincronizada. */
+@keyframes champion-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(112vh) rotate(720deg);
+    opacity: 0.9;
+  }
+}

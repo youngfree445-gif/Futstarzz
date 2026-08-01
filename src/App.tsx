@@ -11,7 +11,7 @@ import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
 import {
-  leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable,
+  leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable, isApeturaClausuraLeague,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
@@ -26,6 +26,8 @@ import DecisionCenter from './components/DecisionCenter';
 import InteractivePenaltyShootout from './components/InteractivePenaltyShootout';
 import AchievementToast from './components/AchievementToast';
 import MusicPlayer from './components/MusicPlayer';
+import ChampionOverlay, { type ChampionInfo } from './components/ChampionOverlay';
+import { getLeagueDisplay } from './leagueDisplay';
 import NoticeToast from './components/NoticeToast';
 import SoundSettings from './components/SoundSettings';
 import CareerSummary from './components/CareerSummary';
@@ -464,6 +466,9 @@ export default function App() {
   const [activeOppositionClubId, setActiveOppositionClubId] = useState<string | null>(null);
   const [activeIsHome, setActiveIsHome] = useState(true);
   const [isCopaLibertadores, setIsCopaLibertadores] = useState(false);
+  // Festejo a pantalla completa al salir campeón (ver ChampionOverlay). Se muestra al volver del
+  // resumen de post-partido, para no tapar el resultado que lo causó.
+  const [championInfo, setChampionInfo] = useState<ChampionInfo | null>(null);
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
   // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
@@ -1755,6 +1760,19 @@ export default function App() {
         const lider = sortTable([...resolvedSeason.table])[0];
         if (lider && (lider.clubId === myClub.id || lider.name === myClub.name)) {
           salioCampeon = true;
+          // En Colombia y Argentina el título es del semestre, no del año: el rótulo tiene que
+          // decir cuál de los dos torneos ganaste o parecería que se repite el mismo campeonato.
+          const formato = isApeturaClausuraLeague(myClub.league);
+          const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+          const torneo = formato
+            ? `${resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura'} ${anio}`
+            : `Temporada ${anio}`;
+          setChampionInfo({
+            competition: getLeagueDisplay(myClub.league).name,
+            clubName: myClub.name,
+            season: torneo,
+            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+          });
         }
       }
 
@@ -2139,6 +2157,16 @@ export default function App() {
           key={noticeQueue[0]}
           message={noticeQueue[0]}
           onDone={() => setNoticeQueue(prev => prev.slice(1))}
+        />
+      )}
+
+      {/* Festejo de campeón. Se muestra recién en el dashboard: si apareciera sobre el resumen de
+          post-partido taparía el resultado que acaba de coronar al equipo. */}
+      {championInfo && screen === 'dashboard' && playerProfile && (
+        <ChampionOverlay
+          info={championInfo}
+          playerName={playerProfile.name}
+          onClose={() => setChampionInfo(null)}
         />
       )}
 
