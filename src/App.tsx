@@ -1183,9 +1183,27 @@ export default function App() {
     const realPrimary = pickPrimary(realWeekMatches);
     const usaCalendarioReal = !!myClubForSchedule && hasRealSchedule(myClubForSchedule.name);
 
+    // ¿Tu club está jugando una copa continental que el motor sí modela? El calendario importado
+    // solo trae 36 clubes en Libertadores y no incluye a varios que el motor sí clasifica (Junior
+    // entre ellos), así que preguntarle únicamente a realPrimary dejaba a esos clubes sin copa: en
+    // las 13 semanas de copa del año el calendario devolvía un partido de liga y el jugador salía a
+    // jugar Dimayor cuando le tocaba Libertadores.
+    const clubEnCopaContinental = (() => {
+      const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+      if (!myClub) return false;
+      return getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id)
+        || getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id)
+        || getChampionsParticipants(CLUBS_DATABASE).includes(myClub.id)
+        || getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id);
+    })();
+
     const isCup = !inWorldCupBreak && (
       usaCalendarioReal
-        ? realPrimary?.competition.kind === 'continental_cup' || realPrimary?.competition.kind === 'domestic_cup'
+        ? realPrimary?.competition.kind === 'continental_cup'
+          || realPrimary?.competition.kind === 'domestic_cup'
+          // El calendario no cubre la copa de este club: manda el reparto del motor, que es el que
+          // de verdad lleva su llave (ver getOrCreateCupState más abajo).
+          || (clubEnCopaContinental && isCupWeek(playerProfile.currentWeek))
         : isCupWeek(playerProfile.currentWeek)
     );
     // isCopaLibertadores es, en la práctica, un "no es liga doméstica" genérico (nombre legado de
@@ -1265,7 +1283,13 @@ export default function App() {
         notify('📅 FECHA FIFA: el Mundial paraliza la actividad de clubes en todo el mundo. Esta semana no hay partido de liga ni de copa para tu club.');
         return;
       }
-    } else if (isCup && usaCalendarioReal && realPrimary) {
+    } else if (
+      isCup && usaCalendarioReal && realPrimary
+      // El partido real tiene que ser DE COPA. Sin este chequeo, un club que juega copa según el
+      // motor pero no figura en el calendario de esa copa (Junior en Libertadores) entraba acá con
+      // un partido de liga y lo jugaba rotulado como copa.
+      && (realPrimary.competition.kind === 'continental_cup' || realPrimary.competition.kind === 'domestic_cup')
+    ) {
       // Partido de copa tomado del calendario REAL: rival, ronda y torneo salen de las fechas de
       // Transfermarkt, no de un sorteo generado. El estado interno de la copa (tabla, bracket) lo
       // sigue llevando el motor -- esto solo decide QUÉ se juega esta semana.
