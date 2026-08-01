@@ -342,6 +342,15 @@ export interface Fixture {
   played: boolean;
   homeGoals: number | null;
   awayGoals: number | null;
+  /**
+   * Jornada del calendario real a la que pertenece este partido ("5. Matchday"). Solo la traen los
+   * fixtures generados desde el calendario real; el motor generado la deja sin definir.
+   *
+   * Sirve para no jugar dos jornadas en la misma semana: el calendario real a veces mete el cierre
+   * de una fecha y el arranque de la siguiente en la misma semana, y sin esto LaLiga terminaba con
+   * 43 fechas en vez de 38.
+   */
+  round?: string;
 }
 
 // --- Formato Apertura/Clausura (Colombia y Argentina) ---

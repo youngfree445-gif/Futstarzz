@@ -11,6 +11,7 @@
 
 import { REAL_CALENDARS, type RealCompetition, type RealMatch } from './realCalendar';
 import { SEASON_LENGTH_WEEKS } from './leagueEngine';
+import { nombreEnCalendario, nombreMostrable } from './clubAliases';
 
 export interface ScheduledMatch {
   competition: RealCompetition;
@@ -23,6 +24,7 @@ export interface ScheduledMatch {
 export function weekInSeason(currentWeek: number): number {
   return ((currentWeek - 1) % SEASON_LENGTH_WEEKS) + 1;
 }
+
 
 // Índice club -> competiciones en las que participa. Se arma una sola vez: recorrer 9.331 partidos
 // en cada avance de semana sería caro y se nota en móvil.
@@ -48,7 +50,7 @@ function getIndice(): Map<string, RealCompetition[]> {
 
 /** Competiciones con calendario real en las que participa este club. */
 export function competitionsForClub(clubName: string): RealCompetition[] {
-  return getIndice().get(clubName) ?? [];
+  return getIndice().get(nombreEnCalendario(clubName)) ?? [];
 }
 
 /**
@@ -60,6 +62,8 @@ export function competitionsForClub(clubName: string): RealCompetition[] {
 export function matchesThisWeek(clubName: string, currentWeek: number): ScheduledMatch[] {
   const w = weekInSeason(currentWeek);
   const out: ScheduledMatch[] = [];
+  // Los partidos traen el nombre tal como figura en el calendario, no el corto de data.ts.
+  const nombreCal = nombreEnCalendario(clubName);
 
   for (const comp of competitionsForClub(clubName)) {
     // La semana de la competición es directamente la semana de la temporada: cada torneo ocupa sus
@@ -73,8 +77,8 @@ export function matchesThisWeek(clubName: string, currentWeek: number): Schedule
     const wComp = w;
     for (const m of comp.matches) {
       if (m.w !== wComp) continue;
-      if (m.home === clubName) out.push({ competition: comp, match: m, isHome: true, opponentName: m.away });
-      else if (m.away === clubName) out.push({ competition: comp, match: m, isHome: false, opponentName: m.home });
+      if (m.home === nombreCal) out.push({ competition: comp, match: m, isHome: true, opponentName: nombreMostrable(m.away) });
+      else if (m.away === nombreCal) out.push({ competition: comp, match: m, isHome: false, opponentName: nombreMostrable(m.home) });
     }
   }
   return out;
