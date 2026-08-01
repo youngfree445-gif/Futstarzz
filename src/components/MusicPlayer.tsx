@@ -1,4 +1,4 @@
-import { ChevronDown, Music, Pause, Play, Plus, SkipForward, Volume2, VolumeX } from 'lucide-react';
+import { ChevronDown, Music, Pause, Play, Plus, Shuffle, SkipForward, Volume2, VolumeX } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { getSfxVolume, isSfxMuted, playSfx, setSfxMuted, setSfxVolume } from '../audio';
 import {
@@ -16,11 +16,14 @@ import {
 //
 //   YouTube  -> canciones COMPLETAS y encadenadas. Se puede controlar por postMessage (IFrame API),
 //               así que el iframe se puede colapsar a 1px y seguir sonando de fondo con play/pausa/
-//               siguiente/volumen propios. Es el modo recomendado para jugar.
+//               siguiente/aleatorio/volumen propios. Es el modo recomendado para jugar.
 //   Spotify  -> el embed solo da PREVIEWS DE 30s salvo que el visitante tenga sesión Premium activa
-//               en el navegador, y no expone ninguna API de control. No se puede arreglar desde acá:
-//               canción completa requiere el Web Playback SDK (OAuth + Premium por jugador). Por eso
-//               el reproductor de Spotify se muestra siempre visible y se avisa la limitación.
+//               en el navegador. Eso no se puede arreglar desde acá: canción completa requiere el
+//               Web Playback SDK (OAuth + Premium por jugador). Lo que sí se usa es la IFrame API
+//               (distinta del Web Playback SDK, no pide login ni Premium), que da play/pausa y el
+//               evento playback_update. No tiene "siguiente" ni "aleatorio": no existen en su API,
+//               así que para Spotify se muestran solo los controles que de verdad responden y el
+//               reproductor queda visible.
 
 interface MusicPlayerProps {
   /** Oculta el widget en pantallas donde estorbaría (welcome/setup). */
@@ -30,6 +33,50 @@ interface MusicPlayerProps {
 // Comandos de la IFrame API de YouTube. Se mandan por postMessage en vez de cargar el SDK de
 // YouTube: el SDK necesita inyectar un script externo, y para play/pausa/volumen/siguiente esto
 // alcanza y no agrega una dependencia de red que pueda fallar.
+// --- Spotify IFrame API ---
+//
+// Distinta del Web Playback SDK: esta NO pide OAuth ni Premium, y da play/pausa/seek sobre el embed
+// normal. Lo que no expone es "siguiente" ni "aleatorio" (no existen en su API), así que el widget
+// muestra para Spotify solo los controles que de verdad responden.
+//
+// El script se carga una sola vez y bajo demanda -- solo si el jugador realmente usa Spotify -- para
+// no pagar una request de red en cada arranque del juego.
+interface SpotifyController {
+  play(): void;
+  pause(): void;
+  togglePlay(): void;
+  destroy(): void;
+  loadUri(uri: string): void;
+  addListener(event: string, cb: (e: { data: { isPaused?: boolean; position?: number; duration?: number } }) => void): void;
+}
+
+// El SDK quiere una URI (spotify:playlist:xxx), no la URL de embed. Se deriva de la que ya está
+// guardada en vez de cambiar el parser, así las playlists guardadas de antes siguen funcionando.
+function spotifyUriFromEmbed(embedUrl: string): string | null {
+  const m = embedUrl.match(/open\.spotify\.com\/embed\/(playlist|album|artist|track)\/([A-Za-z0-9]+)/);
+  return m ? `spotify:${m[1]}:${m[2]}` : null;
+}
+
+const SPOTIFY_API_SRC = 'https://open.spotify.com/embed/iframe-api/v1';
+let spotifyApiPromise: Promise<any> | null = null;
+
+function loadSpotifyApi(): Promise<any> {
+  if (spotifyApiPromise) return spotifyApiPromise;
+  spotifyApiPromise = new Promise((resolve, reject) => {
+    const w = window as any;
+    if (w.SpotifyIframeApi) { resolve(w.SpotifyIframeApi); return; }
+    // El callback lo llama el script al terminar de cargar; se guarda la instancia para que una
+    // segunda playlist de Spotify no tenga que esperar la red otra vez.
+    w.onSpotifyIframeApiReady = (api: any) => { w.SpotifyIframeApi = api; resolve(api); };
+    const tag = document.createElement('script');
+    tag.src = SPOTIFY_API_SRC;
+    tag.async = true;
+    tag.onerror = () => reject(new Error('no se pudo cargar el reproductor de Spotify'));
+    document.body.appendChild(tag);
+  });
+  return spotifyApiPromise;
+}
+
 function ytCommand(iframe: HTMLIFrameElement | null, func: string, args: unknown[] = []) {
   if (!iframe?.contentWindow) return;
   iframe.contentWindow.postMessage(
@@ -50,10 +97,23 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
   // que los efectos del partido. Solo aplica a YouTube (Spotify no expone control).
   const [musicVolume, setMusicVolume] = useState(35);
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [shuffle, setShuffle] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  // Hueco que el panel le reserva al video de YouTube. El iframe se posiciona encima de estas
+  // coordenadas para que se vea integrado al panel sin dejar de ser un elemento suelto (moverlo
+  // dentro del DOM del panel cortaría la reproducción al cerrarlo).
+  const youtubeSlotRef = useRef<HTMLDivElement>(null);
+  const [youtubeSlot, setYoutubeSlot] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
+  // Spotify: el div que el SDK reemplaza por su propio iframe, y el controlador que devuelve.
+  const spotifyHostRef = useRef<HTMLDivElement>(null);
+  const spotifyCtrlRef = useRef<SpotifyController | null>(null);
+  const [spotifyReady, setSpotifyReady] = useState(false);
+  const spotifySlotRef = useRef<HTMLDivElement>(null);
+  const [spotifySlot, setSpotifySlot] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
 
   const isYouTube = playlist?.provider === 'youtube';
+  const isSpotify = playlist?.provider === 'spotify';
 
   // Se lee del storage una sola vez al montar (no en el useState inicial) para no tocar
   // localStorage durante el render.
@@ -70,6 +130,81 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
   useEffect(() => {
     if (isYouTube) ytCommand(iframeRef.current, 'setVolume', [musicVolume]);
   }, [musicVolume, isYouTube]);
+
+  // El modo aleatorio se re-aplica al cambiar de playlist: el orden vive en el reproductor, así que
+  // un iframe nuevo arranca siempre en orden aunque el botón siga encendido.
+  useEffect(() => {
+    if (isYouTube) ytCommand(iframeRef.current, 'setShuffle', [shuffle]);
+  }, [shuffle, isYouTube, playlist?.embedUrl]);
+
+  // Crea el reproductor de Spotify vía IFrame API en vez de un <iframe> suelto: así el widget puede
+  // controlarlo (play/pausa propios) y saber si está sonando, igual que con YouTube. El SDK reemplaza
+  // el div de spotifyHostRef por su propio iframe.
+  useEffect(() => {
+    if (!isSpotify || !playlist) return;
+    const uri = spotifyUriFromEmbed(playlist.embedUrl);
+    if (!uri) return;
+
+    let cancelado = false;
+    setSpotifyReady(false);
+
+    loadSpotifyApi()
+      .then(api => {
+        // El panel pudo cerrarse (o cambiar de playlist) mientras cargaba el script.
+        if (cancelado || !spotifyHostRef.current) return;
+        api.createController(
+          spotifyHostRef.current,
+          { uri, width: '100%', height: '152' },
+          (ctrl: SpotifyController) => {
+            if (cancelado) { ctrl.destroy(); return; }
+            spotifyCtrlRef.current = ctrl;
+            setSpotifyReady(true);
+            // Única fuente de verdad sobre si suena: el reproductor puede pausarse solo (fin de la
+            // lista, corte por otra pestaña) y el botón tiene que reflejarlo.
+            ctrl.addListener('playback_update', e => {
+              if (!cancelado) setMusicPlaying(!e.data.isPaused);
+            });
+          }
+        );
+      })
+      .catch(() => { if (!cancelado) setSpotifyReady(false); });
+
+    return () => {
+      cancelado = true;
+      spotifyCtrlRef.current?.destroy();
+      spotifyCtrlRef.current = null;
+      setSpotifyReady(false);
+    };
+  }, [isSpotify, playlist?.embedUrl]);
+
+  // Mantiene cada reproductor pegado al hueco que le reserva el panel. Se re-mide ante cualquier
+  // cosa que lo mueva (abrir/cerrar, rotar el teléfono, aparecer el teclado, scroll) porque los
+  // iframes están en position:fixed y no se reacomodan solos con el layout.
+  useEffect(() => {
+    if (!open) { setYoutubeSlot(null); setSpotifySlot(null); return; }
+
+    const slotRef = isYouTube ? youtubeSlotRef : isSpotify ? spotifySlotRef : null;
+    const aplicar = isYouTube ? setYoutubeSlot : isSpotify ? setSpotifySlot : null;
+    if (!slotRef || !aplicar) return;
+
+    const medir = () => {
+      const el = slotRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      aplicar({ top: r.top, left: r.left, width: r.width, height: r.height });
+    };
+    medir();
+
+    const ro = new ResizeObserver(medir);
+    if (slotRef.current) ro.observe(slotRef.current);
+    window.addEventListener('resize', medir);
+    window.addEventListener('scroll', medir, true);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', medir);
+      window.removeEventListener('scroll', medir, true);
+    };
+  }, [isYouTube, isSpotify, open, playlist?.embedUrl]);
 
   const handleSave = () => {
     const parsed = parsePlaylistUrl(draftUrl);
@@ -96,6 +231,12 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
   };
 
   const toggleMusic = () => {
+    if (isSpotify) {
+      // El estado real lo confirma el listener de playback_update; acá no se toca musicPlaying para
+      // no dejarlo mintiendo si el navegador bloquea el autoplay.
+      spotifyCtrlRef.current?.togglePlay();
+      return;
+    }
     if (!isYouTube) return;
     if (musicPlaying) {
       ytCommand(iframeRef.current, 'pauseVideo');
@@ -112,6 +253,20 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
     ytCommand(iframeRef.current, 'nextVideo');
     // nextVideo arranca reproduciendo aunque estuviera pausado.
     setMusicPlaying(true);
+  };
+
+  const toggleShuffle = () => {
+    if (!isYouTube) return;
+    const next = !shuffle;
+    // El comando lo manda el useEffect al cambiar el estado; acá solo queda el salto.
+    setShuffle(next);
+    // setShuffle solo reordena lo que viene DESPUÉS de la canción actual, así que sin saltar no
+    // pasa nada audible y el botón parece no hacer nada. Al activarlo se salta a una canción al
+    // azar; al desactivarlo se deja sonando la actual y la lista sigue en orden desde ahí.
+    if (next) {
+      ytCommand(iframeRef.current, 'nextVideo');
+      setMusicPlaying(true);
+    }
   };
 
   const handleSfxVolume = (next: number) => {
@@ -140,13 +295,48 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
 
   return (
     <>
+      {/* El iframe de YouTube vive SIEMPRE acá, fuera del panel, y nunca se desmonta: montarlo dentro
+          del panel haría que cerrarlo corte la canción.
+
+          Cuando el panel está abierto se lo posiciona encima del hueco que le reserva el panel
+          (ver youtubeSlotRef), en vez de dejarlo flotando por su cuenta: antes tenía una posición
+          fija propia con z-index menor al del panel, así que el video aparecía detrás del cuadro y
+          desalineado. Cerrado, se colapsa a 1px y sigue sonando de fondo. */}
+      {/* Mismo criterio para Spotify: el reproductor nunca se desmonta, y cuando el panel está
+          abierto se lo posiciona sobre el hueco que este le reserva. Cerrado queda colapsado a 1px,
+          sonando de fondo -- antes vivía dentro del panel, así que cerrarlo cortaba la música. */}
+      {isSpotify && (
+        <div
+          className="fixed"
+          style={
+            !open || !spotifySlot
+              ? { bottom: 0, left: 0, width: 1, height: 1, opacity: 0.01, zIndex: -1, pointerEvents: 'none' }
+              : {
+                  top: spotifySlot.top,
+                  left: spotifySlot.left,
+                  width: spotifySlot.width,
+                  height: spotifySlot.height,
+                  zIndex: 91,
+                }
+          }
+        >
+          <div ref={spotifyHostRef} className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:rounded-xl" />
+        </div>
+      )}
+
       {isYouTube && (
         <div
           className="fixed pointer-events-none"
           style={
-            collapsedPlayer
+            collapsedPlayer || !youtubeSlot
               ? { bottom: 0, left: 0, width: 1, height: 1, opacity: 0.01, zIndex: -1 }
-              : { bottom: '7.5rem', left: '1rem', width: 'min(18rem, calc(100vw - 2rem))', height: '9.5rem', zIndex: 89 }
+              : {
+                  top: youtubeSlot.top,
+                  left: youtubeSlot.left,
+                  width: youtubeSlot.width,
+                  height: youtubeSlot.height,
+                  zIndex: 91,
+                }
           }
         >
           <iframe
@@ -230,16 +420,24 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                   </div>
                   {error && <p className="text-4xs text-burgundy-400 font-bold leading-snug">{error}</p>}
                   <p className="text-4xs text-slate-600 leading-relaxed">
-                    Spotify también entra, pero solo deja escuchar 30 segundos por canción salvo que
-                    tengas sesión Premium abierta — es un límite suyo, no del juego.
+                    Con YouTube suenan completas y tenés play, siguiente y aleatorio. Spotify también
+                    entra, con play y pausa desde acá, pero solo deja escuchar 30 segundos por canción
+                    salvo que tengas Premium, y no permite aleatorio — son límites suyos, no del juego.
                   </p>
                 </div>
               )}
 
               {isYouTube && (
                 <>
+                  {/* Hueco donde se apoya el video: el iframe es un elemento suelto que se posiciona
+                      encima de estas coordenadas (ver youtubeSlotRef). El fondo oscuro evita el
+                      parpadeo blanco mientras el reproductor carga. */}
+                  <div
+                    ref={youtubeSlotRef}
+                    className="w-full aspect-video rounded-xl bg-slate-950 border border-slate-800"
+                  />
                   {/* Controles propios: el iframe queda colapsado a 1px mientras jugás, así que
-                      play/pausa/siguiente/volumen tienen que estar acá. */}
+                      play/pausa/siguiente/aleatorio/volumen tienen que estar acá. */}
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
@@ -256,6 +454,20 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                       aria-label="Siguiente canción"
                     >
                       <SkipForward size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={toggleShuffle}
+                      aria-pressed={shuffle}
+                      className={`btn-fx w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border ${
+                        shuffle
+                          ? 'bg-gold-500/20 border-gold-500 text-gold-400'
+                          : 'bg-slate-950 border-slate-700 text-slate-300 hover:border-gold-500'
+                      }`}
+                      aria-label={shuffle ? 'Desactivar orden aleatorio' : 'Activar orden aleatorio'}
+                      title={shuffle ? 'Aleatorio activado' : 'Reproducir en aleatorio'}
+                    >
+                      <Shuffle size={14} />
                     </button>
                     <div className="flex-1 min-w-0">
                       <input
@@ -274,34 +486,47 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                     </div>
                   </div>
                   <p className="text-4xs text-slate-500 leading-relaxed">
-                    {musicPlaying
-                      ? 'Suena mientras jugás, incluso con esto cerrado.'
-                      : 'Dale play una vez y sigue sonando en todo el juego.'}
+                    {shuffle
+                      ? 'Aleatorio activado: la lista suena en orden salteado.'
+                      : musicPlaying
+                        ? 'Suena mientras jugás, incluso con esto cerrado.'
+                        : 'Dale play una vez y sigue sonando en todo el juego.'}
                   </p>
                 </>
               )}
 
-              {playlist?.provider === 'spotify' && (
+              {isSpotify && (
                 <>
-                  <div className="rounded-xl overflow-hidden bg-slate-950 border border-slate-800">
-                    <iframe
-                      key={playlist.embedUrl}
-                      src={playlist.embedUrl}
-                      title="Reproductor de Spotify"
-                      className="w-full block"
-                      height={152}
-                      frameBorder={0}
-                      loading="lazy"
-                      // encrypted-media es obligatorio para Spotify (DRM); sin él el embed no arranca.
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    />
+                  {/* Hueco donde se apoya el reproductor de Spotify. Igual que con YouTube, el iframe
+                      real vive fuera del panel para que cerrarlo no corte la canción. */}
+                  <div
+                    ref={spotifySlotRef}
+                    className="w-full rounded-xl bg-slate-950 border border-slate-800"
+                    style={{ height: 152 }}
+                  />
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={toggleMusic}
+                      disabled={!spotifyReady}
+                      className="btn-fx w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 flex items-center justify-center disabled:opacity-40"
+                      aria-label={musicPlaying ? 'Pausar música' : 'Reproducir música'}
+                    >
+                      {musicPlaying ? <Pause size={15} /> : <Play size={15} />}
+                    </button>
+                    <p className="text-4xs text-slate-500 leading-relaxed flex-1">
+                      {spotifyReady
+                        ? 'Podés controlarlo desde acá o desde el reproductor.'
+                        : 'Cargando el reproductor de Spotify…'}
+                    </p>
                   </div>
                   {/* Se avisa acá y no solo en la pantalla de carga: si el jugador ya tenía una
                       playlist de Spotify guardada, nunca vería el aviso. */}
                   <p className="text-4xs text-burgundy-400/90 leading-relaxed">
                     Spotify solo deja 30 segundos por canción salvo que tengas sesión Premium abierta,
-                    y su reproductor tiene que quedar visible. Para canciones completas de fondo, usá
-                    una playlist de YouTube Music.
+                    su reproductor tiene que quedar visible y no permite aleatorio ni saltar de tema —
+                    son límites suyos. Para canciones completas de fondo y aleatorio, usá una playlist
+                    de YouTube Music.
                   </p>
                 </>
               )}
