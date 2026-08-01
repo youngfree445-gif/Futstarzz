@@ -413,9 +413,11 @@ export default function Dashboard({
   // (Apertura y Clausura) con tabla propia, así que sin esto la tabla parecía reiniciarse sola.
   const torneoEnCurso = (() => {
     if (!isApeturaClausuraLeague(selectedLeagueName)) return null;
-    const season = selectedLeagueKey === myLeagueKey
-      ? myLeagueSeason
-      : playerProfile.leagueSeasons[selectedLeagueKey];
+    // Se lee directo del perfil y no de myLeagueSeason: esa constante se declara ~870 líneas más
+    // abajo, y usarla acá lanzaba un ReferenceError por zona muerta temporal que dejaba el
+    // dashboard en blanco al entrar a la carrera. TypeScript no lo marca porque es válido
+    // sintácticamente; solo revienta en runtime.
+    const season = playerProfile.leagueSeasons[selectedLeagueKey];
     if (!season) return null;
     const nombre = season.semester === 2 ? 'Clausura' : 'Apertura';
     const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
