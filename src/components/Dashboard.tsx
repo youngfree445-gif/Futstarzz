@@ -10,6 +10,7 @@ import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
+  isClubStillInCup, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate,
   getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, getRealDateForLeagueStepsBehind, getRealDateForCupStepsBehind,
@@ -407,6 +408,22 @@ export default function Dashboard({
   // genera de forma determinística a partir del gf/gc real de la tabla -- ver
   // generateLeagueLeadersFromTable en leagueEngine.ts, nunca cambia si la tabla no cambió.
   const selectedLeagueName = selectedLeagueClubs[0]?.league ?? currentClub.league;
+
+  // Rótulo del torneo que se está mirando. En Colombia y Argentina un año son DOS campeonatos
+  // (Apertura y Clausura) con tabla propia, así que sin esto la tabla parecía reiniciarse sola.
+  const torneoEnCurso = (() => {
+    if (!isApeturaClausuraLeague(selectedLeagueName)) return null;
+    const season = selectedLeagueKey === myLeagueKey
+      ? myLeagueSeason
+      : playerProfile.leagueSeasons[selectedLeagueKey];
+    if (!season) return null;
+    const nombre = season.semester === 2 ? 'Clausura' : 'Apertura';
+    const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+    const fase = season.stage === 'knockout' ? ' · Playoffs'
+      : season.stage === 'done' ? ' · Finalizado'
+      : '';
+    return `${nombre} ${anio}${fase}`;
+  })();
   // Los datos de REAL_LEAGUE_LEADERS son una foto de la temporada real previa al inicio de la
   // carrera, así que solo valen para la PRIMERA temporada: sirven de punto de partida creíble
   // (arrancás viendo a Muriel goleador, como en la vida real). De la segunda en adelante manda
@@ -435,6 +452,12 @@ export default function Dashboard({
   const uefaCup = uefaCupId
     ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek)
     : null;
+
+  // Distingue "no clasificaste a ninguna copa" de "clasificaste pero quedaste afuera": las dos
+  // cosas dejan la semana de copa sin rival, pero al jugador le dicen cosas muy distintas.
+  const eliminadoDeCopa =
+    (!!conmebolCup && !isClubStillInCup(conmebolCup, currentClub.id)) ||
+    (!!uefaCup && !isClubStillInUefaCup(uefaCup, currentClub.id));
 
   // Para el post de "campeón del Mundo" en ChutSocial -- ver generateCupChampionPosts.
   const wcState = isWorldCupYear(cupYear)
@@ -570,6 +593,12 @@ export default function Dashboard({
       } else if (uefaCup) {
         const round = uefaCup.knockout?.tiesByRound[uefaCup.knockout.tiesByRound.length - 1];
         jornada = round ? roundLabelByMatchCount(round.length) : 'Eliminatoria';
+        // Las llaves europeas son a ida y vuelta: sin esta marca, "Cuartos de final" se leía igual
+        // en los dos partidos y no había forma de saber cuál te tocaba.
+        const miLlave = round?.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
+        if (miLlave) {
+          jornada += miLlave.firstLegGoalsA === null ? ' · Ida' : ' · Vuelta';
+        }
       }
       nextMatchOpponent = {
         club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === next.opponentId),
@@ -1910,7 +1939,14 @@ export default function Dashboard({
                         </div>
                         <div className="min-w-0">
                           <span className="text-3xs text-slate-500 uppercase font-mono block truncate">Semana de Copa</span>
-                          <span className="text-white font-bold text-sm truncate block">Rival por definirse</span>
+                          {/* "Rival por definirse" era engañoso: el rival no aparecía nunca porque el
+                              club no está jugando ninguna copa continental esta temporada. */}
+                          <span className="text-white font-bold text-sm truncate block">
+                            {eliminadoDeCopa ? 'Eliminado de la copa' : `${currentClub.name} no juega copa esta temporada`}
+                          </span>
+                          <span className="text-3xs text-slate-500 block truncate mt-0.5">
+                            Se juega un amistoso de mitad de semana
+                          </span>
                         </div>
                       </div>
                     ) : null}
@@ -2847,9 +2883,19 @@ export default function Dashboard({
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
                 <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 flex-wrap">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 flex items-center gap-2">
-                    <Table size={13} /> TABLA DE POSICIONES
-                  </h3>
+                  <div>
+                    <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 flex items-center gap-2">
+                      <Table size={13} /> TABLA DE POSICIONES
+                    </h3>
+                    {/* En Colombia y Argentina la tabla se reinicia a mitad de año: sin este rótulo
+                        no había forma de saber si lo que se ve es el Apertura o el Clausura, y una
+                        tabla que "volvía a cero" parecía un bug. */}
+                    {torneoEnCurso && (
+                      <p className="text-3xs text-slate-500 font-mono uppercase tracking-wide mt-1">
+                        {torneoEnCurso}
+                      </p>
+                    )}
+                  </div>
                   <select
                     value={selectedLeagueKey}
                     onChange={(e) => setTablesLeagueOverride(e.target.value === myLeagueKey ? null : e.target.value)}

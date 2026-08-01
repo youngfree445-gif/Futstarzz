@@ -1448,9 +1448,20 @@ export default function App() {
       // doméstica no espera, tu club juega igual pero simulado sin vos, sin pantalla de partido.
       // Las copas continentales/selección NO se ven afectadas por esta sanción (criterio real:
       // una sanción de liga doméstica no se traslada automáticamente a otra competencia).
-      if (upcoming && playerProfile.suspendedMatches > 0) {
-        const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId)!;
-        resolveSuspendedLeagueWeek(myClub, leagueKey, leagueClubs, season, upcoming.isHome, opponentClub);
+      if (playerProfile.suspendedMatches > 0) {
+        // Antes esto exigía `upcoming`: en las semanas en que el motor no le encuentra rival a tu
+        // club (fecha libre por zona impar, o el fixture ya agotado) la sanción no bajaba, la liga
+        // no avanzaba y la semana se perdía. Con 6 fechas de sanción la tabla quedaba congelada
+        // -- el bug de "la tabla se quedó en 7 partidos jugados".
+        //
+        // Ahora se cumple igual: si hay rival se juega el partido simulado, y si no lo hay solo se
+        // descuenta la fecha de sanción y el calendario sigue corriendo.
+        const opponentClub = upcoming ? leagueClubs.find(c => c.id === upcoming.opponentId) : undefined;
+        if (upcoming && opponentClub) {
+          resolveSuspendedLeagueWeek(myClub, leagueKey, leagueClubs, season, upcoming.isHome, opponentClub);
+        } else {
+          advanceSuspendedIdleWeek(myClub, leagueKey, leagueClubs, season);
+        }
         return;
       }
 
@@ -1475,9 +1486,12 @@ export default function App() {
           }
         }
 
+        // La posición se busca por opClubId y no por upcoming.opponentId: con calendario real el
+        // rival lo pisa realPrimary unas líneas más arriba, y usar el del motor mostraba en pantalla
+        // la posición de un club contra el que no ibas a jugar.
         const sortedTable = sortTable(season.table);
         const myPos = sortedTable.findIndex(row => row.clubId === myClub.id);
-        const rivalPos = sortedTable.findIndex(row => row.clubId === upcoming.opponentId);
+        const rivalPos = sortedTable.findIndex(row => row.clubId === opClubId);
         setActiveMyTablePosition(myPos >= 0 ? myPos + 1 : null);
         setActiveRivalTablePosition(rivalPos >= 0 ? rivalPos + 1 : null);
         setActiveLeagueTeamCount(sortedTable.length || null);
@@ -1588,6 +1602,52 @@ export default function App() {
     setPlayerProfile(aged);
     saveGameState(aged, shopItems);
     notify(`🚫 Cumpliste tu sanción esta fecha. Sin ti en el campo, ${myClub.name} ${isHomeThisMatch ? myGoals : rivalGoals}-${isHomeThisMatch ? rivalGoals : myGoals} ${opponentClub.name}.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s) más de sanción.` : ''}`);
+  };
+
+  // Semana de sanción en la que tu club NO tiene partido de liga (fecha libre por zona impar, o el
+  // fixture de la fecha ya agotado). No hay resultado que resolver, pero la semana tiene que correr
+  // igual: se descuenta la fecha de sanción y las demás ligas y copas avanzan de fondo. Sin esto la
+  // semana quedaba en el aire y la tabla se congelaba mientras durase la sanción.
+  const advanceSuspendedIdleWeek = (
+    myClub: Club,
+    leagueKey: string,
+    leagueClubs: Club[],
+    season: ReturnType<typeof getOrCreateSeasonForLeague>
+  ) => {
+    if (!playerProfile) return;
+
+    // La liga propia igual se pone al día: el resto de los clubes juega su fecha aunque vos no.
+    const updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: season };
+    for (const key of Object.keys(updatedLeagueSeasons)) {
+      const otherLeagueClubs = key === leagueKey ? leagueClubs : CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+      if (otherLeagueClubs.length === 0) continue;
+      updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
+    }
+
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
+    const sync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+
+    const updated: PlayerProfile = {
+      ...playerProfile,
+      energy: Math.min(100, playerProfile.energy + 15),
+      capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
+      currentWeek: playerProfile.currentWeek + 1,
+      suspendedMatches: playerProfile.suspendedMatches - 1,
+      matchesWithoutRest: 0,
+      leagueSeasons: updatedLeagueSeasons,
+      continentalCups: sync.continentalCups,
+      uefaCups: sync.uefaCups,
+    };
+
+    const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
+    if (isPastRetirementAge(aged)) {
+      resolveRetirementCheckpoint(aged);
+      return;
+    }
+
+    setPlayerProfile(aged);
+    saveGameState(aged, shopItems);
+    notify(`🚫 Fecha libre de ${myClub.name}: cumpliste una fecha de sanción sin jugar.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s).` : ' Ya podés volver a jugar.'}`);
   };
 
   const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number }) => {

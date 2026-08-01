@@ -1630,18 +1630,24 @@ export default function MatchSimulator({
     // Reacción a ir en desventaja clara: si perdés por 2 o más, el equipo se va encima y aparecen
     // acciones extra para intentar darlo vuelta. Sin esto, un 0-3 al minuto 20 era un partido muerto
     // -- te quedaban 2 de las 4 decisiones fijas y ninguna chance real de remontar.
-    if (!isSentOff && onField && currentMin < 88) {
+    if (!isSentOff && onField && currentMin < 86) {
       const golesMios = isHome.current ? scoreHome : scoreAway;
       const golesDelRival = isHome.current ? scoreAway : scoreHome;
       const enDesventaja = golesDelRival - golesMios;
-      if (enDesventaja >= 2 && !decisionMinutes.current.includes(currentMin)) {
-        // El objetivo es el TOTAL del partido: 5 acciones si perdés por 2, 6 si perdés por 3 o más.
-        // Cuanto peor va el marcador, más se arriesga.
-        const objetivo = enDesventaja >= 3 ? 6 : 5;
-        const totalDelPartido = decisionMinutes.current.length;
-        if (totalDelPartido < objetivo) {
+      // El objetivo es el TOTAL del partido: 5 acciones si perdés por 2, 6 si perdés por 3 o más.
+      const objetivo = enDesventaja >= 3 ? 6 : enDesventaja >= 2 ? 5 : 0;
+
+      if (objetivo > 0 && decisionMinutes.current.length < objetivo) {
+        // Se busca el primer minuto libre a partir de dos minutos más adelante. Sin verificar que
+        // esté libre, la jugada extra podía caer sobre un minuto ya agendado: se agendaban dos
+        // decisiones en el mismo tick y el partido quedaba trabado esperando una que nunca se
+        // disparaba -- de ahí que los botones x2, x4 y Saltar dejaran de responder.
+        let cuando = currentMin + 2;
+        while (cuando < 88 && decisionMinutes.current.includes(cuando)) cuando++;
+
+        if (cuando < 88) {
           comebackPushes.current++;
-          decisionMinutes.current = [...decisionMinutes.current, currentMin + 2].sort((a, b) => a - b);
+          decisionMinutes.current = [...decisionMinutes.current, cuando].sort((a, b) => a - b);
           // El relato lo nombra: el jugador tiene que entender POR QUÉ le llegan más jugadas.
           if (comebackPushes.current === 1) {
             setMatchLog(prev => [...prev, {
@@ -1650,8 +1656,9 @@ export default function MatchSimulator({
               type: 'neutral'
             }]);
           }
-          return;
         }
+        // Sin `return`: el minuto sigue su curso normal (goles ambientales, faltas). Cortar acá
+        // congelaba el resto del tick en cada minuto que estuvieras en desventaja.
       }
     }
 
