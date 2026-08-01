@@ -471,9 +471,21 @@ export function resolvePlayerMatchweek(
 // único (4 rondas). Total: 9+4=13 pasos.
 // ==========================================================================
 
+// Fechas de fase regular de cada torneo, según el reglamento real (ver docs/REGLAMENTO_*.md):
+//
+//   Argentina (AFA/LPF): dos zonas de 15 a una rueda = 15 fechas + 1 interzonal = 16. Coincide con
+//     el calendario importado de Transfermarkt, que trae exactamente 16 jornadas de 15 partidos.
+//   Colombia (Dimayor): todos contra todos, 20 fechas.
+//
+// Antes eran 9 y 7. Ese recorte venía de un presupuesto de "13 pasos por semestre" que salía de
+// gastar UNA semana de calendario por fecha, saltando las semanas de copa (isCupWeek). Con ese
+// límite el torneo argentino se jugaba a poco más de la mitad y los campeones salían con puntajes
+// imposibles (12 puntos). En la realidad liga y copa se juegan en la misma semana -- el calendario
+// real ya lo hace, el Barcelona tiene 11 semanas con liga y Champions a la vez -- así que el
+// presupuesto no existe: ver getOrCreateApeturaClausuraSeason.
 const REGULAR_PHASE_MATCHDAYS: Record<'colombia' | 'argentina', number> = {
-  colombia: 7,
-  argentina: 9,
+  colombia: 20,
+  argentina: 16,
 };
 
 const SEED_PAIRS_8 = [[0, 7], [3, 4], [2, 5], [1, 6]];
@@ -723,6 +735,29 @@ function startNextSemester(
 // de liga, sea cual sea la etapa en la que caiga (una fecha de fase regular,
 // o una ida/vuelta de playoffs) — así que alcanza con contar cuántas fechas
 // de liga ya transcurrieron en total.
+/**
+ * Pasos de Apertura/Clausura que ya deberían haberse jugado a esta altura de la carrera.
+ *
+ * Avanza UN paso por semana, incluidas las semanas de copa. Antes usaba leagueMatchweeksElapsedTotal,
+ * que las saltea, y eso metía un límite artificial: quedaban ~11 semanas útiles por semestre para un
+ * torneo que necesita 20 pasos (16 fechas + 4 playoffs), así que el campeonato se jugaba a medias y
+ * los campeones salían con 12 puntos.
+ *
+ * Ese límite venía de asumir una competencia por semana. En la realidad no es así, y el calendario
+ * real importado ya lo refleja: el Barcelona juega 11 semanas con partido de liga Y de Champions.
+ * Las copas de estos clubes se resuelven por su propio contador (cupWeeksElapsed*), que sigue
+ * corriendo en paralelo, así que jugar la fecha de liga esa semana no le quita nada a la copa.
+ *
+ * El bloque del Mundial sí se respeta: ahí no se juega nada.
+ */
+function apeturaClausuraStepsElapsed(currentWeek: number): number {
+  let pasos = 0;
+  for (let w = 1; w < currentWeek; w++) {
+    if (!isWorldCupBreakWeek(w)) pasos++;
+  }
+  return pasos;
+}
+
 export function getOrCreateApeturaClausuraSeason(
   clubs: Club[],
   existing: LeagueSeasonState | undefined,
@@ -731,7 +766,7 @@ export function getOrCreateApeturaClausuraSeason(
 ): LeagueSeasonState {
   let season = existing ?? freshRegularPhase(clubs, format, 1, currentWeek);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
-  const targetSteps = leagueMatchweeksElapsedTotal(currentWeek);
+  const targetSteps = apeturaClausuraStepsElapsed(currentWeek);
 
   while (stepsConsumed < targetSteps) {
     season = resolveApeturaClausuraStep(season, clubs, currentWeek, format);
@@ -1877,9 +1912,10 @@ function leagueCompetitionFor(leagueClubs: Club[]): RealCompetition | null {
   const cacheado = compPorLiga.get(key);
   if (cacheado !== undefined) return cacheado;
 
-  // Las ligas de Apertura/Clausura se quedan con su motor propio, que ya modela los dos semestres
-  // con sus playoffs. El calendario importado solo trae UN semestre (ARG1 son las 16 fechas del
-  // Apertura), así que usarlo dejaría a Argentina jugando medio torneo por año.
+  // Las ligas de Apertura/Clausura se quedan con su motor propio, que es el que modela los dos
+  // semestres, las zonas y los playoffs. El calendario importado solo trae UN torneo (ARG1 son las
+  // 16 fechas del Apertura; falta el Clausura), así que usarlo tal cual dejaría a Argentina jugando
+  // medio año. Lo que sí se toma de él es el NÚMERO REAL DE FECHAS -- ver regularPhaseMatchdays().
   if (isApeturaClausuraLeague(leagueClubs[0].league)) {
     compPorLiga.set(key, null);
     return null;
