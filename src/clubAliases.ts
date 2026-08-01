@@ -150,3 +150,62 @@ export function nombreEnCalendario(clubName: string): string {
 export function nombreMostrable(nombreCalendario: string): string {
   return NOMBRE_CORTO[nombreCalendario] ?? nombreCalendario;
 }
+
+// Ligas de cada confederación. Sirven para desambiguar un nombre repetido según el torneo en el que
+// aparece: en la Champions "Liverpool" solo puede ser el inglés, y en la Libertadores solo el
+// uruguayo.
+const LIGAS_SUDAMERICA = new Set([
+  'Argentina', 'Boliviana', 'Brasileña', 'Chilena', 'Colombiana', 'Ecuatoriana',
+  'Paraguaya', 'Peruana', 'Uruguaya', 'Venezolana',
+]);
+const LIGAS_EUROPA = new Set([
+  'Alemana', 'Austríaca', 'Belga', 'Búlgara', 'Checa', 'Chipriota', 'Croata', 'Danesa',
+  'Escocesa', 'Española', 'Francesa', 'Griega', 'Holandesa', 'Húngara', 'Inglesa', 'Israelí',
+  'Italiana', 'Kazaja', 'Noruega', 'Portuguesa', 'Rumana', 'Serbia', 'Sueca', 'Suiza', 'Turca',
+]);
+
+interface ClubMinimo { id: string; name: string; league: string }
+
+/**
+ * Encuentra el club de data.ts que corresponde a un nombre de calendario, usando el torneo como
+ * desambiguador.
+ *
+ * Hay 8 nombres exactamente repetidos entre países -- Liverpool (Inglaterra y Uruguay), Everton
+ * (Inglaterra y Chile), Nacional (Uruguay y Paraguay), Athletic Club (España y Brasil), Leones FC
+ * (Colombia y Ecuador), Universidad Católica (Chile y Ecuador), Comunicaciones y Alianza
+ * Universidad. Un find() por nombre devuelve el primero de la lista, así que la FA Cup podía
+ * emparejarte contra el Liverpool uruguayo y la Copa del Rey contra el Athletic brasileño.
+ *
+ * @param competitionLeague  Club.league de la competición, si es liga o copa nacional.
+ * @param competitionKind    Para las continentales, que son multipaís y no declaran liga.
+ * @param competitionName    Nombre del torneo: distingue Champions de Libertadores.
+ */
+export function resolverClubDeCalendario<T extends ClubMinimo>(
+  clubs: readonly T[],
+  nombreCalendario: string,
+  competitionLeague?: string,
+  competitionKind?: string,
+  competitionName?: string,
+): T | undefined {
+  const corto = nombreMostrable(nombreCalendario);
+  const candidatos = clubs.filter(c => c.name === corto || nombreEnCalendario(c.name) === nombreCalendario);
+  if (candidatos.length <= 1) return candidatos[0];
+
+  // Copa nacional o liga: el club tiene que ser de ese país.
+  if (competitionLeague) {
+    const delPais = candidatos.find(c => c.league === competitionLeague);
+    if (delPais) return delPais;
+  }
+
+  // Continental: se acota al continente del TORNEO, no al de los candidatos. La Libertadores solo
+  // tiene clubes sudamericanos y la Champions solo europeos, así que "Liverpool" en una es el
+  // uruguayo y en la otra el inglés.
+  if (competitionKind === 'continental_cup' && competitionName) {
+    const esDeEuropa = /champions|europa|conference|uefa/i.test(competitionName);
+    const set = esDeEuropa ? LIGAS_EUROPA : LIGAS_SUDAMERICA;
+    const delContinente = candidatos.find(c => set.has(c.league));
+    if (delContinente) return delContinente;
+  }
+
+  return candidatos[0];
+}

@@ -28,6 +28,7 @@ import AchievementToast from './components/AchievementToast';
 import MusicPlayer from './components/MusicPlayer';
 import ChampionOverlay, { type ChampionInfo } from './components/ChampionOverlay';
 import { getLeagueDisplay } from './leagueDisplay';
+import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
 import SoundSettings from './components/SoundSettings';
 import CareerSummary from './components/CareerSummary';
@@ -1297,9 +1298,14 @@ export default function App() {
       // en una copa NACIONAL se busca primero dentro de la liga del club: un find() global devuelve
       // el primero que coincida y puede traer el club del país equivocado.
       const myClubForCup = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-      const rival = (realPrimary.competition.kind === 'domestic_cup' && myClubForCup
-        ? CLUBS_DATABASE.find(c => c.name === realPrimary.opponentName && c.league === myClubForCup.league)
-        : undefined) ?? CLUBS_DATABASE.find(c => c.name === realPrimary.opponentName);
+      const rival = resolverClubDeCalendario(
+        CLUBS_DATABASE,
+        realPrimary.opponentName,
+        // En una copa nacional el rival es del mismo país que vos.
+        realPrimary.competition.league ?? (realPrimary.competition.kind === 'domestic_cup' ? myClubForCup?.league : undefined),
+        realPrimary.competition.kind,
+        realPrimary.competition.name,
+      );
       opName = rival?.name ?? realPrimary.opponentName;
       opClubId = rival?.id ?? null;
       isHomeThisMatch = realPrimary.isHome;
@@ -1507,7 +1513,8 @@ export default function App() {
           // Se busca dentro de leagueClubs (la propia liga) y no en toda la base: hay nombres
           // duplicados entre países -- "Athletic Club" existe en Brasil y en España -- y un
           // find() global devolvía el primero, metiendo un club brasileño en LaLiga.
-          const rivalReal = leagueClubs.find(c => c.name === realPrimary.opponentName);
+          const rivalReal = resolverClubDeCalendario(
+            leagueClubs, realPrimary.opponentName, myClub.league, 'league', realPrimary.competition.name);
           if (rivalReal) {
             opName = rivalReal.name;
             opClubId = rivalReal.id;

@@ -7,6 +7,7 @@ import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
+import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
@@ -646,7 +647,9 @@ export default function Dashboard({
       : null;
     const realDeLiga = realDeLaSemana?.competition.kind === 'league' ? realDeLaSemana : null;
     const rivalReal = realDeLiga
-      ? ULTIMATE_CLUBS_DATABASE.find(c => c.name === realDeLiga.opponentName && leagueKeyFor(c) === myLeagueKey)
+      ? resolverClubDeCalendario(
+          ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === myLeagueKey),
+          realDeLiga.opponentName, currentClub.league, 'league', realDeLiga.competition.name)
       : null;
 
     const opponentId = rivalReal?.id ?? next.opponentId;

@@ -6,6 +6,7 @@ import { playSfx } from '../audio';
 import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
+import { resolverClubDeCalendario } from '../clubAliases';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
 // de lo que sumaba. El resto de los efectos del partido (gol, tarjeta, etc.) no se tocan.
@@ -1469,9 +1470,12 @@ export default function MatchSimulator({
   // Figuras del equipo CONTRARIO, para que la narración no hable siempre de un genérico
   // "el defensor rival" mientras a tus compañeros sí los nombra. Se resuelve por id cuando
   // App lo conoce (liga/copa) y, si no, por nombre contra la base de clubes.
+  // El fallback por nombre acota a la liga del club propio: hay 8 nombres repetidos entre países
+  // (Liverpool, Everton, Nacional, Athletic Club...) y un find() global traía el del país
+  // equivocado, narrando con las figuras de otro equipo.
   const opponentClub =
     (opponentClubId ? CLUBS_DATABASE.find(c => c.id === opponentClubId) : undefined) ??
-    CLUBS_DATABASE.find(c => c.name === opponentName);
+    resolverClubDeCalendario(CLUBS_DATABASE, opponentName, currentClub.league);
 
   // Los starPlayers vienen como "Fulano" o "Fulano (ST)": el sufijo de posición es útil para el
   // motor pero queda mal leído en una crónica, así que se recorta para narrar. El sufijo, cuando
