@@ -547,8 +547,11 @@ function resolveBracketRound(
     const isForcedMatch = forced && (m.homeTeamId === forced.clubId || m.awayTeamId === forced.clubId);
     let homeGoals: number, awayGoals: number;
     if (isForcedMatch && forced) {
-      homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
-      awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+      // La localía la manda el cruce, no forced.isHome: ese flag viene de la UI y si discrepa
+      // el resultado entra dado vuelta (un 3-0 tuyo se anota 0-3 en contra).
+      const yoSoyLocal = m.homeTeamId === forced.clubId;
+      homeGoals = yoSoyLocal ? forced.goals : forced.opponentGoals;
+      awayGoals = yoSoyLocal ? forced.opponentGoals : forced.goals;
     } else {
       const home = clubs.find(c => c.id === m.homeTeamId);
       const away = clubs.find(c => c.id === m.awayTeamId);
@@ -662,8 +665,14 @@ function resolveApeturaClausuraStep(
       const isForcedMatch = forced && (fx.homeTeamId === forced.clubId || fx.awayTeamId === forced.clubId);
       let homeGoals: number, awayGoals: number;
       if (isForcedMatch && forced) {
-        homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
-        awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+        // Quién es local lo decide el FIXTURE, no forced.isHome. Ese flag viene de la UI y puede no
+        // coincidir (en Argentina el rival se elige con getUpcomingApeturaClausuraMatch, pero si el
+        // club no tiene partido en esa fecha la pantalla cae a un amistoso y sortea la localía).
+        // Cuando discrepaban, el resultado entraba DADO VUELTA: un 3-0 tuyo se anotaba 0-3 en
+        // contra. Ganando todos los partidos 3-0, River terminaba con 4 victorias y 4 derrotas.
+        const yoSoyLocal = fx.homeTeamId === forced.clubId;
+        homeGoals = yoSoyLocal ? forced.goals : forced.opponentGoals;
+        awayGoals = yoSoyLocal ? forced.opponentGoals : forced.goals;
       } else {
         const home = clubs.find(c => c.id === fx.homeTeamId);
         const away = clubs.find(c => c.id === fx.awayTeamId);
@@ -991,8 +1000,11 @@ function resolveCupGroupsStep(groups: CupGroup[], allClubs: Club[], forced?: For
       const isForced = forced && (f.homeTeamId === forced.clubId || f.awayTeamId === forced.clubId);
       let homeGoals: number, awayGoals: number;
       if (isForced && forced) {
-        homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
-        awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+        // La localía la manda el cruce, no forced.isHome: ese flag viene de la UI y si discrepa
+        // el resultado entra dado vuelta (un 3-0 tuyo se anota 0-3 en contra).
+        const yoSoyLocal = f.homeTeamId === forced.clubId;
+        homeGoals = yoSoyLocal ? forced.goals : forced.opponentGoals;
+        awayGoals = yoSoyLocal ? forced.opponentGoals : forced.goals;
       } else {
         const home = allClubs.find(c => c.id === f.homeTeamId);
         const away = allClubs.find(c => c.id === f.awayTeamId);
@@ -1234,8 +1246,11 @@ function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs
   const isForcedMatch = forced && (homeId === forced.clubId || awayId === forced.clubId);
   let homeGoals: number, awayGoals: number;
   if (isForcedMatch && forced) {
-    homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
-    awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+    // La localía la manda el cruce, no forced.isHome: ese flag viene de la UI y si discrepa
+    // el resultado entra dado vuelta (un 3-0 tuyo se anota 0-3 en contra).
+    const yoSoyLocal = homeId === forced.clubId;
+    homeGoals = yoSoyLocal ? forced.goals : forced.opponentGoals;
+    awayGoals = yoSoyLocal ? forced.opponentGoals : forced.goals;
   } else {
     const home = clubs.find(c => c.id === homeId);
     const away = clubs.find(c => c.id === awayId);
@@ -1341,8 +1356,11 @@ function resolveUefaLeaguePhaseStep(
     const isForcedMatch = forced && (f.homeTeamId === forced.clubId || f.awayTeamId === forced.clubId);
     let homeGoals: number, awayGoals: number;
     if (isForcedMatch && forced) {
-      homeGoals = forced.isHome ? forced.goals : forced.opponentGoals;
-      awayGoals = forced.isHome ? forced.opponentGoals : forced.goals;
+      // La localía la manda el cruce, no forced.isHome: ese flag viene de la UI y si discrepa
+      // el resultado entra dado vuelta (un 3-0 tuyo se anota 0-3 en contra).
+      const yoSoyLocal = f.homeTeamId === forced.clubId;
+      homeGoals = yoSoyLocal ? forced.goals : forced.opponentGoals;
+      awayGoals = yoSoyLocal ? forced.opponentGoals : forced.goals;
     } else {
       const home = clubs.find(c => c.id === f.homeTeamId);
       const away = clubs.find(c => c.id === f.awayTeamId);
