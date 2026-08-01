@@ -294,10 +294,24 @@ export function sortTable(table: TableTeam[]): TableTeam[] {
   return [...table].sort((a, b) => b.puntos - a.puntos || (b.gf - b.gc) - (a.gf - a.gc) || b.gf - a.gf);
 }
 
+// Fuerza de un club para la simulación de fondo. Escala ~20-100, donde 100 es el mejor del mundo.
+//
+// Antes era reputation*20 + log10(marketValue)*10, y el logaritmo aplastaba la jerarquía: el
+// Manchester City (1.441M) sacaba 191,6 y el Everton (500M) 167 -- tener 7 veces más plantel valía
+// 4 puntos de fuerza. Con esa escala la tabla salía plana y el campeón era cualquiera: en la
+// simulación de fondo el Everton ganaba la Premier con 65 puntos y el City quedaba 4º.
+//
+// Ahora el valor de mercado se compara con el de un club grande de referencia (1.000M) en escala
+// lineal, no logarítmica, así 1.441M pesa de verdad más que 500M. La reputación sigue mandando
+// (es el dato curado de data.ts) y el valor ajusta dentro de esa categoría.
+const REFERENCE_SQUAD_VALUE = 1_000_000_000;
+
 function clubStrength(club: Club): number {
-  const repScore = club.reputation * 20; // 20-100
-  const valueScore = Math.log10(Math.max(club.marketValue, 100000)) * 10; // ~50-90 en el rango real de los clubes
-  return repScore + valueScore;
+  const repScore = club.reputation * 11;                              // 11-55
+  // Raíz cuadrada: sigue premiando al plantel caro, pero sin que la distancia entre el 5º y el
+  // último se vuelva un abismo. Con proporción lineal pura el colista terminaba con 8 puntos.
+  const valueRatio = Math.sqrt(Math.min(1, club.marketValue / REFERENCE_SQUAD_VALUE));
+  return repScore + valueRatio * 30;                                  // +0-30
 }
 
 function poissonSample(lambda: number): number {
@@ -312,13 +326,22 @@ function poissonSample(lambda: number): number {
 }
 
 export function simulateMatch(home: Club, away: Club): { homeGoals: number; awayGoals: number } {
-  const homeStrength = clubStrength(home) * 1.1; // ventaja de local
-  const awayStrength = clubStrength(away);
-  const total = homeStrength + awayStrength;
-  const homeExpected = 1.1 + (homeStrength / total) * 2.2;
-  const awayExpected = 0.9 + (awayStrength / total) * 2.0;
+  // Los goles esperados salen de la DIFERENCIA de fuerza, no de la proporción sobre el total.
+  // Con proporción, strength/total se queda siempre cerca de 0,5 aunque un equipo doble al otro, y
+  // el favorito apenas marcaba más que el débil: la Premier terminaba con 6 puntos entre el 1º y el
+  // 5º y salía campeón cualquiera.
+  const gap = clubStrength(home) + HOME_ADVANTAGE_STRENGTH - clubStrength(away);
+  // ±30 de fuerza (grande contra chico) mueve el marcador ~0,9 goles por lado. El tope de 0,9 evita
+  // que un recién ascendido quede sin ninguna chance: en la realidad hasta el colista roba puntos,
+  // y con un tope más alto terminaba la temporada con menos de 10.
+  const swing = Math.max(-0.9, Math.min(0.9, gap / 30));
+  const homeExpected = Math.max(0.25, 1.45 + swing);
+  const awayExpected = Math.max(0.25, 1.25 - swing);
   return { homeGoals: poissonSample(homeExpected), awayGoals: poissonSample(awayExpected) };
 }
+
+// Jugar de local, expresado en la misma escala que clubStrength (~20-100).
+const HOME_ADVANTAGE_STRENGTH = 4;
 
 // Tanda de penales real (no un coin-flip invisible): 5 tiros por lado alternando A/B, y si sigue
 // igualado, muerte súbita de a un tiro por lado hasta que quede desnivelado. La conversión ronda
@@ -326,8 +349,10 @@ export function simulateMatch(home: Club, away: Club): { homeGoals: number; away
 export function simulatePenaltyShootout(clubA: Club, clubB: Club): PenaltyShootoutResult {
   const strengthA = clubStrength(clubA);
   const strengthB = clubStrength(clubB);
+  // El divisor acompaña la escala de clubStrength (~20-100): con el /400 de la escala vieja, que
+  // llegaba a ~190, la diferencia entre un grande y un chico quedaba en menos de 1 punto porcentual.
   const convChance = (strength: number, otherStrength: number) =>
-    Math.max(0.6, Math.min(0.92, 0.78 + (strength - otherStrength) / 400));
+    Math.max(0.6, Math.min(0.92, 0.78 + (strength - otherStrength) / 200));
 
   const kicks: { clubId: string; scored: boolean }[] = [];
   let scoreA = 0;

@@ -1318,6 +1318,9 @@ export default function MatchSimulator({
   const [decisionWasSuccess, setDecisionWasSuccess] = useState(false);
   const decisionMinutes = useRef(getDecisionMinutes());
   const usedPrompts = useRef(new Set<string>());
+  // Acciones extra ya concedidas por ir perdiendo (ver el bloque de remontada en el tick del
+  // partido). Se cuentan para no encadenar jugadas sin fin mientras el marcador siga en contra.
+  const comebackPushes = useRef(0);
 
   // Banco de suplentes: si arrancás afuera, no estás "en cancha" hasta tu minuto de entrada (no
   // generás decisiones ni bonos de rating personales hasta ese momento, aunque el partido narre
@@ -1385,12 +1388,27 @@ export default function MatchSimulator({
   const BASE_GOALS_PER_TEAM = 1.3; // promedio real aprox. de goles por equipo en 90'
   const rosterClub = getClubWithRoster(currentClub.name);
   const repEstimate = 58 + currentClub.reputation * 6; // ~64 a 88 si el club no tiene roster real cargado
-  const myAttackRating = rosterClub?.plantilla?.ofensivos?.length
-    ? rosterClub.plantilla.ofensivos.reduce((sum: number, p: any) => sum + p.media_valoracion, 0) / rosterClub.plantilla.ofensivos.length
+
+  // El nivel del equipo mezcla el promedio del plantel con la reputación del club, en vez de que el
+  // roster mande solo. El promedio del roster subestima fuerte a los grandes: el Manchester United,
+  // reputación 5 (la máxima), daba 74,2 -- por debajo del 80 con que se estima al líder de la tabla
+  // -- y terminaba 10º-12º todas las temporadas, sin un título en 21 años. Lo mismo River (70,9) y
+  // Grêmio (71,3).
+  //
+  // Pasa porque el roster es un promedio parcial (solo los jugadores cargados, sin distinguir
+  // titulares de suplentes), mientras reputation es el dato curado que dice de verdad qué peso tiene
+  // el club. Se toma el mayor de los dos y se le suma la mitad de la diferencia: un grande recupera
+  // su jerarquía y un club chico con buen plantel puntual no se infla.
+  const mezclarConReputacion = (rosterAvg: number) =>
+    rosterAvg >= repEstimate ? rosterAvg : rosterAvg + (repEstimate - rosterAvg) * 0.5;
+
+  const ofensivos = rosterClub?.plantilla?.ofensivos;
+  const myAttackRating = ofensivos?.length
+    ? mezclarConReputacion(ofensivos.reduce((sum: number, p: any) => sum + p.media_valoracion, 0) / ofensivos.length)
     : repEstimate;
   const myDefenseCandidates = [...(rosterClub?.plantilla?.defensivos || []), ...(rosterClub?.plantilla?.porteros || [])];
   const myDefenseRating = myDefenseCandidates.length
-    ? myDefenseCandidates.reduce((sum: number, p: any) => sum + p.media_valoracion, 0) / myDefenseCandidates.length
+    ? mezclarConReputacion(myDefenseCandidates.reduce((sum: number, p: any) => sum + p.media_valoracion, 0) / myDefenseCandidates.length)
     : repEstimate;
   // Al rival solo lo conocemos por nombre (no tenemos su plantel acá), así que su nivel se estima
   // desde su posición real en la tabla (1° = fuerte, último = débil); sin tabla comparable
@@ -1607,6 +1625,34 @@ export default function MatchSimulator({
     if (decisionMinutes.current.includes(currentMin) && !isSentOff && onField) {
       triggerDecisionEvent(currentMin);
       return;
+    }
+
+    // Reacción a ir en desventaja clara: si perdés por 2 o más, el equipo se va encima y aparecen
+    // acciones extra para intentar darlo vuelta. Sin esto, un 0-3 al minuto 20 era un partido muerto
+    // -- te quedaban 2 de las 4 decisiones fijas y ninguna chance real de remontar.
+    if (!isSentOff && onField && currentMin < 88) {
+      const golesMios = isHome.current ? scoreHome : scoreAway;
+      const golesDelRival = isHome.current ? scoreAway : scoreHome;
+      const enDesventaja = golesDelRival - golesMios;
+      if (enDesventaja >= 2 && !decisionMinutes.current.includes(currentMin)) {
+        // El objetivo es el TOTAL del partido: 5 acciones si perdés por 2, 6 si perdés por 3 o más.
+        // Cuanto peor va el marcador, más se arriesga.
+        const objetivo = enDesventaja >= 3 ? 6 : 5;
+        const totalDelPartido = decisionMinutes.current.length;
+        if (totalDelPartido < objetivo) {
+          comebackPushes.current++;
+          decisionMinutes.current = [...decisionMinutes.current, currentMin + 2].sort((a, b) => a - b);
+          // El relato lo nombra: el jugador tiene que entender POR QUÉ le llegan más jugadas.
+          if (comebackPushes.current === 1) {
+            setMatchLog(prev => [...prev, {
+              minute: currentMin,
+              text: `${teamName} se va encima: adelanta las líneas y ${playerProfile.name} empieza a pedir la pelota en cada ataque.`,
+              type: 'neutral'
+            }]);
+          }
+          return;
+        }
+      }
     }
 
     const dado = Math.random();
