@@ -81,7 +81,29 @@ Al respecto se deja constancia expresa de que:
   algoritmos del juego y son ficticios**. No constituyen información periodística
   ni reflejan hechos, opiniones o declaraciones reales de las personas nombradas.
 
-### 3.1. Procedimiento de retirada de contenido (*notice and takedown*)
+### 3.1. Fotografías ilustrativas
+
+El resumen de post-partido muestra una **fotografía ilustrativa** acorde al
+resultado (victoria, empate o derrota).
+
+Sobre estas imágenes se deja constancia de que:
+
+- Proceden de **bancos de imágenes con licencia de uso comercial gratuito**
+  (Unsplash, Pexels, Pixabay o equivalentes), o son de titularidad del
+  desarrollador.
+- **No se emplea fotografía de prensa deportiva sujeta a licencia de agencia**
+  (Getty Images, AFP, EFE, Reuters o similares).
+- Son **genéricas y no documentales**: no registran un partido real ni
+  identifican una competición concreta. Se muestran junto a un resultado
+  simulado por el juego y no pretenden informar sobre hecho alguno.
+- Las personas que aparecen en ellas **no están identificadas ni nombradas**, y
+  no se sugiere vínculo entre ellas y el jugador que controla el usuario.
+
+Los archivos se almacenan en `src/assets/press/match/` organizados por
+resultado. Quien incorpore imágenes nuevas a esas carpetas debe verificar que
+cuenten con licencia compatible con el uso comercial.
+
+### 3.2. Procedimiento de retirada de contenido (*notice and takedown*)
 
 El desarrollador respeta los derechos de propiedad intelectual e industrial de
 terceros y actúa de buena fe.
@@ -194,7 +216,7 @@ juego **no es una fuente informativa** y no debe utilizarse como tal.
 
 ## 8. Contacto
 
-Para solicitudes de retirada de contenido (Sección 3.1), consultas sobre
+Para solicitudes de retirada de contenido (Sección 3.2), consultas sobre
 privacidad o cualquier asunto relacionado con este documento:
 
 **youngfree445@gmail.com**

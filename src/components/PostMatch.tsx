@@ -4,6 +4,8 @@ import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } f
 import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
 import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
 import { getLeagueDisplay } from '../leagueDisplay';
+import { outcomeOf } from '../matchPhoto';
+import MatchPhoto from './MatchPhoto';
 
 interface PostMatchProps {
   playerProfile: PlayerProfile;
@@ -145,6 +147,13 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
 
   const { headline, body } = generateNewspaperLayout();
 
+  // Semilla fija por partido: sin esto, cada re-render sortearía otra foto y la tapa parpadearía.
+  // Se arma con datos del propio partido, así el mismo resultado siempre muestra la misma imagen.
+  const photoSeed = React.useMemo(
+    () => playerProfile.currentWeek * 31 + matchResults.golesMiEquipo * 7 + matchResults.golesRival * 3,
+    [playerProfile.currentWeek, matchResults.golesMiEquipo, matchResults.golesRival]
+  );
+
   // Custom DT feedback report
   const getCoachOpinion = () => {
     if (rating < 5.0) {
@@ -182,6 +191,21 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
             <h1 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight mb-3 border-b border-burgundy-500/10 pb-2 italic">
               {headline}
             </h1>
+
+            {/* Foto de tapa con el marcador, al estilo de las portadas de Score Hero. La imagen
+                cambia según el resultado; ver src/matchPhoto.ts para agregar fotos. */}
+            <div className="mb-3">
+              <MatchPhoto
+                outcome={outcomeOf(matchResults.resultado)}
+                golesMiEquipo={matchResults.golesMiEquipo}
+                golesRival={matchResults.golesRival}
+                teamName={currentClub.name}
+                opponentName={opponentName}
+                badgeUrl={currentClub.badgeImageUrl ?? currentClub.badgeLogoUrl ?? null}
+                seed={photoSeed}
+              />
+            </div>
+
             <p className="text-xs text-slate-300 leading-relaxed font-serif">
               {body}
             </p>
