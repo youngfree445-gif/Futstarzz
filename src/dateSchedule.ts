@@ -127,3 +127,25 @@ export function pickPrimary(fixtures: DatedFixture[]): DatedFixture | null {
     (a, b) => (PRIORIDAD[b.competition.kind] ?? 0) - (PRIORIDAD[a.competition.kind] ?? 0),
   )[0];
 }
+
+/**
+ * Lo que le toca jugar al club en el paso N de su carrera.
+ *
+ * Un "paso" es una FECHA con partido, no una semana. Ésa es toda la diferencia con el motor viejo:
+ * si el club juega liga el domingo y copa el jueves, son dos pasos distintos en vez de una sola
+ * semana donde uno de los dos se perdía.
+ *
+ * Devuelve null cuando el club ya agotó su calendario real; el motor sigue avanzando por su cuenta.
+ */
+export function fixturesAtStep(clubName: string, step: number): { date: string; fixtures: DatedFixture[] } | null {
+  const todas = fixturesForClub(clubName);
+  if (!todas.length) return null;
+
+  // Fechas distintas, en orden: dos partidos el mismo día cuentan como un solo paso.
+  const fechas: string[] = [];
+  for (const f of todas) if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
+
+  const date = fechas[step - 1];
+  if (!date) return null;
+  return { date, fixtures: todas.filter(f => f.date === date) };
+}

@@ -7,6 +7,8 @@ import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
+import { fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary } from '../dateSchedule';
+import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
 import { getPalmares } from '../palmares';
@@ -554,6 +556,19 @@ export default function Dashboard({
   const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
   const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek);
   // rivalPos/rivalTotal: posición del rival en la tabla que corresponda (liga doméstica, grupo de
+  // Fecha real que se muestra en el encabezado. Sale del calendario de fechas cuando el club lo
+  // tiene (así el 7 de mayo es el 7 de mayo de verdad) y del cálculo por semanas si no.
+  // Igual que misTrofeos: se calcula acá arriba porque el JSX que la usa está ~1200 líneas abajo y
+  // declararla ahí repetiría el TDZ que dejó la pantalla en blanco.
+  const fechaEnPantalla = (() => {
+    const club = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    if (club && hasDatedSchedule(club.name)) {
+      const paso = fixturesAtStep(club.name, playerProfile.currentWeek);
+      if (paso) return formatDate(paso.date);
+    }
+    return formatRealDate(playerProfile.currentWeek);
+  })();
+
   // Palmarés del jugador para la vitrina de la tarjeta de atributos. Se calcula acá arriba, y no
   // junto al JSX que lo usa, para no repetir el ReferenceError por zona muerta temporal (TDZ) que
   // dejó la pantalla en blanco: el bloque de atributos se renderiza ~1300 líneas más abajo.
@@ -654,9 +669,16 @@ export default function Dashboard({
     // importadas, y solo cae al fixture generado si no las tiene. El panel leía siempre el fixture
     // generado, así que en Dimayor anunciaba un rival distinto al real en 32 de las 52 semanas:
     // decía "vs Llaneros FC" y salías a jugar contra Once Caldas.
-    const realDeLaSemana = hasRealSchedule(currentClub.name)
-      ? pickPrimary(matchesThisWeek(currentClub.name, playerProfile.currentWeek))
+    // Con fechas reales el paso de carrera ES un día con partido, así que se pregunta directamente
+    // qué se juega en ese paso. Los clubes sin fechas cargadas siguen con el calendario semanal.
+    const pasoConFecha = hasDatedSchedule(currentClub.name)
+      ? fixturesAtStep(currentClub.name, playerProfile.currentWeek)
       : null;
+    const realDeLaSemana = pasoConFecha
+      ? pickDatedPrimary(pasoConFecha.fixtures)
+      : hasRealSchedule(currentClub.name)
+        ? pickPrimary(matchesThisWeek(currentClub.name, playerProfile.currentWeek))
+        : null;
     const realDeLiga = realDeLaSemana?.competition.kind === 'league' ? realDeLaSemana : null;
     const rivalReal = realDeLiga
       ? resolverClubDeCalendario(
@@ -674,7 +696,11 @@ export default function Dashboard({
       name: opponentName,
       isHome,
       competition: currentClub.league,
-      jornada: realDeLiga ? realDeLiga.match.round : `Jornada ${next.matchweek}`,
+      // El calendario por fechas no trae número de jornada (ESPN no lo publica), pero sí la fecha
+      // exacta, que dice más: "8 feb" en vez de "Jornada 12".
+      jornada: pasoConFecha ? formatDateShort(pasoConFecha.date)
+        : realDeLiga && 'round' in realDeLiga.match ? realDeLiga.match.round
+        : `Jornada ${next.matchweek}`,
       rivalPos: idx >= 0 ? idx + 1 : null,
       rivalTotal: myLeagueTable.length || null
     };
@@ -1775,8 +1801,8 @@ export default function Dashboard({
         <header className="bg-slate-900 border-b border-slate-800 p-3 md:px-8 md:py-3 flex flex-col md:flex-row gap-4 justify-between items-center z-10">
           
           <div className="flex gap-1.5 items-center flex-wrap">
-            <span className="text-gold-400 text-sm font-black">SEMANA {playerProfile.currentWeek}</span>
-            <span className="text-slate-500 text-2xs">· {formatRealDate(playerProfile.currentWeek)}</span>
+            <span className="text-gold-400 text-sm font-black">FECHA {playerProfile.currentWeek}</span>
+            <span className="text-slate-500 text-2xs">· {fechaEnPantalla}</span>
             {playerProfile.suspendedMatches > 0 && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-3xs font-black uppercase">
                 🚫 Sancionado · {playerProfile.suspendedMatches} PJ

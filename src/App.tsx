@@ -8,6 +8,9 @@ import { applyClubTheme } from './clubTheme';
 import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
+// Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
+// fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
+import { fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary } from './dateSchedule';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
 import {
@@ -1178,11 +1181,25 @@ export default function App() {
     //
     // Los clubes sin calendario real (los 606 de la bolsa "Internacional") siguen con isCupWeek.
     const myClubForSchedule = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-    const realWeekMatches = !inWorldCupBreak && myClubForSchedule
+
+    // Calendario por FECHAS reales: cada paso de carrera es un día con partido, no una semana.
+    // Es lo que permite jugar liga el domingo y copa el jueves de la misma semana -- con el modelo
+    // por semanas uno de los dos se perdía, y así se caía el 26,3% de los partidos (265 de 1008).
+    // Los clubes que todavía no tienen fechas cargadas siguen con el calendario semanal de abajo.
+    const usaFechasReales = !!myClubForSchedule && hasDatedSchedule(myClubForSchedule.name);
+    const datedStep = usaFechasReales && !inWorldCupBreak
+      ? fixturesAtStep(myClubForSchedule!.name, playerProfile.currentWeek)
+      : null;
+    const datedPrimary = datedStep ? pickDatedPrimary(datedStep.fixtures) : null;
+
+    const realWeekMatches = !inWorldCupBreak && myClubForSchedule && !usaFechasReales
       ? matchesThisWeek(myClubForSchedule.name, playerProfile.currentWeek)
       : [];
-    const realPrimary = pickPrimary(realWeekMatches);
-    const usaCalendarioReal = !!myClubForSchedule && hasRealSchedule(myClubForSchedule.name);
+
+    // Los dos calendarios exponen la misma forma ({ opponentName, isHome, competition }), así que
+    // de acá para abajo el código no distingue de cuál vino el partido: solo cambia la fuente.
+    const realPrimary = datedPrimary ?? pickPrimary(realWeekMatches);
+    const usaCalendarioReal = !!myClubForSchedule && (usaFechasReales || hasRealSchedule(myClubForSchedule.name));
 
     // ¿Tu club está jugando una copa continental que el motor sí modela? El calendario importado
     // solo trae 36 clubes en Libertadores y no incluye a varios que el motor sí clasifica (Junior
@@ -1203,8 +1220,10 @@ export default function App() {
         ? realPrimary?.competition.kind === 'continental_cup'
           || realPrimary?.competition.kind === 'domestic_cup'
           // El calendario no cubre la copa de este club: manda el reparto del motor, que es el que
-          // de verdad lleva su llave (ver getOrCreateCupState más abajo).
-          || (clubEnCopaContinental && isCupWeek(playerProfile.currentWeek))
+          // de verdad lleva su llave (ver getOrCreateCupState más abajo). Con fechas reales esto no
+          // hace falta -- el partido de hoy ya dice de qué torneo es -- así que solo aplica al
+          // calendario semanal.
+          || (!datedPrimary && clubEnCopaContinental && isCupWeek(playerProfile.currentWeek))
         : isCupWeek(playerProfile.currentWeek)
     );
     // isCopaLibertadores es, en la práctica, un "no es liga doméstica" genérico (nombre legado de
