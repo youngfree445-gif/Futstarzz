@@ -629,7 +629,11 @@ export default function Dashboard({
         };
       }
     }
-  } else if (nextWeekIsCup) {
+  } else if (nextWeekIsCup && !hasDatedSchedule(currentClub.name)) {
+    // Este bloque decide la copa por el reparto de semanas del motor y por en qué copa te tiene
+    // CLASIFICADO, sin mirar el calendario. Corre antes que el bloque de fechas reales, así que
+    // ganaba siempre: anunciaba "Copa Libertadores" cuando el calendario decía final de vuelta de
+    // la Superliga. Con fechas reales no debe correr nunca -- manda el calendario y nada más.
     const competition = conmebolCupId === 'libertadores' ? 'Copa Libertadores'
       : conmebolCupId === 'sudamericana' ? 'Copa Sudamericana'
       : uefaCupId === 'champions' ? 'Champions League'
@@ -756,7 +760,10 @@ export default function Dashboard({
   // Fecha de copa sin cruce puntual todavía definido (club no clasificado, o copa "de relleno"
   // con rival sorpresa que App.tsx recién sortea al arrancar el partido -- ver startMatchflow):
   // no hay datos reales para mostrar escudo/rival, pero la semana de todos modos tiene actividad.
-  const nextWeekIsFillerCup = nextWeekIsCup && !nextMatchOpponent;
+  // Con fechas reales nunca hay "copa de relleno": si el calendario no tiene partido ese día, no
+  // hay partido, punto. Sin este corte aparecía un cartel de semana de copa inventado por la
+  // aritmética de semanas del motor.
+  const nextWeekIsFillerCup = nextWeekIsCup && !nextMatchOpponent && !hasDatedSchedule(currentClub.name);
 
   const cupStageLabel = (stage: string) => {
     switch (stage) {
