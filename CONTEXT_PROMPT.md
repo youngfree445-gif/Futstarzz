@@ -6,6 +6,11 @@
 > re-explicar. Si la pregunta es sobre un archivo puntual, pegá también el
 > contenido de ese archivo — esto es solo el mapa general.
 
+> **Si vas a tocar datos, scraping, planteles o reglamentos: leé primero
+> `docs/PROMPT_DATOS_Y_SCRAPING.md`.** Tiene las recetas que ya funcionan
+> (ESPN, Transfermarkt, X), las trampas resueltas, la regla de homónimos y la
+> lista viva de lo que falta.
+
 Estás ayudando con **Fut Starzz 2026**, un simulador de
 carrera futbolística estilo "modo carrera" de FIFA/EA FC: el usuario crea un
 jugador, elige club y va jugando semana a semana (partidos con decisiones
