@@ -1269,6 +1269,8 @@ interface MatchSimulatorProps {
   uefaCupId?: 'champions' | 'europa' | null;
   /** Semana de copa sin copa continental: se juega la copa nacional del país del club. */
   isDomesticCup?: boolean;
+  /** Nombre exacto del torneo cuando viene del calendario real ("Superliga de Colombia"). */
+  competitionNameOverride?: string | null;
   isWorldCup?: boolean;
   representingTeamId?: string | null; // si estás convocado a tu selección, el id del equipo del Mundial en vez de tu club
   isHome: boolean;
@@ -1294,7 +1296,7 @@ interface MatchSimulatorProps {
 }
 
 export default function MatchSimulator({
-  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, isWorldCup, representingTeamId, isHome: isHomeProp,
+  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, isWorldCup, representingTeamId, isHome: isHomeProp,
   myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, onFinishMatch
 }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
@@ -1342,7 +1344,12 @@ export default function MatchSimulator({
   // champions y arriba dice copa libertadores"), y peor: el 87% de los clubes de la base no juega
   // ninguna copa continental y caía igual en ese cartel, jugando la "Libertadores" contra Boca.
   // Ahora esa rama es la copa nacional del país del club (Copa del Rey, DFB-Pokal, etc.).
-  const activeCupLabel = isDomesticCup
+  // Con calendario real el torneo viene con su nombre exacto y manda sobre todo lo demás: el país
+  // tiene VARIAS copas nacionales (Copa Colombia y Superliga) y `isDomesticCup` es un booleano, así
+  // que rotulaba "Copa Colombia" toda copa nacional -- incluida la Superliga.
+  const activeCupLabel = competitionNameOverride
+    ? competitionNameOverride
+    : isDomesticCup
     ? getDomesticCupName(currentClub?.league)
     : cupId === 'sudamericana'
     ? 'Copa Sudamericana'

@@ -115,6 +115,20 @@ export function getPalmares(
     });
   }
 
+  // --- Copas del calendario real (Superliga, Copa Colombia, Libertadores...) ---
+  // Estas no tienen bracket en el motor, así que no hay championId: el título se anota en el perfil
+  // al ganar la final (ver cupTitles en App.tsx).
+  for (const t of profile.cupTitles ?? []) {
+    trofeos.push({
+      id: `copa-${t.competition}-${t.year}`,
+      nombre: t.competition,
+      detalle: String(t.year),
+      clubName: nombreDe(t.clubId),
+      tipo: 'continental',
+      orden: t.year,
+    });
+  }
+
   // --- Mundial ---
   // Acá el "club" es el seleccionado, así que no se filtra por misClubes: se compara contra el
   // equipo nacional con el que el jugador fue convocado.

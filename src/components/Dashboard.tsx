@@ -1428,7 +1428,30 @@ export default function Dashboard({
   const usaFechasEnCalendario = hasDatedSchedule(currentClub.name);
 
   if (usaFechasEnCalendario) {
+    // Con fechas reales el calendario sale de UNA sola fuente: el calendario del club. Antes se
+    // mezclaba con el fixture generado y con el historial por semanas, y el mismo partido aparecía
+    // dos veces el mismo día (uno como "Apertura" y otro como "V 4-2") o caía en un día que no era.
+    //
+    // Los resultados de los que ya se jugaron se buscan por RIVAL en las tablas del motor, que es
+    // quien los guarda, y se pegan a la fecha real del partido.
     const pasoActual = playerProfile.currentWeek;
+
+    const jugadosPorRival = new Map<string, { myGoals: number; rivalGoals: number }>();
+    const anotar = (opponentId: string, myGoals: number, rivalGoals: number) => {
+      if (!jugadosPorRival.has(opponentId)) jugadosPorRival.set(opponentId, { myGoals, rivalGoals });
+    };
+    for (const f of myLeagueFixtures) {
+      if (!f.played || (f.homeTeamId !== currentClub.id && f.awayTeamId !== currentClub.id)) continue;
+      const isHome = f.homeTeamId === currentClub.id;
+      anotar(isHome ? f.awayTeamId : f.homeTeamId, (isHome ? f.homeGoals : f.awayGoals)!, (isHome ? f.awayGoals : f.homeGoals)!);
+    }
+    const grupoCopa = conmebolCup?.groups.find(g => g.clubIds.includes(currentClub.id));
+    for (const f of grupoCopa?.fixtures ?? []) {
+      if (!f.played || (f.homeTeamId !== currentClub.id && f.awayTeamId !== currentClub.id)) continue;
+      const isHome = f.homeTeamId === currentClub.id;
+      anotar(isHome ? f.awayTeamId : f.homeTeamId, (isHome ? f.homeGoals : f.awayGoals)!, (isHome ? f.awayGoals : f.homeGoals)!);
+    }
+
     for (const f of fixturesForClub(currentClub.name)) {
       const paso = pasoDeFecha(currentClub.name, f.date);
       const yaJugado = paso !== null && paso < pasoActual;
@@ -1436,6 +1459,7 @@ export default function Dashboard({
         ULTIMATE_CLUBS_DATABASE, f.opponentName,
         f.competition.league, f.competition.kind, f.competition.name,
       );
+      const marcador = yaJugado && rival ? jugadosPorRival.get(rival.id) : undefined;
       calendarEvents.push({
         date: new Date(`${f.date}T00:00:00`),
         label: etiquetaCompetencia(f.competition, f.date),
@@ -1444,6 +1468,9 @@ export default function Dashboard({
           ? 'bg-slate-700 text-slate-300'
           : f.competition.kind === 'league' ? 'bg-gold-600 text-white' : 'bg-burgundy-500 text-slate-950',
         opponentClub: rival ?? undefined,
+        played: yaJugado,
+        result: marcador ? resultFromScore(marcador.myGoals, marcador.rivalGoals) : undefined,
+        score: marcador ? `${marcador.myGoals}-${marcador.rivalGoals}` : undefined,
       });
     }
   } else {

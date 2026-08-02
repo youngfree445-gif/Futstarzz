@@ -130,6 +130,21 @@ export function torneoDeFecha(competition: DatedCompetition, date: string): stri
   return mes <= 6 ? 'Apertura' : 'Clausura';
 }
 
+/**
+ * ¿Este es el último partido que el club juega de esa competición?
+ *
+ * Es como se corona campeón de las copas del calendario real (Superliga, Copa Colombia,
+ * Libertadores): el motor no lleva sus llaves, así que no hay un bracket que consultar. Si jugaste
+ * la última fecha de la copa y la ganaste, sos el campeón; si la perdiste, quedaste eliminado.
+ *
+ * Con ida y vuelta esto marca solo la VUELTA, que es donde se define, no las dos.
+ */
+export function esUltimoPartidoDeLaCopa(clubName: string, competitionId: string, date: string): boolean {
+  const delTorneo = fixturesForClub(clubName).filter(f => f.competition.id === competitionId);
+  if (!delTorneo.length) return false;
+  return delTorneo[delTorneo.length - 1].date === date;
+}
+
 /** Todas las competiciones en las que participa el club. */
 export function competitionsForClub(clubName: string): DatedCompetition[] {
   const vistas = new Map<string, DatedCompetition>();

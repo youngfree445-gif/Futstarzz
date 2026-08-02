@@ -10,7 +10,7 @@ import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary } from './dateSchedule';
+import { esUltimoPartidoDeLaCopa, fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary } from './dateSchedule';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
 import {
@@ -478,6 +478,10 @@ export default function App() {
   // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
   // nacional (Copa del Rey, FA Cup, etc.) en vez de caer al cartel de Libertadores.
   const [activeDomesticCup, setActiveDomesticCup] = useState(false);
+  // Nombre exacto del torneo cuando el partido sale del calendario real. Hace falta porque un país
+  // tiene varias copas nacionales -- Colombia juega Copa Colombia Y Superliga -- y el booleano
+  // activeDomesticCup no alcanza para distinguirlas: rotulaba "Copa Colombia" la Superliga.
+  const [activeCompetitionName, setActiveCompetitionName] = useState<string | null>(null);
   // Costo de irse con la selección, calculado al salir de la semana pero aplicado recién cuando
   // termina el partido: si se aplicara antes, el jugador vería bajar su prestigio sin saber por qué.
   const pendingCountryDutyCost = useRef<{ prestige: number; notice: string | null; important: boolean } | null>(null);
@@ -1261,6 +1265,7 @@ export default function App() {
         foundWorldCupTeamId = wcTeamId;
         setActiveCupId(null);
         setActiveUefaCupId(null);
+        setActiveCompetitionName(null);
         setActiveDomesticCup(false);
         setActiveMyTablePosition(null);
         setActiveRivalTablePosition(null);
@@ -1336,6 +1341,7 @@ export default function App() {
       setActiveUefaCupId(esContinental && /Champions/i.test(nombre) ? 'champions'
         : esContinental && /Europa/i.test(nombre) ? 'europa' : null);
       setActiveDomesticCup(!esContinental);
+      setActiveCompetitionName(nombre);
       setActiveMyTablePosition(null);
       setActiveRivalTablePosition(null);
       setActiveLeagueTeamCount(null);
@@ -1481,6 +1487,7 @@ export default function App() {
           // genérico de rivales que ya usa la liga doméstica.
           opName = OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
         }
+        setActiveCompetitionName(null);
         setActiveDomesticCup(true);
       } else {
         setActiveDomesticCup(false);
@@ -1492,6 +1499,7 @@ export default function App() {
       // Semana de liga doméstica: limpiar el flag de copa nacional para que no quede pegado de una
       // semana de copa anterior y rotule mal el partido de liga.
       setActiveDomesticCup(false);
+      setActiveCompetitionName(null);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
@@ -1782,6 +1790,38 @@ export default function App() {
     let foundShootout: PenaltyShootoutResult | null = null;
     let foundShootoutMyId = '';
     let foundShootoutMyName = '';
+    // Título de copa ganado en este partido, para sumarlo al palmarés del perfil (ver cupTitles).
+    let cupTitleWon: { competition: string; year: number; clubId: string } | null = null;
+
+    // Campeón de una copa del calendario real (Superliga, Copa Colombia, Libertadores...).
+    //
+    // Estas copas no tienen bracket en el motor -- sus cruces salen del calendario importado -- así
+    // que nadie las coronaba: se ganaba la final y no pasaba nada, ni festejo ni trofeo en la
+    // vitrina. El criterio es directo: si éste era tu último partido de esa copa y lo ganaste, sos
+    // campeón. Con ida y vuelta solo cuenta la vuelta, que es donde se define.
+    (() => {
+      const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+      if (!myClub || !hasDatedSchedule(myClub.name)) return;
+      const paso = fixturesAtStep(myClub.name, playerProfile.currentWeek);
+      if (!paso) return;
+      const fx = pickDatedPrimary(paso.fixtures);
+      if (!fx || fx.competition.kind === 'league') return;
+      if (!esUltimoPartidoDeLaCopa(myClub.name, fx.competition.id, paso.date)) return;
+      if (results.golesMiEquipo <= results.golesRival) return;
+
+      salioCampeon = true;
+      setChampionInfo({
+        competition: fx.competition.name,
+        clubName: myClub.name,
+        season: String(CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1),
+        badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+      });
+      cupTitleWon = {
+        competition: fx.competition.name,
+        year: CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1,
+        clubId: myClub.id,
+      };
+    })();
 
     let updatedLeagueSeasons = playerProfile.leagueSeasons;
     if (!isCopaLibertadores && activeOppositionClubId) {
@@ -2008,6 +2048,9 @@ export default function App() {
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,
       seasonHistory: updatedSeasonHistory,
+      cupTitles: cupTitleWon
+        ? [...(playerProfile.cupTitles ?? []), cupTitleWon]
+        : playerProfile.cupTitles,
       marketValue: Math.max(100000, playerProfile.marketValue + valueChg + viralMarketBonus),
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange - superstitionBreakPenalty)),
       matchesWithoutRest: playerProfile.matchesWithoutRest + 1,
@@ -2281,6 +2324,7 @@ export default function App() {
           cupId={activeCupId}
           uefaCupId={activeUefaCupId}
           isDomesticCup={activeDomesticCup}
+          competitionNameOverride={activeCompetitionName}
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}
           isHome={activeIsHome}

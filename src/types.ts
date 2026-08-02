@@ -132,6 +132,17 @@ export interface PlayerProfile {
   continentalCups: Record<string, CupState>; // Copa Libertadores / Sudamericana por año, clave = `${cupId}-${year}`
   uefaCups: Record<string, UefaCupState>; // Champions / Europa League, clave = cupId ('champions' | 'europa') -- una edición corre varios "años" calendario, ver nota en UefaCupState
   worldCups: Record<string, WorldCupState>; // Mundial cada 4 años, clave = year de esa edición
+  // Copas del calendario real que ganó el jugador (Superliga, Copa Colombia, Libertadores...).
+  // Estas copas no tienen bracket en el motor -- sus cruces salen del calendario importado -- así
+  // que no hay un championId que consultar y el título se anota acá al ganar la final.
+  // Opcional: las partidas guardadas antes de que existiera este campo no lo traen.
+  cupTitles?: CupTitle[];
+}
+
+export interface CupTitle {
+  competition: string; // "Superliga de Colombia"
+  year: number;
+  clubId: string;
 }
 
 // --- Copa Libertadores / Copa Sudamericana ---
