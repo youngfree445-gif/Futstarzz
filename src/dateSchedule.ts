@@ -104,6 +104,32 @@ export function daysUntilNextFixture(clubName: string, date: string): number | n
   return dayForDate(prox.date) - dayForDate(date);
 }
 
+/**
+ * El paso de carrera en el que cae una fecha de este club, o null si no juega ese día.
+ *
+ * Sirve para saber si un partido del calendario ya se jugó: su paso es menor al actual.
+ */
+export function pasoDeFecha(clubName: string, date: string): number | null {
+  const fechas: string[] = [];
+  for (const f of fixturesForClub(clubName)) if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
+  const i = fechas.indexOf(date);
+  return i < 0 ? null : i + 1;
+}
+
+/**
+ * En Colombia y Argentina el año tiene DOS torneos de liga, no uno: el Apertura (enero a junio) y
+ * el Clausura (julio a noviembre), cada uno con su campeón. Decir solo "Primera División" deja al
+ * jugador sin saber cuál está jugando ni cuál puede ganar.
+ *
+ * El corte sale de las fechas reales: entre el último partido del Apertura (8 de junio) y el
+ * primero del Clausura (24 de julio) hay un parón de 46 días.
+ */
+export function torneoDeFecha(competition: DatedCompetition, date: string): string {
+  if (competition.kind !== 'league') return competition.name;
+  const mes = Number(date.slice(5, 7));
+  return mes <= 6 ? 'Apertura' : 'Clausura';
+}
+
 /** Todas las competiciones en las que participa el club. */
 export function competitionsForClub(clubName: string): DatedCompetition[] {
   const vistas = new Map<string, DatedCompetition>();

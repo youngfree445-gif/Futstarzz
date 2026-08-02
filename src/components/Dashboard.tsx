@@ -7,7 +7,7 @@ import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
-import { fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary } from '../dateSchedule';
+import { fixturesAtStep, fixturesForClub, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -556,6 +556,17 @@ export default function Dashboard({
   const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
   const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek);
   // rivalPos/rivalTotal: posición del rival en la tabla que corresponda (liga doméstica, grupo de
+  // Etiqueta corta de cada celda del calendario. En las ligas de Apertura/Clausura dice cuál de los
+  // dos torneos es, que es la información que faltaba: son dos campeonatos distintos en el mismo año.
+  const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string) => {
+    if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
+    if (/Libertadores/i.test(comp.name)) return 'Libertadores';
+    if (/Sudamericana/i.test(comp.name)) return 'Sudamericana';
+    if (/Superliga/i.test(comp.name)) return 'Superliga';
+    if (/Copa/i.test(comp.name)) return 'Copa';
+    return comp.name;
+  };
+
   // Fecha real que se muestra en el encabezado. Sale del calendario de fechas cuando el club lo
   // tiene (así el 7 de mayo es el 7 de mayo de verdad) y del cálculo por semanas si no.
   // Igual que misTrofeos: se calcula acá arriba porque el JSX que la usa está ~1200 líneas abajo y
@@ -661,7 +672,14 @@ export default function Dashboard({
       };
     }
   }
-  if (!nextMatchOpponent && !nextWeekInWorldCupBreak && upcomingLeagueFixtures.length > 0) {
+  // Con calendario de fechas reales alcanza con que HAYA partido ese día: no se exige que el
+  // fixture generado tenga algo pendiente. Si no, un club cuyo fixture generado ya se agotó se
+  // quedaba sin tarjeta de próximo partido aunque el calendario real sí tuviera fecha.
+  const hayPartidoReal = !nextWeekInWorldCupBreak
+    && hasDatedSchedule(currentClub.name)
+    && !!fixturesAtStep(currentClub.name, playerProfile.currentWeek);
+
+  if (!nextMatchOpponent && !nextWeekInWorldCupBreak && (upcomingLeagueFixtures.length > 0 || hayPartidoReal)) {
     const next = upcomingLeagueFixtures[0];
 
     // El rival que se anuncia tiene que ser el MISMO que va a salir al arrancar el partido. App.tsx
@@ -686,9 +704,11 @@ export default function Dashboard({
           realDeLiga.opponentName, currentClub.league, 'league', realDeLiga.competition.name)
       : null;
 
-    const opponentId = rivalReal?.id ?? next.opponentId;
-    const opponentName = rivalReal?.name ?? next.opponentName;
-    const isHome = realDeLiga ? realDeLiga.isHome : next.isHome;
+    // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
+    // calendario real, así que todos los accesos van con ?.
+    const opponentId = rivalReal?.id ?? next?.opponentId;
+    const opponentName = rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '';
+    const isHome = realDeLiga ? realDeLiga.isHome : (next?.isHome ?? true);
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
 
     nextMatchOpponent = {
@@ -700,7 +720,7 @@ export default function Dashboard({
       // exacta, que dice más: "8 feb" en vez de "Jornada 12".
       jornada: pasoConFecha ? formatDateShort(pasoConFecha.date)
         : realDeLiga && 'round' in realDeLiga.match ? realDeLiga.match.round
-        : `Jornada ${next.matchweek}`,
+        : next ? `Jornada ${next.matchweek}` : '',
       rivalPos: idx >= 0 ? idx + 1 : null,
       rivalTotal: myLeagueTable.length || null
     };
@@ -1402,6 +1422,31 @@ export default function Dashboard({
   const myLeagueSeason = playerProfile.leagueSeasons[myLeagueKey];
   const calendarEvents: CalendarEvent[] = [];
 
+  // Con calendario de fechas reales el mes se pinta directamente con ellas: cada partido cae en su
+  // día exacto (jueves 12 de febrero es jueves), en vez de deducir la fecha contando semanas desde
+  // hoy -- que ubicaba todo en domingo y no coincidía con el partido que el motor iba a jugar.
+  const usaFechasEnCalendario = hasDatedSchedule(currentClub.name);
+
+  if (usaFechasEnCalendario) {
+    const pasoActual = playerProfile.currentWeek;
+    for (const f of fixturesForClub(currentClub.name)) {
+      const paso = pasoDeFecha(currentClub.name, f.date);
+      const yaJugado = paso !== null && paso < pasoActual;
+      const rival = resolverClubDeCalendario(
+        ULTIMATE_CLUBS_DATABASE, f.opponentName,
+        f.competition.league, f.competition.kind, f.competition.name,
+      );
+      calendarEvents.push({
+        date: new Date(`${f.date}T00:00:00`),
+        label: etiquetaCompetencia(f.competition, f.date),
+        sublabel: `${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
+        colorClass: yaJugado
+          ? 'bg-slate-700 text-slate-300'
+          : f.competition.kind === 'league' ? 'bg-gold-600 text-white' : 'bg-burgundy-500 text-slate-950',
+        opponentClub: rival ?? undefined,
+      });
+    }
+  } else {
   upcomingLeagueFixtures.forEach((fx, i) => {
     calendarEvents.push({
       date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, i + 1),
@@ -1462,6 +1507,7 @@ export default function Dashboard({
       opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === upcomingCupKnockoutOpponent.opponentId)
     });
   }
+  } // fin del calendario sin fechas reales
 
   // --- Historial: partidos YA jugados, con su resultado real (V/E/D + marcador) -- antes el
   // calendario solo mostraba fechas futuras y perdía todo rastro apenas se jugaba el partido (bug

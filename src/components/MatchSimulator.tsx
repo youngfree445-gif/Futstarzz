@@ -4,6 +4,7 @@ import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLe
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
 import { playSfx } from '../audio';
 import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
+import { fixturesAtStep, torneoDeFecha } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -1359,6 +1360,16 @@ export default function MatchSimulator({
   // una carrera larga el partido seguía anunciándose como 2026.
   const seasonYear = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
 
+  // En Colombia y Argentina el año tiene DOS ligas -- Apertura y Clausura -- cada una con su propio
+  // campeón. El rótulo decía solo "Primera División Dimayor", así que en pantalla no había forma de
+  // saber cuál de los dos torneos estabas jugando.
+  const torneoDelPartido = (() => {
+    const paso = fixturesAtStep(currentClub.name, playerProfile.currentWeek);
+    if (!paso) return null;
+    const fx = paso.fixtures.find(f => f.competition.kind === 'league');
+    return fx ? torneoDeFecha(fx.competition, paso.date) : null;
+  })();
+
   // Multiplicador de dificultad combinado: fuerza del rival en la tabla (un rival mejor ubicado
   // achica tu ventana de éxito, uno peor ubicado la agranda; sin tabla comparable en copas/Mundial
   // queda neutro) + apoyo de la hinchada (fans muy bajo = "te pitan", fans muy alto = te empuja)
@@ -1502,7 +1513,7 @@ export default function MatchSimulator({
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${seasonYear} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()} ${seasonYear} 🟢`;
+    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${seasonYear} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${seasonYear} 🟢`;
     
     const kickoffLog: MatchEvent[] = [
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
@@ -1975,7 +1986,7 @@ export default function MatchSimulator({
                 ? `🌎 Copa Mundial FIFA ${seasonYear}`
                 : isLibertadores
                 ? `🏆 ${activeCupLabel} ${seasonYear}`
-                : `${getLeagueDisplay(currentClub.league).flag} ${getLeagueDisplay(currentClub.league).name}`}
+                : `${getLeagueDisplay(currentClub.league).flag} ${getLeagueDisplay(currentClub.league).name}${torneoDelPartido ? ` · ${torneoDelPartido} ${seasonYear}` : ''}`}
             </span>
             <div className="flex items-center gap-2">
               <span className="font-mono text-2xs px-2 py-0.5 bg-slate-900 border border-slate-800 rounded font-bold whitespace-nowrap">
