@@ -12,6 +12,7 @@ import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
 import { getPalmares } from '../palmares';
+import { postsDelPartido } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -1377,7 +1378,25 @@ export default function Dashboard({
     // Hugo Illera, Carlos Antonio Vélez, George Michael, Eduardo Luis, Radio Caracol, Deportes
     // RCN, ESPN Continental -- ver generateJournalistPosts) van primero casi siempre: son la
     // "prensa acreditada" del feed, así que encabezan ChutSocial antes que el resto de posts.
+    // Reacciones al partido que ACABÁS de jugar (ver chutSocialVoces.ts). Van primero porque son
+    // lo único del feed que responde a lo que hiciste: si te fue mal te destrozan y si te fue bien
+    // te levantan. El resto del feed es contexto; esto es la reacción.
+    const reacciones: SocialPost[] = playerProfile.lastMatchRating > 0
+      ? postsDelPartido(pName, playerProfile.lastMatchRating, playerProfile.lastMatchGoals, week)
+          .map((p, i) => ({
+            id: `reaccion_${week}_${i}`,
+            author: p.author,
+            role: p.role,
+            content: p.content,
+            likes: 800 + Math.floor(Math.random() * 12000),
+            commentsCount: 90 + Math.floor(Math.random() * 2200),
+            timestamp: 'Hace instantes',
+            avatar: p.avatar,
+          }))
+      : [];
+
     return [
+      ...reacciones,
       ...generateRetirementPosts(),
       ...generateJournalistPosts(),
       ...generateCelebrityShoutoutPost(),
