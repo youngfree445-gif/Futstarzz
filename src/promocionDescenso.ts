@@ -117,6 +117,144 @@ export function tablaDeDescenso(
     .sort((x, y) => y.valor - x.valor || y.puntos - x.puntos);
 }
 
+/** Cómo se resolvió cada ascenso, para poder contarlo en pantalla. */
+export type ViaAscenso =
+  | 'campeon_doble'      // ganó los dos semestres
+  | 'lider_anual'        // campeón de un semestre que además lidera la Reclasificación
+  | 'gran_final'         // ganó la Gran Final entre los dos campeones
+  | 'repechaje'          // ganó el Repechaje
+  | 'mejor_del_anio';    // liga sin torneos semestrales: sube el mejor del año
+
+export interface Ascendido {
+  clubId: string;
+  clubName: string;
+  via: ViaAscenso;
+}
+
+/**
+ * Los dos ascensos de Colombia, con los cuatro caminos del reglamento.
+ *
+ * El detalle que hace falta respetar: **un campeón de semestre que además lidera la Reclasificación
+ * Anual asciende directo, sin jugar la Gran Final**. Fue el caso de Jaguares en 2026 -- «por más que
+ * los de Montería pierdan la Gran Final, ya son de Primera por su puesto en la tabla anual».
+ *
+ * @param campeonApertura  Campeón del primer semestre.
+ * @param campeonClausura  Campeón del segundo semestre.
+ * @param reclasificacion  Tabla anual acumulada, de mejor a peor.
+ * @param ganaLlave        Resuelve una llave a ida y vuelta: devuelve el id del que avanza. Se
+ *                         inyecta para que el resultado lo simule el motor y esto quede testeable.
+ */
+export function ascensosColombia(
+  campeonApertura: string | null,
+  campeonClausura: string | null,
+  reclasificacion: readonly { clubId: string; clubName: string }[],
+  ganaLlave: (a: string, b: string) => string,
+): Ascendido[] {
+  const nombreDe = (id: string) => reclasificacion.find(r => r.clubId === id)?.clubName ?? '';
+  const out: Ascendido[] = [];
+
+  // Sin campeones definidos (liga sin formato semestral): suben los dos mejores del año.
+  if (!campeonApertura || !campeonClausura) {
+    return reclasificacion.slice(0, CUPOS_ASCENSO_COL)
+      .map(r => ({ clubId: r.clubId, clubName: r.clubName, via: 'mejor_del_anio' as const }));
+  }
+
+  const lider = reclasificacion[0]?.clubId ?? null;
+
+  // Caso 1: el mismo club ganó los dos torneos -> asciende automático, sin Gran Final.
+  if (campeonApertura === campeonClausura) {
+    out.push({ clubId: campeonApertura, clubName: nombreDe(campeonApertura), via: 'campeon_doble' });
+  } else if (campeonApertura === lider || campeonClausura === lider) {
+    // Caso 2: uno de los campeones lidera la Reclasificación -> sube directo. El otro campeón
+    // conserva su chance en el Repechaje.
+    const directo = campeonApertura === lider ? campeonApertura : campeonClausura;
+    out.push({ clubId: directo, clubName: nombreDe(directo), via: 'lider_anual' });
+  } else {
+    // Caso 3: ninguno lidera -> Gran Final entre los dos campeones. El perdedor NO queda afuera:
+    // sigue con derecho al Repechaje.
+    const ganador = ganaLlave(campeonApertura, campeonClausura);
+    out.push({ clubId: ganador, clubName: nombreDe(ganador), via: 'gran_final' });
+  }
+
+  // Segundo cupo: Repechaje a ida y vuelta.
+  const yaSubio = new Set(out.map(o => o.clubId));
+  const perdedorFinal = [campeonApertura, campeonClausura].find(c => !yaSubio.has(c)) ?? null;
+  const mejorLibre = reclasificacion.find(r => !yaSubio.has(r.clubId) && r.clubId !== perdedorFinal);
+
+  if (perdedorFinal && mejorLibre) {
+    const ganador = ganaLlave(perdedorFinal, mejorLibre.clubId);
+    out.push({ clubId: ganador, clubName: nombreDe(ganador), via: 'repechaje' });
+  } else {
+    // Con ascenso automático y sin perdedor de final, van los dos mejores de la Reclasificación.
+    const libres = reclasificacion.filter(r => !yaSubio.has(r.clubId)).slice(0, 2);
+    if (libres.length === 2) {
+      const ganador = ganaLlave(libres[0].clubId, libres[1].clubId);
+      out.push({ clubId: ganador, clubName: nombreDe(ganador), via: 'repechaje' });
+    } else if (libres.length === 1) {
+      out.push({ clubId: libres[0].clubId, clubName: libres[0].clubName, via: 'mejor_del_anio' });
+    }
+  }
+
+  return out;
+}
+
+const CUPOS_ASCENSO_COL = 2;
+
+/**
+ * Los dos ascensos de Argentina (Primera Nacional).
+ *
+ * Nada que ver con Colombia: acá no hay torneos semestrales ni promedio. Son dos zonas de 18 que
+ * juegan todos contra todos a dos ruedas MÁS cruces interzonales -- 36 fechas en total, un cambio
+ * de 2026 respecto del año anterior.
+ *
+ *   1er ascenso: los ganadores de cada zona juegan una Final a PARTIDO ÚNICO en cancha neutral.
+ *   2do ascenso: Reducido entre los ubicados 2° a 8° de cada zona, más el perdedor de la Final,
+ *                que entra en Segunda Fase y cuenta como 1° a efectos de cruces.
+ *
+ * @param ganaLlave Resuelve un cruce: devuelve el id del que avanza.
+ */
+export function ascensosArgentina(
+  ganadorZonaA: string | null,
+  ganadorZonaB: string | null,
+  reducido: readonly { clubId: string; clubName: string }[],
+  ganaLlave: (a: string, b: string) => string,
+): Ascendido[] {
+  const out: Ascendido[] = [];
+  const nombreDe = (id: string) =>
+    reducido.find(r => r.clubId === id)?.clubName ?? '';
+
+  let perdedorFinal: string | null = null;
+  if (ganadorZonaA && ganadorZonaB) {
+    const campeon = ganaLlave(ganadorZonaA, ganadorZonaB);
+    perdedorFinal = campeon === ganadorZonaA ? ganadorZonaB : ganadorZonaA;
+    out.push({ clubId: campeon, clubName: nombreDe(campeon), via: 'gran_final' });
+  }
+
+  // Reducido: el perdedor de la Final entra primero, como cabeza de serie.
+  const participantes = [
+    ...(perdedorFinal ? [{ clubId: perdedorFinal, clubName: nombreDe(perdedorFinal) }] : []),
+    ...reducido.filter(r => r.clubId !== ganadorZonaA && r.clubId !== ganadorZonaB),
+  ];
+
+  if (participantes.length >= 2) {
+    // Se van cruzando el mejor contra el peor hasta que queda uno.
+    let vivos = participantes.map(p => p.clubId);
+    while (vivos.length > 1) {
+      const siguiente: string[] = [];
+      // Bye para el mejor ubicado si el cuadro es impar, como en el reglamento.
+      if (vivos.length % 2 === 1) siguiente.push(vivos[0]);
+      const enJuego = vivos.length % 2 === 1 ? vivos.slice(1) : vivos;
+      for (let i = 0; i < enJuego.length / 2; i++) {
+        siguiente.push(ganaLlave(enJuego[i], enJuego[enJuego.length - 1 - i]));
+      }
+      vivos = siguiente;
+    }
+    if (vivos[0]) out.push({ clubId: vivos[0], clubName: nombreDe(vivos[0]), via: 'repechaje' });
+  }
+
+  return out;
+}
+
 /**
  * Quiénes bajan y quiénes suben al cerrar el año.
  *

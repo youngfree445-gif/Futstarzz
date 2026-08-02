@@ -85,3 +85,27 @@ semestrales ya existe. Lo que falta para el Paso 2:
   después — pero conviene que la tabla de descenso sí use el promedio real,
   porque es lo que hace que un club histórico pueda descender pese a tener una
   buena temporada suelta.
+
+---
+
+## Actualización con datos de la temporada 2026 en curso
+
+Verificado contra ESPN Colombia y el reglamento vigente de Dimayor (agosto 2026):
+
+- El **Torneo BetPlay 2026 tiene 16 clubes**, no 14. Arrancó el 23 de enero de 2026.
+- Los cuatro caminos del ascenso se confirman, con un matiz que el resumen anterior
+  no recogía: **el campeón de un semestre que además lidera la Reclasificación
+  Anual asciende directo, sin jugar la Gran Final**. Fue el caso de Jaguares en
+  2026: «por más que los de Montería pierdan la Gran Final, ya son de Primera por
+  su puesto en la tabla anual».
+- El **Repechaje es a ida y vuelta** y cambia de rivales según si hubo o no
+  ascenso automático:
+  - Con ascenso automático → los dos mejores de la Reclasificación, excluyendo al
+    ya ascendido.
+  - Sin ascenso automático → el perdedor de la Gran Final contra el líder de la
+    Reclasificación.
+- Si la Gran Final se define por penales, **el perdedor conserva su chance en el
+  Repechaje**.
+
+Fuentes: [ESPN Colombia](https://www.espn.com.co/futbol/colombia/nota/_/id/12855333/torneo-betplay-asi-se-definen-dos-ascensos-colombia-a-liga-betplay),
+[Reglamento Torneo Dimayor](https://dimayor.com.co/wp-content/uploads/2025/01/REGLAMENTO-TORNEO-v1-30-01-2025-1.pdf)

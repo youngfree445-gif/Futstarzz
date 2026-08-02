@@ -116,3 +116,24 @@ Argentina necesita cosas que Colombia no:
 Igual que en Colombia, una primera versión puede simplificar los playoffs y
 quedarse con lo esencial: **2 ascienden, 4 descienden en la Primera Nacional**, y
 los descensos de Primera por Tabla General.
+
+---
+
+## Actualización con el sorteo y el formato 2026 confirmados
+
+Verificado contra Infobae, Wikipedia y el reglamento LPF (agosto 2026):
+
+- **36 equipos en dos zonas de 18**, sorteadas el 22 de diciembre de 2025.
+- **Cambio respecto del año anterior: ahora SÍ hay cruces interzonales**, así que
+  cada club juega **36 fechas** en total, no 18+18 de su zona. El resumen previo
+  de este documento decía «18 + 18 fechas más una interzonal» y quedó desactualizado.
+- El torneo arranca el primer fin de semana de febrero y **se juega incluso durante
+  el Mundial** de Estados Unidos, México y Canadá.
+- Se confirma: **2 ascensos** (Final a partido único en cancha neutral entre los
+  ganadores de zona + Reducido del 2° al 8° de cada zona) y **4 descensos** (los
+  dos últimos de cada zona), a Primera B Metropolitana o Federal A según la
+  afiliación del club.
+
+Fuentes: [Infobae](https://www.infobae.com/deportes/2025/12/22/se-sorteo-la-primera-nacional-2026-asi-quedaron-conformadas-las-dos-zonas-con-los-36-equipos-que-buscaran-subir-a-la-liga-profesional/),
+[Wikipedia](https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2026),
+[Reglamento LPF 2026](https://www.ligaprofesional.ar/wp-content/uploads/2026/01/Reglamento-Torneos-LPF-Primera-2026-1.pdf)
