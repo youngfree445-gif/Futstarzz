@@ -177,27 +177,55 @@ export const VOCES: Voz[] = [
   },
   {
     // La cuenta de datos: números fríos, gráficos, "los datos son los datos" (@sudanalytics_).
+    // Datos con emoji y bandera al frente, en mayúsculas, y goles evaluados con nota decimal.
     author: 'SudAnalytics',
     role: 'Datos y Estadística',
     avatar: '📊',
     frases: {
       brillante: [
-        (n, r, g) => `${n} hoy: ${r} de calificación${g > 0 ? ` y ${g} gol${g > 1 ? 'es' : ''}` : ''}. Los números no mienten, señores. LOCURA TOTAL 🔥📈`,
+        (n, r, g) => `🔥🇨🇴 ${n.toUpperCase()}: ${r} DE CALIFICACIÓN${g > 0 ? ` Y ${g} GOL${g > 1 ? 'ES' : ''}` : ''}. Los números no mienten. 📈`,
+        (n, r, g) => g > 0 ? `🤯 ¿EL GOL DE ${n.toUpperCase()}? ${(6 + Math.min(3.5, g * 1.6)).toFixed(2)}. De lo mejor de la fecha. 🇨🇴` : `🤯 ${n.toUpperCase()} FUE LA FIGURA. ${r} de calificación, el más alto de la cancha. 🇨🇴`,
       ],
       bueno: [
-        (n) => `Sin hacer ruido, ${n} viene siendo de lo más regular del equipo. El dato que nadie está mirando 📊`,
+        (n) => `📊 Sin hacer ruido, ${n} viene siendo de lo más regular del equipo. El dato que nadie está mirando.`,
       ],
       normal: [
-        (n) => `${n}: partido correcto, sin sobresaltos. El equipo necesita más de él para dar el salto.`,
+        (n, r) => `🇨🇴 ${n}: ${r} de calificación. Partido correcto, sin sobresaltos.`,
       ],
       flojo: [
-        (n) => `Alerta con ${n}: viene en caída. Los números del último mes preocupan 📉`,
+        (n) => `⚠️ Alerta con ${n}: viene en caída. Los números del último mes preocupan 📉`,
       ],
       malo: [
-        (n, r) => `${n} promedió ${r} hoy. Uno de los peores de la cancha. Los datos son crudos pero son los datos.`,
+        (n, r) => `📉 ${n} promedió ${r} hoy. De los más bajos de la cancha. Los datos son crudos pero son los datos.`,
       ],
       catastrofe: [
-        (n) => `El partido de ${n} hoy es de los peores que registramos esta temporada. Sin vueltas: un desastre 📉🔻`,
+        (n, r) => `📉🔻 ${r}. El partido de ${n} es de los peores que registramos esta temporada. Sin vueltas.`,
+      ],
+    },
+  },
+  {
+    // Titular en mayúsculas y pregunta irónica al jugador: "JUEGUE, 10:", "¿NO HAY ESPACIO, LEA?"
+    author: 'SportsCenter',
+    role: 'Programa Deportivo',
+    avatar: '🅴',
+    frases: {
+      brillante: [
+        (n) => `JUEGUE, ${n.split(' ')[0].toUpperCase()}: exhibición del volante en una noche para enmarcar.`,
+      ],
+      bueno: [
+        (n) => `APARECIÓ CUANDO MÁS SE LO NECESITABA: buen partido de ${n} en el medio.`,
+      ],
+      normal: [
+        (n) => `${n.toUpperCase()} CUMPLIÓ: sin brillar, el volante completó los 90 minutos.`,
+      ],
+      flojo: [
+        (n) => `¿DÓNDE ESTUVO, ${n.split(' ')[0].toUpperCase()}? El volante no pesó en el juego y su equipo lo sintió.`,
+      ],
+      malo: [
+        (n, r) => `NOCHE PARA EL OLVIDO: ${r} de calificación para ${n}, uno de los puntos bajos del equipo.`,
+      ],
+      catastrofe: [
+        (n) => `¿QUÉ PASÓ, ${n.split(' ')[0].toUpperCase()}? El volante fue el peor de la cancha y el técnico ya lo tiene en la mira.`,
       ],
     },
   },
@@ -344,9 +372,11 @@ export const VOCES: Voz[] = [
       ],
       normal: [
         (n) => `${n} hoy fue el equivalente futbolístico de un vaso de agua tibia`,
+        (n) => `el proyecto: no vas a ganar un duelo pero vas a cobrar la prima igual ok? — ${n}`,
       ],
       flojo: [
         (n) => `${n} tocando la pelota hoy 🫠 hermano se te va la vida`,
+        (n) => `lo que el técnico le pidió a ${n}: llegar al área\nlo que ${n} entendió: llegar al kiosco`,
       ],
       malo: [
         (n) => `${n} en el calentamiento: 😎\n${n} en el partido: 🤡`,

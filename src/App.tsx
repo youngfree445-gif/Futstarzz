@@ -1357,7 +1357,12 @@ export default function App() {
       setActiveMyTablePosition(null);
       setActiveRivalTablePosition(null);
       setActiveLeagueTeamCount(null);
-    } else if (isCup) {
+    } else if (isCup && !usaFechasReales) {
+      // Con calendario propio esta rama NO corre: arma la copa por clasificación del motor,
+      // ignorando lo que dice el calendario. Ahí nacía el cruce -- ibas a jugar Libertadores según
+      // tus fechas reales y el motor te montaba su propia llave, o al revés: te mandaba a la vuelta
+      // de la Superliga cuando tocaba Libertadores. La rama de arriba ya resolvió el partido con la
+      // fecha real; ésta es solo para los clubes sin fechas cargadas.
       const year = getSeasonYear(playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
 

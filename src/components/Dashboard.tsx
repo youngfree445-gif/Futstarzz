@@ -1752,7 +1752,19 @@ export default function Dashboard({
       });
   }
 
-  const calendarBaseDate = getRealDate(playerProfile.currentWeek);
+  // El mes que abre el calendario es el del partido de HOY, tomado del calendario real.
+  //
+  // getRealDate cuenta semanas de 7 días desde el arranque de carrera, y con fechas reales eso ya
+  // no coincide: en el paso 18 (9 de abril de verdad) daba mediados de mayo, así que el calendario
+  // abría en un mes equivocado y los partidos de Libertadores "no aparecían" -- estaban, pero en
+  // abril, y la grilla mostraba mayo.
+  const calendarBaseDate = (() => {
+    if (hasDatedSchedule(currentClub.name)) {
+      const paso = fixturesAtStep(currentClub.name, playerProfile.currentWeek);
+      if (paso) return new Date(`${paso.date}T00:00:00`);
+    }
+    return getRealDate(playerProfile.currentWeek);
+  })();
   const calendarGridDate = new Date(calendarBaseDate.getFullYear(), calendarBaseDate.getMonth() + calendarMonthOffset, 1);
   const calendarGridYear = calendarGridDate.getFullYear();
   const calendarGridMonth = calendarGridDate.getMonth();
