@@ -11,10 +11,11 @@ import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
 import { esUltimoPartidoDeLaCopa, fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary } from './dateSchedule';
+import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
 import {
-  leagueKeyFor, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable, isApeturaClausuraLeague,
+  leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable, isApeturaClausuraLeague,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
@@ -423,6 +424,74 @@ function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: nu
   return { ...profile, seasonHistory: [...history.slice(0, -1), updated] };
 }
 
+/**
+ * Cierre de año: guarda lo que sumó cada club y aplica ascensos y descensos.
+ *
+ * Solo en las ligas con reglamento cargado (Colombia y Argentina, ver promocionDescenso.ts). Cada
+ * una usa SU criterio: Colombia baja 2 por promedio plurianual, Argentina 4 por la tabla del año.
+ * Las demás ligas no se tocan.
+ */
+function applyPromotionRelegationIfNewSeason(
+  profile: PlayerProfile, previousWeek: number, newWeek: number,
+): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+
+  const anioCerrado = getSeasonYear(previousWeek);
+  const divisionDe = (c: Club): 1 | 2 =>
+    (profile.divisionOverrides?.[c.id] ?? (c.division === 2 ? 2 : 1));
+
+  // 1. Anotar lo que sumó cada club en el año que termina, para la tabla de promedios.
+  const historial = [...(profile.historialAnual ?? [])];
+  for (const season of Object.values(profile.leagueSeasons ?? {})) {
+    for (const fila of season.table ?? []) {
+      const club = CLUBS_DATABASE.find(c => c.id === fila.clubId || c.name === fila.name);
+      if (!club || !reglasDeLiga(club.league)) continue;
+      if (historial.some(h => h.clubId === club.id && h.year === anioCerrado)) continue;
+      historial.push({
+        clubId: club.id, league: club.league, year: anioCerrado,
+        puntos: fila.puntos, partidos: fila.pj,
+      });
+    }
+  }
+  if (historial.length === (profile.historialAnual?.length ?? 0)) return { ...profile, historialAnual: historial };
+
+  // 2. Resolver los movimientos, liga por liga.
+  const overrides: Record<string, 1 | 2> = { ...(profile.divisionOverrides ?? {}) };
+  let ultimo: PlayerProfile['ultimoAscensoDescenso'];
+
+  for (const league of [...new Set(CLUBS_DATABASE.map(c => c.league))]) {
+    if (!reglasDeLiga(league)) continue;
+
+    const primera = tablaDeDescenso(historial, league, anioCerrado, id =>
+      CLUBS_DATABASE.find(c => c.id === id)?.name ?? '')
+      .filter(f => divisionDe(CLUBS_DATABASE.find(c => c.id === f.clubId)!) === 1);
+
+    // La segunda ordenada por lo que sumó ese año: los mejores son los que suben.
+    const segunda = historial
+      .filter(h => h.league === league && h.year === anioCerrado)
+      .map(h => ({ h, club: CLUBS_DATABASE.find(c => c.id === h.clubId)! }))
+      .filter(x => x.club && divisionDe(x.club) === 2)
+      .sort((a, b) => b.h.puntos - a.h.puntos)
+      .map(x => ({ clubId: x.club.id, clubName: x.club.name }));
+
+    const { descienden, ascienden } = resolverMovimientos(league, primera, segunda);
+    for (const d of descienden) overrides[d.clubId] = 2;
+    for (const a of ascienden) overrides[a.clubId] = 1;
+
+    // Se guarda el movimiento de TU liga, que es el que se cuenta en pantalla.
+    const miClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+    if (miClub?.league === league && (descienden.length || ascienden.length)) {
+      ultimo = {
+        year: anioCerrado,
+        descienden: descienden.map(d => ({ clubId: d.clubId, clubName: d.clubName, promedio: d.valor })),
+        ascienden,
+      };
+    }
+  }
+
+  return { ...profile, historialAnual: historial, divisionOverrides: overrides, ultimoAscensoDescenso: ultimo ?? profile.ultimoAscensoDescenso };
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   let next = freezeSeasonLeadersIfNewSeason(profile, previousWeek, newWeek);
   next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
@@ -432,6 +501,7 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   next = applyYearsAtClubIfNewSeason(next, previousWeek, newWeek);
   next = applyMentorshipIfNewSeason(next, previousWeek, newWeek);
   next = applyCountryDutyToll(next, previousWeek, newWeek);
+  next = applyPromotionRelegationIfNewSeason(next, previousWeek, newWeek);
   return next;
 }
 
@@ -474,6 +544,15 @@ export default function App() {
   const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event' | 'penalty_shootout' | 'career_summary'>('welcome');
 
   const [playerProfile, setPlayerProfile] = useState<PlayerProfile | null>(null);
+
+  // Las divisiones que cambiaron por ascenso/descenso se registran en el motor apenas cambia el
+  // perfil. Va acá y no dentro de cada función porque leagueKeyFor lo consultan decenas de sitios,
+  // y pasarles el perfil a todos sería reescribir medio motor.
+  // useMemo y no useEffect: tiene que estar puesto ANTES del primer render que arme una tabla, o la
+  // primera pantalla mostraría al descendido todavía en primera.
+  React.useMemo(() => {
+    setDivisionOverrides(playerProfile?.divisionOverrides);
+  }, [playerProfile?.divisionOverrides]);
   const [shopItems, setShopItems] = useState<ShopItem[]>(INITIAL_LIFESTYLE_ITEMS);
   
   const [activeOpposition, setActiveOpposition] = useState('');

@@ -167,8 +167,23 @@ export function getRealDateForCupStepsBehind(currentWeek: number, stepsBehind: n
   return getRealDate(1);
 }
 
+// División "real" de cada club en la partida en curso. CLUBS_DATABASE es estático, así que cuando
+// un club asciende o desciende (ver promocionDescenso.ts) el cambio se guarda acá y se aplica
+// encima. Se registra una sola vez, al cargar/actualizar el perfil, para que todo el motor lo vea
+// sin tener que pasarle el perfil a cada función.
+let divisionOverrides: Record<string, 1 | 2> = {};
+
+export function setDivisionOverrides(overrides: Record<string, 1 | 2> | undefined): void {
+  divisionOverrides = overrides ?? {};
+}
+
+/** La división en la que juega HOY el club, contando ascensos y descensos ya ocurridos. */
+export function divisionActual(club: Club): 1 | 2 | 3 {
+  return divisionOverrides[club.id] ?? club.division ?? 1;
+}
+
 export function leagueKeyFor(club: Club): string {
-  return `${club.league}-${club.division ?? 1}`;
+  return `${club.league}-${divisionActual(club)}`;
 }
 
 export function getSeasonYear(currentWeek: number): number {

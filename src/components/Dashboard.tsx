@@ -825,6 +825,11 @@ export default function Dashboard({
   // Con 600+ clubes en la base de datos, mostrar una oferta por cada uno volvía la pestaña
   // interminable (varios cientos de miles de píxeles de alto). Priorizamos los clubes a los
   // que de verdad podés fichar (reputación alcanzada) y mostramos un puñado manejable.
+  // ¿Tu club se fue a segunda en el último cierre de temporada? El jugador tiene que enterarse: es
+  // el momento en que decide si se queda a pelear el ascenso o se va a un club de primera.
+  const miClubDescendio = !!playerProfile.ultimoAscensoDescenso?.descienden
+    .some(d => d.clubId === playerProfile.currentClubId);
+
   const transferOffers = generateMockTransferOffers()
     .sort((a, b) => (b.possible === a.possible ? b.club.reputation - a.club.reputation : b.possible ? 1 : -1))
     .slice(0, 40);
@@ -2879,6 +2884,16 @@ export default function Dashboard({
                   Revisa las propuestas de los clubes interesados en tu perfil deportivo para la temporada {getRealDate(playerProfile.currentWeek).getFullYear()}. Tu margen de negociación salarial y los bonos de fichaje se expanden a la par de tu Prestigio general.
                 </p>
               </div>
+
+              {/* Tu club bajó a segunda: el jugador tiene que poder decidir a conciencia si se
+                  queda a pelear el ascenso o se va. Sin este aviso el descenso pasaba en silencio. */}
+              {miClubDescendio && (
+                <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/5 text-xs text-red-200 leading-relaxed">
+                  <strong className="block text-red-300 mb-1">📉 {currentClub.name} descendió a la B</strong>
+                  Los clubes de primera preguntan por vos. Podés irte a seguir en la máxima categoría,
+                  o quedarte a devolver al club donde estaba — la hinchada no olvida al que se queda.
+                </div>
+              )}
 
               {(() => {
                 const windowOpen = isTransferWindowOpen(playerProfile.currentWeek);
