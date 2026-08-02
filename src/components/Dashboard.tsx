@@ -698,31 +698,48 @@ export default function Dashboard({
         ? pickPrimary(matchesThisWeek(currentClub.name, playerProfile.currentWeek))
         : null;
     const realDeLiga = realDeLaSemana?.competition.kind === 'league' ? realDeLaSemana : null;
+
+    // El rival se toma del partido real SEA DE LA COMPETICIÓN QUE SEA, no solo de liga. Filtrar por
+    // liga dejaba la tarjeta sin rival cuando el partido del día era de copa, y entonces caía al
+    // fixture generado: anunciaba "vs Deportivo Pereira" y salías a jugar la Superliga contra Santa
+    // Fe. Fuera de la liga el rival puede ser de otro país (Libertadores), así que se busca en toda
+    // la base y se desambigua con el torneo.
     const rivalReal = realDeLiga
       ? resolverClubDeCalendario(
           ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === myLeagueKey),
           realDeLiga.opponentName, currentClub.league, 'league', realDeLiga.competition.name)
-      : null;
+      : realDeLaSemana
+        ? resolverClubDeCalendario(
+            ULTIMATE_CLUBS_DATABASE, realDeLaSemana.opponentName,
+            realDeLaSemana.competition.league ?? (realDeLaSemana.competition.kind === 'domestic_cup' ? currentClub.league : undefined),
+            realDeLaSemana.competition.kind, realDeLaSemana.competition.name)
+        : null;
 
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
     // calendario real, así que todos los accesos van con ?.
     const opponentId = rivalReal?.id ?? next?.opponentId;
     const opponentName = rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '';
-    const isHome = realDeLiga ? realDeLiga.isHome : (next?.isHome ?? true);
+    const isHome = realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
 
     nextMatchOpponent = {
       club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
       name: opponentName,
       isHome,
-      competition: currentClub.league,
+      // Si el partido del día no es de liga, la tarjeta tiene que decir de qué torneo es: anunciaba
+      // "Colombiana" cuando lo que se jugaba era la Superliga.
+      competition: realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
+        ? realDeLaSemana.competition.name
+        : currentClub.league,
       // El calendario por fechas no trae número de jornada (ESPN no lo publica), pero sí la fecha
       // exacta, que dice más: "8 feb" en vez de "Jornada 12".
       jornada: pasoConFecha ? formatDateShort(pasoConFecha.date)
         : realDeLiga && 'round' in realDeLiga.match ? realDeLiga.match.round
         : next ? `Jornada ${next.matchweek}` : '',
-      rivalPos: idx >= 0 ? idx + 1 : null,
-      rivalTotal: myLeagueTable.length || null
+      // La posición en la tabla solo tiene sentido en la liga: en una copa el rival puede no estar
+      // en tu tabla, y mostrar "13° de 22" sería un dato inventado.
+      rivalPos: realDeLiga && idx >= 0 ? idx + 1 : null,
+      rivalTotal: realDeLiga ? (myLeagueTable.length || null) : null
     };
   }
   // Fecha de copa sin cruce puntual todavía definido (club no clasificado, o copa "de relleno"
