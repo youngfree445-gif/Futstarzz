@@ -31,8 +31,17 @@ export interface Voz {
   frases: Partial<Record<TonoPartido, ((n: string, r: string, g: number) => string)[]>>;
 }
 
-// Periodistas, cuentas de hinchas y agregadores. Los nombres son homenajes reconocibles al
-// periodismo deportivo colombiano y argentino, no las cuentas reales.
+// El tono sale de leer las cuentas reales que sigue el usuario (@Elburrointel, @ToqueSports,
+// @HablaDeportes, @cuidsports, @juniorlpr1924, @AtaqueFutbolero, @giraltpablo, @gastonedul).
+// Cosas que se copiaron del habla real y no se habrían inventado de cero:
+//   · el costeño: "ombe", "a vaina", "no hay es una monda", "mojones", "vayan a pelar verga"
+//   · el sarcasmo con emoji derretido: "¡AY, BICAMPEÓN…🫠!"
+//   · "debacle", "volvió a dejar dudas", "¿qué le está faltando?"
+//   · el periodista serio cita en comillas desde zona mixta, con 🗣️ adelante
+//   · el agregador va TODO EN MAYÚSCULAS con banderitas y "Vía @fulano"
+//   · el hincha viejo defiende al club y le pega a la propia hinchada por no acompañar
+//
+// Los nombres son homenajes reconocibles, no las cuentas reales.
 export const VOCES: Voz[] = [
   {
     author: 'Eduardo Luis',
@@ -97,7 +106,7 @@ export const VOCES: Voz[] = [
         (n) => `Buen partido de ${n}. El cuerpo técnico está conforme con su evolución. Info.`,
       ],
       normal: [
-        (n) => `${n} completó los 90'. Sin novedades por ahora en cuanto a su situación contractual.`,
+        (n) => `${n}: “Sabemos que hay que mejorar, el grupo está tranquilo”. La palabra del volante tras el partido.`,
       ],
       flojo: [
         (n) => `Partido flojo de ${n}. En el club no están preocupados, pero lo están siguiendo de cerca. Info.`,
@@ -111,34 +120,66 @@ export const VOCES: Voz[] = [
     },
   },
   {
-    author: 'ombe_tiburon',
-    role: 'Hincha del Junior',
-    avatar: '🦈',
+    // El hincha costeño sin filtro. El habla es la real: "a vaina", "no hay es una monda",
+    // "mojones", "vayan a pelar verga". Putea el rendimiento, nunca a la persona por lo que es.
+    author: 'ElBurroIntel',
+    role: 'Juniorismo',
+    avatar: '🫏',
     frases: {
       brillante: [
-        (n) => `OMBE ESE PELAO ${n.toUpperCase()} ES DEL TIBURÓN DE VERDAD 🦈🔥 no lo suelten por nada`,
+        (n) => `A VAINA ${n.toUpperCase()} ombe 😮‍💨 eso es lo que queremos ver mi Juniorismo 🦈`,
+        (n) => `Erda y tal, ${n} se puso el equipo al hombro. ASÍ SÍ`,
       ],
       bueno: [
-        (n) => `me gustó ${n} hoy, se le vio con ganas. eso es lo que uno quiere ver ombe 🦈`,
+        (n) => `Bueno bueno, apareció ${n}. Ahora sostenelo que aquí se olvida rápido`,
       ],
       normal: [
-        (n) => `ni fu ni fa ${n}. tampoco le voy a pegar, cumplió y ya`,
+        (n) => `${n} ni fu ni fa. Tampoco le voy a pegar hoy`,
       ],
       flojo: [
-        (n) => `qué le pasa a ${n} ombe, se le nota que anda pesado. despierta hermano 😤`,
+        (n) => `Qué le pasa a ${n} ombe, anda pesado. Despierta hermano 😤`,
       ],
       malo: [
-        (n, r) => `${r} de calificación. ${r}. y después se preguntan por qué la gente no va al estadio 🤡`,
+        (n) => `A vaina el mojón este de ${n}. Si no es contra un grande entonces no quiere jugar y tal`,
+        (n, r) => `${r} sacó ${n}. ${r}. Y después se preguntan por qué el Romelio está vacío 🤡`,
       ],
       catastrofe: [
-        (n) => `NO CORRIÓ UNA. NI UNA. devolvé la camiseta hermano que hay pelaos en la cantera muriéndose por jugar 🤬`,
+        (n) => `Este semestre no hay es una monda mi Juniorismo. Que ${n} vaya a pelar verga 🤬`,
+        (n) => `NO CORRIÓ UNA. NI UNA. Devuelve la camiseta ${n} que hay pelaos en la cantera muriéndose por jugar`,
       ],
     },
   },
   {
-    author: 'ElBurroIntel',
-    role: 'Cuenta de Fútbol',
-    avatar: '🐴',
+    // El hincha veterano que defiende al club y le pega a la propia hinchada (@juniorlpr1924).
+    author: 'JuniorLPR1924',
+    role: 'Hincha Histórico',
+    avatar: '🦈',
+    frases: {
+      brillante: [
+        (n) => `Y eso que a ${n} lo querían quemar hace dos fechas. Esta hinchada exige como si fuera socia del equipo, pero cuando aparece uno así todos aplauden.`,
+      ],
+      bueno: [
+        (n) => `Buen partido de ${n}. Ojo, aquí no debe haber conformismo con nada, pero hay que reconocer cuando se hacen las cosas bien.`,
+      ],
+      normal: [
+        (n) => `${n} cumplió. Ni más ni menos. Aquí critican a todos y la solución siempre es el que se fue o el que no juega.`,
+      ],
+      flojo: [
+        (n) => `A ${n} le está faltando. Hay que apretar señores, hinchada y cuerpo técnico. No entraré en locuras pero hay que decirlo.`,
+      ],
+      malo: [
+        (n) => `Mucha rabia y estrés estamos cogiendo a diario. Lo de ${n} no ayuda, pero el problema es más profundo que un solo jugador.`,
+      ],
+      catastrofe: [
+        (n) => `Quiero defender al club y seguir motivando a la gente, pero así no se puede. ${n} debe cambiar la cara YA. Somos los dueños de Colombia hace un año, no lo olviden.`,
+      ],
+    },
+  },
+  {
+    // La cuenta de datos: números fríos, gráficos, "los datos son los datos" (@sudanalytics_).
+    author: 'SudAnalytics',
+    role: 'Datos y Estadística',
+    avatar: '📊',
     frases: {
       brillante: [
         (n, r, g) => `${n} hoy: ${r} de calificación${g > 0 ? ` y ${g} gol${g > 1 ? 'es' : ''}` : ''}. Los números no mienten, señores. LOCURA TOTAL 🔥📈`,
@@ -186,27 +227,107 @@ export const VOCES: Voz[] = [
     },
   },
   {
+    // El agregador: TODO EN MAYÚSCULAS, banderita adelante, "Vía @fulano" al final.
     author: 'AtaqueFutbolero',
     role: 'Medio Digital',
     avatar: '⚔️',
     frases: {
       brillante: [
-        (n) => `🔥 NOCHE DE GALA: ${n} fue la figura absoluta. Las redes explotaron con su actuación.`,
+        (n) => `🔥🇨🇴 NOCHE DE GALA DE ${n.toUpperCase()}. LA FIGURA ABSOLUTA DE LA CANCHA. ‼️`,
+        (n) => `🤯🇨🇴 PREGUNTAN POR ${n.toUpperCase()} DESDE EL EXTERIOR TRAS SU ACTUACIÓN DE HOY. 💰 Vía @mercadoenvivo.`,
       ],
       bueno: [
-        (n) => `${n} sumó otra buena actuación. ¿Está listo para dar el salto a un grande?`,
+        (n) => `⚡🇨🇴 OTRA BUENA ACTUACIÓN DE ${n.toUpperCase()}. ¿Está listo para dar el salto a un grande?`,
       ],
       normal: [
-        (n) => `${n} pasó sin pena ni gloria. El debate sigue abierto en las redes.`,
+        (n) => `🇨🇴 ${n.toUpperCase()} COMPLETÓ LOS 90'. Sin sobresaltos en su rendimiento.`,
       ],
       flojo: [
-        (n) => `Las redes le pegan a ${n} tras otra actuación deslucida. ¿Merece seguir de titular?`,
+        (n) => `⚠️🇨🇴 LAS REDES LE PEGAN A ${n.toUpperCase()} TRAS OTRA ACTUACIÓN DESLUCIDA. ¿Merece seguir de titular?`,
       ],
       malo: [
-        (n) => `🔴 EXPLOTÓ LA HINCHADA contra ${n}. "Que se vaya" fue tendencia durante todo el segundo tiempo.`,
+        (n) => `⛔️🇨🇴 EXPLOTÓ LA HINCHADA CONTRA ${n.toUpperCase()}. "Que se vaya" fue tendencia todo el segundo tiempo. ‼️`,
       ],
       catastrofe: [
-        (n) => `🚨 LAPIDARIO: la hinchada destrozó a ${n} en redes. Lo más suave que le dijeron fue "vendé la camiseta".`,
+        (n) => `🚨🇨🇴 LAPIDARIO: LA HINCHADA DESTROZÓ A ${n.toUpperCase()} EN REDES. Lo más suave que le dijeron fue "vendé la camiseta". ‼️`,
+      ],
+    },
+  },
+  {
+    // Sarcasmo con emoji derretido y el "¡AY, BICAMPEÓN…🫠!" de @ToqueSports.
+    author: 'ToqueSports',
+    role: 'Medio Digital',
+    avatar: '📣',
+    frases: {
+      brillante: [
+        (n) => `🔥 Uff, LO DE ${n.toUpperCase()} HOY… 🤯 Qué partidazo del pelao.`,
+      ],
+      bueno: [
+        (n) => `👏 Buen partido de ${n}. De a poco se va ganando el puesto.`,
+      ],
+      normal: [
+        (n) => `🗣️ "Tenemos que seguir trabajando" ⚽️ La palabra de ${n} tras el partido.`,
+      ],
+      flojo: [
+        (n) => `¡AY, ${n.toUpperCase()}…🫠! Otra fecha en la que se lo esperaba y no apareció.`,
+      ],
+      malo: [
+        (n) => `¡DESCONTENTO😡❌! La molestia de los aficionados con ${n} tras el partido.`,
+      ],
+      catastrofe: [
+        (n) => `“NO ESTAMOS PASANDO UN MOMENTO FÁCIL” ‼️ 🗣️ ${n} tras la debacle. Y la hinchada no perdona.`,
+      ],
+    },
+  },
+  {
+    // El periodista de zona mixta: comillas, 🗣️ adelante, tono informativo (@HablaDeportes).
+    author: 'HablaDeportes',
+    role: 'Periodismo Deportivo',
+    avatar: '🎧',
+    frases: {
+      brillante: [
+        (n) => `🗣️ "Trabajamos para esto, el equipo lo merecía". 🎙️ ${n} en zona mixta tras su actuación consagratoria.`,
+      ],
+      bueno: [
+        (n) => `🗣️ "Confiamos en este equipo, sabemos lo que tenemos". 👉 ${n} en zona mixta.`,
+      ],
+      normal: [
+        (n) => `🎙️ ${n} sobre el momento del equipo: "Hay que seguir trabajando puertas adentro".`,
+      ],
+      flojo: [
+        (n) => `❌ ${n} volvió a dejar dudas. ¿Qué le está faltando? Análisis, reacciones y debate. 🔴⚪`,
+      ],
+      malo: [
+        (n) => `🗣️ "Tenemos que solucionar lo que no estamos haciendo bien puertas adentro". 🎙️ ${n} tras la derrota.`,
+      ],
+      catastrofe: [
+        (n) => `❌ Otra vez ${n} desaparecido. El bicampeón hace agua y la hinchada ya perdió la paciencia. ¿Hasta cuándo? 🔴⚪`,
+      ],
+    },
+  },
+  {
+    // Canal que analiza en vivo: "debacle", "¿mejorará?" (@cuidsports).
+    author: 'CuidSports',
+    role: 'Canal Deportivo',
+    avatar: '📹',
+    frases: {
+      brillante: [
+        (n) => `😍 ¡Lo que provoca ${n} en la hinchada! ⚽️ Analizamos EN VIVO el partidazo del pelao ✅ Video completo en el canal`,
+      ],
+      bueno: [
+        (n) => `🎙️ "El equipo está creciendo" ⚽️ El análisis de ${n} tras el partido ✅ Video completo en el canal`,
+      ],
+      normal: [
+        (n) => `🎙️ "El otro equipo también se prepara" ⚽️ La palabra de ${n} ✅ Video completo en el canal`,
+      ],
+      flojo: [
+        (n) => `😳 ¿Qué pasa con ${n}? ⚽️ Analizamos EN VIVO el flojo momento del volante`,
+      ],
+      malo: [
+        (n) => `❌ ¡Nueva derrota! ⚽️ Analizamos EN VIVO la debacle y el bajo nivel de ${n}… ¿Mejorará el Bicampeón?`,
+      ],
+      catastrofe: [
+        (n) => `😳 Lo que provoca ${n} en la hinchada ❌ La discusión de dos aficionados al término del partido ✅ Video completo en el canal`,
       ],
     },
   },
