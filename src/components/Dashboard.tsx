@@ -9,6 +9,7 @@ import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName }
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
+import { getPalmares } from '../palmares';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -553,6 +554,17 @@ export default function Dashboard({
   const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
   const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek);
   // rivalPos/rivalTotal: posición del rival en la tabla que corresponda (liga doméstica, grupo de
+  // Palmarés del jugador para la vitrina de la tarjeta de atributos. Se calcula acá arriba, y no
+  // junto al JSX que lo usa, para no repetir el ReferenceError por zona muerta temporal (TDZ) que
+  // dejó la pantalla en blanco: el bloque de atributos se renderiza ~1300 líneas más abajo.
+  const misTrofeos = getPalmares(
+    playerProfile,
+    ULTIMATE_CLUBS_DATABASE,
+    (league: string) => getLeagueDisplay(league).name,
+    isApeturaClausuraLeague,
+    NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality],
+  );
+
   // Libertadores/Sudamericana, o fase de liga de Champions/Europa) -- null en fases sin tabla
   // (eliminación directa, Mundial). jornada es el rótulo corto para la esquina de la card.
   let nextMatchOpponent: {
@@ -1885,6 +1897,43 @@ export default function Dashboard({
                         </div>
                       </div>
                     ))}
+                  </div>
+
+                  {/* Vitrina de trofeos. Va acá, debajo de los atributos, porque era el espacio
+                      muerto de la tarjeta y porque el palmarés es la otra mitad de "quién es este
+                      jugador". Ver getPalmares: se deriva del perfil, no se guarda aparte. */}
+                  <div className="mt-4 pt-3 border-t border-slate-800">
+                    <h4 className="text-3xs font-black uppercase tracking-widest text-slate-400 mb-2.5 flex items-center gap-1.5">
+                      <Trophy size={12} className="text-gold-400" /> Vitrina de Trofeos
+                      {misTrofeos.length > 0 && (
+                        <span className="ml-auto text-gold-400 font-mono">{misTrofeos.length}</span>
+                      )}
+                    </h4>
+
+                    {misTrofeos.length === 0 ? (
+                      <p className="text-3xs font-mono text-slate-500 uppercase leading-relaxed text-center py-2">
+                        Todavía no ganaste ningún título. Llevá a tu equipo a lo más alto.
+                      </p>
+                    ) : (
+                      <ul className="space-y-1.5 max-h-52 overflow-y-auto pr-1">
+                        {misTrofeos.map(t => (
+                          <li
+                            key={t.id}
+                            className="flex items-center gap-2.5 bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2"
+                          >
+                            <span className="text-base leading-none shrink-0" aria-hidden="true">
+                              {t.tipo === 'mundial' ? '🌎' : t.tipo === 'continental' ? '🏆' : '🥇'}
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span className="block text-2xs font-black text-white truncate">{t.nombre}</span>
+                              <span className="block text-3xs font-mono text-slate-500 truncate">
+                                {t.detalle} · {t.clubName}
+                              </span>
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-slate-800 text-3xs font-mono text-slate-500 uppercase leading-relaxed text-center">
@@ -3316,7 +3365,7 @@ export default function Dashboard({
             const viewedClub = rosterClubIdOverride
               ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === rosterClubIdOverride) ?? currentClub
               : currentClub;
-            const rosterClub = getClubWithRoster(viewedClub.name);
+            const rosterClub = getClubWithRoster(viewedClub.name, viewedClub.id);
             const plantillaCruda = rosterClub?.plantilla || { porteros: [], defensivos: [], ofensivos: [] };
 
             // Los retiros del mundo (ver worldRetirements.ts) se llevan jugadores de

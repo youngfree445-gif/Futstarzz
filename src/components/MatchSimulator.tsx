@@ -1387,7 +1387,7 @@ export default function MatchSimulator({
   // = 1 - e^(-lambda/90)), así el resultado queda matemáticamente atado a qué tan buenos son
   // los dos planteles y no solo a la posición en la tabla.
   const BASE_GOALS_PER_TEAM = 1.3; // promedio real aprox. de goles por equipo en 90'
-  const rosterClub = getClubWithRoster(currentClub.name);
+  const rosterClub = getClubWithRoster(currentClub.name, currentClub.id);
   const repEstimate = 58 + currentClub.reputation * 6; // ~64 a 88 si el club no tiene roster real cargado
 
   // El nivel del equipo mezcla el promedio del plantel con la reputación del club, en vez de que el

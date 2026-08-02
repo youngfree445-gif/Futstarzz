@@ -3963,10 +3963,14 @@ export const getTeamsByLeague = (leagueName: string, division: number) => {
  * Inyecta dinámicamente los jugadores del mod LTA / Europa en un club de tu base de datos
  * @param clubName El nombre del equipo EXACTO como viene en el Excel (Ej: 'Junior de Barranquilla', 'Boca Juniors')
  */
-export function getClubWithRoster(clubName: string): any {
-  // 1. Buscamos el club base dentro de tu CLUBS_DATABASE actual
+export function getClubWithRoster(clubName: string, clubId?: string): any {
+  // 1. Buscamos el club base dentro de tu CLUBS_DATABASE actual.
+  //    Por id cuando se conoce: buscar solo por nombre devuelve SIEMPRE el primero de la lista, y
+  //    con 7 nombres repetidos entre países (Everton chileno/inglés, Liverpool uruguayo/inglés...)
+  //    el segundo club era inalcanzable y heredaba la plantilla del primero.
   const baseClub = (CLUBS_DATABASE as any[]).find(
-    club => club.name && club.name.toLowerCase() === clubName.toLowerCase()
+    club => (clubId && club.id === clubId)
+      || (!clubId && club.name && club.name.toLowerCase() === clubName.toLowerCase())
   );
 
   if (!baseClub) {
@@ -3979,7 +3983,10 @@ export function getClubWithRoster(clubName: string): any {
   // 2. El nombre del club en CLUBS_DATABASE puede no coincidir literalmente con el team_name
   // del JSON (ver EQUIPO_SYNONYMS más abajo, ej. "Junior de Barranquilla" -> "Junior"); sin esto,
   // cualquier club con sinónimo aparecía sin plantilla aunque sus jugadores sí existieran.
-  const nombreParaBuscar = EQUIPO_SYNONYMS[baseClub.name] || clubName;
+  // Los homónimos (Everton chileno/inglés, Athletic brasileño/español...) comparten el "name", así
+  // que un diccionario por nombre les daría a los dos la MISMA plantilla. Por eso se consulta
+  // primero el de id, que sí es único. Ver EQUIPO_SYNONYMS_POR_ID.
+  const nombreParaBuscar = EQUIPO_SYNONYMS_POR_ID[baseClub.id] || EQUIPO_SYNONYMS[baseClub.name] || clubName;
 
   // 3. Filtramos el universo de 32,000 jugadores buscando los que pertenezcan a este equipo
   const clubPlayers = ALL_PLAYERS.filter(
@@ -4064,6 +4071,34 @@ function getJugadoresMudados(): Map<string, Set<string>> {
 }
 
 /**
+ * Sinónimos de los clubes HOMÓNIMOS, indexados por id en vez de por nombre.
+ *
+ * Hay 7 nombres repetidos entre países (Everton chileno e inglés, Athletic brasileño y español,
+ * Liverpool uruguayo e inglés...). Como EQUIPO_SYNONYMS se consulta por `name`, ambos clubes caían
+ * en la misma clave y terminaban mostrando LA MISMA plantilla: el Everton de Chile alineaba a los
+ * jugadores del de Liverpool. El id sí los distingue.
+ *
+ * El JSON de jugadores sí los tiene separados ("Everton Chile" vs "Everton"), así que alcanza con
+ * apuntar cada id a su team_name correcto.
+ */
+const EQUIPO_SYNONYMS_POR_ID: Record<string, string> = {
+  'everton': 'Everton Chile',
+  'everton_eng': 'Everton',
+  'athletic_club_esp': 'Athletic Club de Bilbao',
+  'athletic_club': 'Athletic Club',            // el brasileño (Athletic Club de São João del-Rei)
+  'liverpool_eng': 'Liverpool',                // Alisson, Van Dijk, Szoboszlai
+  'liverpool_uru': 'Liverpool F.C.',           // Campaña, Perdomo -- el de Montevideo
+  'leones_fc': 'Itagüí Leones',                // el colombiano
+  'leones_fc_ecu': 'Leones FC',
+  'comunicaciones': 'Comunicaciones (A)',      // (A) = Argentina
+  'comunicaciones_gt': 'Comunicaciones FC',    // Fredy Pérez, Pinto -- el guatemalteco
+  'nacional_uru': 'Nacional U.',               // Coates, Cándido -- el de Montevideo
+  'nacional_paraguay': 'Club Nacional',
+  'u_catolica': 'Uni. Católica',               // Ampuero, Cuevas -- la chilena
+  'universidad_católica_ecu': 'U. Católica',   // Romo, Anangonó, Cangá -- la ecuatoriana
+};
+
+/**
  * DICCIONARIO DE COINCIDENCIAS (Diccionario de Sinónimos)
  * Mapea el "name" de tu CLUBS_DATABASE con el "team_name" exacto del archivo JSON.
  */
@@ -4117,6 +4152,123 @@ const EQUIPO_SYNONYMS: Record<string, string> = {
   "Nice": "OGC Nice",
   "Racing Club de Strasbourg Alsace": "RC Strasbourg",
   "Stade Rennais FC": "Stade Rennais",
+
+  // --- Clubes que figuraban "Sin datos disponibles" ---
+  // 187 clubes reales mostraban la plantilla vacía aunque sus jugadores SÍ estaban en el JSON: el
+  // JSON los abrevia ("DIM", "Atl. Nacional", "Newell's") o los alarga ("Ceará SC", "Atlas FC")
+  // distinto de como los escribe CLUBS_DATABASE, y el match es por igualdad exacta.
+  //
+  // Cada uno se verificó abriendo su plantilla en el JSON, no solo por parecido de nombre -- por eso
+  // "Milano FC" se mapea al Milan (Maignan, Tomori) e "Internacional" al brasileño (Rochet,
+  // Mercado) y NO al "Internacional de Bogotá", que es otro club.
+  "Independiente Medellín": "DIM",
+  "Independiente Santa Fe": "Santa Fe",
+  "Atlético Nacional": "Atl. Nacional",
+  "Millonarios FC": "Millonarios",
+  "Envigado FC": "Envigado",
+  "Atlético Bucaramanga": "Bucaramanga",
+  "Deportivo Pereira": "Dep. Pereira",
+  "Fortaleza FC": "Fortaleza CEIF",   // el colombiano; "Fortaleza" a secas es el brasileño
+  "Alianza FC": "Alianza F.C.",
+  "Llaneros FC": "Llaneros F.C.",
+  "Jaguares de Córdoba": "Jaguares",
+  // Argentina
+  "San Lorenzo de Almagro": "San Lorenzo",
+  "Estudiantes de La Plata": "Estudiantes",       // Muslera, González Pirez
+  "Estudiantes de Río Cuarto": "Estudiantes R.C.",
+  "Gimnasia y Esgrima La Plata": "Gimnasia",
+  "Gimnasia de Mendoza": "Gimnasia de M.",
+  "Racing Club de Avellaneda": "Racing Club",
+  "Newells Old Boys": "Newell's",
+  "Instituto de Córdoba": "Instituto",
+  "Belgrano de Córdoba": "Belgrano",
+  "Defensa y Justicia": "Defensa",
+  "Unión de Santa Fe": "Unión",
+  "Talleres de Córdoba": "Talleres",
+  "Independiente Rivadavia": "Ind. Rivadavia",
+  "Riestra": "Dep. Riestra",
+  "Argentinos Juniors": "Argentinos Jrs.",
+  // Brasil
+  "Mirassol": "Mirassol F.C.",
+  "Athletico Paranaense": "Athletico-PR",
+  "Sport Recife": "Sport",
+  "Ceará": "Ceará SC",
+  // México
+  "Atlas": "Atlas FC",
+  "Club Tijuana": "Tijuana",
+  "FC Juárez": "F.C. Juárez",
+  "Atlético de San Luis": "Atl. San Luis",
+  "Tapatio": "Tapatío",
+  "Tepatitlan": "Tepatitlán",
+  "Cancun FC": "Cancún FC",
+  // Chile / Uruguay / Perú / Ecuador / Bolivia / Paraguay / Venezuela
+  "Universidad de Chile": "U. de Chile",
+  "O'Higgins": "CD O'Higgins",
+  "Magallanes": "Club Magallanes",
+  // "Nacional" (uruguayo y paraguayo) y "Universidad Católica" (chilena y ecuatoriana) van por id
+  // en EQUIPO_SYNONYMS_POR_ID: son homónimos y por nombre compartirían plantilla.
+  "Juventud de Las Piedras": "Juventud",
+  "Melgar": "FBC Melgar",
+  "Emelec": "CS Emelec",
+  "Gualaceo": "Gualaceo SC",
+  "Cumbayá": "Cumbayá FC",
+  "9 de Octubre": "9 de Octubre FC",
+  "22 de Julio": "22 de Julio FC",
+  "Cuenca Jrs": "Cuenca Jrs.",
+  "Independiente Petrolero": "Ind. Petrolero",
+  "Sportivo Trinidense": "Trinidense",
+  "Metropolitanos FC": "Metropolitanos",
+  "Deportivo La Guaira": "Dep. La Guaira",
+  "Academia Puerto Cabello": "Puerto Cabello",
+  "Portuguesa FC": "Portuguesa",
+  "Real Estelí": "Real Estelí FC",
+  "Al Ahly": "Al-Ahly SC",
+  "Auckland City": "Auckland City FC",
+  "Imbabura": "Imbabura SC",
+  "Chacaritas": "Chacaritas FC",
+  "Ayacucho FC": "Ayacucho",
+  "Yaracuyanos FC": "Yaracuyanos",
+  // Europa
+  "Milan": "Milano FC",               // Maignan, Tomori, Pavlović -- es el AC Milan
+  "Sudtirol": "Südtirol",
+  "SL Benfica": "Benfica",
+  "SC Braga": "Sporting de Braga",
+  "CD Santa Clara": "Santa Clara",
+  "FC Arouca": "Arouca",
+  "FC Famalicão": "Famalicão",
+  "Moreirense FC": "Moreirense",
+  "Rio Ave FC": "Rio Ave",
+  "Real Betis": "Real Betis Balompié",
+  "Celta": "RC Celta de Vigo",
+  "D. Alavés": "Deportivo Alavés",
+  "R. Oviedo": "Real Oviedo",
+  "R. Sporting": "Real Sporting de Gijón",
+  "AD Ceuta FC": "AD Ceuta",
+  "Club Brugge KV": "Club Brugge",
+  "Royale Union Saint-Gilloise": "Union Saint-Gilloise",
+  "KRC Genk": "Genk",
+  "Olympiacos FC": "Olympiacos",
+  "PAOK Thessaloniki": "PAOK",
+  "Panathinaikos FC": "Panathinaikos",
+  "SK Slavia Praha": "Slavia Praha",
+  "FC Viktoria Plzeň": "Viktoria Plzeň",
+  "FK Bodø/Glimt": "FK Bodø_Glimt",   // el JSON escapa la barra como guión bajo
+  "Galatasaray SK": "Galatasaray",
+  "Fenerbahçe SK": "Fenerbahçe",
+  "SK Sturm Graz": "Sturm Graz",
+  "FC Red Bull Salzburg": "RB Salzburg",
+  "Rangers FC": "Rangers",
+  "Celtic FC": "Celtic",
+  "GNK Dinamo Zagreb": "Dinamo Zagreb",
+  // MLS
+  "Atlanta United": "Atlanta United FC",
+  "Chicago Fire": "Chicago Fire FC",
+  "DC United": "D.C. United",
+  "Inter Miami CF": "Inter Miami",
+  "LA Galaxy": "Los Angeles Galaxy",
+  "Minnesota United": "Minnesota United FC",
+  "NY Red Bulls": "Red Bull New York",
+  "Orlando City": "Orlando City SC",
 };
 
 // Diccionario para asignar colores estéticos de Tailwind a equipos genéricos según su liga
