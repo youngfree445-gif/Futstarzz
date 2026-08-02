@@ -3617,32 +3617,34 @@ export default function Dashboard({
 
             return (
               <div className="space-y-6 animate-fade-in max-w-5xl">
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                  <div className="flex items-center gap-4">
-                    <ClubBadge club={viewedClub} size={56} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
+                {/* Compacto a proposito: este bloque y el de mentoria empujaban la lista de
+                    jugadores ~600px hacia abajo y obligaban a scrollear para ver el plantel. */}
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                  <div className="flex items-center gap-3">
+                    <ClubBadge club={viewedClub} size={40} className="rounded-lg border border-slate-800 bg-slate-950 shadow-inner" />
                     <div>
                       <span className="text-3xs font-mono font-bold uppercase tracking-widest text-gold-400">
                         {viewedClub.league}
                       </span>
-                      <h2 className="text-2xl font-black text-white mt-1">{viewedClub.name}</h2>
-                      <p className="text-xs text-slate-400 mt-1">
-                        🏆 <strong>Reputación:</strong> {'★'.repeat(viewedClub.reputation)} · 💰 <strong>Valor de Plantilla:</strong> ${viewedClub.marketValue.toLocaleString()}
+                      <h2 className="text-lg font-black text-white leading-tight">{viewedClub.name}</h2>
+                      <p className="text-3xs text-slate-400">
+                        {'★'.repeat(viewedClub.reputation)} · ${viewedClub.marketValue.toLocaleString()}
                       </p>
                     </div>
                   </div>
 
-                  <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 min-w-[240px] space-y-3">
+                  <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 min-w-[240px] space-y-2">
                     <div>
-                      <span className="text-[10px] text-burgundy-500 uppercase font-mono font-black block mb-1">Director Técnico Oficial</span>
-                      <h4 className="font-bold text-sm text-white">{viewedClub.dt}</h4>
-                      <div className="text-3xs text-slate-400 font-mono mt-1 space-y-0.5">
-                        <p>🏟️ Liga: {viewedClub.league}</p>
-                        <p>💵 Salario Semanal Base: ${viewedClub.initialSalary.toLocaleString()}</p>
-                        {isViewingOwnClub && <p>📋 Cláusula por Presencia: ${playerProfile.appearanceBonus.toLocaleString()}/partido jugado</p>}
+                      {/* La liga no se repite: ya está arriba, junto al nombre del club. */}
+                      <span className="text-3xs text-burgundy-500 uppercase font-mono font-black block">DT</span>
+                      <h4 className="font-bold text-xs text-white">{viewedClub.dt}</h4>
+                      <div className="text-3xs text-slate-400 font-mono space-y-0.5">
+                        <p>💵 ${viewedClub.initialSalary.toLocaleString()}/sem</p>
+                        {isViewingOwnClub && <p>📋 ${playerProfile.appearanceBonus.toLocaleString()}/partido</p>}
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] text-slate-500 uppercase font-mono font-black block mb-1">Explorar plantilla de otro club</label>
+                      <label className="text-3xs text-slate-500 uppercase font-mono font-black block mb-0.5">Explorar otro club</label>
                       <select
                         value={viewedClub.id}
                         onChange={(e) => setRosterClubIdOverride(e.target.value === currentClub.id ? null : e.target.value)}
@@ -3663,18 +3665,18 @@ export default function Dashboard({
                   </div>
                 )}
 
-                {isViewingOwnClub && <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
-                    🌱 Mentoría de Jóvenes
-                  </h3>
-                  <p className="text-2xs text-slate-500 mb-3 leading-relaxed">
-                    Elige a un juvenil de {MENTEE_MAX_AGE} años o menos del plantel para guiarlo. Cada cierre de temporada hay una chance de que evolucione bien (sumas prestigio como mentor) — o no.
-                  </p>
+                {isViewingOwnClub && <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md">
                   {(() => {
                     const eligibleMentees = squadOf(currentClub).filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p, seasonsElapsed(playerProfile.currentWeek)) <= MENTEE_MAX_AGE);
                     return (
                       <>
-                        <div className="flex flex-wrap gap-1.5">
+                        {/* Título y botones en la MISMA fila, y la explicación larga solo si hay a
+                            quién mentorear: sin juveniles este bloque gastaba media pantalla para
+                            decir "Ninguno". */}
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <h3 className="text-3xs font-black uppercase tracking-widest text-slate-400 mr-1">
+                            🌱 Mentoría
+                          </h3>
                           <button
                             type="button"
                             onClick={() => onSelectMentee(null)}
@@ -3720,18 +3722,17 @@ export default function Dashboard({
                   </div>
                 )}
 
-                <div className="grid md:grid-cols-3 gap-6">
-                  
-                  <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md space-y-3">
-                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2 flex justify-between items-center">
+                <div className="grid md:grid-cols-3 gap-3">
+                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-1.5 flex justify-between items-center">
                       <span>🧤 Porteros (GK)</span>
                       <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.porteros.length}</span>
                     </h3>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {plantilla.porteros.length > 0 ? plantilla.porteros.map(player => (
-                        <div key={player.player_id} className="p-3 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center">
+                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-lg flex justify-between items-center gap-2">
                           <div>
-                            <h4 className="font-bold text-xs text-white flex items-center gap-1.5">
+                            <h4 className="font-bold text-2xs text-white flex items-center gap-1 leading-tight truncate">
                               {player.nombre_completo}
                               {ROSTER_ENRICHMENT[player.player_id]?.dorsal != null && (
                                 <span className="text-3xs font-mono text-slate-500">#{ROSTER_ENRICHMENT[player.player_id].dorsal}</span>
@@ -3750,16 +3751,16 @@ export default function Dashboard({
                     </div>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md space-y-3">
-                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2 flex justify-between items-center">
+                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-1.5 flex justify-between items-center">
                       <span>🧱 Defensivos (DF)</span>
                       <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.defensivos.length}</span>
                     </h3>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {plantilla.defensivos.length > 0 ? plantilla.defensivos.map(player => (
-                        <div key={player.player_id} className="p-3 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center">
+                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-lg flex justify-between items-center gap-2">
                           <div>
-                            <h4 className="font-bold text-xs text-white flex items-center gap-1.5">
+                            <h4 className="font-bold text-2xs text-white flex items-center gap-1 leading-tight truncate">
                               {player.nombre_completo}
                               {ROSTER_ENRICHMENT[player.player_id]?.dorsal != null && (
                                 <span className="text-3xs font-mono text-slate-500">#{ROSTER_ENRICHMENT[player.player_id].dorsal}</span>
@@ -3778,16 +3779,16 @@ export default function Dashboard({
                     </div>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-md space-y-3">
-                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2 flex justify-between items-center">
+                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-1.5 flex justify-between items-center">
                       <span>🎯 Ofensivos (OF)</span>
                       <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.ofensivos.length}</span>
                     </h3>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {plantilla.ofensivos.length > 0 ? plantilla.ofensivos.map(player => (
-                        <div key={player.player_id} className="p-3 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center">
+                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-lg flex justify-between items-center gap-2">
                           <div>
-                            <h4 className="font-bold text-xs text-white flex items-center gap-1.5">
+                            <h4 className="font-bold text-2xs text-white flex items-center gap-1 leading-tight truncate">
                               {player.nombre_completo}
                               {ROSTER_ENRICHMENT[player.player_id]?.dorsal != null && (
                                 <span className="text-3xs font-mono text-slate-500">#{ROSTER_ENRICHMENT[player.player_id].dorsal}</span>
