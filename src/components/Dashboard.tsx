@@ -3696,9 +3696,12 @@ export default function Dashboard({
                   })()}
                 </div>}
 
+                {/* El mensaje viejo era una nota técnica para el desarrollador -- hablaba del JSON,
+                    de playersDatabase y del "Excel de origen" -- y no le decía nada al jugador.
+                    Ahora simplemente avisa que ese plantel todavía no está cargado. */}
                 {totalJugadoresReales === 0 && (
-                  <div className="p-4 rounded-xl border border-burgundy-500/20 bg-burgundy-500/5 text-2xs text-burgundy-300 leading-relaxed">
-                    ⚠️ Este club todavía no tiene jugadores reales cargados en el JSON de la base de datos LTA (el nombre <strong>"{viewedClub.name}"</strong> no tiene coincidencias en <code>playersDatabase.json</code>). Revisa el Excel de origen para este equipo.
+                  <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-2xs text-slate-400 leading-relaxed">
+                    📋 La plantilla de <strong className="text-slate-300">{viewedClub.name}</strong> todavía no está disponible.
                   </div>
                 )}
 

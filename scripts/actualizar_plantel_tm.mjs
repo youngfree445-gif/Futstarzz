@@ -99,13 +99,14 @@ async function main() {
   const db = JSON.parse(await readFile(DB, 'utf8'));
 
   const actuales = db.filter(p => p.team_name === teamName);
-  if (!actuales.length) {
-    console.error(`No hay ningún jugador con team_name "${teamName}" en ${DB}.`);
-    console.error('Revisá el nombre: tiene que ser el team_name del JSON, no el name de data.ts.');
-    process.exit(1);
-  }
 
-  const teamId = actuales[0].team_id;
+  // Un club puede no tener NINGÚN jugador todavía -- es el caso del Internacional de Bogotá, que no
+  // figuraba en playersDatabase.json y por eso mostraba "este club no tiene jugadores reales
+  // cargados". En ese caso se crea el plantel de cero con un team_id nuevo.
+  const teamId = actuales.length
+    ? actuales[0].team_id
+    : Math.max(...db.map(p => Number(p.team_id) || 0)) + 1;
+  if (!actuales.length) console.log(`(club nuevo: se crea desde cero con team_id ${teamId})`);
   let maxId = Math.max(...db.map(p => Number(p.player_id) || 0));
 
   const nuevos = [];

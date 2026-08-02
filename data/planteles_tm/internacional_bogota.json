@@ -1,0 +1,32 @@
+{
+  "fuente": "https://www.transfermarkt.co/cd-la-equidad-seguros-sa/startseite/verein/17425/saison_id/2025",
+  "nota": "Antes La Equidad. Es el único club de Primera que no tenía NINGÚN jugador en playersDatabase.json.",
+  "teamName": "Internacional de Bogotá",
+  "players": [
+    { "nombre": "Wuilker Fariñez", "pos": "Portero", "edad": 28, "valor": 800000 },
+    { "nombre": "Kevin Cataño", "pos": "Portero", "edad": 23, "valor": 450000 },
+    { "nombre": "Simón Zapata", "pos": "Portero", "edad": 20, "valor": 50000 },
+    { "nombre": "Juan Carrasco", "pos": "Portero", "edad": 19, "valor": 25000 },
+    { "nombre": "Carlos Vivas", "pos": "Defensa central", "edad": 24, "valor": 1200000 },
+    { "nombre": "Agustín Irazoque", "pos": "Defensa central", "edad": 26, "valor": 500000 },
+    { "nombre": "Mateo Rodas", "pos": "Defensa central", "edad": 28, "valor": 250000 },
+    { "nombre": "Yulián Gómez", "pos": "Lateral izquierdo", "edad": 28, "valor": 350000 },
+    { "nombre": "Miguel Pernía", "pos": "Lateral izquierdo", "edad": 25, "valor": 200000 },
+    { "nombre": "Joan Castro", "pos": "Lateral derecho", "edad": 29, "valor": 450000 },
+    { "nombre": "Dánnovi Quiñónes", "pos": "Pivote", "edad": 25, "valor": 600000 },
+    { "nombre": "Larry Vásquez", "pos": "Pivote", "edad": 33, "valor": 150000 },
+    { "nombre": "Rubén Manjarrés", "pos": "Mediocentro", "edad": 26, "valor": 300000 },
+    { "nombre": "Deivid Castro", "pos": "Mediocentro", "edad": 20, "valor": 50000 },
+    { "nombre": "Cristian Dájome", "pos": "Extremo izquierdo", "edad": 32, "valor": 600000 },
+    { "nombre": "Facundo Boné", "pos": "Extremo izquierdo", "edad": 30, "valor": 500000 },
+    { "nombre": "Johan Caballero", "pos": "Extremo izquierdo", "edad": 28, "valor": 350000 },
+    { "nombre": "Sebastián Girado", "pos": "Extremo derecho", "edad": 21, "valor": 300000 },
+    { "nombre": "Fabián Chaverra", "pos": "Extremo derecho", "edad": 23, "valor": 100000 },
+    { "nombre": "Fabricio Sanguinetti", "pos": "Delantero centro", "edad": 25, "valor": 800000 },
+    { "nombre": "Yojan Garcés", "pos": "Delantero centro", "edad": 20, "valor": 250000 },
+    { "nombre": "Diego Duarte", "pos": "Delantero centro", "edad": 24, "valor": 250000 },
+    { "nombre": "Bayron Caicedo", "pos": "Delantero centro", "edad": 21, "valor": 150000 },
+    { "nombre": "Emilio Gutiérrez", "pos": "Delantero centro", "edad": 19, "valor": 25000 },
+    { "nombre": "Hather Cuesta", "pos": "Delantero centro", "edad": 19, "valor": 25000 }
+  ]
+}
