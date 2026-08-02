@@ -77,6 +77,7 @@ interface CalendarEvent {
   played?: boolean;
   result?: 'V' | 'E' | 'D';
   score?: string; // "3-1", ya orientado a favor/en contra de tu club
+  esHoy?: boolean; // el partido que te toca AHORA -- se resalta para no confundirlo con los demás
 }
 
 function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
@@ -557,6 +558,15 @@ export default function Dashboard({
   const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
   const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek);
   // rivalPos/rivalTotal: posición del rival en la tabla que corresponda (liga doméstica, grupo de
+  // Fecha completa del partido que viene, para la tarjeta de "próximo partido". Es la MISMA fecha
+  // que el calendario usa para ubicarlo, así que las dos vistas no pueden contradecirse.
+  const fechaDelProximoPartido = (() => {
+    const club = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    if (!club || !hasDatedSchedule(club.name)) return null;
+    const paso = fixturesAtStep(club.name, playerProfile.currentWeek);
+    return paso ? formatDate(paso.date) : null;
+  })();
+
   // Etiqueta corta de cada celda del calendario. En las ligas de Apertura/Clausura dice cuál de los
   // dos torneos es, que es la información que faltaba: son dos campeonatos distintos en el mismo año.
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string) => {
@@ -1516,6 +1526,7 @@ export default function Dashboard({
         played: !!marcador,
         result: marcador ? resultFromScore(marcador.myGoals, marcador.rivalGoals) : undefined,
         score: marcador ? `${marcador.myGoals}-${marcador.rivalGoals}` : undefined,
+        esHoy: paso === pasoActual,
       });
     }
   } else {
@@ -1585,6 +1596,12 @@ export default function Dashboard({
   // calendario solo mostraba fechas futuras y perdía todo rastro apenas se jugaba el partido (bug
   // reportado: "cuando pasa la fecha se borra del calendario"). Mismo truco de "pasos" que arriba,
   // pero contando hacia atrás con getRealDateFor...StepsBehind, del partido más reciente al más viejo.
+  //
+  // Solo para clubes SIN fechas reales. Con calendario real este bloque volvía a agregar los mismos
+  // partidos con fechas calculadas por semanas, y aparecían días con dos y tres partidos que no
+  // existen ("en el calendario salen otros partidos que no sé de dónde salen"). Ahí arriba el
+  // calendario ya incluye los jugados con su resultado, en su fecha verdadera.
+  if (!usaFechasEnCalendario) {
   let leagueStepsBehindUsed = 0;
   const nextLeagueStepBehind = () => {
     leagueStepsBehindUsed++;
@@ -1751,6 +1768,8 @@ export default function Dashboard({
         });
       });
   }
+
+  } // fin del historial por semanas (solo clubes sin fechas reales)
 
   // El mes que abre el calendario es el del partido de HOY, tomado del calendario real.
   //
@@ -2187,9 +2206,17 @@ export default function Dashboard({
                         <span className="absolute top-3 right-3 text-3xs font-mono font-black uppercase bg-slate-900/80 px-2 py-1 rounded text-gold-400 border border-slate-800">
                           {nextMatchOpponent.jornada}
                         </span>
-                        <span className="text-3xs text-burgundy-500 uppercase font-mono font-bold block mb-3 pr-16 truncate">
+                        {/* La fecha completa, no solo "9 abr" en la esquina: sin esto no quedaba
+                            claro que ese día era el del partido, y al abrir el Calendario para
+                            confirmarlo la confusión crecía. */}
+                        <span className="text-3xs text-burgundy-500 uppercase font-mono font-bold block mb-1 pr-16 truncate">
                           {nextMatchOpponent.competition}
                         </span>
+                        {fechaDelProximoPartido && (
+                          <span className="text-3xs text-slate-500 font-mono block mb-3 pr-16 truncate">
+                            {fechaDelProximoPartido}
+                          </span>
+                        )}
                         <div className="flex items-center gap-3">
                           {nextMatchOpponent.club ? (
                             <ClubBadge club={nextMatchOpponent.club} size={48} className="rounded-xl border border-slate-800 bg-slate-900 shrink-0" />
@@ -3399,11 +3426,25 @@ export default function Dashboard({
                           {week.map((day, di) => (
                             <div
                               key={di}
-                              className={`min-h-[68px] rounded-lg p-1.5 ${day ? 'bg-slate-950 border border-slate-850' : ''}`}
+                              className={`min-h-[68px] rounded-lg p-1.5 ${
+                                day
+                                  ? (calendarEventsByDay.get(day) || []).some(e => e.esHoy)
+                                    // El partido que te toca AHORA: sin esto la tarjeta decia
+                                    // "Libertadores" y en el calendario no se distinguia cual de
+                                    // todos era, que es de donde salia la confusion.
+                                    ? 'bg-gold-950/40 border-2 border-gold-500'
+                                    : 'bg-slate-950 border border-slate-850'
+                                  : ''
+                              }`}
                             >
                               {day && (
                                 <>
-                                  <span className="text-3xs text-slate-500 font-mono">{day}</span>
+                                  <span className="text-3xs font-mono flex items-center justify-between">
+                                    <span className={(calendarEventsByDay.get(day) || []).some(e => e.esHoy) ? 'text-gold-400 font-black' : 'text-slate-500'}>{day}</span>
+                                    {(calendarEventsByDay.get(day) || []).some(e => e.esHoy) && (
+                                      <span className="text-[7px] font-black text-gold-400 tracking-wide">HOY</span>
+                                    )}
+                                  </span>
                                   <div className="space-y-0.5 mt-0.5">
                                     {(calendarEventsByDay.get(day) || []).map((ev, ei) => {
                                       const resultColorClass = ev.result === 'V'
