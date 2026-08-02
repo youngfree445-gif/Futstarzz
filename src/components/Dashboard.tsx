@@ -1476,7 +1476,16 @@ export default function Dashboard({
         ULTIMATE_CLUBS_DATABASE, f.opponentName,
         f.competition.league, f.competition.kind, f.competition.name,
       );
-      const marcador = yaJugado && rival ? jugadosPorRival.get(rival.id) : undefined;
+      // Primero el resultado guardado por FECHA (ver datedResults): es el único que existe para los
+      // partidos de copa. Si no está, se cae al que guarda la tabla del motor, por rival.
+      const porFecha = playerProfile.datedResults?.find(r => r.date === f.date);
+      const marcador = porFecha
+        ? { myGoals: porFecha.myGoals, rivalGoals: porFecha.rivalGoals }
+        : (yaJugado && rival ? jugadosPorRival.get(rival.id) : undefined);
+      // `played` solo si además HAY marcador: la celda imprime `${result} ${score}` y sin marcador
+      // mostraba "undefined undefined". Pasa con los partidos de copa (Superliga, Copa Colombia),
+      // que no viven en ninguna tabla del motor y por eso no tienen resultado que buscar. Sin
+      // marcador se muestra el torneo, atenuado para que se note que ya pasó.
       calendarEvents.push({
         date: new Date(`${f.date}T00:00:00`),
         label: etiquetaCompetencia(f.competition, f.date),
@@ -1485,7 +1494,7 @@ export default function Dashboard({
           ? 'bg-slate-700 text-slate-300'
           : f.competition.kind === 'league' ? 'bg-gold-600 text-white' : 'bg-burgundy-500 text-slate-950',
         opponentClub: rival ?? undefined,
-        played: yaJugado,
+        played: !!marcador,
         result: marcador ? resultFromScore(marcador.myGoals, marcador.rivalGoals) : undefined,
         score: marcador ? `${marcador.myGoals}-${marcador.rivalGoals}` : undefined,
       });

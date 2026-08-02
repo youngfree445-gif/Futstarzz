@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE
@@ -88,7 +88,17 @@ function syncBackgroundCups(
   const myClub = CLUBS_DATABASE.find(c => c.id === clubId);
   let nextContinental = continentalCups;
   let nextUefa = uefaCups;
-  if (myClub) {
+
+  // Si el club tiene calendario con fechas reales, ese calendario ES su temporada completa: liga,
+  // copa nacional y continental. El motor no debe montarle además su propia Libertadores.
+  //
+  // Sin esto quedaban DOS Libertadores corriendo en paralelo para el mismo club -- la del calendario
+  // real (6 partidos entre abril y mayo) y la que el motor le arma por estar clasificado -- y la del
+  // motor le reclamaba el turno cuando el calendario decía otra cosa: ibas a jugar Libertadores y
+  // terminabas jugando la vuelta de la Superliga, o al revés.
+  const tieneCalendarioPropio = !!myClub && hasDatedSchedule(myClub.name);
+
+  if (myClub && !tieneCalendarioPropio) {
     const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id)
       ? 'libertadores'
       : getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id)
@@ -1213,6 +1223,8 @@ export default function App() {
     const clubEnCopaContinental = (() => {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
       if (!myClub) return false;
+      // Con calendario propio, sus copas son las del calendario: el motor no le agrega ninguna.
+      if (usaFechasReales) return false;
       return getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id)
         || getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id)
         || getChampionsParticipants(CLUBS_DATABASE).includes(myClub.id)
@@ -1792,6 +1804,9 @@ export default function App() {
     let foundShootoutMyName = '';
     // Título de copa ganado en este partido, para sumarlo al palmarés del perfil (ver cupTitles).
     let cupTitleWon: { competition: string; year: number; clubId: string } | null = null;
+    // Resultado del partido de hoy anclado a su fecha real (ver DatedResult): es la única forma de
+    // recuperar después el marcador de un partido de copa, que no queda en ninguna tabla del motor.
+    let datedResultToday: DatedResult | null = null;
 
     // Campeón de una copa del calendario real (Superliga, Copa Colombia, Libertadores...).
     //
@@ -1805,7 +1820,19 @@ export default function App() {
       const paso = fixturesAtStep(myClub.name, playerProfile.currentWeek);
       if (!paso) return;
       const fx = pickDatedPrimary(paso.fixtures);
-      if (!fx || fx.competition.kind === 'league') return;
+      if (!fx) return;
+
+      // El marcador se anota para TODO partido del calendario real, gane o pierda: es lo que el
+      // calendario lee después para mostrar el resultado.
+      datedResultToday = {
+        date: paso.date,
+        competition: fx.competition.name,
+        opponentName: fx.opponentName,
+        myGoals: results.golesMiEquipo,
+        rivalGoals: results.golesRival,
+      };
+
+      if (fx.competition.kind === 'league') return;
       if (!esUltimoPartidoDeLaCopa(myClub.name, fx.competition.id, paso.date)) return;
       if (results.golesMiEquipo <= results.golesRival) return;
 
@@ -2051,6 +2078,10 @@ export default function App() {
       cupTitles: cupTitleWon
         ? [...(playerProfile.cupTitles ?? []), cupTitleWon]
         : playerProfile.cupTitles,
+      // Se reemplaza el de la misma fecha si ya existía, para que rejugar un paso no duplique.
+      datedResults: datedResultToday
+        ? [...(playerProfile.datedResults ?? []).filter(r => r.date !== datedResultToday!.date), datedResultToday]
+        : playerProfile.datedResults,
       marketValue: Math.max(100000, playerProfile.marketValue + valueChg + viralMarketBonus),
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange - superstitionBreakPenalty)),
       matchesWithoutRest: playerProfile.matchesWithoutRest + 1,

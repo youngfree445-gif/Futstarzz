@@ -137,12 +137,30 @@ export interface PlayerProfile {
   // que no hay un championId que consultar y el título se anota acá al ganar la final.
   // Opcional: las partidas guardadas antes de que existiera este campo no lo traen.
   cupTitles?: CupTitle[];
+  // Resultados de los partidos del calendario real, por fecha. Ver DatedResult: sin esto los
+  // partidos de copa quedaban sin marcador en el calendario. Opcional por las partidas viejas.
+  datedResults?: DatedResult[];
 }
 
 export interface CupTitle {
   competition: string; // "Superliga de Colombia"
   year: number;
   clubId: string;
+}
+
+/**
+ * Resultado de un partido del calendario real, guardado por FECHA.
+ *
+ * Los partidos de copa (Superliga, Copa Colombia) no viven en ninguna tabla del motor -- sus cruces
+ * salen del calendario importado -- así que su marcador no se podía recuperar de ningún lado y el
+ * calendario los mostraba como "undefined undefined". Acá queda el resultado tal cual se jugó.
+ */
+export interface DatedResult {
+  date: string;      // YYYY-MM-DD
+  competition: string;
+  opponentName: string;
+  myGoals: number;
+  rivalGoals: number;
 }
 
 // --- Copa Libertadores / Copa Sudamericana ---
