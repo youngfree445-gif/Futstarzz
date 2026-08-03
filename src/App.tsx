@@ -1298,11 +1298,18 @@ export default function App() {
     // Es lo que permite jugar liga el domingo y copa el jueves de la misma semana -- con el modelo
     // por semanas uno de los dos se perdía, y así se caía el 26,3% de los partidos (265 de 1008).
     // Los clubes que todavía no tienen fechas cargadas siguen con el calendario semanal de abajo.
-    const usaFechasReales = !!myClubForSchedule && hasDatedSchedule(myClubForSchedule.name);
-    const datedStep = usaFechasReales && !inWorldCupBreak
+    const tieneFechasReales = !!myClubForSchedule && hasDatedSchedule(myClubForSchedule.name);
+    const datedStep = tieneFechasReales && !inWorldCupBreak
       ? fixturesAtStep(myClubForSchedule!.name, playerProfile.currentWeek)
       : null;
     const datedPrimary = datedStep ? pickDatedPrimary(datedStep.fixtures) : null;
+
+    // El calendario real cubre UNA temporada (el Junior tiene 54 partidos, hasta noviembre de 2026).
+    // Cuando se agota hay que volver al motor semanal, o la carrera se queda sin partidos para
+    // siempre: al simular una carrera completa, a partir de diciembre de 2026 no volvía a jugar
+    // nunca y el jugador nunca llegaba al retiro. `usaFechasReales` mira el PASO ACTUAL, no si el
+    // club tiene calendario, justamente para que el agotamiento devuelva el control al motor.
+    const usaFechasReales = tieneFechasReales && !!datedStep;
 
     const realWeekMatches = !inWorldCupBreak && myClubForSchedule && !usaFechasReales
       ? matchesThisWeek(myClubForSchedule.name, playerProfile.currentWeek)
@@ -1962,16 +1969,21 @@ export default function App() {
           && !previos.some(r => r.myGoals > r.rivalGoals)) return;
 
       salioCampeon = true;
+      // El año sale de la FECHA del partido, no del contador de semanas: con calendario real un
+      // paso es una fecha, no una semana, y a partir del paso 53 getSeasonYear ya creía que era el
+      // año siguiente (ver anioDelPaso).
+      const anioCopa = Number(paso.date.slice(0, 4));
       setChampionInfo({
         competition: fx.competition.name,
         clubName: myClub.name,
-        season: String(CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1),
+        season: String(anioCopa),
         badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
       });
       cupTitleWon = {
         competition: fx.competition.name,
-        year: CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1,
+        year: anioCopa,
         clubId: myClub.id,
+        tipo: 'copa',
       };
     })();
 
@@ -2017,7 +2029,11 @@ export default function App() {
           // Con calendario real el semestre sale de la FECHA del partido, que es la que de verdad
           // dice si cerraste el Apertura (junio) o el Clausura (noviembre).
           const formato = isApeturaClausuraLeague(myClub.league);
-          const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+          // Con calendario real el año sale de la fecha del partido: el contador de semanas se
+          // adelantaba y el Clausura jugado en noviembre de 2026 se anotaba como 2027.
+          const anio = pasoHoy
+            ? Number(pasoHoy.date.slice(0, 4))
+            : CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
           const semestreReal = pasoHoy ? torneoDelClubEnFecha(myClub.name, pasoHoy.date) : null;
           const semestre = semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura');
           const torneo = formato ? `${semestre} ${anio}` : `Temporada ${anio}`;

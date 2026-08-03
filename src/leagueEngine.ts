@@ -523,8 +523,13 @@ export function resolvePlayerMatchweek(
 // imposibles (12 puntos). En la realidad liga y copa se juegan en la misma semana -- el calendario
 // real ya lo hace, el Barcelona tiene 11 semanas con liga y Champions a la vez -- así que el
 // presupuesto no existe: ver getOrCreateApeturaClausuraSeason.
+//
+// Colombia pasó de 20 a 19: la fase regular es todos contra todos entre 20 clubes, o sea 19 fechas,
+// y los partidos que sobran en el calendario real son los PLAYOFFS. Con 20 el motor pedía una fecha
+// que el calendario real no tenía, y al simular una carrera del Junior la tabla dejaba de sumar
+// partidos desde mayo: el jugador seguía jugando fechas reales que ya no entraban en ninguna tabla.
 const REGULAR_PHASE_MATCHDAYS: Record<'colombia' | 'argentina', number> = {
-  colombia: 20,
+  colombia: 19,
   argentina: 16,
 };
 
@@ -812,7 +817,31 @@ export function getOrCreateApeturaClausuraSeason(
     season = resolveApeturaClausuraStep(season, clubs, currentWeek, format);
     stepsConsumed++;
   }
+
+  // El semestre puede haberse agotado sin que el contador de pasos lo note. Pasa con los clubes de
+  // calendario real: sus fechas las consume resolveApeturaClausuraWeek una por partido REAL, no una
+  // por semana, así que stepsConsumed se adelanta a targetSteps y el `while` de arriba no corre.
+  // La temporada quedaba con todos los partidos jugados y ningún playoff pendiente -- un estado
+  // terminal del que no salía nunca: getUpcomingApeturaClausuraMatch devolvía null para siempre y
+  // la carrera se quedaba sin partidos a partir de noviembre del primer año.
+  if (temporadaAgotada(season)) {
+    season = startNextSemester(season, clubs, currentWeek, format);
+    stepsConsumed++;
+  }
+
   return { ...season, stepsConsumed };
+}
+
+/** La temporada ya no tiene nada por jugar: ni fecha regular pendiente ni llave viva. */
+function temporadaAgotada(season: LeagueSeasonState): boolean {
+  const stage = season.stage ?? 'regular';
+  if (stage === 'regular') return !season.fixtures.some(f => !f.played);
+  if (stage === 'knockout') {
+    if (season.twoLegKnockout) return !!season.twoLegKnockout.championId;
+    if (season.knockout) return !!season.knockout.championId;
+    return true;
+  }
+  return stage === 'done';
 }
 
 // Resuelve la semana actual con el resultado REAL de tu partido (si te

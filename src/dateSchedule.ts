@@ -159,6 +159,21 @@ export function torneoDelClubEnFecha(clubName: string, date: string): string | n
   return f ? torneoDeFecha(f.competition, date) : null;
 }
 
+/**
+ * El año calendario del paso actual, sacado de la FECHA del partido.
+ *
+ * getSeasonYear cuenta semanas de 52, pero con calendario real un paso es una FECHA CON PARTIDO, no
+ * una semana: el Junior juega 54 pasos en todo 2026, así que a partir del paso 53 el contador de
+ * semanas creía que ya era el año 2 y los últimos partidos del Clausura quedaban fechados en 2027
+ * (el título salía como "Clausura 2027" jugándose el 8 de noviembre de 2026).
+ *
+ * Devuelve null si el club no tiene calendario real o si ya lo agotó: ahí manda getSeasonYear.
+ */
+export function anioDelPaso(clubName: string, step: number): number | null {
+  const paso = fixturesAtStep(clubName, step);
+  return paso ? Number(paso.date.slice(0, 4)) : null;
+}
+
 /** Un partido cuya ronda es la final del torneo. Las rondas vienen del calendario importado. */
 function esRondaFinal(round: string | undefined): boolean {
   if (!round) return false;
