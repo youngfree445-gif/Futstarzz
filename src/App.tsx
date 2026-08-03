@@ -1647,6 +1647,13 @@ export default function App() {
         }
 
         // Sin cruce (ya eliminado, o liga sin copa modelada): rival suelto del país, como antes.
+        // Ojo: "ya eliminado de la copa nacional real" (había cupKey, pero sigueEnCopa dio false) NO
+        // es lo mismo que "liga sin copa modelada" (nunca hubo cupKey). En el primer caso el partido
+        // de relleno seguía rotulándose con el nombre de la copa nacional (isDomesticCup en true sin
+        // condición) -- salía "Copa Colombia" para un partido que en realidad ya no es de la Copa
+        // Colombia, porque quedaste eliminado. Bug reportado: "toda la interfaz aunque me eliminen
+        // dice copa colombia".
+        const yaEliminadoDeLaCopa = !!(myClubForCup && cupKey) && !cupCruce;
         if (!opClubId) {
           const domesticRivals = myClubForCup
             ? CLUBS_DATABASE.filter(c => c.id !== myClubForCup.id && c.league === myClubForCup.league)
@@ -1662,9 +1669,12 @@ export default function App() {
             // genérico de rivales que ya usa la liga doméstica.
             opName = OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
           }
-          setActiveCompetitionName(null);
+          // Eliminado de la copa nacional real: este partido ya no es de esa copa, así que no puede
+          // llevar su cartel. Rótulo honesto en vez de "Copa Nacional" genérica (que seguía sonando
+          // a torneo real) o el nombre de la copa de la que ya saliste.
+          setActiveCompetitionName(yaEliminadoDeLaCopa ? 'Partido Amistoso' : null);
         }
-        setActiveDomesticCup(true);
+        setActiveDomesticCup(!yaEliminadoDeLaCopa);
       } else {
         setActiveDomesticCup(false);
       }

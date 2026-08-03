@@ -1624,8 +1624,21 @@ export default function Dashboard({
   // Copas del calendario real que sí tiene este club aunque su liga vaya por el motor: el
   // Barranquilla FC juega dos partidos de Copa BetPlay contra el Junior y son fecha real, con día
   // exacto. Se agregan acá para no perderlos al elegir la rama del motor.
+  //
+  // Solo se agregan los que estén CERCA de la semana actual (jugados hace poco o próximos): esta
+  // grilla sintética avanza mes a mes desde currentWeek, así que una fecha real fija (ej. julio) que
+  // ya quedó muy atrás en la carrera aparecía igual, clavada en medio de meses que ya no
+  // correspondían -- el calendario mostraba "julio" y al lado el arranque de la temporada
+  // siguiente (enero), como si el tiempo saltara. Bug reportado: "el calendario ... pasa de julio a
+  // enero". Con calendario_propio de solo 2 fechas de copa (todos los clubes de Segunda), esas 2
+  // fechas deben ubicarse una sola vez, en su momento real, y no perseguir a currentWeek para
+  // siempre.
+  const ventanaVisibleDias = 120; // ~4 meses a cada lado, igual de generoso que la grilla sintética
+  const hoyRealAprox = getRealDate(playerProfile.currentWeek).getTime();
   for (const f of fixturesForClub(currentClub.name)) {
     if (f.competition.kind === 'league') continue;
+    const fechaMs = new Date(`${f.date}T00:00:00`).getTime();
+    if (Math.abs(fechaMs - hoyRealAprox) > ventanaVisibleDias * 24 * 60 * 60 * 1000) continue;
     const rival = resolverClubDeCalendario(
       ULTIMATE_CLUBS_DATABASE, f.opponentName,
       f.competition.league, f.competition.kind, f.competition.name,
