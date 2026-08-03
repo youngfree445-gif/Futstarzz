@@ -16,6 +16,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const DB = 'src/playersDatabase.json';
 const DRY = process.argv.includes('--dry');
+// Pisa el valor de mercado de los jugadores que YA estaban, no solo el de los nuevos.
+const VALORES = process.argv.includes('--valores');
 const ARCHIVO = process.argv[2];
 
 if (!ARCHIVO || ARCHIVO.startsWith('--')) {
@@ -113,7 +115,7 @@ async function main() {
   // Los que siguen en el plantel: se marcan al emparejarlos, y los que queden sin marcar son los
   // que se fueron del club.
   const siguen = new Set();
-  let entran = 0, corregidos = 0;
+  let entran = 0, corregidos = 0, valoresCorregidos = 0;
 
   for (const j of players) {
     const pos = POS[j.pos];
@@ -128,6 +130,16 @@ async function main() {
         existente.posicion_especifica = pos;
         existente.categoria_tactica = CATEGORIA[pos];
         corregidos++;
+      }
+      // Con --valores se pisa además el valor de mercado con el de Transfermarkt. Va detrás de un
+      // flag porque lo normal es no tocarlo, pero algunos clubes arrastraban valores inflados x1000
+      // de una carga vieja -- 13 millones para un lateral de la Segunda B colombiana -- y esos sí
+      // hay que corregirlos.
+      if (VALORES && j.valor != null && existente.valor_mercado_eur !== j.valor) {
+        console.log(`   € ${j.nombre.padEnd(26)} ${existente.valor_mercado_eur} -> ${j.valor}`);
+        existente.valor_mercado_eur = j.valor;
+        existente.media_valoracion = estimarMedia(j.valor, j.edad ?? null);
+        valoresCorregidos++;
       }
     } else {
       const media = estimarMedia(j.valor ?? 0, j.edad ?? null);
@@ -150,7 +162,8 @@ async function main() {
   for (const p of salen) console.log(`   - ${p.nombre_completo}`);
 
   console.log(`\n${teamName}: ${actuales.length} -> ${players.length}`);
-  console.log(`  entran ${entran}, salen ${salen.length}, posiciones corregidas ${corregidos}`);
+  console.log(`  entran ${entran}, salen ${salen.length}, posiciones corregidas ${corregidos}`
+    + (VALORES ? `, valores corregidos ${valoresCorregidos}` : ''));
 
   if (DRY) { console.log('\n(--dry: no se escribió nada)'); return; }
 
