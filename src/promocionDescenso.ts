@@ -13,12 +13,14 @@
 //               ANUAL acumulada, sin promedio plurianual.
 //   Holanda   → bajan 2 directo por tabla anual, y el 16° se juega la categoría en un PLAY-OFF
 //               contra seis de la Eerste Divisie. No hay promedio ni torneos semestrales.
+//   Brasil    → intercambio DIRECTO y SIMÉTRICO: bajan los 4 últimos de la Serie A y suben los 4
+//               primeros de la Serie B. Sin play-off, sin liguilla y sin promedio.
 //
 // Por eso cada país tiene su propia función y su propia constante de cupos. La puerta de entrada
 // es `reglasDeLiga`, que devuelve null para cualquier liga sin sistema implementado: así ninguna
 // otra liga hereda por accidente las reglas de las demás.
 
-export type SistemaAscenso = 'colombia' | 'argentina' | 'holanda';
+export type SistemaAscenso = 'colombia' | 'argentina' | 'holanda' | 'brasil';
 
 export interface ReglasAscenso {
   sistema: SistemaAscenso;
@@ -68,6 +70,17 @@ const REGLAS: Record<string, ReglasAscenso> = {
     ventanaAnios: 1,
     puestoPlayoff: 16,
   },
+  // CBF: el más simple de todos. Intercambio directo y simétrico entre Serie A y Serie B -- bajan
+  // los puestos 17 a 20 y suben los cuatro primeros de la B. Sin promoción, sin liguilla y sin
+  // promedio: 38 fechas de todos contra todos y la tabla general manda. Por eso NO lleva
+  // puestoPlayoff, y sin ese campo `resolverMovimientos` ni se asoma al cruce.
+  Brasileña: {
+    sistema: 'brasil',
+    cuposDescenso: 4,
+    cuposAscenso: 4,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+  },
 };
 
 /** Reglas de esa liga, o null si no tiene sistema implementado. */
@@ -82,6 +95,11 @@ export interface RegistroAnual {
   year: number;     // año de carrera (1, 2, 3...)
   puntos: number;
   partidos: number;
+  // Desempates. Opcionales porque las partidas viejas se guardaron sin ellos: si faltan, el
+  // desempate cae en 0 y el orden lo decide el puntaje, que es como venía funcionando.
+  victorias?: number;
+  golesFavor?: number;
+  golesContra?: number;
 }
 
 export interface FilaDescenso {
@@ -89,9 +107,12 @@ export interface FilaDescenso {
   clubName: string;
   puntos: number;
   partidos: number;
-  /** puntos ÷ partidos en Colombia; los puntos del año en Argentina. */
+  /** puntos ÷ partidos en Colombia; los puntos del año en Argentina, Holanda y Brasil. */
   valor: number;
   anios: number;
+  victorias: number;
+  golesFavor: number;
+  golesContra: number;
 }
 
 /**
@@ -109,16 +130,24 @@ export function tablaDeDescenso(
   if (!reglas) return [];
 
   const desde = anioActual - reglas.ventanaAnios + 1;
-  const porClub = new Map<string, { puntos: number; partidos: number; anios: Set<number> }>();
+  type Acum = {
+    puntos: number; partidos: number; anios: Set<number>;
+    victorias: number; golesFavor: number; golesContra: number;
+  };
+  const porClub = new Map<string, Acum>();
 
   for (const r of registros) {
     // Solo esta liga y solo la ventana que corresponde: sin el filtro por liga, un club argentino
     // entraría en la tabla colombiana.
     if (r.league !== league) continue;
     if (r.year < desde || r.year > anioActual) continue;
-    const acc = porClub.get(r.clubId) ?? { puntos: 0, partidos: 0, anios: new Set<number>() };
+    const acc = porClub.get(r.clubId)
+      ?? { puntos: 0, partidos: 0, anios: new Set<number>(), victorias: 0, golesFavor: 0, golesContra: 0 };
     acc.puntos += r.puntos;
     acc.partidos += r.partidos;
+    acc.victorias += r.victorias ?? 0;
+    acc.golesFavor += r.golesFavor ?? 0;
+    acc.golesContra += r.golesContra ?? 0;
     acc.anios.add(r.year);
     porClub.set(r.clubId, acc);
   }
@@ -135,8 +164,19 @@ export function tablaDeDescenso(
         ? (a.partidos > 0 ? a.puntos / a.partidos : 0)
         : a.puntos,
       anios: a.anios.size,
+      victorias: a.victorias,
+      golesFavor: a.golesFavor,
+      golesContra: a.golesContra,
     }))
-    .sort((x, y) => y.valor - x.valor || y.puntos - x.puntos);
+    // Desempate del Brasileirão: más victorias, luego diferencia de gol, luego goles a favor. Da
+    // igual en las otras ligas -- solo entra a jugar cuando dos clubes empatan en puntos, y ahí
+    // ordenar por goles siempre es mejor que dejarlo al azar del orden de inserción.
+    .sort((x, y) =>
+      y.valor - x.valor
+      || y.puntos - x.puntos
+      || y.victorias - x.victorias
+      || (y.golesFavor - y.golesContra) - (x.golesFavor - x.golesContra)
+      || y.golesFavor - x.golesFavor);
 }
 
 /** Cómo se resolvió cada ascenso, para poder contarlo en pantalla. */

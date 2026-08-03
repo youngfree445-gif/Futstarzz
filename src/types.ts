@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import type { RegistroAnual } from './promocionDescenso';
+
 export type Position = 'Delantero' | 'Mediocampista' | 'Defensor' | 'Arquero';
 export type Nationality = string;
 
@@ -140,10 +142,11 @@ export interface PlayerProfile {
   // Resultados de los partidos del calendario real, por fecha. Ver DatedResult: sin esto los
   // partidos de copa quedaban sin marcador en el calendario. Opcional por las partidas viejas.
   datedResults?: DatedResult[];
-  // Puntos y partidos de cada club por año, para la tabla de promedios del descenso colombiano
-  // (ver promocionDescenso.ts). El descenso NO sale de la tabla de posiciones sino de un promedio
-  // plurianual, así que hace falta guardar el historial. Solo liga colombiana.
-  historialAnual?: { clubId: string; league: string; year: number; puntos: number; partidos: number }[];
+  // Lo que sumó cada club por año, para resolver ascensos y descensos (ver promocionDescenso.ts).
+  // Hace falta guardarlo porque Colombia no baja por la tabla de posiciones sino por un promedio
+  // plurianual, y porque Brasil desempata por victorias y goles, que se pierden al cerrar el año.
+  // El tipo se importa en vez de repetirse: escrito a mano se desincronizó al sumar los desempates.
+  historialAnual?: RegistroAnual[];
   // Clubes que cambiaron de división al cerrar un año: clubId -> división actual. Se aplica encima
   // de CLUBS_DATABASE, que es estático. Opcional por las partidas viejas.
   divisionOverrides?: Record<string, 1 | 2>;

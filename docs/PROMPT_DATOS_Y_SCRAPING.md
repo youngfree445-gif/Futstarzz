@@ -117,11 +117,18 @@ Documentados en `docs/`:
 
 **Implementado** (`src/promocionDescenso.ts`):
 
-| | Colombia | Argentina | Holanda |
-|---|---|---|---|
-| Descienden | 2 | 4 | 2 directo + el 16° si pierde el play-off |
-| Criterio | **Promedio** (pts ÷ partidos), ventana 3 años | Tabla del año, sin promedio | Tabla del año, sin promedio |
-| Ascienden | 2 (campeón doble / líder anual / Gran Final / Repechaje) | 2 (Final a partido único + Reducido) | 2 (campeón y subcampeón) + el ganador del play-off |
+| | Colombia | Argentina | Holanda | Brasil |
+|---|---|---|---|---|
+| Descienden | 2 | 4 | 2 directo + el 16° si pierde el play-off | 4 (puestos 17-20) |
+| Criterio | **Promedio** (pts ÷ partidos), ventana 3 años | Tabla del año, sin promedio | Tabla del año, sin promedio | Tabla del año, sin promedio |
+| Ascienden | 2 (campeón doble / líder anual / Gran Final / Repechaje) | 2 (Final a partido único + Reducido) | 2 (campeón y subcampeón) + el ganador del play-off | 4 (los 4 primeros de la Serie B) |
+
+**Brasil es el más simple:** intercambio directo y simétrico, 38 fechas de todos contra todos, sin
+play-off ni liguilla. Al no declarar `puestoPlayoff`, `resolverMovimientos` ni se asoma al cruce.
+Su desempate — **victorias → diferencia de gol → goles a favor** — obligó a guardar `victorias`,
+`golesFavor` y `golesContra` en `RegistroAnual`: antes solo se persistían puntos y partidos, así que
+al cerrar el año los desempates se perdían. Son opcionales, y si faltan (partidas viejas) el orden
+lo decide el puntaje, como venía funcionando.
 
 **El detalle del play-off neerlandés:** no es un cruce parejo. El 16° de la Eredivisie entra recién
 en la 2ª ronda y le alcanza con **ganar 2 llaves**; los seis de la Eerste Divisie tienen que ganar
@@ -234,6 +241,7 @@ Ecuatoriana (20/28), Italiana (33/40).
   | Alemana | 18 | 18 | falta |
   | Francesa | 18 | 6 | falta (y faltan clubes de Ligue 2) |
   | Holandesa | 17 | 16 | ✅ implementado |
+  | Brasileña | 20 | 20 | ✅ implementado |
 
   (Contar SIEMPRE con el módulo compilado, no con regex sobre `data.ts` — ver §5.)
 - **Resto de ligas**: sin ascenso/descenso. Buscar el reglamento vigente antes de tocar código.

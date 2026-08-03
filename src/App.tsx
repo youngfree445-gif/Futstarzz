@@ -427,9 +427,9 @@ function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: nu
 /**
  * Cierre de año: guarda lo que sumó cada club y aplica ascensos y descensos.
  *
- * Solo en las ligas con reglamento cargado (Colombia, Argentina y Holanda, ver promocionDescenso.ts).
- * Cada una usa SU criterio: Colombia baja 2 por promedio plurianual, Argentina 4 por la tabla del
- * año, Holanda 2 por tabla más un play-off por el 16°. Las demás ligas no se tocan.
+ * Solo en las ligas con reglamento cargado (ver promocionDescenso.ts). Cada una usa SU criterio:
+ * Colombia baja 2 por promedio plurianual, Argentina 4 por la tabla del año, Holanda 2 por tabla
+ * más un play-off por el 16°, Brasil 4 directos. Las demás ligas no se tocan.
  */
 function applyPromotionRelegationIfNewSeason(
   profile: PlayerProfile, previousWeek: number, newWeek: number,
@@ -450,6 +450,8 @@ function applyPromotionRelegationIfNewSeason(
       historial.push({
         clubId: club.id, league: club.league, year: anioCerrado,
         puntos: fila.puntos, partidos: fila.pj,
+        // Desempates: Brasil ordena por victorias, diferencia de gol y goles a favor.
+        victorias: fila.g, golesFavor: fila.gf, golesContra: fila.gc,
       });
     }
   }
@@ -466,12 +468,18 @@ function applyPromotionRelegationIfNewSeason(
       CLUBS_DATABASE.find(c => c.id === id)?.name ?? '')
       .filter(f => divisionDe(CLUBS_DATABASE.find(c => c.id === f.clubId)!) === 1);
 
-    // La segunda ordenada por lo que sumó ese año: los mejores son los que suben.
+    // La segunda ordenada por lo que sumó ese año: los mejores son los que suben. Mismo desempate
+    // que la tabla de descenso, para que la Serie B no ascienda por orden de inserción.
+    const dg = (h: typeof historial[number]) => (h.golesFavor ?? 0) - (h.golesContra ?? 0);
     const segunda = historial
       .filter(h => h.league === league && h.year === anioCerrado)
       .map(h => ({ h, club: CLUBS_DATABASE.find(c => c.id === h.clubId)! }))
       .filter(x => x.club && divisionDe(x.club) === 2)
-      .sort((a, b) => b.h.puntos - a.h.puntos)
+      .sort((a, b) =>
+        b.h.puntos - a.h.puntos
+        || (b.h.victorias ?? 0) - (a.h.victorias ?? 0)
+        || dg(b.h) - dg(a.h)
+        || (b.h.golesFavor ?? 0) - (a.h.golesFavor ?? 0))
       .map(x => ({ clubId: x.club.id, clubName: x.club.name }));
 
     // Llaves del play-off (solo Holanda). Pesa la reputación pero deja pasar la sorpresa: sin azar,
