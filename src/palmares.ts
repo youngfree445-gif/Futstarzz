@@ -13,7 +13,9 @@
 import { CupState, LeagueSeasonState, PlayerProfile, UefaCupState, WorldCupState } from './types';
 import { CAREER_START_YEAR, sortTable } from './leagueEngine';
 
-export type TipoTrofeo = 'liga' | 'continental' | 'mundial';
+// 'copa' son las copas NACIONALES (Copa BetPlay, Copa del Rey): se separan de las continentales
+// para que la vitrina no las muestre con el mismo ícono que una Libertadores.
+export type TipoTrofeo = 'liga' | 'copa' | 'continental' | 'mundial';
 
 export interface Trofeo {
   id: string;            // estable: sirve de key en React y para deduplicar
@@ -134,7 +136,9 @@ export function getPalmares(
       nombre: t.competition,
       detalle: t.torneo ? `${t.torneo} ${t.year}` : String(t.year),
       clubName: nombreDe(t.clubId),
-      tipo: t.tipo === 'liga' ? 'liga' : 'continental',
+      // Las copas nacionales (Copa BetPlay, Superliga) van como 'copa', no como 'continental':
+      // compartir tipo con la Libertadores les daba el mismo ícono en la vitrina.
+      tipo: t.tipo === 'liga' ? 'liga' : 'copa',
       orden: t.year,
     });
   }
@@ -156,6 +160,7 @@ export function getPalmares(
   }
 
   // Más nuevo primero, y a igualdad de año el trofeo más importante arriba.
-  const peso: Record<TipoTrofeo, number> = { mundial: 0, continental: 1, liga: 2 };
+  // La copa nacional pesa menos que la liga: ganar el campeonato vale más que la copa.
+  const peso: Record<TipoTrofeo, number> = { mundial: 0, continental: 1, liga: 2, copa: 3 };
   return trofeos.sort((a, b) => (b.orden - a.orden) || (peso[a.tipo] - peso[b.tipo]));
 }

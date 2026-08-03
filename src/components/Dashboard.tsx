@@ -2149,7 +2149,9 @@ export default function Dashboard({
                             className="flex items-center gap-2.5 bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2"
                           >
                             <span className="text-base leading-none shrink-0" aria-hidden="true">
-                              {t.tipo === 'mundial' ? '🌎' : t.tipo === 'continental' ? '🏆' : '🥇'}
+                              {/* 'copa' es la copa NACIONAL: ganarla es un título, así que no puede
+                                  llevar 🥈 (se lee como subcampeón). Va con la copa de asas. */}
+                              {t.tipo === 'mundial' ? '🌎' : t.tipo === 'continental' ? '🏆' : t.tipo === 'copa' ? '🏅' : '🥇'}
                             </span>
                             <span className="min-w-0 flex-1">
                               <span className="block text-2xs font-black text-white truncate">{t.nombre}</span>
