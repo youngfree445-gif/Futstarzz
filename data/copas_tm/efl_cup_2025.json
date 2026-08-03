@@ -1,0 +1,57 @@
+{
+  "fuente": "https://www.transfermarkt.co/efl-cup/gesamtspielplan/pokalwettbewerb/CGB?saison_id=2025",
+  "id": "cgb_tm",
+  "name": "EFL Cup",
+  "kind": "domestic_cup",
+  "league": "Inglesa",
+  "season": "2025/26",
+  "nota": "Desde la 2ª ronda, que es donde entran los clubes de Premier. La semifinal es a ida y vuelta.",
+  "matches": [
+    { "round": "2ª Ronda", "date": "2025-08-26", "home": "Wolverhampton Wanderers", "away": "West Ham United" },
+    { "round": "2ª Ronda", "date": "2025-08-26", "home": "Bournemouth", "away": "Brentford" },
+    { "round": "2ª Ronda", "date": "2025-08-26", "home": "Millwall", "away": "Coventry City" },
+    { "round": "2ª Ronda", "date": "2025-08-26", "home": "Norwich", "away": "Southampton" },
+    { "round": "2ª Ronda", "date": "2025-08-26", "home": "Sunderland", "away": "Huddersfield Town" },
+    { "round": "2ª Ronda", "date": "2025-08-26", "home": "Burnley", "away": "Derby" },
+    { "round": "2ª Ronda", "date": "2025-08-26", "home": "Sheffield Wednesday", "away": "Leeds United" },
+    { "round": "2ª Ronda", "date": "2025-08-27", "home": "Everton", "away": "Mansfield Town" },
+    { "round": "2ª Ronda", "date": "2025-08-27", "home": "Fulham", "away": "Bristol City" },
+    { "round": "2ª Ronda", "date": "2025-08-27", "home": "Oxford United", "away": "Brighton & Hove Albion" },
+    { "round": "2ª Ronda", "date": "2025-08-27", "home": "Grimsby Town", "away": "Manchester United" },
+
+    { "round": "3ª Ronda", "date": "2025-09-16", "home": "Crystal Palace", "away": "Millwall" },
+    { "round": "3ª Ronda", "date": "2025-09-16", "home": "Brentford", "away": "Aston Villa" },
+    { "round": "3ª Ronda", "date": "2025-09-17", "home": "Swansea City", "away": "Nottingham Forest" },
+    { "round": "3ª Ronda", "date": "2025-09-23", "home": "Barnsley", "away": "Brighton & Hove Albion" },
+    { "round": "3ª Ronda", "date": "2025-09-23", "home": "Burnley", "away": "Cardiff City" },
+    { "round": "3ª Ronda", "date": "2025-09-23", "home": "Fulham", "away": "Cambridge United" },
+    { "round": "3ª Ronda", "date": "2025-09-23", "home": "Lincoln City", "away": "Chelsea" },
+    { "round": "3ª Ronda", "date": "2025-09-23", "home": "Wolverhampton Wanderers", "away": "Everton" },
+    { "round": "3ª Ronda", "date": "2025-09-23", "home": "Liverpool", "away": "Southampton" },
+    { "round": "3ª Ronda", "date": "2025-09-24", "home": "Huddersfield Town", "away": "Manchester City" },
+    { "round": "3ª Ronda", "date": "2025-09-24", "home": "Newcastle United", "away": "Bradford City" },
+    { "round": "3ª Ronda", "date": "2025-09-24", "home": "Tottenham Hotspur", "away": "Doncaster Rovers" },
+    { "round": "3ª Ronda", "date": "2025-09-24", "home": "Port Vale", "away": "Arsenal" },
+
+    { "round": "4ª Ronda", "date": "2025-10-28", "home": "Grimsby Town", "away": "Brentford" },
+    { "round": "4ª Ronda", "date": "2025-10-28", "home": "Wycombe", "away": "Fulham" },
+    { "round": "4ª Ronda", "date": "2025-10-28", "home": "Wrexham", "away": "Cardiff City" },
+    { "round": "4ª Ronda", "date": "2025-10-29", "home": "Arsenal", "away": "Brighton & Hove Albion" },
+    { "round": "4ª Ronda", "date": "2025-10-29", "home": "Liverpool", "away": "Crystal Palace" },
+    { "round": "4ª Ronda", "date": "2025-10-29", "home": "Swansea City", "away": "Manchester City" },
+    { "round": "4ª Ronda", "date": "2025-10-29", "home": "Chelsea", "away": "Wolverhampton Wanderers" },
+    { "round": "4ª Ronda", "date": "2025-10-29", "home": "Newcastle United", "away": "Tottenham Hotspur" },
+
+    { "round": "Cuartos de Final", "date": "2025-12-16", "home": "Cardiff City", "away": "Chelsea" },
+    { "round": "Cuartos de Final", "date": "2025-12-17", "home": "Manchester City", "away": "Brentford" },
+    { "round": "Cuartos de Final", "date": "2025-12-17", "home": "Newcastle United", "away": "Fulham" },
+    { "round": "Cuartos de Final", "date": "2025-12-23", "home": "Crystal Palace", "away": "Arsenal" },
+
+    { "round": "Semifinal (Ida)", "date": "2026-01-13", "home": "Newcastle United", "away": "Manchester City" },
+    { "round": "Semifinal (Ida)", "date": "2026-01-14", "home": "Chelsea", "away": "Arsenal" },
+    { "round": "Semifinal (Vuelta)", "date": "2026-02-03", "home": "Arsenal", "away": "Chelsea" },
+    { "round": "Semifinal (Vuelta)", "date": "2026-02-04", "home": "Manchester City", "away": "Newcastle United" },
+
+    { "round": "Final", "date": "2026-03-22", "home": "Arsenal", "away": "Manchester City" }
+  ]
+}
