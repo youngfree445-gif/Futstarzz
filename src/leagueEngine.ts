@@ -714,12 +714,15 @@ function resolveApeturaClausuraStep(
     const nextMw = season.fixtures.find(f => !f.played)?.matchweek;
 
     if (nextMw === undefined) {
-      // Fase regular terminada: arma top 8 (o top 8 por zona en Argentina) y pasa a la siguiente etapa.
+      // Fase regular terminada: se ARMA el cuadro y se corta acá. Antes se encadenaba una llamada
+      // recursiva que resolvía la primera ronda en el mismo paso, así que el jugador clasificaba a
+      // cuartos y su partido se jugaba solo: aparecía eliminado sin haberlo jugado. La primera
+      // ronda se juega en el paso siguiente, que es cuando la pantalla se la ofrece.
       if (format === 'colombia') {
         // Formato real vigente desde 2024, igual en Apertura y Clausura: Cuartos, Semifinal y
         // Final, TODO a ida y vuelta -- ver twoLegKnockout más abajo.
         const top8 = sortTable(season.table).slice(0, 8).map(r => r.clubId!);
-        return resolveApeturaClausuraStep({ ...season, stage: 'knockout', twoLegKnockout: seedTwoLegBracket(top8) }, clubs, currentWeek, format, forced);
+        return { ...season, stage: 'knockout', twoLegKnockout: seedTwoLegBracket(top8) };
       }
       // Argentina: top 8 de cada zona por separado
       const { zoneA, zoneB } = assignArgentinaZones(clubs.map(c => c.id));
@@ -727,7 +730,7 @@ function resolveApeturaClausuraStep(
       const top8A = zoneTable(zoneA).slice(0, 8).map(r => r.clubId!);
       const top8B = zoneTable(zoneB).slice(0, 8).map(r => r.clubId!);
       const rankedClubIds = [...top8A, ...top8B]; // 16 equipos, seed 1-16 (zona A primero, zona B después)
-      return resolveApeturaClausuraStep({ ...season, stage: 'knockout', knockout: seedBracket(rankedClubIds) }, clubs, currentWeek, format, forced);
+      return { ...season, stage: 'knockout', knockout: seedBracket(rankedClubIds) };
     }
 
     let fixtures = season.fixtures;
@@ -1190,8 +1193,12 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
   if (cup.stage === 'groups') {
     const allPlayed = cup.groups.every(g => g.fixtures.every(f => f.played));
     if (allPlayed) {
+      // Se ARMA el cuadro y se corta acá: la recursión resolvía los octavos enteros en el mismo
+      // paso en que se creaban, así que el jugador clasificaba a octavos y su partido se jugaba
+      // solo -- aparecía eliminado sin haber jugado. Los octavos se juegan en el paso siguiente,
+      // que es cuando la pantalla le ofrece el partido.
       const seeded = seedFromCupGroups(cup.groups);
-      return resolveCupStep({ ...cup, stage: 'knockout', knockout: seedBracket(seeded) }, allClubs, forced);
+      return { ...cup, stage: 'knockout', knockout: seedBracket(seeded) };
     }
     return { ...cup, groups: resolveCupGroupsStep(cup.groups, allClubs, forced) };
   }
@@ -1560,12 +1567,14 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
     if (allPlayed) {
       const ranked = sortTable(cup.table).map(t => t.clubId!);
       const playoffPool = ranked.slice(UEFA_TOP_DIRECT, UEFA_PLAYOFF_ZONE_END);
+      // Se arma el cuadro y se corta: encadenar la recursión resolvía la primera ronda en el mismo
+      // paso y el partido del jugador se jugaba solo, sin que él lo viera.
       if (playoffPool.length >= 2) {
-        return resolveUefaCupStep({ ...cup, stage: 'playoff', playoff: seedSingleTwoLegRound(playoffPool) }, allClubs, forced);
+        return { ...cup, stage: 'playoff', playoff: seedSingleTwoLegRound(playoffPool) };
       }
       // Campo chico (no llega a 24 clasificados): saltamos directo a octavos con el top 8.
       const direct = ranked.slice(0, UEFA_TOP_DIRECT);
-      return resolveUefaCupStep({ ...cup, stage: 'knockout', knockout: seedTwoLegBracket(direct) }, allClubs, forced);
+      return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(direct) };
     }
     const { fixtures, table } = resolveUefaLeaguePhaseStep(cup.fixtures, cup.table, allClubs, forced);
     return { ...cup, fixtures, table };
@@ -1578,7 +1587,7 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
       const ranked = sortTable(cup.table).map(t => t.clubId!);
       const direct = ranked.slice(0, UEFA_TOP_DIRECT);
       const playoffWinners = cup.playoff.map(t => t.winnerId!);
-      return resolveUefaCupStep({ ...cup, stage: 'knockout', knockout: seedTwoLegBracket([...direct, ...playoffWinners]) }, allClubs, forced);
+      return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket([...direct, ...playoffWinners]) };
     }
     const playoff = resolveSingleTwoLegRoundStep(cup.playoff, allClubs, forced);
     return { ...cup, playoff };
