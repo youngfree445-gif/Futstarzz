@@ -31,6 +31,13 @@ const LIGAS = {
   MLS1: { league: 'Estadounidense', nombre: 'MLS' },
   TR1: { league: 'Turca', nombre: 'Süper Lig' },
   BE1: { league: 'Belga', nombre: 'Pro League' },
+  // Copas nacionales. Van con kind 'domestic_cup' para que el motor las trate como copa y no como
+  // liga: son a eliminación directa y no suman a la tabla.
+  FAC: { league: 'Inglesa', nombre: 'FA Cup', kind: 'domestic_cup' },
+  CGB: { league: 'Inglesa', nombre: 'EFL Cup', kind: 'domestic_cup' },
+  CDR: { league: 'Española', nombre: 'Copa del Rey', kind: 'domestic_cup' },
+  DFB: { league: 'Alemana', nombre: 'DFB-Pokal', kind: 'domestic_cup' },
+  CIT: { league: 'Italiana', nombre: 'Coppa Italia', kind: 'domestic_cup' },
 };
 
 // Nombre en ALLgames -> nombre en data.ts, cuando la normalización no alcanza porque las dos
@@ -125,14 +132,14 @@ async function main() {
     const fechas = matches.map(m => m.date).sort();
     // Por debajo del 70% el calendario queda tan incompleto que es peor que el generado: se
     // descarta entero en vez de dejar una liga con la mitad de las fechas faltando.
-    if (cobertura < 0.7) {
+    if (cobertura < 0.7 && (cfg.kind ?? 'league') === 'league') {
       console.log(`${cfg.nombre.padEnd(16)} DESCARTADA -- solo ${(cobertura*100).toFixed(0)}% de los clubes existen en el juego`);
       continue;
     }
     salida.push({
       id: compId.toLowerCase(),
       name: cfg.nombre,
-      kind: 'league',
+      kind: cfg.kind ?? 'league',
       league: cfg.league,
       firstDate: fechas[0] ?? null,
       lastDate: fechas[fechas.length - 1] ?? null,
