@@ -172,10 +172,12 @@ del JSX que la consume — el archivo tiene ~3700 líneas y el TDZ ya dejó la p
 
 ## 7. LO QUE FALTA (estado real, medido el 2-ago-2026)
 
-### 7.1 Calendario real — 56 de 643 clubes
+### 7.1 Calendario real — 151 de 643 clubes
 
-Solo Colombia tiene fechas reales. **El resto del mundo sigue con calendario generado**, que es
-la causa de que los torneos no cierren.
+Colombia y las cinco grandes de Europa ya tienen fechas reales (importadas de `ALLgames.json`,
+ver §7.4). **El resto del mundo sigue con calendario generado.**
+
+Ya con fechas: Colombiana 30, Inglesa 20, Italiana 20, Española 20, Alemana 18, Francesa 16.
 
 | Liga | Clubes | Con plantel | Con fechas |
 |---|---|---|---|
@@ -184,15 +186,13 @@ la causa de que los torneos no cierren.
 | Uruguaya | 16 | 10 | 4 |
 | Ecuatoriana | 28 | 20 | 3 |
 | Peruana | 19 | 16 | 3 |
-| Inglesa | 44 | 44 | **1** |
-| Española | 42 | 39 | **0** |
-| Italiana | 40 | 33 | **0** |
-| Alemana | 36 | 36 | **0** |
 | Mexicana | 33 | 32 | **0** |
-| Francesa | 24 | 23 | **0** |
+| Holandesa | 17 | 13 | **0** |
+| Portuguesa | 18 | 12 | **0** |
 
-**Siguiente paso sugerido:** Argentina (ya tiene reglamento cargado), después las 5 grandes de
-Europa. El scraper ya soporta agregar ligas: solo hay que sumar los IDs de ESPN en `LIGAS`.
+**Siguiente paso sugerido:** Argentina (ya tiene reglamento cargado). Ojo: Holanda, Portugal,
+Brasil, MLS y Turquía **están en `ALLgames.json`** pero se descartaron porque menos del 70% de sus
+clubes existen en el juego — primero hay que crear esos clubes, después el calendario entra solo.
 
 ### 7.2 Planteles genéricos — 82 clubes sin jugadores reales
 
@@ -210,23 +210,29 @@ Ecuatoriana (20/28), Italiana (33/40).
 - **Resto de ligas**: ninguna tiene ascenso/descenso. Hay que buscar el reglamento vigente de cada
   una antes de tocar código.
 
-### 7.4 Basura para borrar (~141 MB)
+### 7.4 JSON sin importar — OJO, no todo es basura
 
-JSON en `src/` que **nadie importa**:
+**Lección aprendida: "nadie lo importa" NO significa "no sirve".** Al revisarlos uno por uno
+aparecieron datos valiosos que casi se borran.
 
-```
-ALLgames.json                70M
-games.json                   70M
-clubs.json                  488K
-competitions.json            28K
-fifa_ranking_2026-06-08.json 44K
-most_valuable_teams (1).json 28K
-national_teams.json          76K
-schedule_2026.json           20K
-world_cup.json              8.0K
-```
+**Tienen datos que SÍ sirven — no borrar:**
 
-*(Verificar de nuevo antes de borrar: `grep -rl "<archivo>" src/`.)*
+| Archivo | Contenido |
+|---|---|
+| `ALLgames.json` (70M) | **88.958 partidos con FECHA EXACTA** de Transfermarkt, hasta la temporada 2025/26. Incluye Premier, LaLiga, Serie A, Bundesliga y Ligue 1 completas — justo las ligas que no tenían fechas |
+| `schedule_2026.json` (20K) | Calendario real del **Mundial 2026**, 72 partidos con fecha |
+| `clubs.json` (488K) | 796 clubes con market value, squad size, edad promedio |
+| `national_teams.json` (76K) | 124 selecciones con escudo y datos |
+
+**Duplicado exacto — borrar sin riesgo:**
+- `games.json` (70M) — mismo contenido que `ALLgames.json`, verificado registro a registro
+
+**Descartables:**
+- `world_cup.json` (8K) — historial de Mundiales viejos
+- `fifa_ranking_2026-06-08.json` (44K) — ranking de un día puntual
+- `competitions.json` (28K), `most_valuable_teams (1).json` (28K)
+
+*(Verificar de nuevo antes de borrar: `grep -rl "<archivo>" src/` **y abrir el archivo**.)*
 
 Además: `src/realCalendar.ts` (1.1 MB, el calendario **viejo por semanas**) y `src/realSchedule.ts`
 siguen vivos porque los clubes sin fechas reales todavía los usan. **Se podrán borrar recién cuando
