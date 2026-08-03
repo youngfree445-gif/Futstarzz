@@ -424,7 +424,7 @@ export const CLUBS_DATABASE: Club[] = [
     reputation: 2,
     initialSalary: 550,
     marketValue: 1800000,
-    starPlayers: ['Yaser Asprilla (Jr)', 'Ferney Angulo'],
+    starPlayers: ['Harold Ortiz (LB)', 'Pablo Urrutia (RW)', 'Jhon Aponzá (ST)', 'Euler Obando (GK)', 'Heiner Mosquera (ST)', 'Yasert Morán (CB)', 'Kevin Hurtado (CB)', 'Didier Beitar (LB)', 'Luis Alberto Pérez (CM)', 'Hermes Angulo (CDM)', 'Juan Viveros (RB)'],
     description: 'Tradicional cuadro caleño que juega el ascenso enfocados en formación táctica.',
     badgeColor: 'border-l-4 border-blue-500 bg-yellow-950/20 text-blue-200',
     badgeLogoUrl: '🔵💛⚽',
@@ -4191,6 +4191,10 @@ const EQUIPO_SYNONYMS_POR_ID: Record<string, string> = {
  * Mapea el "name" de tu CLUBS_DATABASE con el "team_name" exacto del archivo JSON.
  */
 const EQUIPO_SYNONYMS: Record<string, string> = {
+  // El JSON de jugadores guarda su plantel como "Boca Jrs Cali". Sin el sinónimo el club se quedaba
+  // sin jugadores, y buscarlo por el nombre visible tampoco sirve: en la base hay otros dos clubes
+  // con "Boca" -- el argentino ("Boca Juniors") y Boca Unidos -- que no tienen nada que ver.
+  "Boca Juniors de Cali": "Boca Jrs Cali",
   // El JSON de jugadores lo llama "Clermont Foot" y el calendario "Clermont Foot 63". Sin este
   // sinónimo la generación dinámica lo creaba además como club suelto de la bolsa (gen_724), y el
   // de Ligue 1 quedaba sin plantel.
