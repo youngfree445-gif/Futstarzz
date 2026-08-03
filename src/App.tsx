@@ -427,9 +427,9 @@ function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: nu
 /**
  * Cierre de año: guarda lo que sumó cada club y aplica ascensos y descensos.
  *
- * Solo en las ligas con reglamento cargado (Colombia y Argentina, ver promocionDescenso.ts). Cada
- * una usa SU criterio: Colombia baja 2 por promedio plurianual, Argentina 4 por la tabla del año.
- * Las demás ligas no se tocan.
+ * Solo en las ligas con reglamento cargado (Colombia, Argentina y Holanda, ver promocionDescenso.ts).
+ * Cada una usa SU criterio: Colombia baja 2 por promedio plurianual, Argentina 4 por la tabla del
+ * año, Holanda 2 por tabla más un play-off por el 16°. Las demás ligas no se tocan.
  */
 function applyPromotionRelegationIfNewSeason(
   profile: PlayerProfile, previousWeek: number, newWeek: number,
@@ -474,7 +474,16 @@ function applyPromotionRelegationIfNewSeason(
       .sort((a, b) => b.h.puntos - a.h.puntos)
       .map(x => ({ clubId: x.club.id, clubName: x.club.name }));
 
-    const { descienden, ascienden } = resolverMovimientos(league, primera, segunda);
+    // Llaves del play-off (solo Holanda). Pesa la reputación pero deja pasar la sorpresa: sin azar,
+    // el 16° de Eredivisie nunca perdería la categoría contra un club de Segunda.
+    const ganaLlave = (a: string, b: string): string => {
+      const repDe = (id: string) => CLUBS_DATABASE.find(c => c.id === id)?.reputation ?? 1;
+      const fa = repDe(a) + Math.random() * 3;
+      const fb = repDe(b) + Math.random() * 3;
+      return fa >= fb ? a : b;
+    };
+
+    const { descienden, ascienden } = resolverMovimientos(league, primera, segunda, ganaLlave);
     for (const d of descienden) overrides[d.clubId] = 2;
     for (const a of ascienden) overrides[a.clubId] = 1;
 

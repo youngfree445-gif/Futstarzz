@@ -113,14 +113,23 @@ Casos reales que costaron caro:
 Documentados en `docs/`:
 - `REGLAMENTO_COLOMBIA_2026.md` — Dimayor
 - `REGLAMENTO_ARGENTINA_2026.md` — AFA / LPF
+- Holanda — KNVB, vía [Dutch football league system](https://en.wikipedia.org/wiki/Dutch_football_league_system)
 
 **Implementado** (`src/promocionDescenso.ts`):
 
-| | Colombia | Argentina |
-|---|---|---|
-| Descienden | 2 | 4 |
-| Criterio | **Promedio** (pts ÷ partidos), ventana 3 años | Tabla del año, sin promedio |
-| Ascienden | 2 (campeón doble / líder anual / Gran Final / Repechaje) | 2 (Final a partido único + Reducido) |
+| | Colombia | Argentina | Holanda |
+|---|---|---|---|
+| Descienden | 2 | 4 | 2 directo + el 16° si pierde el play-off |
+| Criterio | **Promedio** (pts ÷ partidos), ventana 3 años | Tabla del año, sin promedio | Tabla del año, sin promedio |
+| Ascienden | 2 (campeón doble / líder anual / Gran Final / Repechaje) | 2 (Final a partido único + Reducido) | 2 (campeón y subcampeón) + el ganador del play-off |
+
+**El detalle del play-off neerlandés:** no es un cruce parejo. El 16° de la Eredivisie entra recién
+en la 2ª ronda y le alcanza con **ganar 2 llaves**; los seis de la Eerste Divisie tienen que ganar
+**3**. Modelarlo simétrico le sacaría la ventaja que el reglamento le da. Está en `playoffHolanda()`.
+
+> **Holanda todavía no mueve a nadie**: el juego tiene 17 clubes de Eredivisie pero **ninguno de
+> Eerste Divisie** (`division: 2`). Sin clubes de Segunda no hay quién ascienda ni contra quién jugar
+> el play-off. La regla ya está lista y se activa sola en cuanto se carguen esos clubes.
 
 **No mezclar nunca.** La puerta de entrada es `reglasDeLiga(league)`, que devuelve `null` para
 cualquier liga sin reglamento cargado: así ninguna otra hereda reglas ajenas por accidente.
@@ -207,8 +216,24 @@ Ecuatoriana (20/28), Italiana (33/40).
 
 - **Argentina**: falta modelar las **zonas** (dos grupos de 18) — hoy `LeagueSeasonState` asume una
   sola tabla por liga. También la Tabla General anual y el Reducido completo.
-- **Resto de ligas**: ninguna tiene ascenso/descenso. Hay que buscar el reglamento vigente de cada
-  una antes de tocar código.
+- **Holanda**: la regla está implementada pero **inactiva por falta de clubes de Eerste Divisie**.
+  Es la ÚNICA de las grandes sin Segunda (17 en D1, **0 en D2**). Faltan los ~16 de Segunda con
+  `division: 2` (Roda JC, De Graafschap, Cambuur, VVV-Venlo, Dordrecht, Emmen…). Sin eso
+  `resolverMovimientos` no encuentra a quién ascender ni contra quién jugar el play-off.
+- **Los 5 grandes (Inglaterra, España, Italia, Alemania, Francia)**: no tienen reglamento cargado,
+  así que **no asciende ni desciende nadie**. Pero los clubes YA ESTÁN — solo falta el reglamento:
+
+  | Liga | D1 | D2 |
+  |---|---|---|
+  | Inglesa | 20 | 24 |
+  | Española | 20 | 22 |
+  | Italiana | 20 | 20 |
+  | Alemana | 18 | 18 |
+  | Francesa | 18 | 6 |
+  | Holandesa | 17 | **0** |
+
+  (Contar SIEMPRE con el módulo compilado, no con regex sobre `data.ts` — ver §5.)
+- **Resto de ligas**: sin ascenso/descenso. Buscar el reglamento vigente antes de tocar código.
 
 ### 7.4 JSON sin importar — OJO, no todo es basura
 

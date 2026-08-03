@@ -2,19 +2,23 @@
 //   docs/REGLAMENTO_COLOMBIA_2026.md  (Dimayor V0 14/01/26)
 //   docs/REGLAMENTO_ARGENTINA_2026.md (AFA / LPF, Boletín 6616)
 //
-// COLOMBIA Y ARGENTINA NO COMPARTEN REGLAS, y mezclarlas daría descensos inventados:
+//   https://en.wikipedia.org/wiki/Dutch_football_league_system (KNVB)
+//
+// CADA PAÍS TIENE SU PROPIO REGLAMENTO, y mezclarlos daría descensos inventados:
 //
 //   Colombia  → bajan 2, por TABLA DE PROMEDIOS (puntos ÷ partidos) acumulando varios años.
 //               Un grande puede bajar pese a una buena temporada suelta si arrastra años flojos,
 //               y un recién ascendido está protegido porque su ventana solo cuenta el año en curso.
 //   Argentina → bajan 4 en Primera Nacional (los 2 últimos de cada zona), por TABLA GENERAL
 //               ANUAL acumulada, sin promedio plurianual.
+//   Holanda   → bajan 2 directo por tabla anual, y el 16° se juega la categoría en un PLAY-OFF
+//               contra seis de la Eerste Divisie. No hay promedio ni torneos semestrales.
 //
 // Por eso cada país tiene su propia función y su propia constante de cupos. La puerta de entrada
 // es `reglasDeLiga`, que devuelve null para cualquier liga sin sistema implementado: así ninguna
-// otra liga hereda por accidente las reglas de estas dos.
+// otra liga hereda por accidente las reglas de las demás.
 
-export type SistemaAscenso = 'colombia' | 'argentina';
+export type SistemaAscenso = 'colombia' | 'argentina' | 'holanda';
 
 export interface ReglasAscenso {
   sistema: SistemaAscenso;
@@ -24,6 +28,11 @@ export interface ReglasAscenso {
   criterioDescenso: 'promedio' | 'anual';
   /** Cuántos años entran en el promedio. Solo aplica al criterio 'promedio'. */
   ventanaAnios: number;
+  /**
+   * Puesto de Primera que NO baja directo pero se juega la categoría en un playoff (16° en Holanda).
+   * Sin esto, ese club se salva siempre. undefined = la liga no tiene promoción/permanencia.
+   */
+  puestoPlayoff?: number;
 }
 
 const REGLAS: Record<string, ReglasAscenso> = {
@@ -45,6 +54,17 @@ const REGLAS: Record<string, ReglasAscenso> = {
     cuposAscenso: 2,
     criterioDescenso: 'anual',
     ventanaAnios: 1,
+  },
+  // KNVB: Eredivisie de 18. Bajan directo los 2 últimos (17° y 18°) y suben directo el campeón y
+  // el subcampeón de la Eerste Divisie. El 16° NO baja: juega los play-offs de promoción/permanencia
+  // contra seis clubes de Segunda, con ventaja de recorrido (él juega hasta 2 rondas, ellos hasta 3).
+  Holandesa: {
+    sistema: 'holanda',
+    cuposDescenso: 2,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    puestoPlayoff: 16,
   },
 };
 
@@ -256,24 +276,93 @@ export function ascensosArgentina(
 }
 
 /**
+ * El play-off neerlandés de promoción/permanencia, por el tercer lugar en juego.
+ *
+ * No es un cruce simétrico: el 16° de la Eredivisie entra recién en la segunda ronda y le alcanza
+ * con ganar DOS llaves, mientras que los seis de la Eerste Divisie tienen que ganar TRES. Modelarlo
+ * como un cruce parejo le sacaría al club de Primera la ventaja que el reglamento le da.
+ *
+ * @param equipoPrimera  El 16° de la Eredivisie. null si la tabla no llega a 16 equipos.
+ * @param seisDeSegunda  Los seis de Segunda que entran al play-off, de mejor a peor.
+ * @param ganaLlave      Resuelve una llave a ida y vuelta: devuelve el id del que avanza.
+ * @returns Quién ocupa la plaza: `mantienePrimera` es true si la retuvo el club de Eredivisie.
+ */
+export function playoffHolanda(
+  equipoPrimera: string | null,
+  seisDeSegunda: readonly { clubId: string; clubName: string }[],
+  ganaLlave: (a: string, b: string) => string,
+): { ganador: string | null; mantienePrimera: boolean } {
+  if (!equipoPrimera) return { ganador: null, mantienePrimera: false };
+  if (seisDeSegunda.length < 2) return { ganador: equipoPrimera, mantienePrimera: true };
+
+  // Primera ronda: solo los de Segunda, mejor contra peor. El de Eredivisie mira desde afuera.
+  let vivos = seisDeSegunda.map(s => s.clubId);
+  const ronda1: string[] = [];
+  if (vivos.length % 2 === 1) ronda1.push(vivos[0]);
+  const enJuego = vivos.length % 2 === 1 ? vivos.slice(1) : vivos;
+  for (let i = 0; i < enJuego.length / 2; i++) {
+    ronda1.push(ganaLlave(enJuego[i], enJuego[enJuego.length - 1 - i]));
+  }
+  vivos = ronda1;
+
+  // Segunda ronda en adelante: ya entra el de Eredivisie y se cruza como uno más.
+  vivos = [equipoPrimera, ...vivos];
+  while (vivos.length > 1) {
+    const siguiente: string[] = [];
+    if (vivos.length % 2 === 1) siguiente.push(vivos[0]);
+    const cruces = vivos.length % 2 === 1 ? vivos.slice(1) : vivos;
+    for (let i = 0; i < cruces.length / 2; i++) {
+      siguiente.push(ganaLlave(cruces[i], cruces[cruces.length - 1 - i]));
+    }
+    vivos = siguiente;
+  }
+
+  const ganador = vivos[0] ?? null;
+  return { ganador, mantienePrimera: ganador === equipoPrimera };
+}
+
+/**
  * Quiénes bajan y quiénes suben al cerrar el año.
  *
  * @param tablaDescenso Tabla de PRIMERA ya ordenada (ver tablaDeDescenso).
  * @param tablaSegunda  Tabla anual de SEGUNDA, de mejor a peor.
+ * @param ganaLlave     Solo lo usan las ligas con play-off (Holanda). Sin esto, el 16° se salva.
  */
 export function resolverMovimientos(
   league: string,
   tablaDescenso: readonly FilaDescenso[],
   tablaSegunda: readonly { clubId: string; clubName: string }[],
+  ganaLlave?: (a: string, b: string) => string,
 ): { descienden: FilaDescenso[]; ascienden: { clubId: string; clubName: string }[] } {
   const reglas = reglasDeLiga(league);
   if (!reglas) return { descienden: [], ascienden: [] };
 
   // Nunca vaciar la liga: si es más chica que los cupos, no baja nadie.
   const descienden = tablaDescenso.length > reglas.cuposDescenso
-    ? tablaDescenso.slice(-reglas.cuposDescenso)
+    ? [...tablaDescenso.slice(-reglas.cuposDescenso)]
     : [];
   // Suben tantos como bajaron (y como mucho los cupos): la liga conserva su tamaño.
-  const ascienden = tablaSegunda.slice(0, Math.min(descienden.length, reglas.cuposAscenso));
+  const ascienden = [...tablaSegunda.slice(0, Math.min(descienden.length, reglas.cuposAscenso))];
+
+  // Play-off de promoción/permanencia: la plaza extra que Holanda no reparte por tabla.
+  if (reglas.puestoPlayoff && ganaLlave && tablaDescenso.length >= reglas.puestoPlayoff) {
+    // El puesto se cuenta desde el fondo: con 18 equipos, el 16° es el antepenúltimo.
+    const idx = tablaDescenso.length - (tablaDescenso.length - reglas.puestoPlayoff) - 1;
+    const enRiesgo = tablaDescenso[idx];
+    const yaBaja = new Set(descienden.map(d => d.clubId));
+    const yaSube = new Set(ascienden.map(a => a.clubId));
+
+    if (enRiesgo && !yaBaja.has(enRiesgo.clubId)) {
+      const seis = tablaSegunda.filter(s => !yaSube.has(s.clubId)).slice(0, 6);
+      const { ganador, mantienePrimera } = playoffHolanda(enRiesgo.clubId, seis, ganaLlave);
+      if (ganador && !mantienePrimera) {
+        // Perdió la categoría: baja él y sube el que ganó el play-off.
+        descienden.push(enRiesgo);
+        const subio = seis.find(s => s.clubId === ganador);
+        if (subio) ascienden.push(subio);
+      }
+    }
+  }
+
   return { descienden, ascienden };
 }
