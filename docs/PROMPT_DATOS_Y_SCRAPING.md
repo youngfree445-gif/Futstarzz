@@ -117,11 +117,19 @@ Documentados en `docs/`:
 
 **Implementado** (`src/promocionDescenso.ts`):
 
-| | Colombia | Argentina | Holanda | Brasil |
-|---|---|---|---|---|
-| Descienden | 2 | 4 | 2 directo + el 16° si pierde el play-off | 4 (puestos 17-20) |
-| Criterio | **Promedio** (pts ÷ partidos), ventana 3 años | Tabla del año, sin promedio | Tabla del año, sin promedio | Tabla del año, sin promedio |
-| Ascienden | 2 (campeón doble / líder anual / Gran Final / Repechaje) | 2 (Final a partido único + Reducido) | 2 (campeón y subcampeón) + el ganador del play-off | 4 (los 4 primeros de la Serie B) |
+| | Colombia | Argentina | Holanda | Brasil | Alemania | España |
+|---|---|---|---|---|---|---|
+| Descienden | 2 | 4 | 2 + el 16° si pierde el play-off | 4 (puestos 17-20) | 2 + el 16° si pierde la Relegation | 3 |
+| Criterio | **Promedio** (pts ÷ partidos), ventana 3 años | Tabla del año | Tabla del año | Tabla del año | Tabla del año | Tabla del año |
+| Ascienden | 2 (campeón doble / líder anual / Gran Final / Repechaje) | 2 (Final a partido único + Reducido) | 2 + el ganador del play-off | 4 (los 4 primeros de la Serie B) | 2 + el ganador de la Relegation | 2 + el ganador del play-off 3°-6° |
+
+**Tres tipos de play-off, y no hay que confundirlos:**
+
+| | Quién lo juega | Modelado en |
+|---|---|---|
+| Holanda | el 16° de Primera contra **seis** de Segunda; él juega 2 llaves, ellos 3 | `playoffPermanencia` |
+| Alemania | el 16° de Primera contra **uno solo**, el 3° de la 2. Bundesliga | `playoffPermanencia` (`rivalesPlayoff: 1`) |
+| España | **solo clubes de Segunda** (3° al 6°); ningún equipo de Primera se juega la categoría | `playoffAscensoEspana` |
 
 **Brasil es el más simple:** intercambio directo y simétrico, 38 fechas de todos contra todos, sin
 play-off ni liguilla. Al no declarar `puestoPlayoff`, `resolverMovimientos` ni se asoma al cruce.
@@ -235,11 +243,12 @@ Ecuatoriana (20/28), Italiana (33/40).
 
   | Liga | D1 | D2 | Reglamento |
   |---|---|---|---|
-  | Inglesa | 20 | 24 | falta |
-  | Española | 20 | 22 | falta |
-  | Italiana | 20 | 20 | falta |
-  | Alemana | 18 | 18 | falta |
-  | Francesa | 18 | 6 | falta (y faltan clubes de Ligue 2) |
+  | Inglesa | 20 | 24 | **falta** |
+  | Francesa | 18 | 6 | **falta** (y faltan clubes de Ligue 2) |
+  | Italiana | 20 | 27 | falta |
+  | Portuguesa | 16 | 15 | falta |
+  | Española | 20 | 22 | ✅ implementado |
+  | Alemana | 18 | 18 | ✅ implementado |
   | Holandesa | 17 | 16 | ✅ implementado |
   | Brasileña | 20 | 20 | ✅ implementado |
 

@@ -21,11 +21,7 @@ const FUENTES = [
   { archivo: 'bra.2_liga.json',              id: 'bra2', name: 'Brasileirão Serie B', kind: 'league', league: 'Brasileña', division: 2 },
   { archivo: 'bra.copa_do_brazil_liga.json', id: 'copabr', name: 'Copa do Brasil',    kind: 'domestic_cup', league: 'Brasileña' },
   { archivo: 'ita.1_liga.json',              id: 'ita1', name: 'Serie A',             kind: 'league', league: 'Italiana', division: 1 },
-  // La Serie B italiana queda AFUERA a propósito: solo el 41% de sus partidos engancha porque el
-  // juego no tiene 7 de sus clubes (Benevento, Arezzo, Ascoli, Padova, Vicenza, Entella, Avellino),
-  // que subieron desde la Serie C. Importarla dejaría media liga con calendario y media sin él, que
-  // es peor que no tenerlo. Se activa sola agregando esos clubes a data.ts.
-  // { archivo: 'ita.2_liga.json', id: 'ita2', name: 'Serie B', kind: 'league', league: 'Italiana' },
+  { archivo: 'ita.2_liga.json',              id: 'ita2', name: 'Serie B',             kind: 'league', league: 'Italiana' },
 ];
 
 // Los nombres de ESPN no coinciden siempre con los del juego. Solo lo mínimo verificado a mano.
