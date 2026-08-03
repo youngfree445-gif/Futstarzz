@@ -612,7 +612,7 @@ export default function Dashboard({
   const misTrofeos = getPalmares(
     playerProfile,
     ULTIMATE_CLUBS_DATABASE,
-    (league: string) => getLeagueDisplay(league).name,
+    (league: string, division?: number) => getLeagueDisplay(league, division).name,
     isApeturaClausuraLeague,
     NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality],
   );
@@ -1055,7 +1055,7 @@ export default function Dashboard({
       const sufijo = formato ? `${anio}_s${season.semester ?? 1}` : `${anio}`;
       const torneo = formato
         ? `${season.semester === 2 ? 'Clausura' : 'Apertura'} ${anio}`
-        : `${getLeagueDisplay(sample.league).name} ${anio}`;
+        : `${getLeagueDisplay(sample.league, sample.division).name} ${anio}`;
       const esMiLiga = key === myLeagueKey;
 
       posts.push({

@@ -30,6 +30,7 @@ interface ClubLookup {
   id: string;
   name: string;
   league: string;
+  division?: number;
 }
 
 /**
@@ -38,13 +39,14 @@ interface ClubLookup {
  *
  * @param profile      Perfil completo de la carrera.
  * @param clubs        CLUBS_DATABASE, para resolver nombres e ids.
- * @param leagueName   Nombre mostrable de una liga (getLeagueDisplay).
+ * @param leagueName   Nombre mostrable de una liga (getLeagueDisplay). Recibe la división del club
+ *                     campeón para que un título de Segunda no se anuncie con el nombre de Primera.
  * @param cupName      Nombre mostrable de una copa continental.
  */
 export function getPalmares(
   profile: PlayerProfile,
   clubs: readonly ClubLookup[],
-  leagueName: (league: string) => string,
+  leagueName: (league: string, division?: number) => string,
   esApeturaClausura: (league: string) => 'colombia' | 'argentina' | null,
   seleccionId?: string,
 ): Trofeo[] {
@@ -90,7 +92,7 @@ export function getPalmares(
 
     trofeos.push({
       id: `liga-${season.leagueKey}-${anio}-${season.semester ?? 0}`,
-      nombre: leagueName(clubCampeon.league),
+      nombre: leagueName(clubCampeon.league, clubCampeon.division),
       detalle,
       clubName: clubCampeon.name,
       tipo: 'liga',

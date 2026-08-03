@@ -1520,7 +1520,7 @@ export default function MatchSimulator({
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${seasonYear} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${seasonYear} 🟢`;
+    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${seasonYear} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league, currentClub.division).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${seasonYear} 🟢`;
     
     const kickoffLog: MatchEvent[] = [
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
@@ -1995,7 +1995,7 @@ export default function MatchSimulator({
                 ? `🌎 Copa Mundial FIFA ${seasonYear}`
                 : isLibertadores
                 ? `🏆 ${activeCupLabel} ${seasonYear}`
-                : `${getLeagueDisplay(currentClub.league).flag} ${getLeagueDisplay(currentClub.league).name}${torneoDelPartido ? ` · ${torneoDelPartido} ${seasonYear}` : ''}`}
+                : `${getLeagueDisplay(currentClub.league, currentClub.division).flag} ${getLeagueDisplay(currentClub.league, currentClub.division).name}${torneoDelPartido ? ` · ${torneoDelPartido} ${seasonYear}` : ''}`}
             </span>
             <div className="flex items-center gap-2">
               <span className="font-mono text-2xs px-2 py-0.5 bg-slate-900 border border-slate-800 rounded font-bold whitespace-nowrap">

@@ -44,7 +44,33 @@ export const LEAGUE_DISPLAY_INFO: Record<string, { flag: string; name: string }>
   Internacional: { flag: '🌍', name: 'Liga Doméstica' },
 };
 
-export function getLeagueDisplay(league: string | undefined): { flag: string; name: string } {
+// Nombre real del campeonato de SEGUNDA división, para los países donde el juego la modela. Sin
+// esto, un club de Barranquilla FC (Torneo BetPlay) se anunciaba en pantalla, en la vitrina y en el
+// resumen post-partido como "Primera División Dimayor" -- el nombre de la liga a la que ni siquiera
+// pertenece. Bug reportado: "dice primera division" jugando con un club de Segunda.
+// Solo lleva los países con `division: 2` real en CLUBS_DATABASE (ver data.ts): el resto de ligas no
+// tiene Segunda modelada, así que no hay nombre real que poner.
+const SECOND_DIVISION_DISPLAY_INFO: Record<string, { flag: string; name: string }> = {
+  Colombiana: { flag: '🇨🇴', name: 'Torneo BetPlay' },
+  Argentina: { flag: '🇦🇷', name: 'Primera Nacional' },
+  Holandesa: { flag: '🇳🇱', name: 'Eerste Divisie' },
+  Brasileña: { flag: '🇧🇷', name: 'Serie B' },
+  Alemana: { flag: '🇩🇪', name: '2. Bundesliga' },
+  Española: { flag: '🇪🇸', name: 'LaLiga Hypermotion' },
+  Inglesa: { flag: '🏴', name: 'Championship' },
+  Francesa: { flag: '🇫🇷', name: 'Ligue 2' },
+  Chilena: { flag: '🇨🇱', name: 'Primera B de Chile' },
+  Ecuatoriana: { flag: '🇪🇨', name: 'Liga Pro Serie B' },
+  Mexicana: { flag: '🇲🇽', name: 'Liga de Expansión MX' },
+  Italiana: { flag: '🇮🇹', name: 'Serie BKT' },
+  Portuguesa: { flag: '🇵🇹', name: 'Liga Portugal 2' },
+};
+
+export function getLeagueDisplay(league: string | undefined, division?: number): { flag: string; name: string } {
+  if (division === 2) {
+    const segunda = SECOND_DIVISION_DISPLAY_INFO[league ?? ''];
+    if (segunda) return segunda;
+  }
   return LEAGUE_DISPLAY_INFO[league ?? ''] ?? { flag: '🌍', name: 'Liga Doméstica' };
 }
 

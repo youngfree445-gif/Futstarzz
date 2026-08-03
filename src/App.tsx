@@ -2178,7 +2178,7 @@ export default function App() {
           const semestre = semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura');
           const torneo = formato ? `${semestre} ${anio}` : `Temporada ${anio}`;
           setChampionInfo({
-            competition: getLeagueDisplay(myClub.league).name,
+            competition: getLeagueDisplay(myClub.league, myClub.division).name,
             clubName: myClub.name,
             season: torneo,
             badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
@@ -2186,8 +2186,12 @@ export default function App() {
           // El título se ANOTA en el perfil, no se deduce después de la tabla: la vitrina se
           // recalcula desde el estado actual y al empezar el Clausura la temporada se reinicia, así
           // que el Apertura ganado desaparecía. Anotado acá queda para siempre.
+          //
+          // getLeagueDisplay(..., myClub.division) y no sin división: un título de Barranquilla FC
+          // (Segunda) se anunciaba y se guardaba como "Primera División Dimayor" -- el nombre de la
+          // liga a la que ni siquiera pertenece. Bug reportado: "dice primera division".
           leagueTitleWon = {
-            competition: getLeagueDisplay(myClub.league).name,
+            competition: getLeagueDisplay(myClub.league, myClub.division).name,
             year: anio,
             clubId: myClub.id,
             torneo: formato ? semestre : undefined,

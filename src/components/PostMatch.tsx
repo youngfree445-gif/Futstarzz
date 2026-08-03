@@ -181,7 +181,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
             {/* Año y cobertura salían fijos ("2026", "Colombia-Brasil-Arg") aunque el jugador
                 estuviera en Europa y en la temporada 20 de su carrera. */}
             <span>📰 EL DIARIO DEPORTIVO {CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1}</span>
-            <span className="truncate">Edición Semanal · {getLeagueDisplay(currentClub?.league).name}</span>
+            <span className="truncate">Edición Semanal · {getLeagueDisplay(currentClub?.league, currentClub?.division).name}</span>
           </div>
 
           <div className="border border-burgundy-500/20 bg-burgundy-500/5 p-5 md:p-6 rounded-2xl relative">
