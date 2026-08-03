@@ -484,7 +484,11 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                 >
                   1ª División
                 </button>
-                {CLUBS_DATABASE.some(c => c.league === nationality && c.division === 2) && (
+                {/* Se pregunta por la LIGA elegida, no por la nacionalidad: son campos
+                    independientes (un colombiano puede arrancar en la Premier). Consultando
+                    `nationality`, el botón de 2ª División no aparecía cuando la liga elegida no
+                    coincidía con el país del jugador -- y la Segunda quedaba inalcanzable. */}
+                {CLUBS_DATABASE.some(c => c.league === leagueOrigin && c.division === 2) && (
                   <button
                     type="button"
                     onClick={() => setSelectedDivision(2)}
