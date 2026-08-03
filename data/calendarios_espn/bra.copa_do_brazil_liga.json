@@ -1,0 +1,169 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/bra.copa_do_brazil",
+ "espnLeagueId": "bra.copa_do_brazil",
+ "temporada": "Ronda de 16",
+ "equipos": {
+  "874": "Corinthians",
+  "1936": "Internacional",
+  "2022": "Cruzeiro",
+  "2029": "Palmeiras",
+  "2674": "Santos",
+  "3445": "Fluminense",
+  "3454": "Vasco da Gama",
+  "3457": "Vitória",
+  "3458": "Athletico Paranaense",
+  "4936": "Remo",
+  "6270": "Juventude",
+  "6272": "Fortaleza",
+  "6273": "Grêmio",
+  "7632": "Atlético-MG",
+  "9169": "Mirassol",
+  "9318": "Chapecoense"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-08-01",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

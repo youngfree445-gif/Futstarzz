@@ -15,12 +15,16 @@
 //               contra seis de la Eerste Divisie. No hay promedio ni torneos semestrales.
 //   Brasil    → intercambio DIRECTO y SIMÉTRICO: bajan los 4 últimos de la Serie A y suben los 4
 //               primeros de la Serie B. Sin play-off, sin liguilla y sin promedio.
+//   Alemania  → bajan 2 directo y el 16° juega la "Relegation" contra UN solo rival, el 3° de la
+//               2. Bundesliga, a ida y vuelta. No es el cuadro de seis de Holanda.
+//   España    → bajan 3 directo y suben 2; la tercera plaza sale de un play-off del 3° al 6° de
+//               Hypermotion. Acá NINGÚN club de Primera juega el play-off: solo decide quién sube.
 //
 // Por eso cada país tiene su propia función y su propia constante de cupos. La puerta de entrada
 // es `reglasDeLiga`, que devuelve null para cualquier liga sin sistema implementado: así ninguna
 // otra liga hereda por accidente las reglas de las demás.
 
-export type SistemaAscenso = 'colombia' | 'argentina' | 'holanda' | 'brasil';
+export type SistemaAscenso = 'colombia' | 'argentina' | 'holanda' | 'brasil' | 'alemania' | 'espana';
 
 export interface ReglasAscenso {
   sistema: SistemaAscenso;
@@ -31,12 +35,23 @@ export interface ReglasAscenso {
   /** Cuántos años entran en el promedio. Solo aplica al criterio 'promedio'. */
   ventanaAnios: number;
   /**
-   * Puesto de Primera que NO baja directo pero se juega la categoría en un play-off (16° de 18 en
-   * Holanda). Se aplica contando desde el fondo -- el club justo encima de los que bajan directo --
-   * porque las ligas del juego no siempre tienen el tamaño del reglamento real.
-   * undefined = la liga no tiene promoción/permanencia.
+   * Puesto de Primera que NO baja directo pero se juega la categoría en un play-off (16° tanto en
+   * Holanda como en Alemania). Se aplica contando desde el fondo -- el club justo encima de los que
+   * bajan directo -- porque las ligas del juego no siempre tienen el tamaño del reglamento real.
+   * undefined = ningún equipo de Primera se juega la categoría en un play-off.
    */
   puestoPlayoff?: number;
+  /**
+   * Cuántos clubes de Segunda entran a ese play-off. Holanda mete SEIS a un cuadro de tres rondas;
+   * Alemania uno solo (el 3°) a ida y vuelta. Por defecto 6, que es el caso holandés.
+   */
+  rivalesPlayoff?: number;
+  /**
+   * Play-off que reparte una plaza de ascenso EXTRA entre clubes de Segunda, sin que ningún equipo
+   * de Primera participe (España: del 3° al 6°). Es otra cosa que `puestoPlayoff`: allá el de
+   * Primera se juega la categoría; acá Primera ya cerró sus descensos y esto solo decide quién sube.
+   */
+  ascensoPorPlayoff?: { desde: number; hasta: number };
 }
 
 const REGLAS: Record<string, ReglasAscenso> = {
@@ -80,6 +95,32 @@ const REGLAS: Record<string, ReglasAscenso> = {
     cuposAscenso: 4,
     criterioDescenso: 'anual',
     ventanaAnios: 1,
+  },
+  // DFL: bajan directo los 2 últimos de la Bundesliga y suben directo los 2 primeros de la 2.
+  // Bundesliga. La tercera plaza la define la "Relegation": el 16° de Primera contra el 3° de
+  // Segunda, ida y vuelta. Ojo, no es como Holanda: acá el rival es UNO SOLO y ya está definido por
+  // tabla, no hay cuadro de seis. Por eso `rivalesPlayoff: 1`.
+  Alemana: {
+    sistema: 'alemania',
+    cuposDescenso: 2,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    puestoPlayoff: 16,
+    rivalesPlayoff: 1,
+  },
+  // LaLiga: bajan directo los 3 últimos de Primera y suben directo los 2 primeros de Hypermotion.
+  // La tercera plaza de ascenso sale del play-off entre el 3° y el 6° de Segunda -- semifinales y
+  // final, todo a ida y vuelta. Diferencia clave con Holanda y Alemania: acá el play-off es SOLO
+  // entre clubes de Segunda, ningún equipo de Primera se juega la categoría en él. Por eso no lleva
+  // `puestoPlayoff` sino `ascensoPorPlayoff`.
+  Española: {
+    sistema: 'espana',
+    cuposDescenso: 3,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    ascensoPorPlayoff: { desde: 3, hasta: 6 },
   },
 };
 
@@ -318,49 +359,79 @@ export function ascensosArgentina(
 }
 
 /**
- * El play-off neerlandés de promoción/permanencia, por el tercer lugar en juego.
+ * El play-off de promoción/permanencia: un equipo de Primera defiende su plaza contra los de Segunda.
  *
- * No es un cruce simétrico: el 16° de la Eredivisie entra recién en la segunda ronda y le alcanza
- * con ganar DOS llaves, mientras que los seis de la Eerste Divisie tienen que ganar TRES. Modelarlo
- * como un cruce parejo le sacaría al club de Primera la ventaja que el reglamento le da.
+ * Cubre los dos formatos que existen hoy, que NO son el mismo cruce:
  *
- * @param equipoPrimera  El 16° de la Eredivisie. null si la tabla no llega a 16 equipos.
- * @param seisDeSegunda  Los seis de Segunda que entran al play-off, de mejor a peor.
+ *   Holanda  → seis clubes de Segunda. No es simétrico: el 16° de la Eredivisie entra recién en la
+ *              segunda ronda y le alcanza con ganar DOS llaves, mientras los de Segunda tienen que
+ *              ganar TRES. Modelarlo parejo le sacaría la ventaja que el reglamento le da.
+ *   Alemania → un solo rival, el 3° de la 2. Bundesliga, a ida y vuelta. Sin cuadro previo.
+ *
+ * @param equipoPrimera  El club de Primera que se juega la categoría. null = no hay play-off.
+ * @param deSegunda      Los de Segunda que entran, de mejor a peor (seis en Holanda, uno en Alemania).
  * @param ganaLlave      Resuelve una llave a ida y vuelta: devuelve el id del que avanza.
- * @returns Quién ocupa la plaza: `mantienePrimera` es true si la retuvo el club de Eredivisie.
+ * @returns Quién ocupa la plaza: `mantienePrimera` es true si la retuvo el club de Primera.
  */
-export function playoffHolanda(
+export function playoffPermanencia(
   equipoPrimera: string | null,
-  seisDeSegunda: readonly { clubId: string; clubName: string }[],
+  deSegunda: readonly { clubId: string; clubName: string }[],
   ganaLlave: (a: string, b: string) => string,
 ): { ganador: string | null; mantienePrimera: boolean } {
   if (!equipoPrimera) return { ganador: null, mantienePrimera: false };
-  if (seisDeSegunda.length < 2) return { ganador: equipoPrimera, mantienePrimera: true };
+  // Sin rivales no hay nada que jugar y la plaza queda donde está.
+  if (deSegunda.length === 0) return { ganador: equipoPrimera, mantienePrimera: true };
 
-  // Primera ronda: solo los de Segunda, mejor contra peor. El de Eredivisie mira desde afuera.
-  let vivos = seisDeSegunda.map(s => s.clubId);
-  const ronda1: string[] = [];
-  if (vivos.length % 2 === 1) ronda1.push(vivos[0]);
-  const enJuego = vivos.length % 2 === 1 ? vivos.slice(1) : vivos;
-  for (let i = 0; i < enJuego.length / 2; i++) {
-    ronda1.push(ganaLlave(enJuego[i], enJuego[enJuego.length - 1 - i]));
-  }
-  vivos = ronda1;
+  let vivos = deSegunda.map(s => s.clubId);
 
-  // Segunda ronda en adelante: ya entra el de Eredivisie y se cruza como uno más.
-  vivos = [equipoPrimera, ...vivos];
+  // Cuadro previo SOLO entre los de Segunda, para llegar a un único retador. Con un solo rival
+  // (Alemania) este bloque no corre y se va derecho a la llave contra el de Primera.
   while (vivos.length > 1) {
     const siguiente: string[] = [];
+    // Bye para el mejor ubicado si el cuadro es impar.
     if (vivos.length % 2 === 1) siguiente.push(vivos[0]);
-    const cruces = vivos.length % 2 === 1 ? vivos.slice(1) : vivos;
-    for (let i = 0; i < cruces.length / 2; i++) {
-      siguiente.push(ganaLlave(cruces[i], cruces[cruces.length - 1 - i]));
+    const enJuego = vivos.length % 2 === 1 ? vivos.slice(1) : vivos;
+    for (let i = 0; i < enJuego.length / 2; i++) {
+      siguiente.push(ganaLlave(enJuego[i], enJuego[enJuego.length - 1 - i]));
     }
     vivos = siguiente;
   }
 
-  const ganador = vivos[0] ?? null;
+  const retador = vivos[0];
+  const ganador = ganaLlave(equipoPrimera, retador);
   return { ganador, mantienePrimera: ganador === equipoPrimera };
+}
+
+/**
+ * El play-off de ascenso español: la tercera plaza a Primera, entre el 3° y el 6° de Hypermotion.
+ *
+ * Se diferencia del anterior en que **ningún club de Primera participa**: LaLiga ya cerró sus tres
+ * descensos por tabla, y esto solo decide cuál de los cuatro de Segunda acompaña a los dos que
+ * subieron directo. Formato: semifinales y final, todo a ida y vuelta, cruzándose 3°-6° y 4°-5°.
+ *
+ * @param candidatos Del 3° al 6° de Segunda, en orden de tabla.
+ * @returns El id del que asciende, o null si no hay cuadro suficiente.
+ */
+export function playoffAscensoEspana(
+  candidatos: readonly { clubId: string; clubName: string }[],
+  ganaLlave: (a: string, b: string) => string,
+): string | null {
+  if (candidatos.length === 0) return null;
+  // Con un solo candidato sube directo: no hay contra quién jugar.
+  if (candidatos.length === 1) return candidatos[0].clubId;
+
+  let vivos = candidatos.map(c => c.clubId);
+  while (vivos.length > 1) {
+    const siguiente: string[] = [];
+    if (vivos.length % 2 === 1) siguiente.push(vivos[0]);
+    const enJuego = vivos.length % 2 === 1 ? vivos.slice(1) : vivos;
+    // Mejor contra peor, como el 3°-6° y 4°-5° del reglamento.
+    for (let i = 0; i < enJuego.length / 2; i++) {
+      siguiente.push(ganaLlave(enJuego[i], enJuego[enJuego.length - 1 - i]));
+    }
+    vivos = siguiente;
+  }
+  return vivos[0] ?? null;
 }
 
 /**
@@ -386,7 +457,7 @@ export function resolverMovimientos(
   // Suben tantos como bajaron (y como mucho los cupos): la liga conserva su tamaño.
   const ascienden = [...tablaSegunda.slice(0, Math.min(descienden.length, reglas.cuposAscenso))];
 
-  // Play-off de promoción/permanencia: la plaza extra que Holanda no reparte por tabla.
+  // Play-off de permanencia (Holanda, Alemania): un club de Primera defiende su plaza.
   if (reglas.puestoPlayoff && ganaLlave && tablaDescenso.length > reglas.cuposDescenso + 1) {
     // El club en riesgo es el que queda JUSTO ENCIMA de los que bajan directo. Se cuenta desde el
     // fondo, no por posición fija: el reglamento dice "16° de 18", pero si la liga del juego tiene
@@ -396,14 +467,32 @@ export function resolverMovimientos(
     const yaSube = new Set(ascienden.map(a => a.clubId));
 
     if (enRiesgo && !yaBaja.has(enRiesgo.clubId)) {
-      const seis = tablaSegunda.filter(s => !yaSube.has(s.clubId)).slice(0, 6);
-      const { ganador, mantienePrimera } = playoffHolanda(enRiesgo.clubId, seis, ganaLlave);
+      // Holanda mete seis; Alemania uno solo (el 3°, que queda justo detrás de los dos que suben).
+      const retadores = tablaSegunda
+        .filter(s => !yaSube.has(s.clubId))
+        .slice(0, reglas.rivalesPlayoff ?? 6);
+      const { ganador, mantienePrimera } = playoffPermanencia(enRiesgo.clubId, retadores, ganaLlave);
       if (ganador && !mantienePrimera) {
         // Perdió la categoría: baja él y sube el que ganó el play-off.
         descienden.push(enRiesgo);
-        const subio = seis.find(s => s.clubId === ganador);
+        const subio = retadores.find(s => s.clubId === ganador);
         if (subio) ascienden.push(subio);
       }
+    }
+  }
+
+  // Play-off de ascenso (España): la plaza extra se define solo entre clubes de Segunda, sin que
+  // ningún equipo de Primera se juegue nada. Por eso no toca `descienden`.
+  if (reglas.ascensoPorPlayoff && ganaLlave) {
+    const { desde, hasta } = reglas.ascensoPorPlayoff;
+    // Los puestos son 1-indexados en el reglamento: del 3° al 6° son los índices 2..5.
+    const candidatos = tablaSegunda.slice(desde - 1, hasta);
+    const subio = playoffAscensoEspana(candidatos, ganaLlave);
+    const yaSube = new Set(ascienden.map(a => a.clubId));
+    const fila = candidatos.find(c => c.clubId === subio);
+    // Solo entra si la liga tiene sitio: si nadie bajó, tampoco sube el del play-off.
+    if (fila && !yaSube.has(fila.clubId) && ascienden.length < descienden.length) {
+      ascienden.push(fila);
     }
   }
 

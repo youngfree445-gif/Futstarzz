@@ -1,0 +1,3449 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/bra.2",
+ "espnLeagueId": "bra.2",
+ "temporada": "2026 Brasileiro Serie B",
+ "equipos": {
+  "3395": "Goiás",
+  "3459": "Ponte Preta",
+  "6154": "América Mineiro",
+  "6270": "Juventude",
+  "6272": "Fortaleza",
+  "7633": "Náutico",
+  "7635": "Sport",
+  "9966": "Avaí",
+  "9969": "Ceará",
+  "9970": "CRB",
+  "9971": "Criciúma",
+  "9973": "Vila Nova",
+  "10281": "Botafogo-SP",
+  "10357": "Atlético Goianiense",
+  "11268": "São Bernardo",
+  "17313": "Cuiabá",
+  "17333": "Londrina",
+  "18127": "Novorizontino",
+  "18187": "Operário PR",
+  "20851": "Athletic"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-03-21",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-03-31",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-31",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-07",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-10",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-24",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-27",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-04",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-12",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "2-6"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-18",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-05-22",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-25",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-01",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-06-05",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-06-06",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-06-07",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-06-08",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-06-08",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-06-09",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-06-09",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-06-10",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-06-10",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "0-4"
+  },
+  {
+   "fecha": "2026-06-11",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-12",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-06-16",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-16",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-06-16",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-06-19",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-20",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-06-20",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-06-20",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "4-3"
+  },
+  {
+   "fecha": "2026-06-21",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-06-21",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-21",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-06-21",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-06-22",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-06-23",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-06-25",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-06-26",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-06-27",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-06-27",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-06-28",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-06-28",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-06-28",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-06-28",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-06-28",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-06-30",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-02",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-03",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-04",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-04",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-04",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-07-04",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-07-05",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-06",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-06",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-07",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-08",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-10",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-10",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-13",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-13",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-21",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-21",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-24",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": true,
+   "marcador": "3-4"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-28",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-28",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-29",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-08-07",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-07",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-10",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-11",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-18",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-24",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-24",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-25",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-25",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-08",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-25",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-06",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-30",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "20851",
+   "local": "Athletic",
+   "visitaId": "10357",
+   "visita": "Atlético Goianiense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "9966",
+   "local": "Avaí",
+   "visitaId": "11268",
+   "visita": "São Bernardo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "10281",
+   "local": "Botafogo-SP",
+   "visitaId": "17333",
+   "visita": "Londrina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "9969",
+   "local": "Ceará",
+   "visitaId": "6154",
+   "visita": "América Mineiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "17313",
+   "local": "Cuiabá",
+   "visitaId": "6270",
+   "visita": "Juventude",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "3395",
+   "local": "Goiás",
+   "visitaId": "3459",
+   "visita": "Ponte Preta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "7633",
+   "local": "Náutico",
+   "visitaId": "9970",
+   "visita": "CRB",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "18127",
+   "local": "Novorizontino",
+   "visitaId": "6272",
+   "visita": "Fortaleza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "18187",
+   "local": "Operário PR",
+   "visitaId": "7635",
+   "visita": "Sport",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "9973",
+   "local": "Vila Nova",
+   "visitaId": "9971",
+   "visita": "Criciúma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "6154",
+   "local": "América Mineiro",
+   "visitaId": "9966",
+   "visita": "Avaí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "10357",
+   "local": "Atlético Goianiense",
+   "visitaId": "17313",
+   "visita": "Cuiabá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "9970",
+   "local": "CRB",
+   "visitaId": "9969",
+   "visita": "Ceará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "9971",
+   "local": "Criciúma",
+   "visitaId": "18127",
+   "visita": "Novorizontino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "6272",
+   "local": "Fortaleza",
+   "visitaId": "9973",
+   "visita": "Vila Nova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "6270",
+   "local": "Juventude",
+   "visitaId": "10281",
+   "visita": "Botafogo-SP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "17333",
+   "local": "Londrina",
+   "visitaId": "7633",
+   "visita": "Náutico",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "3459",
+   "local": "Ponte Preta",
+   "visitaId": "18187",
+   "visita": "Operário PR",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "11268",
+   "local": "São Bernardo",
+   "visitaId": "20851",
+   "visita": "Athletic",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "7635",
+   "local": "Sport",
+   "visitaId": "3395",
+   "visita": "Goiás",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

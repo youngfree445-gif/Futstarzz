@@ -1,0 +1,3449 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/ita.1",
+ "espnLeagueId": "ita.1",
+ "temporada": "2026-27 Italian Serie A",
+ "equipos": {
+  "103": "AC Milan",
+  "104": "AS Roma",
+  "105": "Atalanta",
+  "107": "Bolonia",
+  "109": "Fiorentina",
+  "110": "Internazionale",
+  "111": "Juventus",
+  "112": "Lazio",
+  "113": "Lecce",
+  "114": "Napoli",
+  "115": "Parma",
+  "118": "Udinese",
+  "239": "Torino",
+  "2572": "Como",
+  "2925": "Cagliari",
+  "3263": "Génova",
+  "3997": "Sassuolo",
+  "4007": "Monza",
+  "4057": "Frosinone",
+  "17530": "Venezia"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-08-22",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-24",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-24",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-31",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-31",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-07",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-07",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-14",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-03",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-06",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "104",
+   "local": "AS Roma",
+   "visitaId": "2572",
+   "visita": "Como",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "105",
+   "local": "Atalanta",
+   "visitaId": "113",
+   "visita": "Lecce",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "109",
+   "local": "Fiorentina",
+   "visitaId": "4007",
+   "visita": "Monza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "4057",
+   "local": "Frosinone",
+   "visitaId": "2925",
+   "visita": "Cagliari",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "3263",
+   "local": "Génova",
+   "visitaId": "107",
+   "visita": "Bolonia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "110",
+   "local": "Internazionale",
+   "visitaId": "112",
+   "visita": "Lazio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "115",
+   "local": "Parma",
+   "visitaId": "111",
+   "visita": "Juventus",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "239",
+   "local": "Torino",
+   "visitaId": "114",
+   "visita": "Napoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "118",
+   "local": "Udinese",
+   "visitaId": "3997",
+   "visita": "Sassuolo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "17530",
+   "local": "Venezia",
+   "visitaId": "103",
+   "visita": "AC Milan",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "103",
+   "local": "AC Milan",
+   "visitaId": "118",
+   "visita": "Udinese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "107",
+   "local": "Bolonia",
+   "visitaId": "115",
+   "visita": "Parma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "2925",
+   "local": "Cagliari",
+   "visitaId": "104",
+   "visita": "AS Roma",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "2572",
+   "local": "Como",
+   "visitaId": "3263",
+   "visita": "Génova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "111",
+   "local": "Juventus",
+   "visitaId": "4057",
+   "visita": "Frosinone",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "112",
+   "local": "Lazio",
+   "visitaId": "109",
+   "visita": "Fiorentina",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "113",
+   "local": "Lecce",
+   "visitaId": "17530",
+   "visita": "Venezia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "4007",
+   "local": "Monza",
+   "visitaId": "239",
+   "visita": "Torino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "114",
+   "local": "Napoli",
+   "visitaId": "105",
+   "visita": "Atalanta",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-30",
+   "localId": "3997",
+   "local": "Sassuolo",
+   "visitaId": "110",
+   "visita": "Internazionale",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

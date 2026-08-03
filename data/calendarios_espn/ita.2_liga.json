@@ -1,0 +1,3449 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/ita.2",
+ "espnLeagueId": "ita.2",
+ "temporada": "Temporada regular",
+ "equipos": {
+  "119": "Hellas Verona",
+  "120": "Vicenza",
+  "2573": "Modena",
+  "2574": "Empoli",
+  "2734": "Sampdoria",
+  "2923": "Palermo",
+  "3257": "Catanzaro",
+  "3337": "Cesena",
+  "3345": "Arezzo",
+  "3346": "Ascoli",
+  "3952": "Padova",
+  "3956": "Pisa",
+  "3975": "Juve Stabia",
+  "3988": "Carrarese",
+  "3991": "Mantova",
+  "4050": "Cremonese",
+  "4055": "US Avellino",
+  "4059": "Benevento",
+  "11137": "Virtus Entella",
+  "11139": "Sudtirol"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-08-21",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-07",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-24",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-08",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-06",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-02",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-17",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "3346",
+   "local": "Ascoli",
+   "visitaId": "119",
+   "visita": "Hellas Verona",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "4059",
+   "local": "Benevento",
+   "visitaId": "2923",
+   "visita": "Palermo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "3257",
+   "local": "Catanzaro",
+   "visitaId": "2573",
+   "visita": "Modena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "3337",
+   "local": "Cesena",
+   "visitaId": "3345",
+   "visita": "Arezzo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "4050",
+   "local": "Cremonese",
+   "visitaId": "2574",
+   "visita": "Empoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "3956",
+   "local": "Pisa",
+   "visitaId": "3991",
+   "visita": "Mantova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "11139",
+   "local": "Sudtirol",
+   "visitaId": "3975",
+   "visita": "Juve Stabia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "4055",
+   "local": "US Avellino",
+   "visitaId": "3988",
+   "visita": "Carrarese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "120",
+   "local": "Vicenza",
+   "visitaId": "2734",
+   "visita": "Sampdoria",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "11137",
+   "local": "Virtus Entella",
+   "visitaId": "3952",
+   "visita": "Padova",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "3345",
+   "local": "Arezzo",
+   "visitaId": "11137",
+   "visita": "Virtus Entella",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "3988",
+   "local": "Carrarese",
+   "visitaId": "4050",
+   "visita": "Cremonese",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "2574",
+   "local": "Empoli",
+   "visitaId": "3257",
+   "visita": "Catanzaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "119",
+   "local": "Hellas Verona",
+   "visitaId": "11139",
+   "visita": "Sudtirol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "3975",
+   "local": "Juve Stabia",
+   "visitaId": "3346",
+   "visita": "Ascoli",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "3991",
+   "local": "Mantova",
+   "visitaId": "120",
+   "visita": "Vicenza",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "2573",
+   "local": "Modena",
+   "visitaId": "4059",
+   "visita": "Benevento",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "3952",
+   "local": "Padova",
+   "visitaId": "4055",
+   "visita": "US Avellino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "2923",
+   "local": "Palermo",
+   "visitaId": "3337",
+   "visita": "Cesena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-14",
+   "localId": "2734",
+   "local": "Sampdoria",
+   "visitaId": "3956",
+   "visita": "Pisa",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

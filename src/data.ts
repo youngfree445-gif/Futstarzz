@@ -845,9 +845,17 @@ export const CLUBS_DATABASE: Club[] = [
     badgeImageUrl: 'badges/clubs/vila_nova.png', division: 2 },
   { id: 'avai', name: 'Avaí', league: 'Brasileña', dt: 'Enderson Moreira', reputation: 2, initialSalary: 900, marketValue: 3000000, starPlayers: ['Rafael Bilu (RW)', 'Daniel Penha (CAM)', 'Mateus Quaresma (LB)', 'Allyson (CB)', 'Zé Ricardo (CDM)', 'Wesley Gasolina (RB)', 'Cristiano (RM)', 'Felipe Avenatti (ST)', 'Léo Aragão (GK)', 'Wenderson (CM)', 'Nicolas Cabral (CB)'], description: 'Leão da Ilha.', badgeColor: 'border-l-4 border-white bg-blue-600 text-white', badgeLogoUrl: '🦁',
     badgeImageUrl: 'badges/clubs/avai.png', division: 2 },
-  { id: 'botafogo_sp', name: 'Botafogo FC', league: 'Brasileña', dt: 'Paulo Gomes', reputation: 2, initialSalary: 900, marketValue: 3000000, starPlayers: ['João Carlos', 'Fábio Sanches', 'Bochecha', 'Alexandre Jesus'], description: 'Botafogo de Ribeirão Preto.', badgeColor: 'border-l-4 border-white bg-red-600 text-white', badgeLogoUrl: '🔴⚪',
+  // "Botafogo FC" colisionaba con el Botafogo de Río: al normalizar se le cae el "FC" y los dos
+  // quedaban en "botafogo", así que el de Ribeirão Preto se llevaba los partidos del de Río y
+  // ambos aparecían jugando el mismo día. Va con el nombre de la ciudad, que es como se lo
+  // distingue en Brasil. Mismo criterio que con el Athletic Club brasileño.
+  { id: 'botafogo_sp', name: 'Botafogo de Ribeirão Preto', league: 'Brasileña', dt: 'Paulo Gomes', reputation: 2, initialSalary: 900, marketValue: 3000000, starPlayers: ['João Carlos', 'Fábio Sanches', 'Bochecha', 'Alexandre Jesus'], description: 'Botafogo de Ribeirão Preto.', badgeColor: 'border-l-4 border-white bg-red-600 text-white', badgeLogoUrl: '🔴⚪',
     badgeImageUrl: 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/botafogo/botafogo-logo-footylogos.svg', division: 2 },
-  { id: 'athletic_club', name: 'Athletic Club', league: 'Brasileña', dt: 'DT Genérico', reputation: 2, initialSalary: 900, marketValue: 3000000, starPlayers: ['Jefferson', 'Danilo Cardoso', 'Yuri', 'Jonathas'], description: 'Compite en Brasileirao B.', badgeColor: 'border-l-4 border-white bg-black text-white', badgeLogoUrl: '⚫',
+  // "Athletic Club" a secas colisionaba con el Athletic Club de Bilbao: los calendarios guardan
+  // NOMBRES, no ids, así que los partidos del brasileño se los llevaba el español y los dos
+  // aparecían jugando el mismo día. Va con su nombre completo, como se hizo con el Liverpool
+  // uruguayo. Ver EQUIPO_SYNONYMS más abajo.
+  { id: 'athletic_club', name: 'Athletic Club de São João del-Rei', league: 'Brasileña', dt: 'DT Genérico', reputation: 2, initialSalary: 900, marketValue: 3000000, starPlayers: ['Jefferson', 'Danilo Cardoso', 'Yuri', 'Jonathas'], description: 'Compite en Brasileirao B.', badgeColor: 'border-l-4 border-white bg-black text-white', badgeLogoUrl: '⚫',
     badgeImageUrl: 'badges/clubs/athletic_club.png', division: 2 },
   { id: 'londrina', name: 'Londrina', league: 'Brasileña', dt: 'Claudinei Oliveira', reputation: 2, initialSalary: 900, marketValue: 3000000, starPlayers: ['Gilberto (ST)', 'Mauricio Kozlinski (GK)', 'Wallace (CB)', 'Thalis (CAM)', 'Lucas Marques (CDM)', 'Iago Teles (LW)', 'Luan Ribeiro (GK)', 'Paulinho Moccelin (LW)', 'Kevyn (LB)', 'Bruno Santos (ST)', 'André Luiz (CDM)'], description: 'Compite en Brasileirao B.', badgeColor: 'border-l-4 border-white bg-sky-400 text-white', badgeLogoUrl: '🩵',
     badgeImageUrl: 'badges/clubs/londrina.png', division: 2 },

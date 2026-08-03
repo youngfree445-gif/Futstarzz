@@ -1,0 +1,3467 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/bra.1",
+ "espnLeagueId": "bra.1",
+ "temporada": "2026 Brasileiro Serie A",
+ "equipos": {
+  "819": "Flamengo",
+  "874": "Corinthians",
+  "1936": "Internacional",
+  "2022": "Cruzeiro",
+  "2026": "São Paulo",
+  "2029": "Palmeiras",
+  "2674": "Santos",
+  "3445": "Fluminense",
+  "3454": "Vasco da Gama",
+  "3456": "Coritiba",
+  "3457": "Vitória",
+  "3458": "Athletico Paranaense",
+  "4936": "Remo",
+  "6079": "Red Bull Bragantino",
+  "6086": "Botafogo",
+  "6273": "Grêmio",
+  "7632": "Atlético-MG",
+  "9169": "Mirassol",
+  "9318": "Chapecoense",
+  "9967": "Bahia"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-01-28",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-01-28",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-01-28",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-01-28",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-01-28",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-01-28",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-01-28",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-01-29",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-01-29",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-01-30",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-02-04",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-04",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-04",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-04",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-05",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-05",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "5-3"
+  },
+  {
+   "fecha": "2026-02-05",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "5-1"
+  },
+  {
+   "fecha": "2026-02-05",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-06",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-11",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-02-11",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-02-11",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-11",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-12",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-12",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-12",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-12",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-12",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-13",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-02-19",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-25",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-02-25",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-02-25",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-25",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-25",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-02-25",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-25",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-26",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-26",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-26",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-11",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-11",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-11",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-03-12",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-12",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-12",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-12",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-12",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-13",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-16",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-19",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-19",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-19",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-19",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-03-20",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-29",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-01",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "0-4"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "0-4"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-05-25",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-21",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "0-4"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-29",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-07-29",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-07-29",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-07-29",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-29",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-29",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-07-30",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-30",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-30",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": true,
+   "marcador": "0-4"
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-17",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-24",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-04",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-18",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "7632",
+   "local": "Atlético-MG",
+   "visitaId": "3454",
+   "visita": "Vasco da Gama",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "6086",
+   "local": "Botafogo",
+   "visitaId": "9967",
+   "visita": "Bahia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "9318",
+   "local": "Chapecoense",
+   "visitaId": "2029",
+   "visita": "Palmeiras",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "874",
+   "local": "Corinthians",
+   "visitaId": "6273",
+   "visita": "Grêmio",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3456",
+   "local": "Coritiba",
+   "visitaId": "819",
+   "visita": "Flamengo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3445",
+   "local": "Fluminense",
+   "visitaId": "2022",
+   "visita": "Cruzeiro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "1936",
+   "local": "Internacional",
+   "visitaId": "6079",
+   "visita": "Red Bull Bragantino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "9169",
+   "local": "Mirassol",
+   "visitaId": "3458",
+   "visita": "Athletico Paranaense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2026",
+   "local": "São Paulo",
+   "visitaId": "4936",
+   "visita": "Remo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3457",
+   "local": "Vitória",
+   "visitaId": "2674",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "3458",
+   "local": "Athletico Paranaense",
+   "visitaId": "2026",
+   "visita": "São Paulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "9967",
+   "local": "Bahia",
+   "visitaId": "7632",
+   "visita": "Atlético-MG",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "2022",
+   "local": "Cruzeiro",
+   "visitaId": "1936",
+   "visita": "Internacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "819",
+   "local": "Flamengo",
+   "visitaId": "9318",
+   "visita": "Chapecoense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "6273",
+   "local": "Grêmio",
+   "visitaId": "9169",
+   "visita": "Mirassol",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "2029",
+   "local": "Palmeiras",
+   "visitaId": "3456",
+   "visita": "Coritiba",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "6079",
+   "local": "Red Bull Bragantino",
+   "visitaId": "3445",
+   "visita": "Fluminense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "4936",
+   "local": "Remo",
+   "visitaId": "874",
+   "visita": "Corinthians",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "2674",
+   "local": "Santos",
+   "visitaId": "6086",
+   "visita": "Botafogo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-02",
+   "localId": "3454",
+   "local": "Vasco da Gama",
+   "visitaId": "3457",
+   "visita": "Vitória",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}
