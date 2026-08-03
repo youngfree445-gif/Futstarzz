@@ -609,8 +609,17 @@ export default function App() {
   const [achievementQueue, setAchievementQueue] = useState<Achievement[]>([]);
   // Cola de avisos tipo toast (reemplazo no bloqueante de alert() nativo) -- ver notify() más abajo
   // y NoticeToast en App.tsx render. Se apilan si se dispara más de uno a la vez y se muestran de a uno.
-  const [noticeQueue, setNoticeQueue] = useState<string[]>([]);
-  const notify = (message: string) => setNoticeQueue(prev => [...prev, message]);
+  //
+  // Cada aviso lleva un id propio porque el TEXTO no sirve como identidad: dos avisos iguales
+  // seguidos ("esta semana no hay partido de copa", el de fatiga) compartían key, React reutilizaba
+  // el mismo NoticeToast en vez de remontarlo, y su temporizador de auto-cierre -- que depende de
+  // `message` -- no se volvía a disparar. El toast quedaba colgado para siempre, y como es un div
+  // `fixed top-4 right-4` de 384px de ancho, tapaba justo los botones x2/x4/Saltar: se veían pero
+  // no recibían el clic. Recargar la página lo arreglaba porque vaciaba la cola.
+  const [noticeQueue, setNoticeQueue] = useState<{ id: number; message: string }[]>([]);
+  const nextNoticeId = useRef(0);
+  const notify = (message: string) =>
+    setNoticeQueue(prev => [...prev, { id: ++nextNoticeId.current, message }]);
 
   // Theming dinámico por club: repinta el dorado/borgoña de toda la app con el color real de
   // camiseta del club actual (ver Club.themeColor en data.ts y clubTheme.ts) cada vez que cambia
@@ -2456,8 +2465,8 @@ export default function App() {
 
       {noticeQueue.length > 0 && (
         <NoticeToast
-          key={noticeQueue[0]}
-          message={noticeQueue[0]}
+          key={noticeQueue[0].id}
+          message={noticeQueue[0].message}
           onDone={() => setNoticeQueue(prev => prev.slice(1))}
         />
       )}
