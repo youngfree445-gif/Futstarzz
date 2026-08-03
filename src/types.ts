@@ -441,4 +441,8 @@ export interface LeagueSeasonState {
   knockout?: PlayoffBracket; // Argentina: Cuartos-Semifinal-Final a partido único
   twoLegKnockout?: TwoLegBracket; // Colombia: Cuartos-Semifinal-Final a ida y vuelta
   stepsConsumed?: number; // cuántas fechas de liga (independiente del semestre) ya se resolvieron en total, para el catch-up perezoso
+  // Año de carrera de ESTA temporada, en las ligas de calendario real (Europa). Marca cuándo hay
+  // que empezar una temporada nueva: sin él, al terminar las 38 jornadas el fixture quedaba sin
+  // ninguna pendiente y el club no volvía a jugar nunca (ver catchUpRealLeague).
+  seasonYear?: number;
 }

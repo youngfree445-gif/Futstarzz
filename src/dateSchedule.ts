@@ -110,8 +110,14 @@ export function daysUntilNextFixture(clubName: string, date: string): number | n
  * Sirve para saber si un partido del calendario ya se jugó: su paso es menor al actual.
  */
 export function pasoDeFecha(clubName: string, date: string): number | null {
+  // Mismo filtro que fixturesAtStep: si una cuenta desde el arranque de la carrera y la otra desde
+  // el principio del calendario, los pasos no coinciden y el calendario en pantalla marca como
+  // "ya jugado" un partido que todavía no llegó (o al revés).
   const fechas: string[] = [];
-  for (const f of fixturesForClub(clubName)) if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
+  for (const f of fixturesForClub(clubName)) {
+    if (f.date < CAREER_START_DATE) continue;
+    if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
+  }
   const i = fechas.indexOf(date);
   return i < 0 ? null : i + 1;
 }
@@ -136,20 +142,20 @@ export function torneoDeFecha(competition: DatedCompetition, date: string): stri
 }
 
 /**
- * ¿El calendario de esta liga son dos torneos en el mismo año (Apertura/Clausura)?
+ * Ligas que reparten DOS títulos por año (Apertura y Clausura).
  *
- * Sale de la forma del propio calendario: si empieza y termina dentro del MISMO año, es un torneo
- * por semestre (Colombia: enero a noviembre). Si cruza de un año al siguiente, es una temporada
- * corrida al estilo europeo (agosto a mayo).
+ * Va como lista explícita a propósito. Se intentó deducirlo de la forma del calendario y no se
+ * puede: el Brasileirão va de enero a diciembre igual que la Liga BetPlay, y los dos tienen un
+ * parón de mitad de año de 46 días exactos. Por forma son idénticos, pero Brasil corona UN campeón
+ * y Colombia DOS. Deducirlo partía el Brasileirão en dos y coronaba dos campeones inventados.
+ *
+ * Es la misma lista que isApeturaClausuraLeague en leagueEngine, y tiene que seguir coincidiendo:
+ * acá no se importa para no crear una dependencia circular entre los dos módulos.
  */
-const cacheDosTorneos = new Map<string, boolean>();
+const LIGAS_DE_DOS_TORNEOS = new Set(['Colombiana', 'Argentina']);
+
 function esCalendarioDeDosTorneos(competition: DatedCompetition): boolean {
-  const cacheado = cacheDosTorneos.get(competition.id);
-  if (cacheado !== undefined) return cacheado;
-  const dosTorneos = !!competition.firstDate && !!competition.lastDate
-    && competition.firstDate.slice(0, 4) === competition.lastDate.slice(0, 4);
-  cacheDosTorneos.set(competition.id, dosTorneos);
-  return dosTorneos;
+  return LIGAS_DE_DOS_TORNEOS.has(competition.league);
 }
 
 /**
@@ -297,6 +303,11 @@ export function pickPrimary(fixtures: DatedFixture[]): DatedFixture | null {
 /**
  * Lo que le toca jugar al club en el paso N de su carrera.
  *
+ * Solo cuentan las fechas DESDE el arranque de la carrera. Sin ese filtro, un club europeo empezaba
+ * a jugar en el pasado: la temporada de LaLiga arranca en agosto de 2025 y la carrera el 12 de enero
+ * de 2026, así que el paso 1 del Barcelona era Barcelona-Mallorca del 16 de agosto de 2025 y el
+ * jugador se comía media temporada ya jugada antes de llegar a su primer partido "real".
+ *
  * Un "paso" es una FECHA con partido, no una semana. Ésa es toda la diferencia con el motor viejo:
  * si el club juega liga el domingo y copa el jueves, son dos pasos distintos en vez de una sola
  * semana donde uno de los dos se perdía.
@@ -304,7 +315,7 @@ export function pickPrimary(fixtures: DatedFixture[]): DatedFixture | null {
  * Devuelve null cuando el club ya agotó su calendario real; el motor sigue avanzando por su cuenta.
  */
 export function fixturesAtStep(clubName: string, step: number): { date: string; fixtures: DatedFixture[] } | null {
-  const todas = fixturesForClub(clubName);
+  const todas = fixturesForClub(clubName).filter(f => f.date >= CAREER_START_DATE);
   if (!todas.length) return null;
 
   // Fechas distintas, en orden: dos partidos el mismo día cuentan como un solo paso.

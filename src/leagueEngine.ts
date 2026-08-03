@@ -975,7 +975,28 @@ function catchUpRealLeague(
     jugadas.add(ronda);
   }
 
-  return { leagueKey: season.leagueKey, fixtures, table, round: jugadas.size };
+  // Temporada terminada: se arranca una nueva con la tabla en cero.
+  //
+  // Sin esto la carrera se moría al terminar el primer año, igual que pasaba en Apertura/Clausura:
+  // jugadas las 38 jornadas, `rondaDeHoy` en resolveRealLeagueWeek no encuentra ninguna pendiente y
+  // getUpcomingMatchForLeague devuelve null para siempre. El Bayern jugaba 21 partidos y no volvía
+  // a jugar nunca -- 1436 pasos seguidos sin un solo partido.
+  //
+  // Se compara contra el año de carrera y no contra "están todas jugadas" a secas: así la temporada
+  // nueva arranca una sola vez por año y no se reinicia en cada llamada.
+  const anioDeCarrera = getSeasonYear(currentWeek);
+  const temporadaCompleta = jugadas.size >= orden.length && orden.length > 0;
+  if (temporadaCompleta && (season.seasonYear ?? 1) <= anioDeCarrera) {
+    return {
+      leagueKey: season.leagueKey,
+      fixtures: [],
+      table: buildInitialTable(leagueClubs),
+      round: 0,
+      seasonYear: anioDeCarrera + 1,
+    };
+  }
+
+  return { leagueKey: season.leagueKey, fixtures, table, round: jugadas.size, seasonYear: season.seasonYear };
 }
 
 export function getUpcomingMatchForLeague(
