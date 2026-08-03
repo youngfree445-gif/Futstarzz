@@ -16,7 +16,7 @@ const DESTINO = 'src/realCalendarDates.ts';
 const CLUBES = 'data/calendarios_allgames/_clubes.json';
 
 // id de la versión incompleta que viene de ALLgames -> se descarta al importar la buena.
-const REEMPLAZA = { fac_tm: 'fac', cgb_tm: 'cgb' };
+const REEMPLAZA = { fac_tm: 'fac', cgb_tm: 'cgb', cdr_tm: 'cdr', cit_tm: 'cit', dfb_tm: 'dfb' };
 
 const norm = s => (s || '')
   .normalize('NFD').replace(/[̀-ͯ]/g, '')

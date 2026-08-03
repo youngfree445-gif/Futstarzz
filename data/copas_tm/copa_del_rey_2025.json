@@ -1,0 +1,39 @@
+{
+  "fuente": "https://www.transfermarkt.co/copa-del-rey/gesamtspielplan/pokalwettbewerb/CDR?saison_id=2025",
+  "id": "cdr_tm",
+  "name": "Copa del Rey",
+  "kind": "domestic_cup",
+  "league": "Española",
+  "season": "2025/26",
+  "nota": "Desde dieciseisavos, que es donde entran los clubes de Primera. Semifinal a ida y vuelta.",
+  "matches": [
+    { "round": "Dieciseisavos", "date": "2025-12-16", "home": "SD Eibar", "away": "Elche CF" },
+    { "round": "Dieciseisavos", "date": "2025-12-16", "home": "RC Deportivo", "away": "RCD Mallorca" },
+    { "round": "Dieciseisavos", "date": "2025-12-16", "home": "CD Eldense", "away": "Real Sociedad" },
+    { "round": "Dieciseisavos", "date": "2025-12-16", "home": "Real Sporting", "away": "Valencia CF" },
+    { "round": "Dieciseisavos", "date": "2025-12-16", "home": "CD Guadalajara", "away": "FC Barcelona" },
+    { "round": "Dieciseisavos", "date": "2025-12-17", "home": "CyD Leonesa", "away": "Levante UD" },
+    { "round": "Dieciseisavos", "date": "2025-12-17", "home": "Racing", "away": "Villarreal CF" },
+    { "round": "Dieciseisavos", "date": "2025-12-17", "home": "SD Huesca", "away": "CA Osasuna" },
+    { "round": "Dieciseisavos", "date": "2025-12-17", "home": "Atlético Baleares", "away": "Atlético de Madrid" },
+    { "round": "Dieciseisavos", "date": "2025-12-17", "home": "Albacete", "away": "Celta" },
+    { "round": "Dieciseisavos", "date": "2025-12-17", "home": "CF Talavera", "away": "Real Madrid" },
+    { "round": "Dieciseisavos", "date": "2025-12-17", "home": "Alavés", "away": "Sevilla FC" },
+    { "round": "Dieciseisavos", "date": "2025-12-18", "home": "Burgos CF", "away": "Getafe CF" },
+    { "round": "Dieciseisavos", "date": "2025-12-18", "home": "Ourense", "away": "Athletic Club" },
+    { "round": "Dieciseisavos", "date": "2025-12-18", "home": "Real Murcia", "away": "Real Betis" },
+    { "round": "Dieciseisavos", "date": "2026-01-06", "home": "Granada CF", "away": "Rayo Vallecano" },
+
+    { "round": "Cuartos de Final", "date": "2026-02-03", "home": "Albacete", "away": "FC Barcelona" },
+    { "round": "Cuartos de Final", "date": "2026-02-04", "home": "Alavés", "away": "Real Sociedad" },
+    { "round": "Cuartos de Final", "date": "2026-02-04", "home": "Valencia CF", "away": "Athletic Club" },
+    { "round": "Cuartos de Final", "date": "2026-02-05", "home": "Real Betis", "away": "Atlético de Madrid" },
+
+    { "round": "Semifinal (Ida)", "date": "2026-02-11", "home": "Athletic Club", "away": "Real Sociedad" },
+    { "round": "Semifinal (Ida)", "date": "2026-02-12", "home": "Atlético de Madrid", "away": "FC Barcelona" },
+    { "round": "Semifinal (Vuelta)", "date": "2026-03-03", "home": "FC Barcelona", "away": "Atlético de Madrid" },
+    { "round": "Semifinal (Vuelta)", "date": "2026-03-04", "home": "Real Sociedad", "away": "Athletic Club" },
+
+    { "round": "Final", "date": "2026-04-18", "home": "Atlético de Madrid", "away": "Real Sociedad" }
+  ]
+}

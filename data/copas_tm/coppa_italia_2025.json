@@ -1,0 +1,52 @@
+{
+  "fuente": "https://www.transfermarkt.co/copa-italia/gesamtspielplan/pokalwettbewerb/CIT?saison_id=2025",
+  "id": "cit_tm",
+  "name": "Coppa Italia",
+  "kind": "domestic_cup",
+  "league": "Italiana",
+  "season": "2025/26",
+  "nota": "Desde 1ª ronda. Semifinal a ida y vuelta. 'Naples' en la fuente es el Napoli.",
+  "matches": [
+    { "round": "1ª Ronda", "date": "2025-08-15", "home": "Sassuolo", "away": "Catanzaro" },
+    { "round": "1ª Ronda", "date": "2025-08-15", "home": "Lecce", "away": "Juve Stabia" },
+    { "round": "1ª Ronda", "date": "2025-08-15", "home": "Genoa", "away": "LR Vicenza" },
+    { "round": "1ª Ronda", "date": "2025-08-16", "home": "Como", "away": "Südtirol" },
+    { "round": "1ª Ronda", "date": "2025-08-16", "home": "Cagliari", "away": "Virtus Entella" },
+    { "round": "1ª Ronda", "date": "2025-08-16", "home": "Cremonese", "away": "Palermo" },
+    { "round": "1ª Ronda", "date": "2025-08-17", "home": "Parma", "away": "Pescara" },
+    { "round": "1ª Ronda", "date": "2025-08-17", "home": "Milan", "away": "Bari" },
+    { "round": "1ª Ronda", "date": "2025-08-18", "home": "Cerignola", "away": "Hellas Verona" },
+    { "round": "1ª Ronda", "date": "2025-08-18", "home": "Udinese", "away": "Carrarese" },
+    { "round": "1ª Ronda", "date": "2025-08-18", "home": "Torino", "away": "Modena" },
+
+    { "round": "2ª Ronda", "date": "2025-09-23", "home": "Cagliari", "away": "Frosinone" },
+    { "round": "2ª Ronda", "date": "2025-09-23", "home": "Udinese", "away": "Palermo" },
+    { "round": "2ª Ronda", "date": "2025-09-23", "home": "Milan", "away": "Lecce" },
+    { "round": "2ª Ronda", "date": "2025-09-24", "home": "Parma", "away": "Spezia" },
+    { "round": "2ª Ronda", "date": "2025-09-24", "home": "Hellas Verona", "away": "Venezia" },
+    { "round": "2ª Ronda", "date": "2025-09-24", "home": "Como", "away": "Sassuolo" },
+    { "round": "2ª Ronda", "date": "2025-09-25", "home": "Genoa", "away": "Empoli" },
+    { "round": "2ª Ronda", "date": "2025-09-25", "home": "Torino", "away": "Pisa" },
+
+    { "round": "Octavos de Final", "date": "2025-12-02", "home": "Juventus", "away": "Udinese" },
+    { "round": "Octavos de Final", "date": "2025-12-03", "home": "Atalanta", "away": "Genoa" },
+    { "round": "Octavos de Final", "date": "2025-12-03", "home": "Napoli", "away": "Cagliari" },
+    { "round": "Octavos de Final", "date": "2025-12-03", "home": "Inter", "away": "Venezia" },
+    { "round": "Octavos de Final", "date": "2025-12-04", "home": "Bologna", "away": "Parma" },
+    { "round": "Octavos de Final", "date": "2025-12-04", "home": "Lazio", "away": "Milan" },
+    { "round": "Octavos de Final", "date": "2026-01-13", "home": "Roma", "away": "Torino" },
+    { "round": "Octavos de Final", "date": "2026-01-27", "home": "Fiorentina", "away": "Como" },
+
+    { "round": "Cuartos de Final", "date": "2026-02-04", "home": "Inter", "away": "Torino" },
+    { "round": "Cuartos de Final", "date": "2026-02-05", "home": "Atalanta", "away": "Juventus" },
+    { "round": "Cuartos de Final", "date": "2026-02-10", "home": "Napoli", "away": "Como" },
+    { "round": "Cuartos de Final", "date": "2026-02-11", "home": "Bologna", "away": "Lazio" },
+
+    { "round": "Semifinal (Ida)", "date": "2026-03-03", "home": "Como", "away": "Inter" },
+    { "round": "Semifinal (Ida)", "date": "2026-03-04", "home": "Lazio", "away": "Atalanta" },
+    { "round": "Semifinal (Vuelta)", "date": "2026-04-21", "home": "Inter", "away": "Como" },
+    { "round": "Semifinal (Vuelta)", "date": "2026-04-22", "home": "Atalanta", "away": "Lazio" },
+
+    { "round": "Final", "date": "2026-05-13", "home": "Lazio", "away": "Inter" }
+  ]
+}

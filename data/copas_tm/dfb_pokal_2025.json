@@ -1,0 +1,251 @@
+{
+  "fuente": "https://www.transfermarkt.co/copa-de-alemania/gesamtspielplan/pokalwettbewerb/DFB?saison_id=2025",
+  "id": "dfb_tm",
+  "name": "DFB-Pokal",
+  "kind": "domestic_cup",
+  "league": "Alemana",
+  "season": "2025/26",
+  "nota": "La fuente castellaniza los nombres ('Bayern Múnich', 'Eintracht Fráncfort', 'FC Colonia'); acá van como los escribe el juego. Todo a partido único, incluida la semifinal.",
+  "matches": [
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-15",
+      "home": "SG Sonnenhof Großaspach",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-15",
+      "home": "FC Gütersloh",
+      "away": "1. FC Union Berlin"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-15",
+      "home": "Arminia Bielefeld",
+      "away": "SV Werder Bremen"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-16",
+      "home": "FK Pirmasens",
+      "away": "Hamburger SV"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-16",
+      "home": "SV Hemelingen",
+      "away": "VfL Wolfsburg"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-16",
+      "home": "Bahlinger SC",
+      "away": "FC Heidenheim"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-16",
+      "home": "Hansa Rostock",
+      "away": "TSG Hoffenheim"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-16",
+      "home": "E. Norderstedt",
+      "away": "FC St. Pauli"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-16",
+      "home": "SF Lotte",
+      "away": "SC Freiburg"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-16",
+      "home": "SV Sandhausen",
+      "away": "RB Leipzig"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-17",
+      "home": "FV Engers 07",
+      "away": "Eintracht Frankfurt"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-17",
+      "home": "J. Regensburg",
+      "away": "1. FC Köln"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-17",
+      "home": "SVA Delmenhorst",
+      "away": "Borussia Mönchengladbach"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-18",
+      "home": "Dynamo Dresden",
+      "away": "1. FSV Mainz 05"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-18",
+      "home": "RW Essen",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-26",
+      "home": "Eintracht Braunschweig",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "round": "1ª Ronda",
+      "date": "2025-08-27",
+      "home": "Wehen Wiesbaden",
+      "away": "FC Bayern München"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-28",
+      "home": "FC Heidenheim",
+      "away": "Hamburger SV"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-28",
+      "home": "Eintracht Frankfurt",
+      "away": "Borussia Dortmund"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-28",
+      "home": "VfL Wolfsburg",
+      "away": "Holstein Kiel"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-28",
+      "home": "FC St. Pauli",
+      "away": "TSG Hoffenheim"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-28",
+      "home": "Energie Cottbus",
+      "away": "RB Leipzig"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-29",
+      "home": "1. FSV Mainz 05",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-29",
+      "home": "SC Paderborn 07",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-29",
+      "home": "Fortuna Düsseldorf",
+      "away": "SC Freiburg"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-29",
+      "home": "1. FC Union Berlin",
+      "away": "Arminia Bielefeld"
+    },
+    {
+      "round": "2ª Ronda",
+      "date": "2025-10-29",
+      "home": "1. FC Köln",
+      "away": "FC Bayern München"
+    },
+    {
+      "round": "Octavos de Final",
+      "date": "2025-12-02",
+      "home": "Borussia Mönchengladbach",
+      "away": "FC St. Pauli"
+    },
+    {
+      "round": "Octavos de Final",
+      "date": "2025-12-02",
+      "home": "Borussia Dortmund",
+      "away": "Bayer 04 Leverkusen"
+    },
+    {
+      "round": "Octavos de Final",
+      "date": "2025-12-02",
+      "home": "RB Leipzig",
+      "away": "Magdeburg"
+    },
+    {
+      "round": "Octavos de Final",
+      "date": "2025-12-03",
+      "home": "VfL Bochum",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "round": "Octavos de Final",
+      "date": "2025-12-03",
+      "home": "SC Freiburg",
+      "away": "Darmstadt 98"
+    },
+    {
+      "round": "Octavos de Final",
+      "date": "2025-12-03",
+      "home": "1. FC Union Berlin",
+      "away": "FC Bayern München"
+    },
+    {
+      "round": "Octavos de Final",
+      "date": "2025-12-03",
+      "home": "Hamburger SV",
+      "away": "Holstein Kiel"
+    },
+    {
+      "round": "Cuartos de Final",
+      "date": "2026-02-03",
+      "home": "Bayer 04 Leverkusen",
+      "away": "FC St. Pauli"
+    },
+    {
+      "round": "Cuartos de Final",
+      "date": "2026-02-04",
+      "home": "Holstein Kiel",
+      "away": "VfB Stuttgart"
+    },
+    {
+      "round": "Cuartos de Final",
+      "date": "2026-02-11",
+      "home": "FC Bayern München",
+      "away": "RB Leipzig"
+    },
+    {
+      "round": "Semifinal",
+      "date": "2026-04-22",
+      "home": "Bayer 04 Leverkusen",
+      "away": "FC Bayern München"
+    },
+    {
+      "round": "Semifinal",
+      "date": "2026-04-23",
+      "home": "VfB Stuttgart",
+      "away": "SC Freiburg"
+    },
+    {
+      "round": "Final",
+      "date": "2026-05-23",
+      "home": "FC Bayern München",
+      "away": "VfB Stuttgart"
+    }
+  ]
+}
