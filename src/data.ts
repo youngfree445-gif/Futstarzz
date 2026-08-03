@@ -399,7 +399,7 @@ export const CLUBS_DATABASE: Club[] = [
     badgeColor: 'border-l-4 border-orange-500 bg-orange-950/20 text-orange-200',
     badgeLogoUrl: '🟠🟢⚽',
     badgeImageUrl: 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/envigado/envigado-logo-footylogos.svg',
-    division: 1
+    division: 2
   },
   {
     id: 'union_magdalena',
@@ -414,7 +414,7 @@ export const CLUBS_DATABASE: Club[] = [
     badgeColor: 'border-l-4 border-blue-600 bg-red-900/10 text-blue-200',
     badgeLogoUrl: '🔵🔴🍌',
     badgeImageUrl: 'https://pub-3bd35431294c47068cbf31a95d572166.r2.dev/logos/union-magdalena/union-magdalena-logo-footylogos.svg',
-    division: 1
+    division: 2
   },
   {
     id: 'boca_cali',

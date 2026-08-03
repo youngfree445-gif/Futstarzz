@@ -563,16 +563,30 @@ function assignArgentinaZones(clubIds: string[]): { zoneA: string[]; zoneB: stri
 function generateSingleRound(clubIds: string[], maxMatchdays?: number): Fixture[] {
   const teams = clubIds.length % 2 === 0 ? [...clubIds] : [...clubIds, '__BYE__'];
   const n = teams.length;
-  const totalRounds = Math.min(n - 1, maxMatchdays ?? n - 1);
+  const porRueda = n - 1;
+  const objetivo = maxMatchdays ?? porRueda;
   let arr = [...teams];
   const fixtures: Fixture[] = [];
 
-  for (let round = 0; round < totalRounds; round++) {
+  // Se dan tantas ruedas como haga falta para llegar a las fechas pedidas, invirtiendo la localía
+  // en cada una. Antes se topaba en `n - 1` (una sola rueda) y las divisiones chicas quedaban con
+  // un torneo a medias: la Segunda colombiana tiene 14 clubes, así que pedía 19 fechas y generaba
+  // 13 -- el jugador terminaba el semestre con 13 partidos y la tabla se congelaba ahí.
+  for (let round = 0; round < objetivo; round++) {
+    const rueda = Math.floor(round / porRueda);   // 0 = ida, 1 = vuelta, ...
+    // Cada rueda arranca de nuevo el giro del round-robin, o los cruces se repetirían salteados.
+    if (round % porRueda === 0) arr = [...teams];
+
     for (let i = 0; i < n / 2; i++) {
       const a = arr[i];
       const b = arr[n - 1 - i];
       if (a !== '__BYE__' && b !== '__BYE__') {
-        const [home, away] = round % 2 === 0 ? [a, b] : [b, a];
+        // La localía alterna por PAREJA dentro de la fecha y se invierte entera en la rueda de
+        // vuelta, así el que fue local en la ida es visitante en la revancha. Alternar por fecha
+        // entera dejaba a un club 12-7; alternar por fecha Y pareja a la vez era peor todavía
+        // (algunos clubes jugaban las 19 de local).
+        const local = (i % 2 === 0) !== (rueda % 2 === 1);
+        const [home, away] = local ? [a, b] : [b, a];
         fixtures.push({ matchweek: round + 1, homeTeamId: home, awayTeamId: away, played: false, homeGoals: null, awayGoals: null });
       }
     }
@@ -818,6 +832,16 @@ export function getOrCreateApeturaClausuraSeason(
     stepsConsumed++;
   }
 
+  // Se acabaron las fechas de la fase regular: toca armar los cuadrangulares. Va acá y no solo
+  // dentro de resolveApeturaClausuraStep porque esa función se llama únicamente cuando el jugador
+  // TIENE partido, y justo al terminar la fase regular no lo tiene: la temporada se quedaba en
+  // `regular` con cero fechas pendientes, sin rival y sin pasar nunca a playoffs. Resultado: no
+  // había campeón ni de Apertura ni de Clausura.
+  if (faseRegularTerminada(season)) {
+    season = resolveApeturaClausuraStep(season, clubs, currentWeek, format);
+    stepsConsumed++;
+  }
+
   // El semestre puede haberse agotado sin que el contador de pasos lo note. Pasa con los clubes de
   // calendario real: sus fechas las consume resolveApeturaClausuraWeek una por partido REAL, no una
   // por semana, así que stepsConsumed se adelanta a targetSteps y el `while` de arriba no corre.
@@ -832,16 +856,28 @@ export function getOrCreateApeturaClausuraSeason(
   return { ...season, stepsConsumed };
 }
 
-/** La temporada ya no tiene nada por jugar: ni fecha regular pendiente ni llave viva. */
+/**
+ * La temporada ya no tiene nada por jugar y hay que arrancar la siguiente.
+ *
+ * Ojo con la fase regular: quedarse sin fechas NO es el final del semestre, es el momento en que
+ * empiezan los cuadrangulares. Darla por agotada ahí saltaba los playoffs enteros -- el semestre
+ * pasaba de regular a regular y nunca había campeón de Apertura ni de Clausura.
+ */
 function temporadaAgotada(season: LeagueSeasonState): boolean {
   const stage = season.stage ?? 'regular';
-  if (stage === 'regular') return !season.fixtures.some(f => !f.played);
   if (stage === 'knockout') {
     if (season.twoLegKnockout) return !!season.twoLegKnockout.championId;
     if (season.knockout) return !!season.knockout.championId;
     return true;
   }
   return stage === 'done';
+}
+
+/** La fase regular terminó y toca armar los playoffs (no confundir con temporadaAgotada). */
+function faseRegularTerminada(season: LeagueSeasonState): boolean {
+  return (season.stage ?? 'regular') === 'regular'
+    && season.fixtures.length > 0
+    && !season.fixtures.some(f => !f.played);
 }
 
 // Resuelve la semana actual con el resultado REAL de tu partido (si te
