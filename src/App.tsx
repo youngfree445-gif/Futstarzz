@@ -21,7 +21,7 @@ import {
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
-  resolverPasoCopaNacional
+  resolverPasoCopaNacional, simulatePenaltyShootout
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
@@ -2032,11 +2032,32 @@ export default function App() {
         .filter(r => r.competition === fx.competition.name && idasDeLaLlave.includes(r.date));
       const globalMio = results.golesMiEquipo + previos.reduce((n, r) => n + r.myGoals, 0);
       const globalRival = results.golesRival + previos.reduce((n, r) => n + r.rivalGoals, 0);
-      // Empate en el global: lo define la tanda, que el motor no simula para estas copas. Se
-      // resuelve a favor del que ganó al menos uno de los dos partidos, y si ninguno, no corona.
       if (globalMio < globalRival) return;
-      if (globalMio === globalRival && results.golesMiEquipo <= results.golesRival
-          && !previos.some(r => r.myGoals > r.rivalGoals)) return;
+
+      // Empate en el global (ida y vuelta ambas igualadas, o compensadas entre sí): se define por
+      // penales, igual que cualquier otra llave del juego. Antes acá simplemente no coronaba a
+      // nadie -- "se resuelve a favor del que ganó al menos uno de los dos partidos, y si ninguno,
+      // no corona" -- y un global 1-1 (0-0 de ida, 1-1 de vuelta) dejaba la Superliga sin campeón.
+      // Bug reportado: "aqui quedo empatadoe el global y no hubo desempate".
+      if (globalMio === globalRival) {
+        if (shootoutOverride) {
+          // Segunda pasada: ya jugaste la tanda en vivo (ver handleContinueFromShootout). Este
+          // resultado real es el que decide, no una simulación de fondo.
+          if (shootoutOverride.winnerId !== myClub.id) return;
+        } else {
+          // Primera pasada: solo señalizamos que hay que pausar y mostrar InteractivePenaltyShootout
+          // (ver el bloque `if (foundShootout && !shootoutOverride)` más abajo). Ese componente juega
+          // su propia tanda con placeholders 'mine'/'rival' -- lo que se simule acá no se usa para
+          // nada más que activar la pausa, así que no hace falta un club real, cualquier resultado
+          // no-null sirve de señal.
+          const rivalClub = CLUBS_DATABASE.find(c => c.id === activeOppositionClubId);
+          if (!rivalClub) return;
+          foundShootout = simulatePenaltyShootout(myClub, rivalClub);
+          foundShootoutMyId = myClub.id;
+          foundShootoutMyName = myClub.name;
+          return;
+        }
+      }
 
       salioCampeon = true;
       // El año sale de la FECHA del partido, no del contador de semanas: con calendario real un
