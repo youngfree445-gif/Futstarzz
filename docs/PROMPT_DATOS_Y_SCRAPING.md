@@ -127,9 +127,16 @@ Documentados en `docs/`:
 en la 2ª ronda y le alcanza con **ganar 2 llaves**; los seis de la Eerste Divisie tienen que ganar
 **3**. Modelarlo simétrico le sacaría la ventaja que el reglamento le da. Está en `playoffHolanda()`.
 
-> **Holanda todavía no mueve a nadie**: el juego tiene 17 clubes de Eredivisie pero **ninguno de
-> Eerste Divisie** (`division: 2`). Sin clubes de Segunda no hay quién ascienda ni contra quién jugar
-> el play-off. La regla ya está lista y se activa sola en cuanto se carguen esos clubes.
+**Holanda ya funciona**: 17 clubes de Eredivisie + 16 de Eerste Divisie
+([fuente](https://en.wikipedia.org/wiki/Eerste_Divisie), 2024/25). De los 20 de la categoría se
+excluyeron a propósito los **cuatro filiales** — Jong Ajax, Jong PSV, Jong AZ y Jong FC Utrecht —:
+por reglamento de la KNVB **no pueden ascender**, y cargarlos dejaría al motor subiendo a "Jong Ajax"
+a la Eredivisie.
+
+> **Trampa del `puestoPlayoff`:** el reglamento dice "16° de 18", pero la Eredivisie del juego tiene
+> **17** clubes. Tomar el índice 16 fijo caía sobre el penúltimo — que ya bajaba directo — y el
+> play-off no corría nunca: los dos escenarios daban el mismo resultado. Se cuenta **desde el fondo**
+> (el que queda justo encima de los que descienden), no por posición absoluta.
 
 **No mezclar nunca.** La puerta de entrada es `reglasDeLiga(league)`, que devuelve `null` para
 cualquier liga sin reglamento cargado: así ninguna otra hereda reglas ajenas por accidente.
@@ -216,21 +223,17 @@ Ecuatoriana (20/28), Italiana (33/40).
 
 - **Argentina**: falta modelar las **zonas** (dos grupos de 18) — hoy `LeagueSeasonState` asume una
   sola tabla por liga. También la Tabla General anual y el Reducido completo.
-- **Holanda**: la regla está implementada pero **inactiva por falta de clubes de Eerste Divisie**.
-  Es la ÚNICA de las grandes sin Segunda (17 en D1, **0 en D2**). Faltan los ~16 de Segunda con
-  `division: 2` (Roda JC, De Graafschap, Cambuur, VVV-Venlo, Dordrecht, Emmen…). Sin eso
-  `resolverMovimientos` no encuentra a quién ascender ni contra quién jugar el play-off.
 - **Los 5 grandes (Inglaterra, España, Italia, Alemania, Francia)**: no tienen reglamento cargado,
   así que **no asciende ni desciende nadie**. Pero los clubes YA ESTÁN — solo falta el reglamento:
 
-  | Liga | D1 | D2 |
-  |---|---|---|
-  | Inglesa | 20 | 24 |
-  | Española | 20 | 22 |
-  | Italiana | 20 | 20 |
-  | Alemana | 18 | 18 |
-  | Francesa | 18 | 6 |
-  | Holandesa | 17 | **0** |
+  | Liga | D1 | D2 | Reglamento |
+  |---|---|---|---|
+  | Inglesa | 20 | 24 | falta |
+  | Española | 20 | 22 | falta |
+  | Italiana | 20 | 20 | falta |
+  | Alemana | 18 | 18 | falta |
+  | Francesa | 18 | 6 | falta (y faltan clubes de Ligue 2) |
+  | Holandesa | 17 | 16 | ✅ implementado |
 
   (Contar SIEMPRE con el módulo compilado, no con regex sobre `data.ts` — ver §5.)
 - **Resto de ligas**: sin ascenso/descenso. Buscar el reglamento vigente antes de tocar código.

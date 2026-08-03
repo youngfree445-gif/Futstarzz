@@ -29,8 +29,10 @@ export interface ReglasAscenso {
   /** Cuántos años entran en el promedio. Solo aplica al criterio 'promedio'. */
   ventanaAnios: number;
   /**
-   * Puesto de Primera que NO baja directo pero se juega la categoría en un playoff (16° en Holanda).
-   * Sin esto, ese club se salva siempre. undefined = la liga no tiene promoción/permanencia.
+   * Puesto de Primera que NO baja directo pero se juega la categoría en un play-off (16° de 18 en
+   * Holanda). Se aplica contando desde el fondo -- el club justo encima de los que bajan directo --
+   * porque las ligas del juego no siempre tienen el tamaño del reglamento real.
+   * undefined = la liga no tiene promoción/permanencia.
    */
   puestoPlayoff?: number;
 }
@@ -345,10 +347,11 @@ export function resolverMovimientos(
   const ascienden = [...tablaSegunda.slice(0, Math.min(descienden.length, reglas.cuposAscenso))];
 
   // Play-off de promoción/permanencia: la plaza extra que Holanda no reparte por tabla.
-  if (reglas.puestoPlayoff && ganaLlave && tablaDescenso.length >= reglas.puestoPlayoff) {
-    // El puesto se cuenta desde el fondo: con 18 equipos, el 16° es el antepenúltimo.
-    const idx = tablaDescenso.length - (tablaDescenso.length - reglas.puestoPlayoff) - 1;
-    const enRiesgo = tablaDescenso[idx];
+  if (reglas.puestoPlayoff && ganaLlave && tablaDescenso.length > reglas.cuposDescenso + 1) {
+    // El club en riesgo es el que queda JUSTO ENCIMA de los que bajan directo. Se cuenta desde el
+    // fondo, no por posición fija: el reglamento dice "16° de 18", pero si la liga del juego tiene
+    // 17 clubes ese índice caería sobre el penúltimo, que ya descendió, y el play-off no correría.
+    const enRiesgo = tablaDescenso[tablaDescenso.length - reglas.cuposDescenso - 1];
     const yaBaja = new Set(descienden.map(d => d.clubId));
     const yaSube = new Set(ascienden.map(a => a.clubId));
 
