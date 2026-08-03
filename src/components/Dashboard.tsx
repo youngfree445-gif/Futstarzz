@@ -445,7 +445,18 @@ export default function Dashboard({
     if (!season) return null;
     const nombre = season.semester === 2 ? 'Clausura' : 'Apertura';
     const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
-    const fase = season.stage === 'knockout' ? ' · Playoffs'
+    // En playoffs se nombra la RONDA concreta ("Semifinal", "Final"), no un "Playoffs" genérico:
+    // el jugador llegaba a la final del Apertura sin que nada le dijera en qué instancia estaba.
+    // La ronda se deriva de cuántas llaves quedan vivas (ver roundLabelByMatchCount).
+    const rondaActual = (() => {
+      if (season.stage !== 'knockout') return null;
+      const ties = season.twoLegKnockout?.tiesByRound;
+      if (ties?.length) return roundLabelByMatchCount(ties[ties.length - 1].length);
+      const rounds = season.knockout?.matchesByRound;
+      if (rounds?.length) return roundLabelByMatchCount(rounds[rounds.length - 1].length);
+      return null;
+    })();
+    const fase = season.stage === 'knockout' ? ` · ${rondaActual ?? 'Playoffs'}`
       : season.stage === 'done' ? ' · Finalizado'
       : '';
     return `${nombre} ${anio}${fase}`;

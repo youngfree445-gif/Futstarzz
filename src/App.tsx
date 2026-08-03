@@ -10,7 +10,7 @@ import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { esUltimoPartidoDeLaCopa, fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary } from './dateSchedule';
+import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
@@ -1962,6 +1962,7 @@ export default function App() {
     let updatedLeagueSeasons = playerProfile.leagueSeasons;
     if (!isCopaLibertadores && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+      const usaFechasRealesParaMiClub = hasDatedSchedule(myClub.name);
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
       const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
@@ -1978,20 +1979,32 @@ export default function App() {
         foundShootoutMyName = myClub.name;
       }
 
-      // ¿Cerro la temporada y quedaste primero? Es la ultima fecha cuando ya no
-      // queda ningun partido por jugar en el fixture de tu equipo.
-      const quedanPartidos = resolvedSeason.fixtures.some(
-        f => !f.played && (f.homeTeamId === myClub.id || f.awayTeamId === myClub.id));
-      if (!quedanPartidos && resolvedSeason.table.length > 0) {
+      // ¿Cerró el torneo y quedaste primero?
+      //
+      // El cierre lo manda el CALENDARIO REAL cuando el club tiene uno, no el fixture del motor:
+      // son calendarios distintos y el del motor es más corto (20 partidos contra los 44 reales del
+      // Nacional), así que `fixtures` todavía tenía partidos pendientes cuando el Apertura real ya
+      // había terminado y no se coronaba a nadie. Además el motor lleva UNA temporada por año y en
+      // Colombia/Argentina hay dos campeones, uno por semestre.
+      const pasoHoy = usaFechasRealesParaMiClub ? fixturesAtStep(myClub.name, playerProfile.currentWeek) : null;
+      const cerroElTorneo = pasoHoy
+        ? esUltimaFechaDelTorneo(myClub.name, pasoHoy.date)
+        : !resolvedSeason.fixtures.some(
+            f => !f.played && (f.homeTeamId === myClub.id || f.awayTeamId === myClub.id));
+
+      if (cerroElTorneo && resolvedSeason.table.length > 0) {
         const lider = sortTable([...resolvedSeason.table])[0];
         if (lider && (lider.clubId === myClub.id || lider.name === myClub.name)) {
           salioCampeon = true;
           // En Colombia y Argentina el título es del semestre, no del año: el rótulo tiene que
           // decir cuál de los dos torneos ganaste o parecería que se repite el mismo campeonato.
+          // Con calendario real el semestre sale de la FECHA del partido, que es la que de verdad
+          // dice si cerraste el Apertura (junio) o el Clausura (noviembre).
           const formato = isApeturaClausuraLeague(myClub.league);
           const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+          const semestreReal = pasoHoy ? torneoDelClubEnFecha(myClub.name, pasoHoy.date) : null;
           const torneo = formato
-            ? `${resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura'} ${anio}`
+            ? `${semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura')} ${anio}`
             : `Temporada ${anio}`;
           setChampionInfo({
             competition: getLeagueDisplay(myClub.league).name,

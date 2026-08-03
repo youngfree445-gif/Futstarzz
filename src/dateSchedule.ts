@@ -131,18 +131,70 @@ export function torneoDeFecha(competition: DatedCompetition, date: string): stri
 }
 
 /**
- * ¿Este es el último partido que el club juega de esa competición?
+ * ¿Con este partido el club cierra su torneo de liga?
  *
- * Es como se corona campeón de las copas del calendario real (Superliga, Copa Colombia,
- * Libertadores): el motor no lleva sus llaves, así que no hay un bracket que consultar. Si jugaste
- * la última fecha de la copa y la ganaste, sos el campeón; si la perdiste, quedaste eliminado.
+ * En las ligas de Apertura/Clausura hay DOS cierres por año, no uno: el último partido de junio
+ * corona el Apertura y el de noviembre el Clausura. Sin esto el campeón salía de `fixtures` del
+ * motor, que tiene su propio calendario más corto (20 partidos contra los 44 reales del Nacional)
+ * y nunca coincidía con el cierre real -- se terminaba el Apertura ganando todo y no se coronaba
+ * a nadie.
  *
- * Con ida y vuelta esto marca solo la VUELTA, que es donde se define, no las dos.
+ * En las ligas de temporada corrida devuelve true solo en el último partido del año.
+ */
+export function esUltimaFechaDelTorneo(clubName: string, date: string): boolean {
+  const deLiga = fixturesForClub(clubName).filter(f => f.competition.kind === 'league');
+  if (!deLiga.length) return false;
+
+  const esteFixture = deLiga.find(f => f.date === date);
+  if (!esteFixture) return false;
+
+  const torneo = torneoDeFecha(esteFixture.competition, date);
+  const mismos = deLiga.filter(f => torneoDeFecha(f.competition, f.date) === torneo);
+  return mismos[mismos.length - 1]?.date === date;
+}
+
+/** El torneo de liga que el club juega en esa fecha ('Apertura', 'Clausura' o el nombre de la liga). */
+export function torneoDelClubEnFecha(clubName: string, date: string): string | null {
+  const f = fixturesForClub(clubName).find(x => x.date === date && x.competition.kind === 'league');
+  return f ? torneoDeFecha(f.competition, date) : null;
+}
+
+/** Un partido cuya ronda es la final del torneo. Las rondas vienen del calendario importado. */
+function esRondaFinal(round: string | undefined): boolean {
+  if (!round) return false;
+  const r = round.toLowerCase();
+  // "Final (Vuelta)" cuenta; "Semifinal" y "Cuartos de Final" NO -- de ahí el \b y el descarte
+  // explícito de semi, que contiene la palabra "final" adentro.
+  if (/semi|cuartos|octavos|dieciseisavos|ronda/.test(r)) return false;
+  return /\bfinal\b/.test(r);
+}
+
+/**
+ * ¿Este partido corona al campeón de esa copa?
+ *
+ * El motor no lleva las llaves de las copas del calendario real, así que no hay bracket que
+ * consultar: hay que deducirlo del propio calendario. Se exige que el partido sea **la final**,
+ * identificada por el nombre de la ronda que trae el calendario importado.
+ *
+ * ANTES alcanzaba con que fuera tu ÚLTIMO partido de la copa, y eso coronaba campeones falsos: la
+ * Copa Libertadores del juego son 34 partidos de fase de grupos, sin una sola llave cargada, así
+ * que el último partido del grupo pasaba por final y ganarlo te daba la copa. Igual la Copa BetPlay
+ * y la Copa do Brasil. Solo las copas con rondas nombradas (Copa del Rey, FA Cup, DFB-Pokal,
+ * Coppa Italia, EFL) pueden coronar, y solo en la ronda que se llama "Final".
+ *
+ * Con ida y vuelta marca solo la VUELTA, que es donde se define.
  */
 export function esUltimoPartidoDeLaCopa(clubName: string, competitionId: string, date: string): boolean {
   const delTorneo = fixturesForClub(clubName).filter(f => f.competition.id === competitionId);
   if (!delTorneo.length) return false;
-  return delTorneo[delTorneo.length - 1].date === date;
+
+  const finales = delTorneo.filter(f => esRondaFinal(f.match.round));
+  // Sin rondas nombradas no se puede saber si hubo final: no se corona a nadie. Es preferible
+  // quedarse sin campeón a inventar uno por ganar un partido de grupos.
+  if (!finales.length) return false;
+
+  // La ida de la final no corona: solo la última.
+  return finales[finales.length - 1].date === date;
 }
 
 /** Todas las competiciones en las que participa el club. */
