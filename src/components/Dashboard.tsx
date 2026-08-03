@@ -1494,7 +1494,14 @@ export default function Dashboard({
   // Con calendario de fechas reales el mes se pinta directamente con ellas: cada partido cae en su
   // día exacto (jueves 12 de febrero es jueves), en vez de deducir la fecha contando semanas desde
   // hoy -- que ubicaba todo en domingo y no coincidía con el partido que el motor iba a jugar.
-  const usaFechasEnCalendario = hasDatedSchedule(currentClub.name);
+  // No alcanza con preguntar si el club TIENE calendario: hay que pedirle que traiga fechas de
+  // LIGA. Los clubes de Segunda como el Barranquilla FC figuran con calendario propio por dos
+  // partidos sueltos de Copa BetPlay, pero su torneo lo lleva entero el motor. Preguntando solo
+  // `hasDatedSchedule` el calendario se armaba con esa única fuente, descartaba el fixture del
+  // motor y quedaba vacío: dos partidos en julio y ningún otro mes con nada.
+  const fechasDeLigaDelClub = fixturesForClub(currentClub.name)
+    .filter(f => f.competition.kind === 'league');
+  const usaFechasEnCalendario = hasDatedSchedule(currentClub.name) && fechasDeLigaDelClub.length > 0;
 
   if (usaFechasEnCalendario) {
     // Con fechas reales el calendario sale de UNA sola fuente: el calendario del club. Antes se
@@ -1611,6 +1618,28 @@ export default function Dashboard({
       sublabel: `${upcomingCupKnockoutOpponent.isHome ? 'vs.' : '@'} ${upcomingCupKnockoutOpponent.opponentName}`,
       colorClass: 'bg-burgundy-500 text-slate-950',
       opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === upcomingCupKnockoutOpponent.opponentId)
+    });
+  }
+
+  // Copas del calendario real que sí tiene este club aunque su liga vaya por el motor: el
+  // Barranquilla FC juega dos partidos de Copa BetPlay contra el Junior y son fecha real, con día
+  // exacto. Se agregan acá para no perderlos al elegir la rama del motor.
+  for (const f of fixturesForClub(currentClub.name)) {
+    if (f.competition.kind === 'league') continue;
+    const rival = resolverClubDeCalendario(
+      ULTIMATE_CLUBS_DATABASE, f.opponentName,
+      f.competition.league, f.competition.kind, f.competition.name,
+    );
+    const porFecha = playerProfile.datedResults?.find(r => r.date === f.date);
+    calendarEvents.push({
+      date: new Date(`${f.date}T00:00:00`),
+      label: f.competition.name,
+      sublabel: `${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
+      colorClass: porFecha ? 'bg-slate-700 text-slate-300' : 'bg-burgundy-500 text-slate-950',
+      opponentClub: rival ?? undefined,
+      played: !!porFecha,
+      result: porFecha ? resultFromScore(porFecha.myGoals, porFecha.rivalGoals) : undefined,
+      score: porFecha ? `${porFecha.myGoals}-${porFecha.rivalGoals}` : undefined,
     });
   }
   } // fin del calendario sin fechas reales
