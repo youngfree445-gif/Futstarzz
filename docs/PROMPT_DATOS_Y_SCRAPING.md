@@ -117,19 +117,32 @@ Documentados en `docs/`:
 
 **Implementado** (`src/promocionDescenso.ts`):
 
-| | Colombia | Argentina | Holanda | Brasil | Alemania | España |
-|---|---|---|---|---|---|---|
-| Descienden | 2 | 4 | 2 + el 16° si pierde el play-off | 4 (puestos 17-20) | 2 + el 16° si pierde la Relegation | 3 |
-| Criterio | **Promedio** (pts ÷ partidos), ventana 3 años | Tabla del año | Tabla del año | Tabla del año | Tabla del año | Tabla del año |
-| Ascienden | 2 (campeón doble / líder anual / Gran Final / Repechaje) | 2 (Final a partido único + Reducido) | 2 + el ganador del play-off | 4 (los 4 primeros de la Serie B) | 2 + el ganador de la Relegation | 2 + el ganador del play-off 3°-6° |
+| País | Descienden | Ascienden | Criterio |
+|---|---|---|---|
+| Colombia | 2 | 2 (campeón doble / líder anual / Gran Final / Repechaje) | **Promedio** (pts ÷ partidos), ventana 3 años |
+| Argentina | 4 | 2 (Final a partido único + Reducido) | Tabla del año |
+| Brasil | 4 (puestos 17-20) | 4 (los 4 primeros de la Serie B) | Tabla del año |
+| Holanda | 2 + el 16° si pierde el play-off | 2 + el ganador del play-off | Tabla del año |
+| Alemania | 2 + el 16° si pierde la Relegation | 2 + el ganador de la Relegation | Tabla del año |
+| Francia | 2 + el 16° si pierde el barrage | 2 + el ganador del barrage | Tabla del año |
+| España | 3 | 2 + el ganador del play-off 3°-6° | Tabla del año |
+| Inglaterra | 3 | 2 + el ganador del play-off 3°-6° | Tabla del año |
 
-**Tres tipos de play-off, y no hay que confundirlos:**
+**Los formatos de play-off, y no hay que confundirlos:**
 
 | | Quién lo juega | Modelado en |
 |---|---|---|
 | Holanda | el 16° de Primera contra **seis** de Segunda; él juega 2 llaves, ellos 3 | `playoffPermanencia` |
 | Alemania | el 16° de Primera contra **uno solo**, el 3° de la 2. Bundesliga | `playoffPermanencia` (`rivalesPlayoff: 1`) |
-| España | **solo clubes de Segunda** (3° al 6°); ningún equipo de Primera se juega la categoría | `playoffAscensoEspana` |
+| Francia | el 16° de Ligue 1, pero recién después de que el 3°/4°/5° se crucen entre sí | `playoffPermanencia` (`rivalesPlayoff: 3`) |
+| España | **solo clubes de Segunda** (3° al 6°); Primera no pone a nadie en juego | `playoffAscensoEspana` |
+| Inglaterra | ídem España: 3° al 6° del Championship | `playoffAscensoEspana` |
+
+**Ojo con las fuentes de Francia:** se contradicen entre sí sobre cuántos bajan de Ligue 1 (dos
+dicen 2, una dice 3) y sobre quién juega el barrage. Lo resolvió mirar la **temporada real**
+(`2025-26 Ligue 1`), que da nombres concretos: bajaron Nantes (17°) y Metz (18°), y el Niza (16°)
+retuvo la categoría ganándole 4-1 al Saint-Étienne. Ante fuentes que no coinciden, la temporada
+jugada manda.
 
 **Brasil es el más simple:** intercambio directo y simétrico, 38 fechas de todos contra todos, sin
 play-off ni liguilla. Al no declarar `puestoPlayoff`, `resolverMovimientos` ni se asoma al cruce.
@@ -238,17 +251,16 @@ Ecuatoriana (20/28), Italiana (33/40).
 
 - **Argentina**: falta modelar las **zonas** (dos grupos de 18) — hoy `LeagueSeasonState` asume una
   sola tabla por liga. También la Tabla General anual y el Reducido completo.
-- **Los 5 grandes (Inglaterra, España, Italia, Alemania, Francia)**: no tienen reglamento cargado,
-  así que **no asciende ni desciende nadie**. Pero los clubes YA ESTÁN — solo falta el reglamento:
+- **Los 5 grandes ya están los cinco.** Lo que queda sin reglamento:
 
   | Liga | D1 | D2 | Reglamento |
   |---|---|---|---|
-  | Inglesa | 20 | 24 | **falta** |
-  | Francesa | 18 | 6 | **falta** (y faltan clubes de Ligue 2) |
-  | Italiana | 20 | 27 | falta |
-  | Portuguesa | 16 | 15 | falta |
+  | Italiana | 20 | 27 | **falta** |
+  | Portuguesa | 16 | 15 | **falta** |
+  | Inglesa | 20 | 24 | ✅ implementado |
   | Española | 20 | 22 | ✅ implementado |
   | Alemana | 18 | 18 | ✅ implementado |
+  | Francesa | 18 | 19 | ✅ implementado |
   | Holandesa | 17 | 16 | ✅ implementado |
   | Brasileña | 20 | 20 | ✅ implementado |
 

@@ -19,12 +19,17 @@
 //               2. Bundesliga, a ida y vuelta. No es el cuadro de seis de Holanda.
 //   España    → bajan 3 directo y suben 2; la tercera plaza sale de un play-off del 3° al 6° de
 //               Hypermotion. Acá NINGÚN club de Primera juega el play-off: solo decide quién sube.
+//   Inglaterra→ igual que España: bajan 3, suben 2, y el play-off del 3° al 6° del Championship
+//               reparte la tercera plaza sin que la Premier ponga a nadie en juego.
+//   Francia   → híbrido: bajan 2 directo, el 3°/4°/5° de Ligue 2 se cruzan entre sí y recién el
+//               ganador enfrenta al 16° de Ligue 1 a ida y vuelta.
 //
 // Por eso cada país tiene su propia función y su propia constante de cupos. La puerta de entrada
 // es `reglasDeLiga`, que devuelve null para cualquier liga sin sistema implementado: así ninguna
 // otra liga hereda por accidente las reglas de las demás.
 
-export type SistemaAscenso = 'colombia' | 'argentina' | 'holanda' | 'brasil' | 'alemania' | 'espana';
+export type SistemaAscenso =
+  | 'colombia' | 'argentina' | 'holanda' | 'brasil' | 'alemania' | 'espana' | 'inglaterra' | 'francia';
 
 export interface ReglasAscenso {
   sistema: SistemaAscenso;
@@ -121,6 +126,35 @@ const REGLAS: Record<string, ReglasAscenso> = {
     criterioDescenso: 'anual',
     ventanaAnios: 1,
     ascensoPorPlayoff: { desde: 3, hasta: 6 },
+  },
+  // Premier League: bajan directo los 3 últimos y suben directo el campeón y el subcampeón del
+  // Championship. La tercera plaza sale del play-off del 3° al 6°, con semifinales a ida y vuelta y
+  // una final a partido único en Wembley. Ningún club de Premier participa: es el mismo esquema que
+  // España, no el de Alemania.
+  Inglesa: {
+    sistema: 'inglaterra',
+    cuposDescenso: 3,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    ascensoPorPlayoff: { desde: 3, hasta: 6 },
+  },
+  // LFP: Ligue 1 de 18. Bajan directo los 2 últimos (17° y 18°) y suben directo los 2 primeros de
+  // Ligue 2. La tercera plaza es un HÍBRIDO de los dos formatos anteriores: primero el 3°, 4° y 5°
+  // de Ligue 2 se cruzan entre sí (barrages), y recién el ganador enfrenta al 16° de Ligue 1 a ida
+  // y vuelta. Verificado con la temporada 2025/26: bajaron Nantes (17°) y Metz (18°), y el Niza
+  // (16°) retuvo la categoría ganándole 4-1 al Saint-Étienne.
+  //
+  // Se modela como el caso alemán pero con TRES retadores en vez de uno: playoffPermanencia ya
+  // resuelve el cuadro previo entre los de Segunda antes de la llave contra el de Primera.
+  Francesa: {
+    sistema: 'francia',
+    cuposDescenso: 2,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    puestoPlayoff: 16,
+    rivalesPlayoff: 3,
   },
 };
 
