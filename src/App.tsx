@@ -10,7 +10,7 @@ import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
+import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -99,7 +99,7 @@ function syncBackgroundCups(
   // real (6 partidos entre abril y mayo) y la que el motor le arma por estar clasificado -- y la del
   // motor le reclamaba el turno cuando el calendario decía otra cosa: ibas a jugar Libertadores y
   // terminabas jugando la vuelta de la Superliga, o al revés.
-  const tieneCalendarioPropio = !!myClub && hasDatedSchedule(myClub.name);
+  const tieneCalendarioPropio = !!myClub && hasDatedLeagueSchedule(myClub.name);
 
   if (myClub && !tieneCalendarioPropio) {
     const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id)
@@ -1314,7 +1314,13 @@ export default function App() {
     // Es lo que permite jugar liga el domingo y copa el jueves de la misma semana -- con el modelo
     // por semanas uno de los dos se perdía, y así se caía el 26,3% de los partidos (265 de 1008).
     // Los clubes que todavía no tienen fechas cargadas siguen con el calendario semanal de abajo.
-    const tieneFechasReales = !!myClubForSchedule && hasDatedSchedule(myClubForSchedule.name);
+    // hasDatedLeagueSchedule y no hasDatedSchedule: un club de Segunda con solo 2 fechas sueltas de
+    // Copa BetPlay (sin ninguna fecha de LIGA real) no puede tratarse como "tiene calendario real" --
+    // eso hacía que fixturesAtStep(club, 1) devolviera esa Copa BetPlay de julio como si fuera el
+    // primer paso de la carrera entera, y el jugador arrancaba en julio jugando contra Junior en vez
+    // de arrancar en enero con la liga. Bug reportado: "por que inicia la carrera alli y no en
+    // enero?" + "junior me elimino" (era rival de un partido que ni siquiera correspondía todavía).
+    const tieneFechasReales = !!myClubForSchedule && hasDatedLeagueSchedule(myClubForSchedule.name);
     const datedStep = tieneFechasReales && !inWorldCupBreak
       ? fixturesAtStep(myClubForSchedule!.name, playerProfile.currentWeek)
       : null;
@@ -1997,7 +2003,7 @@ export default function App() {
     // campeón. Con ida y vuelta solo cuenta la vuelta, que es donde se define.
     (() => {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-      if (!myClub || !hasDatedSchedule(myClub.name)) return;
+      if (!myClub || !hasDatedLeagueSchedule(myClub.name)) return;
       const paso = fixturesAtStep(myClub.name, playerProfile.currentWeek);
       if (!paso) return;
       const fx = pickDatedPrimary(paso.fixtures);
@@ -2095,7 +2101,7 @@ export default function App() {
     let updatedLeagueSeasons = playerProfile.leagueSeasons;
     if (!isCopaLibertadores && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const usaFechasRealesParaMiClub = hasDatedSchedule(myClub.name);
+      const usaFechasRealesParaMiClub = hasDatedLeagueSchedule(myClub.name);
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
       const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);

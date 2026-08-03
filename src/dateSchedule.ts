@@ -67,6 +67,21 @@ export function hasDatedSchedule(clubName: string): boolean {
   return (getIndice().get(clubName)?.length ?? 0) > 0;
 }
 
+/**
+ * ¿Este club tiene calendario real de LIGA (no solo copa)?
+ *
+ * Los clubes de Segunda como Barranquilla FC o Real Cartagena figuran con calendario propio por dos
+ * fechas sueltas de Copa BetPlay -- hasDatedSchedule da true -- pero su LIGA entera la corre el
+ * motor por semanas, sin fechas reales. Todo lo que decide "qué fecha/rival es AHORA" (el reloj de
+ * la carrera, la tarjeta de próximo partido, el paso de la semana) tiene que usar esta función y no
+ * hasDatedSchedule: con la genérica, fixturesAtStep(club, 1) devolvía el primer partido REAL que
+ * tiene el club -- la Copa BetPlay de julio -- y la carrera "arrancaba" en julio en vez de enero.
+ * Bug reportado: "por que inicia la carrera alli y no en enero?".
+ */
+export function hasDatedLeagueSchedule(clubName: string): boolean {
+  return fixturesForClub(clubName).some(f => f.competition.kind === 'league');
+}
+
 /** Todos los partidos del club, en orden cronológico. */
 export function fixturesForClub(clubName: string): DatedFixture[] {
   return getIndice().get(clubName) ?? [];

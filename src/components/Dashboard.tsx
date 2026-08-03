@@ -7,7 +7,7 @@ import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
-import { fixturesAtStep, fixturesForClub, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
+import { fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -573,7 +573,7 @@ export default function Dashboard({
   // que el calendario usa para ubicarlo, así que las dos vistas no pueden contradecirse.
   const fechaDelProximoPartido = (() => {
     const club = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-    if (!club || !hasDatedSchedule(club.name)) return null;
+    if (!club || !hasDatedLeagueSchedule(club.name)) return null;
     const paso = fixturesAtStep(club.name, playerProfile.currentWeek);
     return paso ? formatDate(paso.date) : null;
   })();
@@ -595,7 +595,7 @@ export default function Dashboard({
   // declararla ahí repetiría el TDZ que dejó la pantalla en blanco.
   const fechaEnPantalla = (() => {
     const club = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-    if (club && hasDatedSchedule(club.name)) {
+    if (club && hasDatedLeagueSchedule(club.name)) {
       const paso = fixturesAtStep(club.name, playerProfile.currentWeek);
       if (paso) return formatDate(paso.date);
     }
@@ -640,7 +640,7 @@ export default function Dashboard({
         };
       }
     }
-  } else if (nextWeekIsCup && !hasDatedSchedule(currentClub.name)) {
+  } else if (nextWeekIsCup && !hasDatedLeagueSchedule(currentClub.name)) {
     // Este bloque decide la copa por el reparto de semanas del motor y por en qué copa te tiene
     // CLASIFICADO, sin mirar el calendario. Corre antes que el bloque de fechas reales, así que
     // ganaba siempre: anunciaba "Copa Libertadores" cuando el calendario decía final de vuelta de
@@ -702,7 +702,7 @@ export default function Dashboard({
   // fixture generado tenga algo pendiente. Si no, un club cuyo fixture generado ya se agotó se
   // quedaba sin tarjeta de próximo partido aunque el calendario real sí tuviera fecha.
   const hayPartidoReal = !nextWeekInWorldCupBreak
-    && hasDatedSchedule(currentClub.name)
+    && hasDatedLeagueSchedule(currentClub.name)
     && !!fixturesAtStep(currentClub.name, playerProfile.currentWeek);
 
   if (!nextMatchOpponent && !nextWeekInWorldCupBreak && (upcomingLeagueFixtures.length > 0 || hayPartidoReal)) {
@@ -715,7 +715,7 @@ export default function Dashboard({
     // decía "vs Llaneros FC" y salías a jugar contra Once Caldas.
     // Con fechas reales el paso de carrera ES un día con partido, así que se pregunta directamente
     // qué se juega en ese paso. Los clubes sin fechas cargadas siguen con el calendario semanal.
-    const pasoConFecha = hasDatedSchedule(currentClub.name)
+    const pasoConFecha = hasDatedLeagueSchedule(currentClub.name)
       ? fixturesAtStep(currentClub.name, playerProfile.currentWeek)
       : null;
     const realDeLaSemana = pasoConFecha
@@ -774,7 +774,7 @@ export default function Dashboard({
   // Con fechas reales nunca hay "copa de relleno": si el calendario no tiene partido ese día, no
   // hay partido, punto. Sin este corte aparecía un cartel de semana de copa inventado por la
   // aritmética de semanas del motor.
-  const nextWeekIsFillerCup = nextWeekIsCup && !nextMatchOpponent && !hasDatedSchedule(currentClub.name);
+  const nextWeekIsFillerCup = nextWeekIsCup && !nextMatchOpponent && !hasDatedLeagueSchedule(currentClub.name);
 
   const cupStageLabel = (stage: string) => {
     switch (stage) {
@@ -1499,9 +1499,7 @@ export default function Dashboard({
   // partidos sueltos de Copa BetPlay, pero su torneo lo lleva entero el motor. Preguntando solo
   // `hasDatedSchedule` el calendario se armaba con esa única fuente, descartaba el fixture del
   // motor y quedaba vacío: dos partidos en julio y ningún otro mes con nada.
-  const fechasDeLigaDelClub = fixturesForClub(currentClub.name)
-    .filter(f => f.competition.kind === 'league');
-  const usaFechasEnCalendario = hasDatedSchedule(currentClub.name) && fechasDeLigaDelClub.length > 0;
+  const usaFechasEnCalendario = hasDatedLeagueSchedule(currentClub.name);
 
   if (usaFechasEnCalendario) {
     // Con fechas reales el calendario sale de UNA sola fuente: el calendario del club. Antes se
@@ -1843,7 +1841,7 @@ export default function Dashboard({
   // abría en un mes equivocado y los partidos de Libertadores "no aparecían" -- estaban, pero en
   // abril, y la grilla mostraba mayo.
   const calendarBaseDate = (() => {
-    if (hasDatedSchedule(currentClub.name)) {
+    if (hasDatedLeagueSchedule(currentClub.name)) {
       const paso = fixturesAtStep(currentClub.name, playerProfile.currentWeek);
       if (paso) return new Date(`${paso.date}T00:00:00`);
     }
