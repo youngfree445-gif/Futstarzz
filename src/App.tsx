@@ -634,6 +634,8 @@ export default function App() {
   // decideLineupStatus más abajo.
   const [activeLineupStatus, setActiveLineupStatus] = useState<'starter' | 'substitute'>('starter');
   const [activeSubEntryMinute, setActiveSubEntryMinute] = useState<number | null>(null);
+  // Sube uno por partido y va como `key` de MatchSimulator, para que cada partido monte de cero.
+  const [matchInstance, setMatchInstance] = useState(0);
 
   const saveGameState = (profile: PlayerProfile, items: ShopItem[], forcedSlotId?: string) => {
     const slot = forcedSlotId || activeSlotId;
@@ -1722,6 +1724,12 @@ export default function App() {
       setActiveSubEntryMinute(null);
     }
 
+    // Identifica ESTE partido para el `key` de MatchSimulator: sin él React reutiliza la instancia
+    // anterior cuando dos partidos seguidos entran por acá, y el simulador conserva su estado --
+    // entre otras cosas `minute`, que si quedó en 90 hace que el reloj salga sin agendar nada. El
+    // partido nuevo arrancaba muerto: los botones x2/x4/Saltar cambiaban de color pero no había
+    // reloj que acelerar. Con el contador cada partido monta limpio.
+    setMatchInstance(n => n + 1);
     setScreen('match');
   };
 
@@ -2449,6 +2457,7 @@ export default function App() {
 
       {screen === 'match' && playerProfile && (
         <MatchSimulator
+          key={matchInstance}
           playerProfile={playerProfile}
           opponentName={activeOpposition}
           opponentClubId={activeOppositionClubId}

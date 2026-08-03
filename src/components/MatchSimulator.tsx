@@ -1535,6 +1535,8 @@ export default function MatchSimulator({
     if (WHISTLE_SFX_ENABLED) playSfx('whistle');
   }, []);
 
+  // El reloj del partido. `speedMultiplier` está en las dependencias, así que tocar x2/x4/Saltar
+  // cancela el timer en curso y agenda uno nuevo con el intervalo nuevo.
   useEffect(() => {
     if (!isPlaying || minute >= 90 || activeDecision !== null) return;
 
