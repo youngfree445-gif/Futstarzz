@@ -11,6 +11,7 @@ import { fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedu
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
+import { crearCopaNacional, cruceActual, nombreCopaNacional, rondaActual, sigueEnCopa } from '../copaNacional';
 import { getPalmares } from '../palmares';
 import { postsDelPartido } from '../chutSocialVoces';
 import {
@@ -1571,6 +1572,40 @@ export default function Dashboard({
       opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === fx.opponentId)
     });
   });
+
+  // Copa nacional sintética (ver copaNacional.ts) para clubes SIN calendario real de liga: las
+  // semanas que el motor reparte como isCupWeek quedaban vacías en esta grilla -- solo se pintaban
+  // las jornadas de liga, filtradas para NO caer en semana de copa -- así que el jugador veía "nada"
+  // ese día en el calendario y al llegar a esa semana el juego lo mandaba a jugar la Copa BetPlay
+  // por sorpresa. Bug reportado: "esperaba liga regular, salió una copa por sorpresa".
+  //
+  // Solo se muestra la PRÓXIMA semana de copa, no varias: el cruce de una ida y vuelta recién se
+  // conoce al jugarse (avanzar de ronda depende del resultado), así que "adivinar" 6 semanas hacia
+  // adelante repetía el mismo rival de la ronda actual una y otra vez -- información falsa, ya que
+  // ese cruce en realidad solo dura hasta que se resuelve.
+  if (!usaFechasEnCalendario && !conmebolCup) {
+    const cupYearNow = getSeasonYear(playerProfile.currentWeek);
+    const cupKeyNow = `${currentClub.league}-${cupYearNow}`;
+    const cupNow = playerProfile.domesticCups?.[cupKeyNow]
+      ?? crearCopaNacional(currentClub.league, cupYearNow, ULTIMATE_CLUBS_DATABASE, c => (c.division === 2 ? 2 : 1));
+    for (let w = playerProfile.currentWeek; w < playerProfile.currentWeek + 20; w++) {
+      if (!isCupWeek(w)) continue;
+      const sigoEnCopa = sigueEnCopa(cupNow, currentClub.id);
+      const cruce = sigoEnCopa ? cruceActual(cupNow, currentClub.id) : null;
+      const rivalId = cruce
+        ? (cruce.clubAId === currentClub.id ? cruce.clubBId : cruce.clubAId)
+        : null;
+      const rivalClub = rivalId ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === rivalId) : undefined;
+      calendarEvents.push({
+        date: getRealDate(w),
+        label: nombreCopaNacional(currentClub.league),
+        sublabel: rivalClub ? `vs. ${rivalClub.name}` : (sigoEnCopa ? rondaActual(cupNow) : 'Eliminado'),
+        colorClass: 'bg-burgundy-500 text-slate-950',
+        opponentClub: rivalClub,
+      });
+      break;
+    }
+  }
 
   // Playoffs de Apertura/Clausura (Colombia a ida y vuelta / Argentina a partido único): la lista
   // de arriba queda vacía en fase eliminatoria (season.fixtures solo cubre la fase regular), así
