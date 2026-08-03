@@ -189,12 +189,30 @@ export function esUltimoPartidoDeLaCopa(clubName: string, competitionId: string,
   if (!delTorneo.length) return false;
 
   const finales = delTorneo.filter(f => esRondaFinal(f.match.round));
-  // Sin rondas nombradas no se puede saber si hubo final: no se corona a nadie. Es preferible
-  // quedarse sin campeón a inventar uno por ganar un partido de grupos.
-  if (!finales.length) return false;
+  if (finales.length) {
+    // La ida de la final no corona: solo la última.
+    return finales[finales.length - 1].date === date;
+  }
 
-  // La ida de la final no corona: solo la última.
-  return finales[finales.length - 1].date === date;
+  // Sin rondas nombradas hay que mirar la FORMA del torneo. Un torneo entero de dos clubes es una
+  // final de ida y vuelta y nada más -- la Superliga de Colombia son exactamente 2 partidos entre
+  // Junior y Santa Fe --, así que su último partido sí corona. Es distinto de la Libertadores, que
+  // son 34 partidos entre 21 clubes de pura fase de grupos: ahí el último partido del grupo no
+  // define nada y coronarlo daba campeones falsos.
+  const clubes = new Set<string>();
+  for (const f of todasLasFechas(competitionId)) { clubes.add(f.home); clubes.add(f.away); }
+  if (clubes.size === 2) {
+    return delTorneo[delTorneo.length - 1].date === date;
+  }
+
+  // Cualquier otro torneo sin rondas: no se puede saber dónde estuvo la final, no se corona a
+  // nadie. Es preferible quedarse sin campeón a inventar uno por ganar un partido de grupos.
+  return false;
+}
+
+/** Todos los partidos de una competición, sin filtrar por club. */
+function todasLasFechas(competitionId: string): DatedMatch[] {
+  return DATED_CALENDARS.find(c => c.id === competitionId)?.matches ?? [];
 }
 
 /** Todas las competiciones en las que participa el club. */
