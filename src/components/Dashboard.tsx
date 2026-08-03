@@ -11,7 +11,7 @@ import { fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedu
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
-import { crearCopaNacional, cruceActual, nombreCopaNacional, rondaActual, sigueEnCopa } from '../copaNacional';
+import { crearCopaNacional, cruceActual, nombreCopaNacional, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
 import { postsDelPartido } from '../chutSocialVoces';
 import {
@@ -723,11 +723,18 @@ export default function Dashboard({
     const pasoConFecha = hasDatedLeagueSchedule(currentClub.name)
       ? fixturesAtStep(currentClub.name, playerProfile.currentWeek)
       : null;
+    const legadoDeLaSemana = !pasoConFecha && hasRealSchedule(currentClub.name)
+      ? pickPrimary(matchesThisWeek(currentClub.name, playerProfile.currentWeek))
+      : null;
+    // El calendario semanal LEGADO de copa nacional (realSchedule.ts) es un fixture fijo de 2024 sin
+    // eliminación real -- para los países que ya tienen el bracket de copaNacional.ts (con sorteo,
+    // ida/vuelta y coronación de verdad), ese legado no debe ganarle a la tarjeta: mostraba un rival
+    // fijo semanal que ni siquiera es el cruce real del cuadro que el jugador está jugando.
+    const legadoEsCopaConBracketReal = legadoDeLaSemana?.competition.kind === 'domestic_cup'
+      && tieneCopaNacionalReal(currentClub.league);
     const realDeLaSemana = pasoConFecha
       ? pickDatedPrimary(pasoConFecha.fixtures)
-      : hasRealSchedule(currentClub.name)
-        ? pickPrimary(matchesThisWeek(currentClub.name, playerProfile.currentWeek))
-        : null;
+      : legadoEsCopaConBracketReal ? null : legadoDeLaSemana;
     const realDeLiga = realDeLaSemana?.competition.kind === 'league' ? realDeLaSemana : null;
 
     // El rival se toma del partido real SEA DE LA COMPETICIÓN QUE SEA, no solo de liga. Filtrar por
@@ -746,10 +753,28 @@ export default function Dashboard({
             realDeLaSemana.competition.kind, realDeLaSemana.competition.name)
         : null;
 
+    // Semana de copa nacional con bracket real (ver copaNacional.ts) y sin fecha real que la cubra:
+    // el rival sale del cruce actual del cuadro, no del legado semanal descartado arriba ni del
+    // fixture de liga (que anunciaría un partido de liga para una semana que en realidad es de
+    // copa). Mismo criterio que usa el calendario mensual más abajo.
+    const cupBracketDeLaSemana = (!realDeLaSemana && legadoEsCopaConBracketReal) ? (() => {
+      const cupYearNow = getSeasonYear(playerProfile.currentWeek);
+      const cupKeyNow = `${currentClub.league}-${cupYearNow}`;
+      const cupNow = playerProfile.domesticCups?.[cupKeyNow]
+        ?? crearCopaNacional(currentClub.league, cupYearNow, ULTIMATE_CLUBS_DATABASE, c => (c.division === 2 ? 2 : 1));
+      if (!sigueEnCopa(cupNow, currentClub.id)) return null;
+      const cruce = cruceActual(cupNow, currentClub.id);
+      if (!cruce) return null;
+      const rivalId = cruce.clubAId === currentClub.id ? cruce.clubBId : cruce.clubAId;
+      return { rivalId, ronda: rondaActual(cupNow) };
+    })() : null;
+
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
     // calendario real, así que todos los accesos van con ?.
-    const opponentId = rivalReal?.id ?? next?.opponentId;
-    const opponentName = rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '';
+    const opponentId = cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId;
+    const opponentName = cupBracketDeLaSemana
+      ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === cupBracketDeLaSemana.rivalId)?.name ?? '')
+      : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
     const isHome = realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
 
@@ -759,12 +784,15 @@ export default function Dashboard({
       isHome,
       // Si el partido del día no es de liga, la tarjeta tiene que decir de qué torneo es: anunciaba
       // "Colombiana" cuando lo que se jugaba era la Superliga.
-      competition: realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
+      competition: cupBracketDeLaSemana
+        ? nombreCopaNacional(currentClub.league)
+        : realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
         ? realDeLaSemana.competition.name
         : currentClub.league,
       // El calendario por fechas no trae número de jornada (ESPN no lo publica), pero sí la fecha
       // exacta, que dice más: "8 feb" en vez de "Jornada 12".
-      jornada: pasoConFecha ? formatDateShort(pasoConFecha.date)
+      jornada: cupBracketDeLaSemana ? cupBracketDeLaSemana.ronda
+        : pasoConFecha ? formatDateShort(pasoConFecha.date)
         : realDeLiga && 'round' in realDeLiga.match ? realDeLiga.match.round
         : next ? `Jornada ${next.matchweek}` : '',
       // La posición en la tabla solo tiene sentido en la liga: en una copa el rival puede no estar

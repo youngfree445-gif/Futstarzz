@@ -11,7 +11,7 @@ import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
 import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
-import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa } from './copaNacional';
+import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
@@ -1453,6 +1453,14 @@ export default function App() {
       // motor pero no figura en el calendario de esa copa (Junior en Libertadores) entraba acá con
       // un partido de liga y lo jugaba rotulado como copa.
       && (realPrimary.competition.kind === 'continental_cup' || realPrimary.competition.kind === 'domestic_cup')
+      // Si es copa NACIONAL y viene del calendario semanal LEGADO (sin datedPrimary, es decir sin
+      // fecha real verdadera) para un país que ya tiene el bracket real de copaNacional.ts, cede el
+      // paso: ese legado es un calendario semanal fijo de 2024 sin eliminación (todo "round":
+      // "Schedule", nunca hay Final ni campeón), y capturaba el partido antes de que el bracket real
+      // (con ida/vuelta, sorteo y coronación) llegara a ejecutarse nunca. Bug reportado: el jugador
+      // veía "Copa Colombia" contra un rival fijo semanal en vez del cruce real del cuadro.
+      && !(realPrimary.competition.kind === 'domestic_cup' && !datedPrimary
+        && tieneCopaNacionalReal(CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.league ?? ''))
     ) {
       // Partido de copa tomado del calendario REAL: rival, ronda y torneo salen de las fechas de
       // Transfermarkt, no de un sorteo generado. El estado interno de la copa (tabla, bracket) lo

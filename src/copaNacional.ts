@@ -153,3 +153,19 @@ const NOMBRES: Record<string, string> = {
 export function nombreCopaNacional(league: string): string {
   return NOMBRES[league] ?? 'Copa Nacional';
 }
+
+/**
+ * ¿Este país tiene el bracket real de la copa nacional (este archivo) implementado?
+ *
+ * Para las ligas SIN entrada acá, el calendario semanal legado (ver realSchedule.ts/realCalendar.ts)
+ * sigue siendo la única fuente de partidos de copa nacional que existe -- no hay bracket que lo
+ * reemplace. Pero para las 10 ligas de NOMBRES, el legado es un calendario semanal fijo de 2024 sin
+ * eliminación real (todos los "round" son "Schedule", no hay Final ni campeón), mientras que el
+ * bracket de este archivo SÍ elimina, define ida/vuelta y corona. Antes App.tsx dejaba correr el
+ * legado primero para todo club con hasRealSchedule=true, así que el bracket real nunca se
+ * ejecutaba para ninguno de esos clubes -- Barranquilla FC jugaba "Copa Colombia" contra un rival
+ * fijo semanal para siempre, sin cuadro, sin ida y vuelta y sin poder salir campeón nunca.
+ */
+export function tieneCopaNacionalReal(league: string): boolean {
+  return league in NOMBRES;
+}
