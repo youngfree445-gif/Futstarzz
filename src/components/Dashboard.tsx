@@ -506,16 +506,20 @@ export default function Dashboard({
   // verdad va a pasar (ver generateRoundRobin/drawCupGroups en leagueEngine.ts).
   const clubNameByIdEarly = (id: string) => ULTIMATE_CLUBS_DATABASE.find(c => c.id === id)?.name || id;
   const myLeagueFixtures = playerProfile.leagueSeasons[myLeagueKey]?.fixtures || [];
-  const upcomingLeagueFixtures = myLeagueFixtures
+  const allUpcomingLeagueFixtures = myLeagueFixtures
     .filter(f => !f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
     .sort((a, b) => a.matchweek - b.matchweek)
-    .slice(0, 6)
     .map(f => ({
       matchweek: f.matchweek,
       isHome: f.homeTeamId === currentClub.id,
       opponentId: f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId,
       opponentName: clubNameByIdEarly(f.homeTeamId === currentClub.id ? f.awayTeamId : f.homeTeamId)
     }));
+  // La tarjeta de "próximo partido" solo necesita el primero; el calendario mensual (más abajo)
+  // necesita el torneo completo -- con solo 6 acá, un club de Segunda de 19 jornadas mostraba el
+  // calendario "terminado" en marzo cuando en realidad seguía hasta noviembre. Bug reportado: "la
+  // ultima jornada aparece en marzo y dice 6 jornadas".
+  const upcomingLeagueFixtures = allUpcomingLeagueFixtures.slice(0, 6);
 
   let upcomingCupFixtures: { matchweek: number; isHome: boolean; opponentId: string; opponentName: string }[] = [];
   let upcomingCupKnockoutOpponent: { opponentId: string; opponentName: string; isHome: boolean } | null = null;
@@ -1558,7 +1562,7 @@ export default function Dashboard({
       });
     }
   } else {
-  upcomingLeagueFixtures.forEach((fx, i) => {
+  allUpcomingLeagueFixtures.forEach((fx, i) => {
     calendarEvents.push({
       date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, i + 1),
       label: `J${fx.matchweek}`,
@@ -1599,7 +1603,7 @@ export default function Dashboard({
     }
   }
 
-  upcomingCupFixtures.slice(0, 6).forEach((fx, i) => {
+  upcomingCupFixtures.forEach((fx, i) => {
     calendarEvents.push({
       date: getRealDateForCupStepsAhead(playerProfile.currentWeek, i + 1),
       label: `G${fx.matchweek}`,
