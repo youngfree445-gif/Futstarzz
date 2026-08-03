@@ -77,6 +77,15 @@ export function getPalmares(
       ? `${season.semester === 2 ? 'Clausura' : 'Apertura'} ${anio}`
       : `Temporada ${anio}`;
 
+    // Si el título ya quedó anotado en cupTitles al ganarlo (lo normal desde que App.tsx lo
+    // registra), no se agrega de nuevo: se compara por liga y torneo, que es lo que lo identifica.
+    const yaAnotado = (profile.cupTitles ?? []).some(t =>
+      t.tipo === 'liga'
+      && t.year === anio
+      && t.competition === leagueName(clubCampeon.league)
+      && (t.torneo ?? '') === (formato ? (season.semester === 2 ? 'Clausura' : 'Apertura') : ''));
+    if (yaAnotado) continue;
+
     trofeos.push({
       id: `liga-${season.leagueKey}-${anio}-${season.semester ?? 0}`,
       nombre: leagueName(clubCampeon.league),
@@ -115,16 +124,17 @@ export function getPalmares(
     });
   }
 
-  // --- Copas del calendario real (Superliga, Copa Colombia, Libertadores...) ---
-  // Estas no tienen bracket en el motor, así que no hay championId: el título se anota en el perfil
-  // al ganar la final (ver cupTitles en App.tsx).
+  // --- Títulos anotados al ganarlos (cupTitles) ---
+  // Copas del calendario real (Superliga, Copa Colombia...) y TAMBIÉN los campeonatos de liga.
+  // Las ligas se anotan acá porque el bloque de arriba las deduce del estado en curso, y ese estado
+  // se reinicia: al empezar el Clausura, el Apertura ganado desaparecía de la vitrina.
   for (const t of profile.cupTitles ?? []) {
     trofeos.push({
-      id: `copa-${t.competition}-${t.year}`,
+      id: `titulo-${t.competition}-${t.year}-${t.torneo ?? ''}`,
       nombre: t.competition,
-      detalle: String(t.year),
+      detalle: t.torneo ? `${t.torneo} ${t.year}` : String(t.year),
       clubName: nombreDe(t.clubId),
-      tipo: 'continental',
+      tipo: t.tipo === 'liga' ? 'liga' : 'continental',
       orden: t.year,
     });
   }

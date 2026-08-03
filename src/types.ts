@@ -158,10 +158,21 @@ export interface PlayerProfile {
   };
 }
 
+/**
+ * Un título ganado, anotado en el momento de ganarlo.
+ *
+ * Sirve tanto para copas como para ligas. Las ligas también se anotan acá aunque el motor lleve su
+ * tabla, porque la vitrina no puede depender del estado en curso: al arrancar el Clausura la
+ * temporada se reinicia y el Apertura ganado desaparecía de la vitrina.
+ */
 export interface CupTitle {
-  competition: string; // "Superliga de Colombia"
+  competition: string; // "Superliga de Colombia", "Liga BetPlay Dimayor"
   year: number;
   clubId: string;
+  /** 'Apertura' / 'Clausura' en las ligas de dos torneos. Ausente = copa o temporada corrida. */
+  torneo?: string;
+  /** 'liga' para los campeonatos domésticos; ausente = copa. Decide el ícono en la vitrina. */
+  tipo?: 'liga' | 'copa';
 }
 
 /**

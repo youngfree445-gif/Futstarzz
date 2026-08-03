@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE
@@ -10,7 +10,7 @@ import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedSchedule, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
+import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
@@ -1911,8 +1911,9 @@ export default function App() {
     let foundShootout: PenaltyShootoutResult | null = null;
     let foundShootoutMyId = '';
     let foundShootoutMyName = '';
-    // Título de copa ganado en este partido, para sumarlo al palmarés del perfil (ver cupTitles).
-    let cupTitleWon: { competition: string; year: number; clubId: string } | null = null;
+    // Títulos ganados en este partido, para sumarlos al palmarés del perfil (ver cupTitles).
+    let cupTitleWon: CupTitle | null = null;
+    let leagueTitleWon: CupTitle | null = null;
     // Resultado del partido de hoy anclado a su fecha real (ver DatedResult): es la única forma de
     // recuperar después el marcador de un partido de copa, que no queda en ninguna tabla del motor.
     let datedResultToday: DatedResult | null = null;
@@ -1943,7 +1944,22 @@ export default function App() {
 
       if (fx.competition.kind === 'league') return;
       if (!esUltimoPartidoDeLaCopa(myClub.name, fx.competition.id, paso.date)) return;
-      if (results.golesMiEquipo <= results.golesRival) return;
+
+      // La final se gana por el GLOBAL de la llave, no por el partido de vuelta. Mirando solo la
+      // vuelta, ganar la ida 2-0 y empatar la vuelta no coronaba a nadie (reportado tal cual).
+      //
+      // Los partidos de ida salen de datedResults, que guarda el marcador de cada fecha jugada --
+      // incluidas las que el club resolvió sin vos, como cuando no jugás por fatiga.
+      const idasDeLaLlave = partidosDeLaMismaLlave(myClub.name, fx.competition.id, paso.date);
+      const previos = (playerProfile.datedResults ?? [])
+        .filter(r => r.competition === fx.competition.name && idasDeLaLlave.includes(r.date));
+      const globalMio = results.golesMiEquipo + previos.reduce((n, r) => n + r.myGoals, 0);
+      const globalRival = results.golesRival + previos.reduce((n, r) => n + r.rivalGoals, 0);
+      // Empate en el global: lo define la tanda, que el motor no simula para estas copas. Se
+      // resuelve a favor del que ganó al menos uno de los dos partidos, y si ninguno, no corona.
+      if (globalMio < globalRival) return;
+      if (globalMio === globalRival && results.golesMiEquipo <= results.golesRival
+          && !previos.some(r => r.myGoals > r.rivalGoals)) return;
 
       salioCampeon = true;
       setChampionInfo({
@@ -2003,15 +2019,24 @@ export default function App() {
           const formato = isApeturaClausuraLeague(myClub.league);
           const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
           const semestreReal = pasoHoy ? torneoDelClubEnFecha(myClub.name, pasoHoy.date) : null;
-          const torneo = formato
-            ? `${semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura')} ${anio}`
-            : `Temporada ${anio}`;
+          const semestre = semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura');
+          const torneo = formato ? `${semestre} ${anio}` : `Temporada ${anio}`;
           setChampionInfo({
             competition: getLeagueDisplay(myClub.league).name,
             clubName: myClub.name,
             season: torneo,
             badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
           });
+          // El título se ANOTA en el perfil, no se deduce después de la tabla: la vitrina se
+          // recalcula desde el estado actual y al empezar el Clausura la temporada se reinicia, así
+          // que el Apertura ganado desaparecía. Anotado acá queda para siempre.
+          leagueTitleWon = {
+            competition: getLeagueDisplay(myClub.league).name,
+            year: anio,
+            clubId: myClub.id,
+            torneo: formato ? semestre : undefined,
+            tipo: 'liga',
+          };
         }
       }
 
@@ -2197,9 +2222,16 @@ export default function App() {
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,
       seasonHistory: updatedSeasonHistory,
-      cupTitles: cupTitleWon
-        ? [...(playerProfile.cupTitles ?? []), cupTitleWon]
-        : playerProfile.cupTitles,
+      // Copas y ligas van a la misma lista: todo campeonato ganado queda anotado en la vitrina.
+      // El filtro por id evita duplicar si se rejuega el mismo paso.
+      cupTitles: (() => {
+        const nuevos = [cupTitleWon, leagueTitleWon].filter(Boolean) as CupTitle[];
+        if (!nuevos.length) return playerProfile.cupTitles;
+        const yaEstan = playerProfile.cupTitles ?? [];
+        const clave = (t: CupTitle) => `${t.competition}|${t.year}|${t.torneo ?? ''}`;
+        const vistos = new Set(yaEstan.map(clave));
+        return [...yaEstan, ...nuevos.filter(t => !vistos.has(clave(t)))];
+      })(),
       // Se reemplaza el de la misma fecha si ya existía, para que rejugar un paso no duplique.
       datedResults: datedResultToday
         ? [...(playerProfile.datedResults ?? []).filter(r => r.date !== datedResultToday!.date), datedResultToday]

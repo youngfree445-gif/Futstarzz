@@ -215,6 +215,24 @@ function todasLasFechas(competitionId: string): DatedMatch[] {
   return DATED_CALENDARS.find(c => c.id === competitionId)?.matches ?? [];
 }
 
+/**
+ * Las fechas ANTERIORES de la misma llave: la ida de la final que se define en `date`.
+ *
+ * Hace falta para sumar el global -- una final de ida y vuelta se gana por la suma de los dos
+ * partidos, no por el de vuelta. El criterio es el mismo rival en la misma competición, mirando
+ * hacia atrás desde la vuelta.
+ *
+ * Devuelve solo fechas pasadas, nunca la propia `date`.
+ */
+export function partidosDeLaMismaLlave(clubName: string, competitionId: string, date: string): string[] {
+  const delTorneo = fixturesForClub(clubName).filter(f => f.competition.id === competitionId);
+  const vuelta = delTorneo.find(f => f.date === date);
+  if (!vuelta) return [];
+  return delTorneo
+    .filter(f => f.date < date && f.opponentName === vuelta.opponentName)
+    .map(f => f.date);
+}
+
 /** Todas las competiciones en las que participa el club. */
 export function competitionsForClub(clubName: string): DatedCompetition[] {
   const vistas = new Map<string, DatedCompetition>();
