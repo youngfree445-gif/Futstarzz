@@ -1,4 +1,5 @@
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
+import type { DomesticCupState } from './copaNacional';
 import { REAL_CALENDARS, type RealCompetition } from './realCalendar';
 import { ALIAS_CALENDARIO } from './clubAliases';
 import { displayName } from './worldRetirements';
@@ -1504,6 +1505,25 @@ function resolveTwoLegRound(bracket: TwoLegBracket, clubs: Club[], forced?: Forc
     });
   }
   return { tiesByRound: [...tiesByRound, nextRound], championId: null };
+}
+
+/**
+ * Avanza UNA pierna de la copa nacional (Copa BetPlay y equivalentes).
+ *
+ * Reusa el mismo motor de llaves que los playoffs de Apertura/Clausura: resuelve la ida o la vuelta
+ * de todas las llaves de la ronda, y al completarse encadena la siguiente hasta coronar campeón.
+ * Si el jugador tiene partido en esa ronda, su resultado entra por `forced` y el resto se simula.
+ *
+ * @param forced Resultado real del partido del jugador, si le tocaba jugar esta pierna.
+ */
+export function resolverPasoCopaNacional(
+  cup: DomesticCupState,
+  allClubs: Club[],
+  forced?: ForcedResult,
+): DomesticCupState {
+  if (cup.championId) return cup;
+  const bracket = resolveTwoLegRound(cup.bracket, allClubs, forced);
+  return { ...cup, bracket, championId: bracket.championId };
 }
 
 function resolveUefaLeaguePhaseStep(

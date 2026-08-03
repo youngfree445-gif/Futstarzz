@@ -150,6 +150,11 @@ export interface PlayerProfile {
   // Clubes que cambiaron de división al cerrar un año: clubId -> división actual. Se aplica encima
   // de CLUBS_DATABASE, que es estático. Opcional por las partidas viejas.
   divisionOverrides?: Record<string, 1 | 2>;
+  // Copa nacional en curso (Copa BetPlay y equivalentes), por año de carrera: 'Colombiana-1',
+  // 'Colombiana-2'... Es un cuadro de eliminación directa entre TODOS los clubes del país, de las
+  // dos divisiones, a ida y vuelta. Se guarda porque el calendario real solo traía los dos partidos
+  // del jugador y ganar la llave no llevaba a ninguna ronda siguiente.
+  domesticCups?: Record<string, import('./copaNacional').DomesticCupState>;
   // Movimientos del último cierre de temporada, para poder contarlos en pantalla.
   ultimoAscensoDescenso?: {
     year: number;

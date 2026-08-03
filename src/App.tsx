@@ -11,6 +11,7 @@ import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
 import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
+import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
@@ -19,7 +20,8 @@ import {
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
-  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR
+  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
+  resolverPasoCopaNacional
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
@@ -422,6 +424,11 @@ function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: nu
     wasLeagueTopScorer: meWon,
   };
   return { ...profile, seasonHistory: [...history.slice(0, -1), updated] };
+}
+
+/** División vigente de un club, con los ascensos/descensos ya aplicados encima de CLUBS_DATABASE. */
+function divisionDeClub(profile: PlayerProfile): (c: Club) => 1 | 2 {
+  return (c: Club) => (profile.divisionOverrides?.[c.id] ?? (c.division === 2 ? 2 : 1)) as 1 | 2;
 }
 
 /**
@@ -1604,21 +1611,59 @@ export default function App() {
       // 8 nombres no existen en CLUBS_DATABASE, así que el rival quedaba sin escudo ni datos.
       if (!foundOpponentId && !foundUefaOpponentId) {
         const myClubForCup = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-        const domesticRivals = myClubForCup
-          ? CLUBS_DATABASE.filter(c => c.id !== myClubForCup.id && c.league === myClubForCup.league)
-          : [];
-        const rival = domesticRivals.length
-          ? domesticRivals[Math.floor(Math.random() * domesticRivals.length)]
-          : null;
-        if (rival) {
-          opName = rival.name;
-          opClubId = rival.id;
-        } else {
-          // Liga de un solo equipo en la base: no hay rival nacional posible, se cae al pool
-          // genérico de rivales que ya usa la liga doméstica.
-          opName = OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+
+        // COPA NACIONAL con cuadro de verdad (ver copaNacional.ts).
+        //
+        // Antes acá se sorteaba un rival del país AL AZAR cada semana: no había llave que avanzar,
+        // ganar no te pasaba de ronda, perder no te eliminaba, podías repetir rival dos semanas
+        // seguidas y el torneo no coronaba a nadie. Era un generador de amistosos con el cartel de
+        // la copa encima.
+        //
+        // Ahora es un cuadro de eliminación directa entre los 36 clubes del país (Primera y
+        // Segunda), a ida y vuelta, que arranca en dieciseisavos y termina con un campeón.
+        const cupKey = myClubForCup ? `${myClubForCup.league}-${year}` : null;
+        let cupCruce: ReturnType<typeof cruceActual> = null;
+        if (myClubForCup && cupKey) {
+          const cup = playerProfile.domesticCups?.[cupKey]
+            ?? crearCopaNacional(myClubForCup.league, year, CLUBS_DATABASE, divisionDeClub(playerProfile));
+          if (!playerProfile.domesticCups?.[cupKey]) {
+            setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cup } }));
+          }
+          cupCruce = sigueEnCopa(cup, myClubForCup.id) ? cruceActual(cup, myClubForCup.id) : null;
+          if (cupCruce) {
+            const rivalId = cupCruce.clubAId === myClubForCup.id ? cupCruce.clubBId : cupCruce.clubAId;
+            const rivalCup = CLUBS_DATABASE.find(c => c.id === rivalId);
+            if (rivalCup) {
+              opName = rivalCup.name;
+              opClubId = rivalCup.id;
+              // En la ida es local el clubA; en la vuelta se invierte.
+              const esIda = piernaDelCruce(cupCruce) === 'ida';
+              isHomeThisMatch = esIda
+                ? cupCruce.clubAId === myClubForCup.id
+                : cupCruce.clubBId === myClubForCup.id;
+              setActiveCompetitionName(`${nombreCopaNacional(myClubForCup.league)} · ${rondaActual(cup)} (${esIda ? 'Ida' : 'Vuelta'})`);
+            }
+          }
         }
-        setActiveCompetitionName(null);
+
+        // Sin cruce (ya eliminado, o liga sin copa modelada): rival suelto del país, como antes.
+        if (!opClubId) {
+          const domesticRivals = myClubForCup
+            ? CLUBS_DATABASE.filter(c => c.id !== myClubForCup.id && c.league === myClubForCup.league)
+            : [];
+          const rival = domesticRivals.length
+            ? domesticRivals[Math.floor(Math.random() * domesticRivals.length)]
+            : null;
+          if (rival) {
+            opName = rival.name;
+            opClubId = rival.id;
+          } else {
+            // Liga de un solo equipo en la base: no hay rival nacional posible, se cae al pool
+            // genérico de rivales que ya usa la liga doméstica.
+            opName = OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+          }
+          setActiveCompetitionName(null);
+        }
         setActiveDomesticCup(true);
       } else {
         setActiveDomesticCup(false);
@@ -1996,6 +2041,47 @@ export default function App() {
       };
     })();
 
+    // Copa nacional: si el partido de hoy era de su cuadro, se resuelve la pierna con TU resultado
+    // y el resto de las llaves se simulan. Al completarse la ronda, el motor encadena la siguiente
+    // hasta la final (ver resolverPasoCopaNacional).
+    let updatedDomesticCups = playerProfile.domesticCups;
+    (() => {
+      const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+      if (!myClub || !activeDomesticCup || !activeOppositionClubId) return;
+      const cupKey = `${myClub.league}-${getSeasonYear(playerProfile.currentWeek)}`;
+      const cup = playerProfile.domesticCups?.[cupKey];
+      if (!cup || cup.championId) return;
+      const tie = cruceActual(cup, myClub.id);
+      // Solo si el rival de hoy es el de su llave: en las semanas sin cruce el partido es un
+      // amistoso doméstico y no debe mover el cuadro.
+      if (!tie || (tie.clubAId !== activeOppositionClubId && tie.clubBId !== activeOppositionClubId)) return;
+
+      const resuelta = resolverPasoCopaNacional(cup, CLUBS_DATABASE, {
+        clubId: myClub.id,
+        isHome: activeIsHome,
+        goals: results.golesMiEquipo,
+        opponentGoals: results.golesRival,
+      });
+      updatedDomesticCups = { ...(playerProfile.domesticCups ?? {}), [cupKey]: resuelta };
+
+      if (resuelta.championId === myClub.id) {
+        salioCampeon = true;
+        const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+        setChampionInfo({
+          competition: nombreCopaNacional(myClub.league),
+          clubName: myClub.name,
+          season: String(anio),
+          badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+        });
+        cupTitleWon = {
+          competition: nombreCopaNacional(myClub.league),
+          year: anio,
+          clubId: myClub.id,
+          tipo: 'copa',
+        };
+      }
+    })();
+
     let updatedLeagueSeasons = playerProfile.leagueSeasons;
     if (!isCopaLibertadores && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
@@ -2255,6 +2341,7 @@ export default function App() {
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,
       seasonHistory: updatedSeasonHistory,
+      domesticCups: updatedDomesticCups,
       // Copas y ligas van a la misma lista: todo campeonato ganado queda anotado en la vitrina.
       // El filtro por id evita duplicar si se rejuega el mismo paso.
       cupTitles: (() => {
