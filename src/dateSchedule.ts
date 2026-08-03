@@ -126,8 +126,30 @@ export function pasoDeFecha(clubName: string, date: string): number | null {
  */
 export function torneoDeFecha(competition: DatedCompetition, date: string): string {
   if (competition.kind !== 'league') return competition.name;
+  // El corte por mes solo vale donde el año tiene DOS torneos. Las ligas europeas van de agosto a
+  // mayo -- la temporada cruza el año -- así que partirlas por junio daba dos torneos donde hay
+  // uno: LaLiga quedaba con un cierre falso el 21 de diciembre, coronando campeón a mitad de
+  // temporada. Se detecta por la forma del calendario, no por una lista de ligas.
+  if (!esCalendarioDeDosTorneos(competition)) return competition.name;
   const mes = Number(date.slice(5, 7));
   return mes <= 6 ? 'Apertura' : 'Clausura';
+}
+
+/**
+ * ¿El calendario de esta liga son dos torneos en el mismo año (Apertura/Clausura)?
+ *
+ * Sale de la forma del propio calendario: si empieza y termina dentro del MISMO año, es un torneo
+ * por semestre (Colombia: enero a noviembre). Si cruza de un año al siguiente, es una temporada
+ * corrida al estilo europeo (agosto a mayo).
+ */
+const cacheDosTorneos = new Map<string, boolean>();
+function esCalendarioDeDosTorneos(competition: DatedCompetition): boolean {
+  const cacheado = cacheDosTorneos.get(competition.id);
+  if (cacheado !== undefined) return cacheado;
+  const dosTorneos = !!competition.firstDate && !!competition.lastDate
+    && competition.firstDate.slice(0, 4) === competition.lastDate.slice(0, 4);
+  cacheDosTorneos.set(competition.id, dosTorneos);
+  return dosTorneos;
 }
 
 /**

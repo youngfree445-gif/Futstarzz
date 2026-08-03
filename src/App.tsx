@@ -2014,9 +2014,15 @@ export default function App() {
       // Nacional), así que `fixtures` todavía tenía partidos pendientes cuando el Apertura real ya
       // había terminado y no se coronaba a nadie. Además el motor lleva UNA temporada por año y en
       // Colombia/Argentina hay dos campeones, uno por semestre.
+      // El calendario real solo manda si HOY jugaste liga por él. Un club de Segunda como el
+      // Barranquilla tiene calendario (2 partidos de Copa BetPlay) pero ninguna fecha de liga: su
+      // torneo lo lleva entero el motor. Preguntándole al calendario, esUltimaFechaDelTorneo miraba
+      // fechas de liga que no existen, devolvía false siempre y el club nunca salía campeón de la
+      // Primera B -- 0 cierres de torneo en toda la carrera.
       const pasoHoy = usaFechasRealesParaMiClub ? fixturesAtStep(myClub.name, playerProfile.currentWeek) : null;
-      const cerroElTorneo = pasoHoy
-        ? esUltimaFechaDelTorneo(myClub.name, pasoHoy.date)
+      const hoyJuegoLigaPorCalendario = !!pasoHoy && pasoHoy.fixtures.some(f => f.competition.kind === 'league');
+      const cerroElTorneo = hoyJuegoLigaPorCalendario
+        ? esUltimaFechaDelTorneo(myClub.name, pasoHoy!.date)
         : !resolvedSeason.fixtures.some(
             f => !f.played && (f.homeTeamId === myClub.id || f.awayTeamId === myClub.id));
 
@@ -2031,10 +2037,12 @@ export default function App() {
           const formato = isApeturaClausuraLeague(myClub.league);
           // Con calendario real el año sale de la fecha del partido: el contador de semanas se
           // adelantaba y el Clausura jugado en noviembre de 2026 se anotaba como 2027.
-          const anio = pasoHoy
-            ? Number(pasoHoy.date.slice(0, 4))
+          const anio = hoyJuegoLigaPorCalendario
+            ? Number(pasoHoy!.date.slice(0, 4))
             : CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
-          const semestreReal = pasoHoy ? torneoDelClubEnFecha(myClub.name, pasoHoy.date) : null;
+          const semestreReal = hoyJuegoLigaPorCalendario
+            ? torneoDelClubEnFecha(myClub.name, pasoHoy!.date)
+            : null;
           const semestre = semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura');
           const torneo = formato ? `${semestre} ${anio}` : `Temporada ${anio}`;
           setChampionInfo({

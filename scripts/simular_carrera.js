@@ -62,9 +62,14 @@ for (let i = 1; i < todas.length; i++) {
   }
 }
 
-// El calendario tiene que arrancar en/despues del dia 1 de la carrera.
-if (todas.length && todas[0].date < CAREER_START_DATE) {
-  bug('calendario', `el primer partido (${todas[0].date}) es anterior al inicio de carrera (${CAREER_START_DATE})`);
+// Partidos anteriores al inicio de la carrera. En las ligas europeas la temporada arranca en
+// agosto y la carrera en enero, asi que la mitad del calendario ya paso: el jugador entra en la
+// fecha 20. Se reporta como AVISO y no como bug -- es una decision de diseño pendiente (que la
+// carrera arranque en agosto para Europa, o que se saltee lo ya jugado), no algo roto.
+const yaJugados = todas.filter(f => f.date < CAREER_START_DATE);
+if (yaJugados.length) {
+  console.log(`  AVISO: ${yaJugados.length} de ${todas.length} partidos son anteriores al inicio de carrera `
+    + `(${yaJugados[0].date} .. ${yaJugados[yaJugados.length - 1].date}); el jugador entra con la temporada empezada`);
 }
 
 // ---------------------------------------------------------------- 2. coronaciones
@@ -84,10 +89,13 @@ const deLiga = todas.filter(f => f.competition.kind === 'league');
 const cierres = deLiga.filter(f => esUltimaFechaDelTorneo(club.name, f.date));
 console.log(`  cierres de liga: ${cierres.length} -> ${cierres.map(c => `${c.date} (${torneoDelClubEnFecha(club.name, c.date)})`).join(', ')}`);
 const esAperturaClausura = isApeturaClausuraLeague(club.league);
-if (esAperturaClausura && cierres.length !== 2) {
+// Solo se exige cierre por calendario si el club TIENE fechas de liga ahi. Los de Segunda no las
+// tienen (su torneo lo lleva entero el motor) y ahi el cierre sale del fixture, no de la fecha.
+if (!deLiga.length) {
+  console.log('  (sin fechas de liga en el calendario real: el torneo lo cierra el motor)');
+} else if (esAperturaClausura && cierres.length !== 2) {
   bug('coronacion', `liga de Apertura/Clausura con ${cierres.length} cierres, deberian ser 2`);
-}
-if (!esAperturaClausura && cierres.length !== 1) {
+} else if (!esAperturaClausura && cierres.length !== 1) {
   bug('coronacion', `liga de temporada corrida con ${cierres.length} cierres, deberia ser 1`);
 }
 
@@ -172,7 +180,8 @@ while (edad < EDAD_RETIRO && week < MAX_PASOS) {
       bug('motor', `paso ${week} (${paso.date}): fecha de fase regular que no sumo ningun PJ a la tabla`);
     }
 
-    if (esUltimaFechaDelTorneo(club.name, paso.date) && season.table.length) {
+    const cierraPorCalendario = esUltimaFechaDelTorneo(club.name, paso.date);
+    if (cierraPorCalendario && season.table.length) {
       const lider = sortTable([...season.table])[0];
       if (lider && (lider.clubId === club.id || lider.name === club.name)) {
         const t = torneoDelClubEnFecha(club.name, paso.date);
@@ -233,7 +242,11 @@ if (dup.length) bug('vitrina', `trofeos duplicados: ${[...new Set(dup)].join(', 
 console.log(`\n--- ASCENSO / DESCENSO ---`);
 const reglas = reglasDeLiga(club.league);
 if (reglas) {
-  const d1 = leagueClubs.filter(c => (c.division === 2 ? 2 : 1) === 1);
+  // La tabla de descenso sale de TODA la liga, no de la leagueKey del club: si el jugador está en
+  // Segunda, `leagueClubs` es "Colombiana-2" y no tiene ni un club de Primera, así que la tabla
+  // salía vacía y parecía que no descendía nadie. App.tsx recorre la liga entera.
+  const deLaLiga = CLUBS_DATABASE.filter(c => c.league === club.league);
+  const d1 = deLaLiga.filter(c => (c.division === 2 ? 2 : 1) === 1);
   const d2 = CLUBS_DATABASE.filter(c => c.league === club.league && c.division === 2);
   const hist = [
     ...d1.map((c, i) => ({ clubId: c.id, league: club.league, year: 1, puntos: 70 - i * 2, partidos: 38, victorias: 22 - i, golesFavor: 55 - i, golesContra: 30 })),
@@ -249,6 +262,20 @@ if (reglas) {
     bug('ascenso', `bajan ${r.descienden.length} pero el reglamento dice ${reglas.cuposDescenso}`);
   }
   if (!d2.length) bug('ascenso', `${club.league} tiene reglamento pero ningun club en division 2`);
+
+  // Si el club del jugador está en Segunda: saliendo PRIMERO, ¿asciende?
+  if ((club.division === 2 ? 2 : 1) === 2) {
+    const segundaConMigoPrimero = [
+      { clubId: club.id, clubName: club.name },
+      ...segunda.filter(s => s.clubId !== club.id),
+    ];
+    const r2 = resolverMovimientos(club.league, tabla, segundaConMigoPrimero, (a, b) => b);
+    const subi = r2.ascienden.some(a => a.clubId === club.id);
+    console.log(`  saliendo 1° en Segunda -> ${club.name} ${subi ? 'ASCIENDE' : 'NO ASCIENDE'}`);
+    if (!subi) {
+      bug('ascenso', `${club.name} sale primero en Segunda y NO asciende (suben: ${r2.ascienden.map(a => a.clubName).join(', ') || 'nadie'})`);
+    }
+  }
 } else {
   console.log(`  (${club.league} no tiene reglamento cargado)`);
 }
