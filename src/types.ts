@@ -467,6 +467,12 @@ export interface MatchEvent {
   type: 'neutral' | 'good' | 'bad' | 'decision' | 'highlight';
 }
 
+// Tipo de highlight animado que dramatiza la jugada en Canvas antes de mostrar el texto narrado
+// (ver PlayHighlightCanvas.tsx). Anotado a mano sobre cada choice existente -- el requiredAttr solo
+// no alcanza para decidir el clip (hay jugadas de 'tiro' que no son gol, ver el córner forzado en
+// MatchSimulator.tsx), así que se categorizó cada una viendo qué se vería realmente en cancha.
+export type PlayClipType = 'gol' | 'pase' | 'defensa' | 'gambeta' | 'duelo_fisico' | 'posicionamiento' | 'arquero';
+
 export interface MatchDecision {
   prompt: string;
   // Penal/tiro libre directo: en vez de elegir entre 3 acciones de texto distintas, elegís a dónde
@@ -484,6 +490,7 @@ export interface MatchDecision {
     effectOnSuccess: { goals: number; assists: number; prestige: number; fans: number };
     effectOnFail: { prestige: number; fans: number; energy: number };
     cardRiskOnFail?: 'yellow' | 'red'; // decisiones agresivas/temerarias (barridas, presión física, salidas de arquero): si fallan, tarjeta segura
+    clipType?: PlayClipType; // opcional: decisiones viejas sin anotar caen a texto sin animación
   }[];
 }
 
