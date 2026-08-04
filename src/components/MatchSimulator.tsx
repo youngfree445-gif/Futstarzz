@@ -2136,9 +2136,51 @@ export default function MatchSimulator({
         </div>
       </div>
 
-      <div className="w-full max-w-4xl mx-auto my-6 grid md:grid-cols-3 gap-6 flex-1">
-        
-        <div className="md:col-span-2 flex flex-col bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative h-[420px]">
+      <div className="w-full max-w-6xl mx-auto my-6 grid lg:grid-cols-[240px_minmax(0,1fr)_300px] gap-5 flex-1">
+
+        {/* Consejo profesional: en su propia columna angosta a la izquierda, en vez de apilado
+            debajo de la ficha de jugador -- esa combinación empujaba todo el panel derecho a un
+            alto mayor que la transmisión de texto, forzando scroll de página completa. */}
+        <div className="order-2 lg:order-1 bg-slate-900 border border-slate-800 p-4 rounded-2xl text-xs text-slate-400 h-fit">
+          <h4 className="font-bold text-slate-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <Lightbulb size={13} className="text-gold-400 shrink-0" /> Consejo Profesional de Táctica
+          </h4>
+          <p className="leading-relaxed text-2xs">
+            Tus elecciones críticas están vinculadas a tus atributos actuales. Si no has entrenado lo suficiente tus atributos físicos o de pase, intenta ir por las opciones seguras para evitar pérdidas de prestigio.
+          </p>
+          {tablePositionFactor < 0.97 && (
+            <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
+              <AlertTriangle size={13} className="shrink-0 mt-0.5" /> <span>Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.</span>
+            </p>
+          )}
+          {tablePositionFactor > 1.03 && (
+            <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
+              <Sparkles size={13} className="shrink-0 mt-0.5" /> <span>Rival peor ubicado en la tabla: tus decisiones tienen algo más de margen hoy.</span>
+            </p>
+          )}
+          {playerProfile.fans < 20 && (
+            <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
+              <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te viene pitando: tus decisiones tienen menos margen de éxito hoy.</span>
+            </p>
+          )}
+          {playerProfile.fans > 80 && (
+            <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
+              <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te banca a muerte: tus decisiones tienen algo más de margen hoy.</span>
+            </p>
+          )}
+          {playerProfile.mentalHealth < 35 && (
+            <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
+              <Brain size={13} className="shrink-0 mt-0.5" /> <span>Traes la cabeza floja: tus decisiones tienen menos margen de éxito hoy.</span>
+            </p>
+          )}
+          {playerProfile.mentalHealth > 85 && (
+            <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
+              <Brain size={13} className="shrink-0 mt-0.5" /> <span>Estás mentalmente a tope: tus decisiones tienen algo más de margen hoy.</span>
+            </p>
+          )}
+        </div>
+
+        <div className="order-1 lg:order-2 flex flex-col bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative h-[420px]">
           
           <div className="px-5 py-3.5 border-b border-slate-800 bg-slate-950/50 flex justify-between items-center z-10">
             <span className="font-mono text-xs uppercase tracking-widest text-slate-400 font-bold">
@@ -2270,7 +2312,7 @@ export default function MatchSimulator({
           )}
         </div>
 
-        <div className="space-y-6">
+        <div className="order-3 space-y-6">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
             {/* Cabecera tipo "ficha de jugador": calificación grande a la izquierda, identidad a la derecha, degradado sutil para separarla visualmente del resto de la card. */}
             <div className="bg-gradient-to-br from-slate-850 to-slate-900 p-5 flex items-center gap-4 border-b border-slate-800">
@@ -2344,45 +2386,6 @@ export default function MatchSimulator({
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl text-xs text-slate-400">
-            <h4 className="font-bold text-slate-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <Lightbulb size={13} className="text-gold-400 shrink-0" /> Consejo Profesional de Táctica
-            </h4>
-            <p className="leading-relaxed text-2xs">
-              Tus elecciones críticas están vinculadas a tus atributos actuales. Si no has entrenado lo suficiente tus atributos físicos o de pase, intenta ir por las opciones seguras para evitar pérdidas de prestigio.
-            </p>
-            {tablePositionFactor < 0.97 && (
-              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
-                <AlertTriangle size={13} className="shrink-0 mt-0.5" /> <span>Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.</span>
-              </p>
-            )}
-            {tablePositionFactor > 1.03 && (
-              <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
-                <Sparkles size={13} className="shrink-0 mt-0.5" /> <span>Rival peor ubicado en la tabla: tus decisiones tienen algo más de margen hoy.</span>
-              </p>
-            )}
-            {playerProfile.fans < 20 && (
-              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
-                <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te viene pitando: tus decisiones tienen menos margen de éxito hoy.</span>
-              </p>
-            )}
-            {playerProfile.fans > 80 && (
-              <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
-                <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te banca a muerte: tus decisiones tienen algo más de margen hoy.</span>
-              </p>
-            )}
-            {playerProfile.mentalHealth < 35 && (
-              <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
-                <Brain size={13} className="shrink-0 mt-0.5" /> <span>Traes la cabeza floja: tus decisiones tienen menos margen de éxito hoy.</span>
-              </p>
-            )}
-            {playerProfile.mentalHealth > 85 && (
-              <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
-                <Brain size={13} className="shrink-0 mt-0.5" /> <span>Estás mentalmente a tope: tus decisiones tienen algo más de margen hoy.</span>
-              </p>
-            )}
           </div>
         </div>
 

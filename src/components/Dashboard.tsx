@@ -3355,7 +3355,7 @@ export default function Dashboard({
                       case 'Colombiana': return '🇨🇴 COL';
                       case 'Brasileña': return '🇧🇷 BRA';
                       case 'Argentina': return '🇦🇷 ARG';
-                      case 'Inglesa': return '🏴_󠁧󠁢󠁥󠁮󠁧󠁿 ENG';
+                      case 'Inglesa': return '🇬🇧 ENG';
                       case 'Española': return '🇪🇸 ESP';
                       case 'Alemana': return '🇩🇪 GER';
                       case 'Italiana': return '🇮🇹 ITA';

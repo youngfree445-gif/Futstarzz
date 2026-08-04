@@ -14,7 +14,7 @@ const COUNTRIES: { key: string; label: string; flag: string }[] = [
   { key: 'Colombiana', label: 'Colombia', flag: '🇨🇴' },
   { key: 'Brasileña', label: 'Brasil', flag: '🇧🇷' },
   { key: 'Argentina', label: 'Argentina', flag: '🇦🇷' },
-  { key: 'Inglesa', label: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+  { key: 'Inglesa', label: 'Inglaterra', flag: '🇬🇧' },
   { key: 'Española', label: 'España', flag: '🇪🇸' },
   { key: 'Alemana', label: 'Alemania', flag: '🇩🇪' },
   { key: 'Italiana', label: 'Italia', flag: '🇮🇹' },
