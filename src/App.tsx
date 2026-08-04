@@ -2841,9 +2841,19 @@ export default function App() {
       // amistoso doméstico y no debe mover el cuadro.
       if (!tie || (tie.clubAId !== activeOppositionClubId && tie.clubBId !== activeOppositionClubId)) return;
 
+      // La localía que le pasamos al motor tiene que ser la de la LLAVE INTERNA de la copa
+      // nacional, no la del calendario real (activeIsHome) -- mismo bug ya corregido para el
+      // playoff de liga (ver isHomeParaElMotor más abajo): en la ida el clubA es local, en la
+      // vuelta se invierte, y eso puede no coincidir con lo que dice el calendario real para esa
+      // fecha. Sin esto, la localía le entraba invertida al motor en la vuelta y el global
+      // terminaba mal calculado (o, como acá, el motor nunca marcaba la vuelta como jugada).
+      const isHomeParaLaCopaNacional = tie.firstLegGoalsA === null
+        ? tie.clubAId === myClub.id  // ida: A es local
+        : tie.clubBId === myClub.id; // vuelta: se invierte, B es local
+
       const resuelta = resolverPasoCopaNacional(cup, CLUBS_DATABASE, {
         clubId: myClub.id,
-        isHome: activeIsHome,
+        isHome: isHomeParaLaCopaNacional,
         goals: results.golesMiEquipo,
         opponentGoals: results.golesRival,
       });
@@ -3071,7 +3081,19 @@ export default function App() {
     if (isCopaLibertadores && activeUefaCupId && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], playerProfile.currentWeek);
-      const resolvedUefaCup = resolveUefaCupWeek(uefaCupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
+      // Desde el playoff en adelante, Champions/Europa es ida y vuelta (TwoLegTie): mismo bug ya
+      // corregido en el playoff de liga y en la copa nacional -- la localía para el motor tiene que
+      // salir de la llave interna, no del calendario real (activeIsHome), porque se invierte entre
+      // ida y vuelta y puede no coincidir.
+      const llaveUefaDelClub = uefaCupBeforeMatch.knockout?.tiesByRound[uefaCupBeforeMatch.knockout.tiesByRound.length - 1]
+        ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id)
+        ?? uefaCupBeforeMatch.playoff?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+      const isHomeParaUefa = llaveUefaDelClub
+        ? (llaveUefaDelClub.firstLegGoalsA === null
+            ? llaveUefaDelClub.clubAId === myClub.id  // ida: A es local
+            : llaveUefaDelClub.clubBId === myClub.id) // vuelta: se invierte, B es local
+        : activeIsHome; // fase de liga (round-robin, sin ida/vuelta): el calendario real es correcto
+      const resolvedUefaCup = resolveUefaCupWeek(uefaCupBeforeMatch, CLUBS_DATABASE, myClub.id, isHomeParaUefa, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInTwoLegBracket(resolvedUefaCup.knockout, myClub.id, activeOppositionClubId)
         || findShootoutInTwoLegTies(resolvedUefaCup.playoff, myClub.id, activeOppositionClubId);
       if (shootout) {
