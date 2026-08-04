@@ -31,6 +31,7 @@ import {
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
+import SeasonComparisonChart from './SeasonComparisonChart';
 import { fetchReactionGif, searchReactionGifs } from '../services/giphy';
 import trainingRitmoImg from '../assets/training/ritmo.jpg';
 import trainingRegateImg from '../assets/training/regate.jpg';
@@ -246,13 +247,15 @@ interface DashboardProps {
   onGirlfriendCheat: () => void;
   onGirlfriendDenyRumors: () => void;
   onGirlfriendMoveIn: (accept: boolean) => void;
+  onPropose: () => void;
+  onHaveChild: () => void;
   onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
   onAcceptSponsor: (itemId: string) => void;
   onCancelSponsor: (itemId: string) => void;
   onLaunchPRCampaign: (cost: number, fansBonus: number, prestigeBonus: number, salaryBonus?: number) => void;
   onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number) => void;
-  onAcceptTransfer: (clubId: string, signOnBonus: number) => void;
+  onAcceptTransfer: (clubId: string, signOnBonus: number, newDorsal: number) => void;
   onAdvanceWeek: () => void;
   /** Última fecha real del año jugada, con todo cerrado: dispara el periódico de nueva temporada. */
   onFinalizeSeason: () => void;
@@ -274,6 +277,8 @@ export default function Dashboard({
   onGirlfriendCheat,
   onGirlfriendDenyRumors,
   onGirlfriendMoveIn,
+  onPropose,
+  onHaveChild,
   onReconvertPosition,
   onBuyItem,
   onAcceptSponsor,
@@ -292,6 +297,10 @@ export default function Dashboard({
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
+  // Pestaña Traspasos: dorsal elegido para el club nuevo, uno por vez -- se pisa si el jugador
+  // cambia de oferta antes de confirmar. clubId null = todavía no eligió dorsal para nadie.
+  const [pendingTransferClubId, setPendingTransferClubId] = useState<string | null>(null);
+  const [pendingTransferDorsal, setPendingTransferDorsal] = useState(10);
   // Pestaña Tablas: por defecto muestra la liga del jugador, pero puede explorar cualquier otra
   // liga del juego solo para consulta (no persiste su LeagueSeasonState -- se recalcula al vuelo
   // con getOrCreateSeasonForLeague cada vez que la abrís, igual que hace cualquier liga que el
@@ -929,6 +938,95 @@ export default function Dashboard({
   // propios rumores de fichaje se juegan en la Sala de Prensa, con consecuencias reales -- ver
   // press_13/press_14 en data.ts). Selección pseudo-aleatoria estable por semana (no se reordena
   // en cada render) para que la sección no "parpadee" distinto cada vez que Dashboard re-renderiza.
+  // Rumores sobre VOS antes de que la oferta se vuelva concreta: si a un club le falta poco para
+  // cumplir el umbral de ficharte (reqPrestige), la prensa ya empieza a especular. No espoilea el
+  // club exacto hasta que está muy cerca (>=92%) -- antes de eso queda en "un club de la liga X".
+  const generateOwnTransferRumorPosts = () => {
+    const week = playerProfile.currentWeek;
+    const matchesPlayed = playerProfile.careerStats.partidosHistoricos;
+    const contributionPerMatch = matchesPlayed > 0
+      ? (playerProfile.careerStats.golesHistoricos + playerProfile.careerStats.asistenciasHistoricos) / matchesPlayed
+      : 0;
+    const performanceScore = Math.min(100, playerProfile.prestige * 0.55 + contributionPerMatch * 70 + playerProfile.careerStats.campeonatos * 6);
+    if (performanceScore <= 0) return [];
+
+    const personas = [
+      { author: 'Fichajes al Día', role: 'Cuenta de Mercado', avatar: '📋' },
+      { author: 'Radar de Pases', role: 'Especialista en Fichajes', avatar: '🕵️' },
+      { author: 'La Chiva del Mercado', role: 'Cuenta de Rumores', avatar: '🐐' },
+    ];
+
+    const candidatos = ULTIMATE_CLUBS_DATABASE
+      .filter(c => c.id !== playerProfile.currentClubId)
+      .map(c => {
+        const reputationGap = c.reputation - currentClub.reputation;
+        const reqPrestige = Math.round(Math.min(95, c.reputation * 12 + Math.max(0, reputationGap) * 15));
+        return { club: c, closeness: reqPrestige > 0 ? performanceScore / reqPrestige : 0 };
+      })
+      // Cerca del umbral (80%-99%) pero sin cumplirlo todavía: si ya lo cumple, la oferta real ya
+      // está disponible en la pestaña de Traspasos y no tiene sentido "rumorear" lo que ya es un hecho.
+      .filter(x => x.closeness >= 0.8 && x.closeness < 1)
+      .sort((a, b) => b.closeness - a.closeness)
+      .slice(0, 2);
+
+    if (candidatos.length === 0) return [];
+
+    return candidatos.map(({ club, closeness }, idx) => {
+      const persona = personas[(week + idx) % personas.length];
+      const espoileaClub = closeness >= 0.92;
+      const referenciaClub = espoileaClub ? club.name : `un club de ${club.league}`;
+      const options = [
+        `RUMOR: ${referenciaClub} sigue de cerca a ${playerProfile.name} de cara al próximo mercado. Todavía nada formal.`,
+        `${referenciaClub} pidió información sobre ${playerProfile.name} y su situación contractual. La cosa recién empieza.`,
+        `Ojo con este dato: ${referenciaClub} viene monitoreando el rendimiento de ${playerProfile.name} hace semanas.`,
+      ];
+      return {
+        id: `ownrumor_${club.id}_${week}_${idx}`,
+        author: persona.author,
+        role: persona.role,
+        content: options[(week + idx * 3) % options.length],
+        likes: 200 + Math.floor(Math.random() * 2000),
+        commentsCount: 30 + Math.floor(Math.random() * 400),
+        timestamp: 'Mercado de Pases',
+        avatar: persona.avatar
+      };
+    });
+  };
+
+  // "Cuentas pendientes": tu rival más enfrentado en la carrera hasta ahora (no un clásico fijo por
+  // catálogo, sino el que de hecho más te cruzaste jugando). Solo aparece si ya se jugaron varias
+  // veces, para que no dispare desde el segundo partido contra cualquiera.
+  const generateRivalryPosts = () => {
+    const records = Object.values(playerProfile.headToHeadRecords ?? {});
+    if (records.length === 0) return [];
+    const masEnfrentado = [...records].sort((a, b) => (b.wins + b.draws + b.losses) - (a.wins + a.draws + a.losses))[0];
+    const totalPartidos = masEnfrentado.wins + masEnfrentado.draws + masEnfrentado.losses;
+    if (totalPartidos < 3) return [];
+    // Solo dispara la semana de un cruce reciente, no en cualquier semana al azar.
+    if (masEnfrentado.lastMeetingWeek !== playerProfile.currentWeek) return [];
+
+    const personas = [
+      { author: 'Historial y Números', role: 'Cuenta de Estadísticas', avatar: '📊' },
+      { author: 'La Lupa Deportiva', role: 'Analista Crítico', avatar: '🔍' },
+    ];
+    const persona = personas[playerProfile.currentWeek % personas.length];
+    const balance = masEnfrentado.wins > masEnfrentado.losses
+      ? `${playerProfile.name} le sigue ganando la partida a ${masEnfrentado.rivalName}`
+      : masEnfrentado.wins < masEnfrentado.losses
+      ? `${masEnfrentado.rivalName} le sigue sacando ventaja en el historial a ${playerProfile.name}`
+      : `${playerProfile.name} y ${masEnfrentado.rivalName} siguen sin sacarse diferencias`;
+    return [{
+      id: `rivalry_${playerProfile.currentWeek}`,
+      author: persona.author,
+      role: persona.role,
+      content: `CUENTAS PENDIENTES: van ${totalPartidos} cruces entre ${playerProfile.name} y ${masEnfrentado.rivalName} (${masEnfrentado.wins}V ${masEnfrentado.draws}E ${masEnfrentado.losses}D). ${balance}.`,
+      likes: 300 + Math.floor(Math.random() * 2500),
+      commentsCount: 40 + Math.floor(Math.random() * 500),
+      timestamp: 'Historial',
+      avatar: persona.avatar
+    }];
+  };
+
   const generateRivalTransferBuzzPosts = () => {
     const personas = [
       { author: 'Fichajes al Día', role: 'Cuenta de Mercado', avatar: '📋' },
@@ -1462,6 +1560,8 @@ export default function Dashboard({
       ...generateCriticalPressPost(),
       ...selectedBasePosts,
       ...generateMatchdayReactionPosts(),
+      ...generateOwnTransferRumorPosts(),
+      ...generateRivalryPosts(),
       ...generateRivalTransferBuzzPosts(),
       ...generateOtherPlayersCritiquePosts(),
       ...generateTransferAnnouncementPosts(),
@@ -2490,6 +2590,10 @@ export default function Dashboard({
                   </div>
                 </div>
               )}
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+                <SeasonComparisonChart seasonHistory={playerProfile.seasonHistory} />
+              </div>
             </div>
           )}
 
@@ -2880,6 +2984,36 @@ export default function Dashboard({
                           </div>
                         </div>
                       )}
+
+                      {playerProfile.girlfriend.marriedAt === undefined ? (
+                        playerProfile.girlfriend.livingTogether && playerProfile.girlfriend.loveMeter >= 70 && (
+                          <button
+                            onClick={onPropose}
+                            disabled={playerProfile.capital < 8000}
+                            className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
+                            💍 Pedirle Matrimonio
+                          </button>
+                        )
+                      ) : (
+                        <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
+                          <p className="text-3xs text-gold-400 font-bold uppercase font-mono">
+                            💍 Casado con {playerProfile.girlfriend.name}
+                          </p>
+                          {(playerProfile.girlfriend.children ?? []).length > 0 && (
+                            <p className="text-3xs text-slate-400">
+                              👶 {(playerProfile.girlfriend.children ?? []).map(c => c.name).join(', ')}
+                            </p>
+                          )}
+                          <button
+                            onClick={onHaveChild}
+                            disabled={playerProfile.energy < 25}
+                            className="btn-fx-subtle w-full py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
+                            👶 Agrandar la Familia
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -3151,12 +3285,51 @@ export default function Dashboard({
                             <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
                               Mercado Cerrado
                             </span>
+                          ) : pendingTransferClubId === offer.club.id ? (
+                            (() => {
+                              // Narrativo: si el dorsal elegido "choca" con alguien del plantel,
+                              // el club no te lo puede dar. Determinístico por club+dorsal, no hay
+                              // datos reales de dorsales ocupados en el juego.
+                              const dorsalOcupado = (offer.club.id.length + pendingTransferDorsal) % 7 === 0;
+                              return (
+                                <div className="flex flex-col items-end gap-1.5 min-w-[160px]">
+                                  <label className="text-3xs text-slate-500 font-bold uppercase self-end">
+                                    Elegí tu dorsal en {offer.club.name}
+                                  </label>
+                                  <select
+                                    value={pendingTransferDorsal}
+                                    onChange={(e) => setPendingTransferDorsal(Number(e.target.value))}
+                                    className="w-24 py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white"
+                                  >
+                                    {Array.from({ length: 33 }, (_, i) => i + 1).map(n => (
+                                      <option key={n} value={n}>{n}</option>
+                                    ))}
+                                  </select>
+                                  {dorsalOcupado && (
+                                    <p className="text-3xs text-burgundy-400 text-right leading-snug">
+                                      Ese número ya lo tiene un jugador del plantel — elegí otro.
+                                    </p>
+                                  )}
+                                  <button
+                                    disabled={dorsalOcupado}
+                                    onClick={() => {
+                                      if (confirm(`¿Estás seguro de concretar el fichaje con ${offer.club.name} por un salario semanal de $${offer.salaryOffer}? Recibirás un bono de firma inmediato de $${offer.signOnBonus}.`)) {
+                                        onAcceptTransfer(offer.club.id, offer.signOnBonus, pendingTransferDorsal);
+                                        setPendingTransferClubId(null);
+                                      }
+                                    }}
+                                    className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                                  >
+                                    Confirmar fichaje
+                                  </button>
+                                </div>
+                              );
+                            })()
                           ) : (
                             <button
                               onClick={() => {
-                                if (confirm(`¿Estás seguro de concretar el fichaje con ${offer.club.name} por un salario semanal de $${offer.salaryOffer}? Recibirás un bono de firma inmediato de $${offer.signOnBonus}.`)) {
-                                  onAcceptTransfer(offer.club.id, offer.signOnBonus);
-                                }
+                                setPendingTransferClubId(offer.club.id);
+                                setPendingTransferDorsal(playerProfile.dorsal);
                               }}
                               className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
                             >

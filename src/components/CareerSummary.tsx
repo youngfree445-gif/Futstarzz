@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PlayerProfile } from '../types';
-import { Trophy, ArrowRight, Star } from 'lucide-react';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
+import { Trophy, ArrowRight, Star, IdCard } from 'lucide-react';
+import SeasonComparisonChart from './SeasonComparisonChart';
+import CareerCard from './CareerCard';
 
 interface CareerSummaryProps {
   playerProfile: PlayerProfile;
@@ -11,6 +14,8 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
   const stats = playerProfile.careerStats;
   const titulos = playerProfile.seasonHistory.filter(s => s.titulo).length;
   const botasDeOro = playerProfile.seasonHistory.filter(s => s.wasLeagueTopScorer).length;
+  const [showCard, setShowCard] = useState(false);
+  const currentClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center py-12 px-4 relative">
@@ -110,6 +115,22 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
               <p className="text-3xs text-gold-400 font-mono uppercase text-center pt-1">
                 👑 {botasDeOro} vez{botasDeOro > 1 ? 'ces' : ''} máximo goleador de la liga
               </p>
+            )}
+          </div>
+
+          <SeasonComparisonChart seasonHistory={playerProfile.seasonHistory} />
+
+          <div>
+            <button
+              onClick={() => setShowCard(v => !v)}
+              className="btn-fx-subtle w-full py-2.5 px-4 rounded-xl bg-slate-950 border border-slate-800 text-2xs font-bold text-slate-300 hover:border-gold-500/50 hover:text-gold-400 transition-all flex items-center justify-center gap-2"
+            >
+              <IdCard size={14} /> {showCard ? 'Ocultar tarjeta de carrera' : 'Ver tarjeta de carrera'}
+            </button>
+            {showCard && (
+              <div className="mt-4">
+                <CareerCard playerProfile={playerProfile} club={currentClub} />
+              </div>
             )}
           </div>
 

@@ -82,6 +82,10 @@ export interface Girlfriend {
   name: string;
   loveMeter: number; // 0-100, barra de la relación -- ver GIRLFRIEND_CANDIDATES y handleGirlfriend* en App.tsx
   livingTogether: boolean; // true si aceptaste mudarte juntos (ver handleGirlfriendMoveIn)
+  // Extensión narrativa (Fase 1 del plan de mejoras): matrimonio e hijos. Ambos opcionales -- las
+  // parejas de partidas viejas no los tienen, y no toda relación llega a casamiento o hijos.
+  marriedAt?: number; // semana de carrera en que se casaron, ver handlePropose
+  children?: { name: string; bornWeek: number }[]; // ver handleHaveChild
 }
 
 /** Un retiro de otro jugador del mundo, para narrarlo en ChutSocial. Ver worldRetirements.ts. */
@@ -177,6 +181,15 @@ export interface PlayerProfile {
   // Carrera arrancada en "modo veterano": el jugador empieza consagrado (30-35 años, titular
   // directo) en vez de como juvenil. Se usa como excepción en la curva de decaimiento por edad.
   startedAsVeteran?: boolean;
+  // Dorsales usados club a club, para narrar "en tu club anterior usabas el 10". Se agrega una
+  // entrada por cada traspaso (ver handleAcceptTransfer), no incluye el club actual. Opcional: las
+  // partidas viejas no lo tienen.
+  dorsalHistory?: { clubId: string; clubName: string; dorsal: number }[];
+  // Cabeza a cabeza contra cada rival que enfrentaste, clave = nombre del rival tal como aparece en
+  // el calendario (mismo valor que DatedResult.opponentName). No hay catálogo de "clásicos" fijo:
+  // el rival más enfrentado en tu propia carrera es tu clásico de facto. Se actualiza en
+  // handleFinishMatch. Opcional: las partidas viejas no lo tienen.
+  headToHeadRecords?: Record<string, { rivalName: string; wins: number; draws: number; losses: number; lastMeetingWeek: number }>;
 }
 
 /**
@@ -398,6 +411,14 @@ export interface SeasonHistory {
   leagueTopScorer?: { name: string; clubName: string; value: number };
   leagueTopAssist?: { name: string; clubName: string; value: number };
   wasLeagueTopScorer?: boolean; // true si el goleador de la liga fuiste VOS -- se resalta en el historial
+  // Foto de cómo estabas al cerrar ESTA temporada, para el comparador de evolución. Se completa en
+  // el mismo momento que leagueTopScorer/leagueTopAssist (ver freezeSeasonLeadersIfNewSeason), así
+  // que temporadas guardadas antes de esta feature quedan sin esto -- el gráfico debe tolerar
+  // huecos punto a punto, no asumir que toda entrada del array los tiene.
+  attributesSnapshot?: PlayerStats;
+  prestigeSnapshot?: number;
+  prestigeCompanerosSnapshot?: number;
+  fansSnapshot?: number;
 }
 
 export interface TableTeam {

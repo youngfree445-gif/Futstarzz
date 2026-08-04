@@ -471,6 +471,11 @@ function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: nu
       : leaders.topScorer ?? undefined,
     leagueTopAssist: leaders.topAssist ?? undefined,
     wasLeagueTopScorer: meWon,
+    // Snapshot para el comparador de temporadas: cómo quedaste al cerrar este año.
+    attributesSnapshot: { ...profile.attributes },
+    prestigeSnapshot: profile.prestige,
+    prestigeCompanerosSnapshot: profile.prestigeCompaneros ?? profile.prestige,
+    fansSnapshot: profile.fans,
   };
   return { ...profile, seasonHistory: [...history.slice(0, -1), updated] };
 }
@@ -1083,6 +1088,68 @@ export default function App() {
     notify(accept ? `🏠 Te mudaste con ${gfName}. Un paso grande en la relación.` : `💔 Le dijiste que no estás listo para mudarte. ${gfName} se lo tomó mal.`);
   };
 
+  // Extensión de la vida amorosa: matrimonio e hijos, con el mismo patrón puntual de handlers que
+  // el resto de girlfriend.* -- ver nota más arriba de por qué no vive en DecisionCenter.
+  const PROPOSE_MIN_LOVE = 70;
+  const PROPOSE_COST = 8000;
+  const CHILD_ENERGY_COST = 15; // el nacimiento compite por tu energía esa semana, no es gratis
+
+  const handlePropose = () => {
+    if (!playerProfile?.girlfriend) return;
+    if (playerProfile.girlfriend.marriedAt !== undefined) return;
+    if (!playerProfile.girlfriend.livingTogether || playerProfile.girlfriend.loveMeter < PROPOSE_MIN_LOVE) {
+      notify('Todavía no es el momento: necesitás vivir juntos y una relación más sólida antes de proponerle matrimonio.');
+      return;
+    }
+    if (playerProfile.capital < PROPOSE_COST) {
+      notify(`No te alcanza para el anillo. Necesitás al menos $${PROPOSE_COST.toLocaleString()}.`);
+      return;
+    }
+    const gfName = playerProfile.girlfriend.name;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      capital: playerProfile.capital - PROPOSE_COST,
+      fans: Math.min(100, playerProfile.fans + 8),
+      mentalHealth: Math.min(100, playerProfile.mentalHealth + 6),
+      girlfriend: { ...playerProfile.girlfriend, marriedAt: playerProfile.currentWeek, loveMeter: 100 }
+    };
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
+    if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+    setPlayerProfile(withAchievements);
+    saveGameState(withAchievements, shopItems);
+    notify(`💍 ¡Te casaste con ${gfName}! Toda la prensa deportiva habló de la boda.`);
+  };
+
+  const handleHaveChild = () => {
+    if (!playerProfile?.girlfriend) return;
+    if (playerProfile.girlfriend.marriedAt === undefined) {
+      notify('Solo podés formar una familia con alguien con quien ya te casaste.');
+      return;
+    }
+    if (playerProfile.energy < CHILD_ENERGY_COST + 10) {
+      notify('Estás demasiado exhausto para esta noticia ahora mismo. Descansá primero.');
+      return;
+    }
+    const childName = ['Mateo', 'Sofía', 'Thiago', 'Emma', 'Santiago', 'Valentina'][Math.floor(Math.random() * 6)];
+    const gfName = playerProfile.girlfriend.name;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      energy: Math.max(5, playerProfile.energy - CHILD_ENERGY_COST),
+      mentalHealth: Math.min(100, playerProfile.mentalHealth + 10),
+      fans: Math.min(100, playerProfile.fans + 5),
+      girlfriend: {
+        ...playerProfile.girlfriend,
+        loveMeter: Math.min(100, playerProfile.girlfriend.loveMeter + 8),
+        children: [...(playerProfile.girlfriend.children ?? []), { name: childName, bornWeek: playerProfile.currentWeek }]
+      }
+    };
+    const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
+    if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
+    setPlayerProfile(withAchievements);
+    saveGameState(withAchievements, shopItems);
+    notify(`👶 ¡${gfName} y vos tuvieron a ${childName}! La familia crece, pero esta semana llegaste al partido más cansado de lo habitual.`);
+  };
+
   // Fase 3 -- Modo Veterano: reconversión de posición. Solo tiene sentido ofrecerla desde el
   // Dashboard a partir de cierta edad (ver VETERAN_DECLINE_START_AGE), pero el handler en sí no
   // depende de la edad -- si en el futuro se habilita antes, funciona igual.
@@ -1253,9 +1320,10 @@ export default function App() {
     });
   };
 
-  const handleAcceptTransfer = (clubId: string, signOnBonus: number) => {
+  const handleAcceptTransfer = (clubId: string, signOnBonus: number, newDorsal: number) => {
     if (!playerProfile) return;
     const targetClub = CLUBS_DATABASE.find(c => c.id === clubId)!;
+    const previousClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
 
     // Si es una liga que todavía no visitaste, se genera y se pone al día
     // (queda "corriendo de fondo" como si nunca la hubieras dejado de mirar).
@@ -1267,9 +1335,16 @@ export default function App() {
     // nuevo con el DT y con los compañeros. La hinchada nueva no sufre el mismo golpe porque nunca
     // tuvo nada tuyo que perder.
     const prestigeCompanerosActual = playerProfile.prestigeCompaneros ?? playerProfile.prestige;
+    // El dorsal que dejás atrás queda en el historial, para poder narrar "en tu club anterior
+    // usabas el N" más adelante en la carrera.
+    const dorsalHistory = previousClub
+      ? [...(playerProfile.dorsalHistory ?? []), { clubId: previousClub.id, clubName: previousClub.name, dorsal: playerProfile.dorsal }]
+      : (playerProfile.dorsalHistory ?? []);
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       currentClubId: clubId,
+      dorsal: newDorsal,
+      dorsalHistory,
       capital: playerProfile.capital + signOnBonus,
       prestige: Math.round(playerProfile.prestige * 0.9),
       prestigeCompaneros: Math.round(prestigeCompanerosActual * 0.9),
@@ -2713,6 +2788,22 @@ export default function App() {
     pendingCountryDutyCost.current = null;
     if (countryDuty?.notice) notify(countryDuty.notice);
 
+    // Cabeza a cabeza: solo partidos de club contra un rival identificado (no selección, no
+    // simulación de fondo sin rival concreto).
+    const updatedHeadToHead = (() => {
+      if (activeWorldCupTeamId || !activeOpposition) return playerProfile.headToHeadRecords;
+      const key = activeOpposition;
+      const previo = playerProfile.headToHeadRecords?.[key] ?? { rivalName: activeOpposition, wins: 0, draws: 0, losses: 0, lastMeetingWeek: 0 };
+      const nuevo = {
+        rivalName: activeOpposition,
+        wins: previo.wins + (results.golesMiEquipo > results.golesRival ? 1 : 0),
+        draws: previo.draws + (results.golesMiEquipo === results.golesRival ? 1 : 0),
+        losses: previo.losses + (results.golesMiEquipo < results.golesRival ? 1 : 0),
+        lastMeetingWeek: playerProfile.currentWeek,
+      };
+      return { ...(playerProfile.headToHeadRecords ?? {}), [key]: nuevo };
+    })();
+
     const updated: PlayerProfile = {
       ...playerProfile,
       missedClubMatchesForCountry:
@@ -2724,6 +2815,7 @@ export default function App() {
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,
       seasonHistory: updatedSeasonHistory,
+      headToHeadRecords: updatedHeadToHead,
       domesticCups: updatedDomesticCups,
       // Copas y ligas van a la misma lista: todo campeonato ganado queda anotado en la vitrina.
       // El filtro por id evita duplicar si se rejuega el mismo paso.
@@ -3004,6 +3096,8 @@ export default function App() {
           onGirlfriendCheat={handleGirlfriendCheat}
           onGirlfriendDenyRumors={handleGirlfriendDenyRumors}
           onGirlfriendMoveIn={handleGirlfriendMoveIn}
+          onPropose={handlePropose}
+          onHaveChild={handleHaveChild}
           onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
           onAcceptSponsor={handleAcceptSponsor}
