@@ -10,7 +10,7 @@ import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
+import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -94,6 +94,29 @@ function estaEnPlayoffDeLiga(season: { stage?: string; twoLegKnockout?: TwoLegBr
     return !!ultima?.some(m => m.homeTeamId === clubId || m.awayTeamId === clubId);
   }
   return false;
+}
+
+/**
+ * Tope para el catch-up sintético de la liga Apertura/Clausura de un club con calendario real.
+ *
+ * getOrCreateApeturaClausuraSeason cuenta su catch-up en "pasos" ≈ una semana de carrera cada uno
+ * (apeturaClausuraStepsElapsed), sin distinguir semanas de liga de las de copa. El calendario REAL
+ * intercala fechas de copa (Libertadores, Copa Colombia) entre las de liga, así que currentWeek=32
+ * puede corresponder a solo 24 fechas reales de LIGA -- el motor sintético, si se le pasa 32 tal
+ * cual, avanza 7 "pasos" de más y resuelve de fondo, sin el jugador, ida Y vuelta de una ronda
+ * entera de knockout (Cuartos completo, ida y vuelta de Semifinal empezada) antes de que el
+ * calendario real llegue a esa fecha. El jugador terminaba jugando un partido que ya no
+ * correspondía a la llave vigente del motor, y el resultado real no tenía dónde aplicarse bien.
+ * Bug reportado: "me dio el campeonaao y habiamos empatado en el global, y el global nunca
+ * aparecio".
+ *
+ * Se usa SOLO para el club actual del jugador (el que se está por mostrar/resolver en pantalla):
+ * las demás ligas que corren de fondo (otros clubes por los que pasó) siguen su catch-up normal,
+ * sin tope -- ahí no hay un jugador esperando su turno real.
+ */
+function currentWeekParaLigaDelJugador(club: Club, currentWeek: number): number {
+  if (!isApeturaClausuraLeague(club.league) || !hasDatedLeagueSchedule(club.name)) return currentWeek;
+  return fechasDeLigaTranscurridas(club.name, currentWeek) + 1;
 }
 
 // Mantiene al día el estado de Libertadores/Sudamericana y Champions/Europa del club actual,
@@ -2325,9 +2348,32 @@ export default function App() {
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
       const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
+
+      // En fase de knockout de liga (cuadrangulares/final de Colombia o Argentina), la localía que
+      // hay que pasarle al motor es la de SU llave interna (twoLegKnockout/knockout, armada por
+      // sorteo propio), no la del calendario real que se mostró en pantalla. Cuando el club tiene
+      // calendario real, activeIsHome sale de esa fecha real y puede no coincidir con la localía
+      // que el bracket interno espera para ese mismo cruce -- y el comentario de
+      // resolveOneLegOfTie ya advertía: "cuando discrepaban, el resultado entraba DADO VUELTA".
+      // Eso corrompía qué equipo suma qué en la llave, y con eso el global y quién sale campeón.
+      // Bug reportado: "me dio el campeonaao y habiamos empatado en el global".
+      const llaveInternaDelClub = existingSeason.twoLegKnockout?.tiesByRound[existingSeason.twoLegKnockout.tiesByRound.length - 1]
+        ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+      // Argentina no juega a ida y vuelta (partido único, PlayoffBracket): la localía interna es la
+      // del emparejamiento sorteado, sin pierna que invertir.
+      const partidoInternoDelClub = existingSeason.knockout?.matchesByRound[existingSeason.knockout.matchesByRound.length - 1]
+        ?.find(m => m.homeTeamId === myClub.id || m.awayTeamId === myClub.id);
+      const isHomeParaElMotor = llaveInternaDelClub
+        ? (llaveInternaDelClub.firstLegGoalsA === null
+            ? llaveInternaDelClub.clubAId === myClub.id  // ida: A es local
+            : llaveInternaDelClub.clubBId === myClub.id) // vuelta: se invierte, B es local
+        : partidoInternoDelClub
+        ? partidoInternoDelClub.homeTeamId === myClub.id
+        : activeIsHome;
+
       const resolvedSeason = resolvePlayerWeekForLeague(
         existingSeason, leagueClubs, playerProfile.currentWeek, myClub.id,
-        activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride
+        isHomeParaElMotor, results.golesMiEquipo, results.golesRival, shootoutOverride
       );
 
       const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId)
@@ -2396,9 +2442,20 @@ export default function App() {
         const semestre = semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura');
         const torneo = formato ? `${semestre} ${anio}` : `Temporada ${anio}`;
 
+        // En fase de knockout (playoff/final a ida y vuelta de Colombia, o a partido único de
+        // Argentina) el campeón lo decide el resultado de la LLAVE, no la tabla de la fase regular
+        // -- esa tabla queda congelada desde antes del playoff y no refleja el global de la final.
+        // Antes acá se usaba sortTable(resolvedSeason.table) siempre, así que ganar el global de la
+        // final por diferencia de gol de la fase regular (no del partido) coronaba a quien NO ganó
+        // la final. Bug reportado: "me dio el campeonaao y habiamos empatado en el global".
         const tablaOrdenada = sortTable([...resolvedSeason.table]);
-        const lider = tablaOrdenada[0];
-        if (lider && (lider.clubId === myClub.id || lider.name === myClub.name)) {
+        const enKnockout = resolvedSeason.stage === 'knockout';
+        const campeonDeLaLlave = resolvedSeason.twoLegKnockout?.championId ?? resolvedSeason.knockout?.championId ?? null;
+        const lider = enKnockout ? null : tablaOrdenada[0];
+        const esCampeon = enKnockout
+          ? campeonDeLaLlave === myClub.id
+          : !!lider && (lider.clubId === myClub.id || lider.name === myClub.name);
+        if (esCampeon) {
           salioCampeon = true;
           setChampionInfo({
             competition: getLeagueDisplay(myClub.league, myClub.division).name,
@@ -2420,10 +2477,14 @@ export default function App() {
             torneo: formato ? semestre : undefined,
             tipo: 'liga',
           };
-        } else {
-          // No saliste campeón: antes el torneo se cerraba en silencio y la carrera seguía sin que
-          // el jugador se enterara -- ni de que había terminado, ni de en qué puesto quedó. Bug
-          // reportado: "el jugador jamás se da cuenta [de que la temporada terminó]".
+        } else if (!enKnockout) {
+          // No saliste campeón de una liga de tabla directa (Brasil): antes el torneo se cerraba en
+          // silencio y la carrera seguía sin que el jugador se enterara -- ni de que había
+          // terminado, ni de en qué puesto quedó. Bug reportado: "el jugador jamás se da cuenta".
+          //
+          // El caso "perdiste la FINAL de knockout" no entra acá: lo cubre el bloque de eliminación
+          // de playoff más arriba (estaEnPlayoffDeLiga), que ya sabe que la ronda era la Final y no
+          // tiene sentido mostrar una "posición en la tabla" de la fase regular, ya superada.
           const miPos = tablaOrdenada.findIndex(r => r.clubId === myClub.id || r.name === myClub.name);
           setSeasonEndInfo({
             competition: getLeagueDisplay(myClub.league, myClub.division).name,

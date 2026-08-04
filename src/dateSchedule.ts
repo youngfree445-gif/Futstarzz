@@ -139,6 +139,33 @@ export function pasoDeFecha(clubName: string, date: string): number | null {
 }
 
 /**
+ * Cuántas fechas de LIGA (no copa) del calendario real ya se jugaron antes de `currentWeek`.
+ *
+ * El motor sintético de Apertura/Clausura (getOrCreateApeturaClausuraSeason) cuenta su catch-up en
+ * "pasos" = casi una semana de carrera cada uno (apeturaClausuraStepsElapsed), sin distinguir liga
+ * de copa -- currentWeek=32 contaba 31 pasos de liga sintética transcurridos. Pero el calendario
+ * REAL intercala fechas de copa entre las de liga (Libertadores, Copa Colombia): de esos 32 pasos
+ * reales del club, solo 24 eran de liga. El motor sintético avanzaba 7 pasos de MÁS -- de fondo,
+ * sin el jugador -- y resolvía toda una ronda de knockout (ida y vuelta) antes de que el calendario
+ * real llegara a esa fecha. El jugador veía en pantalla su partido real de Cuartos (con fecha y
+ * rival de Transfermarkt) mientras el motor, por detrás, ya había resuelto Cuartos Y Semifinal
+ * solo, y lo que el jugador terminaba jugando quedaba desincronizado del estado real de la llave.
+ * Bug reportado: "me dio el campeonaao y habiamos empatado en el global, y el global nunca
+ * aparecio" -- el global mostrado (si se mostraba) era el de una llave que ya no era la vigente.
+ *
+ * Se usa para topar el currentWeek que se le pasa al motor sintético: nunca debe avanzar el
+ * catch-up de knockout más allá de las fechas de liga que el calendario real ya cubrió.
+ */
+export function fechasDeLigaTranscurridas(clubName: string, currentWeek: number): number {
+  let n = 0;
+  for (let w = 1; w < currentWeek; w++) {
+    const paso = fixturesAtStep(clubName, w);
+    if (paso && paso.fixtures.some(f => f.competition.kind === 'league')) n++;
+  }
+  return n;
+}
+
+/**
  * En Colombia y Argentina el año tiene DOS torneos de liga, no uno: el Apertura (enero a junio) y
  * el Clausura (julio a noviembre), cada uno con su campeón. Decir solo "Primera División" deja al
  * jugador sin saber cuál está jugando ni cuál puede ganar.

@@ -660,17 +660,29 @@ function resolveBracketRound(
 
   const matchesByRound = [...bracket.matchesByRound.slice(0, roundIdx), currentRound];
   const roundComplete = currentRound.every(m => m.played);
+  // Se resuelve la ronda y se CORTA acá, sin armar la siguiente en el mismo paso -- mismo motivo
+  // que en resolveTwoLegRound (Colombia): si el partido del jugador completaba la última llave
+  // pendiente, esta función armaba la ronda siguiente en la misma llamada y el partido jugado
+  // "desaparecía" de tiesByRound/matchesByRound antes de que la pantalla pudiera mostrarlo.
   if (!roundComplete) return { matchesByRound, championId: null };
-
   const winners = currentRound.map(m => m.penaltyShootout ? m.penaltyShootout.winnerId : (m.homeGoals! > m.awayGoals! ? m.homeTeamId : m.awayTeamId));
   if (winners.length === 1) {
     return { matchesByRound, championId: winners[0] };
   }
+  return { matchesByRound, championId: null };
+}
+
+/** Arma la ronda siguiente del knockout de liga (Argentina, partido único) tras la ya jugada. */
+function siguienteRondaBracket(bracket: PlayoffBracket): PlayoffBracket {
+  const roundIdx = bracket.matchesByRound.length - 1;
+  const currentRound = bracket.matchesByRound[roundIdx];
+  if (bracket.championId || !currentRound.every(m => m.played)) return bracket;
+  const winners = currentRound.map(m => m.penaltyShootout ? m.penaltyShootout.winnerId : (m.homeGoals! > m.awayGoals! ? m.homeTeamId : m.awayTeamId));
   const nextRound = [];
   for (let i = 0; i < winners.length; i += 2) {
     nextRound.push({ homeTeamId: winners[i], awayTeamId: winners[i + 1], played: false, homeGoals: null, awayGoals: null });
   }
-  return { matchesByRound: [...matchesByRound, nextRound], championId: null };
+  return { matchesByRound: [...bracket.matchesByRound, nextRound], championId: null };
 }
 
 function freshRegularPhase(clubs: Club[], format: 'colombia' | 'argentina', semester: 1 | 2, semesterStartWeek: number): LeagueSeasonState {
@@ -776,12 +788,25 @@ function resolveApeturaClausuraStep(
       if (bracket.championId) {
         return startNextSemester(season, clubs, currentWeek, format, forced);
       }
+      // La ronda actual ya está completa (todas las llaves jugadas) pero sin campeón todavía: hay
+      // que ARMAR la ronda siguiente y cortar acá, sin resolverla en el mismo paso -- mismo patrón
+      // que fase regular -> knockout. Sin esto, resolveTwoLegRound armaba Y resolvía la ronda
+      // siguiente de una, así que el partido del jugador (que recién pasó de ronda) se jugaba solo.
+      const rondaActualCompleta = bracket.tiesByRound[bracket.tiesByRound.length - 1].every(t => t.played);
+      if (rondaActualCompleta) {
+        return { ...season, twoLegKnockout: siguienteRondaTwoLeg(bracket) };
+      }
       const updatedBracket = resolveTwoLegRound(bracket, clubs, forced);
       return { ...season, twoLegKnockout: updatedBracket };
     }
     const bracket = season.knockout!;
     if (bracket.championId) {
       return startNextSemester(season, clubs, currentWeek, format, forced);
+    }
+    // Mismo corte que en Colombia (twoLegKnockout) unas líneas más arriba.
+    const rondaActualCompletaArg = bracket.matchesByRound[bracket.matchesByRound.length - 1].every(m => m.played);
+    if (rondaActualCompletaArg) {
+      return { ...season, knockout: siguienteRondaBracket(bracket) };
     }
     const updatedBracket = resolveBracketRound(bracket, clubs, forced);
     return { ...season, knockout: updatedBracket };
@@ -1507,12 +1532,29 @@ function resolveTwoLegRound(bracket: TwoLegBracket, clubs: Club[], forced?: Forc
 
   const tiesByRound = [...bracket.tiesByRound.slice(0, roundIdx), newRound];
   const roundComplete = newRound.every(t => t.played);
+  // Se resuelve la ronda y se CORTA acá, sin armar la siguiente en el mismo paso -- mismo patrón
+  // que fase regular -> knockout unas líneas más arriba ("se ARMA el cuadro y se corta"). Antes,
+  // cuando la vuelta del jugador completaba la última llave pendiente de la ronda, esta función
+  // armaba la ronda siguiente EN LA MISMA LLAMADA: para cuando App.tsx/Dashboard.tsx consultaban
+  // tiesByRound[length-1] para calcular el global o decidir el campeón, ya no encontraban la llave
+  // que el jugador acababa de jugar -- encontraban la llave vacía de la ronda siguiente. El global
+  // "nunca aparecía" y el campeón se decidía con datos de otra ronda. Bug reportado: "me dio el
+  // campeonaao y habiamos empatado en el global, y el global nunca aparecio". La ronda siguiente se
+  // arma en el paso posterior, que es cuando la pantalla se la ofrece al jugador.
   if (!roundComplete) return { tiesByRound, championId: null };
-
   const winners = newRound.map(t => t.winnerId!);
   if (winners.length === 1) {
     return { tiesByRound, championId: winners[0] };
   }
+  return { tiesByRound, championId: null };
+}
+
+/** Arma la ronda siguiente del knockout de liga a partir de los ganadores de la última ya jugada. */
+function siguienteRondaTwoLeg(bracket: TwoLegBracket): TwoLegBracket {
+  const roundIdx = bracket.tiesByRound.length - 1;
+  const currentRound = bracket.tiesByRound[roundIdx];
+  if (bracket.championId || !currentRound.every(t => t.played)) return bracket;
+  const winners = currentRound.map(t => t.winnerId!);
   const nextRound: TwoLegTie[] = [];
   for (let i = 0; i < winners.length; i += 2) {
     nextRound.push({
@@ -1521,7 +1563,7 @@ function resolveTwoLegRound(bracket: TwoLegBracket, clubs: Club[], forced?: Forc
       played: false, winnerId: null,
     });
   }
-  return { tiesByRound: [...tiesByRound, nextRound], championId: null };
+  return { tiesByRound: [...bracket.tiesByRound, nextRound], championId: null };
 }
 
 /**
@@ -1539,6 +1581,12 @@ export function resolverPasoCopaNacional(
   forced?: ForcedResult,
 ): DomesticCupState {
   if (cup.championId) return cup;
+  // Mismo corte que en el playoff de liga: si la ronda actual ya está completa, se arma la
+  // siguiente y se corta, sin resolverla en el mismo paso.
+  const rondaActualCompleta = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1].every(t => t.played);
+  if (rondaActualCompleta) {
+    return { ...cup, bracket: siguienteRondaTwoLeg(cup.bracket) };
+  }
   const bracket = resolveTwoLegRound(cup.bracket, allClubs, forced);
   return { ...cup, bracket, championId: bracket.championId };
 }
@@ -1607,6 +1655,11 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
     if (!cup.knockout) return cup;
     if (cup.knockout.championId) {
       return { ...cup, stage: 'done', championId: cup.knockout.championId };
+    }
+    // Mismo corte que en el playoff de liga y la copa nacional.
+    const rondaActualCompleta = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1].every(t => t.played);
+    if (rondaActualCompleta) {
+      return { ...cup, knockout: siguienteRondaTwoLeg(cup.knockout) };
     }
     const knockout = resolveTwoLegRound(cup.knockout, allClubs, forced);
     return { ...cup, knockout };
