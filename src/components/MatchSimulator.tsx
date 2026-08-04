@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats } from '../types';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
-import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
 import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
@@ -1468,7 +1468,7 @@ export default function MatchSimulator({
   const FATIGUE_MATCH_THRESHOLD = 6;
   const FATIGUE_ATTR_PENALTY = 6;
   const isFatigued = playerProfile.matchesWithoutRest >= FATIGUE_MATCH_THRESHOLD;
-  const effectiveAttributes: PlayerStats = isFatigued
+  const attributesAfterFatigue: PlayerStats = isFatigued
     ? {
         ritmo: Math.max(10, playerProfile.attributes.ritmo - FATIGUE_ATTR_PENALTY),
         regate: Math.max(10, playerProfile.attributes.regate - FATIGUE_ATTR_PENALTY),
@@ -1478,6 +1478,21 @@ export default function MatchSimulator({
         fisico: Math.max(10, playerProfile.attributes.fisico - FATIGUE_ATTR_PENALTY)
       }
     : playerProfile.attributes;
+
+  // Rol favorito (ver ROLES_DATABASE en data.ts): redistribuye el peso de los 6 atributos que ya
+  // existen, no agrega ninguno nuevo. Encadenado después de la fatiga -- el rol pesa sobre lo que
+  // te queda de rendimiento esa semana, no sobre el atributo base.
+  const activeRole = ROLES_DATABASE.find(r => r.id === playerProfile.favoriteRole);
+  const effectiveAttributes: PlayerStats = activeRole
+    ? {
+        ritmo: Math.round(attributesAfterFatigue.ritmo * (activeRole.weights.ritmo ?? 1)),
+        regate: Math.round(attributesAfterFatigue.regate * (activeRole.weights.regate ?? 1)),
+        tiro: Math.round(attributesAfterFatigue.tiro * (activeRole.weights.tiro ?? 1)),
+        defensa: Math.round(attributesAfterFatigue.defensa * (activeRole.weights.defensa ?? 1)),
+        pase: Math.round(attributesAfterFatigue.pase * (activeRole.weights.pase ?? 1)),
+        fisico: Math.round(attributesAfterFatigue.fisico * (activeRole.weights.fisico ?? 1)),
+      }
+    : attributesAfterFatigue;
 
   // Probabilidad por minuto de que ocurra CUALQUIER gol ambiental (Poisson thinning de totalLambda
   // repartido en 90') y, dado que ocurre, qué proporción le toca a cada lado según sus lambdas --

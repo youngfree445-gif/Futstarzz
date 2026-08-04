@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle, InjuryType, ActiveInjury } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle, InjuryType, ActiveInjury, Agent } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
-  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE
+  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE, ROLES_DATABASE,
+  AGENTS_DATABASE, INVESTMENTS_DATABASE
 } from './data';
 import { applyClubTheme } from './clubTheme';
+import { refreshTransferOffersIfNeeded } from './transferMarket';
 import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
@@ -269,10 +271,22 @@ const INJURY_RELAPSE_CHANCE = 0.35; // chance de recaída si el tratamiento ráp
 const INJURY_FAST_TREATMENT_COST = 2000;
 const INJURY_FAST_TREATMENT_WEEKS_SAVED = 0.4; // recorta ~40% del tiempo de recuperación restante
 
+// Roles favoritos (ver ROLES_DATABASE en data.ts): se desbloquea recién con trayectoria, no en la
+// creación de personaje -- tiene más sentido narrativo que un jugador "encuentre" su especialización
+// jugando, no que la declare antes del primer partido.
+const ROLE_UNLOCK_MATCHES = 15;
+
 // Fase 3 -- Modo Veterano: a partir de esta edad el declive físico empieza a pesar más que las
 // mejoras de entrenamiento; a partir de esta otra, se te acaba la carrera (no hay club que te
 // contrate a ese nivel físico).
-const VETERAN_DECLINE_START_AGE = 33;
+const VETERAN_DECLINE_START_AGE = 32;
+
+// Carreras iniciadas en "modo veterano" (ver startedAsVeteran, elegido en SetupScreen) tienen su
+// propia curva: como ya arrancan consagradas y con los años de juvenil salteados, el declive
+// empieza un poco más tarde pero cae más fuerte por año -- asumen que entraron directo a la etapa
+// final de la carrera, no que la construyeron desde los 17.
+const VETERAN_MODE_DECLINE_START_AGE = 35;
+const VETERAN_MODE_DECLINE_RATE = 3;
 
 // A partir de RETIREMENT_DECISION_AGE, cada cierre de temporada te pregunta si colgás los botines
 // o aguantás un año más -- la decisión es tuya, se repite todos los años y no cuesta nada más que
@@ -291,7 +305,11 @@ function applyAgingIfNewSeason(profile: PlayerProfile, previousWeek: number, new
   if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
 
   const newAge = profile.age + 1;
-  if (newAge < VETERAN_DECLINE_START_AGE) {
+  // Un save viejo con startedAsVeteran undefined SIEMPRE cae acá, en la curva normal -- nunca en
+  // la de modo veterano, aunque tenga edad alta por haber jugado muchas temporadas.
+  const declineStartAge = profile.startedAsVeteran ? VETERAN_MODE_DECLINE_START_AGE : VETERAN_DECLINE_START_AGE;
+  const declineRate = profile.startedAsVeteran ? VETERAN_MODE_DECLINE_RATE : 2;
+  if (newAge < declineStartAge) {
     return { ...profile, age: newAge };
   }
   return {
@@ -299,8 +317,8 @@ function applyAgingIfNewSeason(profile: PlayerProfile, previousWeek: number, new
     age: newAge,
     attributes: {
       ...profile.attributes,
-      ritmo: Math.max(15, profile.attributes.ritmo - 2),
-      fisico: Math.max(15, profile.attributes.fisico - 2)
+      ritmo: Math.max(15, profile.attributes.ritmo - declineRate),
+      fisico: Math.max(15, profile.attributes.fisico - declineRate)
     }
   };
 }
@@ -796,6 +814,15 @@ export default function App() {
     if (profile.injuryHistory === undefined) {
       profile = { ...profile, injuryHistory: [] };
     }
+    if (profile.agent === undefined) {
+      profile = { ...profile, agent: null };
+    }
+    if (profile.activeLoan === undefined) {
+      profile = { ...profile, activeLoan: null };
+    }
+    if (profile.investments === undefined) {
+      profile = { ...profile, investments: [] };
+    }
     // Compatibilidad con saves de antes del Bloque 4 (dorsal/altura en la creación de personaje):
     // les asignamos un valor razonable la primera vez que cargan, para no dejar campos undefined
     // rotando por el resto de las pantallas (Dashboard/roster ya asumen que pueden existir).
@@ -1197,6 +1224,207 @@ export default function App() {
     notify(`Te reconvertiste a ${newPosition}. El cuerpo técnico ajustó tu plan de entrenamiento a la nueva posición.`);
   };
 
+  // Rol favorito: solo elegible desde ROLE_UNLOCK_MATCHES partidos jugados (ver Dashboard.tsx para
+  // el gate de UI); el handler en sí no revalida la edad ni el conteo, es la última barrera contra
+  // un save manipulado o un roster que cambió entre render y click, mismo criterio que
+  // handleSelectMentee.
+  const handleSelectRole = (roleId: string | null) => {
+    if (!playerProfile) return;
+    if (roleId && playerProfile.careerStats.partidosHistoricos < ROLE_UNLOCK_MATCHES) {
+      notify(`Todavía no tenés trayectoria suficiente para especializarte (necesitás ${ROLE_UNLOCK_MATCHES} partidos jugados).`);
+      return;
+    }
+    const role = roleId ? ROLES_DATABASE.find(r => r.id === roleId) : null;
+    if (roleId && (!role || role.position !== playerProfile.position)) return;
+    const updatedProfile: PlayerProfile = { ...playerProfile, favoriteRole: roleId ?? undefined };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify(role ? `Elegiste tu rol favorito: ${role.label}.` : 'Volviste a un estilo de juego neutro, sin especialización.');
+  };
+
+  // Se llama al abrir la pestaña de Traspasos (ver useEffect en Dashboard.tsx): si currentWeek ya
+  // avanzó desde la última generación, arma un conjunto nuevo de ofertas y lo persiste -- así no
+  // hace falta enganchar el refresco en cada uno de los puntos donde la semana avanza (mismo tipo
+  // de superficie ya tocada por lesiones), y el jugador ve un conjunto estable de ofertas mientras
+  // no pase una semana nueva, sin importar cuántas veces reabra la pestaña.
+  const handleRefreshTransferOffers = () => {
+    if (!playerProfile) return;
+    if (playerProfile.transferOffersGeneratedWeek === playerProfile.currentWeek && playerProfile.pendingTransferOffers) return;
+    const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    if (!myClub) return;
+    const refreshed = refreshTransferOffersIfNeeded(playerProfile, myClub, CLUBS_DATABASE);
+    const updatedProfile: PlayerProfile = { ...playerProfile, ...refreshed };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+  };
+
+  const FAMILY_AGENT_COMMISSION_PCT = 3; // barato, pero negocia peor (ver agentMultiplier)
+
+  // Contratar un agente profesional del catálogo, o que un familiar/amigo cumpla ese rol (gratis
+  // de contratar, pero evidentemente peor negociando -- ver agentMultiplier en transferMarket.ts).
+  // Cambiar de agente limpia las ofertas activas: se regeneran con los nuevos parámetros la
+  // próxima vez que se abra la pestaña.
+  const handleHireAgent = (agentId: string | 'familia') => {
+    if (!playerProfile) return;
+    const agent: Agent | null = agentId === 'familia'
+      ? { id: 'familia', name: 'Un familiar/amigo cercano', type: 'familiar_amigo', reputation: 0, commissionPct: FAMILY_AGENT_COMMISSION_PCT }
+      : (() => {
+          const found = AGENTS_DATABASE.find(a => a.id === agentId);
+          return found ? { ...found, type: 'profesional' as const } : null;
+        })();
+    if (!agent) return;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      agent,
+      pendingTransferOffers: undefined,
+      transferOffersGeneratedWeek: undefined,
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify(`🤝 ${agent.name} ahora es tu representante.`);
+  };
+
+  const handleFireAgent = () => {
+    if (!playerProfile?.agent) return;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      agent: null,
+      pendingTransferOffers: undefined,
+      transferOffersGeneratedWeek: undefined,
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify('Terminaste tu relación con tu representante. Volvés a negociar directo.');
+  };
+
+  const RENEWAL_MIN_PRESTIGE = 55;
+  const RENEWAL_ACCEPT_CHANCE_BASE = 0.5;
+  const RENEWAL_REJECT_PRESTIGE_PENALTY = 6;
+
+  // Pedirle al club actual que renueve antes de que "expire" la relación implícita -- el juego no
+  // modela contratos con fecha de vencimiento explícita, así que esto es una forma de reafirmar el
+  // vínculo con el club y ganar un pequeño empujón de sueldo/bono. Riesgo real: el club puede decir
+  // que no, y eso enfría la relación con el DT.
+  const handleRequestRenewal = () => {
+    if (!playerProfile) return;
+    const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    if (!myClub) return;
+    if (playerProfile.prestige < RENEWAL_MIN_PRESTIGE) {
+      notify('Todavía no tenés la relación suficiente con el DT como para pedir una renovación.');
+      return;
+    }
+    const accepted = Math.random() < RENEWAL_ACCEPT_CHANCE_BASE + (playerProfile.prestige - RENEWAL_MIN_PRESTIGE) / 200;
+    if (accepted) {
+      const bonus = Math.round(myClub.initialSalary * 0.5);
+      const updatedProfile: PlayerProfile = {
+        ...playerProfile,
+        capital: playerProfile.capital + bonus,
+        prestige: Math.min(100, playerProfile.prestige + 4),
+        appearanceBonus: Math.round(myClub.initialSalary * 0.18),
+      };
+      setPlayerProfile(updatedProfile);
+      saveGameState(updatedProfile, shopItems);
+      notify(`✍️ Renovación aceptada: ${myClub.name} te reafirma con un bono de $${bonus.toLocaleString()}.`);
+    } else {
+      const updatedProfile: PlayerProfile = {
+        ...playerProfile,
+        prestige: Math.max(0, playerProfile.prestige - RENEWAL_REJECT_PRESTIGE_PENALTY),
+      };
+      setPlayerProfile(updatedProfile);
+      saveGameState(updatedProfile, shopItems);
+      notify(`❌ ${myClub.name} no aceptó renovar por ahora. La relación con el DT se enfrió un poco.`);
+    }
+  };
+
+  const LOAN_MIN_WEEKS = 8;
+  const LOAN_MAX_WEEKS = 20;
+
+  // Salir a préstamo: reusa el mismo mecanismo de handleAcceptTransfer para el cambio de club,
+  // pero guarda de dónde volver (originClubId) y cuándo (returnWeek). El fichaje receptor no paga
+  // el signOnBonus completo de un traspaso definitivo -- una cesión es más barata que comprar.
+  const handleLoanOut = (clubId: string) => {
+    if (!playerProfile) return;
+    const targetClub = CLUBS_DATABASE.find(c => c.id === clubId)!;
+    const originClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+    const leagueKey = leagueKeyFor(targetClub);
+    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const season = getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
+    const returnWeek = playerProfile.currentWeek + LOAN_MIN_WEEKS + Math.floor(Math.random() * (LOAN_MAX_WEEKS - LOAN_MIN_WEEKS));
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      currentClubId: clubId,
+      yearsAtClub: 0,
+      leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season },
+      activeLoan: { originClubId: originClub.id, originClubName: originClub.name, returnWeek, optionToBuyAmount: Math.round(targetClub.initialSalary * 8) },
+      pendingTransferOffers: undefined,
+      transferOffersGeneratedWeek: undefined,
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify(`📄 Salís a préstamo a ${targetClub.name}. Volvés a ${originClub.name} en ${returnWeek - playerProfile.currentWeek} semanas, salvo que se ejerza la opción de compra.`);
+  };
+
+  // Al llegar returnWeek con un préstamo activo, el jugador decide: ejercer la opción de compra
+  // (te quedás en el club receptor de forma definitiva, activeLoan se borra) o volver al club de
+  // origen. Se dispara desde el ciclo semanal -- ver el chequeo en handleFinishMatch.
+  const handleResolveLoan = (buyOption: boolean) => {
+    if (!playerProfile?.activeLoan) return;
+    const loan = playerProfile.activeLoan;
+    if (buyOption) {
+      if (playerProfile.capital < (loan.optionToBuyAmount ?? 0)) {
+        notify('No tenés fondos suficientes para ejercer la opción de compra.');
+        return;
+      }
+      const updatedProfile: PlayerProfile = {
+        ...playerProfile,
+        capital: playerProfile.capital - (loan.optionToBuyAmount ?? 0),
+        activeLoan: null,
+      };
+      setPlayerProfile(updatedProfile);
+      saveGameState(updatedProfile, shopItems);
+      notify('✅ Ejerciste la opción de compra: tu paso por este club ahora es definitivo.');
+    } else {
+      const originClub = CLUBS_DATABASE.find(c => c.id === loan.originClubId);
+      if (!originClub) return;
+      const leagueKey = leagueKeyFor(originClub);
+      const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+      const season = getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
+      const updatedProfile: PlayerProfile = {
+        ...playerProfile,
+        currentClubId: originClub.id,
+        yearsAtClub: 0,
+        leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season },
+        activeLoan: null,
+        pendingTransferOffers: undefined,
+        transferOffersGeneratedWeek: undefined,
+      };
+      setPlayerProfile(updatedProfile);
+      saveGameState(updatedProfile, shopItems);
+      notify(`↩️ Volviste a ${originClub.name} tras el préstamo.`);
+    }
+  };
+
+  // Finanzas personales: comprar una inversión fija predefinida (ver INVESTMENTS_DATABASE). El
+  // retorno/riesgo semanal se aplica en el ciclo semanal -- ver el bloque en handleFinishMatch.
+  const handleBuyInvestment = (investmentId: string) => {
+    if (!playerProfile) return;
+    const investment = INVESTMENTS_DATABASE.find(i => i.id === investmentId);
+    if (!investment) return;
+    if (playerProfile.capital < investment.cost) {
+      notify('No tenés fondos suficientes para esta inversión.');
+      return;
+    }
+    if ((playerProfile.investments ?? []).some(i => i.id === investmentId)) return;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      capital: playerProfile.capital - investment.cost,
+      investments: [...(playerProfile.investments ?? []), investment],
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify(`💼 Invertiste en ${investment.name}.`);
+  };
+
   // Solo lujos puros (sin category, ver ShopItem en types.ts) pasan por acá -- los patrocinios
   // viven en handleAcceptSponsor, con su propia lógica de "oferta que te llega" en vez de compra.
   const handleBuyItem = (itemId: string) => {
@@ -1363,17 +1591,23 @@ export default function App() {
     const dorsalHistory = previousClub
       ? [...(playerProfile.dorsalHistory ?? []), { clubId: previousClub.id, clubName: previousClub.name, dorsal: playerProfile.dorsal }]
       : (playerProfile.dorsalHistory ?? []);
+    // El agente se lleva su comisión del bono de firma, si tenés uno (ver Agent en types.ts).
+    const agentCommission = playerProfile.agent ? Math.round(signOnBonus * (playerProfile.agent.commissionPct / 100)) : 0;
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       currentClubId: clubId,
       dorsal: newDorsal,
       dorsalHistory,
-      capital: playerProfile.capital + signOnBonus,
+      capital: playerProfile.capital + signOnBonus - agentCommission,
       prestige: Math.round(playerProfile.prestige * 0.9),
       prestigeCompaneros: Math.round(prestigeCompanerosActual * 0.9),
       yearsAtClub: 0,
       appearanceBonus: Math.round(targetClub.initialSalary * 0.15),
-      leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season }
+      leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season },
+      // Las ofertas eran relativas al club anterior -- se regeneran solas la próxima vez que se
+      // abra la pestaña de Traspasos en el club nuevo.
+      pendingTransferOffers: undefined,
+      transferOffersGeneratedWeek: undefined,
     };
 
     const { profile: withAchievements, newlyUnlocked } = checkAndUnlockAchievements(updatedProfile);
@@ -1381,7 +1615,9 @@ export default function App() {
 
     setPlayerProfile(withAchievements);
     saveGameState(withAchievements, shopItems);
-    notify(`🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}.`);
+    notify(agentCommission > 0
+      ? `🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}. Tu agente se llevó $${agentCommission.toLocaleString()} de comisión.`
+      : `🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}.`);
   };
 
   // Última fecha real del año ya jugada, con liga+copas cerradas (ver temporadaRealTerminada en
@@ -2405,7 +2641,20 @@ export default function App() {
     // tengan uno, en vez de tener un caso especial hardcodeado por cada patrocinio nuevo.
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
 
-    const totalIncome = results.salaryEarned + goalBonus + assistBonus + activePassiveDividend + playerProfile.appearanceBonus;
+    // Finanzas personales: cada inversión activa (ver INVESTMENTS_DATABASE) devuelve su weeklyReturn
+    // salvo que el roll de riesgo de esa semana la haga perder el capital invertido -- en ese caso
+    // se descuenta de la lista y se avisa, en vez de seguir devolviendo intereses sobre plata que
+    // ya no existe.
+    const investmentResults = (playerProfile.investments ?? []).map(inv => ({
+      inv,
+      lost: Math.random() < inv.riskOfLossPct / 100,
+    }));
+    const investmentIncome = investmentResults.filter(r => !r.lost).reduce((sum, r) => sum + r.inv.weeklyReturn, 0);
+    const lostInvestments = investmentResults.filter(r => r.lost);
+    const updatedInvestments = (playerProfile.investments ?? []).filter(inv => !lostInvestments.some(l => l.inv.id === inv.id));
+
+    const totalIncome = results.salaryEarned + goalBonus + assistBonus + activePassiveDividend + playerProfile.appearanceBonus
+      + investmentIncome - (playerProfile.fixedExpensesWeekly ?? 0);
     const totalExtraRecover = (coachItem?.purchased ? 8 : 0) + (houseItem?.purchased ? 20 : 0);
 
     // Antes esto era rating*6000 (siempre positivo, hasta en un partido flojo) más goles/asistencias
@@ -2923,6 +3172,10 @@ export default function App() {
       if (injuryMessage) disciplineMessages.push(injuryMessage);
     }
 
+    if (lostInvestments.length > 0) {
+      disciplineMessages.push(`📉 Perdiste el capital invertido en ${lostInvestments.map(l => l.inv.name).join(', ')}.`);
+    }
+
     // Trayectoria de carrera: solo partidos de CLUB (liga o copas de clubes) suman a la tabla de
     // temporadas, no los de la selección -- ver recordSeasonHistory.
     const updatedSeasonHistory = activeWorldCupTeamId
@@ -2972,6 +3225,7 @@ export default function App() {
       suspendedMatches: newSuspendedMatches,
       activeInjury: newActiveInjury,
       injuryHistory: newInjuryHistory,
+      investments: updatedInvestments,
       seasonHistory: updatedSeasonHistory,
       headToHeadRecords: updatedHeadToHead,
       domesticCups: updatedDomesticCups,
@@ -3257,6 +3511,14 @@ export default function App() {
           onPropose={handlePropose}
           onHaveChild={handleHaveChild}
           onTreatInjury={handleTreatInjury}
+          onSelectRole={handleSelectRole}
+          onRefreshTransferOffers={handleRefreshTransferOffers}
+          onHireAgent={handleHireAgent}
+          onFireAgent={handleFireAgent}
+          onRequestRenewal={handleRequestRenewal}
+          onLoanOut={handleLoanOut}
+          onResolveLoan={handleResolveLoan}
+          onBuyInvestment={handleBuyInvestment}
           onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
           onAcceptSponsor={handleAcceptSponsor}

@@ -219,7 +219,10 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       difficultyMode,
       startedAsVeteran,
       activeInjury: null,
-      injuryHistory: []
+      injuryHistory: [],
+      agent: null,
+      activeLoan: null,
+      investments: []
     };
 
     onFinishSetup(newProfile);

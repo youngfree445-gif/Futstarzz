@@ -198,6 +198,28 @@ export interface PlayerProfile {
   // Lesiones ya superadas, para el historial del perfil (solo se muestra si injuriesEnabled).
   // Opcional: las partidas viejas no lo tienen.
   injuryHistory?: { type: InjuryType; weeksOut: number; week: number }[];
+  // Especialización elegida una vez desbloqueada la trayectoria mínima (ver ROLE_UNLOCK_MATCHES en
+  // App.tsx y ROLES_DATABASE en data.ts). undefined = sin redistribución, comportamiento actual.
+  favoriteRole?: string;
+  // Ofertas de mercado activas esta ventana, generadas una vez por semana (ver
+  // refreshTransferOffersIfNeeded en transferMarket.ts) y no en cada render como antes -- así
+  // pueden "expirar" y el jugador ve un conjunto estable de 2-3 ofertas para comparar, no todo el
+  // universo de clubes recalculado al vuelo. Opcional: las partidas viejas no lo tienen, se generan
+  // solas la primera vez que se abre la pestaña de Traspasos.
+  pendingTransferOffers?: TransferOffer[];
+  // Semana en que se generaron las ofertas actuales, para saber cuándo refrescarlas.
+  transferOffersGeneratedWeek?: number;
+  // Representante del jugador: mejora (profesional) o empeora (familiar/amigo) las ofertas que
+  // genera el mercado, y cobra comisión al concretar un traspaso. null = sin representante, las
+  // negociás vos directamente (comportamiento actual). Opcional: las partidas viejas no lo tienen.
+  agent?: Agent | null;
+  // Cesión activa: currentClubId durante el préstamo es el del club receptor, originClubId es a
+  // quién volvés si no se ejerce la opción de compra. Opcional: las partidas viejas no lo tienen.
+  activeLoan?: LoanState | null;
+  // Inversiones activas (ver Investment) e gastos fijos semanales -- extensión de "finanzas
+  // personales" más allá del capital simple. Opcionales: las partidas viejas no las tienen.
+  investments?: Investment[];
+  fixedExpensesWeekly?: number;
 }
 
 export type InjuryType = 'muscular' | 'ligamentos' | 'fractura' | 'golpe';
@@ -210,6 +232,47 @@ export interface ActiveInjury {
   // antes de que termine igual; 'natural' no cuesta nada pero no acelera nada. Ver handleTreatInjury
   // en App.tsx. undefined = todavía no elegiste tratamiento para esta lesión.
   treatmentChoice?: 'fast' | 'natural';
+}
+
+/** Una oferta de mercado, generada por semana -- ver refreshTransferOffersIfNeeded en transferMarket.ts. */
+export interface TransferOffer {
+  clubId: string;
+  salaryOffer: number;
+  signOnBonus: number;
+  reqPrestige: number;
+  reqMatches: number;
+  possible: boolean;
+  generatedWeek: number;
+}
+
+/**
+ * Representante del jugador. 'profesional' negocia mejor (más ofertas, mejores montos) que
+ * 'familiar_amigo', que es gratis pero evidentemente peor en ambos ejes -- ver AGENTS_DATABASE en
+ * data.ts y su aplicación en transferMarket.ts.
+ */
+export interface Agent {
+  id: string;
+  name: string;
+  type: 'profesional' | 'familiar_amigo';
+  reputation: number; // 1-5, solo aplica a agentes profesionales
+  commissionPct: number; // % del signOnBonus que se lleva al concretar un traspaso
+}
+
+/** Cesión activa a otro club, con vuelta programada y opción de compra opcional. */
+export interface LoanState {
+  originClubId: string;
+  originClubName: string;
+  returnWeek: number;
+  optionToBuyAmount?: number;
+}
+
+/** Una inversión de "finanzas personales" -- ver INVESTMENTS_DATABASE en data.ts. */
+export interface Investment {
+  id: string;
+  name: string;
+  cost: number;
+  weeklyReturn: number;
+  riskOfLossPct: number; // chance semanal de perder el capital invertido
 }
 
 /**

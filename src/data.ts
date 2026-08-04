@@ -15,7 +15,7 @@ const ALL_PLAYERS = rawPlayers as unknown as {
   team_name: string;
   team_id: number;
 }[];
-import { Club, PressQuestion, ShopItem, Achievement, InjuryType } from './types';
+import { Club, PressQuestion, ShopItem, Achievement, InjuryType, Agent, Investment } from './types';
 import { CLUB_EXTRAS } from './clubExtras';
 import mauSportsAvatar from './assets/mau_sports.jpg';
 import fabrizioRomanoAvatar from './assets/press/FABRIZZIO ROMANO.jpg';
@@ -5579,3 +5579,62 @@ export const INJURY_LABELS: Record<InjuryType, string> = {
   ligamentos: 'Esguince de ligamentos',
   fractura: 'Fractura',
 };
+
+// Roles favoritos: especialización elegida a partir de cierta trayectoria (no en creación de
+// personaje -- ver ROLE_UNLOCK_MATCHES en App.tsx), redistribuye cómo pesan los 6 atributos que
+// ya existen en el resultado del partido, sin agregar atributos nuevos. weights es un multiplicador
+// (1 = neutro) aplicado sobre PlayerStats en MatchSimulator.tsx antes de evaluar cada decisión --
+// mismo shape que POSITION_RECONVERSION_BIAS en App.tsx, pero multiplicativo en vez de aditivo
+// porque acá no se muta el atributo real, solo su peso efectivo en cancha.
+export interface PlayerRoleDef {
+  id: string;
+  position: 'Delantero' | 'Mediocampista' | 'Defensor' | 'Arquero';
+  label: string;
+  description: string;
+  weights: Partial<Record<'ritmo' | 'regate' | 'tiro' | 'defensa' | 'pase' | 'fisico', number>>;
+}
+
+export const ROLES_DATABASE: PlayerRoleDef[] = [
+  // Delantero
+  { id: 'killer_area', position: 'Delantero', label: 'Killer del área', description: 'Vive cerca del arco rival, resuelve con pocos toques.', weights: { tiro: 1.25, regate: 0.85, pase: 0.85 } },
+  { id: 'falso_9', position: 'Delantero', label: 'Falso 9', description: 'Baja a tejer el juego antes de aparecer en el área.', weights: { pase: 1.2, regate: 1.1, tiro: 0.9, fisico: 0.9 } },
+  { id: 'extremo_invertido', position: 'Delantero', label: 'Extremo invertido', description: 'Arranca ancho y cae hacia adentro buscando el remate.', weights: { regate: 1.2, ritmo: 1.15, tiro: 1.05, defensa: 0.8 } },
+  { id: 'delantero_referencia', position: 'Delantero', label: 'Delantero de referencia', description: 'Juega de espaldas al arco, sostiene la pelota para el equipo.', weights: { fisico: 1.2, pase: 1.1, ritmo: 0.85 } },
+  { id: 'cazagoles', position: 'Delantero', label: 'Cazagoles de área chica', description: 'Puro instinto: aparece justo donde cae la pelota.', weights: { tiro: 1.3, ritmo: 1.1, pase: 0.75, defensa: 0.75 } },
+  // Mediocampista
+  { id: 'box_to_box', position: 'Mediocampista', label: 'Box-to-box', description: 'Recorre toda la cancha, ataca y defiende por igual.', weights: { fisico: 1.2, ritmo: 1.15, defensa: 1.05, pase: 1.0 } },
+  { id: 'trequista', position: 'Mediocampista', label: 'Trequista', description: 'El último pase antes del gol, siempre entre líneas.', weights: { pase: 1.3, regate: 1.15, defensa: 0.75, fisico: 0.85 } },
+  { id: 'volante_contencion', position: 'Mediocampista', label: 'Volante de contención', description: 'Corta el juego rival antes de que llegue a su defensa.', weights: { defensa: 1.25, fisico: 1.1, pase: 0.95, tiro: 0.7 } },
+  { id: 'organizador', position: 'Mediocampista', label: 'Organizador', description: 'Maneja los tiempos del equipo desde el medio.', weights: { pase: 1.3, ritmo: 0.9, defensa: 0.95 } },
+  { id: 'interior_llegador', position: 'Mediocampista', label: 'Interior llegador', description: 'Se suma al área rival desde segunda línea, sorpresa constante.', weights: { tiro: 1.15, ritmo: 1.1, regate: 1.05, defensa: 0.85 } },
+  // Defensor
+  { id: 'libero', position: 'Defensor', label: 'Líbero', description: 'Sale jugando limpio desde el fondo, lee el partido un paso antes.', weights: { pase: 1.25, defensa: 1.1, ritmo: 0.95, tiro: 0.7 } },
+  { id: 'marcador_central', position: 'Defensor', label: 'Marcador de área', description: 'Su prioridad es no dejar jugar al delantero rival.', weights: { defensa: 1.3, fisico: 1.15, pase: 0.8, regate: 0.75 } },
+  { id: 'lateral_carrilero', position: 'Defensor', label: 'Lateral carrilero', description: 'Sube por la banda como un extremo más.', weights: { ritmo: 1.25, regate: 1.1, defensa: 0.9, pase: 1.0 } },
+  { id: 'defensor_salida', position: 'Defensor', label: 'Defensor de salida limpia', description: 'Primer armador del equipo, incluso bajo presión.', weights: { pase: 1.2, defensa: 1.05, fisico: 0.9 } },
+  { id: 'stopper', position: 'Defensor', label: 'Stopper', description: 'Anticipa y corta antes de que el rival encare.', weights: { defensa: 1.2, ritmo: 1.1, fisico: 1.05, pase: 0.8 } },
+  // Arquero
+  { id: 'arquero_libero', position: 'Arquero', label: 'Arquero líbero', description: 'Juega adelantado, casi un defensor más con las manos.', weights: { pase: 1.25, defensa: 1.15, ritmo: 1.05, tiro: 0.7 } },
+  { id: 'arquero_reflejos', position: 'Arquero', label: 'Especialista en reflejos', description: 'Su fuerte es la reacción en el mano a mano.', weights: { defensa: 1.3, fisico: 1.1, pase: 0.85 } },
+  { id: 'arquero_atajapenales', position: 'Arquero', label: 'Atajapenales', description: 'Frío bajo presión, se agranda en la tanda.', weights: { defensa: 1.2, fisico: 1.2, pase: 0.85 } },
+];
+
+// Agentes/representantes contratables. Los profesionales cobran comisión más alta cuanto mejor es
+// su reputación, pero negocian mejores ofertas (ver agentMultiplier en transferMarket.ts). La
+// opción "familiar/amigo" (ver handleHireAgent en App.tsx, no está en esta lista porque no se
+// "contrata" del mercado -- se elige directo) es gratis pero negocia peor.
+export const AGENTS_DATABASE: Omit<Agent, 'type'>[] = [
+  { id: 'agent_1', name: 'Marcelo Ibarra', reputation: 1, commissionPct: 5 },
+  { id: 'agent_2', name: 'Julieta Fassi', reputation: 2, commissionPct: 7 },
+  { id: 'agent_3', name: 'Renato Salas', reputation: 3, commissionPct: 9 },
+  { id: 'agent_4', name: 'Constanza Ríos', reputation: 4, commissionPct: 11 },
+  { id: 'agent_5', name: 'Diego Wenceslao', reputation: 5, commissionPct: 14 },
+];
+
+// Finanzas personales: inversiones fijas y predefinidas (a propósito, no procedural -- ver nota en
+// el plan de implementación) con retorno semanal y riesgo de perder el capital invertido.
+export const INVESTMENTS_DATABASE: Investment[] = [
+  { id: 'inv_deposito', name: 'Depósito a plazo fijo', cost: 5000, weeklyReturn: 60, riskOfLossPct: 0 },
+  { id: 'inv_local', name: 'Local comercial', cost: 20000, weeklyReturn: 320, riskOfLossPct: 2 },
+  { id: 'inv_startup', name: 'Startup de un amigo', cost: 15000, weeklyReturn: 550, riskOfLossPct: 8 },
+];

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS, ROLES_DATABASE, AGENTS_DATABASE, INVESTMENTS_DATABASE } from '../data';
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
@@ -250,6 +250,14 @@ interface DashboardProps {
   onPropose: () => void;
   onHaveChild: () => void;
   onTreatInjury: (choice: 'fast' | 'natural') => void;
+  onSelectRole: (roleId: string | null) => void;
+  onRefreshTransferOffers: () => void;
+  onHireAgent: (agentId: string | 'familia') => void;
+  onFireAgent: () => void;
+  onRequestRenewal: () => void;
+  onLoanOut: (clubId: string) => void;
+  onResolveLoan: (buyOption: boolean) => void;
+  onBuyInvestment: (investmentId: string) => void;
   onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
   onAcceptSponsor: (itemId: string) => void;
@@ -281,6 +289,14 @@ export default function Dashboard({
   onPropose,
   onHaveChild,
   onTreatInjury,
+  onSelectRole,
+  onRefreshTransferOffers,
+  onHireAgent,
+  onFireAgent,
+  onRequestRenewal,
+  onLoanOut,
+  onResolveLoan,
+  onBuyInvestment,
   onReconvertPosition,
   onBuyItem,
   onAcceptSponsor,
@@ -395,6 +411,14 @@ export default function Dashboard({
   useEffect(() => {
     setPressResponseState('asking');
   }, [playerProfile.currentWeek]);
+
+  // Las ofertas de mercado se refrescan al abrir la pestaña de Traspasos, no en cada render (ver
+  // refreshTransferOffersIfNeeded en transferMarket.ts) -- el handler ya chequea si currentWeek
+  // cambió desde la última generación antes de tocar el estado, así que reabrir la pestaña en la
+  // misma semana no genera un set nuevo.
+  useEffect(() => {
+    if (activeTab === 'traspasos') onRefreshTransferOffers();
+  }, [activeTab, playerProfile.currentWeek]);
 
   // Corregido: Busca el club en la base de datos inyectada con el JSON
   const currentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
@@ -831,56 +855,17 @@ export default function Dashboard({
   const lifestyleItems = shopItems.filter(i => !i.category);
   const sponsorDeals = shopItems.filter(i => !!i.category);
 
-  // Corregido: antes "possible" dependía solo del Prestigio (que arranca en 50 y ya deja fichable
-  // casi cualquier club de reputación <=4 desde la semana 1). Ahora se mide un "Rendimiento" real
-  // que mezcla prestigio + aporte en cancha (goles+asistencias por partido) + títulos, y además
-  // exige una cantidad mínima de partidos jugados que crece con el salto de categoría -- así un
-  // club grande de verdad se siente ganado con el tiempo, no regalado de arranque.
-  const generateMockTransferOffers = () => {
-    const matchesPlayed = playerProfile.careerStats.partidosHistoricos;
-    const contributionPerMatch = matchesPlayed > 0
-      ? (playerProfile.careerStats.golesHistoricos + playerProfile.careerStats.asistenciasHistoricos) / matchesPlayed
-      : 0;
-    const performanceScore = Math.min(100, playerProfile.prestige * 0.55 + contributionPerMatch * 70 + playerProfile.careerStats.campeonatos * 6);
-
-    return ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== playerProfile.currentClubId).map(c => {
-      const multiplier = 1 + (playerProfile.prestige / 100);
-      const customSalary = Math.round(c.initialSalary * multiplier);
-      // Fase 4 -- desacoplado de marketValue total del club (ahora refleja el valor del plantel
-      // entero, no lo que le pagarían a un fichaje individual como vos -- tras calibrar salarios
-      // con datos reales, clubes top llegaron a marketValue de $700M-1.000M+). El bono de firma
-      // ahora escala con la reputation del club (rango de fichaje real de nivel medio-alto según
-      // REAL_TRANSFER_POOL: ~$2M a ~$24M) y tu propia trayectoria de carrera.
-      const signOnBonus = Math.round(
-        1500 * c.reputation * c.reputation
-        + playerProfile.careerStats.golesHistoricos * 750
-        + playerProfile.careerStats.campeonatos * 2000
-      );
-      const reputationGap = c.reputation - currentClub.reputation;
-      const reqPrestige = Math.round(Math.min(95, c.reputation * 12 + Math.max(0, reputationGap) * 15));
-      const reqMatches = 4 + Math.max(0, reputationGap) * 5 + (c.reputation - 1) * 2;
-
-      return {
-        club: c,
-        salaryOffer: customSalary,
-        signOnBonus,
-        reqPrestige,
-        possible: performanceScore >= reqPrestige && matchesPlayed >= reqMatches
-      };
-    });
-  };
-
-  // Con 600+ clubes en la base de datos, mostrar una oferta por cada uno volvía la pestaña
-  // interminable (varios cientos de miles de píxeles de alto). Priorizamos los clubes a los
-  // que de verdad podés fichar (reputación alcanzada) y mostramos un puñado manejable.
   // ¿Tu club se fue a segunda en el último cierre de temporada? El jugador tiene que enterarse: es
   // el momento en que decide si se queda a pelear el ascenso o se va a un club de primera.
   const miClubDescendio = !!playerProfile.ultimoAscensoDescenso?.descienden
     .some(d => d.clubId === playerProfile.currentClubId);
 
-  const transferOffers = generateMockTransferOffers()
-    .sort((a, b) => (b.possible === a.possible ? b.club.reputation - a.club.reputation : b.possible ? 1 : -1))
-    .slice(0, 40);
+  // Las ofertas ahora se generan una vez por semana y persisten en el perfil (ver
+  // refreshTransferOffersIfNeeded en transferMarket.ts, llamado desde App.tsx en el ciclo
+  // semanal) -- ya no se recalculan en cada render. Acá solo se resuelve el Club real por id.
+  const transferOffers = (playerProfile.pendingTransferOffers ?? [])
+    .map(offer => ({ ...offer, club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === offer.clubId) }))
+    .filter((offer): offer is typeof offer & { club: NonNullable<typeof offer.club> } => !!offer.club);
 
   // Fase 3 -- Saludo de famoso: si tu último partido tuvo una calificación altísima, un famoso
   // parodia te felicita en redes. Contenido con plantillas, dispara con playerProfile.lastMatchRating
@@ -2710,6 +2695,43 @@ export default function Dashboard({
                 ))}
               </div>
 
+              {/* SECCIÓN ROL FAVORITO */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg mt-6">
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+                  <Sparkles size={15} className="text-gold-400" /> Especialización
+                </h3>
+                {playerProfile.careerStats.partidosHistoricos < 15 ? (
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Todavía estás construyendo tu trayectoria. A partir de los 15 partidos jugados vas
+                    a poder elegir un rol favorito que redistribuye tus atributos en cancha.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-3xs text-slate-400 leading-relaxed mb-3">
+                      Elegí un estilo de juego para tu posición ({playerProfile.position}). Cada rol le
+                      da más peso a ciertos atributos y menos a otros en el resultado del partido -- no
+                      suma ni resta puntos, solo cambia cómo rinden los que ya tenés.
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      {ROLES_DATABASE.filter(r => r.position === playerProfile.position).map(role => (
+                        <button
+                          key={role.id}
+                          onClick={() => onSelectRole(playerProfile.favoriteRole === role.id ? null : role.id)}
+                          className={`btn-fx-subtle text-left py-2.5 px-3 rounded-xl border transition-all ${
+                            playerProfile.favoriteRole === role.id
+                              ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                              : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                          }`}
+                        >
+                          <span className="text-2xs font-bold block">{role.label}</span>
+                          <span className="text-3xs text-slate-500 block mt-0.5 leading-relaxed">{role.description}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+
               {/* SECCIÓN CLÍNICA DE FISIOTERAPIA */}
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg mt-6">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
@@ -3238,6 +3260,27 @@ export default function Dashboard({
                 </p>
               </div>
 
+              {playerProfile.activeLoan && (
+                <div className={`p-4 rounded-xl border text-xs leading-relaxed ${
+                  playerProfile.currentWeek >= playerProfile.activeLoan.returnWeek
+                    ? 'border-gold-500/40 bg-gold-950/20 text-gold-200'
+                    : 'border-slate-800 bg-slate-900 text-slate-300'
+                }`}>
+                  <strong className="block text-white mb-1">📄 Cedido por {playerProfile.activeLoan.originClubName}</strong>
+                  {playerProfile.currentWeek >= playerProfile.activeLoan.returnWeek ? (
+                    <>
+                      <p className="mb-2">El préstamo terminó. ¿Ejercés la opción de compra por ${(playerProfile.activeLoan.optionToBuyAmount ?? 0).toLocaleString()} o volvés a {playerProfile.activeLoan.originClubName}?</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button onClick={() => onResolveLoan(true)} disabled={playerProfile.capital < (playerProfile.activeLoan.optionToBuyAmount ?? 0)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs uppercase cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Comprar</button>
+                        <button onClick={() => onResolveLoan(false)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 font-bold text-2xs uppercase cursor-pointer">Volver</button>
+                      </div>
+                    </>
+                  ) : (
+                    <p>Volvés en {playerProfile.activeLoan.returnWeek - playerProfile.currentWeek} semana(s), salvo que el club ejerza tu opción de compra.</p>
+                  )}
+                </div>
+              )}
+
               {/* Tu club bajó a segunda: el jugador tiene que poder decidir a conciencia si se
                   queda a pelear el ascenso o se va. Sin este aviso el descenso pasaba en silencio. */}
               {miClubDescendio && (
@@ -3372,21 +3415,103 @@ export default function Dashboard({
                               );
                             })()
                           ) : (
-                            <button
-                              onClick={() => {
-                                setPendingTransferClubId(offer.club.id);
-                                setPendingTransferDorsal(playerProfile.dorsal);
-                              }}
-                              className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
-                            >
-                              Aceptar Traspaso
-                            </button>
+                            <div className="flex flex-col gap-1.5 items-end">
+                              <button
+                                onClick={() => {
+                                  setPendingTransferClubId(offer.club.id);
+                                  setPendingTransferDorsal(playerProfile.dorsal);
+                                }}
+                                className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
+                              >
+                                Aceptar Traspaso
+                              </button>
+                              {!playerProfile.activeLoan && (
+                                <button
+                                  onClick={() => {
+                                    if (confirm(`¿Salir a préstamo a ${offer.club.name}? Volvés a ${currentClub.name} en unas semanas, salvo que se ejerza la opción de compra.`)) {
+                                      onLoanOut(offer.club.id);
+                                    }
+                                  }}
+                                  className="btn-fx-subtle py-1 px-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                                >
+                                  Salir a préstamo
+                                </button>
+                              )}
+                            </div>
                           )}
                         </div>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+                    🤝 Representante
+                  </h3>
+                  {playerProfile.agent ? (
+                    <div className="space-y-2">
+                      <p className="text-2xs text-slate-300">
+                        <span className="text-white font-bold">{playerProfile.agent.name}</span>
+                        {playerProfile.agent.type === 'profesional'
+                          ? ` — agente profesional, comisión ${playerProfile.agent.commissionPct}% por traspaso.`
+                          : ' — un cercano tuyo, sin experiencia real negociando.'}
+                      </p>
+                      <button
+                        onClick={onFireAgent}
+                        className="btn-fx-subtle py-1.5 px-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-red-300 hover:border-red-500/40 font-bold text-2xs uppercase cursor-pointer"
+                      >
+                        Terminar relación
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <p className="text-3xs text-slate-400 leading-relaxed mb-2">
+                        Un agente profesional negocia mejores ofertas y te abre más clubes, a cambio de
+                        una comisión. También podés dejar que un familiar o amigo cumpla ese rol: no
+                        cuesta nada contratarlo, pero negocia evidentemente peor.
+                      </p>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {AGENTS_DATABASE.map(a => (
+                          <button
+                            key={a.id}
+                            onClick={() => onHireAgent(a.id)}
+                            className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer text-left"
+                          >
+                            {a.name}
+                            <span className="block text-3xs text-slate-500 font-mono">{'★'.repeat(a.reputation)} · {a.commissionPct}%</span>
+                          </button>
+                        ))}
+                        <button
+                          onClick={() => onHireAgent('familia')}
+                          className="btn-fx-subtle col-span-2 py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-2xs font-bold text-slate-300 cursor-pointer text-left"
+                        >
+                          Un familiar/amigo cercano
+                          <span className="block text-3xs text-slate-500 font-mono">Sin reputación · 3%</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+                    ✍️ Renovación con {currentClub.name}
+                  </h3>
+                  <p className="text-3xs text-slate-400 leading-relaxed mb-3">
+                    Pedile al club que reafirme su apuesta por vos antes de que el vínculo se enfríe.
+                    Necesitás buena relación con el DT -- el club puede decir que no.
+                  </p>
+                  <button
+                    onClick={onRequestRenewal}
+                    disabled={playerProfile.prestige < 55}
+                    className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Pedir renovación
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -3472,6 +3597,36 @@ export default function Dashboard({
                     </div>
                   );
                 })}
+              </div>
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg mt-6">
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+                  💼 Finanzas Personales
+                </h3>
+                <p className="text-3xs text-slate-400 leading-relaxed mb-3">
+                  Invertí parte de tu capital en algo que te devuelva un ingreso semanal. Cada
+                  inversión tiene su propio riesgo de perder el capital -- cuanto más devuelve, más
+                  riesgo corre.
+                </p>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {INVESTMENTS_DATABASE.map(inv => {
+                    const owned = (playerProfile.investments ?? []).some(i => i.id === inv.id);
+                    return (
+                      <div key={inv.id} className="p-3 bg-slate-950 border border-slate-800 rounded-xl">
+                        <span className="text-2xs font-bold text-white block">{inv.name}</span>
+                        <span className="text-3xs text-gold-400 font-mono block mt-1">+${inv.weeklyReturn}/sem</span>
+                        <span className="text-3xs text-slate-500 font-mono block">Riesgo: {inv.riskOfLossPct}%/sem</span>
+                        <button
+                          onClick={() => onBuyInvestment(inv.id)}
+                          disabled={owned || playerProfile.capital < inv.cost}
+                          className="btn-fx-subtle w-full mt-2 py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          {owned ? 'Ya invertiste' : `Invertir $${inv.cost.toLocaleString()}`}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           )}
