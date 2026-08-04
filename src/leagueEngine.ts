@@ -310,6 +310,16 @@ export function sortTable(table: TableTeam[]): TableTeam[] {
   return [...table].sort((a, b) => b.puntos - a.puntos || (b.gf - b.gc) - (a.gf - a.gc) || b.gf - a.gf);
 }
 
+// n = cantidad de partidos/llaves en la ronda de playoffs actual -- deriva el nombre real de la
+// ronda sin tener que llevar un campo aparte (4 llaves = Cuartos, 2 = Semifinal, 1 = Final, etc.)
+export function roundLabelByMatchCount(n: number): string {
+  if (n === 1) return 'Final';
+  if (n === 2) return 'Semifinal';
+  if (n === 4) return 'Cuartos';
+  if (n === 8) return 'Octavos';
+  return `Ronda de ${n * 2}`;
+}
+
 // Fuerza de un club para la simulación de fondo. Escala ~20-100, donde 100 es el mejor del mundo.
 //
 // Antes era reputation*20 + log10(marketValue)*10, y el logaritmo aplastaba la jerarquía: el

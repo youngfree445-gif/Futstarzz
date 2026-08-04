@@ -12,6 +12,7 @@
 // tantos partidos como tenga en la realidad.
 
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
+import { CAREER_START_YEAR, getSeasonYear } from './leagueEngine';
 
 export interface DatedFixture {
   competition: DatedCompetition;
@@ -194,6 +195,41 @@ export function esUltimaFechaDelTorneo(clubName: string, date: string): boolean 
   const torneo = torneoDeFecha(esteFixture.competition, date);
   const mismos = deLiga.filter(f => torneoDeFecha(f.competition, f.date) === torneo);
   return mismos[mismos.length - 1]?.date === date;
+}
+
+/**
+ * ¿Ya se jugó la última fecha real de LIGA de este club, y el paso actual quedó después de ella?
+ *
+ * Sirve para "Finalizar Temporada" (Dashboard.tsx). fixturesAtStep(club, currentWeek) da null tanto
+ * si el calendario real se agotó como si todavía no arrancó (currentWeek=1) -- no alcanza por sí
+ * solo. Y no sirve contar solo las fechas de kind='league' contra currentWeek: fixturesAtStep
+ * numera los PASOS mezclando liga y copa (un club con 38 fechas de liga puede tener 40 pasos
+ * totales con las 2 de copa intercaladas), así que comparar currentWeek contra "38" adelantaba el
+ * cierre dos pasos antes de la fecha real. Se cuenta el paso exacto en el que cae la ÚLTIMA fecha
+ * de liga -- ver pasoDeFecha -- y se compara currentWeek contra ESE paso, no contra la cantidad de
+ * fechas de liga.
+ *
+ * No se usa getRealDate(currentWeek) como fecha de referencia a propósito: ese reloj cuenta
+ * semanas sintéticas de 52 por año, sin relación con los pasos reales de un calendario que puede
+ * tener más o menos de 52 -- comparar contra él daba falsos negativos.
+ */
+export function calendarioDeLigaAgotado(clubName: string, currentWeek: number): boolean {
+  const deLiga = fixturesForClub(clubName).filter(f => f.competition.kind === 'league' && f.date >= CAREER_START_DATE);
+  if (!deLiga.length) return false;
+  const ultimaFechaDeLiga = deLiga[deLiga.length - 1].date;
+
+  // Solo hay datos reales del primer año de carrera (2026): a partir del año calendario siguiente
+  // el club vive enteramente del motor sintético, y este criterio no puede seguir diciendo "true"
+  // para siempre -- si no, "Finalizar Temporada" quedaba trabado en loop en cada semana futura, un
+  // atasco peor que el bug original. Se corta comparando el año calendario de la última fecha real
+  // contra el año calendario que le tocaría a currentWeek si el club siguiera con fechas reales.
+  const anioDeLosDatos = Number(ultimaFechaDeLiga.slice(0, 4));
+  const anioActual = CAREER_START_YEAR + getSeasonYear(currentWeek) - 1;
+  if (anioActual > anioDeLosDatos) return false;
+
+  const pasoDeLaUltima = pasoDeFecha(clubName, ultimaFechaDeLiga);
+  if (pasoDeLaUltima === null) return false;
+  return currentWeek > pasoDeLaUltima;
 }
 
 /** El torneo de liga que el club juega en esa fecha ('Apertura', 'Clausura' o el nombre de la liga). */

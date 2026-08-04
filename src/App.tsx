@@ -21,7 +21,7 @@ import {
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
-  resolverPasoCopaNacional, simulatePenaltyShootout
+  resolverPasoCopaNacional, simulatePenaltyShootout, roundLabelByMatchCount
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
@@ -33,6 +33,8 @@ import InteractivePenaltyShootout from './components/InteractivePenaltyShootout'
 import AchievementToast from './components/AchievementToast';
 import MusicPlayer from './components/MusicPlayer';
 import ChampionOverlay, { type ChampionInfo } from './components/ChampionOverlay';
+import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOverlay';
+import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
@@ -71,6 +73,27 @@ function findShootoutInTwoLegTies(ties: TwoLegTie[] | null | undefined, myId: st
     }
   }
   return null;
+}
+
+/**
+ * ¿El club sigue vivo en el playoff de liga (cuadrangulares/final de Colombia o Argentina)?
+ *
+ * Colombia va a ida y vuelta (twoLegKnockout); Argentina a partido único (knockout). Mismo criterio
+ * que isClubStillInCup: aparece en la última ronda armada, o es el campeón.
+ */
+function estaEnPlayoffDeLiga(season: { stage?: string; twoLegKnockout?: TwoLegBracket; knockout?: PlayoffBracket }, clubId: string): boolean {
+  if (season.stage !== 'knockout') return false;
+  if (season.twoLegKnockout) {
+    if (season.twoLegKnockout.championId) return season.twoLegKnockout.championId === clubId;
+    const ultima = season.twoLegKnockout.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1];
+    return !!ultima?.some(t => t.clubAId === clubId || t.clubBId === clubId);
+  }
+  if (season.knockout) {
+    if (season.knockout.championId) return season.knockout.championId === clubId;
+    const ultima = season.knockout.matchesByRound[season.knockout.matchesByRound.length - 1];
+    return !!ultima?.some(m => m.homeTeamId === clubId || m.awayTeamId === clubId);
+  }
+  return false;
 }
 
 // Mantiene al día el estado de Libertadores/Sudamericana y Champions/Europa del club actual,
@@ -586,6 +609,13 @@ export default function App() {
   // Festejo a pantalla completa al salir campeón (ver ChampionOverlay). Se muestra al volver del
   // resumen de post-partido, para no tapar el resultado que lo causó.
   const [championInfo, setChampionInfo] = useState<ChampionInfo | null>(null);
+  // Fin de temporada/torneo sin haber salido campeón: posición final en la tabla, o eliminación de
+  // una copa de bracket. Complementa a ChampionOverlay -- entre los dos, cerrar cualquier torneo
+  // siempre le avisa algo al jugador.
+  const [seasonEndInfo, setSeasonEndInfo] = useState<SeasonEndInfo | null>(null);
+  // Periódico de arranque de temporada, disparado al tocar "Finalizar Temporada" (ver
+  // handleFinalizeSeason). Pedido explícito del usuario.
+  const [newSeasonInfo, setNewSeasonInfo] = useState<NewSeasonInfo | null>(null);
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
   // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
@@ -595,6 +625,19 @@ export default function App() {
   // tiene varias copas nacionales -- Colombia juega Copa Colombia Y Superliga -- y el booleano
   // activeDomesticCup no alcanza para distinguirlas: rotulaba "Copa Colombia" la Superliga.
   const [activeCompetitionName, setActiveCompetitionName] = useState<string | null>(null);
+  // "2-1" en la vuelta de una llave a ida y vuelta -- null en la ida (todavía no hay global) y en
+  // partidos a partido único. El jugador no podía ver el marcador acumulado durante el partido en
+  // vivo, solo después en la tarjeta de "próximo partido". Bug reportado: agregar "el resultado
+  // global visible en la pantalla de partido".
+  const [activeGlobalScoreLabel, setActiveGlobalScoreLabel] = useState<string | null>(null);
+  // "Apertura"/"Clausura" para el header del partido de liga en países con dos torneos por año.
+  // Antes MatchSimulator lo recalculaba por su cuenta con fixturesAtStep(club, currentWeek) --
+  // funcionaba mientras el partido de HOY viniera del calendario real, pero cuando el rival salía
+  // del motor sintético (temporada avanzada, calendario real ya agotado) esa cuenta podía apuntar a
+  // una fecha real de otro semestre y rotular mal el torneo. Ahora App.tsx, que ya sabe con certeza
+  // de dónde salió el partido de hoy, se lo pasa hecho. Bug reportado: "la pagina del partido
+  // siempre debe decir cual competencia se juega, exactamente sin errores".
+  const [activeTorneoLabel, setActiveTorneoLabel] = useState<string | null>(null);
   // Costo de irse con la selección, calculado al salir de la semana pero aplicado recién cuando
   // termina el partido: si se aplicara antes, el jugador vería bajar su prestigio sin saber por qué.
   const pendingCountryDutyCost = useRef<{ prestige: number; notice: string | null; important: boolean } | null>(null);
@@ -1207,6 +1250,49 @@ export default function App() {
     notify(`🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}.`);
   };
 
+  // Última fecha real del año ya jugada, con liga+copas cerradas (ver temporadaRealTerminada en
+  // Dashboard.tsx): el botón dice "Finalizar Temporada" en vez de "Disputar Partido". Acá no se
+  // abre ningún partido -- ya no queda nada real que jugar este año -- solo se avanza el reloj de
+  // carrera y se muestra el periódico de bienvenida a la temporada nueva.
+  const handleFinalizeSeason = () => {
+    if (!playerProfile) return;
+    const nextWeek = playerProfile.currentWeek + 1;
+    const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+
+    // La liga de tu club se recalcula acá y no se deja para la próxima vez que se abra el
+    // Dashboard: éste lee leagueSeasons directo del perfil guardado, sin volver a llamar a
+    // getOrCreateSeasonForLeague. Sin este recálculo, la temporada quedaba marcada 'done' para
+    // siempre y el botón nunca volvía a decir "Disputar Partido" -- un loop sin salida.
+    const leagueKey = leagueKeyFor(myClub);
+    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const updatedLeagueSeasons = {
+      ...playerProfile.leagueSeasons,
+      [leagueKey]: getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], nextWeek),
+    };
+
+    // Mismo criterio para las copas continentales/UEFA de fondo (si clasificás a la del año nuevo).
+    const cupsSync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+
+    const aged = applySeasonTransitions({
+      ...playerProfile,
+      currentWeek: nextWeek,
+      leagueSeasons: updatedLeagueSeasons,
+      continentalCups: cupsSync.continentalCups,
+      uefaCups: cupsSync.uefaCups,
+    }, playerProfile.currentWeek, nextWeek);
+    if (isPastRetirementAge(aged)) {
+      resolveRetirementCheckpoint(aged);
+      return;
+    }
+    setPlayerProfile(aged);
+    saveGameState(aged, shopItems);
+    setNewSeasonInfo({
+      clubName: myClub.name,
+      year: CAREER_START_YEAR + getSeasonYear(nextWeek) - 1,
+      badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+    });
+  };
+
   const handleAdvanceWeek = () => {
     if (!playerProfile) return;
 
@@ -1230,11 +1316,24 @@ export default function App() {
           const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
           const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
           if (upcoming) {
-            const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId)!;
-            const { homeGoals, awayGoals } = upcoming.isHome ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
-            const myGoals = upcoming.isHome ? homeGoals : awayGoals;
-            const rivalGoals = upcoming.isHome ? awayGoals : homeGoals;
-            const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, upcoming.isHome, myGoals, rivalGoals);
+            let opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId)!;
+            let isHomeRest = upcoming.isHome;
+            // Mismo criterio que el flujo principal más abajo: si el club tiene calendario real para
+            // HOY, el rival real manda sobre el del motor sintético. Sin esto, "Sin ti en el campo..."
+            // podía anunciar un rival distinto al que de verdad tocaba jugar esa fecha. Bug reportado:
+            // "la pantalla que dice cuando te pierdes un partido... nunca dice el partido correcto".
+            if (hasDatedLeagueSchedule(myClub.name)) {
+              const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
+              const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
+              if (fx?.competition.kind === 'league') {
+                const rivalReal = resolverClubDeCalendario(leagueClubs, fx.opponentName, myClub.league, 'league', fx.competition.name);
+                if (rivalReal) { opponentClub = rivalReal; isHomeRest = fx.isHome; }
+              }
+            }
+            const { homeGoals, awayGoals } = isHomeRest ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
+            const myGoals = isHomeRest ? homeGoals : awayGoals;
+            const rivalGoals = isHomeRest ? awayGoals : homeGoals;
+            const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, isHomeRest, myGoals, rivalGoals);
             updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
             restResultMsg = ` Sin ti en el campo, ${myClub.name} ${myGoals}-${rivalGoals} ${opponentClub.name}.`;
           }
@@ -1333,14 +1432,25 @@ export default function App() {
     // club tiene calendario, justamente para que el agotamiento devuelva el control al motor.
     const usaFechasReales = tieneFechasReales && !!datedStep;
 
-    const realWeekMatches = !inWorldCupBreak && myClubForSchedule && !usaFechasReales
+    // Mismo criterio que usaCalendarioReal más abajo: el legado solo corre para clubes que NUNCA
+    // tuvieron calendario real de fecha exacta, no para los que lo agotaron.
+    const realWeekMatches = !inWorldCupBreak && myClubForSchedule && !usaFechasReales && !tieneFechasReales
       ? matchesThisWeek(myClubForSchedule.name, playerProfile.currentWeek)
       : [];
 
     // Los dos calendarios exponen la misma forma ({ opponentName, isHome, competition }), así que
     // de acá para abajo el código no distingue de cuál vino el partido: solo cambia la fuente.
     const realPrimary = datedPrimary ?? pickPrimary(realWeekMatches);
-    const usaCalendarioReal = !!myClubForSchedule && (usaFechasReales || hasRealSchedule(myClubForSchedule.name));
+    // El legado semanal (hasRealSchedule) solo puede tomar el control si el club NUNCA tuvo
+    // calendario real de fecha exacta -- no cuando lo tuvo y ya se agotó (tieneFechasReales true,
+    // usaFechasReales false). Antes, apenas se agotaba el calendario real de Flamengo (después del
+    // 2 de diciembre), el juego caía al legado semanal en paralelo con el motor nuevo (que ya sabe
+    // generar la temporada siguiente por su cuenta desde getOrCreateSeasonForLeague): dos relojes de
+    // temporada compitiendo por el mismo club. Eso explicaba la Copa do Brasil que nunca se jugaba
+    // (el legado no la tiene con bracket), la temporada que no cerraba nunca y el mismo próximo
+    // partido repitiéndose. Bug reportado: "hice una carrera en Brasil... no se jugó la copa, y
+    // tampoco se acabó nunca la temporada... salía el mismo próximo partido varias veces".
+    const usaCalendarioReal = !!myClubForSchedule && (usaFechasReales || (!tieneFechasReales && hasRealSchedule(myClubForSchedule.name)));
 
     // ¿Tu club está jugando una copa continental que el motor sí modela? El calendario importado
     // solo trae 36 clubes en Libertadores y no incluye a varios que el motor sí clasifica (Junior
@@ -1406,6 +1516,8 @@ export default function App() {
         setActiveUefaCupId(null);
         setActiveCompetitionName(null);
         setActiveDomesticCup(false);
+        setActiveGlobalScoreLabel(null);
+        setActiveTorneoLabel(null);
         setActiveMyTablePosition(null);
         setActiveRivalTablePosition(null);
         setActiveLeagueTeamCount(null);
@@ -1516,6 +1628,11 @@ export default function App() {
       // invicto o colista (bug reportado: "ganar en Libertadores no se refleja en la tabla").
       let cupMyPos: number | null = null;
       let cupRivalPos: number | null = null;
+      // Libertadores/Sudamericana son partido único en TODO el knockout, sin global que mostrar; solo
+      // Champions/Europa (más abajo) lo recalculan si están en su fase de ida y vuelta.
+      setActiveGlobalScoreLabel(null);
+      // Semana de copa: no hay Apertura/Clausura que mostrar.
+      setActiveTorneoLabel(null);
       let cupTeamCount: number | null = null;
 
       let foundOpponentId: string | null = null;
@@ -1580,6 +1697,22 @@ export default function App() {
               cupMyPos = myIdx >= 0 ? myIdx + 1 : null;
               cupRivalPos = rivalIdx >= 0 ? rivalIdx + 1 : null;
               cupTeamCount = sortedUefa.length || null;
+            }
+
+            // Champions/Europa van a ida y vuelta desde octavos (a diferencia de Libertadores, que
+            // es partido único todo el knockout): mismo cálculo de global que la copa nacional.
+            if (uefaCup.stage === 'knockout') {
+              const miLlaveUefa = uefaCup.knockout?.tiesByRound[uefaCup.knockout.tiesByRound.length - 1]
+                ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+              if (miLlaveUefa) {
+                const soyA = miLlaveUefa.clubAId === myClub.id;
+                const idaJugada = miLlaveUefa.firstLegGoalsA !== null && miLlaveUefa.firstLegGoalsB !== null;
+                if (idaJugada) {
+                  const misGoles = (soyA ? miLlaveUefa.firstLegGoalsA : miLlaveUefa.firstLegGoalsB) ?? 0;
+                  const susGoles = (soyA ? miLlaveUefa.firstLegGoalsB : miLlaveUefa.firstLegGoalsA) ?? 0;
+                  setActiveGlobalScoreLabel(`${misGoles}-${susGoles}`);
+                }
+              }
             }
           }
         }
@@ -1656,6 +1789,16 @@ export default function App() {
                 ? cupCruce.clubAId === myClubForCup.id
                 : cupCruce.clubBId === myClubForCup.id;
               setActiveCompetitionName(`${nombreCopaNacional(myClubForCup.league)} · ${rondaActual(cup)} (${esIda ? 'Ida' : 'Vuelta'})`);
+              // Global visible en la pantalla de partido: en la ida no hay nada que mostrar
+              // (ninguna pierna jugada todavía), en la vuelta se arma sumando ambas piernas.
+              if (esIda) {
+                setActiveGlobalScoreLabel(null);
+              } else {
+                const soyA = cupCruce.clubAId === myClubForCup.id;
+                const misGoles = (soyA ? cupCruce.firstLegGoalsA : cupCruce.firstLegGoalsB) ?? 0;
+                const susGoles = (soyA ? cupCruce.firstLegGoalsB : cupCruce.firstLegGoalsA) ?? 0;
+                setActiveGlobalScoreLabel(`${misGoles}-${susGoles}`);
+              }
             }
           }
         }
@@ -1687,6 +1830,8 @@ export default function App() {
           // llevar su cartel. Rótulo honesto en vez de "Copa Nacional" genérica (que seguía sonando
           // a torneo real) o el nombre de la copa de la que ya saliste.
           setActiveCompetitionName(yaEliminadoDeLaCopa ? 'Partido Amistoso' : null);
+          // Rival suelto (eliminado, o liga sin copa modelada): no hay llave, no hay global.
+          setActiveGlobalScoreLabel(null);
         }
         setActiveDomesticCup(!yaEliminadoDeLaCopa);
       } else {
@@ -1700,6 +1845,9 @@ export default function App() {
       // semana de copa anterior y rotule mal el partido de liga.
       setActiveDomesticCup(false);
       setActiveCompetitionName(null);
+      // El global se recalcula más abajo SOLO si el partido de hoy resulta ser un playoff a ida y
+      // vuelta (Colombia/Argentina); si es fase regular se queda en null.
+      setActiveGlobalScoreLabel(null);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
@@ -1718,9 +1866,21 @@ export default function App() {
         //
         // Ahora se cumple igual: si hay rival se juega el partido simulado, y si no lo hay solo se
         // descuenta la fecha de sanción y el calendario sigue corriendo.
-        const opponentClub = upcoming ? leagueClubs.find(c => c.id === upcoming.opponentId) : undefined;
+        let opponentClub = upcoming ? leagueClubs.find(c => c.id === upcoming.opponentId) : undefined;
+        let isHomeSancion = upcoming?.isHome ?? true;
+        // Mismo criterio que el resto del flujo: si el club tiene calendario real para HOY, el
+        // rival real manda sobre el del motor sintético. Sin esto, una sanción resolvía el partido
+        // contra un rival que no era el que de verdad tocaba jugar esa fecha.
+        if (upcoming && hasDatedLeagueSchedule(myClub.name)) {
+          const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
+          const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
+          if (fx?.competition.kind === 'league') {
+            const rivalReal = resolverClubDeCalendario(leagueClubs, fx.opponentName, myClub.league, 'league', fx.competition.name);
+            if (rivalReal) { opponentClub = rivalReal; isHomeSancion = fx.isHome; }
+          }
+        }
         if (upcoming && opponentClub) {
-          resolveSuspendedLeagueWeek(myClub, leagueKey, leagueClubs, season, upcoming.isHome, opponentClub);
+          resolveSuspendedLeagueWeek(myClub, leagueKey, leagueClubs, season, isHomeSancion, opponentClub);
         } else {
           advanceSuspendedIdleWeek(myClub, leagueKey, leagueClubs, season);
         }
@@ -1736,6 +1896,7 @@ export default function App() {
         // Con calendario real, el rival y la localía salen de la fecha de Transfermarkt. La TABLA
         // la sigue llevando el motor (necesita simular los otros 19 partidos de la jornada), así
         // que solo se pisa el rival puntual del jugador, no el estado de la liga.
+        let esPartidoDeCalendarioReal = false;
         if (usaCalendarioReal && realPrimary?.competition.kind === 'league') {
           // Se busca dentro de leagueClubs (la propia liga) y no en toda la base: hay nombres
           // duplicados entre países -- "Athletic Club" existe en Brasil y en España -- y un
@@ -1746,7 +1907,22 @@ export default function App() {
             opName = rivalReal.name;
             opClubId = rivalReal.id;
             isHomeThisMatch = realPrimary.isHome;
+            esPartidoDeCalendarioReal = true;
           }
+        }
+
+        // Apertura/Clausura para el header: si el partido de hoy vino del calendario real, el
+        // semestre sale de SU fecha (torneoDelClubEnFecha). Si vino del motor sintético, sale del
+        // estado de la temporada (season.semester) -- nunca se recalcula con fixturesAtStep desde
+        // MatchSimulator, que podía apuntar a la fecha real de un semestre distinto al que
+        // realmente se está jugando.
+        if (isApeturaClausuraLeague(myClub.league)) {
+          const semestreDeHoy = esPartidoDeCalendarioReal && datedStep
+            ? torneoDelClubEnFecha(myClub.name, datedStep.date)
+            : (season.semester === 2 ? 'Clausura' : 'Apertura');
+          setActiveTorneoLabel(semestreDeHoy);
+        } else {
+          setActiveTorneoLabel(null);
         }
 
         // La posición se busca por opClubId y no por upcoming.opponentId: con calendario real el
@@ -1758,6 +1934,20 @@ export default function App() {
         setActiveMyTablePosition(myPos >= 0 ? myPos + 1 : null);
         setActiveRivalTablePosition(rivalPos >= 0 ? rivalPos + 1 : null);
         setActiveLeagueTeamCount(sortedTable.length || null);
+
+        // Playoff de liga a ida y vuelta (Colombia/Argentina, cuadrangulares y final): el global se
+        // arma igual que en la copa nacional, buscando el TwoLegTie del club en la ronda en curso.
+        const miLlaveLiga = season.twoLegKnockout?.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1]
+          ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+        if (miLlaveLiga) {
+          const soyA = miLlaveLiga.clubAId === myClub.id;
+          const idaJugada = miLlaveLiga.firstLegGoalsA !== null && miLlaveLiga.firstLegGoalsB !== null;
+          if (idaJugada) {
+            const misGoles = (soyA ? miLlaveLiga.firstLegGoalsA : miLlaveLiga.firstLegGoalsB) ?? 0;
+            const susGoles = (soyA ? miLlaveLiga.firstLegGoalsB : miLlaveLiga.firstLegGoalsA) ?? 0;
+            setActiveGlobalScoreLabel(`${misGoles}-${susGoles}`);
+          }
+        }
       } else {
         // Fallback de seguridad (liga con un solo club u otro caso borde): no debería pasar en la práctica.
         const localRivals = leagueClubs.filter(c => c.id !== myClub.id).map(c => c.name);
@@ -1765,6 +1955,7 @@ export default function App() {
         setActiveMyTablePosition(null);
         setActiveRivalTablePosition(null);
         setActiveLeagueTeamCount(null);
+        setActiveTorneoLabel(null);
       }
     }
 
@@ -2147,8 +2338,6 @@ export default function App() {
         foundShootoutMyName = myClub.name;
       }
 
-      // ¿Cerró el torneo y quedaste primero?
-      //
       // El cierre lo manda el CALENDARIO REAL cuando el club tiene uno, no el fixture del motor:
       // son calendarios distintos y el del motor es más corto (20 partidos contra los 44 reales del
       // Nacional), así que `fixtures` todavía tenía partidos pendientes cuando el Apertura real ya
@@ -2161,30 +2350,56 @@ export default function App() {
       // Primera B -- 0 cierres de torneo en toda la carrera.
       const pasoHoy = usaFechasRealesParaMiClub ? fixturesAtStep(myClub.name, playerProfile.currentWeek) : null;
       const hoyJuegoLigaPorCalendario = !!pasoHoy && pasoHoy.fixtures.some(f => f.competition.kind === 'league');
+
+      // Eliminado del playoff de liga (cuadrangulares/final de Colombia o Argentina): antes esto
+      // pasaba en silencio, igual que la eliminación de copa continental. Pedido explícito: "en los
+      // playoffs de argentina y colombia... si te eliminan tambien colocas esa animacion".
+      if (!shootout || shootoutOverride) {
+        const seguiaAntes = estaEnPlayoffDeLiga(existingSeason, myClub.id);
+        const sigueAhora = estaEnPlayoffDeLiga(resolvedSeason, myClub.id);
+        const campeonAhora = resolvedSeason.twoLegKnockout?.championId === myClub.id
+          || resolvedSeason.knockout?.championId === myClub.id;
+        if (seguiaAntes && !sigueAhora && !campeonAhora) {
+          const ultimaRonda = resolvedSeason.twoLegKnockout
+            ? resolvedSeason.twoLegKnockout.tiesByRound[resolvedSeason.twoLegKnockout.tiesByRound.length - 1]
+            : resolvedSeason.knockout?.matchesByRound[resolvedSeason.knockout.matchesByRound.length - 1];
+          const anioPlayoff = hoyJuegoLigaPorCalendario && pasoHoy
+            ? Number(pasoHoy.date.slice(0, 4))
+            : CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+          setSeasonEndInfo({
+            competition: getLeagueDisplay(myClub.league, myClub.division).name,
+            clubName: myClub.name,
+            season: `${resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura'} ${anioPlayoff}`,
+            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+            eliminated: true,
+            eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
+          });
+        }
+      }
+
+      // ¿Cerró el torneo y quedaste primero?
       const cerroElTorneo = hoyJuegoLigaPorCalendario
         ? esUltimaFechaDelTorneo(myClub.name, pasoHoy!.date)
         : !resolvedSeason.fixtures.some(
             f => !f.played && (f.homeTeamId === myClub.id || f.awayTeamId === myClub.id));
 
       if (cerroElTorneo && resolvedSeason.table.length > 0) {
-        const lider = sortTable([...resolvedSeason.table])[0];
+        // Torneo/año se calculan siempre que cierre, seas campeón o no: hacen falta para el rótulo
+        // del festejo Y para el de fin de temporada del que no salió campeón.
+        const formato = isApeturaClausuraLeague(myClub.league);
+        const anio = hoyJuegoLigaPorCalendario
+          ? Number(pasoHoy!.date.slice(0, 4))
+          : CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+        const semestreReal = hoyJuegoLigaPorCalendario
+          ? torneoDelClubEnFecha(myClub.name, pasoHoy!.date)
+          : null;
+        const semestre = semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura');
+        const torneo = formato ? `${semestre} ${anio}` : `Temporada ${anio}`;
+
+        const tablaOrdenada = sortTable([...resolvedSeason.table]);
+        const lider = tablaOrdenada[0];
         if (lider && (lider.clubId === myClub.id || lider.name === myClub.name)) {
           salioCampeon = true;
-          // En Colombia y Argentina el título es del semestre, no del año: el rótulo tiene que
-          // decir cuál de los dos torneos ganaste o parecería que se repite el mismo campeonato.
-          // Con calendario real el semestre sale de la FECHA del partido, que es la que de verdad
-          // dice si cerraste el Apertura (junio) o el Clausura (noviembre).
-          const formato = isApeturaClausuraLeague(myClub.league);
-          // Con calendario real el año sale de la fecha del partido: el contador de semanas se
-          // adelantaba y el Clausura jugado en noviembre de 2026 se anotaba como 2027.
-          const anio = hoyJuegoLigaPorCalendario
-            ? Number(pasoHoy!.date.slice(0, 4))
-            : CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
-          const semestreReal = hoyJuegoLigaPorCalendario
-            ? torneoDelClubEnFecha(myClub.name, pasoHoy!.date)
-            : null;
-          const semestre = semestreReal ?? (resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura');
-          const torneo = formato ? `${semestre} ${anio}` : `Temporada ${anio}`;
           setChampionInfo({
             competition: getLeagueDisplay(myClub.league, myClub.division).name,
             clubName: myClub.name,
@@ -2205,6 +2420,19 @@ export default function App() {
             torneo: formato ? semestre : undefined,
             tipo: 'liga',
           };
+        } else {
+          // No saliste campeón: antes el torneo se cerraba en silencio y la carrera seguía sin que
+          // el jugador se enterara -- ni de que había terminado, ni de en qué puesto quedó. Bug
+          // reportado: "el jugador jamás se da cuenta [de que la temporada terminó]".
+          const miPos = tablaOrdenada.findIndex(r => r.clubId === myClub.id || r.name === myClub.name);
+          setSeasonEndInfo({
+            competition: getLeagueDisplay(myClub.league, myClub.division).name,
+            clubName: myClub.name,
+            season: torneo,
+            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+            finalPosition: miPos >= 0 ? miPos + 1 : null,
+            totalTeams: tablaOrdenada.length,
+          });
         }
       }
 
@@ -2232,6 +2460,23 @@ export default function App() {
         foundShootoutMyId = myClub.id;
         foundShootoutMyName = myClub.name;
       }
+      // Recién quedaste eliminado con este partido (estabas antes, ya no): avisar, igual que el
+      // cierre de liga sin título. Sin esto la copa desaparecía en silencio de la carrera.
+      if (!shootout || shootoutOverride) {
+        const seguiaAntes = isClubStillInCup(cupBeforeMatch, myClub.id);
+        const sigueAhora = isClubStillInCup(resolvedCup, myClub.id);
+        if (seguiaAntes && !sigueAhora && resolvedCup.championId !== myClub.id) {
+          const ultimaRonda = resolvedCup.knockout?.matchesByRound[resolvedCup.knockout.matchesByRound.length - 1];
+          setSeasonEndInfo({
+            competition: activeCupId === 'sudamericana' ? 'Copa Sudamericana' : 'Copa Libertadores',
+            clubName: myClub.name,
+            season: String(year),
+            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+            eliminated: true,
+            eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
+          });
+        }
+      }
       updatedContinentalCups = { ...playerProfile.continentalCups, [cupKey]: resolvedCup };
     }
 
@@ -2246,6 +2491,21 @@ export default function App() {
         foundShootout = shootout;
         foundShootoutMyId = myClub.id;
         foundShootoutMyName = myClub.name;
+      }
+      if (!shootout || shootoutOverride) {
+        const seguiaAntes = isClubStillInUefaCup(uefaCupBeforeMatch, myClub.id);
+        const sigueAhora = isClubStillInUefaCup(resolvedUefaCup, myClub.id);
+        if (seguiaAntes && !sigueAhora && resolvedUefaCup.championId !== myClub.id) {
+          const ultimaRonda = resolvedUefaCup.knockout?.tiesByRound[resolvedUefaCup.knockout.tiesByRound.length - 1];
+          setSeasonEndInfo({
+            competition: activeUefaCupId === 'europa' ? 'Europa League' : 'Champions League',
+            clubName: myClub.name,
+            season: `Edición ${resolvedUefaCup.year}`,
+            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+            eliminated: true,
+            eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
+          });
+        }
       }
       updatedUefaCups = { ...playerProfile.uefaCups, [activeUefaCupId]: resolvedUefaCup };
     }
@@ -2617,6 +2877,20 @@ export default function App() {
         />
       )}
 
+      {!championInfo && seasonEndInfo && screen === 'dashboard' && playerProfile && (
+        <SeasonEndOverlay
+          info={seasonEndInfo}
+          onClose={() => setSeasonEndInfo(null)}
+        />
+      )}
+
+      {newSeasonInfo && screen === 'dashboard' && playerProfile && (
+        <NewSeasonOverlay
+          info={newSeasonInfo}
+          onClose={() => setNewSeasonInfo(null)}
+        />
+      )}
+
       {/* Fuera de los bloques por pantalla a propósito: montado una sola vez acá, el iframe
           sobrevive los cambios de pantalla y la canción no se corta al entrar a un partido.
           Se esconde en welcome/setup para no competir con el arranque del juego. */}
@@ -2662,6 +2936,7 @@ export default function App() {
           onAnswerPress={handleAnswerPress}
           onAcceptTransfer={handleAcceptTransfer}
           onAdvanceWeek={handleAdvanceWeek}
+          onFinalizeSeason={handleFinalizeSeason}
           onRecoverEnergy={handleRecoverEnergy}
           onSocialInteraction={handleSocialInteraction}
           onLogout={() => setScreen('welcome')}
@@ -2680,6 +2955,8 @@ export default function App() {
           uefaCupId={activeUefaCupId}
           isDomesticCup={activeDomesticCup}
           competitionNameOverride={activeCompetitionName}
+          globalScoreLabel={activeGlobalScoreLabel}
+          torneoLabel={activeTorneoLabel}
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}
           isHome={activeIsHome}

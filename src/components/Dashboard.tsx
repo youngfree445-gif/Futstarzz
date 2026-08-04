@@ -7,7 +7,7 @@ import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
-import { fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
+import { calendarioDeLigaAgotado, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -23,7 +23,7 @@ import {
   isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate,
   getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, getRealDateForLeagueStepsBehind, getRealDateForCupStepsBehind,
   isApeturaClausuraLeague, getUpcomingMatchForLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
-  CAREER_START_YEAR
+  CAREER_START_YEAR, roundLabelByMatchCount
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -218,16 +218,6 @@ function buildMonthGrid(year: number, month: number): (number | null)[][] {
   return weeks;
 }
 
-// n = cantidad de partidos/llaves en la ronda de playoffs actual -- deriva el nombre real de la
-// ronda sin tener que llevar un campo aparte (4 llaves = Cuartos, 2 = Semifinal, 1 = Final, etc.)
-function roundLabelByMatchCount(n: number): string {
-  if (n === 1) return 'Final';
-  if (n === 2) return 'Semifinal';
-  if (n === 4) return 'Cuartos';
-  if (n === 8) return 'Octavos';
-  return `Ronda de ${n * 2}`;
-}
-
 /**
  * Cómo va la llave para el club del jugador: si es la ida, si es la vuelta y con qué global llega.
  * En una eliminatoria a dos partidos el resultado de la ida es la información que más importa antes
@@ -264,6 +254,8 @@ interface DashboardProps {
   onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number) => void;
   onAcceptTransfer: (clubId: string, signOnBonus: number) => void;
   onAdvanceWeek: () => void;
+  /** Última fecha real del año jugada, con todo cerrado: dispara el periódico de nueva temporada. */
+  onFinalizeSeason: () => void;
   onRecoverEnergy: (cost: number, energyAmount: number) => void;
   onSocialInteraction: () => void;
   onLogout: () => void;
@@ -290,6 +282,7 @@ export default function Dashboard({
   onAnswerPress,
   onAcceptTransfer,
   onAdvanceWeek,
+  onFinalizeSeason,
   onRecoverEnergy,
   onSocialInteraction,
   onLogout,
@@ -1524,6 +1517,44 @@ export default function Dashboard({
   const myLeagueSeason = playerProfile.leagueSeasons[myLeagueKey];
   const calendarEvents: CalendarEvent[] = [];
 
+  // ¿Ya cerraron TODAS tus competencias reales de este año calendario (liga, copa nacional, copa
+  // continental, UEFA)? El motor sigue generando partidos sintéticos de relleno para que la carrera
+  // nunca se trabe, así que "siempre hay próximo partido" -- eso es justo lo que hacía que el
+  // jugador nunca se enterara de que su año ya había terminado. Pedido explícito: "que el boton de
+  // disputar partido cambie a finalizar temporada" cuando no quede nada real pendiente.
+  //
+  // Liga: en formato Apertura/Clausura, solo cuenta como año cerrado si YA SE JUGÓ el Clausura
+  // (semester 2 y stage 'done') -- terminar el Apertura no es fin de año, falta el segundo semestre.
+  // En formato de un solo torneo con calendario real (Brasil), el fixture guardado en el perfil
+  // trae 380 partidos de TODA la liga -- no solo los del club -- y la mayoría quedan sin jugar
+  // aunque tu participación ya haya terminado, así que "fixtures completo" no sirve de criterio.
+  // Se usa la FECHA real en cambio: si ya pasó la última fecha de liga del calendario real, cerró
+  // (calendarioDeLigaAgotado se corta sola pasado el año calendario de los datos -- solo tenemos
+  // 2026 -- para no quedar en "true" para siempre en los años siguientes, sin datos reales, donde
+  // el criterio de fixtures completo tampoco puede aplicar: el motor sintético de esos años nunca
+  // marca el fixture de 380 partidos como terminado. El botón "Finalizar Temporada" solo aparece en
+  // el primer año con datos reales; en los siguientes la carrera sigue por el motor sin ese aviso).
+  const ligaCerradaElAnio = !myLeagueSeason
+    ? true
+    : isApeturaClausuraLeague(currentClub.league)
+    ? myLeagueSeason.semester === 2 && myLeagueSeason.stage === 'done'
+    : hasDatedLeagueSchedule(currentClub.name)
+    ? calendarioDeLigaAgotado(currentClub.name, playerProfile.currentWeek)
+    : myLeagueSeason.fixtures.length > 0 && !myLeagueSeason.fixtures.some(f => !f.played);
+  const copaNacionalCerradaElAnio = (() => {
+    if (!tieneCopaNacionalReal(currentClub.league)) return true;
+    const cupYearNacional = getSeasonYear(playerProfile.currentWeek);
+    const cupKeyNacional = `${currentClub.league}-${cupYearNacional}`;
+    const cupNacional = playerProfile.domesticCups?.[cupKeyNacional];
+    // Sin estado guardado todavía: no se armó el cuadro, no hay nada pendiente que bloquee el cierre.
+    if (!cupNacional) return true;
+    return !sigueEnCopa(cupNacional, currentClub.id);
+  })();
+  const copaContinentalCerradaElAnio = !conmebolCup || !isClubStillInCup(conmebolCup, currentClub.id);
+  const copaUefaCerradaElAnio = !uefaCup || !isClubStillInUefaCup(uefaCup, currentClub.id);
+  const temporadaRealTerminada = ligaCerradaElAnio && copaNacionalCerradaElAnio
+    && copaContinentalCerradaElAnio && copaUefaCerradaElAnio;
+
   // Con calendario de fechas reales el mes se pinta directamente con ellas: cada partido cae en su
   // día exacto (jueves 12 de febrero es jueves), en vez de deducir la fecha contando semanas desde
   // hoy -- que ubicaba todo en domingo y no coincidía con el partido que el motor iba a jugar.
@@ -2399,10 +2430,16 @@ export default function Dashboard({
                   </div>
 
                   <button
-                    onClick={onAdvanceWeek}
-                    className="btn-fx w-full py-3 px-6 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-4"
+                    onClick={temporadaRealTerminada ? onFinalizeSeason : onAdvanceWeek}
+                    className={`btn-fx w-full py-3 px-6 rounded-2xl font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-4 ${
+                      temporadaRealTerminada
+                        ? 'bg-gradient-to-br from-slate-600 to-slate-800 text-white'
+                        : 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950'
+                    }`}
                   >
-                    {nextWeekInWorldCupBreak && !nextMatchOpponent ? 'Pasar a Siguiente Fecha' : 'Disputar Partido'} <ArrowRight size={15} />
+                    {temporadaRealTerminada
+                      ? 'Finalizar Temporada'
+                      : nextWeekInWorldCupBreak && !nextMatchOpponent ? 'Pasar a Siguiente Fecha' : 'Disputar Partido'} <ArrowRight size={15} />
                   </button>
                 </div>
 

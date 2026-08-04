@@ -4,7 +4,6 @@ import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLe
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster } from '../data';
 import { playSfx } from '../audio';
 import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
-import { fixturesAtStep, torneoDeFecha } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -1271,6 +1270,12 @@ interface MatchSimulatorProps {
   isDomesticCup?: boolean;
   /** Nombre exacto del torneo cuando viene del calendario real ("Superliga de Colombia"). */
   competitionNameOverride?: string | null;
+  /** En una llave a ida y vuelta, "Vuelta · Global 2-1" -- calculado por el llamador, que es quien
+   *  conoce el TwoLegTie. En la ida es null: todavía no hay global que mostrar. */
+  globalScoreLabel?: string | null;
+  /** "Apertura"/"Clausura" para ligas con dos torneos por año, calculado por el llamador (App.tsx),
+   *  que sabe con certeza si el partido de hoy vino del calendario real o del motor sintético. */
+  torneoLabel?: string | null;
   isWorldCup?: boolean;
   representingTeamId?: string | null; // si estás convocado a tu selección, el id del equipo del Mundial en vez de tu club
   isHome: boolean;
@@ -1296,7 +1301,7 @@ interface MatchSimulatorProps {
 }
 
 export default function MatchSimulator({
-  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, isWorldCup, representingTeamId, isHome: isHomeProp,
+  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, globalScoreLabel, torneoLabel, isWorldCup, representingTeamId, isHome: isHomeProp,
   myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, onFinishMatch
 }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
@@ -1370,12 +1375,14 @@ export default function MatchSimulator({
   // En Colombia y Argentina el año tiene DOS ligas -- Apertura y Clausura -- cada una con su propio
   // campeón. El rótulo decía solo "Primera División Dimayor", así que en pantalla no había forma de
   // saber cuál de los dos torneos estabas jugando.
-  const torneoDelPartido = (() => {
-    const paso = fixturesAtStep(currentClub.name, playerProfile.currentWeek);
-    if (!paso) return null;
-    const fx = paso.fixtures.find(f => f.competition.kind === 'league');
-    return fx ? torneoDeFecha(fx.competition, paso.date) : null;
-  })();
+  //
+  // Antes esto se recalculaba acá con fixturesAtStep(club, currentWeek): funcionaba mientras el
+  // partido de hoy viniera del calendario real, pero cuando el rival salía del motor sintético (con
+  // el calendario real ya agotado) esa cuenta podía apuntar a la fecha real de OTRO semestre y
+  // rotular mal el torneo. Ahora App.tsx, que ya sabe con certeza de dónde salió el partido de hoy,
+  // lo pasa hecho. Bug reportado: "la pagina del partido siempre debe decir cual competencia se
+  // juega, exactamente sin errores".
+  const torneoDelPartido = torneoLabel ?? null;
 
   // Multiplicador de dificultad combinado: fuerza del rival en la tabla (un rival mejor ubicado
   // achica tu ventana de éxito, uno peor ubicado la agranda; sin tabla comparable en copas/Mundial
@@ -1997,6 +2004,11 @@ export default function MatchSimulator({
                 ? `🏆 ${activeCupLabel} ${seasonYear}`
                 : `${getLeagueDisplay(currentClub.league, currentClub.division).flag} ${getLeagueDisplay(currentClub.league, currentClub.division).name}${torneoDelPartido ? ` · ${torneoDelPartido} ${seasonYear}` : ''}`}
             </span>
+            {globalScoreLabel && (
+              <span className="text-2xs font-bold text-white bg-burgundy-600 px-1.5 py-0.5 rounded mb-0.5 inline-block">
+                Global {globalScoreLabel}
+              </span>
+            )}
             <div className="flex items-center gap-2">
               <span className="font-mono text-2xs px-2 py-0.5 bg-slate-900 border border-slate-800 rounded font-bold whitespace-nowrap">
                 Minuto {minute}'
