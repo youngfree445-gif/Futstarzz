@@ -217,7 +217,9 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       worldCups: {}, // idem, cada 4 años, si tu selección clasificó
       injuriesEnabled,
       difficultyMode,
-      startedAsVeteran
+      startedAsVeteran,
+      activeInjury: null,
+      injuryHistory: []
     };
 
     onFinishSetup(newProfile);

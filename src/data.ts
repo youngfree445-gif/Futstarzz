@@ -15,7 +15,7 @@ const ALL_PLAYERS = rawPlayers as unknown as {
   team_name: string;
   team_id: number;
 }[];
-import { Club, PressQuestion, ShopItem, Achievement } from './types';
+import { Club, PressQuestion, ShopItem, Achievement, InjuryType } from './types';
 import { CLUB_EXTRAS } from './clubExtras';
 import mauSportsAvatar from './assets/mau_sports.jpg';
 import fabrizioRomanoAvatar from './assets/press/FABRIZZIO ROMANO.jpg';
@@ -5571,3 +5571,11 @@ export const REAL_LEAGUE_LEADERS: Record<string, LeagueLeaders> = {
 export const NATIONALITY_TO_WORLD_CUP_TEAM_ID: Record<string, string> = Object.fromEntries(
   WORLD_CUP_2026_TEAMS_SEED.filter(t => t.league).map(t => [t.league as string, t.id])
 );
+
+// Etiquetas legibles de cada tipo de lesión (ver INJURY_TYPES en App.tsx, mismo catálogo de ids).
+export const INJURY_LABELS: Record<InjuryType, string> = {
+  golpe: 'Golpe muscular leve',
+  muscular: 'Desgarro muscular',
+  ligamentos: 'Esguince de ligamentos',
+  fractura: 'Fractura',
+};

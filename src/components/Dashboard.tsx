@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS } from '../data';
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
@@ -249,6 +249,7 @@ interface DashboardProps {
   onGirlfriendMoveIn: (accept: boolean) => void;
   onPropose: () => void;
   onHaveChild: () => void;
+  onTreatInjury: (choice: 'fast' | 'natural') => void;
   onReconvertPosition: (newPosition: Position) => void;
   onBuyItem: (itemId: string) => void;
   onAcceptSponsor: (itemId: string) => void;
@@ -279,6 +280,7 @@ export default function Dashboard({
   onGirlfriendMoveIn,
   onPropose,
   onHaveChild,
+  onTreatInjury,
   onReconvertPosition,
   onBuyItem,
   onAcceptSponsor,
@@ -2548,18 +2550,62 @@ export default function Dashboard({
                   <button
                     onClick={temporadaRealTerminada ? onFinalizeSeason : onAdvanceWeek}
                     className={`btn-fx w-full py-3 px-6 rounded-2xl font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl cursor-pointer mt-4 ${
-                      temporadaRealTerminada
+                      playerProfile.activeInjury
+                        ? 'bg-gradient-to-br from-red-700 to-red-900 text-white'
+                        : temporadaRealTerminada
                         ? 'bg-gradient-to-br from-slate-600 to-slate-800 text-white'
                         : 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950'
                     }`}
                   >
-                    {temporadaRealTerminada
+                    {playerProfile.activeInjury
+                      ? `Recuperándose (${playerProfile.activeInjury.weeksRemaining} sem.)`
+                      : temporadaRealTerminada
                       ? 'Finalizar Temporada'
                       : nextWeekInWorldCupBreak && !nextMatchOpponent ? 'Pasar a Siguiente Fecha' : 'Disputar Partido'} <ArrowRight size={15} />
                   </button>
                 </div>
 
               </div>
+
+              {playerProfile.activeInjury && (
+                <div className="bg-slate-900 border border-red-900/40 rounded-3xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-red-400 mb-2 flex items-center gap-2">
+                    🩹 Lesionado
+                  </h3>
+                  <p className="text-2xs text-slate-400 leading-relaxed">
+                    {INJURY_LABELS[playerProfile.activeInjury.type]}. Te quedan{' '}
+                    <span className="text-white font-bold">{playerProfile.activeInjury.weeksRemaining} semana(s)</span>{' '}
+                    de recuperación antes de volver a jugar.
+                  </p>
+                  {playerProfile.activeInjury.treatmentChoice == null && (
+                    <div className="grid grid-cols-2 gap-2 mt-3">
+                      <button
+                        onClick={() => onTreatInjury('fast')}
+                        disabled={playerProfile.capital < 2000}
+                        className="btn-fx-subtle py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        💊 Tratamiento rápido ($2.000)
+                      </button>
+                      <button
+                        onClick={() => onTreatInjury('natural')}
+                        className="btn-fx-subtle py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
+                      >
+                        🛌 Recuperación natural
+                      </button>
+                    </div>
+                  )}
+                  {playerProfile.activeInjury.treatmentChoice === 'fast' && (
+                    <p className="text-3xs text-gold-400 font-mono uppercase mt-3">
+                      Tratamiento rápido en curso: menos tiempo afuera, pero riesgo de recaída si volvés a jugar apenas termine.
+                    </p>
+                  )}
+                  {playerProfile.activeInjury.treatmentChoice === 'natural' && (
+                    <p className="text-3xs text-slate-500 font-mono uppercase mt-3">
+                      Recuperación natural en curso, sin costo ni riesgo de recaída.
+                    </p>
+                  )}
+                </div>
+              )}
 
               {playerProfile.age >= 32 && (
                 <div className="bg-slate-900 border border-burgundy-900/40 rounded-3xl p-5 shadow-lg">

@@ -190,6 +190,26 @@ export interface PlayerProfile {
   // el rival más enfrentado en tu propia carrera es tu clásico de facto. Se actualiza en
   // handleFinishMatch. Opcional: las partidas viejas no lo tienen.
   headToHeadRecords?: Record<string, { rivalName: string; wins: number; draws: number; losses: number; lastMeetingWeek: number }>;
+  // Lesión activa ahora mismo, si injuriesEnabled es true. Mientras weeksRemaining > 0 el jugador no
+  // pisa la cancha: la semana se resuelve sola, sin pantalla de partido (mismo patrón que
+  // suspendedMatches, ver resolveSuspendedLeagueWeek/advanceSuspendedIdleWeek en App.tsx). null si
+  // no hay lesión en curso. Opcional: las partidas viejas no lo tienen.
+  activeInjury?: ActiveInjury | null;
+  // Lesiones ya superadas, para el historial del perfil (solo se muestra si injuriesEnabled).
+  // Opcional: las partidas viejas no lo tienen.
+  injuryHistory?: { type: InjuryType; weeksOut: number; week: number }[];
+}
+
+export type InjuryType = 'muscular' | 'ligamentos' | 'fractura' | 'golpe';
+
+export interface ActiveInjury {
+  type: InjuryType;
+  weeksRemaining: number;
+  startedWeek: number;
+  // 'fast' acorta la recuperación pagando capital pero deja riesgo de recaída si volvés a jugar
+  // antes de que termine igual; 'natural' no cuesta nada pero no acelera nada. Ver handleTreatInjury
+  // en App.tsx. undefined = todavía no elegiste tratamiento para esta lesión.
+  treatmentChoice?: 'fast' | 'natural';
 }
 
 /**

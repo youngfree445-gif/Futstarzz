@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle } from './types';
+import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle, InjuryType, ActiveInjury } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
   WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE
@@ -251,6 +251,23 @@ function checkAndUnlockAchievements(profile: PlayerProfile): { profile: PlayerPr
     newlyUnlocked
   };
 }
+
+// Lesiones (opt-in, ver injuriesEnabled en SetupScreen): catálogo chico de tipos con su rango de
+// semanas de recuperación. El roll de una lesión NUEVA vive inline en handleFinishMatch (solo se
+// juega un partido real ahí, no en las semanas sin partido). INJURY_BASE_CHANCE_PER_MATCH es la
+// probabilidad base por partido jugado; sube con matchesWithoutRest ya existente -- jugar
+// exhausto es lo que más pesa en el riesgo real.
+const INJURY_TYPES: { id: InjuryType; label: string; minWeeks: number; maxWeeks: number }[] = [
+  { id: 'golpe', label: 'Golpe muscular leve', minWeeks: 1, maxWeeks: 2 },
+  { id: 'muscular', label: 'Desgarro muscular', minWeeks: 2, maxWeeks: 5 },
+  { id: 'ligamentos', label: 'Esguince de ligamentos', minWeeks: 4, maxWeeks: 8 },
+  { id: 'fractura', label: 'Fractura', minWeeks: 8, maxWeeks: 16 },
+];
+const INJURY_BASE_CHANCE_PER_MATCH = 0.02;
+const INJURY_FATIGUE_CHANCE_BONUS = 0.015; // por cada partido seguido sin descanso (matchesWithoutRest)
+const INJURY_RELAPSE_CHANCE = 0.35; // chance de recaída si el tratamiento rápido te devuelve antes de tiempo
+const INJURY_FAST_TREATMENT_COST = 2000;
+const INJURY_FAST_TREATMENT_WEEKS_SAVED = 0.4; // recorta ~40% del tiempo de recuperación restante
 
 // Fase 3 -- Modo Veterano: a partir de esta edad el declive físico empieza a pesar más que las
 // mejoras de entrenamiento; a partir de esta otra, se te acaba la carrera (no hay club que te
@@ -772,6 +789,12 @@ export default function App() {
     // compañeros arranca igual a la relación con el DT que ya tenías, no en un valor fijo.
     if (profile.prestigeCompaneros === undefined) {
       profile = { ...profile, prestigeCompaneros: profile.prestige };
+    }
+    if (profile.activeInjury === undefined) {
+      profile = { ...profile, activeInjury: null };
+    }
+    if (profile.injuryHistory === undefined) {
+      profile = { ...profile, injuryHistory: [] };
     }
     // Compatibilidad con saves de antes del Bloque 4 (dorsal/altura en la creación de personaje):
     // les asignamos un valor razonable la primera vez que cargan, para no dejar campos undefined
@@ -1384,12 +1407,22 @@ export default function App() {
     // Mismo criterio para las copas continentales/UEFA de fondo (si clasificás a la del año nuevo).
     const cupsSync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
 
+    // Si veías el final del año lesionado, la baja sigue corriendo igual -- no se congela solo
+    // porque no había más partidos que jugar.
+    const activeInjuryAtClose = playerProfile.activeInjury;
+    const weeksRemainingAtClose = activeInjuryAtClose ? activeInjuryAtClose.weeksRemaining - 1 : 0;
+    const injuryDoneAtClose = !!activeInjuryAtClose && weeksRemainingAtClose <= 0;
+
     const aged = applySeasonTransitions({
       ...playerProfile,
       currentWeek: nextWeek,
       leagueSeasons: updatedLeagueSeasons,
       continentalCups: cupsSync.continentalCups,
       uefaCups: cupsSync.uefaCups,
+      activeInjury: !activeInjuryAtClose ? null : injuryDoneAtClose ? null : { ...activeInjuryAtClose, weeksRemaining: weeksRemainingAtClose },
+      injuryHistory: injuryDoneAtClose
+        ? [...(playerProfile.injuryHistory ?? []), { type: activeInjuryAtClose!.type, weeksOut: playerProfile.currentWeek - activeInjuryAtClose!.startedWeek + 1, week: nextWeek }]
+        : (playerProfile.injuryHistory ?? []),
     }, playerProfile.currentWeek, nextWeek);
     if (isPastRetirementAge(aged)) {
       resolveRetirementCheckpoint(aged);
@@ -1406,6 +1439,12 @@ export default function App() {
 
   const handleAdvanceWeek = () => {
     if (!playerProfile) return;
+
+    // Lesión activa: no hay decisión de jugar/descansar que tomar, la semana se resuelve sola.
+    if (playerProfile.activeInjury && playerProfile.activeInjury.weeksRemaining > 0) {
+      resolveInjuredWeek();
+      return;
+    }
 
     if (playerProfile.energy < 20) {
       if (!confirm('Tu nivel de fatiga física es alarmante (Energía < 20). ¿Deseas arriesgarte a saltar al campo?')) {
@@ -1504,6 +1543,13 @@ export default function App() {
 
   const startMatchflow = () => {
     if (!playerProfile) return;
+
+    // Lesión activa (ver activeInjury/injuriesEnabled): corta acá, antes de ramificar por tipo de
+    // partido -- una lesión no distingue si esta semana tocaba liga, copa o Mundial.
+    if (playerProfile.activeInjury && playerProfile.activeInjury.weeksRemaining > 0) {
+      resolveInjuredWeek();
+      return;
+    }
 
     // El Mundial ya NO comparte cupo con Libertadores/Champions cada 3 semanas -- ocupa su propio
     // bloque de 8 semanas SEGUIDAS (ver isWorldCupBreakWeek en leagueEngine.ts), como la fecha
@@ -2175,6 +2221,88 @@ export default function App() {
     notify(`🚫 Cumpliste tu sanción esta fecha. Sin ti en el campo, ${myClub.name} ${isHomeThisMatch ? myGoals : rivalGoals}-${isHomeThisMatch ? rivalGoals : myGoals} ${opponentClub.name}.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s) más de sanción.` : ''}`);
   };
 
+  // Elegir cómo tratar la lesión activa (ver DecisionCenter-style, pero puntual como girlfriend.*
+  // porque necesita tocar activeInjury.treatmentChoice, que no existe en el contrato genérico de
+  // efectos {prestige, fans, energy, capital}). 'fast' acorta la recuperación pagando capital, pero
+  // deja riesgo de recaída si volvés a jugar apenas termina (ver el roll en handleFinishMatch).
+  // 'natural' no cuesta nada y no tiene riesgo, solo no acelera nada.
+  const handleTreatInjury = (choice: 'fast' | 'natural') => {
+    if (!playerProfile?.activeInjury || playerProfile.activeInjury.treatmentChoice) return;
+    if (choice === 'fast' && playerProfile.capital < INJURY_FAST_TREATMENT_COST) {
+      notify('No tenés fondos suficientes para el tratamiento rápido.');
+      return;
+    }
+    const weeksRemaining = choice === 'fast'
+      ? Math.max(1, Math.round(playerProfile.activeInjury.weeksRemaining * (1 - INJURY_FAST_TREATMENT_WEEKS_SAVED)))
+      : playerProfile.activeInjury.weeksRemaining;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      capital: choice === 'fast' ? playerProfile.capital - INJURY_FAST_TREATMENT_COST : playerProfile.capital,
+      activeInjury: { ...playerProfile.activeInjury, weeksRemaining, treatmentChoice: choice },
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify(choice === 'fast'
+      ? `💊 Empezaste el tratamiento rápido: tu recuperación se acorta, pero hay riesgo de recaída si volvés a jugar apenas termine.`
+      : `🛌 Vas a recuperarte de forma natural, sin apuros ni riesgos.`);
+  };
+
+  // Semana con lesión activa (ver activeInjury/injuriesEnabled): a diferencia de la sanción, esto
+  // corta CUALQUIER tipo de semana (liga, copa nacional, continental, Mundial, fecha libre) -- una
+  // lesión no distingue de competencia. Tu club juega igual de fondo (simulado), vos solo avanzás
+  // la semana descontando weeksRemaining. Se llama desde el principio de startMatchflow, antes de
+  // ramificar por tipo de partido, y desde handleAdvanceWeek al descansar.
+  const resolveInjuredWeek = () => {
+    if (!playerProfile?.activeInjury) return;
+    const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+    const leagueKey = leagueKeyFor(myClub);
+    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const nextWeek = playerProfile.currentWeek + 1;
+
+    // Tu propia liga se pone al día igual que en advanceSuspendedIdleWeek; el resto de las ligas
+    // que ya visitaste (leagueSeasons) también sigue de fondo para no quedar desincronizadas.
+    const updatedLeagueSeasons = { ...playerProfile.leagueSeasons };
+    for (const key of Object.keys(updatedLeagueSeasons)) {
+      const otherLeagueClubs = key === leagueKey ? leagueClubs : CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+      if (otherLeagueClubs.length === 0) continue;
+      updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], nextWeek);
+    }
+    if (!updatedLeagueSeasons[leagueKey]) {
+      updatedLeagueSeasons[leagueKey] = getOrCreateSeasonForLeague(leagueClubs, undefined, nextWeek);
+    }
+
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
+    const sync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+
+    const weeksRemaining = playerProfile.activeInjury.weeksRemaining - 1;
+    const injuryDone = weeksRemaining <= 0;
+    const updated: PlayerProfile = {
+      ...playerProfile,
+      energy: Math.min(100, playerProfile.energy + 12),
+      capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
+      currentWeek: nextWeek,
+      matchesWithoutRest: 0,
+      activeInjury: injuryDone ? null : { ...playerProfile.activeInjury, weeksRemaining },
+      injuryHistory: injuryDone
+        ? [...(playerProfile.injuryHistory ?? []), { type: playerProfile.activeInjury.type, weeksOut: playerProfile.currentWeek - playerProfile.activeInjury.startedWeek + 1, week: nextWeek }]
+        : (playerProfile.injuryHistory ?? []),
+      leagueSeasons: updatedLeagueSeasons,
+      continentalCups: sync.continentalCups,
+      uefaCups: sync.uefaCups,
+    };
+
+    const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
+    if (isPastRetirementAge(aged)) {
+      resolveRetirementCheckpoint(aged);
+      return;
+    }
+    setPlayerProfile(aged);
+    saveGameState(aged, shopItems);
+    notify(injuryDone
+      ? `✅ Te recuperaste de tu lesión. Ya podés volver a jugar con ${myClub.name}.`
+      : `🩹 Seguís de baja. Te quedan ${weeksRemaining} semana(s) de recuperación.`);
+  };
+
   // Semana de sanción en la que tu club NO tiene partido de liga (fecha libre por zona impar, o el
   // fixture de la fecha ya agotado). No hay resultado que resolver, pero la semana tiene que correr
   // igual: se descuenta la fecha de sanción y las demás ligas y copas avanzan de fondo. Sin esto la
@@ -2767,6 +2895,34 @@ export default function App() {
       disciplineMessages.push(`📉 ${droppedNames.join(', ')} ${verb} contigo tras lo sucedido en el partido.`);
     }
 
+    // Lesiones: opt-in por SetupScreen (injuriesEnabled). Si está desactivado, este bloque entero
+    // se salta y el comportamiento es bit a bit igual al de antes de que existiera la feature.
+    let newActiveInjury: ActiveInjury | null = playerProfile.activeInjury ?? null;
+    let newInjuryHistory = playerProfile.injuryHistory ?? [];
+    let injuryMessage: string | null = null;
+    if (playerProfile.injuriesEnabled) {
+      // Si volviste a jugar con tratamiento rápido antes de que terminara la recuperación (ver
+      // handleTreatInjury), hay riesgo de recaída: la lesión se reinicia con una duración nueva.
+      if (newActiveInjury && newActiveInjury.weeksRemaining > 0 && newActiveInjury.treatmentChoice === 'fast') {
+        if (Math.random() < INJURY_RELAPSE_CHANCE) {
+          const tipo = INJURY_TYPES.find(t => t.id === newActiveInjury!.type)!;
+          const weeks = tipo.minWeeks + Math.floor(Math.random() * (tipo.maxWeeks - tipo.minWeeks + 1));
+          newActiveInjury = { type: tipo.id, weeksRemaining: weeks, startedWeek: playerProfile.currentWeek, treatmentChoice: undefined };
+          injuryMessage = `⚠️ Recaída: volviste antes de tiempo y la lesión (${tipo.label}) se reactivó. ${weeks} semana(s) más afuera.`;
+        }
+      } else if (!newActiveInjury) {
+        const difficultyMultiplier = playerProfile.difficultyMode === 'realista' ? 1.6 : 1;
+        const chance = (INJURY_BASE_CHANCE_PER_MATCH + playerProfile.matchesWithoutRest * INJURY_FATIGUE_CHANCE_BONUS) * difficultyMultiplier;
+        if (Math.random() < chance) {
+          const tipo = INJURY_TYPES[Math.floor(Math.random() * INJURY_TYPES.length)];
+          const weeks = tipo.minWeeks + Math.floor(Math.random() * (tipo.maxWeeks - tipo.minWeeks + 1));
+          newActiveInjury = { type: tipo.id, weeksRemaining: weeks, startedWeek: playerProfile.currentWeek };
+          injuryMessage = `🩹 Te lesionaste: ${tipo.label}. Vas a estar afuera ${weeks} semana(s).`;
+        }
+      }
+      if (injuryMessage) disciplineMessages.push(injuryMessage);
+    }
+
     // Trayectoria de carrera: solo partidos de CLUB (liga o copas de clubes) suman a la tabla de
     // temporadas, no los de la selección -- ver recordSeasonHistory.
     const updatedSeasonHistory = activeWorldCupTeamId
@@ -2814,6 +2970,8 @@ export default function App() {
       fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
       yellowCards: newYellowCards,
       suspendedMatches: newSuspendedMatches,
+      activeInjury: newActiveInjury,
+      injuryHistory: newInjuryHistory,
       seasonHistory: updatedSeasonHistory,
       headToHeadRecords: updatedHeadToHead,
       domesticCups: updatedDomesticCups,
@@ -3098,6 +3256,7 @@ export default function App() {
           onGirlfriendMoveIn={handleGirlfriendMoveIn}
           onPropose={handlePropose}
           onHaveChild={handleHaveChild}
+          onTreatInjury={handleTreatInjury}
           onReconvertPosition={handleReconvertPosition}
           onBuyItem={handleBuyItem}
           onAcceptSponsor={handleAcceptSponsor}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PlayerProfile } from '../types';
-import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, INJURY_LABELS } from '../data';
 import { Trophy, ArrowRight, Star, IdCard } from 'lucide-react';
 import SeasonComparisonChart from './SeasonComparisonChart';
 import CareerCard from './CareerCard';
@@ -117,6 +117,24 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
               </p>
             )}
           </div>
+
+          {/* Solo aparece si el jugador activó lesiones en la creación de personaje -- si las
+              desactivó, esta sección no se muestra ni se menciona. */}
+          {playerProfile.injuriesEnabled && (playerProfile.injuryHistory ?? []).length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2">
+                🩹 Historial de lesiones
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {(playerProfile.injuryHistory ?? []).map((inj, i) => (
+                  <div key={i} className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <span className="text-3xs text-slate-500 block font-mono uppercase">{INJURY_LABELS[inj.type]}</span>
+                    <span className="text-sm font-black text-white">{inj.weeksOut} sem.</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <SeasonComparisonChart seasonHistory={playerProfile.seasonHistory} />
 
