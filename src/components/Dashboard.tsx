@@ -28,7 +28,7 @@ import {
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
-  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock
+  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 import { fetchReactionGif, searchReactionGifs } from '../services/giphy';
@@ -2154,13 +2154,29 @@ export default function Dashboard({
               <Star size={14} className="text-yellow-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
-                  <span>Prestigio</span>
+                  <span>Relación DT</span>
                   <span className="text-white">{playerProfile.prestige}/100</span>
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
-                  <div 
+                  <div
                     className="bg-yellow-500 h-full rounded-full"
                     style={{ width: `${playerProfile.prestige}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+              <Users size={14} className="text-sky-400" />
+              <div>
+                <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
+                  <span>Compañeros</span>
+                  <span className="text-white">{playerProfile.prestigeCompaneros ?? playerProfile.prestige}/100</span>
+                </div>
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                  <div
+                    className="bg-sky-500 h-full rounded-full"
+                    style={{ width: `${playerProfile.prestigeCompaneros ?? playerProfile.prestige}%` }}
                   />
                 </div>
               </div>

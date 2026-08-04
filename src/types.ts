@@ -101,8 +101,12 @@ export interface PlayerProfile {
   heightCm: number; // altura en cm, elegida en la creación del personaje -- puramente informativo/de perfil por ahora
   energy: number;
   capital: number;
-  prestige: number; // 0-100 (Relación vestuario / DT)
+  prestige: number; // 0-100 (Relación con el DT)
   fans: number;     // 0-100 (Relación hinchada / opinión pública)
+  // 0-100 (Relación con los compañeros de plantel), separada de prestige (DT) para que un evento de
+  // vestuario no se confunda con uno de cuerpo técnico. Opcional: las partidas viejas no lo tienen --
+  // se migra en handleLoadGame copiando el valor de prestige, no con un valor fijo.
+  prestigeCompaneros?: number;
   mentalHealth: number; // 0-100 (Fase 3): baja con derrotas/prensa hostil/rachas negativas, sube con victorias/descanso/buena prensa; afecta el % de éxito de las decisiones del partido igual que el resto de los multiplicadores
   lastMatchRating: number; // Fase 3: calificación del último partido jugado (0 si todavía no jugaste ninguno) -- dispara el post de "saludo de famoso" en ChutSocial si es muy alta
   lastMatchGoals: number; // Fase 4: goles del último partido jugado -- usado para logros puntuales (ej. hat-trick), no se acumula, se pisa cada partido
@@ -161,6 +165,18 @@ export interface PlayerProfile {
     descienden: { clubId: string; clubName: string; promedio: number }[];
     ascienden: { clubId: string; clubName: string }[];
   };
+  // Modos elegidos en la creación del personaje, todos opcionales: las partidas viejas no los
+  // tienen y deben comportarse como si estuvieran desactivados (el juego "clásico" de siempre).
+  //
+  // Lesiones activadas por el propio jugador, con la advertencia ya mostrada y aceptada en
+  // SetupScreen. Sin esto activo, el juego nunca genera una lesión.
+  injuriesEnabled?: boolean;
+  // Modo difícil/realista: energía que baja más rápido, prensa más exigente, y (si injuriesEnabled
+  // también está activo) lesiones más frecuentes.
+  difficultyMode?: 'normal' | 'realista';
+  // Carrera arrancada en "modo veterano": el jugador empieza consagrado (30-35 años, titular
+  // directo) en vez de como juvenil. Se usa como excepción en la curva de decaimiento por edad.
+  startedAsVeteran?: boolean;
 }
 
 /**

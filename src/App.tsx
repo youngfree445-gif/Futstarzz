@@ -378,9 +378,12 @@ function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number
   // apadrinando al mismo jugador cuando ya tiene 30. El roll de esta temporada igual se aplica.
   const seguiaSiendoJoven = getSquadPlayerAge(profile.currentClubId, profile.mentorshipPlayerName, getSeasonYear(newWeek) - CAREER_START_YEAR) < MENTEE_MAX_AGE;
 
+  // La mentoría es un vínculo con un compañero de plantel, no con el cuerpo técnico -- golpea la
+  // barra de compañeros, no la de prestige (DT).
+  const prestigeCompanerosActual = profile.prestigeCompaneros ?? profile.prestige;
   return {
     ...profile,
-    prestige: Math.max(0, Math.min(100, profile.prestige + prestigeChange)),
+    prestigeCompaneros: Math.max(0, Math.min(100, prestigeCompanerosActual + prestigeChange)),
     mentorshipPlayerName: seguiaSiendoJoven ? profile.mentorshipPlayerName : null,
   };
 }
@@ -759,6 +762,11 @@ export default function App() {
     }
     if (profile.mentalHealth === undefined) {
       profile = { ...profile, mentalHealth: 70 };
+    }
+    // Compatibilidad con saves de antes del split de prestige en 3 barras: la relación con
+    // compañeros arranca igual a la relación con el DT que ya tenías, no en un valor fijo.
+    if (profile.prestigeCompaneros === undefined) {
+      profile = { ...profile, prestigeCompaneros: profile.prestige };
     }
     // Compatibilidad con saves de antes del Bloque 4 (dorsal/altura en la creación de personaje):
     // les asignamos un valor razonable la primera vez que cargan, para no dejar campos undefined
@@ -1255,11 +1263,16 @@ export default function App() {
     const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
     const season = getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
 
+    // Llegás a un plantel y a un cuerpo técnico que no te conocen: hay que ganarse el lugar de
+    // nuevo con el DT y con los compañeros. La hinchada nueva no sufre el mismo golpe porque nunca
+    // tuvo nada tuyo que perder.
+    const prestigeCompanerosActual = playerProfile.prestigeCompaneros ?? playerProfile.prestige;
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       currentClubId: clubId,
       capital: playerProfile.capital + signOnBonus,
       prestige: Math.round(playerProfile.prestige * 0.9),
+      prestigeCompaneros: Math.round(prestigeCompanerosActual * 0.9),
       yearsAtClub: 0,
       appearanceBonus: Math.round(targetClub.initialSalary * 0.15),
       leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season }
@@ -2853,12 +2866,14 @@ export default function App() {
       if (stepDownClub && confirm(
         `Seguís. Pero a los ${profile.age} en ${clubName} vas a pelear cada minuto.\n\n¿Querés bajar a ${stepDownClub.name}, donde vas a jugar seguido aunque haya menos luces?\n\nAceptar = bajo de categoría    ·    Cancelar = me quedo`
       )) {
+        const prestigeCompanerosAlBajar = profile.prestigeCompaneros ?? profile.prestige;
         const steppedDown: PlayerProfile = {
           ...profile,
           currentClubId: stepDownClub.id,
           hasSteppedDownRetirement: true,
           marketValue: Math.max(50000, Math.round(profile.marketValue * STEP_DOWN_MARKET_VALUE_MULTIPLIER)),
-          prestige: Math.round(profile.prestige * STEP_DOWN_PRESTIGE_MULTIPLIER)
+          prestige: Math.round(profile.prestige * STEP_DOWN_PRESTIGE_MULTIPLIER),
+          prestigeCompaneros: Math.round(prestigeCompanerosAlBajar * STEP_DOWN_PRESTIGE_MULTIPLIER)
         };
         setPlayerProfile(steppedDown);
         setShopItems(updatedShopItems);

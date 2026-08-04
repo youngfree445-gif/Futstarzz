@@ -65,6 +65,11 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
   const [selectedClubId, setSelectedClubId] = useState('');
   const [selectedDivision, setSelectedDivision] = useState<'all' | 1 | 2>('all');
   const [superstition, setSuperstition] = useState<Superstition>('botin_derecho');
+  // Modos opcionales de carrera, elegidos una sola vez acá. Ninguno tiene efecto por sí solo en
+  // este componente: solo viajan en el perfil para que App.tsx los consulte durante la carrera.
+  const [injuriesEnabled, setInjuriesEnabled] = useState(false);
+  const [difficultyMode, setDifficultyMode] = useState<'normal' | 'realista'>('normal');
+  const [startedAsVeteran, setStartedAsVeteran] = useState(false);
   const [dorsal, setDorsal] = useState(10);
   const [heightCm, setHeightCm] = useState(180);
   // Espejo en texto de los dos campos numéricos: permite dejarlos vacíos mientras se escribe. El
@@ -72,12 +77,18 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
   const [dorsalText, setDorsalText] = useState('10');
   const [heightText, setHeightText] = useState('180');
 
-  // Los clubes se filtran por la LIGA elegida, no por la nacionalidad: son independientes.
+  // En modo veterano restringimos a clubes de reputación media: la narrativa es "llegás consagrado
+  // pero no directo a un gigante europeo", no "arrancás en el mejor club del mundo de entrada".
+  const VETERAN_MODE_MAX_REPUTATION = 3.5;
+
+  // Los clubes se filtran por la LIGA elegida, no por la nacionalidad: son independientes. En modo
+  // veterano además se acota a reputación media.
   const filteredClubs = CLUBS_DATABASE.filter(c => {
     const matchLeague = c.league === leagueOrigin;
     if (!matchLeague) return false;
-    if (selectedDivision === 'all') return true;
-    return c.division === selectedDivision;
+    if (selectedDivision !== 'all' && c.division !== selectedDivision) return false;
+    if (startedAsVeteran && c.reputation > VETERAN_MODE_MAX_REPUTATION) return false;
+    return true;
   });
 
   useEffect(() => {
@@ -91,12 +102,18 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
         setSelectedClubId(fallbackClubs[0].id);
       }
     }
-  }, [leagueOrigin, selectedDivision]);
+  }, [leagueOrigin, selectedDivision, startedAsVeteran]);
 
   // Espejo liga -> nacionalidad hasta que el jugador la elija explícitamente.
   useEffect(() => {
     if (!nationalityTouched) setNationality(leagueOrigin);
   }, [leagueOrigin, nationalityTouched]);
+
+  // Modo veterano: al activarlo, forzar la edad al rango consagrado (30-35) si no estaba ya ahí. Al
+  // desactivarlo no se toca la edad -- puede que el jugador la haya dejado en ese rango a propósito.
+  useEffect(() => {
+    if (startedAsVeteran && age < 30) setAge(32);
+  }, [startedAsVeteran]);
 
   const currentClub = CLUBS_DATABASE.find(c => c.id === selectedClubId);
 
@@ -155,7 +172,8 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       heightCm: finalHeight,
       energy: 100,
       capital: 0, // starts with no capital, relies on weekly wage
-      prestige: 50, // default locker room prestige
+      prestige: 50, // relación inicial con el DT
+      prestigeCompaneros: 50, // relación inicial con los compañeros de plantel
       fans: 35,     // default fan connection
       mentalHealth: 70, // arrancás con la cabeza fresca
       lastMatchRating: 0,
@@ -196,7 +214,10 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       leagueSeasons: {}, // App.tsx (handleFinishSetup) genera la temporada real antes de guardar
       continentalCups: {}, // se generan de forma perezosa la primera vez que clasificás a alguna
       uefaCups: {}, // idem, Champions/Europa League
-      worldCups: {} // idem, cada 4 años, si tu selección clasificó
+      worldCups: {}, // idem, cada 4 años, si tu selección clasificó
+      injuriesEnabled,
+      difficultyMode,
+      startedAsVeteran
     };
 
     onFinishSetup(newProfile);
@@ -419,6 +440,116 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                     </button>
                   ))}
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
+                  Modo veterano
+                </label>
+                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
+                  Empezás la carrera ya consagrado: 30 a 35 años, titular desde el primer partido en
+                  un club de nivel medio. Salteás los años de juvenil y suplente, pero el declive
+                  físico por edad te va a alcanzar antes que a un jugador que arrancó joven.
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setStartedAsVeteran(false)}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      !startedAsVeteran
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Carrera normal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStartedAsVeteran(true)}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      startedAsVeteran
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Modo veterano
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
+                  Dificultad
+                </label>
+                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
+                  En modo realista la energía baja más rápido y la prensa es más exigente con vos.
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setDifficultyMode('normal')}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      difficultyMode === 'normal'
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Normal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDifficultyMode('realista')}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      difficultyMode === 'realista'
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Realista
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
+                  Lesiones
+                </label>
+                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
+                  Si las activás, vas a poder lesionarte de verdad: partidos que te vas a perder
+                  mientras te recuperás, con riesgo de recaída si volvés antes de tiempo. Es opcional
+                  y queda fijo para toda la carrera.
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setInjuriesEnabled(false)}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      !injuriesEnabled
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Sin lesiones
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setInjuriesEnabled(true)}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      injuriesEnabled
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Con lesiones
+                  </button>
+                </div>
+                {injuriesEnabled && (
+                  <p className="text-3xs text-gold-400 mt-2 leading-relaxed bg-gold-950/20 border border-gold-500/20 rounded-lg p-2">
+                    Confirmado: esta carrera va a tener lesiones reales. Vas a perderte partidos
+                    mientras estés lesionado y las decisiones de tratamiento van a afectar cuánto
+                    tiempo estás afuera.
+                  </p>
+                )}
               </div>
             </div>
 
