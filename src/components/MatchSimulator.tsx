@@ -1861,7 +1861,11 @@ export default function MatchSimulator({
     const statDiff = playerAttrValue - choice.minVal;
     const statBonus = statDiff >= 0 ? statDiff * 0.014 : statDiff * 0.007;
     const randomNoise = (Math.random() - 0.5) * 0.06;
-    const adjustedChance = Math.max(0.15, Math.min(0.88, (choice.successChance + statBonus) * pressureMultiplier + randomNoise));
+    // Modo Superestrella: margen chico y parejo en TODAS las decisiones, no solo en las que ya
+    // dominás -- refleja que "ya tenés algo" sin volver la jugada trivial (el techo de 0.88 sigue
+    // siendo el mismo límite superior).
+    const starModeBonus = playerProfile.starModeEnabled ? 0.05 : 0;
+    const adjustedChance = Math.max(0.15, Math.min(0.88, (choice.successChance + statBonus + starModeBonus) * pressureMultiplier + randomNoise));
 
     const isSuccess = Math.random() < adjustedChance;
 

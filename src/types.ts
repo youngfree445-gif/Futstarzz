@@ -181,6 +181,11 @@ export interface PlayerProfile {
   // Carrera arrancada en "modo veterano": el jugador empieza consagrado (30-35 años, titular
   // directo) en vez de como juvenil. Se usa como excepción en la curva de decaimiento por edad.
   startedAsVeteran?: boolean;
+  // Modo Superestrella: independiente de startedAsVeteran/de la edad. Empezás titular con prestige
+  // alto (ver SetupScreen) y un empujón chico y parejo en los 6 atributos -- seguís necesitando
+  // entrenar para crecer, no arrancás con una carrera hecha. Opcional: las partidas viejas no lo
+  // tienen.
+  starModeEnabled?: boolean;
   // Dorsales usados club a club, para narrar "en tu club anterior usabas el 10". Se agrega una
   // entrada por cada traspaso (ver handleAcceptTransfer), no incluye el club actual. Opcional: las
   // partidas viejas no lo tienen.

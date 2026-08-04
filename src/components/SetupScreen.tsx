@@ -70,6 +70,9 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
   const [injuriesEnabled, setInjuriesEnabled] = useState(false);
   const [difficultyMode, setDifficultyMode] = useState<'normal' | 'realista'>('normal');
   const [startedAsVeteran, setStartedAsVeteran] = useState(false);
+  // Modo Superestrella: arrancás titular con prestige alto, no por edad (independiente del modo
+  // veterano) -- ver más abajo dónde se aplica el bonus chico de atributos.
+  const [starModeEnabled, setStarModeEnabled] = useState(false);
   const [dorsal, setDorsal] = useState(10);
   const [heightCm, setHeightCm] = useState(180);
   // Espejo en texto de los dos campos numéricos: permite dejarlos vacíos mientras se escribe. El
@@ -117,10 +120,16 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
 
   const currentClub = CLUBS_DATABASE.find(c => c.id === selectedClubId);
 
+  // Modo Superestrella: bonus chico y parejo a los 6 atributos, mucho más suave que el bonus por
+  // edad del modo veterano (+16/+6) -- refleja que ya tenés talento pero seguís siendo joven, no
+  // que llegás consagrado. Se suma DESPUÉS del bonus por edad, así que ambos modos se pueden
+  // combinar sin pisarse (aunque narrativamente no tiene mucho sentido combinarlos).
+  const STAR_MODE_ATTR_BONUS = 6;
+
   // Fase 3 -- Modo Veterano: arrancar con 32-35 años da atributos de jugador consagrado (+16 en
   // todos los rubros salvo físico, que solo sube +6 -- ya perdió un poco de piernas frente al
   // "Juvenil", es la contrapartida de arrancar con el resto de los atributos a nivel de estrella).
-  const getInitialAttributes = (pos: Position, playerAge: number): PlayerStats => {
+  const getInitialAttributes = (pos: Position, playerAge: number, starMode: boolean): PlayerStats => {
     const base = (() => {
       switch (pos) {
         case 'Delantero':
@@ -133,14 +142,22 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
           return { ritmo: 38, regate: 20, tiro: 12, defensa: 68, pase: 42, fisico: 56 };
       }
     })();
-    if (playerAge < 30) return base;
-    return {
+    const withAge = playerAge < 30 ? base : {
       ritmo: Math.min(99, base.ritmo + 16),
       regate: Math.min(99, base.regate + 16),
       tiro: Math.min(99, base.tiro + 16),
       defensa: Math.min(99, base.defensa + 16),
       pase: Math.min(99, base.pase + 16),
       fisico: Math.min(99, base.fisico + 6)
+    };
+    if (!starMode) return withAge;
+    return {
+      ritmo: Math.min(99, withAge.ritmo + STAR_MODE_ATTR_BONUS),
+      regate: Math.min(99, withAge.regate + STAR_MODE_ATTR_BONUS),
+      tiro: Math.min(99, withAge.tiro + STAR_MODE_ATTR_BONUS),
+      defensa: Math.min(99, withAge.defensa + STAR_MODE_ATTR_BONUS),
+      pase: Math.min(99, withAge.pase + STAR_MODE_ATTR_BONUS),
+      fisico: Math.min(99, withAge.fisico + STAR_MODE_ATTR_BONUS)
     };
   };
 
@@ -156,7 +173,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       return;
     }
 
-    const defaultAttributes = getInitialAttributes(position, age);
+    const defaultAttributes = getInitialAttributes(position, age, starModeEnabled);
 
     // Se re-valida desde el texto: si el jugador toca "Empezar" con el campo todavía enfocado, el
     // onBlur del input nunca corrió y `dorsal`/`heightCm` estarían con el valor anterior.
@@ -172,9 +189,11 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       heightCm: finalHeight,
       energy: 100,
       capital: 0, // starts with no capital, relies on weekly wage
-      prestige: 50, // relación inicial con el DT
-      prestigeCompaneros: 50, // relación inicial con los compañeros de plantel
-      fans: 35,     // default fan connection
+      // Modo Superestrella: prestige/relación con el DT alta de entrada, es la pieza central del
+      // modo (titular garantizado, ver decideLineupStatus en App.tsx que ya lee prestige para eso).
+      prestige: starModeEnabled ? 78 : 50,
+      prestigeCompaneros: starModeEnabled ? 65 : 50,
+      fans: starModeEnabled ? 55 : 35,
       mentalHealth: 70, // arrancás con la cabeza fresca
       lastMatchRating: 0,
       lastMatchGoals: 0,
@@ -218,6 +237,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       injuriesEnabled,
       difficultyMode,
       startedAsVeteran,
+      starModeEnabled,
       activeInjury: null,
       injuryHistory: [],
       agent: null,
@@ -484,6 +504,41 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
 
               <div>
                 <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
+                  Modo Superestrella
+                </label>
+                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
+                  Llegás como la gran promesa: titular indiscutido desde la semana 1 y con la relación
+                  con el DT ya alta, sin depender de tu edad. Arrancás con un empujón chico en tus
+                  atributos, pero igual tenés que seguir mejorando -- no te regala una carrera hecha.
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setStarModeEnabled(false)}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      !starModeEnabled
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Carrera normal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStarModeEnabled(true)}
+                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      starModeEnabled
+                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    Superestrella
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
                   Dificultad
                 </label>
                 <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
@@ -561,11 +616,11 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
             {/* Position Attribute preview card */}
             <div className="border border-slate-800/80 bg-slate-950/20 rounded-2xl p-5">
               <h4 className="text-2xs uppercase text-slate-400 font-black tracking-widest gap-2 flex items-center mb-3">
-                <Shield size={13} className="text-gold-400" /> Atributos de Partida ({position}{age >= 30 ? ' · Veterano' : ''})
+                <Shield size={13} className="text-gold-400" /> Atributos de Partida ({position}{age >= 30 ? ' · Veterano' : ''}{starModeEnabled ? ' · Superestrella' : ''})
               </h4>
 
               <div className="grid grid-cols-2 gap-3">
-                {Object.entries(getInitialAttributes(position, age)).map(([key, val]) => (
+                {Object.entries(getInitialAttributes(position, age, starModeEnabled)).map(([key, val]) => (
                   <div key={key} className="flex flex-col">
                     <div className="flex justify-between text-2xs text-slate-400 uppercase font-mono">
                       <span>{key}</span>

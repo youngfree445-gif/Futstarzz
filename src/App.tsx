@@ -1815,7 +1815,10 @@ export default function App() {
   // con el DT tiene chance real de arrancar en el banco o directamente quedar afuera de la lista,
   // igual que en la vida real (las jóvenes promesas de clubes top rotan menos que en clubes chicos).
   // reputation va de 1 (chico) a 5 (élite mundial); prestige va de 0 a 100.
-  function decideLineupStatus(reputation: number, prestige: number): 'starter' | 'substitute' | 'not_called' {
+  function decideLineupStatus(reputation: number, prestige: number, starMode?: boolean): 'starter' | 'substitute' | 'not_called' {
+    // Modo Superestrella: titular garantizado, sin importar el umbral de la reputation del club --
+    // es la promesa central del modo (ver SetupScreen).
+    if (starMode) return 'starter';
     // Umbral de prestige que un club de esa reputation exige para considerarte titular indiscutido.
     const starterThreshold = 25 + reputation * 11; // ~36 (reputation 1) a ~80 (reputation 5)
     const notCalledThreshold = Math.max(0, reputation * 7 - 15); // 0 (reputation <=2) a 20 (reputation 5)
@@ -2414,7 +2417,7 @@ export default function App() {
     // arriba), así que si estás ahí siempre arrancás titular.
     if (!foundWorldCupTeamId && opClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige);
+      const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige, playerProfile.starModeEnabled);
 
       if (lineupStatus === 'not_called') {
         const { homeGoals, awayGoals } = isHomeThisMatch ? simulateMatch(myClub, CLUBS_DATABASE.find(c => c.id === opClubId) || myClub) : simulateMatch(CLUBS_DATABASE.find(c => c.id === opClubId) || myClub, myClub);
