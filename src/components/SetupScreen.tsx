@@ -414,33 +414,6 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                 </div>
               </div>
 
-              <div>
-                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2 flex items-center gap-1.5">
-                  <Flag size={11} className="text-gold-400 shrink-0" />
-                  Nacionalidad
-                </label>
-                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 max-h-40 overflow-y-auto p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
-                  {COUNTRIES.map(nat => (
-                    <button
-                      key={nat.key}
-                      type="button"
-                      onClick={() => { setNationality(nat.key); setNationalityTouched(true); }}
-                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
-                        nationality === nat.key
-                          ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                          : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                      }`}
-                    >
-                      <span className="text-sm block mb-0.5">{nat.flag}</span>
-                      <span className="truncate max-w-[65px]">{nat.label}</span>
-                    </button>
-                  ))}
-                </div>
-                <p className="text-4xs text-slate-500 leading-relaxed mt-1.5">
-                  Define a qué selección te pueden convocar. Podés jugar en una liga y tener otra
-                  nacionalidad{nationality !== leagueOrigin ? ' — como ahora' : ''}.
-                </p>
-              </div>
 
               <div>
                 <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
@@ -760,6 +733,38 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   </p>
                 </div>
               )}
+
+              {/* Nacionalidad vive acá, no en el panel izquierdo -- este panel tenía espacio de
+                  sobra debajo de la tarjeta de contrato, mientras la columna izquierda se volvía
+                  un scroll interminable. Es un campo independiente de la liga (columna izquierda),
+                  así que no pierde sentido estar separado visualmente. */}
+              <div>
+                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2 flex items-center gap-1.5">
+                  <Flag size={11} className="text-gold-400 shrink-0" />
+                  Nacionalidad
+                </label>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 max-h-40 overflow-y-auto p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
+                  {COUNTRIES.map(nat => (
+                    <button
+                      key={nat.key}
+                      type="button"
+                      onClick={() => { setNationality(nat.key); setNationalityTouched(true); }}
+                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
+                        nationality === nat.key
+                          ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                          : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                      }`}
+                    >
+                      <span className="text-sm block mb-0.5">{nat.flag}</span>
+                      <span className="truncate max-w-[65px]">{nat.label}</span>
+                    </button>
+                  ))}
+                </div>
+                <p className="text-4xs text-slate-500 leading-relaxed mt-1.5">
+                  Define a qué selección te pueden convocar. Podés jugar en una liga y tener otra
+                  nacionalidad{nationality !== leagueOrigin ? ' — como ahora' : ''}.
+                </p>
+              </div>
             </div>
 
             <button
