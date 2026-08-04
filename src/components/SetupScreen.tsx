@@ -467,141 +467,138 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                 </div>
               </div>
 
+              {/* Los 4 modos opcionales de carrera, uno al lado del otro en vez de apilados a ancho
+                  completo -- con 4 bloques de label+descripción+2 botones en columna, el formulario
+                  se volvía un scroll interminable. Cada tarjeta mantiene el mismo patrón de botones
+                  (normal/activo), solo compactado. */}
               <div>
                 <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
-                  Modo veterano
+                  Modos de carrera
                 </label>
-                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
-                  Empezás la carrera ya consagrado: 30 a 35 años, titular desde el primer partido en
-                  un club de nivel medio. Salteás los años de juvenil y suplente, pero el declive
-                  físico por edad te va a alcanzar antes que a un jugador que arrancó joven.
-                </p>
-                <div className="grid grid-cols-2 gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setStartedAsVeteran(false)}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      !startedAsVeteran
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Carrera normal
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setStartedAsVeteran(true)}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      startedAsVeteran
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Modo veterano
-                  </button>
-                </div>
-              </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-2.5 rounded-xl border border-slate-800 bg-slate-950/40">
+                    <p className="text-2xs font-bold text-white mb-1">Modo veterano</p>
+                    <p className="text-3xs text-slate-500 mb-2 leading-snug">
+                      30-35 años, titular desde el arranque en un club de nivel medio, con declive físico más temprano.
+                    </p>
+                    <div className="grid grid-cols-2 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setStartedAsVeteran(false)}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          !startedAsVeteran
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Normal
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStartedAsVeteran(true)}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          startedAsVeteran
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Veterano
+                      </button>
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
-                  Modo Superestrella
-                </label>
-                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
-                  Llegás como la gran promesa: titular indiscutido desde la semana 1 y con la relación
-                  con el DT ya alta, sin depender de tu edad. Arrancás con un empujón chico en tus
-                  atributos, pero igual tenés que seguir mejorando -- no te regala una carrera hecha.
-                </p>
-                <div className="grid grid-cols-2 gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setStarModeEnabled(false)}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      !starModeEnabled
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Carrera normal
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setStarModeEnabled(true)}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      starModeEnabled
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Superestrella
-                  </button>
-                </div>
-              </div>
+                  <div className="p-2.5 rounded-xl border border-slate-800 bg-slate-950/40">
+                    <p className="text-2xs font-bold text-white mb-1">Modo Superestrella</p>
+                    <p className="text-3xs text-slate-500 mb-2 leading-snug">
+                      Titular indiscutido y relación con el DT alta desde ya, con un empujón chico en atributos.
+                    </p>
+                    <div className="grid grid-cols-2 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setStarModeEnabled(false)}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          !starModeEnabled
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Normal
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStarModeEnabled(true)}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          starModeEnabled
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Estrella
+                      </button>
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
-                  Dificultad
-                </label>
-                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
-                  En modo realista la energía baja más rápido y la prensa es más exigente con vos.
-                </p>
-                <div className="grid grid-cols-2 gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setDifficultyMode('normal')}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      difficultyMode === 'normal'
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Normal
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setDifficultyMode('realista')}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      difficultyMode === 'realista'
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Realista
-                  </button>
-                </div>
-              </div>
+                  <div className="p-2.5 rounded-xl border border-slate-800 bg-slate-950/40">
+                    <p className="text-2xs font-bold text-white mb-1">Dificultad</p>
+                    <p className="text-3xs text-slate-500 mb-2 leading-snug">
+                      En modo realista la energía baja más rápido y la prensa es más exigente.
+                    </p>
+                    <div className="grid grid-cols-2 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setDifficultyMode('normal')}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          difficultyMode === 'normal'
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Normal
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDifficultyMode('realista')}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          difficultyMode === 'realista'
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Realista
+                      </button>
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-2xs uppercase text-slate-400 font-bold mb-2">
-                  Lesiones
-                </label>
-                <p className="text-3xs text-slate-500 mb-2 leading-relaxed">
-                  Si las activás, vas a poder lesionarte de verdad: partidos que te vas a perder
-                  mientras te recuperás, con riesgo de recaída si volvés antes de tiempo. Es opcional
-                  y queda fijo para toda la carrera.
-                </p>
-                <div className="grid grid-cols-2 gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setInjuriesEnabled(false)}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      !injuriesEnabled
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Sin lesiones
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setInjuriesEnabled(true)}
-                    className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
-                      injuriesEnabled
-                        ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                        : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    Con lesiones
-                  </button>
+                  <div className="p-2.5 rounded-xl border border-slate-800 bg-slate-950/40">
+                    <p className="text-2xs font-bold text-white mb-1">Lesiones</p>
+                    <p className="text-3xs text-slate-500 mb-2 leading-snug">
+                      Si las activás, vas a poder lesionarte de verdad y perderte partidos mientras te recuperás.
+                    </p>
+                    <div className="grid grid-cols-2 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setInjuriesEnabled(false)}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          !injuriesEnabled
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Sin
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setInjuriesEnabled(true)}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          injuriesEnabled
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Con
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 {injuriesEnabled && (
                   <p className="text-3xs text-gold-400 mt-2 leading-relaxed bg-gold-950/20 border border-gold-500/20 rounded-lg p-2">
