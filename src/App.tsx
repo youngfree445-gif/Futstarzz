@@ -7,6 +7,7 @@ import {
 } from './data';
 import { applyClubTheme } from './clubTheme';
 import { refreshTransferOffersIfNeeded } from './transferMarket';
+import { generateWorldRanking } from './worldRanking';
 import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
@@ -37,6 +38,7 @@ import MusicPlayer from './components/MusicPlayer';
 import ChampionOverlay, { type ChampionInfo } from './components/ChampionOverlay';
 import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOverlay';
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
+import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
@@ -605,6 +607,25 @@ function applyPromotionRelegationIfNewSeason(
   return { ...profile, historialAnual: historial, divisionOverrides: overrides, ultimoAscensoDescenso: ultimo ?? profile.ultimoAscensoDescenso };
 }
 
+// Balón de Oro anual: usa el mismo pool de candidatos que el ranking mundial (generateWorldRanking)
+// para que compartan criterio -- no duplica la lógica de "quién es una estrella del mundo". El
+// jugador entra al ranking con su propio score; su posición ahí decide rank/winnerName acá.
+const BALLON_DOR_MIN_MATCHES = 20; // sin trayectoria mínima ese año, no hay ceremonia que narrar
+
+function applyBallonDorIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (profile.careerStats.partidosHistoricos < BALLON_DOR_MIN_MATCHES) return profile;
+
+  const ranking = generateWorldRanking(profile, CLUBS_DATABASE, previousWeek);
+  const myRankIdx = ranking.findIndex(e => e.isPlayer);
+  const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
+  const winner = ranking.find(e => !e.isPlayer) ?? ranking[0];
+
+  const anioCerrado = CAREER_START_YEAR + getSeasonYear(previousWeek) - 1;
+  const entry = { year: anioCerrado, rank, winnerName: rank === 1 ? profile.name : winner.name };
+  return { ...profile, ballonDorHistory: [...(profile.ballonDorHistory ?? []), entry] };
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   let next = freezeSeasonLeadersIfNewSeason(profile, previousWeek, newWeek);
   next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
@@ -615,6 +636,7 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   next = applyMentorshipIfNewSeason(next, previousWeek, newWeek);
   next = applyCountryDutyToll(next, previousWeek, newWeek);
   next = applyPromotionRelegationIfNewSeason(next, previousWeek, newWeek);
+  next = applyBallonDorIfNewSeason(next, previousWeek, newWeek);
   return next;
 }
 
@@ -682,6 +704,26 @@ export default function App() {
   // Periódico de arranque de temporada, disparado al tocar "Finalizar Temporada" (ver
   // handleFinalizeSeason). Pedido explícito del usuario.
   const [newSeasonInfo, setNewSeasonInfo] = useState<NewSeasonInfo | null>(null);
+  const [ballonDorInfo, setBallonDorInfo] = useState<BallonDorInfo | null>(null);
+  // El resultado del Balón de Oro se calcula dentro de applySeasonTransitions (7 puntos de llamada
+  // distintos en App.tsx), no en un solo lugar -- en vez de repetir el disparo del overlay en cada
+  // uno, se observa acá si ballonDorHistory creció desde el último render.
+  const lastBallonDorCount = useRef(0);
+  useEffect(() => {
+    const history = playerProfile?.ballonDorHistory ?? [];
+    if (history.length > lastBallonDorCount.current) {
+      const last = history[history.length - 1];
+      const ranking = playerProfile ? generateWorldRanking(playerProfile, CLUBS_DATABASE, playerProfile.currentWeek) : [];
+      setBallonDorInfo({
+        year: last.year,
+        playerName: playerProfile?.name ?? '',
+        rank: last.rank,
+        winnerName: last.winnerName,
+        candidates: ranking.slice(0, 5).map(e => ({ name: e.name, clubName: e.clubName })),
+      });
+    }
+    lastBallonDorCount.current = history.length;
+  }, [playerProfile?.ballonDorHistory]);
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
   // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
@@ -1535,8 +1577,18 @@ export default function App() {
     notify(cost < 0 ? '¡Contrato firmado con éxito!' : 'Campaña ejecutada con éxito.');
   };
 
+  // Modo difícil: la prensa es más exigente -- las respuestas buenas rinden un poco menos y las
+  // malas pesan un poco más, en vez de aplicar el mismo multiplicador a ambas (que no cambiaría
+  // nada en términos relativos).
+  const pressDifficultyAdjust = (change: number): number => {
+    if (playerProfile?.difficultyMode !== 'realista') return change;
+    return change >= 0 ? Math.round(change * 0.8) : Math.round(change * 1.25);
+  };
+
   const handleAnswerPress = (prestigeChange: number, fansChange: number, energyChange: number) => {
     if (!playerProfile) return;
+    prestigeChange = pressDifficultyAdjust(prestigeChange);
+    fansChange = pressDifficultyAdjust(fansChange);
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + prestigeChange)),
@@ -2585,12 +2637,14 @@ export default function App() {
     notify(`🚫 Fecha libre de ${myClub.name}: cumpliste una fecha de sanción sin jugar.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s).` : ' Ya podés volver a jugar.'}`);
   };
 
-  const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number }) => {
+  const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number; companeros?: number }) => {
     if (!playerProfile) return;
 
+    const prestigeCompanerosActual = playerProfile.prestigeCompaneros ?? playerProfile.prestige;
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + effects.prestige) ),
+      prestigeCompaneros: Math.max(0, Math.min(100, prestigeCompanerosActual + (effects.companeros || 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + effects.fans)),
       energy: Math.max(0, Math.min(100, playerProfile.energy + effects.energy)),
       capital: Math.max(0, playerProfile.capital + (effects.capital || 0)),
@@ -2626,7 +2680,11 @@ export default function App() {
 
     setMatchResults(results);
 
-    const baseEnergySpent = 28;
+    // Modo difícil (ver DIFFICULTY_ENERGY_MULTIPLIER): en 'realista' la energía baja más rápido
+    // por partido -- el resto del multiplicador de dificultad (lesiones más frecuentes) ya vive en
+    // el bloque de roll de lesión más abajo.
+    const DIFFICULTY_ENERGY_MULTIPLIER = playerProfile.difficultyMode === 'realista' ? 1.25 : 1;
+    const baseEnergySpent = Math.round(28 * DIFFICULTY_ENERGY_MULTIPLIER);
     const coachItem = shopItems.find(i => i.id === 'physical_coach');
     const houseItem = shopItems.find(i => i.id === 'luxury_mansion');
 
@@ -3468,6 +3526,16 @@ export default function App() {
         <NewSeasonOverlay
           info={newSeasonInfo}
           onClose={() => setNewSeasonInfo(null)}
+        />
+      )}
+
+      {/* Se muestra encima de lo que sea que esté en pantalla al cerrar el año -- el jugador puede
+          estar en 'dashboard' o recién yendo a 'post_match', y de cualquier forma la gala tiene que
+          verse una vez por año cerrado, no depender de en qué pantalla cayó el cierre. */}
+      {ballonDorInfo && !newSeasonInfo && !seasonEndInfo && !championInfo && playerProfile && (
+        <BallonDorOverlay
+          info={ballonDorInfo}
+          onClose={() => setBallonDorInfo(null)}
         />
       )}
 

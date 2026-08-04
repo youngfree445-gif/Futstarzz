@@ -220,6 +220,9 @@ export interface PlayerProfile {
   // personales" más allá del capital simple. Opcionales: las partidas viejas no las tienen.
   investments?: Investment[];
   fixedExpensesWeekly?: number;
+  // Historial de resultados del Balón de Oro, uno por año cerrado -- ver applyBallonDorIfNewSeason
+  // en App.tsx. Opcional: las partidas viejas no lo tienen.
+  ballonDorHistory?: { year: number; rank: number | null; winnerName: string }[];
 }
 
 export type InjuryType = 'muscular' | 'ligamentos' | 'fractura' | 'golpe';

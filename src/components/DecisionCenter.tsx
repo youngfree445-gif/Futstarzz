@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { Shield, Sparkles, UserCheck, AlertTriangle, ArrowRight, DollarSign, Activity } from 'lucide-react';
 
+interface DecisionEffects {
+  prestige: number;
+  fans: number;
+  energy: number;
+  capital: number;
+  suspension?: number; // partidos de sanción (casos severos: dopaje, agresiones, etc.)
+  // Relación con los compañeros de plantel (ver prestigeCompaneros en PlayerProfile). Opcional:
+  // solo los eventos NUEVOS de vestuario la usan -- el contenido viejo (prensa, sponsors, etc.)
+  // sigue tocando únicamente prestige (DT) y fans (hinchada) como siempre.
+  companeros?: number;
+}
+
 interface DecisionEvent {
   title: string;
   description: string;
@@ -8,19 +20,13 @@ interface DecisionEvent {
     text: string;
     cost: number;
     outcome: string;
-    effects: {
-      prestige: number;
-      fans: number;
-      energy: number;
-      capital: number;
-      suspension?: number; // partidos de sanción (casos severos: dopaje, agresiones, etc.)
-    };
+    effects: DecisionEffects;
   }[];
 }
 
 interface DecisionCenterProps {
   event: DecisionEvent;
-  onResolve: (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number }) => void;
+  onResolve: (effects: DecisionEffects) => void;
 }
 
 export default function DecisionCenter({ event, onResolve }: DecisionCenterProps) {
@@ -115,6 +121,11 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
                       {choice.effects.fans !== 0 && (
                         <span className={choice.effects.fans > 0 ? 'text-burgundy-400' : 'text-red-450'}>
                           {choice.effects.fans > 0 ? '+' : ''}{choice.effects.fans} Fan
+                        </span>
+                      )}
+                      {!!choice.effects.companeros && (
+                        <span className={choice.effects.companeros > 0 ? 'text-sky-400' : 'text-red-400'}>
+                          {choice.effects.companeros > 0 ? '+' : ''}{choice.effects.companeros} Plantel
                         </span>
                       )}
                       {!!choice.effects.suspension && (

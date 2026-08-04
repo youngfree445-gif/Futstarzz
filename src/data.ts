@@ -4031,6 +4031,81 @@ export const LOBBY_RANDOM_EVENTS = [
         effects: { prestige: 2, fans: 1, energy: 10, capital: -200 }
       }
     ]
+  },
+  // Eventos de vestuario (Fase 6 del plan de mejoras): tocan companeros, no prestige (DT) --
+  // conflictos, favoritismos y liderazgo dentro del plantel, separados de la relación con el
+  // cuerpo técnico.
+  {
+    title: 'Favoritismo en el Plantel',
+    description: 'El capitán del equipo lleva semanas dejando afuera a un compañero joven de las rondas de práctica, sin razón clara. El vestuario está dividido.',
+    choices: [
+      {
+        text: 'Hablar con el capitán en privado para que lo incluya',
+        cost: 0,
+        outcome: 'El capitán lo toma bien y suaviza el trato. Los más jóvenes del plantel te lo agradecen.',
+        effects: { prestige: 0, fans: 0, energy: -5, capital: 0, companeros: 8 }
+      },
+      {
+        text: 'No meterte, no es tu problema',
+        cost: 0,
+        outcome: 'Evitás el conflicto, pero el joven del plantel nota que nadie salió a defenderlo.',
+        effects: { prestige: 0, fans: 0, energy: 0, capital: 0, companeros: -4 }
+      }
+    ]
+  },
+  {
+    title: 'El Líder Cuestionado',
+    description: 'Después de una racha floja, varios compañeros empiezan a cuestionar en voz baja las decisiones del capitán dentro de la cancha.',
+    choices: [
+      {
+        text: 'Respaldarlo públicamente frente al plantel',
+        cost: 0,
+        outcome: 'El capitán te lo agradece de por vida. Algunos compañeros no comparten tu postura.',
+        effects: { prestige: 0, fans: 0, energy: 0, capital: 0, companeros: 6 }
+      },
+      {
+        text: 'Sumarte a las críticas',
+        cost: 0,
+        outcome: 'Ganás algo de eco entre los más críticos, pero se nota la fractura en el vestuario.',
+        effects: { prestige: 0, fans: 0, energy: 0, capital: 0, companeros: -6 }
+      }
+    ]
+  },
+  {
+    title: 'Discusión por el Vestuario',
+    description: 'Un compañero te acusa frente a todos de acaparar más minutos de fisioterapia de los que te corresponden.',
+    choices: [
+      {
+        text: 'Cederle el turno y aclarar el malentendido con calma',
+        cost: 0,
+        outcome: 'La situación se distiende. El plantel valora que no hicieras un problema mayor.',
+        effects: { prestige: 0, fans: 0, energy: -5, capital: 0, companeros: 5 }
+      },
+      {
+        text: 'Responder con la misma dureza',
+        cost: 0,
+        outcome: 'Quedás mal parado frente al resto del plantel, aunque tenías parte de razón.',
+        effects: { prestige: 0, fans: 0, energy: -10, capital: 0, companeros: -7 }
+      }
+    ]
+  },
+  {
+    title: 'Cena de Integración',
+    description: 'Un grupo de compañeros organiza una cena para conocerse mejor fuera de la cancha. No es obligatoria, pero se nota quién va y quién no.',
+    choices: [
+      {
+        text: 'Ir y pagar tu parte ($1,500)',
+        cost: 1500,
+        outcome: 'Pasás un buen rato con el plantel. La confianza del grupo mejora notablemente.',
+        effects: { prestige: 0, fans: 0, energy: -10, capital: -1500, companeros: 10 }
+      },
+      {
+        text: 'Quedarte a descansar en casa',
+        cost: 0,
+        outcome: 'Recuperás energía, pero te perdés un momento que el resto del plantel sí compartió.',
+        effects: { prestige: 0, fans: 0, energy: 20, capital: 0, companeros: -3 }
+      }
+    ]
   }
 ];
 export const OPPONENT_CLUBS_POOL: string[] = [

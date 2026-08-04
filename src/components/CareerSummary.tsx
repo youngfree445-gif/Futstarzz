@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { PlayerProfile } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, INJURY_LABELS } from '../data';
-import { Trophy, ArrowRight, Star, IdCard } from 'lucide-react';
+import { Trophy, ArrowRight, Star, IdCard, Film } from 'lucide-react';
 import SeasonComparisonChart from './SeasonComparisonChart';
 import CareerCard from './CareerCard';
+import { generateBiopicNarrative } from '../biopicNarrative';
 
 interface CareerSummaryProps {
   playerProfile: PlayerProfile;
@@ -36,6 +37,17 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
         </div>
 
         <div className="p-6 md:p-8 space-y-6">
+          <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-5">
+            <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 mb-3">
+              <Film size={14} className="text-burgundy-400" /> El documental de su carrera
+            </h3>
+            <div className="space-y-2.5">
+              {generateBiopicNarrative(playerProfile).map((p, i) => (
+                <p key={i} className="text-2xs text-slate-300 leading-relaxed font-serif italic">{p}</p>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 text-center">
               <span className="text-3xs text-slate-500 block font-mono uppercase">Partidos</span>

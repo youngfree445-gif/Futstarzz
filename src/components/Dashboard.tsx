@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 import SeasonComparisonChart from './SeasonComparisonChart';
+import { generateWorldRanking } from '../worldRanking';
 import { fetchReactionGif, searchReactionGifs } from '../services/giphy';
 import trainingRitmoImg from '../assets/training/ritmo.jpg';
 import trainingRegateImg from '../assets/training/regate.jpg';
@@ -443,6 +444,17 @@ export default function Dashboard({
   const milestoneProgressPct = nextMilestone
     ? Math.min(100, Math.round(((careerContribution - currentMilestone.threshold) / (nextMilestone.threshold - currentMilestone.threshold)) * 100))
     : 100;
+  // Fase 7 -- Modo "leyenda del club": derivado de seasonHistory filtrado por el club actual, sin
+  // campo nuevo en el perfil (el cálculo es liviano, no hace falta cachear). Umbral doble --
+  // partidos O goles -- para que un defensor longevo también pueda ser leyenda sin necesitar la
+  // cifra de gol de un delantero.
+  const LEGEND_MATCHES_THRESHOLD = 150;
+  const LEGEND_GOALS_THRESHOLD = 80;
+  const statsEnClubActual = playerProfile.seasonHistory
+    .filter(s => s.clubId === playerProfile.currentClubId)
+    .reduce((acc, s) => ({ partidos: acc.partidos + s.partidos, goles: acc.goles + s.goles }), { partidos: 0, goles: 0 });
+  const esLeyendaDelClub = statsEnClubActual.partidos >= LEGEND_MATCHES_THRESHOLD || statsEnClubActual.goles >= LEGEND_GOALS_THRESHOLD;
+
   const myLeagueKey = leagueKeyFor(currentClub);
   const myLeagueTable = sortTable(playerProfile.leagueSeasons[myLeagueKey]?.table || []);
 
@@ -2314,10 +2326,15 @@ export default function Dashboard({
                     <Award size={15} className="text-gold-400" /> Atributos del Jugador
                   </h3>
                   {(playerProfile.dorsal != null || playerProfile.heightCm != null) && (
-                    <p className="text-3xs text-slate-500 font-mono mb-3">
+                    <p className={`text-3xs text-slate-500 font-mono ${esLeyendaDelClub ? 'mb-1' : 'mb-3'}`}>
                       {playerProfile.dorsal != null && `Dorsal #${playerProfile.dorsal}`}
                       {playerProfile.dorsal != null && playerProfile.heightCm != null && ' · '}
                       {playerProfile.heightCm != null && `${playerProfile.heightCm} cm`}
+                    </p>
+                  )}
+                  {esLeyendaDelClub && (
+                    <p className="text-3xs font-mono uppercase text-gold-400 font-black mb-3 flex items-center gap-1">
+                      👑 Leyenda de {currentClub.name} — dorsal #{playerProfile.dorsal} homenajeado
                     </p>
                   )}
 
@@ -2624,6 +2641,29 @@ export default function Dashboard({
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
                 <SeasonComparisonChart seasonHistory={playerProfile.seasonHistory} />
+              </div>
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+                <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
+                  🌎 Ranking mundial
+                </h3>
+                <div className="max-h-64 overflow-y-auto space-y-1">
+                  {generateWorldRanking(playerProfile, ULTIMATE_CLUBS_DATABASE, playerProfile.currentWeek).map((entry, i) => (
+                    <div
+                      key={`${entry.name}_${i}`}
+                      className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs ${
+                        entry.isPlayer ? 'bg-gold-950/30 border border-gold-500/30' : 'bg-slate-950/60'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2 min-w-0">
+                        <span className="text-3xs font-mono text-slate-500 w-5 shrink-0">{i + 1}°</span>
+                        <span className={`truncate font-bold ${entry.isPlayer ? 'text-gold-400' : 'text-white'}`}>{entry.name}</span>
+                        <span className="text-3xs text-slate-500 truncate">{entry.clubName}</span>
+                      </span>
+                      <span className="text-3xs font-mono text-slate-400 shrink-0">{Math.round(entry.score)}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
