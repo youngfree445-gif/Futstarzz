@@ -1,0 +1,1868 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/ven.1",
+ "espnLeagueId": "ven.1",
+ "temporada": "Clausura",
+ "equipos": {
+  "4811": "Caracas FC",
+  "4818": "Deportivo Táchira",
+  "5268": "Trujillanos",
+  "6037": "Carabobo",
+  "6038": "Estudiantes de Mérida",
+  "6041": "Monagas SC",
+  "6762": "Portuguesa",
+  "6763": "Zamora FC",
+  "10094": "UCV FC",
+  "13481": "Metropolitanos",
+  "13783": "Anzoátegui FC",
+  "17090": "Deportivo La Guaira",
+  "18995": "Academia Puerto Cabello",
+  "21850": "Rayo Zuliano"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-01-29",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-01-30",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-01",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-01",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-06",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-02-06",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-13",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-13",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-13",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-02-20",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-23",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-02-23",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-27",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-27",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-06",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "1-5"
+  },
+  {
+   "fecha": "2026-03-13",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-17",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-17",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-17",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-03-23",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-23",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-10",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-20",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": true,
+   "marcador": "6-3"
+  },
+  {
+   "fecha": "2026-04-20",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-20",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-21",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-08",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-12",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-12",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-15",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "1-5"
+  },
+  {
+   "fecha": "2026-06-07",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-03",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "13783",
+   "local": "Anzoátegui FC",
+   "visitaId": "6037",
+   "visita": "Carabobo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "4811",
+   "local": "Caracas FC",
+   "visitaId": "6763",
+   "visita": "Zamora FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "4818",
+   "local": "Deportivo Táchira",
+   "visitaId": "10094",
+   "visita": "UCV FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "13481",
+   "local": "Metropolitanos",
+   "visitaId": "21850",
+   "visita": "Rayo Zuliano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "6041",
+   "local": "Monagas SC",
+   "visitaId": "6038",
+   "visita": "Estudiantes de Mérida",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "6762",
+   "local": "Portuguesa",
+   "visitaId": "17090",
+   "visita": "Deportivo La Guaira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "5268",
+   "local": "Trujillanos",
+   "visitaId": "18995",
+   "visita": "Academia Puerto Cabello",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "18995",
+   "local": "Academia Puerto Cabello",
+   "visitaId": "6041",
+   "visita": "Monagas SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "6037",
+   "local": "Carabobo",
+   "visitaId": "4818",
+   "visita": "Deportivo Táchira",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "17090",
+   "local": "Deportivo La Guaira",
+   "visitaId": "5268",
+   "visita": "Trujillanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "6038",
+   "local": "Estudiantes de Mérida",
+   "visitaId": "13481",
+   "visita": "Metropolitanos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "21850",
+   "local": "Rayo Zuliano",
+   "visitaId": "4811",
+   "visita": "Caracas FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "10094",
+   "local": "UCV FC",
+   "visitaId": "6762",
+   "visita": "Portuguesa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "6763",
+   "local": "Zamora FC",
+   "visitaId": "13783",
+   "visita": "Anzoátegui FC",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

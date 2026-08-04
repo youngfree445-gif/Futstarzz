@@ -1,0 +1,2781 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/ned.1",
+ "espnLeagueId": "ned.1",
+ "temporada": "Temporada regular",
+ "equipos": {
+  "139": "Ajax Amsterdam",
+  "140": "AZ Alkmaar",
+  "142": "Feyenoord Rotterdam",
+  "143": "Fortuna Sittard",
+  "145": "FC Groningen",
+  "146": "Heerenveen",
+  "147": "NEC Nijmegen",
+  "148": "PSV Eindhoven",
+  "151": "Sparta Rotterdam",
+  "152": "FC Twente",
+  "153": "FC Utrecht",
+  "156": "Willem II",
+  "2565": "PEC Zwolle",
+  "2566": "Excelsior",
+  "2726": "ADO Den Haag",
+  "3706": "Go Ahead Eagles",
+  "3735": "Telstar",
+  "3736": "SC Cambuur"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-08-07",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-09",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-11",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-15",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-16",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-23",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-06",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-28",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-05",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-12",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-19",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-08",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-09",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-16",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-23",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-30",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-13",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-20",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-27",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-06",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-13",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-20",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-03",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-10",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-24",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-01",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-08",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "139",
+   "local": "Ajax Amsterdam",
+   "visitaId": "151",
+   "visita": "Sparta Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "140",
+   "local": "AZ Alkmaar",
+   "visitaId": "2565",
+   "visita": "PEC Zwolle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "2566",
+   "local": "Excelsior",
+   "visitaId": "2726",
+   "visita": "ADO Den Haag",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "145",
+   "local": "FC Groningen",
+   "visitaId": "3736",
+   "visita": "SC Cambuur",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "152",
+   "local": "FC Twente",
+   "visitaId": "142",
+   "visita": "Feyenoord Rotterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "153",
+   "local": "FC Utrecht",
+   "visitaId": "3735",
+   "visita": "Telstar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "143",
+   "local": "Fortuna Sittard",
+   "visitaId": "156",
+   "visita": "Willem II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "3706",
+   "local": "Go Ahead Eagles",
+   "visitaId": "146",
+   "visita": "Heerenveen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "148",
+   "local": "PSV Eindhoven",
+   "visitaId": "147",
+   "visita": "NEC Nijmegen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "2726",
+   "local": "ADO Den Haag",
+   "visitaId": "140",
+   "visita": "AZ Alkmaar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "142",
+   "local": "Feyenoord Rotterdam",
+   "visitaId": "145",
+   "visita": "FC Groningen",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "146",
+   "local": "Heerenveen",
+   "visitaId": "148",
+   "visita": "PSV Eindhoven",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "147",
+   "local": "NEC Nijmegen",
+   "visitaId": "153",
+   "visita": "FC Utrecht",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "2565",
+   "local": "PEC Zwolle",
+   "visitaId": "152",
+   "visita": "FC Twente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "3736",
+   "local": "SC Cambuur",
+   "visitaId": "139",
+   "visita": "Ajax Amsterdam",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "151",
+   "local": "Sparta Rotterdam",
+   "visitaId": "143",
+   "visita": "Fortuna Sittard",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "3735",
+   "local": "Telstar",
+   "visitaId": "2566",
+   "visita": "Excelsior",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-23",
+   "localId": "156",
+   "local": "Willem II",
+   "visitaId": "3706",
+   "visita": "Go Ahead Eagles",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

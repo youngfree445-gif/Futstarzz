@@ -1,0 +1,2781 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/per.1",
+ "espnLeagueId": "per.1",
+ "temporada": "Clausura",
+ "equipos": {
+  "2673": "Sporting Cristal",
+  "2680": "Alianza Lima",
+  "2685": "Universitario",
+  "3372": "Cienciano del Cusco",
+  "5267": "Alianza Atlético",
+  "5570": "Sport Boys",
+  "7312": "Melgar",
+  "10122": "UTC",
+  "10318": "Sport Huancayo",
+  "11995": "Cusco FC",
+  "18153": "Comerciantes Unidos",
+  "20293": "Atlético Grau",
+  "21314": "ADT",
+  "21819": "Deportivo Garcilaso",
+  "22168": "Los Chankas",
+  "22534": "Juan Pablo II",
+  "131654": "Deportivo Moquegua",
+  "131655": "FC Cajamarca"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-01-30",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-01-30",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-01",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-01",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-01",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-02",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-06",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "6-1"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-09",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-13",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-15",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-02-15",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-15",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-02-15",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-02-23",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-27",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-02-27",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-06",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-09",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-10",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-13",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "3-4"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-20",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-06",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-14",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-14",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-15",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-04-15",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-17",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "8-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-20",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-27",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-04-28",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-04",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-08",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-11",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-12",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-15",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-22",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-25",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-29",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-20",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-24",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-07",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-07",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-21",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-21",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-27",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "21314",
+   "local": "ADT",
+   "visitaId": "2673",
+   "visita": "Sporting Cristal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "20293",
+   "local": "Atlético Grau",
+   "visitaId": "11995",
+   "visita": "Cusco FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "3372",
+   "local": "Cienciano del Cusco",
+   "visitaId": "10318",
+   "visita": "Sport Huancayo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "21819",
+   "local": "Deportivo Garcilaso",
+   "visitaId": "18153",
+   "visita": "Comerciantes Unidos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "131655",
+   "local": "FC Cajamarca",
+   "visitaId": "5267",
+   "visita": "Alianza Atlético",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "22168",
+   "local": "Los Chankas",
+   "visitaId": "2680",
+   "visita": "Alianza Lima",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "7312",
+   "local": "Melgar",
+   "visitaId": "22534",
+   "visita": "Juan Pablo II",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "5570",
+   "local": "Sport Boys",
+   "visitaId": "10122",
+   "visita": "UTC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "2685",
+   "local": "Universitario",
+   "visitaId": "131654",
+   "visita": "Deportivo Moquegua",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "5267",
+   "local": "Alianza Atlético",
+   "visitaId": "7312",
+   "visita": "Melgar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "2680",
+   "local": "Alianza Lima",
+   "visitaId": "131655",
+   "visita": "FC Cajamarca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "18153",
+   "local": "Comerciantes Unidos",
+   "visitaId": "5570",
+   "visita": "Sport Boys",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "11995",
+   "local": "Cusco FC",
+   "visitaId": "21314",
+   "visita": "ADT",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "131654",
+   "local": "Deportivo Moquegua",
+   "visitaId": "20293",
+   "visita": "Atlético Grau",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "22534",
+   "local": "Juan Pablo II",
+   "visitaId": "21819",
+   "visita": "Deportivo Garcilaso",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "10318",
+   "local": "Sport Huancayo",
+   "visitaId": "2685",
+   "visita": "Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "2673",
+   "local": "Sporting Cristal",
+   "visitaId": "3372",
+   "visita": "Cienciano del Cusco",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-14",
+   "localId": "10122",
+   "local": "UTC",
+   "visitaId": "22168",
+   "visita": "Los Chankas",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

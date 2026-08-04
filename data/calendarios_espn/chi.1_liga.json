@@ -1,0 +1,2167 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/chi.1",
+ "espnLeagueId": "chi.1",
+ "temporada": "2026 Primera División de Chile",
+ "equipos": {
+  "885": "Universidad Católica",
+  "2688": "Colo Colo",
+  "4129": "Everton CD",
+  "4133": "Cobresal",
+  "4134": "Huachipato",
+  "4137": "La Serena",
+  "4138": "Audax Italiano",
+  "4139": "Universidad de Chile",
+  "4422": "Palestino",
+  "5362": "Universidad de Concepción",
+  "6072": "O'Higgins",
+  "7427": "Ñublense",
+  "8110": "Deportes Concepcion",
+  "8186": "Coquimbo Unido",
+  "10144": "Unión La Calera",
+  "19195": "Deportes Limache"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-01-30",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-01-31",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-01",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-01",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-02",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-02-02",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-06",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-02-07",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-08",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-09",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-02-13",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-02-13",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-14",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-15",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-15",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-15",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-20",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-20",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-27",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-27",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-03-06",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-06",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-03-09",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-13",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-16",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-16",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-04-02",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "6-1"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-04-07",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "5-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "3-4"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-13",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-14",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-04-20",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-21",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-24",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-24",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "5-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": true,
+   "marcador": "6-2"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-18",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-22",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-29",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "2-4"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-06-01",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-06-13",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-13",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-06-13",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-06-13",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-06-14",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": true,
+   "marcador": "5-1"
+  },
+  {
+   "fecha": "2026-06-19",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": true,
+   "marcador": "3-4"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-10",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-11",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-18",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-24",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-26",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-28",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-31",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-31",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-01",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-07",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-14",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-09",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "4138",
+   "local": "Audax Italiano",
+   "visitaId": "4422",
+   "visita": "Palestino",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "2688",
+   "local": "Colo Colo",
+   "visitaId": "4137",
+   "visita": "La Serena",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "8186",
+   "local": "Coquimbo Unido",
+   "visitaId": "19195",
+   "visita": "Deportes Limache",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "8110",
+   "local": "Deportes Concepcion",
+   "visitaId": "4139",
+   "visita": "Universidad de Chile",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "4129",
+   "local": "Everton CD",
+   "visitaId": "6072",
+   "visita": "O'Higgins",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "7427",
+   "local": "Ñublense",
+   "visitaId": "4133",
+   "visita": "Cobresal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "10144",
+   "local": "Unión La Calera",
+   "visitaId": "5362",
+   "visita": "Universidad de Concepción",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "885",
+   "local": "Universidad Católica",
+   "visitaId": "4134",
+   "visita": "Huachipato",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "4133",
+   "local": "Cobresal",
+   "visitaId": "2688",
+   "visita": "Colo Colo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "19195",
+   "local": "Deportes Limache",
+   "visitaId": "8110",
+   "visita": "Deportes Concepcion",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "4134",
+   "local": "Huachipato",
+   "visitaId": "7427",
+   "visita": "Ñublense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "4137",
+   "local": "La Serena",
+   "visitaId": "4138",
+   "visita": "Audax Italiano",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "6072",
+   "local": "O'Higgins",
+   "visitaId": "8186",
+   "visita": "Coquimbo Unido",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "4422",
+   "local": "Palestino",
+   "visitaId": "4129",
+   "visita": "Everton CD",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "4139",
+   "local": "Universidad de Chile",
+   "visitaId": "10144",
+   "visita": "Unión La Calera",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "5362",
+   "local": "Universidad de Concepción",
+   "visitaId": "885",
+   "visita": "Universidad Católica",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

@@ -71,22 +71,34 @@ const partidosDe = (content, ronda = null) => {
  * Qué hay que pedirle a ESPN para recorrer la competición entera.
  *
  * Las LIGAS traen `calendar` como lista plana de fechas ISO -> se pide ?date=YYYYMMDD.
- * Las COPAS lo traen como secciones con `entries`, una por ronda, y cada una con su label
- * ("Octavos de Final", "Semifinales") -> se pide ?season=AAAA&type=N&week=N. Suponer la forma de
- * liga en una copa reventaba con "f.slice is not a function".
+ * Las COPAS lo traen como secciones con `entries`, una por ronda, cada una con su label
+ * ("Octavos de Final", "Semifinales") y su propio startDate/endDate.
+ *
+ * El query `?season=AAAA&type=N&week=N` que parecía natural para una ronda casi siempre devuelve 0
+ * eventos (probado con KNVB Beker: 0 de 6 rondas) -- year/type de `currentSeason` no siempre
+ * corresponde a la ronda pedida, sobre todo si la página por defecto cae en una ronda ya jugada.
+ * Lo que sí funciona, verificado a mano, es barrer por FECHA dentro de la ventana startDate..endDate
+ * de cada ronda (mismo query ?date=YYYYMMDD que usan las ligas) -- por eso una copa termina pidiendo
+ * varias fechas por ronda, no una sola. Copa do Brasil quedó con solo 16 partidos por este bug: hay
+ * que re-scrapear todas las copas ya cargadas con el método viejo.
  */
 function pasosDelCalendario(content) {
   const cal = content?.calendar ?? [];
   if (cal.length && typeof cal[0] === 'string') {
     return cal.map(f => ({ query: `date=${f.slice(0, 10).replace(/-/g, '')}`, ronda: null }));
   }
-  const anio = content?.currentSeason?.year;
-  const tipo = content?.currentSeason?.seasonType;
   const pasos = [];
   for (const sec of cal) {
     for (const en of sec?.entries ?? []) {
-      // El label es el nombre de la ronda tal como el juego lo muestra en pantalla.
-      pasos.push({ query: `season=${anio}&type=${tipo}&week=${en.value}`, ronda: en.label ?? null });
+      const inicio = en.startDate ? new Date(en.startDate) : null;
+      const fin = en.endDate ? new Date(en.endDate) : null;
+      if (!inicio || !fin || isNaN(inicio) || isNaN(fin)) continue;
+      // Un día por paso, barriendo toda la ventana de la ronda -- una ronda puede durar semanas
+      // (rondas previas amateur) o un par de días (fases finales), no hay forma de adivinar.
+      for (let d = new Date(inicio); d <= fin; d.setUTCDate(d.getUTCDate() + 1)) {
+        const f = d.toISOString().slice(0, 10).replace(/-/g, '');
+        pasos.push({ query: `date=${f}`, ronda: en.label ?? null });
+      }
     }
   }
   return pasos;

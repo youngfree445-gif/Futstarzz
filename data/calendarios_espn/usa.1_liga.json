@@ -1,0 +1,4640 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/usa.1",
+ "espnLeagueId": "usa.1",
+ "temporada": "Temporada regular",
+ "equipos": {
+  "182": "Chicago Fire FC",
+  "183": "Columbus Crew",
+  "184": "Colorado Rapids",
+  "185": "FC Dallas",
+  "186": "Sporting Kansas City",
+  "187": "LA Galaxy",
+  "189": "New England Revolution",
+  "190": "Red Bull New York",
+  "191": "San Jose Earthquakes",
+  "193": "D.C. United",
+  "4771": "Real Salt Lake",
+  "6077": "Houston Dynamo FC",
+  "7318": "Toronto FC",
+  "9720": "CF Montréal",
+  "9723": "Portland Timbers",
+  "9726": "Seattle Sounders FC",
+  "9727": "Vancouver Whitecaps",
+  "9817": "MLS All-Stars",
+  "10739": "Philadelphia Union",
+  "12011": "Orlando City SC",
+  "17362": "Minnesota United FC",
+  "17606": "New York City FC",
+  "18267": "FC Cincinnati",
+  "18418": "Atlanta United FC",
+  "18966": "LAFC",
+  "18986": "Nashville SC",
+  "20232": "Inter Miami CF",
+  "20279": "Liga MX All-Stars",
+  "20906": "Austin FC",
+  "21300": "Charlotte FC",
+  "21812": "St. Louis CITY SC",
+  "22529": "San Diego FC"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-02-21",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-23",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-23",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-02",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "2-4"
+  },
+  {
+   "fecha": "2026-03-02",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "6-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "6-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "6-1"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "4-3"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "4-3"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "0-4"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "6-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "6-2"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "4-4"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "4-4"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "5-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "3-4"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "2-4"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "6-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-11",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "3-5"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "4-3"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "3-3"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-18",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "4-4"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "6-2"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": true,
+   "marcador": "6-4"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "2-4"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-25",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": true,
+   "marcador": "1-5"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "4-3"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "0-4"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-30",
+   "localId": "9817",
+   "local": "MLS All-Stars",
+   "visitaId": "20279",
+   "visita": "Liga MX All-Stars",
+   "jugado": true,
+   "marcador": "4-3"
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-17",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-17",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-19",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-20",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-04",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-09",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-09",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-09",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-09",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-09",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-09",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-10",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-14",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-18",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-24",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-02",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-07",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-14",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-14",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-14",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-14",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-14",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-14",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-15",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-26",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "18267",
+   "visita": "FC Cincinnati",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-28",
+   "localId": "7318",
+   "local": "Toronto FC",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-29",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "21300",
+   "local": "Charlotte FC",
+   "visitaId": "12011",
+   "visita": "Orlando City SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "183",
+   "local": "Columbus Crew",
+   "visitaId": "193",
+   "visita": "D.C. United",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "10739",
+   "visita": "Philadelphia Union",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "187",
+   "local": "LA Galaxy",
+   "visitaId": "20906",
+   "visita": "Austin FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "186",
+   "local": "Sporting Kansas City",
+   "visitaId": "185",
+   "visita": "FC Dallas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "18418",
+   "local": "Atlanta United FC",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "184",
+   "local": "Colorado Rapids",
+   "visitaId": "182",
+   "visita": "Chicago Fire FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "18966",
+   "local": "LAFC",
+   "visitaId": "17362",
+   "visita": "Minnesota United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "18986",
+   "local": "Nashville SC",
+   "visitaId": "190",
+   "visita": "Red Bull New York",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "189",
+   "local": "New England Revolution",
+   "visitaId": "20232",
+   "visita": "Inter Miami CF",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "9720",
+   "visita": "CF Montréal",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "191",
+   "local": "San Jose Earthquakes",
+   "visitaId": "4771",
+   "visita": "Real Salt Lake",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "21812",
+   "local": "St. Louis CITY SC",
+   "visitaId": "22529",
+   "visita": "San Diego FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "9727",
+   "local": "Vancouver Whitecaps",
+   "visitaId": "9726",
+   "visita": "Seattle Sounders FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-02",
+   "localId": "9723",
+   "local": "Portland Timbers",
+   "visitaId": "6077",
+   "visita": "Houston Dynamo FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-05",
+   "localId": "17606",
+   "local": "New York City FC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "9720",
+   "local": "CF Montréal",
+   "visitaId": "9727",
+   "visita": "Vancouver Whitecaps",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "182",
+   "local": "Chicago Fire FC",
+   "visitaId": "183",
+   "visita": "Columbus Crew",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "193",
+   "local": "D.C. United",
+   "visitaId": "17606",
+   "visita": "New York City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "18267",
+   "local": "FC Cincinnati",
+   "visitaId": "18986",
+   "visita": "Nashville SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "20232",
+   "local": "Inter Miami CF",
+   "visitaId": "21300",
+   "visita": "Charlotte FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "12011",
+   "local": "Orlando City SC",
+   "visitaId": "189",
+   "visita": "New England Revolution",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "10739",
+   "local": "Philadelphia Union",
+   "visitaId": "7318",
+   "visita": "Toronto FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "190",
+   "local": "Red Bull New York",
+   "visitaId": "18418",
+   "visita": "Atlanta United FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "20906",
+   "local": "Austin FC",
+   "visitaId": "9723",
+   "visita": "Portland Timbers",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "185",
+   "local": "FC Dallas",
+   "visitaId": "184",
+   "visita": "Colorado Rapids",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "6077",
+   "local": "Houston Dynamo FC",
+   "visitaId": "21812",
+   "visita": "St. Louis CITY SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "17362",
+   "local": "Minnesota United FC",
+   "visitaId": "191",
+   "visita": "San Jose Earthquakes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "4771",
+   "local": "Real Salt Lake",
+   "visitaId": "187",
+   "visita": "LA Galaxy",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "22529",
+   "local": "San Diego FC",
+   "visitaId": "186",
+   "visita": "Sporting Kansas City",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "9726",
+   "local": "Seattle Sounders FC",
+   "visitaId": "18966",
+   "visita": "LAFC",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

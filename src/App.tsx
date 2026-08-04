@@ -616,7 +616,8 @@ function applyBallonDorIfNewSeason(profile: PlayerProfile, previousWeek: number,
   if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
   if (profile.careerStats.partidosHistoricos < BALLON_DOR_MIN_MATCHES) return profile;
 
-  const ranking = generateWorldRanking(profile, CLUBS_DATABASE, previousWeek);
+  const myClubName = CLUBS_DATABASE.find(c => c.id === profile.currentClubId)?.name ?? '';
+  const ranking = generateWorldRanking(profile, myClubName, previousWeek);
   const myRankIdx = ranking.findIndex(e => e.isPlayer);
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const winner = ranking.find(e => !e.isPlayer) ?? ranking[0];
@@ -713,7 +714,8 @@ export default function App() {
     const history = playerProfile?.ballonDorHistory ?? [];
     if (history.length > lastBallonDorCount.current) {
       const last = history[history.length - 1];
-      const ranking = playerProfile ? generateWorldRanking(playerProfile, CLUBS_DATABASE, playerProfile.currentWeek) : [];
+      const myClubName = playerProfile ? (CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.name ?? '') : '';
+      const ranking = playerProfile ? generateWorldRanking(playerProfile, myClubName, playerProfile.currentWeek) : [];
       setBallonDorInfo({
         year: last.year,
         playerName: playerProfile?.name ?? '',

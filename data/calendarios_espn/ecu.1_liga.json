@@ -1,0 +1,2077 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/ecu.1",
+ "espnLeagueId": "ecu.1",
+ "temporada": "Primera fase",
+ "equipos": {
+  "1011": "Delfín",
+  "2668": "Emelec",
+  "2686": "Barcelona SC",
+  "4812": "Deportivo Cuenca",
+  "4816": "Liga de Quito",
+  "6017": "Aucas",
+  "9283": "Universidad Católica (Quito)",
+  "9292": "Técnico Universitario",
+  "10307": "Manta F.C.",
+  "11124": "Guayaquil City FC",
+  "17086": "Independiente del Valle",
+  "17176": "Mushuc Runa",
+  "18439": "Macará",
+  "20695": "Orense",
+  "21843": "Libertad (Ecuador)",
+  "131702": "Leones"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-02-21",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-21",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-02-22",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-02-24",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-02-28",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-01",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-03",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-07",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-08",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-03-10",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-13",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-14",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-15",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-17",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-18",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-19",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-03-19",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-19",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-03-20",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-21",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-03-22",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-03-23",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-03-24",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-07",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-09",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-17",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-18",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-19",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-21",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-24",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-27",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-28",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-01",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-12",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-15",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-19",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-23",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-05-24",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-26",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "2-4"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-06-01",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-06-02",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-01",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-07-04",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-07-04",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-07-05",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-05",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-05",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-06",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-07-07",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-08",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-10",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-11",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-11",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-11",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-07-11",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-14",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-15",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-15",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-15",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-15",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-20",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "6-1"
+  },
+  {
+   "fecha": "2026-07-20",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-21",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-23",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-24",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-07-28",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-10",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-10",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-10",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-11",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "18439",
+   "local": "Macará",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "17176",
+   "visita": "Mushuc Runa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "2668",
+   "visita": "Emelec",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "10307",
+   "visita": "Manta F.C.",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "2668",
+   "local": "Emelec",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "11124",
+   "local": "Guayaquil City FC",
+   "visitaId": "4816",
+   "visita": "Liga de Quito",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "17086",
+   "local": "Independiente del Valle",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "18439",
+   "visita": "Macará",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "9292",
+   "local": "Técnico Universitario",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-02",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "6017",
+   "local": "Aucas",
+   "visitaId": "2686",
+   "visita": "Barcelona SC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "1011",
+   "local": "Delfín",
+   "visitaId": "9283",
+   "visita": "Universidad Católica (Quito)",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "4812",
+   "local": "Deportivo Cuenca",
+   "visitaId": "21843",
+   "visita": "Libertad (Ecuador)",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "17176",
+   "local": "Mushuc Runa",
+   "visitaId": "131702",
+   "visita": "Leones",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "20695",
+   "local": "Orense",
+   "visitaId": "11124",
+   "visita": "Guayaquil City FC",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "2686",
+   "local": "Barcelona SC",
+   "visitaId": "1011",
+   "visita": "Delfín",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "131702",
+   "local": "Leones",
+   "visitaId": "9292",
+   "visita": "Técnico Universitario",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "21843",
+   "local": "Libertad (Ecuador)",
+   "visitaId": "17086",
+   "visita": "Independiente del Valle",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "4816",
+   "local": "Liga de Quito",
+   "visitaId": "4812",
+   "visita": "Deportivo Cuenca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "10307",
+   "local": "Manta F.C.",
+   "visitaId": "6017",
+   "visita": "Aucas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "9283",
+   "local": "Universidad Católica (Quito)",
+   "visitaId": "20695",
+   "visita": "Orense",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

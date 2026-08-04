@@ -2648,7 +2648,7 @@ export default function Dashboard({
                   🌎 Ranking mundial
                 </h3>
                 <div className="max-h-64 overflow-y-auto space-y-1">
-                  {generateWorldRanking(playerProfile, ULTIMATE_CLUBS_DATABASE, playerProfile.currentWeek).map((entry, i) => (
+                  {generateWorldRanking(playerProfile, currentClub.name, playerProfile.currentWeek).map((entry, i) => (
                     <div
                       key={`${entry.name}_${i}`}
                       className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs ${

@@ -1,0 +1,1033 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/bol.1",
+ "espnLeagueId": "bol.1",
+ "temporada": "2026 Bolivian Liga Profesional",
+ "equipos": {
+  "2681": "Bolívar",
+  "2682": "Oriente Petrolero",
+  "2687": "The Strongest",
+  "6046": "Aurora",
+  "6047": "Blooming",
+  "6051": "Real Potosí",
+  "9497": "Guabirá",
+  "10311": "Nacional Potosí",
+  "19425": "Always Ready",
+  "20889": "Independiente Petrolero",
+  "20890": "Real Tomayapo",
+  "21379": "Universitario de Vinto",
+  "22137": "San Antonio Bulo Bulo",
+  "22174": "GV San José",
+  "22523": "Real Oruro",
+  "130875": "ABB"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-04-03",
+   "localId": "6047",
+   "local": "Blooming",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "2681",
+   "local": "Bolívar",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": true,
+   "marcador": "5-2"
+  },
+  {
+   "fecha": "2026-04-03",
+   "localId": "20889",
+   "local": "Independiente Petrolero",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "19425",
+   "local": "Always Ready",
+   "visitaId": "20890",
+   "visita": "Real Tomayapo",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "6046",
+   "visita": "Aurora",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-04",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "2682",
+   "visita": "Oriente Petrolero",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "130875",
+   "visita": "ABB",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-05",
+   "localId": "21379",
+   "local": "Universitario de Vinto",
+   "visitaId": "2687",
+   "visita": "The Strongest",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "130875",
+   "local": "ABB",
+   "visitaId": "2681",
+   "visita": "Bolívar",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "6046",
+   "local": "Aurora",
+   "visitaId": "19425",
+   "visita": "Always Ready",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "9497",
+   "local": "Guabirá",
+   "visitaId": "20889",
+   "visita": "Independiente Petrolero",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-11",
+   "localId": "10311",
+   "local": "Nacional Potosí",
+   "visitaId": "21379",
+   "visita": "Universitario de Vinto",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "2682",
+   "local": "Oriente Petrolero",
+   "visitaId": "22174",
+   "visita": "GV San José",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "22523",
+   "local": "Real Oruro",
+   "visitaId": "6047",
+   "visita": "Blooming",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-04-12",
+   "localId": "2687",
+   "local": "The Strongest",
+   "visitaId": "22137",
+   "visita": "San Antonio Bulo Bulo",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-14",
+   "localId": "20890",
+   "local": "Real Tomayapo",
+   "visitaId": "6051",
+   "visita": "Real Potosí",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-21",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "6046",
+   "visita": "Aurora",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-21",
+   "localId": "21379",
+   "local": "Universitario de Vinto",
+   "visitaId": "130875",
+   "visita": "ABB",
+   "jugado": true,
+   "marcador": "5-2"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "19425",
+   "local": "Always Ready",
+   "visitaId": "2682",
+   "visita": "Oriente Petrolero",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "2681",
+   "local": "Bolívar",
+   "visitaId": "20889",
+   "visita": "Independiente Petrolero",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-22",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "6047",
+   "local": "Blooming",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-23",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-24",
+   "localId": "20890",
+   "local": "Real Tomayapo",
+   "visitaId": "2687",
+   "visita": "The Strongest",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "130875",
+   "local": "ABB",
+   "visitaId": "6047",
+   "visita": "Blooming",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "9497",
+   "local": "Guabirá",
+   "visitaId": "19425",
+   "visita": "Always Ready",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "20889",
+   "local": "Independiente Petrolero",
+   "visitaId": "21379",
+   "visita": "Universitario de Vinto",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-04-25",
+   "localId": "10311",
+   "local": "Nacional Potosí",
+   "visitaId": "22174",
+   "visita": "GV San José",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "2681",
+   "local": "Bolívar",
+   "visitaId": "20890",
+   "visita": "Real Tomayapo",
+   "jugado": true,
+   "marcador": "6-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "2682",
+   "local": "Oriente Petrolero",
+   "visitaId": "6051",
+   "visita": "Real Potosí",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-04-26",
+   "localId": "22523",
+   "local": "Real Oruro",
+   "visitaId": "2687",
+   "visita": "The Strongest",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-04-28",
+   "localId": "6046",
+   "local": "Aurora",
+   "visitaId": "22137",
+   "visita": "San Antonio Bulo Bulo",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-01",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-01",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "20889",
+   "visita": "Independiente Petrolero",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "19425",
+   "local": "Always Ready",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "6046",
+   "local": "Aurora",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": true,
+   "marcador": "4-2"
+  },
+  {
+   "fecha": "2026-05-02",
+   "localId": "2682",
+   "local": "Oriente Petrolero",
+   "visitaId": "20890",
+   "visita": "Real Tomayapo",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "2681",
+   "visita": "Bolívar",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-03",
+   "localId": "2687",
+   "local": "The Strongest",
+   "visitaId": "130875",
+   "visita": "ABB",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-05",
+   "localId": "21379",
+   "local": "Universitario de Vinto",
+   "visitaId": "6047",
+   "visita": "Blooming",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "9497",
+   "local": "Guabirá",
+   "visitaId": "22174",
+   "visita": "GV San José",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-05-09",
+   "localId": "20890",
+   "local": "Real Tomayapo",
+   "visitaId": "22137",
+   "visita": "San Antonio Bulo Bulo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "6047",
+   "local": "Blooming",
+   "visitaId": "2681",
+   "visita": "Bolívar",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "20889",
+   "local": "Independiente Petrolero",
+   "visitaId": "19425",
+   "visita": "Always Ready",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-10",
+   "localId": "2687",
+   "local": "The Strongest",
+   "visitaId": "6051",
+   "visita": "Real Potosí",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-05-11",
+   "localId": "130875",
+   "local": "ABB",
+   "visitaId": "2682",
+   "visita": "Oriente Petrolero",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-12",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "21379",
+   "visita": "Universitario de Vinto",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "6046",
+   "local": "Aurora",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-13",
+   "localId": "20889",
+   "local": "Independiente Petrolero",
+   "visitaId": "6047",
+   "visita": "Blooming",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "19425",
+   "local": "Always Ready",
+   "visitaId": "2687",
+   "visita": "The Strongest",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-05-14",
+   "localId": "2681",
+   "local": "Bolívar",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-05-15",
+   "localId": "2682",
+   "local": "Oriente Petrolero",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "20890",
+   "local": "Real Tomayapo",
+   "visitaId": "6046",
+   "visita": "Aurora",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-05-16",
+   "localId": "21379",
+   "local": "Universitario de Vinto",
+   "visitaId": "2681",
+   "visita": "Bolívar",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-05-17",
+   "localId": "9497",
+   "local": "Guabirá",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-05-29",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-05-30",
+   "localId": "130875",
+   "local": "ABB",
+   "visitaId": "19425",
+   "visita": "Always Ready",
+   "jugado": true,
+   "marcador": "1-3"
+  },
+  {
+   "fecha": "2026-05-31",
+   "localId": "2682",
+   "local": "Oriente Petrolero",
+   "visitaId": "6047",
+   "visita": "Blooming",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-06-02",
+   "localId": "21379",
+   "local": "Universitario de Vinto",
+   "visitaId": "6046",
+   "visita": "Aurora",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-07",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "20890",
+   "visita": "Real Tomayapo",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-07-08",
+   "localId": "22523",
+   "local": "Real Oruro",
+   "visitaId": "21379",
+   "visita": "Universitario de Vinto",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-07-09",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "130875",
+   "visita": "ABB",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-10",
+   "localId": "10311",
+   "local": "Nacional Potosí",
+   "visitaId": "6046",
+   "visita": "Aurora",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-07-11",
+   "localId": "22523",
+   "local": "Real Oruro",
+   "visitaId": "22174",
+   "visita": "GV San José",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "20890",
+   "local": "Real Tomayapo",
+   "visitaId": "20889",
+   "visita": "Independiente Petrolero",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-12",
+   "localId": "2687",
+   "local": "The Strongest",
+   "visitaId": "2681",
+   "visita": "Bolívar",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-14",
+   "localId": "22523",
+   "local": "Real Oruro",
+   "visitaId": "19425",
+   "visita": "Always Ready",
+   "jugado": true,
+   "marcador": "0-6"
+  },
+  {
+   "fecha": "2026-07-15",
+   "localId": "6047",
+   "local": "Blooming",
+   "visitaId": "22174",
+   "visita": "GV San José",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-15",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "22137",
+   "visita": "San Antonio Bulo Bulo",
+   "jugado": true,
+   "marcador": "5-0"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "130875",
+   "local": "ABB",
+   "visitaId": "20889",
+   "visita": "Independiente Petrolero",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-16",
+   "localId": "2687",
+   "local": "The Strongest",
+   "visitaId": "2682",
+   "visita": "Oriente Petrolero",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "19425",
+   "local": "Always Ready",
+   "visitaId": "21379",
+   "visita": "Universitario de Vinto",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "2681",
+   "local": "Bolívar",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": true,
+   "marcador": "4-0"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "6046",
+   "local": "Aurora",
+   "visitaId": "2682",
+   "visita": "Oriente Petrolero",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "2687",
+   "visita": "The Strongest",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-07-20",
+   "localId": "6047",
+   "local": "Blooming",
+   "visitaId": "20890",
+   "visita": "Real Tomayapo",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-20",
+   "localId": "10311",
+   "local": "Nacional Potosí",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": true,
+   "marcador": "1-4"
+  },
+  {
+   "fecha": "2026-07-20",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "130875",
+   "visita": "ABB",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-21",
+   "localId": "20889",
+   "local": "Independiente Petrolero",
+   "visitaId": "6051",
+   "visita": "Real Potosí",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-24",
+   "localId": "6046",
+   "local": "Aurora",
+   "visitaId": "130875",
+   "visita": "ABB",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "19425",
+   "local": "Always Ready",
+   "visitaId": "22137",
+   "visita": "San Antonio Bulo Bulo",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "9497",
+   "local": "Guabirá",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "20889",
+   "local": "Independiente Petrolero",
+   "visitaId": "2682",
+   "visita": "Oriente Petrolero",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "6047",
+   "local": "Blooming",
+   "visitaId": "2687",
+   "visita": "The Strongest",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "2681",
+   "local": "Bolívar",
+   "visitaId": "6051",
+   "visita": "Real Potosí",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "10311",
+   "local": "Nacional Potosí",
+   "visitaId": "20890",
+   "visita": "Real Tomayapo",
+   "jugado": true,
+   "marcador": "4-1"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "21379",
+   "visita": "Universitario de Vinto",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "20890",
+   "local": "Real Tomayapo",
+   "visitaId": "130875",
+   "visita": "ABB",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "2687",
+   "local": "The Strongest",
+   "visitaId": "6046",
+   "visita": "Aurora",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-31",
+   "localId": "21379",
+   "local": "Universitario de Vinto",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "22523",
+   "local": "Real Oruro",
+   "visitaId": "20889",
+   "visita": "Independiente Petrolero",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "6047",
+   "visita": "Blooming",
+   "jugado": true,
+   "marcador": "2-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "19425",
+   "local": "Always Ready",
+   "visitaId": "2681",
+   "visita": "Bolívar",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "2682",
+   "local": "Oriente Petrolero",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "22174",
+   "visita": "GV San José",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "130875",
+   "local": "ABB",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-04",
+   "localId": "20889",
+   "local": "Independiente Petrolero",
+   "visitaId": "6046",
+   "visita": "Aurora",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "9497",
+   "local": "Guabirá",
+   "visitaId": "20890",
+   "visita": "Real Tomayapo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "22137",
+   "visita": "San Antonio Bulo Bulo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-05",
+   "localId": "10311",
+   "local": "Nacional Potosí",
+   "visitaId": "2687",
+   "visita": "The Strongest",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "6047",
+   "local": "Blooming",
+   "visitaId": "19425",
+   "visita": "Always Ready",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "2681",
+   "local": "Bolívar",
+   "visitaId": "2682",
+   "visita": "Oriente Petrolero",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-06",
+   "localId": "21379",
+   "local": "Universitario de Vinto",
+   "visitaId": "6051",
+   "visita": "Real Potosí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-07",
+   "localId": "130875",
+   "local": "ABB",
+   "visitaId": "9497",
+   "visita": "Guabirá",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-07",
+   "localId": "20890",
+   "local": "Real Tomayapo",
+   "visitaId": "22523",
+   "visita": "Real Oruro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "6046",
+   "local": "Aurora",
+   "visitaId": "2681",
+   "visita": "Bolívar",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "22137",
+   "local": "San Antonio Bulo Bulo",
+   "visitaId": "10311",
+   "visita": "Nacional Potosí",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "2687",
+   "local": "The Strongest",
+   "visitaId": "20889",
+   "visita": "Independiente Petrolero",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "22174",
+   "local": "GV San José",
+   "visitaId": "19425",
+   "visita": "Always Ready",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "2682",
+   "local": "Oriente Petrolero",
+   "visitaId": "21379",
+   "visita": "Universitario de Vinto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "6051",
+   "local": "Real Potosí",
+   "visitaId": "6047",
+   "visita": "Blooming",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

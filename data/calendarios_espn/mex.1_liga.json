@@ -1,0 +1,1350 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/mex.1",
+ "espnLeagueId": "mex.1",
+ "temporada": "Torneo Apertura",
+ "equipos": {
+  "216": "Atlas",
+  "218": "Cruz Azul",
+  "219": "Guadalajara",
+  "220": "Monterrey",
+  "222": "Querétaro",
+  "223": "Toluca",
+  "225": "Santos",
+  "226": "Atlante",
+  "227": "América",
+  "228": "León",
+  "229": "Necaxa",
+  "231": "Puebla",
+  "232": "Tigres UANL",
+  "233": "Pumas UNAM",
+  "234": "Pachuca",
+  "10125": "Tijuana",
+  "15720": "Atlético de San Luis",
+  "17851": "FC Juarez"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-07-17",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-17",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "15720",
+   "local": "Atlético de San Luis",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-07-18",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": true,
+   "marcador": "0-3"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "223",
+   "visita": "Toluca",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-07-19",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-22",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "17851",
+   "visita": "FC Juarez",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-25",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": true,
+   "marcador": "2-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": true,
+   "marcador": "0-1"
+  },
+  {
+   "fecha": "2026-07-26",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": true,
+   "marcador": "2-2"
+  },
+  {
+   "fecha": "2026-07-27",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "222",
+   "visita": "Querétaro",
+   "jugado": true,
+   "marcador": "1-2"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "15720",
+   "local": "Atlético de San Luis",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": true,
+   "marcador": "0-0"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": true,
+   "marcador": "1-5"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "231",
+   "local": "Puebla",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": true,
+   "marcador": "1-1"
+  },
+  {
+   "fecha": "2026-08-01",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": true,
+   "marcador": "3-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "227",
+   "local": "América",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": true,
+   "marcador": "3-0"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": true,
+   "marcador": "0-2"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": true,
+   "marcador": "2-3"
+  },
+  {
+   "fecha": "2026-08-02",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": true,
+   "marcador": "1-0"
+  },
+  {
+   "fecha": "2026-08-03",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": true,
+   "marcador": "3-1"
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "223",
+   "visita": "Toluca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "227",
+   "local": "América",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "17851",
+   "visita": "FC Juarez",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "222",
+   "visita": "Querétaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-17",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-17",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-18",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-18",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "223",
+   "visita": "Toluca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-22",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "231",
+   "local": "Puebla",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-24",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "222",
+   "visita": "Querétaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-29",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-31",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-31",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "17851",
+   "visita": "FC Juarez",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "15720",
+   "local": "Atlético de San Luis",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-05",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "227",
+   "local": "América",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-07",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "222",
+   "visita": "Querétaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-12",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-14",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-14",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-14",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "17851",
+   "visita": "FC Juarez",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "15720",
+   "local": "Atlético de San Luis",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-19",
+   "localId": "231",
+   "local": "Puebla",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "227",
+   "local": "América",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-21",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-21",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-21",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "222",
+   "visita": "Querétaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-26",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "223",
+   "visita": "Toluca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-27",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-28",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "17851",
+   "visita": "FC Juarez",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-28",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "231",
+   "local": "Puebla",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-10",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "223",
+   "visita": "Toluca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "227",
+   "local": "América",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "15720",
+   "local": "Atlético de San Luis",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-12",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "222",
+   "visita": "Querétaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-17",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "17851",
+   "visita": "FC Juarez",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-18",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-19",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-21",
+   "localId": "15720",
+   "local": "Atlético de San Luis",
+   "visitaId": "222",
+   "visita": "Querétaro",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-21",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-21",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-21",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-22",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-22",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-22",
+   "localId": "231",
+   "local": "Puebla",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-22",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-22",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "223",
+   "visita": "Toluca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-24",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "17851",
+   "visita": "FC Juarez",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "227",
+   "local": "América",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-26",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-26",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "15720",
+   "local": "Atlético de San Luis",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "232",
+   "visita": "Tigres UANL",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-31",
+   "localId": "231",
+   "local": "Puebla",
+   "visitaId": "233",
+   "visita": "Pumas UNAM",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "220",
+   "local": "Monterrey",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-02",
+   "localId": "218",
+   "local": "Cruz Azul",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "226",
+   "local": "Atlante",
+   "visitaId": "225",
+   "visita": "Santos",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "216",
+   "local": "Atlas",
+   "visitaId": "234",
+   "visita": "Pachuca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "229",
+   "local": "Necaxa",
+   "visitaId": "10125",
+   "visita": "Tijuana",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-07",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "223",
+   "local": "Toluca",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-09",
+   "localId": "228",
+   "local": "León",
+   "visitaId": "219",
+   "visita": "Guadalajara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-09",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "231",
+   "visita": "Puebla",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "17851",
+   "local": "FC Juarez",
+   "visitaId": "216",
+   "visita": "Atlas",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "234",
+   "local": "Pachuca",
+   "visitaId": "223",
+   "visita": "Toluca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "231",
+   "local": "Puebla",
+   "visitaId": "15720",
+   "visita": "Atlético de San Luis",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "225",
+   "local": "Santos",
+   "visitaId": "228",
+   "visita": "León",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-21",
+   "localId": "10125",
+   "local": "Tijuana",
+   "visitaId": "226",
+   "visita": "Atlante",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "219",
+   "local": "Guadalajara",
+   "visitaId": "218",
+   "visita": "Cruz Azul",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "233",
+   "local": "Pumas UNAM",
+   "visitaId": "220",
+   "visita": "Monterrey",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-22",
+   "localId": "232",
+   "local": "Tigres UANL",
+   "visitaId": "227",
+   "visita": "América",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-23",
+   "localId": "222",
+   "local": "Querétaro",
+   "visitaId": "229",
+   "visita": "Necaxa",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}

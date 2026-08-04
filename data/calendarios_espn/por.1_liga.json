@@ -1,0 +1,2763 @@
+{
+ "fuente": "https://www.espn.com.co/futbol/calendario/_/liga/por.1",
+ "espnLeagueId": "por.1",
+ "temporada": "2026-27 Portuguese Primeira Liga",
+ "equipos": {
+  "437": "FC Porto",
+  "552": "Maritimo",
+  "1929": "Benfica",
+  "2250": "Sporting CP",
+  "2994": "Braga",
+  "3472": "C.D. Nacional",
+  "3696": "Moreirense",
+  "3699": "Gil Vicente",
+  "3822": "Rio Ave",
+  "5309": "Vitória de Guimaraes",
+  "12215": "Santa Clara",
+  "12216": "Estoril",
+  "12698": "FC Famalicao",
+  "15784": "Arouca",
+  "21581": "Casa Pia",
+  "21607": "Académico de Viseu",
+  "21610": "Estrela",
+  "21613": "Alverca"
+ },
+ "partidos": [
+  {
+   "fecha": "2026-08-07",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-08",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-10",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-14",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-15",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-16",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-23",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-08-30",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-06",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-13",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-09-20",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-11",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-10-25",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-01",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-08",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-11-29",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-06",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-13",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-20",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2026-12-27",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-10",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-17",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-24",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-01-31",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-07",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-14",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-21",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-02-28",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-07",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-14",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-03-21",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-04",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-11",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-18",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "12215",
+   "local": "Santa Clara",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-04-25",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "2250",
+   "visita": "Sporting CP",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-02",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "21607",
+   "local": "Académico de Viseu",
+   "visitaId": "3696",
+   "visita": "Moreirense",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "21613",
+   "local": "Alverca",
+   "visitaId": "12216",
+   "visita": "Estoril",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "15784",
+   "local": "Arouca",
+   "visitaId": "3699",
+   "visita": "Gil Vicente",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "2994",
+   "local": "Braga",
+   "visitaId": "552",
+   "visita": "Maritimo",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "3472",
+   "local": "C.D. Nacional",
+   "visitaId": "437",
+   "visita": "FC Porto",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "21610",
+   "local": "Estrela",
+   "visitaId": "12215",
+   "visita": "Santa Clara",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "12698",
+   "local": "FC Famalicao",
+   "visitaId": "21581",
+   "visita": "Casa Pia",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "3822",
+   "local": "Rio Ave",
+   "visitaId": "5309",
+   "visita": "Vitória de Guimaraes",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-09",
+   "localId": "2250",
+   "local": "Sporting CP",
+   "visitaId": "1929",
+   "visita": "Benfica",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "1929",
+   "local": "Benfica",
+   "visitaId": "15784",
+   "visita": "Arouca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "21581",
+   "local": "Casa Pia",
+   "visitaId": "21607",
+   "visita": "Académico de Viseu",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "12216",
+   "local": "Estoril",
+   "visitaId": "21610",
+   "visita": "Estrela",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "437",
+   "local": "FC Porto",
+   "visitaId": "2994",
+   "visita": "Braga",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "3699",
+   "local": "Gil Vicente",
+   "visitaId": "3472",
+   "visita": "C.D. Nacional",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "552",
+   "local": "Maritimo",
+   "visitaId": "21613",
+   "visita": "Alverca",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "3696",
+   "local": "Moreirense",
+   "visitaId": "3822",
+   "visita": "Rio Ave",
+   "jugado": false,
+   "marcador": null
+  },
+  {
+   "fecha": "2027-05-16",
+   "localId": "5309",
+   "local": "Vitória de Guimaraes",
+   "visitaId": "12698",
+   "visita": "FC Famalicao",
+   "jugado": false,
+   "marcador": null
+  }
+ ]
+}
