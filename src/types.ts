@@ -471,7 +471,11 @@ export interface MatchEvent {
 // (ver PlayHighlightCanvas.tsx). Anotado a mano sobre cada choice existente -- el requiredAttr solo
 // no alcanza para decidir el clip (hay jugadas de 'tiro' que no son gol, ver el córner forzado en
 // MatchSimulator.tsx), así que se categorizó cada una viendo qué se vería realmente en cancha.
-export type PlayClipType = 'gol' | 'pase' | 'defensa' | 'gambeta' | 'duelo_fisico' | 'posicionamiento' | 'arquero';
+// 'posicionamiento' se sacó del catálogo tras una auditoría: la pelota quedaba estática y
+// "abandonada" mientras el jugador se movía, sin forma de representarlo bien sin pelota en juego.
+// Esas decisiones (lectura de espacio, órdenes tácticas) quedan sin clipType -- van directo a
+// texto, como antes de esta feature.
+export type PlayClipType = 'gol' | 'pase' | 'defensa' | 'gambeta' | 'duelo_fisico' | 'arquero';
 
 export interface MatchDecision {
   prompt: string;
