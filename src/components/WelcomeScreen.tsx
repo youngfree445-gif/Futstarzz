@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlayerProfile } from '../types';
+import { CLUBS_DATABASE } from '../data';
 import { Trophy, Play, RefreshCw, Trash2, Calendar, Star, DollarSign, Award, Flame, Disc, Coins, Heart } from 'lucide-react';
 
 interface WelcomeScreenProps {
@@ -18,6 +19,9 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
     { id: 'slot_1', label: 'Partida Guardada I', profile: null },
     { id: 'slot_2', label: 'Partida Guardada II', profile: null },
     { id: 'slot_3', label: 'Partida Guardada III', profile: null },
+    { id: 'slot_4', label: 'Partida Guardada IV', profile: null },
+    { id: 'slot_5', label: 'Partida Guardada V', profile: null },
+    { id: 'slot_6', label: 'Partida Guardada VI', profile: null },
   ]);
 
   const [activeTab, setActiveTab] = useState<'saves' | 'awards'>('saves');
@@ -99,9 +103,9 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
       </div>
 
       {/* Contenedor Principal de Datos */}
-      <div className="w-full max-w-2xl relative z-10">
+      <div className="w-full max-w-3xl relative z-10">
         {activeTab === 'saves' ? (
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             {slots.map(slot => {
               const hasSave = slot.profile !== null;
               const profile = slot.profile;
@@ -139,8 +143,15 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                         <p className="text-[11px] text-slate-400 font-semibold mt-0.5">
                           {profile.position}
                         </p>
-                        
-                        <div className="text-3xs text-gold-500 font-extrabold uppercase mt-1.5 flex items-center gap-1">
+
+                        <div className="text-3xs text-gold-400 font-black uppercase mt-1.5 flex items-center gap-1 truncate">
+                          <span>🛡️</span>
+                          <span className="truncate">
+                            {CLUBS_DATABASE.find(c => c.id === profile.currentClubId)?.name ?? '—'}
+                          </span>
+                        </div>
+
+                        <div className="text-3xs text-slate-500 font-extrabold uppercase mt-1 flex items-center gap-1">
                           <span>📍</span> {profile.nationality}
                         </div>
 
