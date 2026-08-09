@@ -39,28 +39,125 @@ export function dayForDate(date: string): number {
   return Math.round((Date.parse(`${date}T00:00:00Z`) - base) / MS_POR_DIA) + 1;
 }
 
-// Índice club -> partidos, ordenados por fecha. Se arma una sola vez: recorrer los 504 partidos en
-// cada avance de día se nota en móvil.
-let indice: Map<string, DatedFixture[]> | null = null;
+/**
+ * Cuántas temporadas puede vivir una carrera. De los 17 a los ~45 años son 28 campañas; se deja
+ * margen. Es el tope del calendario: más allá de esto un club se queda sin fechas.
+ */
+const MAX_TEMPORADAS = 32;
 
-function getIndice(): Map<string, DatedFixture[]> {
-  if (indice) return indice;
-  indice = new Map();
+/**
+ * El calendario real cubre UNA temporada (2026, más el arranque 2025-26 de las ligas europeas). Una
+ * carrera dura 20+. Antes, de la temporada 2 en adelante el club pasaba a un motor de fixture
+ * sintético que llevaba su PROPIO reloj de "semanas" -- y ese reloj derivaba del calendario real
+ * hasta el doble: en el Brasileirão, la fecha 38 real caía en la jornada 20 sintética. De ahí salía
+ * el bug de "me decía un partido y se jugaba otro".
+ *
+ * Ahora hay UN solo reloj: la fecha. Las temporadas siguientes reusan las FECHAS reales corridas un
+ * año, y resortean quién juega contra quién permutando los clubes de la competición. La permutación
+ * es determinística (semilla = id de competición + temporada), así que el mismo save siempre ve el
+ * mismo calendario, sin depender de Math.random().
+ *
+ * Permutar clubes en vez de generar un fixture nuevo tiene una ventaja concreta: el calendario
+ * resultante es estructuralmente el real, así que sigue siendo válido para cualquier formato --
+ * Apertura/Clausura, conferencias de la MLS, ligas con fechas impares -- sin tener que modelar cada
+ * uno.
+ */
+function hashTexto(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
 
+/** PRNG determinístico: misma semilla, misma secuencia. */
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Los clubes que participan en una competición, deducidos de sus propios partidos. */
+function clubesDe(comp: DatedCompetition): string[] {
+  const set = new Set<string>();
+  for (const m of comp.matches) { set.add(m.home); set.add(m.away); }
+  return [...set].sort();
+}
+
+/** Club -> club que ocupa su lugar en el calendario de esa temporada. */
+function permutacionDeClubes(clubes: string[], semilla: number): Map<string, string> {
+  const rnd = mulberry32(semilla);
+  const destino = [...clubes];
+  for (let i = destino.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [destino[i], destino[j]] = [destino[j], destino[i]];
+  }
+  const m = new Map<string, string>();
+  clubes.forEach((c, i) => m.set(c, destino[i]));
+  return m;
+}
+
+/** Misma fecha, `anios` años después. El 29/2 cae en 28/2 los años no bisiestos. */
+function sumarAnios(date: string, anios: number): string {
+  const [a, m, d] = date.split('-').map(Number);
+  const anio = a + anios;
+  const ultimoDiaDelMes = new Date(Date.UTC(anio, m, 0)).getUTCDate();
+  const dia = Math.min(d, ultimoDiaDelMes);
+  return `${anio}-${String(m).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+}
+
+/** La competición tal como se juega en esa temporada de carrera (1 = la real, sin tocar). */
+function competicionEnTemporada(comp: DatedCompetition, temporada: number): DatedCompetition {
+  if (temporada === 1) return comp;
+  const desplazamiento = temporada - 1;
+  const perm = permutacionDeClubes(clubesDe(comp), hashTexto(comp.id) + temporada * 7919);
+  const matches = comp.matches.map(m => ({
+    ...m,
+    date: sumarAnios(m.date, desplazamiento),
+    home: perm.get(m.home) ?? m.home,
+    away: perm.get(m.away) ?? m.away,
+  }));
+  const fechas = matches.map(m => m.date).sort();
+  return { ...comp, matches, firstDate: fechas[0] ?? null, lastDate: fechas[fechas.length - 1] ?? null };
+}
+
+// Índice club -> partidos de UNA temporada, ordenados por fecha. Se cachea por temporada: recorrer
+// los 7808 partidos en cada avance de día se nota en móvil.
+const indicePorTemporada = new Map<number, Map<string, DatedFixture[]>>();
+
+function getIndice(temporada = 1): Map<string, DatedFixture[]> {
+  const cacheado = indicePorTemporada.get(temporada);
+  if (cacheado) return cacheado;
+
+  const indice = new Map<string, DatedFixture[]>();
   const agregar = (club: string, fx: DatedFixture) => {
-    const lista = indice!.get(club);
+    const lista = indice.get(club);
     if (lista) lista.push(fx);
-    else indice!.set(club, [fx]);
+    else indice.set(club, [fx]);
   };
 
-  for (const comp of DATED_CALENDARS) {
+  for (const original of DATED_CALENDARS) {
+    const comp = competicionEnTemporada(original, temporada);
     for (const match of comp.matches) {
+      // En la temporada 1 se descartan las fechas anteriores al arranque de la carrera (media
+      // temporada europea ya jugada). De la 2 en adelante todas las fechas son futuras.
+      if (temporada === 1 && match.date < CAREER_START_DATE) continue;
       agregar(match.home, { competition: comp, match, date: match.date, isHome: true, opponentName: match.away });
       agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home });
     }
   }
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
+  indicePorTemporada.set(temporada, indice);
   return indice;
+}
+
+/** Las fechas distintas de una lista de partidos: dos partidos el mismo día son UN paso. */
+function fechasDistintas(fixtures: DatedFixture[]): string[] {
+  const fechas: string[] = [];
+  for (const f of fixtures) if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
+  return fechas;
 }
 
 /** ¿Este club tiene calendario con fechas reales? */
@@ -393,14 +490,43 @@ export function pickPrimary(fixtures: DatedFixture[]): DatedFixture | null {
  * Devuelve null cuando el club ya agotó su calendario real; el motor sigue avanzando por su cuenta.
  */
 export function fixturesAtStep(clubName: string, step: number): { date: string; fixtures: DatedFixture[] } | null {
-  const todas = fixturesForClub(clubName).filter(f => f.date >= CAREER_START_DATE);
-  if (!todas.length) return null;
+  if (step < 1) return null;
+  // Los pasos se numeran de corrido a través de las temporadas: si la temporada 1 tiene 42 fechas,
+  // el paso 43 es la primera fecha de la temporada 2. Así el reloj de la carrera nunca se queda sin
+  // calendario y no hace falta un motor paralelo que tome el relevo.
+  let restante = step;
+  for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
+    const todas = getIndice(temporada).get(clubName) ?? [];
+    if (!todas.length) {
+      // Un club sin fechas en la temporada 1 no tiene calendario real: no hay nada que recorrer.
+      if (temporada === 1) return null;
+      continue;
+    }
+    const fechas = fechasDistintas(todas);
+    if (restante <= fechas.length) {
+      const date = fechas[restante - 1];
+      return { date, fixtures: todas.filter(f => f.date === date) };
+    }
+    restante -= fechas.length;
+  }
+  return null;
+}
 
-  // Fechas distintas, en orden: dos partidos el mismo día cuentan como un solo paso.
-  const fechas: string[] = [];
-  for (const f of todas) if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
-
-  const date = fechas[step - 1];
-  if (!date) return null;
-  return { date, fixtures: todas.filter(f => f.date === date) };
+/** En qué temporada de carrera cae un paso, y cuál es el primer paso de esa temporada. */
+export function temporadaDelPaso(clubName: string, step: number): { temporada: number; primerPaso: number } | null {
+  if (step < 1) return null;
+  let restante = step;
+  let primerPaso = 1;
+  for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
+    const todas = getIndice(temporada).get(clubName) ?? [];
+    if (!todas.length) {
+      if (temporada === 1) return null;
+      continue;
+    }
+    const fechas = fechasDistintas(todas);
+    if (restante <= fechas.length) return { temporada, primerPaso };
+    restante -= fechas.length;
+    primerPaso += fechas.length;
+  }
+  return null;
 }

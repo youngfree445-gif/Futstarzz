@@ -1755,21 +1755,23 @@ export default function App() {
           const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
           const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
           const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
-          if (upcoming) {
-            let opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId)!;
-            let isHomeRest = upcoming.isHome;
-            // Mismo criterio que el flujo principal más abajo: si el club tiene calendario real para
-            // HOY, el rival real manda sobre el del motor sintético. Sin esto, "Sin ti en el campo..."
-            // podía anunciar un rival distinto al que de verdad tocaba jugar esa fecha. Bug reportado:
-            // "la pantalla que dice cuando te pierdes un partido... nunca dice el partido correcto".
-            if (hasDatedLeagueSchedule(myClub.name)) {
-              const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
-              const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
-              if (fx?.competition.kind === 'league') {
-                const rivalReal = resolverClubDeCalendario(leagueClubs, fx.opponentName, myClub.league, 'league', fx.competition.name);
-                if (rivalReal) { opponentClub = rivalReal; isHomeRest = fx.isHome; }
-              }
+          // El calendario real manda, y no se exige `upcoming`: con la deriva entre relojes el motor
+          // puede no tener fixture mientras el calendario real sí tiene fecha, y ahí "Sin ti en el
+          // campo..." se saltaba un partido que de verdad se jugaba. Bug reportado: "la pantalla que
+          // dice cuando te pierdes un partido... nunca dice el partido correcto".
+          let rivalRest: Club | null = null;
+          let isHomeRestReal = false;
+          if (hasDatedLeagueSchedule(myClub.name)) {
+            const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
+            const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
+            if (fx?.competition.kind === 'league') {
+              const encontrado = resolverClubDeCalendario(leagueClubs, fx.opponentName, myClub.league, 'league', fx.competition.name);
+              if (encontrado) { rivalRest = encontrado; isHomeRestReal = fx.isHome; }
             }
+          }
+          if (rivalRest || upcoming) {
+            let opponentClub = rivalRest ?? leagueClubs.find(c => c.id === upcoming!.opponentId)!;
+            let isHomeRest = rivalRest ? isHomeRestReal : upcoming!.isHome;
             const { homeGoals, awayGoals } = isHomeRest ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
             const myGoals = isHomeRest ? homeGoals : awayGoals;
             const rivalGoals = isHomeRest ? awayGoals : homeGoals;
@@ -2318,18 +2320,20 @@ export default function App() {
         // descuenta la fecha de sanción y el calendario sigue corriendo.
         let opponentClub = upcoming ? leagueClubs.find(c => c.id === upcoming.opponentId) : undefined;
         let isHomeSancion = upcoming?.isHome ?? true;
-        // Mismo criterio que el resto del flujo: si el club tiene calendario real para HOY, el
-        // rival real manda sobre el del motor sintético. Sin esto, una sanción resolvía el partido
-        // contra un rival que no era el que de verdad tocaba jugar esa fecha.
-        if (upcoming && hasDatedLeagueSchedule(myClub.name)) {
+        // Mismo criterio que el flujo principal: el calendario real manda. Va SIN exigir `upcoming`
+        // -- con la deriva entre los dos relojes el motor puede no tener fixture para su jornada
+        // mientras el calendario real sí tiene fecha, y en ese caso la sanción tiene que consumirse
+        // igual contra el rival real, no saltearse.
+        let hayFechaReal = false;
+        if (hasDatedLeagueSchedule(myClub.name)) {
           const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
           const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
           if (fx?.competition.kind === 'league') {
             const rivalReal = resolverClubDeCalendario(leagueClubs, fx.opponentName, myClub.league, 'league', fx.competition.name);
-            if (rivalReal) { opponentClub = rivalReal; isHomeSancion = fx.isHome; }
+            if (rivalReal) { opponentClub = rivalReal; isHomeSancion = fx.isHome; hayFechaReal = true; }
           }
         }
-        if (upcoming && opponentClub) {
+        if ((upcoming || hayFechaReal) && opponentClub) {
           resolveSuspendedLeagueWeek(myClub, leagueKey, leagueClubs, season, isHomeSancion, opponentClub);
         } else {
           advanceSuspendedIdleWeek(myClub, leagueKey, leagueClubs, season);
@@ -2337,28 +2341,39 @@ export default function App() {
         return;
       }
 
-      if (upcoming) {
-        const opponentClub = leagueClubs.find(c => c.id === upcoming.opponentId);
-        opName = opponentClub?.name || OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
-        opClubId = upcoming.opponentId;
-        isHomeThisMatch = upcoming.isHome;
+      // El calendario real es la ÚNICA fuente de verdad de contra quién jugás hoy.
+      //
+      // Antes esto estaba al revés: el motor sintético (`upcoming`) decidía si había partido y
+      // contra quién, y el calendario real solo lo "pisaba" después, ya adentro del if. El problema
+      // es que los dos llevan relojes DISTINTOS -- leagueMatchweeksElapsed cuenta semanas de 52
+      // salteando semanas de copa fijas, mientras que el calendario real cuenta FECHAS con partido --
+      // y derivan hasta el doble: en el Brasileirão la fecha 38 real cae en la jornada 20 sintética.
+      // Con esa deriva, si el motor no encontraba fixture para su jornada (`upcoming` null) el
+      // partido REAL no se jugaba, y en las fechas en que el calendario real marcaba copa el rival
+      // quedaba siendo el del motor. Bug reportado: "jugué el Brasileirão y para la segunda parte de
+      // la temporada me decía un partido y se jugaba otro".
+      //
+      // Se busca dentro de leagueClubs (la propia liga) y no en toda la base: hay nombres duplicados
+      // entre países -- "Athletic Club" existe en Brasil y en España -- y un find() global devolvía
+      // el primero, metiendo un club brasileño en LaLiga.
+      const rivalDeCalendarioReal = usaCalendarioReal && realPrimary?.competition.kind === 'league'
+        ? resolverClubDeCalendario(
+            leagueClubs, realPrimary.opponentName, myClub.league, 'league', realPrimary.competition.name)
+        : null;
 
-        // Con calendario real, el rival y la localía salen de la fecha de Transfermarkt. La TABLA
-        // la sigue llevando el motor (necesita simular los otros 19 partidos de la jornada), así
-        // que solo se pisa el rival puntual del jugador, no el estado de la liga.
-        let esPartidoDeCalendarioReal = false;
-        if (usaCalendarioReal && realPrimary?.competition.kind === 'league') {
-          // Se busca dentro de leagueClubs (la propia liga) y no en toda la base: hay nombres
-          // duplicados entre países -- "Athletic Club" existe en Brasil y en España -- y un
-          // find() global devolvía el primero, metiendo un club brasileño en LaLiga.
-          const rivalReal = resolverClubDeCalendario(
-            leagueClubs, realPrimary.opponentName, myClub.league, 'league', realPrimary.competition.name);
-          if (rivalReal) {
-            opName = rivalReal.name;
-            opClubId = rivalReal.id;
-            isHomeThisMatch = realPrimary.isHome;
-            esPartidoDeCalendarioReal = true;
-          }
+      if (rivalDeCalendarioReal || upcoming) {
+        // La TABLA la sigue llevando el motor (necesita simular los otros 19 partidos de la fecha),
+        // pero el partido del jugador sale del calendario real siempre que exista.
+        const esPartidoDeCalendarioReal = !!rivalDeCalendarioReal;
+        if (rivalDeCalendarioReal) {
+          opName = rivalDeCalendarioReal.name;
+          opClubId = rivalDeCalendarioReal.id;
+          isHomeThisMatch = realPrimary!.isHome;
+        } else {
+          const opponentClub = leagueClubs.find(c => c.id === upcoming!.opponentId);
+          opName = opponentClub?.name || OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+          opClubId = upcoming!.opponentId;
+          isHomeThisMatch = upcoming!.isHome;
         }
 
         // Apertura/Clausura para el header: si el partido de hoy vino del calendario real, el
