@@ -6,7 +6,6 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { hasRealSchedule, matchesThisWeek, pickPrimary } from '../realSchedule';
 import { calendarioDeLigaAgotado, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -763,9 +762,9 @@ export default function Dashboard({
     const pasoConFecha = hasDatedLeagueSchedule(currentClub.name)
       ? fixturesAtStep(currentClub.name, playerProfile.currentWeek)
       : null;
-    const legadoDeLaSemana = !pasoConFecha && hasRealSchedule(currentClub.name)
-      ? pickPrimary(matchesThisWeek(currentClub.name, playerProfile.currentWeek))
-      : null;
+    // El calendario semanal legado (realSchedule.ts) se eliminó: llevaba su propio reloj de jornadas
+    // y derivaba del calendario por fechas, que ahora es la única fuente de verdad.
+    const legadoDeLaSemana = null;
     // El calendario semanal LEGADO de copa nacional (realSchedule.ts) es un fixture fijo de 2024 sin
     // eliminación real -- para los países que ya tienen el bracket de copaNacional.ts (con sorteo,
     // ida/vuelta y coronación de verdad), ese legado no debe ganarle a la tarjeta: mostraba un rival

@@ -10,10 +10,9 @@ import { refreshTransferOffersIfNeeded } from './transferMarket';
 import { generateWorldRanking } from './worldRanking';
 import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
-import { hasRealSchedule, matchesThisWeek, pickPrimary } from './realSchedule';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -281,6 +280,19 @@ const ROLE_UNLOCK_MATCHES = 15;
 // Fase 3 -- Modo Veterano: a partir de esta edad el declive físico empieza a pesar más que las
 // mejoras de entrenamiento; a partir de esta otra, se te acaba la carrera (no hay club que te
 // contrate a ese nivel físico).
+/**
+ * Fecha y temporada del paso actual de un club. Es lo que necesita el motor para armar la tabla con
+ * el MISMO calendario del que sale el partido que juega el jugador -- antes la tabla la resolvía el
+ * legado semanal, con su propio reloj de jornadas, y registraba un rival distinto al de la pantalla.
+ *
+ * undefined si el club no tiene calendario real: ahí el motor cae a su fixture generado, como antes.
+ */
+function contextoRealDelPaso(clubName: string, step: number): { fecha: string; temporada: number } | undefined {
+  const paso = fixturesAtStep(clubName, step);
+  const t = temporadaDelPaso(clubName, step);
+  return paso && t ? { fecha: paso.date, temporada: t.temporada } : undefined;
+}
+
 const VETERAN_DECLINE_START_AGE = 32;
 
 // Carreras iniciadas en "modo veterano" (ver startedAsVeteran, elegido en SetupScreen) tienen su
@@ -1775,7 +1787,7 @@ export default function App() {
             const { homeGoals, awayGoals } = isHomeRest ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
             const myGoals = isHomeRest ? homeGoals : awayGoals;
             const rivalGoals = isHomeRest ? awayGoals : homeGoals;
-            const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, isHomeRest, myGoals, rivalGoals);
+            const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, isHomeRest, myGoals, rivalGoals, undefined, contextoRealDelPaso(myClub.name, playerProfile.currentWeek));
             updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
             restResultMsg = ` Sin ti en el campo, ${myClub.name} ${myGoals}-${rivalGoals} ${opponentClub.name}.`;
           }
@@ -1886,13 +1898,13 @@ export default function App() {
 
     // Mismo criterio que usaCalendarioReal más abajo: el legado solo corre para clubes que NUNCA
     // tuvieron calendario real de fecha exacta, no para los que lo agotaron.
-    const realWeekMatches = !inWorldCupBreak && myClubForSchedule && !usaFechasReales && !tieneFechasReales
-      ? matchesThisWeek(myClubForSchedule.name, playerProfile.currentWeek)
-      : [];
+    // El calendario semanal legado (realSchedule.ts) se eliminó: llevaba su propio reloj de jornadas
+    // y derivaba del calendario por fechas. Queda el array vacío para no cambiar la forma de abajo.
+    const realWeekMatches: DatedFixture[] = [];
 
     // Los dos calendarios exponen la misma forma ({ opponentName, isHome, competition }), así que
     // de acá para abajo el código no distingue de cuál vino el partido: solo cambia la fuente.
-    const realPrimary = datedPrimary ?? pickPrimary(realWeekMatches);
+    const realPrimary = datedPrimary;
     // El legado semanal (hasRealSchedule) solo puede tomar el control si el club NUNCA tuvo
     // calendario real de fecha exacta -- no cuando lo tuvo y ya se agotó (tieneFechasReales true,
     // usaFechasReales false). Antes, apenas se agotaba el calendario real de Flamengo (después del
@@ -1902,7 +1914,7 @@ export default function App() {
     // (el legado no la tiene con bracket), la temporada que no cerraba nunca y el mismo próximo
     // partido repitiéndose. Bug reportado: "hice una carrera en Brasil... no se jugó la copa, y
     // tampoco se acabó nunca la temporada... salía el mismo próximo partido varias veces".
-    const usaCalendarioReal = !!myClubForSchedule && (usaFechasReales || (!tieneFechasReales && hasRealSchedule(myClubForSchedule.name)));
+    const usaCalendarioReal = !!myClubForSchedule && usaFechasReales;
 
     // ¿Tu club está jugando una copa continental que el motor sí modela? El calendario importado
     // solo trae 36 clubes en Libertadores y no incluye a varios que el motor sí clasifica (Junior
@@ -2491,7 +2503,7 @@ export default function App() {
     const myGoals = isHomeThisMatch ? homeGoals : awayGoals;
     const rivalGoals = isHomeThisMatch ? awayGoals : homeGoals;
 
-    const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, isHomeThisMatch, myGoals, rivalGoals);
+    const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, isHomeThisMatch, myGoals, rivalGoals, undefined, contextoRealDelPaso(myClub.name, playerProfile.currentWeek));
     let updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
 
     for (const key of Object.keys(updatedLeagueSeasons)) {
@@ -2926,7 +2938,8 @@ export default function App() {
 
       const resolvedSeason = resolvePlayerWeekForLeague(
         existingSeason, leagueClubs, playerProfile.currentWeek, myClub.id,
-        isHomeParaElMotor, results.golesMiEquipo, results.golesRival, shootoutOverride
+        isHomeParaElMotor, results.golesMiEquipo, results.golesRival, shootoutOverride,
+        contextoRealDelPaso(myClub.name, playerProfile.currentWeek)
       );
 
       const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId)

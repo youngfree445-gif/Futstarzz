@@ -1,6 +1,6 @@
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 import type { DomesticCupState } from './copaNacional';
-import { REAL_CALENDARS, type RealCompetition } from './realCalendar';
+import { competicionEnTemporada, ligaDeClubes } from './seasonCalendar';
 import { ALIAS_CALENDARIO } from './clubAliases';
 import { displayName } from './worldRetirements';
 
@@ -995,84 +995,18 @@ export function getOrCreateSeasonForLeague(
   const format = isApeturaClausuraLeague(leagueClubs[0].league);
   const leagueKey = leagueKeyFor(leagueClubs[0]);
 
-  // Con calendario real no se pre-genera nada: las fechas se van jugando desde el calendario a
-  // medida que avanzan las semanas (ver resolveRealLeagueWeek). Antes se generaba igual un fixture
-  // completo de 380 partidos con el motor viejo, y como después se le sumaban encima las jornadas
-  // reales, cada club terminaba con 42 partidos en vez de 38: dos fixtures conviviendo sobre la
-  // misma tabla.
-  if (leagueCompetitionFor(leagueClubs)) {
-    return catchUpRealLeague(existing ?? { leagueKey, fixtures: [], table: buildInitialTable(leagueClubs), round: 0 }, leagueClubs, currentWeek);
+  // Con calendario real no se pre-genera nada ni se hace catch-up acá: resolveLigaPorFecha ya
+  // resuelve, en cada paso, todo lo pendiente hasta la fecha de hoy. Antes esto llamaba a
+  // catchUpRealLeague, que ponía la liga al día con el reloj de JORNADAS del calendario legado --
+  // otro reloj más, escribiendo en la misma tabla con un formato de `round` incompatible.
+  if (ligaDeClubes(new Set(leagueClubs.map(c => c.name)))) {
+    return existing ?? { leagueKey, fixtures: [], table: buildInitialTable(leagueClubs), round: 0 };
   }
 
   if (format) return getOrCreateApeturaClausuraSeason(leagueClubs, existing, currentWeek, format);
   return getOrCreateLeagueSeason(leagueKey, leagueClubs, existing, currentWeek);
 }
 
-/**
- * Pone la liga al día simulando las jornadas reales que ya deberían haberse jugado a esta altura del
- * año. Es lo que permite que las ~50 ligas corran de fondo sin que el jugador las juegue: al abrir
- * la tabla de la Bundesliga en la semana 20, sus fechas 1..N ya están jugadas.
- */
-function catchUpRealLeague(
-  season: LeagueSeasonState,
-  leagueClubs: Club[],
-  currentWeek: number
-): LeagueSeasonState {
-  const comp = leagueCompetitionFor(leagueClubs);
-  if (!comp) return season;
-
-  const w = ((currentWeek - 1) % SEASON_LENGTH_WEEKS) + 1;
-  // Cuántas jornadas deberían estar jugadas: una por cada semana de liga ya transcurrida. Se cuenta
-  // sobre las mismas semanas que usa resolveRealLeagueWeek, para que la liga corriendo de fondo y la
-  // del jugador vayan por la misma fecha.
-  const orden = jornadasEnOrden(comp);
-  let objetivo = 0;
-  for (const semana of semanasDeLiga(comp)) if (semana < w) objetivo++;
-  objetivo = Math.min(objetivo, orden.length);
-
-  const porNombre = new Map<string, Club>();
-  for (const c of leagueClubs) porNombre.set(realScheduleName(c.name), c);
-
-  let table = season.table;
-  const fixtures = [...season.fixtures];
-  const jugadas = new Set(fixtures.map(fx => fx.round).filter((r): r is string => !!r));
-
-  for (const ronda of orden.slice(0, objetivo)) {
-    if (jugadas.has(ronda)) continue;
-    for (const m of comp.matches.filter(x => x.round === ronda)) {
-      const home = porNombre.get(m.home);
-      const away = porNombre.get(m.away);
-      if (!home || !away) continue;
-      const { homeGoals, awayGoals } = simulateMatch(home, away);
-      table = applyResultToTable(table, home.id, away.id, homeGoals, awayGoals);
-      fixtures.push({ matchweek: m.w, homeTeamId: home.id, awayTeamId: away.id, played: true, homeGoals, awayGoals, round: ronda });
-    }
-    jugadas.add(ronda);
-  }
-
-  // Temporada terminada: se arranca una nueva con la tabla en cero.
-  //
-  // Sin esto la carrera se moría al terminar el primer año, igual que pasaba en Apertura/Clausura:
-  // jugadas las 38 jornadas, `rondaDeHoy` en resolveRealLeagueWeek no encuentra ninguna pendiente y
-  // getUpcomingMatchForLeague devuelve null para siempre. El Bayern jugaba 21 partidos y no volvía
-  // a jugar nunca -- 1436 pasos seguidos sin un solo partido.
-  //
-  // Se compara contra el año de carrera y no contra "están todas jugadas" a secas: así la temporada
-  // nueva arranca una sola vez por año y no se reinicia en cada llamada.
-  const anioDeCarrera = getSeasonYear(currentWeek);
-  const temporadaCompleta = jugadas.size >= orden.length && orden.length > 0;
-  if (temporadaCompleta && (season.seasonYear ?? 1) <= anioDeCarrera) {
-    return {
-      leagueKey: season.leagueKey,
-      fixtures: [],
-      table: buildInitialTable(leagueClubs),
-      round: 0,
-      seasonYear: anioDeCarrera + 1,
-    };
-  }
-
-  return { leagueKey: season.leagueKey, fixtures, table, round: jugadas.size, seasonYear: season.seasonYear };
-}
 
 export function getUpcomingMatchForLeague(
   season: LeagueSeasonState,
@@ -2097,14 +2031,17 @@ export function resolvePlayerWeekForLeague(
   playerIsHome: boolean,
   playerGoals: number,
   opponentGoals: number,
-  shootoutOverride?: PenaltyShootoutResult
+  shootoutOverride?: PenaltyShootoutResult,
+  ctxReal?: { fecha: string; temporada: number }
 ): LeagueSeasonState {
-  // Si la liga tiene calendario real, la tabla se arma con ESAS fechas. Antes se resolvía siempre
-  // con el fixture generado, así que al jugador se le mostraba el partido real (Barcelona-Getafe,
-  // sacado de realSchedule) pero la tabla registraba un rival distinto, inventado por
-  // ensureFixturesUpTo: dos torneos paralelos sobre la misma liga.
-  const real = resolveRealLeagueWeek(season, leagueClubs, currentWeek, playerClubId, playerIsHome, playerGoals, opponentGoals);
-  if (real) return real;
+  // La tabla se arma con las FECHAS reales del calendario, que es la única fuente de verdad: es el
+  // mismo calendario del que sale el partido que juega el jugador. Antes había dos sistemas más --
+  // el legado semanal (realSchedule) y el fixture sintético generado -- cada uno con su reloj, y la
+  // tabla terminaba registrando un rival distinto al que se veía en pantalla.
+  if (ctxReal) {
+    const porFecha = resolveLigaPorFecha(season, leagueClubs, playerClubId, playerGoals, opponentGoals, ctxReal);
+    if (porFecha) return porFecha;
+  }
 
   const format = isApeturaClausuraLeague(leagueClubs[0].league);
   if (format) {
@@ -2113,74 +2050,18 @@ export function resolvePlayerWeekForLeague(
   return resolvePlayerMatchweek(season, leagueClubs, currentWeek, playerClubId, playerIsHome, playerGoals, opponentGoals);
 }
 
-/** Nombre del club tal como figura en los calendarios reales. */
-function realScheduleName(clubName: string): string {
-  return ALIAS_CALENDARIO[clubName] ?? clubName;
-}
 
 // Liga -> competición del calendario real. Se resuelve por mayoría: la competición donde figuran más
 // clubes de esta liga es la suya. Así no hace falta una tabla liga->código a mano, y las divisiones
 // sin calendario (Championship, Serie B, Primera Nacional...) devuelven null solas y caen al motor
 // generado.
-const compPorLiga = new Map<string, RealCompetition | null>();
 
-function leagueCompetitionFor(leagueClubs: Club[]): RealCompetition | null {
-  if (leagueClubs.length === 0) return null;
-  const key = `${leagueClubs[0].league}|${leagueClubs[0].division ?? 1}`;
-  const cacheado = compPorLiga.get(key);
-  if (cacheado !== undefined) return cacheado;
-
-  // Las ligas de Apertura/Clausura se quedan con su motor propio, que es el que modela los dos
-  // semestres, las zonas y los playoffs. El calendario importado solo trae UN torneo (ARG1 son las
-  // 16 fechas del Apertura; falta el Clausura), así que usarlo tal cual dejaría a Argentina jugando
-  // medio año. Lo que sí se toma de él es el NÚMERO REAL DE FECHAS -- ver regularPhaseMatchdays().
-  if (isApeturaClausuraLeague(leagueClubs[0].league)) {
-    compPorLiga.set(key, null);
-    return null;
-  }
-
-  const nombres = new Set(leagueClubs.map(c => realScheduleName(c.name)));
-  let mejor: RealCompetition | null = null;
-  let mejorCuenta = 0;
-  for (const comp of REAL_CALENDARS) {
-    if (comp.kind !== 'league') continue;
-    const clubesComp = new Set<string>();
-    for (const m of comp.matches) { clubesComp.add(m.home); clubesComp.add(m.away); }
-    let n = 0;
-    for (const nom of clubesComp) if (nombres.has(nom)) n++;
-    if (n > mejorCuenta) { mejorCuenta = n; mejor = comp; }
-  }
-  // Se exige mayoría real: con pocas coincidencias sueltas es una liga distinta que comparte algún
-  // club (un ascendido, un homónimo), no la suya.
-  const elegido = mejorCuenta >= Math.max(3, leagueClubs.length * 0.6) ? mejor : null;
-  compPorLiga.set(key, elegido);
-  return elegido;
-}
 
 // Jornadas de una competición en orden de disputa ("1. Matchday", "2. Matchday"...). Se ordena por
 // el número que trae el nombre, y solo si no lo tiene se cae a la semana en que aparece por primera
 // vez: con los aplazamientos, la jornada 12 puede empezar más tarde que la 13.
 const jornadasCache = new Map<string, string[]>();
 
-function jornadasEnOrden(comp: RealCompetition): string[] {
-  const cacheado = jornadasCache.get(comp.name);
-  if (cacheado) return cacheado;
-
-  const primeraSemana = new Map<string, number>();
-  for (const m of comp.matches) {
-    const previa = primeraSemana.get(m.round);
-    if (previa === undefined || m.w < previa) primeraSemana.set(m.round, m.w);
-  }
-  const numeroDe = (r: string): number => {
-    const n = r.match(/\d+/);
-    return n ? Number(n[0]) : Number.POSITIVE_INFINITY;
-  };
-  const orden = [...primeraSemana.keys()].sort((a, b) =>
-    numeroDe(a) - numeroDe(b) || (primeraSemana.get(a)! - primeraSemana.get(b)!)
-  );
-  jornadasCache.set(comp.name, orden);
-  return orden;
-}
 
 // Semanas del año en las que esta liga juega, tomadas del calendario real.
 //
@@ -2193,87 +2074,64 @@ function jornadasEnOrden(comp: RealCompetition): string[] {
 // temporada de 52 semanas.
 const semanasDeLigaCache = new Map<string, Set<number>>();
 
-function semanasDeLiga(comp: RealCompetition): Set<number> {
-  const cacheado = semanasDeLigaCache.get(comp.name);
-  if (cacheado) return cacheado;
 
-  const conFutbol = [...new Set(comp.matches.map(m => m.w))].sort((a, b) => a - b);
-  const set = new Set(conFutbol);
-  // Faltan semanas para jugar todas las jornadas: se agregan las siguientes libres del calendario.
-  let extra = jornadasEnOrden(comp).length - set.size;
-  for (let w = 1; w <= SEASON_LENGTH_WEEKS && extra > 0; w++) {
-    if (set.has(w)) continue;
-    set.add(w);
-    extra--;
-  }
-  semanasDeLigaCache.set(comp.name, set);
-  return set;
-}
 
-function esSemanaDeLiga(comp: RealCompetition, semanaDelAnio: number): boolean {
-  return semanasDeLiga(comp).has(semanaDelAnio);
-}
 
 /**
- * Juega la jornada REAL que corresponde a esta semana: el partido del jugador entra con el resultado
- * que acaba de jugar y el resto de la fecha se simula. Devuelve null si esta liga no tiene calendario
- * real, para que el llamador caiga al motor generado.
+ * Resuelve la tabla con el calendario de FECHAS reales (realCalendarDates), que es el único que
+ * queda: el legado semanal (realCalendar.ts + realSchedule.ts) llevaba su propio reloj de jornadas
+ * y derivaba del calendario que veía el jugador.
  *
- * Las semanas sin fecha programada (parones FIFA, vacaciones de verano) no tocan la tabla: la liga
- * simplemente descansa, que es lo que pasa en la realidad.
+ * Se resuelve todo lo PENDIENTE hasta la fecha de hoy inclusive, no solo los partidos del día: los
+ * demás clubes de la liga juegan en fechas en las que el tuyo descansa, y si solo se resolviera el
+ * día del jugador esos partidos no entraban nunca y la tabla quedaba con menos partidos jugados
+ * para unos clubes que para otros.
+ *
+ * Cada fixture guarda en `round` la clave "fecha|local|visitante", que es lo que evita resolver dos
+ * veces el mismo partido.
  */
-function resolveRealLeagueWeek(
+function resolveLigaPorFecha(
   season: LeagueSeasonState,
   leagueClubs: Club[],
-  currentWeek: number,
   playerClubId: string,
-  playerIsHome: boolean,
   playerGoals: number,
-  opponentGoals: number
+  opponentGoals: number,
+  ctx: { fecha: string; temporada: number }
 ): LeagueSeasonState | null {
-  const comp = leagueCompetitionFor(leagueClubs);
-  if (!comp) return null;
+  const base = ligaDeClubes(new Set(leagueClubs.map(c => c.name)));
+  if (!base) return null;
+  const comp = competicionEnTemporada(base, ctx.temporada);
 
-  const w = ((currentWeek - 1) % SEASON_LENGTH_WEEKS) + 1;
-  if (!esSemanaDeLiga(comp, w)) return null;     // parón, vacaciones o liga ya terminada: descansa
-
-  // Se avanza UNA jornada por semana con partido, en orden (1ª, 2ª, 3ª...), y se juega completa.
-  //
-  // No se toman los partidos que el calendario ubica en esta semana concreta: en el calendario real
-  // una misma jornada aparece repartida en varias semanas por los aplazamientos (la 12ª fecha del
-  // Brasileirão figura en 5 semanas distintas, la 6ª de LaLiga en 3). Filtrar por semana hacía que
-  // esas jornadas se jugaran una vez por cada semana en la que aparecen -- de ahí que LaLiga
-  // terminara con 40-43 fechas en vez de 38, y que dentro de la misma liga unos clubes acumularan
-  // 42 partidos y otros 39.
-  //
-  // Lo que sí sale del calendario, que es lo que importa para el realismo, son los emparejamientos
-  // exactos de cada jornada y en qué semanas hay fútbol y en cuáles la liga descansa.
-  const ordenJornadas = jornadasEnOrden(comp);
-  const jugadas = new Set(season.fixtures.map(fx => fx.round).filter((r): r is string => !!r));
-  const rondaDeHoy = ordenJornadas.find(r => !jugadas.has(r));
-  if (rondaDeHoy === undefined) return null;     // ya se jugaron las 38 fechas: la liga terminó
-  const jornada = comp.matches.filter(m => m.round === rondaDeHoy);
-
-  // El calendario nombra a los clubes con su nombre largo; data.ts usa el corto.
   const porNombre = new Map<string, Club>();
-  for (const c of leagueClubs) porNombre.set(realScheduleName(c.name), c);
+  for (const c of leagueClubs) porNombre.set(c.name, c);
 
-  let table = season.table;
-  const fixtures = [...season.fixtures];
+  // Saves viejos: sus fixtures traen `round` con el formato de jornada del legado ("5. Matchday").
+  // Si se mezclaran con las claves nuevas, ningún partido ya jugado coincidiría y se volverían a
+  // resolver todos, duplicándolos en la tabla. Se detecta y se arranca la temporada de cero, que se
+  // pone al día sola en este mismo paso.
+  const esSaveLegado = season.fixtures.some(fx => fx.round !== undefined && !fx.round.includes('|'));
+  // Temporada nueva: la tabla arranca de cero. Sin esto los partidos del año siguiente se sumaban
+  // encima de los del anterior y los clubes terminaban con 44 partidos jugados en vez de 38.
+  const cambioDeTemporada = season.seasonYear !== undefined && season.seasonYear !== ctx.temporada;
+  const reiniciar = esSaveLegado || cambioDeTemporada;
+  let table = reiniciar ? buildInitialTable(leagueClubs) : season.table;
+  const fixtures = reiniciar ? [] : [...season.fixtures];
+  const yaJugadas = new Set(fixtures.map(fx => fx.round).filter((r): r is string => !!r));
 
-  for (const m of jornada) {
+  for (const m of comp.matches) {
+    if (m.date > ctx.fecha) continue;
+    const clave = `${m.date}|${m.home}|${m.away}`;
+    if (yaJugadas.has(clave)) continue;
     const home = porNombre.get(m.home);
     const away = porNombre.get(m.away);
     if (!home || !away) continue;                // club del calendario que no está en data.ts
-    if (fixtures.some(fx => fx.round === rondaDeHoy && fx.homeTeamId === home.id && fx.awayTeamId === away.id)) continue;
 
-    const esMio = home.id === playerClubId || away.id === playerClubId;
+    // El resultado del jugador solo manda en SU partido de HOY: los de fechas anteriores que
+    // quedaron pendientes (porque su club no jugó ese día) se simulan como los demás.
+    const esMioHoy = m.date === ctx.fecha && (home.id === playerClubId || away.id === playerClubId);
     let homeGoals: number, awayGoals: number;
-    if (esMio) {
+    if (esMioHoy) {
       const yoSoyLocal = home.id === playerClubId;
-      // playerIsHome viene de la UI; si discrepa con el calendario manda el calendario, que es el
-      // que decide de verdad quién es local.
-      void playerIsHome;
       homeGoals = yoSoyLocal ? playerGoals : opponentGoals;
       awayGoals = yoSoyLocal ? opponentGoals : playerGoals;
     } else {
@@ -2281,8 +2139,9 @@ function resolveRealLeagueWeek(
     }
 
     table = applyResultToTable(table, home.id, away.id, homeGoals, awayGoals);
-    fixtures.push({ matchweek: w, homeTeamId: home.id, awayTeamId: away.id, played: true, homeGoals, awayGoals, round: rondaDeHoy });
+    fixtures.push({ matchweek: 0, homeTeamId: home.id, awayTeamId: away.id, played: true, homeGoals, awayGoals, round: clave });
+    yaJugadas.add(clave);
   }
 
-  return { leagueKey: season.leagueKey, fixtures, table, round: season.round + 1 };
+  return { ...season, fixtures, table, seasonYear: ctx.temporada };
 }

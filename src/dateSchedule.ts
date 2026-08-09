@@ -13,6 +13,7 @@
 
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
 import { CAREER_START_YEAR, getSeasonYear } from './leagueEngine';
+import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada } from './seasonCalendar';
 
 export interface DatedFixture {
   competition: DatedCompetition;
@@ -22,8 +23,9 @@ export interface DatedFixture {
   opponentName: string;
 }
 
-/** Día 1 de la carrera. Coincide con el arranque real de la temporada 2026. */
-export const CAREER_START_DATE = '2026-01-12';
+// Se re-exporta para no romper a los módulos que ya la importaban de acá; la definición vive en
+// seasonCalendar.ts, que es de donde la toma también leagueEngine sin crear un ciclo.
+export { CAREER_START_DATE };
 
 const MS_POR_DIA = 86_400_000;
 
@@ -37,90 +39,6 @@ export function dateForDay(day: number): string {
 export function dayForDate(date: string): number {
   const base = Date.parse(`${CAREER_START_DATE}T00:00:00Z`);
   return Math.round((Date.parse(`${date}T00:00:00Z`) - base) / MS_POR_DIA) + 1;
-}
-
-/**
- * Cuántas temporadas puede vivir una carrera. De los 17 a los ~45 años son 28 campañas; se deja
- * margen. Es el tope del calendario: más allá de esto un club se queda sin fechas.
- */
-const MAX_TEMPORADAS = 32;
-
-/**
- * El calendario real cubre UNA temporada (2026, más el arranque 2025-26 de las ligas europeas). Una
- * carrera dura 20+. Antes, de la temporada 2 en adelante el club pasaba a un motor de fixture
- * sintético que llevaba su PROPIO reloj de "semanas" -- y ese reloj derivaba del calendario real
- * hasta el doble: en el Brasileirão, la fecha 38 real caía en la jornada 20 sintética. De ahí salía
- * el bug de "me decía un partido y se jugaba otro".
- *
- * Ahora hay UN solo reloj: la fecha. Las temporadas siguientes reusan las FECHAS reales corridas un
- * año, y resortean quién juega contra quién permutando los clubes de la competición. La permutación
- * es determinística (semilla = id de competición + temporada), así que el mismo save siempre ve el
- * mismo calendario, sin depender de Math.random().
- *
- * Permutar clubes en vez de generar un fixture nuevo tiene una ventaja concreta: el calendario
- * resultante es estructuralmente el real, así que sigue siendo válido para cualquier formato --
- * Apertura/Clausura, conferencias de la MLS, ligas con fechas impares -- sin tener que modelar cada
- * uno.
- */
-function hashTexto(s: string): number {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
-  return Math.abs(h);
-}
-
-/** PRNG determinístico: misma semilla, misma secuencia. */
-function mulberry32(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-/** Los clubes que participan en una competición, deducidos de sus propios partidos. */
-function clubesDe(comp: DatedCompetition): string[] {
-  const set = new Set<string>();
-  for (const m of comp.matches) { set.add(m.home); set.add(m.away); }
-  return [...set].sort();
-}
-
-/** Club -> club que ocupa su lugar en el calendario de esa temporada. */
-function permutacionDeClubes(clubes: string[], semilla: number): Map<string, string> {
-  const rnd = mulberry32(semilla);
-  const destino = [...clubes];
-  for (let i = destino.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [destino[i], destino[j]] = [destino[j], destino[i]];
-  }
-  const m = new Map<string, string>();
-  clubes.forEach((c, i) => m.set(c, destino[i]));
-  return m;
-}
-
-/** Misma fecha, `anios` años después. El 29/2 cae en 28/2 los años no bisiestos. */
-function sumarAnios(date: string, anios: number): string {
-  const [a, m, d] = date.split('-').map(Number);
-  const anio = a + anios;
-  const ultimoDiaDelMes = new Date(Date.UTC(anio, m, 0)).getUTCDate();
-  const dia = Math.min(d, ultimoDiaDelMes);
-  return `${anio}-${String(m).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
-}
-
-/** La competición tal como se juega en esa temporada de carrera (1 = la real, sin tocar). */
-function competicionEnTemporada(comp: DatedCompetition, temporada: number): DatedCompetition {
-  if (temporada === 1) return comp;
-  const desplazamiento = temporada - 1;
-  const perm = permutacionDeClubes(clubesDe(comp), hashTexto(comp.id) + temporada * 7919);
-  const matches = comp.matches.map(m => ({
-    ...m,
-    date: sumarAnios(m.date, desplazamiento),
-    home: perm.get(m.home) ?? m.home,
-    away: perm.get(m.away) ?? m.away,
-  }));
-  const fechas = matches.map(m => m.date).sort();
-  return { ...comp, matches, firstDate: fechas[0] ?? null, lastDate: fechas[fechas.length - 1] ?? null };
 }
 
 // Índice club -> partidos de UNA temporada, ordenados por fecha. Se cachea por temporada: recorrer
