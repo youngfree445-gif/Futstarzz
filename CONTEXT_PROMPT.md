@@ -244,11 +244,32 @@ El calendario quedó bien. Falta esto:
    eliminan de una copa no aparece nada. Falta esa pantalla y que el periódico
    de fin de temporada muestre "ELIMINADOS" en grande.
 
-2. **Cuatro pares de clubes comparten escudo por error**, todos por choque de
-   nombre entre países: `leones_fc`(Col)=`leones_negros`(Mex),
-   `leon`(Mex)=`lens`(Fra), `dorados`(Mex)=`maldonado_uru`(Uru),
-   `san_antonio`(Ecu)=`san_jose`(USA). Se detectan sacando el md5 de cada
-   archivo de `public/badges/` y buscando repetidos.
+2. **Roster de Ligue 1 incompleto.** El calendario `fr1` trae 16 clubes y la liga
+   tiene 18: faltan Angers y Metz. Por eso `angers_sco`, `estac_troyes` y
+   `le_mans_fc` figuran en primera sin jugar un partido (PJ=0). No se tocaron
+   porque la ausencia en un calendario incompleto no prueba nada; hay que
+   reimportar Ligue 1 antes de decidir.
+
+3. **Los dos calendarios de la Serie A se pisan.** Conviven `it1`
+   (2025/26, que es la temporada en la que arranca la carrera) e `ita1`/`ita2`
+   (2026/27). Los clubes italianos reciben partidos de **las dos** dentro de la
+   temporada 1: el Cremonese junta 57 partidos entre "Serie A" y "Serie B". Las
+   divisiones de `data.ts` están bien para 2025/26 — el problema es que sobra un
+   calendario, no que falte corregir clubes.
+
+## Los escudos remotos son la causa habitual de "no tiene escudo"
+
+327 clubes cuelgan su escudo de un host externo. Uno de los tres **bloquea el
+hotlinking y devuelve 403 en todo**: `assets.football-logos.cc`. Los otros dos
+(`pub-*.r2.dev` y `upload.wikimedia.org`) responden bien.
+
+Ante un club sin escudo, lo primero es mirar si su `badgeImageUrl` es `https://`
+y qué status devuelve. La solución es bajarlo a `public/badges/tm/` desde
+Transfermarkt por **ID de club** (`tmssl.akamaized.net/images/wappen/head/<id>.png`),
+que es lo que se hizo con los de Brasil.
+
+**El nombre del archivo no dice de quién es el escudo**: `leon.png` tenía el del
+Lens y `san_antonio.png` el de San Lorenzo. Hay que abrir la imagen.
 
 ## Una división mal puesta se ve como "falta el escudo"
 
