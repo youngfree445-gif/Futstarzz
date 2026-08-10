@@ -236,7 +236,7 @@ consecuencias que hay que tener presentes:
   sistema de likes/comentarios local (el jugador puede comentar lo que
   quiera bajo su propio nombre).
 
-## Pendientes conocidos (al 9 de agosto de 2026)
+## Pendientes conocidos (al 10 de agosto de 2026)
 
 El calendario quedó bien. Falta esto:
 
@@ -244,9 +244,22 @@ El calendario quedó bien. Falta esto:
    eliminan de una copa no aparece nada. Falta esa pantalla y que el periódico
    de fin de temporada muestre "ELIMINADOS" en grande.
 
-2. **Divisiones desfasadas en Brasil.** `data.ts` guarda las divisiones de 2025
-   y el calendario de ESPN es de 2026, así que los 8 clubes que cambiaron de
-   categoría (Chapecoense, Coritiba, Athletico Paranaense, Remo arriba;
-   Fortaleza, Ceará, Sport, Juventude abajo) quedan sin calendario y aparecen
-   con PJ=0 en la tabla. Brasil mapea al 80%; el resto de las primeras
-   divisiones están al 100%.
+2. **Cuatro pares de clubes comparten escudo por error**, todos por choque de
+   nombre entre países: `leones_fc`(Col)=`leones_negros`(Mex),
+   `leon`(Mex)=`lens`(Fra), `dorados`(Mex)=`maldonado_uru`(Uru),
+   `san_antonio`(Ecu)=`san_jose`(USA). Se detectan sacando el md5 de cada
+   archivo de `public/badges/` y buscando repetidos.
+
+## Una división mal puesta se ve como "falta el escudo"
+
+Vale la pena tenerlo presente porque el síntoma no apunta al problema. El
+Dashboard resuelve al rival del próximo partido entre los clubes de **tu liga y
+tu división**. Si el calendario dice que jugás contra un club que en `data.ts`
+figura en otra división, `resolverClubDeCalendario` devuelve `null`, y sin club
+no hay `badgeImageUrl`: `ClubBadge` cae a la pelota genérica. El mismo desfase
+es el que dejaba a esos clubes con PJ=0 en la tabla.
+
+Pasó con Brasil (arreglado en `504ed83`: subían Chapecoense, Coritiba, Athletico
+Paranaense y Remo; bajaban Fortaleza, Ceará, Sport y Juventude). **La forma
+correcta de verificarlo es contra el calendario real** — los clubes de `bra1` y
+`bra2` en `realCalendarDates.ts` — y no contra una lista escrita a mano.
