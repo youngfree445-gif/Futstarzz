@@ -400,8 +400,11 @@ export function partidosDeLaMismaLlave(clubName: string, competitionId: string, 
   const delTorneo = fixturesForClub(clubName).filter(f => f.competition.id === competitionId);
   const vuelta = delTorneo.find(f => f.date === date);
   if (!vuelta) return [];
+  // Acotado a la MISMA temporada: fixturesForClub concatena las 32, y como la Superliga vuelve a
+  // jugarse cada enero contra un rival que puede repetirse, sin este filtro la ida de 2026 entraba
+  // en el global de la final de 2027 y el marcador global salía inflado.
   return delTorneo
-    .filter(f => f.date < date && f.opponentName === vuelta.opponentName)
+    .filter(f => f.temporada === vuelta.temporada && f.date < date && f.opponentName === vuelta.opponentName)
     .map(f => f.date);
 }
 
