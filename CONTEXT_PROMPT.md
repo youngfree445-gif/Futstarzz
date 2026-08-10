@@ -259,17 +259,30 @@ El calendario quedó bien. Falta esto:
 
 ## Los escudos remotos son la causa habitual de "no tiene escudo"
 
-327 clubes cuelgan su escudo de un host externo. Uno de los tres **bloquea el
-hotlinking y devuelve 403 en todo**: `assets.football-logos.cc`. Los otros dos
-(`pub-*.r2.dev` y `upload.wikimedia.org`) responden bien.
+Los escudos viven de tres formas: archivo local en `public/badges/` (533 clubes),
+hotlink remoto (297) y unos pocos embebidos. **Los remotos son frágiles.**
+`assets.football-logos.cc` empezó a **bloquear el hotlinking y a devolver 403 en
+todo**, y se llevó puestos 30 escudos de golpe — Bayern e Inter entre ellos. Ya
+se bajaron todos a local (`d4bd7b9`). Los dos hosts que quedan
+(`pub-*.r2.dev`, 258, y `upload.wikimedia.org`, 39) responden bien **por ahora**.
 
 Ante un club sin escudo, lo primero es mirar si su `badgeImageUrl` es `https://`
 y qué status devuelve. La solución es bajarlo a `public/badges/tm/` desde
-Transfermarkt por **ID de club** (`tmssl.akamaized.net/images/wappen/head/<id>.png`),
-que es lo que se hizo con los de Brasil.
+Transfermarkt por **ID de club** (`tmssl.akamaized.net/images/wappen/head/<id>.png`).
+El ID sale de `schnellsuche/ergebnis/schnellsuche?query=<nombre>`, en el `<img>`
+con clase `suche-vereinswappen`; la fila trae la competición, que sirve para
+elegir el equipo senior y no un filial o un juvenil.
 
 **El nombre del archivo no dice de quién es el escudo**: `leon.png` tenía el del
-Lens y `san_antonio.png` el de San Lorenzo. Hay que abrir la imagen.
+Lens, `dorados.png` el del Colorado Rapids y `san_antonio.png` el de San Lorenzo.
+Hay que abrir la imagen antes de dar nada por bueno.
+
+Chequeo barato de sanidad, sobre los 1103 clubes: 0 rutas locales sin archivo,
+0 rutas usadas por dos clubes y 0 archivos con el mismo md5. Los tres estaban en
+cero al cerrar; si alguno sube, hay un escudo cruzado.
+
+**Sin fuente:** `irapuato` no aparece en Transfermarkt con ninguna búsqueda, así
+que quedó sin `badgeImageUrl` (cae a las iniciales). Falta el link.
 
 ## Una división mal puesta se ve como "falta el escudo"
 
