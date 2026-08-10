@@ -21,6 +21,14 @@ export interface DatedFixture {
   date: string;      // YYYY-MM-DD
   isHome: boolean;
   opponentName: string;
+  /**
+   * Temporada de carrera a la que pertenece (1 = el calendario real; 2+ = generadas).
+   *
+   * Hace falta porque fixturesForClub devuelve TODAS las temporadas concatenadas: sin esto, "el
+   * último partido de la copa" salía ser el de 2057 en vez del de este año, y ninguna copa coronaba
+   * campeón. Bug reportado: "gané ambos partidos de la Superliga y no me dijo que quedé campeón".
+   */
+  temporada: number;
 }
 
 // Se re-exporta para no romper a los módulos que ya la importaban de acá; la definición vive en
@@ -62,8 +70,8 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
       // En la temporada 1 se descartan las fechas anteriores al arranque de la carrera (media
       // temporada europea ya jugada). De la 2 en adelante todas las fechas son futuras.
       if (temporada === 1 && match.date < CAREER_START_DATE) continue;
-      agregar(match.home, { competition: comp, match, date: match.date, isHome: true, opponentName: match.away });
-      agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home });
+      agregar(match.home, { competition: comp, match, date: match.date, isHome: true, opponentName: match.away, temporada });
+      agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home, temporada });
     }
   }
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
@@ -257,8 +265,11 @@ export function esUltimaFechaDelTorneo(clubName: string, date: string): boolean 
   const esteFixture = deLiga.find(f => f.date === date);
   if (!esteFixture) return false;
 
+  // Misma razón que en esUltimoPartidoDeLaCopa: hay que quedarse dentro de la temporada en curso,
+  // o el "último partido del torneo" cae siempre en la última temporada generada.
   const torneo = torneoDeFecha(esteFixture.competition, date);
-  const mismos = deLiga.filter(f => torneoDeFecha(f.competition, f.date) === torneo);
+  const mismos = deLiga.filter(f =>
+    f.temporada === esteFixture.temporada && torneoDeFecha(f.competition, f.date) === torneo);
   return mismos[mismos.length - 1]?.date === date;
 }
 
@@ -279,20 +290,17 @@ export function esUltimaFechaDelTorneo(clubName: string, date: string): boolean 
  * tener más o menos de 52 -- comparar contra él daba falsos negativos.
  */
 export function calendarioDeLigaAgotado(clubName: string, currentWeek: number): boolean {
-  const deLiga = fixturesForClub(clubName).filter(f => f.competition.kind === 'league' && f.date >= CAREER_START_DATE);
+  // Se mira SOLO la temporada en curso. Antes se tomaba la última fecha de liga de todo
+  // fixturesForClub, que desde que concatena las 32 temporadas es una fecha de 2057: el paso actual
+  // nunca la superaba y "Finalizar Temporada" no aparecía nunca más.
+  const t = temporadaDelPaso(clubName, currentWeek);
+  if (!t) return false;
+
+  const deLiga = fixturesForClub(clubName).filter(f =>
+    f.competition.kind === 'league' && f.temporada === t.temporada && f.date >= CAREER_START_DATE);
   if (!deLiga.length) return false;
-  const ultimaFechaDeLiga = deLiga[deLiga.length - 1].date;
 
-  // Solo hay datos reales del primer año de carrera (2026): a partir del año calendario siguiente
-  // el club vive enteramente del motor sintético, y este criterio no puede seguir diciendo "true"
-  // para siempre -- si no, "Finalizar Temporada" quedaba trabado en loop en cada semana futura, un
-  // atasco peor que el bug original. Se corta comparando el año calendario de la última fecha real
-  // contra el año calendario que le tocaría a currentWeek si el club siguiera con fechas reales.
-  const anioDeLosDatos = Number(ultimaFechaDeLiga.slice(0, 4));
-  const anioActual = CAREER_START_YEAR + getSeasonYear(currentWeek) - 1;
-  if (anioActual > anioDeLosDatos) return false;
-
-  const pasoDeLaUltima = pasoDeFecha(clubName, ultimaFechaDeLiga);
+  const pasoDeLaUltima = pasoDeFecha(clubName, deLiga[deLiga.length - 1].date);
   if (pasoDeLaUltima === null) return false;
   return currentWeek > pasoDeLaUltima;
 }
@@ -344,7 +352,12 @@ function esRondaFinal(round: string | undefined): boolean {
  * Con ida y vuelta marca solo la VUELTA, que es donde se define.
  */
 export function esUltimoPartidoDeLaCopa(clubName: string, competitionId: string, date: string): boolean {
-  const delTorneo = fixturesForClub(clubName).filter(f => f.competition.id === competitionId);
+  const todosLosAnios = fixturesForClub(clubName).filter(f => f.competition.id === competitionId);
+  // Acotar a la temporada de ESTA fecha: fixturesForClub concatena las 32 temporadas, así que sin
+  // esto "el último partido de la copa" era el de 2057 y ninguna edición coronaba campeón.
+  const temporadaDeHoy = todosLosAnios.find(f => f.date === date)?.temporada;
+  if (temporadaDeHoy === undefined) return false;
+  const delTorneo = todosLosAnios.filter(f => f.temporada === temporadaDeHoy);
   if (!delTorneo.length) return false;
 
   const finales = delTorneo.filter(f => esRondaFinal(f.match.round));
