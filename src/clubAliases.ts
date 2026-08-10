@@ -132,6 +132,15 @@ export const ALIAS_CALENDARIO: Record<string, string> = {
   'Universidad de Chile': 'U. de Chile',
   'VfB Stuttgart': 'Stuttgart',
   'Villarreal CF': 'Villarreal',
+  // Rivales de copa nacional que el calendario nombra distinto que data.ts. Sin estos, el club no
+  // se resuelve y el rival sale con la pelota genérica en vez de su escudo.
+  'Patriotas Boyacá': 'Patriotas',
+  'Orsomarso': 'Orsomarso SC',
+  'Independiente Valle del Cauca': 'Independiente Yumbo',
+  'Internacional de Palmira': 'Inter Palmira',
+  // El club es el mismo: Alianza Atlético de Sullana. data.ts lo tiene como "Atlético Sullana" y el
+  // calendario de la Sudamericana lo escribe "Alianza Atlético".
+  'Atlético Sullana': 'Alianza Atlético',
 };
 
 // La vuelta: del nombre del calendario al corto de data.ts. Es el que se muestra en pantalla y el
