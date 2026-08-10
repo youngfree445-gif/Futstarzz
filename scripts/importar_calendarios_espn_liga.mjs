@@ -20,8 +20,13 @@ const FUENTES = [
   { archivo: 'bra.1_liga.json',              id: 'bra1', name: 'Brasileirão Serie A', kind: 'league', league: 'Brasileña', division: 1 },
   { archivo: 'bra.2_liga.json',              id: 'bra2', name: 'Brasileirão Serie B', kind: 'league', league: 'Brasileña', division: 2 },
   { archivo: 'bra.copa_do_brazil_liga.json', id: 'copabr', name: 'Copa do Brasil',    kind: 'domestic_cup', league: 'Brasileña' },
-  { archivo: 'ita.1_liga.json',              id: 'ita1', name: 'Serie A',             kind: 'league', league: 'Italiana', division: 1 },
-  { archivo: 'ita.2_liga.json',              id: 'ita2', name: 'Serie B',             kind: 'league', league: 'Italiana' },
+  // Italia NO entra por acá: estos dos archivos de ESPN son la temporada 2026/27, y la Serie A ya
+  // viene de ALLgames como `it1` con la 2025/26 -- la que está en curso cuando arranca la carrera,
+  // igual que Premier, LaLiga, Bundesliga y Ligue 1. Cargar las dos hacía que un club italiano
+  // jugara 57 partidos de liga en una misma temporada de carrera (el resto juega 17-19), porque
+  // fixturesForClub le devolvía las dos temporadas juntas.
+  // { archivo: 'ita.1_liga.json', id: 'ita1', ... }
+  // { archivo: 'ita.2_liga.json', id: 'ita2', ... }
   { archivo: 'ned.1_liga.json', id: 'ned1', name: 'Eredivisie',        kind: 'league', league: 'Holandesa' },
   { archivo: 'por.1_liga.json', id: 'por1', name: 'Primeira Liga',     kind: 'league', league: 'Portuguesa' },
   { archivo: 'usa.1_liga.json', id: 'usa1', name: 'MLS',               kind: 'league', league: 'Estadounidense' },
