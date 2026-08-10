@@ -100,8 +100,31 @@ export function hasDatedLeagueSchedule(clubName: string): boolean {
 
 /** Todos los partidos del club, en orden cronológico. */
 export function fixturesForClub(clubName: string): DatedFixture[] {
-  return getIndice().get(clubName) ?? [];
+  const cacheado = todasLasTemporadasPorClub.get(clubName);
+  if (cacheado) return cacheado;
+
+  // Se concatenan TODAS las temporadas, no solo la real. Antes esto devolvía únicamente la
+  // temporada 1 y por eso, a partir de enero de 2027, la pantalla de Calendario se veía vacía
+  // aunque el club sí tuviera partidos: fixturesAtStep ya recorría las temporadas generadas, pero
+  // todo lo que lista fechas (el calendario, pasoDeFecha, esUltimaFechaDelTorneo) seguía mirando
+  // solo la primera. Bug reportado: "después de la primera temporada el calendario se ve vacío".
+  //
+  // El orden queda cronológico solo, porque cada temporada va corrida un año respecto de la
+  // anterior; es el mismo orden en el que fixturesAtStep numera los pasos, así que los índices de
+  // las dos funciones siguen coincidiendo.
+  const todas: DatedFixture[] = [];
+  for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
+    const deLaTemporada = getIndice(temporada).get(clubName);
+    if (deLaTemporada) todas.push(...deLaTemporada);
+    else if (temporada === 1) break; // sin calendario real: no hay nada que generar
+  }
+  todasLasTemporadasPorClub.set(clubName, todas);
+  return todas;
 }
+
+// fixturesForClub se llama en cada render de varias pantallas; armar las 32 temporadas cada vez se
+// nota en móvil.
+const todasLasTemporadasPorClub = new Map<string, DatedFixture[]>();
 
 /**
  * Los partidos de un club en un día concreto.
