@@ -82,16 +82,46 @@ corren su calendario y tabla en simultáneo de fondo.
 - Las rutas de los sfx se arman con `import.meta.env.BASE_URL`, no absolutas:
   los tres destinos tienen bases distintas (`/`, `/Futstarzz/`, `./`).
 
-## Modelo de simulación (lo no obvio)
+## Calendario: UNA sola fuente de verdad (leer esto antes de tocar nada)
 
-- `SEASON_LENGTH_WEEKS = 38`. Cada 3ª semana es semana de copa
-  (`isCupWeek`), salvo durante el Mundial, que ahora ocupa un bloque propio
-  de 9 semanas SEGUIDAS (`isWorldCupBreakWeek`) — antes compartía turno con
-  Libertadores/Champions cada 3 semanas y eso generaba fechas superpuestas
-  que no pasan en la vida real.
-- Semana 1 de la carrera = **18 de enero de 2026** (fecha real de la J1 del
-  fútbol colombiano; antes arrancaba en julio). Puramente cosmético
-  (`getRealDate`/`formatRealDate`), no reemplaza `currentWeek`.
+**Un "paso" (`currentWeek`) es una FECHA CON PARTIDO, no una semana.** Si el
+club juega liga el domingo y copa el jueves, son dos pasos distintos.
+
+Hubo tres sistemas de calendario conviviendo, cada uno con su reloj, y la tabla
+la armaba uno distinto del que decidía tu partido. **Quedó solo el primero:**
+
+| Sistema | Estado |
+|---|---|
+| `realCalendarDates.ts` + `dateSchedule.ts` (por FECHAS) | ✅ el único |
+| `realCalendar.ts` / `realSchedule.ts` (por semanas+jornadas) | ❌ eliminado |
+| Generador sintético de round-robin | ❌ ya no decide partidos |
+
+- **`src/seasonCalendar.ts`**: genera las temporadas. La 1 es el calendario real
+  tal cual; de la 2 en adelante reusa las MISMAS fechas corridas un año y
+  resortea los emparejamientos **permutando los clubes** de la competición, con
+  semilla determinista (`id de competición + temporada`). Permutar en vez de
+  generar un fixture nuevo mantiene el calendario estructuralmente válido para
+  cualquier formato (Apertura/Clausura, conferencias MLS, fechas impares).
+  Vive en su propio módulo porque `leagueEngine` también lo necesita y
+  `dateSchedule` ya importa de `leagueEngine` (importarlo al revés = ciclo).
+- El calendario **no se acaba**: `MAX_TEMPORADAS = 32` (Flamengo llega a 1388
+  pasos, hasta 2057).
+- **`DatedFixture.temporada`**: `fixturesForClub` devuelve las 32 temporadas
+  concatenadas. Todo lo que pregunte "el último partido de X" **tiene que
+  filtrar por `temporada`**, o la respuesta cae en 2057. Ya mordió cuatro veces
+  (`esUltimoPartidoDeLaCopa`, `esUltimaFechaDelTorneo`, `calendarioDeLigaAgotado`,
+  `partidosDeLaMismaLlave`).
+- La tabla la arma `resolveLigaPorFecha` (`leagueEngine`), que resuelve todo lo
+  pendiente **hasta la fecha de hoy inclusive** — no solo los partidos del día,
+  porque los otros clubes juegan en fechas en que el tuyo descansa. Cada fixture
+  guarda `"fecha|local|visitante"` en `round` para no resolverse dos veces.
+- Saves viejos (con `round` estilo `"5. Matchday"`) se detectan y la temporada
+  arranca de cero, poniéndose al día sola en el mismo paso.
+
+- `SEASON_LENGTH_WEEKS = 38` e `isCupWeek` siguen existiendo pero **ya no
+  deciden qué partido jugás**: solo alimentan cosas cosméticas y el fixture
+  sintético de clubes sin calendario real.
+- Día 1 de la carrera = **12 de enero de 2026** (`CAREER_START_DATE`).
 - Ventanas de fichaje: semanas 1-7 y 19-22 de cada temporada de 38, pensadas
   para calzar con enero / mitad de año reales.
 - Dos motores de liga, elegidos por país (`isApeturaClausuraLeague`):
@@ -183,3 +213,35 @@ consecuencias que hay que tener presentes:
   suma posts de los periodistas reales de la Sala de Prensa (con foto) y un
   sistema de likes/comentarios local (el jugador puede comentar lo que
   quiera bajo su propio nombre).
+
+## Pendientes conocidos (al 9 de agosto de 2026)
+
+El calendario quedó bien. Falta esto:
+
+1. **Clubes en copas que no juegan.** `pickTopClubsByCountry`
+   (`leagueEngine.ts:1050`) elige los participantes de Libertadores/Sudamericana
+   por **reputación**, no por el calendario real. Por eso el Santos aparece en
+   "Copas y Tablas" con grupo y puntos de Libertadores sin jugarla. Debe verse
+   solo la copa que el club juega de verdad (si juega Sudamericana, no le sale
+   Libertadores).
+   **Trampa:** el calendario real de Libertadores solo trae 36 clubes y excluye
+   a varios que el motor sí clasifica (Junior entre ellos). Hay que **combinar**
+   ambas fuentes, no reemplazar una por otra.
+
+2. **No existe pantalla de eliminación.** Solo está la de campeón. Cuando te
+   eliminan de una copa no aparece nada. Falta esa pantalla y que el periódico
+   de fin de temporada muestre "ELIMINADOS" en grande.
+
+3. **Los cupos continentales no se ganan por mérito.** Libertadores,
+   Sudamericana, Champions y Europa League usan listas fijas por reputación
+   (`pickTopClubsByCountry` + `CHAMPIONS_FIXED_CLUBS`/`EUROPA_FIXED_CLUBS`).
+   Ninguna mira la tabla de posiciones: **son siempre los mismos equipos y el
+   campeón no clasifica a la edición siguiente.** Arreglarlo pide guardar las
+   posiciones finales de cada liga al cerrar temporada y repartir cupos con eso.
+
+4. **Divisiones desfasadas en Brasil.** `data.ts` guarda las divisiones de 2025
+   y el calendario de ESPN es de 2026, así que los 8 clubes que cambiaron de
+   categoría (Chapecoense, Coritiba, Athletico Paranaense, Remo arriba;
+   Fortaleza, Ceará, Sport, Juventude abajo) quedan sin calendario y aparecen
+   con PJ=0 en la tabla. Brasil mapea al 80%; el resto de las primeras
+   divisiones están al 100%.
