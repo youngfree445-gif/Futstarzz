@@ -1,5 +1,8 @@
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 import type { DomesticCupState } from './copaNacional';
+import { participantesConmebol, type CampeonesConmebol, type PosicionesFinales } from './copasConmebol';
+import { participantesUefa, type CampeonesUefa } from './copasUefa';
+import { GRUPOS_MUNDIAL_2026 } from './mundialReal';
 import { competicionEnTemporada, ligaDeClubes } from './seasonCalendar';
 import { ALIAS_CALENDARIO } from './clubAliases';
 import { displayName } from './worldRetirements';
@@ -1023,48 +1026,31 @@ export function getUpcomingMatchForLeague(
 // --- COPA LIBERTADORES / COPA SUDAMERICANA (Conmebol) ---
 // 32 equipos cada una, 8 grupos de 4 (ida y vuelta, 6 fechas), top 2 de
 // cada grupo a octavos -> cuartos -> semis -> final.
-// Clasificación por reputation (no por tabla en vivo — evita tener que
-// simular las ligas sudamericanas que nadie visitó). Los clubes que no
-// clasifican a Libertadores son los candidatos a Sudamericana.
+// Quiénes las juegan sale de src/copasConmebol.ts: la temporada 1 es la
+// edición real 2026 y de la 2 en adelante los cupos se ganan en la tabla.
 // Simplificación consciente: NO modelamos el cruce real donde los tres
 // terceros de Libertadores caen a la fase eliminatoria de Sudamericana —
 // cada copa corre como un torneo de grupos + eliminación directa
 // independiente, con su propio pool de clasificados.
 // ==========================================================================
 
-// Reparto de cupos por país, aproximando el reparto real de Conmebol
-// (Brasil/Argentina con más cupos). Suma 32.
-const LIBERTADORES_SLOTS: Record<string, number> = {
-  Brasileña: 6,
-  Argentina: 6,
-  Colombiana: 4,
-  Ecuatoriana: 3,
-  Uruguaya: 3,
-  Paraguaya: 3,
-  Chilena: 3,
-  Peruana: 2,
-  Boliviana: 1,
-  Venezolana: 1,
-};
-
-function pickTopClubsByCountry(clubs: Club[], slots: Record<string, number>, exclude: Set<string>): string[] {
-  const picked: string[] = [];
-  for (const [league, n] of Object.entries(slots)) {
-    const countryClubs = clubs
-      .filter(c => c.league === league && (c.division ?? 1) === 1 && !exclude.has(c.id))
-      .sort((a, b) => b.reputation - a.reputation || b.marketValue - a.marketValue);
-    picked.push(...countryClubs.slice(0, n).map(c => c.id));
-  }
-  return picked;
+// Los participantes ya NO se eligen por reputación: la temporada 1 es la edición real 2026 y de la
+// 2 en adelante los cupos se ganan en la simulación. Ver src/copasConmebol.ts.
+//
+// `allClubs` se conserva en la firma para no tocar los seis puntos de llamada, pero se ignora a
+// propósito: era justamente la fuente del bug. App.tsx pasaba CLUBS_DATABASE y Dashboard.tsx
+// ULTIMATE_CLUBS_DATABASE, así que la misma copa podía tener participantes distintos según quién
+// preguntara. Con listas fijas la respuesta es una sola.
+export function getLibertadoresParticipants(
+  allClubs: Club[], year = 1, posiciones?: PosicionesFinales, campeones?: CampeonesConmebol,
+): string[] {
+  return participantesConmebol('libertadores', year, posiciones, campeones, allClubs);
 }
 
-export function getLibertadoresParticipants(allClubs: Club[]): string[] {
-  return pickTopClubsByCountry(allClubs, LIBERTADORES_SLOTS, new Set());
-}
-
-export function getSudamericanaParticipants(allClubs: Club[]): string[] {
-  const libertadoresIds = new Set(getLibertadoresParticipants(allClubs));
-  return pickTopClubsByCountry(allClubs, LIBERTADORES_SLOTS, libertadoresIds);
+export function getSudamericanaParticipants(
+  allClubs: Club[], year = 1, posiciones?: PosicionesFinales, campeones?: CampeonesConmebol,
+): string[] {
+  return participantesConmebol('sudamericana', year, posiciones, campeones, allClubs);
 }
 
 // Reparte participantIds en numGroups grupos de groupSize sin repetir país (c.league) dentro
@@ -1182,8 +1168,13 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
   return cup; // 'done': el torneo de este año ya terminó, no hay más pasos
 }
 
-function freshCupState(cupId: 'libertadores' | 'sudamericana', year: number, allClubs: Club[]): CupState {
-  const participants = cupId === 'libertadores' ? getLibertadoresParticipants(allClubs) : getSudamericanaParticipants(allClubs);
+function freshCupState(
+  cupId: 'libertadores' | 'sudamericana', year: number, allClubs: Club[],
+  posiciones?: PosicionesFinales, campeones?: CampeonesConmebol,
+): CupState {
+  // El año importa: la 1 es la edición real 2026 y las siguientes se arman con lo que dejó la
+  // simulación. Antes acá no se pasaba nada y todas las ediciones salían idénticas.
+  const participants = participantesConmebol(cupId, year, posiciones, campeones, allClubs);
   return {
     cupId,
     year,
@@ -1248,9 +1239,11 @@ export function getOrCreateCupState(
   year: number,
   allClubs: Club[],
   existing: CupState | undefined,
-  currentWeek: number
+  currentWeek: number,
+  posiciones?: PosicionesFinales,
+  campeones?: CampeonesConmebol
 ): CupState {
-  let cup = existing ?? freshCupState(cupId, year, allClubs);
+  let cup = existing ?? freshCupState(cupId, year, allClubs, posiciones, campeones);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
   const targetSteps = cupWeeksElapsedInYear(year, currentWeek);
 
@@ -1324,54 +1317,25 @@ export function isClubStillInCup(cup: CupState, clubId: string): boolean {
 // ponderado por fortaleza del club (representa la tanda de penales, sin
 // gol de visitante, regla UEFA vigente desde 2021).
 //
-// Los 7 países con liga doméstica completa (Inglaterra, España, Alemania,
-// Italia, Francia, Portugal, Holanda) clasifican por cupos-por-reputación,
-// igual que Conmebol. Los otros 19 países solo tienen los clubes puntuales
-// que de verdad clasificaron a cada copa 2025-26 (investigados en
-// Transfermarkt) -- no hay "top N" que elegir ahí, así que van fijos.
+// Quiénes las juegan sale de src/copasUefa.ts: la temporada 1 son los 36
+// clubes reales de la fase de liga 2025/26 y de la 2 en adelante los cupos
+// se ganan en la tabla del año anterior.
 // ==========================================================================
 
 const UEFA_LEAGUE_PHASE_MATCHDAYS = 8;
 const UEFA_TOP_DIRECT = 8; // top 8 de la fase de liga -> directo a octavos
 const UEFA_PLAYOFF_ZONE_END = 24; // 9º-24º juegan el playoff; 25º en adelante queda eliminado
 
-// Cupos por país para los 7 países con liga doméstica completa. Suman 26
-// (Champions) / 16 (Europa) -- sumados a los clubes fijos de los 19 países
-// minimalistas (10 / 20) dan 36 en ambas copas.
-const CHAMPIONS_SLOTS: Record<string, number> = {
-  Inglesa: 6, Española: 5, Alemana: 4, Italiana: 4, Francesa: 3, Portuguesa: 2, Holandesa: 2,
-};
-const EUROPA_SLOTS: Record<string, number> = {
-  Inglesa: 3, Española: 2, Alemana: 3, Italiana: 2, Francesa: 2, Portuguesa: 2, Holandesa: 2,
-};
-
-// Países sin liga doméstica completa: acá NO se puede elegir "top N por
-// reputación" porque el valor de plantel no siempre coincide con quién
-// clasificó realmente (ej. Fenerbahçe vale más que Galatasaray en
-// Transfermarkt, pero el que fue a Champions fue Galatasaray por posición
-// en la liga turca) -- así que van fijos, tal cual se investigó.
-const CHAMPIONS_FIXED_CLUBS = [
-  'club_brugge', 'union_sg', 'olympiacos', 'slavia_praha', 'bodo_glimt',
-  'fc_copenhagen', 'galatasaray', 'qarabag', 'pafos_fc', 'kairat_almaty',
-];
-const EUROPA_FIXED_CLUBS = [
-  'krc_genk', 'paok', 'panathinaikos', 'viktoria_plzen', 'brann_sk', 'midtjylland',
-  'fenerbahce', 'rb_salzburg', 'sturm_graz', 'rangers_fc', 'celtic_fc', 'young_boys',
-  'fc_basel', 'ferencvaros', 'red_star_belgrade', 'dinamo_zagreb', 'ludogorets',
-  'malmo_ff', 'fcsb', 'maccabi_tel_aviv',
-];
-
-export function getChampionsParticipants(allClubs: Club[]): string[] {
-  const fromLeagues = pickTopClubsByCountry(allClubs, CHAMPIONS_SLOTS, new Set());
-  const fixedIds = CHAMPIONS_FIXED_CLUBS.filter(id => allClubs.some(c => c.id === id));
-  return [...fromLeagues, ...fixedIds];
+export function getChampionsParticipants(
+  allClubs: Club[], year = 1, posiciones?: PosicionesFinales, campeones?: CampeonesUefa,
+): string[] {
+  return participantesUefa('champions', year, posiciones, campeones, allClubs);
 }
 
-export function getEuropaParticipants(allClubs: Club[]): string[] {
-  const championsIds = new Set(getChampionsParticipants(allClubs));
-  const fromLeagues = pickTopClubsByCountry(allClubs, EUROPA_SLOTS, championsIds);
-  const fixedIds = EUROPA_FIXED_CLUBS.filter(id => allClubs.some(c => c.id === id));
-  return [...fromLeagues, ...fixedIds];
+export function getEuropaParticipants(
+  allClubs: Club[], year = 1, posiciones?: PosicionesFinales, campeones?: CampeonesUefa,
+): string[] {
+  return participantesUefa('europa', year, posiciones, campeones, allClubs);
 }
 
 function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs: Club[], forced?: ForcedResult): TwoLegTie {
@@ -1628,8 +1592,13 @@ function shuffleMinimizingCountryClashes(participantIds: string[], allClubs: Clu
   return best;
 }
 
-function freshUefaCupState(cupId: 'champions' | 'europa', year: number, allClubs: Club[], startedAtStep: number): UefaCupState {
-  const participantIds = cupId === 'champions' ? getChampionsParticipants(allClubs) : getEuropaParticipants(allClubs);
+function freshUefaCupState(
+  cupId: 'champions' | 'europa', year: number, allClubs: Club[], startedAtStep: number,
+  posiciones?: PosicionesFinales, campeones?: CampeonesUefa,
+): UefaCupState {
+  // El año importa: la 1 es la edición real 2025/26 y las siguientes se arman con lo que dejó la
+  // simulación. Antes no se pasaba nada y todas las ediciones salían con los mismos 36 clubes.
+  const participantIds = participantesUefa(cupId, year, posiciones, campeones, allClubs);
   const shuffled = shuffleMinimizingCountryClashes(participantIds, allClubs, UEFA_LEAGUE_PHASE_MATCHDAYS);
   const fullSchedule = generateRoundRobin(shuffled);
   const fixtures = fullSchedule.filter(f => f.matchweek <= UEFA_LEAGUE_PHASE_MATCHDAYS);
@@ -1652,14 +1621,16 @@ function freshUefaCupState(cupId: 'champions' | 'europa', year: number, allClubs
 // corresponde, sin quedar nunca "pegado").
 export function getOrCreateUefaCupState(
   cupId: 'champions' | 'europa', allClubs: Club[],
-  existing: UefaCupState | undefined, currentWeek: number
+  existing: UefaCupState | undefined, currentWeek: number,
+  posiciones?: PosicionesFinales, campeones?: CampeonesUefa
 ): UefaCupState {
-  let cup = existing ?? freshUefaCupState(cupId, 1, allClubs, 0);
+  let cup = existing ?? freshUefaCupState(cupId, 1, allClubs, 0, posiciones, campeones);
   const totalStepsAvailable = cupWeeksElapsedTotal(currentWeek);
 
   while (cup.startedAtStep + cup.stepsConsumed < totalStepsAvailable) {
     if (cup.stage === 'done') {
-      cup = freshUefaCupState(cupId, cup.year + 1, allClubs, cup.startedAtStep + cup.stepsConsumed);
+      cup = freshUefaCupState(
+        cupId, cup.year + 1, allClubs, cup.startedAtStep + cup.stepsConsumed, posiciones, campeones);
       continue;
     }
     cup = { ...resolveUefaCupStep(cup, allClubs), stepsConsumed: cup.stepsConsumed + 1 };
@@ -1782,11 +1753,16 @@ function worldCupWeeksElapsedInYear(year: number, currentWeek: number): number {
   return count;
 }
 
-function drawWorldCupGroups(teamIds: string[], allTeams: Club[]): CupGroup[] {
+function drawWorldCupGroups(teamIds: string[], allTeams: Club[], year: number): CupGroup[] {
+  // El Mundial 2026 (año 1 de la carrera) usa el SORTEO REAL, no uno al azar: sin esto Argentina
+  // podía cruzarse con Brasil en fase de grupos y el torneo no se parecía en nada al de verdad.
+  // Las ediciones siguientes sí se sortean: no simulamos eliminatorias, así que no hay manera de
+  // saber quién clasificaría a 2030.
+  const real = year === 1 && GRUPOS_MUNDIAL_2026.every(g => g.every(id => teamIds.includes(id)));
   const shuffled = shuffle(teamIds);
   const groups: CupGroup[] = [];
   for (let g = 0; g < 12; g++) {
-    const clubIds = shuffled.slice(g * 4, g * 4 + 4);
+    const clubIds = real ? [...GRUPOS_MUNDIAL_2026[g]] : shuffled.slice(g * 4, g * 4 + 4);
     const groupTeams = clubIds.map(id => allTeams.find(c => c.id === id)).filter((c): c is Club => !!c);
     groups.push({
       id: String.fromCharCode(65 + g), // 'A'..'L'
@@ -1831,7 +1807,7 @@ function freshWorldCupState(year: number, allTeams: Club[]): WorldCupState {
   const teamIds = allTeams.map(t => t.id); // el array pasado ya son las 48 selecciones clasificadas
   return {
     year,
-    groups: drawWorldCupGroups(teamIds, allTeams),
+    groups: drawWorldCupGroups(teamIds, allTeams, year),
     stage: 'groups',
     knockout: null,
     championId: null,

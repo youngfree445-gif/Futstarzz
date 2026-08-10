@@ -135,9 +135,23 @@ function syncBackgroundCups(
   continentalCups: Record<string, any>,
   uefaCups: Record<string, any>,
   skipConmebol: boolean,
-  skipUefa: boolean
+  skipUefa: boolean,
+  // De acá salen los cupos continentales de la temporada 2 en adelante: la tabla final de cada liga
+  // y los campeones vigentes. Sin esto toda edición repetiría la real 2026. Opcional porque al
+  // crear una carrera todavía no hay nada que mirar.
+  cupos?: Pick<PlayerProfile, 'posicionesFinales' | 'campeonesContinentales'>
 ): { continentalCups: Record<string, any>; uefaCups: Record<string, any> } {
   const myClub = CLUBS_DATABASE.find(c => c.id === clubId);
+  const year = getSeasonYear(atWeek);
+  const posiciones = cupos?.posicionesFinales;
+  const campeones = {
+    libertadores: cupos?.campeonesContinentales?.[`libertadores-${year - 1}`] ?? null,
+    sudamericana: cupos?.campeonesContinentales?.[`sudamericana-${year - 1}`] ?? null,
+  };
+  const campeonesEuropa = {
+    champions: cupos?.campeonesContinentales?.[`champions-${year - 1}`] ?? null,
+    europa: cupos?.campeonesContinentales?.[`europa-${year - 1}`] ?? null,
+  };
   let nextContinental = continentalCups;
   let nextUefa = uefaCups;
 
@@ -151,24 +165,23 @@ function syncBackgroundCups(
   const tieneCalendarioPropio = !!myClub && hasDatedLeagueSchedule(myClub.name);
 
   if (myClub && !tieneCalendarioPropio) {
-    const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id)
+    const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(CLUBS_DATABASE, year, posiciones, campeones).includes(myClub.id)
       ? 'libertadores'
-      : getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id)
+      : getSudamericanaParticipants(CLUBS_DATABASE, year, posiciones, campeones).includes(myClub.id)
       ? 'sudamericana'
       : null;
     if (conmebolCupId && !skipConmebol) {
-      const yr = getSeasonYear(atWeek);
-      const cupKey = `${conmebolCupId}-${yr}`;
-      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, yr, CLUBS_DATABASE, nextContinental[cupKey], atWeek) };
+      const cupKey = `${conmebolCupId}-${year}`;
+      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], atWeek, posiciones, campeones) };
     }
 
-    const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(CLUBS_DATABASE).includes(myClub.id)
+    const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(CLUBS_DATABASE, year, posiciones, campeonesEuropa).includes(myClub.id)
       ? 'champions'
-      : getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id)
+      : getEuropaParticipants(CLUBS_DATABASE, year, posiciones, campeonesEuropa).includes(myClub.id)
       ? 'europa'
       : null;
     if (uefaCupId && !skipUefa) {
-      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], atWeek) };
+      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], atWeek, posiciones, campeonesEuropa) };
     }
   }
   return { continentalCups: nextContinental, uefaCups: nextUefa };
@@ -565,6 +578,40 @@ function applyPromotionRelegationIfNewSeason(
       });
     }
   }
+  // 1b. Guardar la tabla final de cada liga simulada. A diferencia del historial de arriba (que
+  // solo mira las ligas con reglamento de ascenso/descenso), acá entran TODAS: los cupos de
+  // Libertadores y Sudamericana se reparten con las diez ligas de Conmebol, y siete de ellas no
+  // tienen reglamento cargado. Sin esto, la temporada 2 repetiría la edición real 2026.
+  const posicionesFinales: Record<string, readonly string[]> = { ...(profile.posicionesFinales ?? {}) };
+  for (const season of Object.values(profile.leagueSeasons ?? {})) {
+    const filas = season.table ?? [];
+    if (!filas.length) continue;
+    const primera = CLUBS_DATABASE.find(c => c.id === filas[0].clubId || c.name === filas[0].name);
+    if (!primera) continue;
+    const clave = `${primera.league}-${anioCerrado}`;
+    if (posicionesFinales[clave]) continue;
+    // La tabla se reordena acá y no se confía en cómo quedó guardada: el motor la actualiza in situ
+    // y el orden de inserción no siempre refleja el puntaje.
+    posicionesFinales[clave] = [...filas]
+      .sort((a, b) => b.puntos - a.puntos || (b.gf - b.gc) - (a.gf - a.gc) || b.gf - a.gf)
+      .map(f => f.clubId ?? CLUBS_DATABASE.find(c => c.name === f.name)?.id ?? '')
+      .filter(Boolean);
+  }
+
+  // 1c. Campeones continentales del año que cierra: Conmebol le da a los dos un lugar en la
+  // Libertadores siguiente.
+  const campeonesContinentales = { ...(profile.campeonesContinentales ?? {}) };
+  for (const [clave, copa] of Object.entries(profile.continentalCups ?? {})) {
+    if (copa?.championId) campeonesContinentales[clave] = copa.championId;
+  }
+  // Champions/Europa se indexan por cupId (una edición cruza dos años calendario), así que su
+  // campeón se anota con el año que cierra para que el reparto del año siguiente lo encuentre.
+  for (const [cupId, copa] of Object.entries(profile.uefaCups ?? {})) {
+    if (copa?.championId) campeonesContinentales[`${cupId}-${anioCerrado}`] = copa.championId;
+  }
+
+  profile = { ...profile, posicionesFinales, campeonesContinentales };
+
   if (historial.length === (profile.historialAnual?.length ?? 0)) return { ...profile, historialAnual: historial };
 
   // 2. Resolver los movimientos, liga por liga.
@@ -1707,7 +1754,7 @@ export default function App() {
     };
 
     // Mismo criterio para las copas continentales/UEFA de fondo (si clasificás a la del año nuevo).
-    const cupsSync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+    const cupsSync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
 
     // Si veías el final del año lesionado, la baja sigue corriendo igual -- no se congela solo
     // porque no había más partidos que jugar.
@@ -1793,7 +1840,7 @@ export default function App() {
           }
         }
 
-        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 45),
@@ -2004,7 +2051,7 @@ export default function App() {
         // Fecha FIFA sin partido puntual para vos (no convocado, tu selección ya quedó
         // eliminada, o estás entre rondas): no hay actividad de clubes en absoluto esta semana,
         // ni de liga ni de copa -- descansás de verdad, como en la vida real.
-        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, true, true);
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, true, true, playerProfile);
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
@@ -2077,8 +2124,12 @@ export default function App() {
       const year = getSeasonYear(playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
 
-      const libertadoresIds = new Set(getLibertadoresParticipants(CLUBS_DATABASE));
-      const sudamericanaIds = new Set(getSudamericanaParticipants(CLUBS_DATABASE));
+      const cupCampeones = {
+        libertadores: playerProfile.campeonesContinentales?.[`libertadores-${year - 1}`] ?? null,
+        sudamericana: playerProfile.campeonesContinentales?.[`sudamericana-${year - 1}`] ?? null,
+      };
+      const libertadoresIds = new Set(getLibertadoresParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
+      const sudamericanaIds = new Set(getSudamericanaParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
       const qualifiedCupId: 'libertadores' | 'sudamericana' | null = libertadoresIds.has(myClub.id)
         ? 'libertadores'
         : sudamericanaIds.has(myClub.id)
@@ -2191,7 +2242,7 @@ export default function App() {
       // del que ya te bajaron (bug reportado: "si te eliminan de Libertadores, en julio vuelve a
       // aparecer la fase de grupos").
       if (eliminatedFromQualifiedCup && !foundOpponentId && !foundUefaOpponentId) {
-        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
@@ -2515,7 +2566,7 @@ export default function App() {
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
 
-    const suspendedSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+    const suspendedSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.min(100, playerProfile.energy + 15),
@@ -2592,7 +2643,7 @@ export default function App() {
     }
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
-    const sync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+    const sync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
 
     const weeksRemaining = playerProfile.activeInjury.weeksRemaining - 1;
     const injuryDone = weeksRemaining <= 0;
@@ -2644,7 +2695,7 @@ export default function App() {
     }
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
-    const sync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false);
+    const sync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
 
     const updated: PlayerProfile = {
       ...playerProfile,
@@ -3179,7 +3230,8 @@ export default function App() {
       const synced = syncBackgroundCups(
         playerProfile.currentClubId, playerProfile.currentWeek + 1, updatedContinentalCups, updatedUefaCups,
         !!(isCopaLibertadores && activeCupId && activeOppositionClubId),
-        !!(isCopaLibertadores && activeUefaCupId && activeOppositionClubId)
+        !!(isCopaLibertadores && activeUefaCupId && activeOppositionClubId),
+        playerProfile
       );
       updatedContinentalCups = synced.continentalCups;
       updatedUefaCups = synced.uefaCups;

@@ -118,11 +118,13 @@ la armaba uno distinto del que decidía tu partido. **Quedó solo el primero:**
 - Saves viejos (con `round` estilo `"5. Matchday"`) se detectan y la temporada
   arranca de cero, poniéndose al día sola en el mismo paso.
 
-- `SEASON_LENGTH_WEEKS = 38` e `isCupWeek` siguen existiendo pero **ya no
+- `SEASON_LENGTH_WEEKS = 52` e `isCupWeek` siguen existiendo pero **ya no
   deciden qué partido jugás**: solo alimentan cosas cosméticas y el fixture
-  sintético de clubes sin calendario real.
+  sintético de clubes sin calendario real. Sí decide **en qué temporada estás**:
+  `getSeasonYear` divide `currentWeek` por 52, así que la temporada 2 arranca en
+  el paso 53 — es el número que mira el reparto de cupos continentales.
 - Día 1 de la carrera = **12 de enero de 2026** (`CAREER_START_DATE`).
-- Ventanas de fichaje: semanas 1-7 y 19-22 de cada temporada de 38, pensadas
+- Ventanas de fichaje: semanas 1-7 y 19-22 de cada temporada, pensadas
   para calzar con enero / mitad de año reales.
 - Dos motores de liga, elegidos por país (`isApeturaClausuraLeague`):
   - **Motor simple** (la mayoría de ligas): tabla larga ida y vuelta.
@@ -136,10 +138,30 @@ la armaba uno distinto del que decidía tu partido. **Quedó solo el primero:**
       `knockout` en `LeagueSeasonState`.
 - Copas continentales: Libertadores/Sudamericana (Conmebol, grupos de 4 +
   eliminación directa) y Champions/Europa League (UEFA, fase de liga estilo
-  Swiss + playoff + eliminación a ida y vuelta desde octavos). Clasificación
-  por cupo-por-país usando `reputation`, no por tabla en vivo.
+  Swiss + playoff + eliminación a ida y vuelta desde octavos).
+  - **Conmebol** (`src/copasConmebol.ts`): la temporada 1 son los **32 clubes
+    reales** de la fase de grupos de cada copa en 2026, bajados de Transfermarkt
+    y resueltos **por ID, nunca por nombre** (emparejar por texto mandaba
+    "Racing Club" al Racing uruguayo en vez del de Avellaneda, y "Atlético-MG"
+    al Atlético FC ecuatoriano). De la temporada 2 en adelante los cupos se
+    ganan: se reparten los mismos cupos por país usando `posicionesFinales`
+    (la tabla final del año anterior), y los dos campeones vigentes entran a la
+    Libertadores dentro de la cuota de su país — sumarlos aparte pasaba de 32 y
+    el recorte dejaba a Venezuela sin representante.
+  - **UEFA** (`src/copasUefa.ts`): mismo criterio. Temporada 1 = los **36 clubes
+    reales** de la fase de liga 2025/26 de cada copa; temporada 2+ por tabla, con
+    el campeón vigente entrando dentro de la cuota de su liga. El código de la
+    Champions en Transfermarkt es **`CL`**, no `C1` (`C1` es otra competición y
+    devuelve un palmarés sin partidos); `CL` responde 503 si se lo pide seguido,
+    hay que reintentar con espera.
 - Mundial cada 4 años, 48 selecciones, formato real 2026 (grupos → ronda de
-  32 → ... → final), todo a partido único.
+  32 → ... → final), todo a partido único. El de 2026 (año 1) usa el **sorteo
+  real**: `src/mundialReal.ts` saca los 12 grupos de `src/schedule_2026.json`
+  (los 72 partidos reales, que estaban en el repo sin que nadie los importara)
+  deduciéndolos de quién juega contra quién. Antes se sorteaba al azar y
+  Argentina podía cruzarse con Brasil en fase de grupos. Los Mundiales
+  siguientes **sí** se sortean: no simulamos eliminatorias, así que no hay forma
+  de saber quién clasificaría a 2030.
 - Todo el catch-up (ligas/copas que el jugador no visitó en un rato) es
   perezoso: `getOrCreate*State` simula de golpe los pasos que faltan la
   primera vez que hace falta esa liga/copa.
@@ -218,28 +240,11 @@ consecuencias que hay que tener presentes:
 
 El calendario quedó bien. Falta esto:
 
-1. **Clubes en copas que no juegan.** `pickTopClubsByCountry`
-   (`leagueEngine.ts:1050`) elige los participantes de Libertadores/Sudamericana
-   por **reputación**, no por el calendario real. Por eso el Santos aparece en
-   "Copas y Tablas" con grupo y puntos de Libertadores sin jugarla. Debe verse
-   solo la copa que el club juega de verdad (si juega Sudamericana, no le sale
-   Libertadores).
-   **Trampa:** el calendario real de Libertadores solo trae 36 clubes y excluye
-   a varios que el motor sí clasifica (Junior entre ellos). Hay que **combinar**
-   ambas fuentes, no reemplazar una por otra.
-
-2. **No existe pantalla de eliminación.** Solo está la de campeón. Cuando te
+1. **No existe pantalla de eliminación.** Solo está la de campeón. Cuando te
    eliminan de una copa no aparece nada. Falta esa pantalla y que el periódico
    de fin de temporada muestre "ELIMINADOS" en grande.
 
-3. **Los cupos continentales no se ganan por mérito.** Libertadores,
-   Sudamericana, Champions y Europa League usan listas fijas por reputación
-   (`pickTopClubsByCountry` + `CHAMPIONS_FIXED_CLUBS`/`EUROPA_FIXED_CLUBS`).
-   Ninguna mira la tabla de posiciones: **son siempre los mismos equipos y el
-   campeón no clasifica a la edición siguiente.** Arreglarlo pide guardar las
-   posiciones finales de cada liga al cerrar temporada y repartir cupos con eso.
-
-4. **Divisiones desfasadas en Brasil.** `data.ts` guarda las divisiones de 2025
+2. **Divisiones desfasadas en Brasil.** `data.ts` guarda las divisiones de 2025
    y el calendario de ESPN es de 2026, así que los 8 clubes que cambiaron de
    categoría (Chapecoense, Coritiba, Athletico Paranaense, Remo arriba;
    Fortaleza, Ceará, Sport, Juventude abajo) quedan sin calendario y aparecen

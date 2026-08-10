@@ -512,22 +512,34 @@ export default function Dashboard({
 
   // Copa continental real que le corresponde al club actual (si clasifica a alguna).
   const cupYear = getSeasonYear(playerProfile.currentWeek);
-  const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+  // Los cupos de la temporada 2 en adelante salen de la tabla del año anterior y de los campeones
+  // vigentes; hay que pasarlos también acá o esta pantalla mostraría una copa distinta de la que el
+  // motor está jugando de fondo.
+  const cupPosiciones = playerProfile.posicionesFinales;
+  const cupCampeones = {
+    libertadores: playerProfile.campeonesContinentales?.[`libertadores-${cupYear - 1}`] ?? null,
+    sudamericana: playerProfile.campeonesContinentales?.[`sudamericana-${cupYear - 1}`] ?? null,
+  };
+  const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
     ? 'libertadores'
-    : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+    : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
     ? 'sudamericana'
     : null;
   const conmebolCup = conmebolCupId
-    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], playerProfile.currentWeek)
+    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], playerProfile.currentWeek, cupPosiciones, cupCampeones)
     : null;
 
-  const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+  const cupCampeonesUefa = {
+    champions: playerProfile.campeonesContinentales?.[`champions-${cupYear - 1}`] ?? null,
+    europa: playerProfile.campeonesContinentales?.[`europa-${cupYear - 1}`] ?? null,
+  };
+  const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeonesUefa).includes(currentClub.id)
     ? 'champions'
-    : getEuropaParticipants(ULTIMATE_CLUBS_DATABASE).includes(currentClub.id)
+    : getEuropaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeonesUefa).includes(currentClub.id)
     ? 'europa'
     : null;
   const uefaCup = uefaCupId
-    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek)
+    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek, cupPosiciones, cupCampeonesUefa)
     : null;
 
   // Distingue "no clasificaste a ninguna copa" de "clasificaste pero quedaste afuera": las dos

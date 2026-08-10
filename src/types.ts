@@ -4,6 +4,7 @@
  */
 
 import type { RegistroAnual } from './promocionDescenso';
+import type { PosicionesFinales } from './copasConmebol';
 
 export type Position = 'Delantero' | 'Mediocampista' | 'Defensor' | 'Arquero';
 export type Nationality = string;
@@ -155,6 +156,14 @@ export interface PlayerProfile {
   // plurianual, y porque Brasil desempata por victorias y goles, que se pierden al cerrar el año.
   // El tipo se importa en vez de repetirse: escrito a mano se desincronizó al sumar los desempates.
   historialAnual?: RegistroAnual[];
+  // Cómo quedó la tabla final de cada liga cada año: `${league}-${year}` -> ids de mejor a peor.
+  // Es lo que reparte los cupos de Libertadores y Sudamericana de la temporada 2 en adelante, para
+  // que se ganen jugando en vez de salir de una lista fija por reputación (ver copasConmebol.ts).
+  // Opcional: las partidas viejas no lo traen y caen en la edición real 2026.
+  posicionesFinales?: PosicionesFinales;
+  // Campeón de cada copa continental por año: `${cupId}-${year}` -> clubId. Conmebol le da a los
+  // dos campeones vigentes un lugar en la Libertadores siguiente.
+  campeonesContinentales?: Record<string, string>;
   // Clubes que cambiaron de división al cerrar un año: clubId -> división actual. Se aplica encima
   // de CLUBS_DATABASE, que es estático. Opcional por las partidas viejas.
   divisionOverrides?: Record<string, 1 | 2>;
