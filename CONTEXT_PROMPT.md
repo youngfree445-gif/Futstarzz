@@ -244,18 +244,26 @@ El calendario quedó bien. Falta esto:
    eliminan de una copa no aparece nada. Falta esa pantalla y que el periódico
    de fin de temporada muestre "ELIMINADOS" en grande.
 
-2. **Roster de Ligue 1 incompleto.** El calendario `fr1` trae 16 clubes y la liga
-   tiene 18: faltan Angers y Metz. Por eso `angers_sco`, `estac_troyes` y
-   `le_mans_fc` figuran en primera sin jugar un partido (PJ=0). No se tocaron
-   porque la ausencia en un calendario incompleto no prueba nada; hay que
-   reimportar Ligue 1 antes de decidir.
+2. **En las copas nacionales el rival de otra división sale sin escudo.** La FA
+   Cup cruza a Arsenal con Southampton, que en `data.ts` es división 2, y el
+   rival se resuelve contra los clubes de tu liga **y tu división**, así que no
+   aparece. Es el mismo mecanismo que el desfase de divisiones (ver abajo), pero
+   acá el dato está bien: lo que falta es que las copas busquen en toda la liga,
+   sin filtrar por división.
 
-3. **Los dos calendarios de la Serie A se pisan.** Conviven `it1`
-   (2025/26, que es la temporada en la que arranca la carrera) e `ita1`/`ita2`
-   (2026/27). Los clubes italianos reciben partidos de **las dos** dentro de la
-   temporada 1: el Cremonese junta 57 partidos entre "Serie A" y "Serie B". Las
-   divisiones de `data.ts` están bien para 2025/26 — el problema es que sobra un
-   calendario, no que falte corregir clubes.
+## Una división mal puesta se ve como "falta el escudo"
+
+El Dashboard resuelve al rival del próximo partido entre los clubes de **tu liga
+y tu división**. Si el calendario dice que jugás contra un club que en `data.ts`
+figura en otra división, `resolverClubDeCalendario` devuelve `null`, y sin club
+no hay `badgeImageUrl`: `ClubBadge` cae a la pelota genérica. El mismo desfase es
+el que dejaba a esos clubes con PJ=0 en la tabla.
+
+**Las 22 competencias con calendario real ya están cuadradas** (`504ed83`,
+`a8fb981`, `e3f8c31`): Brasil (8 clubes), Nantes, el cambio Atlante↔Mazatlán en
+Liga MX, y Metz/Troyes/Le Mans en Francia. La forma correcta de verificarlo es
+cruzar los clubes de cada competición de `realCalendarDates.ts` contra `division`
+en `data.ts` — nunca contra una lista escrita a mano.
 
 ## Los escudos remotos son la causa habitual de "no tiene escudo"
 
@@ -284,16 +292,3 @@ cero al cerrar; si alguno sube, hay un escudo cruzado.
 **Sin fuente:** `irapuato` no aparece en Transfermarkt con ninguna búsqueda, así
 que quedó sin `badgeImageUrl` (cae a las iniciales). Falta el link.
 
-## Una división mal puesta se ve como "falta el escudo"
-
-Vale la pena tenerlo presente porque el síntoma no apunta al problema. El
-Dashboard resuelve al rival del próximo partido entre los clubes de **tu liga y
-tu división**. Si el calendario dice que jugás contra un club que en `data.ts`
-figura en otra división, `resolverClubDeCalendario` devuelve `null`, y sin club
-no hay `badgeImageUrl`: `ClubBadge` cae a la pelota genérica. El mismo desfase
-es el que dejaba a esos clubes con PJ=0 en la tabla.
-
-Pasó con Brasil (arreglado en `504ed83`: subían Chapecoense, Coritiba, Athletico
-Paranaense y Remo; bajaban Fortaleza, Ceará, Sport y Juventude). **La forma
-correcta de verificarlo es contra el calendario real** — los clubes de `bra1` y
-`bra2` en `realCalendarDates.ts` — y no contra una lista escrita a mano.
