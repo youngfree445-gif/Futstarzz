@@ -42,6 +42,12 @@ export default function ClubBadge({ club, size = 32, colorFallback = true, class
           // el segundo drop-shadow es la sombra "flotante" para dar profundidad.
           filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.6)) drop-shadow(0 3px 5px rgba(0,0,0,0.45))',
         }}
+        // Una tabla continental son 36 filas, y en la de Champions 12 de esos escudos se bajan de
+        // un dominio remoto: sin esto se disparaban las 36 peticiones de golpe al abrir Copas y
+        // Tablas. El alto y el ancho ya van fijos acá arriba, así que diferir la carga no mueve
+        // nada de sitio mientras llegan.
+        loading="lazy"
+        decoding="async"
         className={`object-contain shrink-0 ${className}`}
         onError={() => setFailed(true)}
         onLoad={(e) => {

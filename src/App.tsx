@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle, InjuryType, ActiveInjury, Agent } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
@@ -27,11 +27,19 @@ import {
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
-import Dashboard from './components/Dashboard';
-import MatchSimulator from './components/MatchSimulator';
-import PostMatch from './components/PostMatch';
-import DecisionCenter from './components/DecisionCenter';
-import InteractivePenaltyShootout from './components/InteractivePenaltyShootout';
+// Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
+// JavaScript, así que quien abría la pantalla de inicio se descargaba también el simulador de
+// partidos, el hub, la tanda de penales y el resumen de carrera antes de ver un solo píxel. Son
+// pantallas que ni siquiera existen hasta que hay una carrera cargada.
+//
+// SetupScreen y WelcomeScreen quedan afuera a propósito: son lo PRIMERO que se ve, diferirlas
+// agregaría una espera justo donde no hay nada que esperar. SetupScreen además exporta
+// SUPERSTITIONS_DATABASE, que App usa en tiempo de módulo.
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const MatchSimulator = lazy(() => import('./components/MatchSimulator'));
+const PostMatch = lazy(() => import('./components/PostMatch'));
+const DecisionCenter = lazy(() => import('./components/DecisionCenter'));
+const InteractivePenaltyShootout = lazy(() => import('./components/InteractivePenaltyShootout'));
 import AchievementToast from './components/AchievementToast';
 import MusicPlayer from './components/MusicPlayer';
 import ChampionOverlay, { type ChampionInfo } from './components/ChampionOverlay';
@@ -42,7 +50,7 @@ import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
 import SoundSettings from './components/SoundSettings';
-import CareerSummary from './components/CareerSummary';
+const CareerSummary = lazy(() => import('./components/CareerSummary'));
 
 // Busca la tanda de penales de TU partido dentro de un bracket/llave de eliminación directa, si
 // tu partido de esta semana terminó igualado. Se usa en handleFinishMatch para decidir si hay que
@@ -3763,6 +3771,16 @@ export default function App() {
     saveGameState(updatedProfile, shopItems);
   };
 
+  // Pantalla de espera de las pantallas diferidas. Va con la identidad del juego y no con un
+  // spinner genérico: en una conexión lenta puede verse un instante, y ese instante también es
+  // parte del juego. Se muestra a pantalla completa porque las pantallas que envuelve lo son.
+  const cargando = (
+    <div className="min-h-screen flex flex-col items-center justify-center gap-3 text-slate-500">
+      <div className="w-10 h-10 rounded-full border-2 border-slate-800 border-t-gold-500 animate-spin" />
+      <span className="text-2xs font-mono uppercase tracking-widest">Preparando la cancha…</span>
+    </div>
+  );
+
   return (
     <div className="bg-slate-950 min-h-screen text-slate-100 font-sans antialiased text-base">
 
@@ -3824,6 +3842,10 @@ export default function App() {
       {/* Ajustes de sonido siempre a mano: sirve para silenciar el juego sin abrir el reproductor
           de música. Comparte estado con él (todo vive en audio.ts). */}
       <SoundSettings hidden={screen === 'welcome' || screen === 'setup'} />
+
+      {/* Un solo Suspense para todas las pantallas: sólo hay una montada por vez, así que no hace
+          falta uno por cada una. */}
+      <Suspense fallback={cargando}>
 
       {screen === 'welcome' && (
         <WelcomeScreen 
@@ -3939,6 +3961,8 @@ export default function App() {
           onResolve={handleResolveEvent}
         />
       )}
+
+      </Suspense>
 
     </div>
   );
