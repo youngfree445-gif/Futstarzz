@@ -16,7 +16,7 @@ import { type DatedFixture, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fec
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
-import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE } from './worldRetirements';
+import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor } from './worldRetirements';
 import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable, isApeturaClausuraLeague,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
@@ -428,6 +428,35 @@ const MENTORSHIP_STAGNANT_CHANCE = 0.25; // el resto (0.20) es una mala evoluci�
 const MENTORSHIP_PRESTIGE_GOOD = 2;
 const MENTORSHIP_PRESTIGE_BAD = -1;
 
+// El OTRO lado de la mentoría: el veterano que te apadrina mientras sos joven.
+//
+// No toca atributos ni entrenamiento a propósito: el vínculo con un referente del plantel se siente
+// en el vestuario y en la cabeza, no en la ficha. Suma a la barra de Compañeros al cerrar la
+// temporada y amortigua el golpe anímico de las derrotas (ver MENTOR_DEFEAT_CUSHION más abajo).
+// Las edades (MENTOR_MIN_AGE, MENTEE_SELF_MAX_AGE, puedeTenerMentor) viven en worldRetirements.ts
+// porque el Dashboard también las necesita para filtrar la lista de candidatos.
+const MENTOR_COMPANEROS = 2;
+/** Cuánto queda del golpe anímico de una derrota si tenés mentor. 0.6 = se amortigua un 40%. */
+const MENTOR_DEFEAT_CUSHION = 0.6;
+
+function applyMentorFigureIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!profile.mentorName) return profile;
+
+  // La edad del perfil ya la subió applyAgingIfNewSeason antes de llegar acá.
+  const seguisSiendoJoven = puedeTenerMentor(profile.age);
+  const prestigeCompanerosActual = profile.prestigeCompaneros ?? profile.prestige;
+
+  return {
+    ...profile,
+    prestigeCompaneros: seguisSiendoJoven
+      ? Math.max(0, Math.min(100, prestigeCompanerosActual + MENTOR_COMPANEROS))
+      : prestigeCompanerosActual,
+    // Al dejar de ser joven el vínculo se corta solo: si no, seguirías siendo "el pibe" a los 30.
+    mentorName: seguisSiendoJoven ? profile.mentorName : null,
+  };
+}
+
 function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
   if (!profile.mentorshipPlayerName) return profile;
@@ -697,6 +726,9 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   next = applyBreakoutSeasonIfNewSeason(next, previousWeek, newWeek);
   next = applyYearsAtClubIfNewSeason(next, previousWeek, newWeek);
   next = applyMentorshipIfNewSeason(next, previousWeek, newWeek);
+  // Va después de applyAgingIfNewSeason porque decide con la edad YA sumada: el año que cruzás el
+  // límite tenés que dejar de ser el apadrinado, no un año tarde.
+  next = applyMentorFigureIfNewSeason(next, previousWeek, newWeek);
   next = applyCountryDutyToll(next, previousWeek, newWeek);
   next = applyPromotionRelegationIfNewSeason(next, previousWeek, newWeek);
   next = applyBallonDorIfNewSeason(next, previousWeek, newWeek);
@@ -996,6 +1028,19 @@ export default function App() {
         profile = { ...profile, mentorshipPlayerName: null };
       }
     }
+    if (profile.mentorName === undefined) {
+      profile = { ...profile, mentorName: null };
+    }
+    // Mismo criterio que el ahijado, por los dos lados: el mentor deja de valer si él ya no está en
+    // el plantel con edad de referente, o si el que creciste sos vos. Un traspaso también lo corta
+    // -- getSquadPlayerAge se pregunta contra el club ACTUAL, así que un veterano del club anterior
+    // no sobrevive al cambio.
+    if (profile.mentorName) {
+      const edadMentor = getSquadPlayerAge(profile.currentClubId, profile.mentorName, getSeasonYear(profile.currentWeek) - CAREER_START_YEAR);
+      if (edadMentor < MENTOR_MIN_AGE || !puedeTenerMentor(profile.age)) {
+        profile = { ...profile, mentorName: null };
+      }
+    }
     if (profile.missedClubMatchesForCountry === undefined) {
       profile = { ...profile, missedClubMatchesForCountry: 0 };
     }
@@ -1110,6 +1155,26 @@ export default function App() {
     if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
     setPlayerProfile(withAchievements);
     saveGameState(withAchievements, shopItems);
+  };
+
+  // El otro lado: elegís al veterano que te apadrina. Misma forma que handleSelectMentee -- null
+  // para quedarte sin mentor -- y las mismas dos barreras finales, edad tuya y edad de él.
+  const handleSelectMentor = (playerName: string | null) => {
+    if (!playerProfile) return;
+    if (playerName && !puedeTenerMentor(playerProfile.age)) {
+      notify(`Ya pasaste los ${MENTEE_SELF_MAX_AGE}: a esta altura de la carrera el que apadrina sos vos.`);
+      return;
+    }
+    if (playerName && getSquadPlayerAge(playerProfile.currentClubId, playerName, getSeasonYear(playerProfile.currentWeek) - CAREER_START_YEAR) < MENTOR_MIN_AGE) {
+      notify('Ese compañero no tiene la trayectoria para ser tu referente: buscá a un veterano del plantel.');
+      return;
+    }
+    const updatedProfile: PlayerProfile = { ...playerProfile, mentorName: playerName };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify(playerName
+      ? `${playerName} te tomó bajo su ala. Su respaldo en el vestuario te va a sostener en las malas.`
+      : 'Te soltaste del ala de tu referente: de acá en más, solo.');
   };
 
   // Fase 2.5 -- Vida amorosa: relación de pareja opcional con su propia barra (loveMeter) y sus
@@ -1460,6 +1525,11 @@ export default function App() {
       ...playerProfile,
       currentClubId: clubId,
       yearsAtClub: 0,
+      // Los vínculos de vestuario son con COMPAÑEROS, así que no cruzan la puerta del club: al
+      // cambiar de plantel se cortan los dos lados. Si no, getSquadPlayerAge termina preguntando
+      // por un nombre que no está en el plantel nuevo y le inventa una edad por hash.
+      mentorName: null,
+      mentorshipPlayerName: null,
       leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season },
       activeLoan: { originClubId: originClub.id, originClubName: originClub.name, returnWeek, optionToBuyAmount: Math.round(targetClub.initialSalary * 8) },
       pendingTransferOffers: undefined,
@@ -1499,6 +1569,9 @@ export default function App() {
         ...playerProfile,
         currentClubId: originClub.id,
         yearsAtClub: 0,
+        // Volvés del préstamo a un vestuario que ya no es el que dejaste: los vínculos se rehacen.
+        mentorName: null,
+        mentorshipPlayerName: null,
         leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season },
         activeLoan: null,
         pendingTransferOffers: undefined,
@@ -1718,6 +1791,9 @@ export default function App() {
       prestige: Math.round(playerProfile.prestige * 0.9),
       prestigeCompaneros: Math.round(prestigeCompanerosActual * 0.9),
       yearsAtClub: 0,
+      // Club nuevo, vestuario nuevo: ni el referente ni el ahijado te siguen en el traspaso.
+      mentorName: null,
+      mentorshipPlayerName: null,
       appearanceBonus: Math.round(targetClub.initialSalary * 0.15),
       leagueSeasons: { ...playerProfile.leagueSeasons, [leagueKey]: season },
       // Las ofertas eran relativas al club anterior -- se regeneran solas la próxima vez que se
@@ -3241,7 +3317,15 @@ export default function App() {
     }
 
     // Fase 3 -- salud mental según el resultado del partido, y saludo de famoso si el rating fue altísimo.
-    const matchMentalHealthChange = results.resultado === 'W' ? 4 : results.resultado === 'L' ? -5 : -1;
+    //
+    // Tener un mentor amortigua SÓLO la caída, nunca agranda la subida: un referente del plantel te
+    // levanta después de una derrota, no te hace festejar más una victoria. Se aplica al golpe ya
+    // calculado para que la regla siga viviendo en un solo lugar.
+    const golpeAnimicoBase = results.resultado === 'W' ? 4 : results.resultado === 'L' ? -5 : -1;
+    const tieneMentor = !!playerProfile.mentorName && puedeTenerMentor(playerProfile.age);
+    const matchMentalHealthChange = tieneMentor && golpeAnimicoBase < 0
+      ? Math.ceil(golpeAnimicoBase * MENTOR_DEFEAT_CUSHION)
+      : golpeAnimicoBase;
     const isViralPerformance = results.rating >= 8.5;
     const viralMarketBonus = isViralPerformance ? 50000 : 0;
 
@@ -3679,6 +3763,7 @@ export default function App() {
           shopItems={shopItems}
           onTrainAttribute={handleTrainAttribute}
           onSelectMentee={handleSelectMentee}
+          onSelectMentor={handleSelectMentor}
           onFindGirlfriend={handleFindGirlfriend}
           onGirlfriendFlowers={handleGirlfriendFlowers}
           onGirlfriendPhoto={handleGirlfriendPhoto}

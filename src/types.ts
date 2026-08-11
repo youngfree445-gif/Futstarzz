@@ -126,6 +126,13 @@ export interface PlayerProfile {
   yearsAtClub: number; // Fase 2.5: temporadas seguidas en el club actual -- se resetea a 0 en cada traspaso (ver handleAcceptTransfer). Pasado COMFORT_ZONE_YEARS_THRESHOLD, el entrenamiento rinde menos (ver handleTrainAttribute) -- "zona de confort"
   appearanceBonus: number; // Fase 2.5: cláusula de contrato fijada al fichar (ver handleAcceptTransfer/SetupScreen) -- se paga cada partido jugado, pero jugar ya exhausto para cobrarla genera fricción con el DT (ver handleFinishMatch)
   mentorshipPlayerName: string | null; // Fase 2.5: joven del plantel actual (de currentClub.starPlayers) elegido como ahijado -- cada cierre de temporada tira un roll según cómo evolucionó y suma/resta prestige (ver applyMentorshipIfNewSeason). null si no elegiste a nadie.
+  // El OTRO lado de la mentoría: el veterano del plantel que te apadrina a vos mientras sos joven.
+  // Existe porque la carrera arranca a los 17 y el único panel de mentoría que había te decía que
+  // no podías apadrinar a nadie -- un callejón sin salida justo en el momento más visto del juego.
+  // Da +MENTOR_COMPANEROS al cierre de temporada y amortigua el golpe a mentalHealth de las
+  // derrotas (ver applyMentorFigureIfNewSeason y handleFinishMatch). Opcional: las partidas viejas
+  // no lo tienen y se migran a null al cargar.
+  mentorName?: string | null;
   missedClubMatchesForCountry: number; // Partidos importantes del club que te perdiste por ir con la selección (fecha FIFA, eliminatorias). Irte está permitido -- el club libera al jugador, como en la realidad -- pero perderse un partido de eliminación o un clásico enfría la relación con el DT: ver resolveNationalTeamCallup en App.tsx
   hasSteppedDownRetirement: boolean; // Fase 2.5: ya usaste la única chance de "retiro escalonado" (bajar de categoría en vez de retirarte al llegar a FORCED_RETIREMENT_AGE) -- ver isPastRetirementAge/findStepDownClub en App.tsx
   girlfriend: Girlfriend | null; // Fase 2.5: relación de pareja opcional -- null si estás soltero. Ver handleFindGirlfriend/handleGirlfriend* en App.tsx

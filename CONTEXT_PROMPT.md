@@ -49,6 +49,11 @@ corren su calendario y tabla en simultáneo de fondo.
   `futbol_star_shop_*`). La importación valida el perfil campo por campo y **no
   escribe nada si falla**; se ofrece sólo en ranuras vacías, para que no pise una
   carrera en curso
+- `worldRetirements.ts` — retiros del mundo y edades de plantel. Vive acá también
+  la **mentoría por los dos lados**, porque las edades las necesitan App.tsx y
+  Dashboard.tsx: `MENTEE_MAX_AGE` (≤20, a quién podés apadrinar) y
+  `MENTOR_MIN_AGE`/`MENTEE_SELF_MAX_AGE` (30+ / ≤23, quién te apadrina a vos).
+  Los vínculos son con **compañeros**, así que se cortan al cambiar de club
 - `palmares.ts` — la vitrina de trofeos, **derivada** del perfil (no se guarda
   aparte, así una partida vieja muestra su palmarés sin migrar nada). Ojo con la
   diferencia entre "no quedan partidos" y "no hay partidos": las ligas con

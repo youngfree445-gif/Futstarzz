@@ -20,6 +20,20 @@ import { CAREER_START_YEAR } from './leagueEngine';
  */
 export const MENTEE_MAX_AGE = 20;
 
+/**
+ * El otro lado del vínculo: edad mínima de un compañero para poder ser TU referente, y edad máxima
+ * tuya para tener uno. Viven acá por el mismo motivo que MENTEE_MAX_AGE -- los necesitan App.tsx
+ * (revalidar al cargar y al cerrar temporada) y Dashboard.tsx (filtrar la lista), y si se declaran
+ * en App.tsx el Dashboard tendría que importar desde su propio padre.
+ */
+export const MENTOR_MIN_AGE = 30;
+export const MENTEE_SELF_MAX_AGE = 23;
+
+/** ¿Este jugador es todavía lo bastante joven como para tener un referente? */
+export function puedeTenerMentor(age: number): boolean {
+  return age <= MENTEE_SELF_MAX_AGE;
+}
+
 /** Antes de esta edad nadie se retira. */
 export const WORLD_RETIREMENT_MIN_AGE = 34;
 /** A esta edad se retira sí o sí, como el jugador humano (ver RETIREMENT_MAX_AGE en App.tsx). */

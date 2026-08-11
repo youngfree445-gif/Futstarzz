@@ -164,7 +164,25 @@ a toda la app.
 
 ## Features derivadas
 
-9. **Lado receptor de la mentoría:** que un juvenil pueda ser apadrinado por un veterano, y ocultar
-   el panel de mentor cuando el jugador es demasiado joven para serlo.
+9. ~~**Lado receptor de la mentoría**~~ — **HECHO**. Ver abajo.
 10. **Señal de interés de los clubes grandes:** hoy no hay forma de saber cuánto prestigio falta para
     que un club europeo se fije en vos.
+
+### El referente (lado receptor de la mentoría) — hecho
+
+El problema era de primera impresión: la carrera arranca a los 17 y lo único que un juvenil veía en
+Plantilla de Club era un cartel diciéndole que no podía apadrinar a nadie. Un callejón sin salida en
+la pantalla más vista del juego.
+
+Ahora, mientras tengas `MENTEE_SELF_MAX_AGE` (23) años o menos, elegís a un veterano del plantel
+(`MENTOR_MIN_AGE`, 30+) como referente. Los dos umbrales no se pisan, así que ningún compañero puede
+ser ahijado y referente a la vez.
+
+**Qué da** (decisión del usuario: vestuario y cabeza, no atributos):
+- **+2 a Compañeros** al cerrar cada temporada.
+- **Amortigua un 40% el golpe anímico de las derrotas.** Sólo la caída: un referente te levanta
+  después de perder, no te hace festejar más una victoria.
+
+**Qué lo corta:** cumplir años, que él deje de estar en el plantel, o cambiar de club. Los vínculos
+de vestuario son con compañeros y no cruzan la puerta — se cortan en traspaso, préstamo y vuelta de
+préstamo. De paso se corrigió lo mismo para el ahijado, que sí seguía al jugador de club en club.

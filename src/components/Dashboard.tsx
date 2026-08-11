@@ -5,7 +5,7 @@ import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_A
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
-import { applySquadRetirements, MENTEE_MAX_AGE, getSquadPlayerAge, displayName } from '../worldRetirements';
+import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { calendarioDeLigaAgotado, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -241,6 +241,7 @@ interface DashboardProps {
   shopItems: ShopItem[];
   onTrainAttribute: (attr: keyof PlayerStats) => void;
   onSelectMentee: (playerName: string | null) => void;
+  onSelectMentor: (playerName: string | null) => void;
   onFindGirlfriend: () => void;
   onGirlfriendFlowers: () => void;
   onGirlfriendPhoto: () => void;
@@ -302,6 +303,7 @@ export default function Dashboard({
   shopItems,
   onTrainAttribute,
   onSelectMentee,
+  onSelectMentor,
   onFindGirlfriend,
   onGirlfriendFlowers,
   onGirlfriendPhoto,
@@ -4354,14 +4356,68 @@ export default function Dashboard({
                           ))}
                         </div>
                         {eligibleMentees.length === 0 && (
-                          <p className="text-2xs text-slate-500 mt-2 italic">
-                            Ningún jugador del plantel tiene {MENTEE_MAX_AGE} años o menos esta temporada: no puedes ser mentor de nadie por ahora.
+                          <p className="text-2xs text-slate-400 mt-2 italic">
+                            Ningún jugador del plantel tiene {MENTEE_MAX_AGE} años o menos esta temporada: no hay a quién apadrinar por ahora.
                           </p>
                         )}
                       </>
                     );
                   })()}
                 </div>}
+
+                {/* El otro lado del vínculo. Va en su propio bloque y sólo mientras seas joven: la
+                    carrera arranca a los 17 y hasta ahora lo único que veía un juvenil acá era que
+                    no podía apadrinar a nadie -- un callejón sin salida en su primera pantalla. */}
+                {isViewingOwnClub && puedeTenerMentor(playerProfile.age) && (
+                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md">
+                    {(() => {
+                      const posiblesMentores = squadOf(currentClub)
+                        .filter(p => p !== playerProfile.name
+                          && getMenteeAge(currentClub.id, p, seasonsElapsed(playerProfile.currentWeek)) >= MENTOR_MIN_AGE);
+                      return (
+                        <>
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <h3 className="text-3xs font-black uppercase tracking-widest text-slate-400 mr-1">
+                              🎓 Tu referente
+                            </h3>
+                            <button
+                              type="button"
+                              onClick={() => onSelectMentor(null)}
+                              className={`btn-fx-subtle min-h-[36px] py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                                !playerProfile.mentorName
+                                  ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                                  : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                              }`}
+                            >
+                              Ninguno
+                            </button>
+                            {posiblesMentores.map(p => (
+                              <button
+                                key={p}
+                                type="button"
+                                onClick={() => onSelectMentor(p)}
+                                className={`btn-fx-subtle min-h-[36px] py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                                  playerProfile.mentorName === p
+                                    ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                                    : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                                }`}
+                              >
+                                {displayName(p)}
+                              </button>
+                            ))}
+                          </div>
+                          <p className="text-2xs text-slate-400 mt-2 leading-relaxed">
+                            {posiblesMentores.length === 0
+                              ? `No hay veteranos de ${MENTOR_MIN_AGE} años o más en el plantel: por ahora te la bancás solo.`
+                              : playerProfile.mentorName
+                              ? `${displayName(playerProfile.mentorName)} te tiene bajo su ala: te sostiene el ánimo en las derrotas y te suma en el vestuario al cerrar la temporada.`
+                              : 'Elegí a un veterano del plantel como referente: las derrotas te van a pegar menos y vas a ganar lugar en el vestuario.'}
+                          </p>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
 
                 {/* El mensaje viejo era una nota técnica para el desarrollador -- hablaba del JSON,
                     de playersDatabase y del "Excel de origen" -- y no le decía nada al jugador.
