@@ -1061,7 +1061,15 @@ export default function App() {
         }
       };
     }
+    // Aviso del cambio de balance del mercado, una sola vez por partida. Va antes de setPlayerProfile
+    // para que el flag quede guardado junto con el resto de las migraciones y no vuelva a salir.
+    const debeAvisarMercado = !profile.avisoMercadoNuevoVisto;
+    if (debeAvisarMercado) profile = { ...profile, avisoMercadoNuevoVisto: true };
+
     setPlayerProfile(profile);
+    if (debeAvisarMercado) {
+      notify('📊 El mercado de pases cambió: ahora los clubes grandes exigen bastante más que los chicos, así que alguno que antes te seguía puede haber quedado lejos. Mirá "Quién te está mirando" en Traspasos para ver cuánto te falta.');
+    }
 
     const savedShop = localStorage.getItem(`futbol_star_shop_${slotId}`);
     if (savedShop) {
@@ -1093,7 +1101,10 @@ export default function App() {
       ...newProfile,
       leagueSeasons: { [leagueKey]: season },
       continentalCups: initialCups.continentalCups,
-      uefaCups: initialCups.uefaCups
+      uefaCups: initialCups.uefaCups,
+      // Una carrera que nace HOY ya nace con el mercado nuevo: no hay nada que avisarle. Sin esto,
+      // el aviso le saltaría igual la primera vez que la reabriera desde el menú.
+      avisoMercadoNuevoVisto: true,
     };
 
     setPlayerProfile(profileWithLeague);

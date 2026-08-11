@@ -3704,11 +3704,16 @@ export default function Dashboard({
                       }`}
                     >
                       <div className="relative h-36 shrink-0 overflow-hidden">
+                        {/* Filtro parejo para todas: son fotos de stock de origen distinto y venían
+                            con brillos y saturaciones que no pegaban entre sí -- una tarjeta clara
+                            al lado de una oscura hacía ver la grilla como un collage. Bajando un
+                            poco el brillo y subiendo el contraste quedan del mismo juego, y encima
+                            el título blanco de abajo se lee mejor sobre cualquiera de ellas. */}
                         {item.image ? (
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover brightness-[0.82] contrast-[1.08] saturate-[0.92] transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
                           <div className="w-full h-full bg-slate-900 flex items-center justify-center text-3xl">💎</div>
@@ -3835,11 +3840,13 @@ export default function Dashboard({
                       }`}
                     >
                       <div className="relative h-28 shrink-0 overflow-hidden">
+                        {/* Mismo filtro que la Tienda: las dos grillas se ven una al lado de la otra
+                            en la misma sesión y tienen que sentirse del mismo juego. */}
                         {item.image ? (
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover brightness-[0.82] contrast-[1.08] saturate-[0.92] transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
                           <div className="w-full h-full bg-slate-900 flex items-center justify-center text-slate-600">
