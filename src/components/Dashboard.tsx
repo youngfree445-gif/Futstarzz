@@ -2778,7 +2778,7 @@ export default function Dashboard({
                 ].map(item => (
                   <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-gold-500/20 transition-all flex flex-col justify-between">
                     <div className="relative h-28 shrink-0 overflow-hidden">
-                      <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
+                      <img src={item.img} alt={item.label} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
                       <span className="absolute top-2 right-2 text-3xs font-mono font-black uppercase bg-slate-950/80 px-2 py-0.5 rounded text-burgundy-500 border border-slate-800">
                         {playerProfile.attributes[item.key as keyof PlayerStats]}/99
@@ -3041,7 +3041,7 @@ export default function Dashboard({
                                             }}
                                             className="btn-fx-subtle rounded-lg overflow-hidden border border-slate-800 hover:border-gold-500/50"
                                           >
-                                            <img src={url} alt="" className="w-full h-28 object-cover" />
+                                            <img src={url} alt="" loading="lazy" decoding="async" className="w-full h-28 object-cover" />
                                           </button>
                                         ))
                                       )}
@@ -3771,11 +3771,17 @@ export default function Dashboard({
                             con brillos y saturaciones que no pegaban entre sí -- una tarjeta clara
                             al lado de una oscura hacía ver la grilla como un collage. Bajando un
                             poco el brillo y subiendo el contraste quedan del mismo juego, y encima
-                            el título blanco de abajo se lee mejor sobre cualquiera de ellas. */}
+                            el título blanco de abajo se lee mejor sobre cualquiera de ellas.
+
+                            loading="lazy": pesan entre 460 KB y 944 KB cada una y son la grilla más
+                            pesada del juego. Sin esto se descargaban TODAS al abrir el Dashboard,
+                            aunque la pestaña que estuvieras mirando fuera otra. */}
                         {item.image ? (
                           <img
                             src={item.image}
                             alt={item.name}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover brightness-[0.82] contrast-[1.08] saturate-[0.92] transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
@@ -3909,6 +3915,8 @@ export default function Dashboard({
                           <img
                             src={item.image}
                             alt={item.name}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover brightness-[0.82] contrast-[1.08] saturate-[0.92] transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (

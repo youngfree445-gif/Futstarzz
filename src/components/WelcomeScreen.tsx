@@ -350,8 +350,11 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
         )}
       </div>
 
+      {/* Ko-fi y no PayPal: el enlace de PayPal llevaba el nombre real del autor y su cuenta de
+          cobro a la vista de cualquier visitante. Ko-fi permite un alias, así que se puede recibir
+          apoyo sin publicar la identidad personal en la pantalla de inicio. */}
       <a
-        href="https://paypal.me/camilocas90"
+        href="https://ko-fi.com/eragoldeyepes"
         target="_blank"
         rel="noopener noreferrer"
         className="mt-10 inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 text-2xs font-bold hover:border-pink-500/50 hover:text-pink-400 transition-all relative z-10"
