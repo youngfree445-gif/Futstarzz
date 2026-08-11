@@ -162,6 +162,25 @@ a toda la app.
 
 ---
 
+### Entorno: familia y amigos — hecho
+
+Una barra nueva (0-100) para la gente de tu vida fuera del club, familia y amigos juntos sin
+separarlos. La **pareja no entra**: tiene su propio medidor y sus propias acciones desde antes.
+
+Es la única barra que **baja sola sin que hagas nada mal**. Las otras miden cómo te ve el fútbol
+(DT, compañeros, hinchada); ésta mide lo que el fútbol te va costando: se enfría 6 puntos al cerrar
+cada temporada, y el doble si la cerraste encadenando partidos sin parar nunca.
+
+- **Recuperarla cuesta tiempo y plata**, no sólo plata: "Visitar a los tuyos" pide $900 **y 12 de
+  energía**. Si costara sólo dinero sería un botón sin decisión.
+- **Efecto**: por encima de 70 amortigua un 25% el golpe anímico de las derrotas; por debajo de 30
+  lo profundiza un 25%. Nunca agranda una victoria — sólo actúa sobre caídas.
+- Se combina con el referente: las dos redes juntas amortiguan más que una sola (una derrota pega
+  −5 sin nada, −3 con una, −2 con las dos, −7 con el entorno abandonado).
+
+Curva medida: sin visitar nunca cae a zona baja en **5 temporadas** a ritmo normal, **3** si además
+no parás nunca. Una visita compensa más de una temporada de desgaste normal, pero no dos duras.
+
 ## Features derivadas
 
 9. ~~**Lado receptor de la mentoría**~~ — **HECHO**. Ver abajo.

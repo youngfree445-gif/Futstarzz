@@ -433,6 +433,42 @@ const MENTORSHIP_PRESTIGE_BAD = -1;
 // No toca atributos ni entrenamiento a propósito: el vínculo con un referente del plantel se siente
 // en el vestuario y en la cabeza, no en la ficha. Suma a la barra de Compañeros al cerrar la
 // temporada y amortigua el golpe anímico de las derrotas (ver MENTOR_DEFEAT_CUSHION más abajo).
+// --- Entorno: familia y amigos ---
+//
+// Las otras barras miden cómo te ve el fútbol (DT, compañeros, hinchada). Ésta mide lo que el fútbol
+// te va costando, y por eso es la única que baja SOLA sin que hagas nada mal: encadenar partidos sin
+// parar nunca enfría a los tuyos. Recuperarla cuesta lo que de verdad cuesta -- tiempo y plata.
+export const ENTORNO_INICIAL = 60;
+const ENTORNO_DESGASTE_POR_TEMPORADA = 6;
+// A partir de acá el desgaste de la temporada se duplica: no es lo mismo una temporada normal que
+// una en la que no paraste nunca. Es el mismo umbral que ya usa la fatiga acumulada.
+const ENTORNO_PARTIDOS_SEGUIDOS_DUROS = 8;
+const ENTORNO_VISITA_COSTO = 900;
+const ENTORNO_VISITA_ENERGIA = 12;
+const ENTORNO_VISITA_SUBE = 14;
+const ENTORNO_VISITA_MENTE = 5;
+/** Por debajo de esto los tuyos ya no te sostienen y la cabeza lo siente. */
+export const ENTORNO_UMBRAL_BAJO = 30;
+/** Por encima de esto tenés dónde apoyarte cuando el fútbol sale mal. */
+export const ENTORNO_UMBRAL_ALTO = 70;
+
+/** Cuánto modifica el entorno un golpe anímico. Sostiene en las malas, o lo profundiza. */
+export function ajustePorEntorno(entorno: number, cambioAnimico: number): number {
+  if (cambioAnimico >= 0) return cambioAnimico;
+  if (entorno >= ENTORNO_UMBRAL_ALTO) return Math.ceil(cambioAnimico * 0.75);
+  if (entorno <= ENTORNO_UMBRAL_BAJO) return Math.floor(cambioAnimico * 1.25);
+  return cambioAnimico;
+}
+
+function applyEntornoIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  const actual = profile.entorno ?? ENTORNO_INICIAL;
+  const desgaste = profile.matchesWithoutRest >= ENTORNO_PARTIDOS_SEGUIDOS_DUROS
+    ? ENTORNO_DESGASTE_POR_TEMPORADA * 2
+    : ENTORNO_DESGASTE_POR_TEMPORADA;
+  return { ...profile, entorno: Math.max(0, actual - desgaste) };
+}
+
 // Las edades (MENTOR_MIN_AGE, MENTEE_SELF_MAX_AGE, puedeTenerMentor) viven en worldRetirements.ts
 // porque el Dashboard también las necesita para filtrar la lista de candidatos.
 const MENTOR_COMPANEROS = 2;
@@ -729,6 +765,7 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   // Va después de applyAgingIfNewSeason porque decide con la edad YA sumada: el año que cruzás el
   // límite tenés que dejar de ser el apadrinado, no un año tarde.
   next = applyMentorFigureIfNewSeason(next, previousWeek, newWeek);
+  next = applyEntornoIfNewSeason(next, previousWeek, newWeek);
   next = applyCountryDutyToll(next, previousWeek, newWeek);
   next = applyPromotionRelegationIfNewSeason(next, previousWeek, newWeek);
   next = applyBallonDorIfNewSeason(next, previousWeek, newWeek);
@@ -1031,6 +1068,11 @@ export default function App() {
     if (profile.mentorName === undefined) {
       profile = { ...profile, mentorName: null };
     }
+    // Una carrera vieja no arranca en cero: no hizo nada para descuidar a los suyos, simplemente la
+    // barra no existía. Entra en el mismo valor que una carrera nueva.
+    if (profile.entorno === undefined) {
+      profile = { ...profile, entorno: ENTORNO_INICIAL };
+    }
     // Mismo criterio que el ahijado, por los dos lados: el mentor deja de valer si él ya no está en
     // el plantel con edad de referente, o si el que creciste sos vos. Un traspaso también lo corta
     // -- getSquadPlayerAge se pregunta contra el club ACTUAL, así que un veterano del club anterior
@@ -1105,6 +1147,7 @@ export default function App() {
       // Una carrera que nace HOY ya nace con el mercado nuevo: no hay nada que avisarle. Sin esto,
       // el aviso le saltaría igual la primera vez que la reabriera desde el menú.
       avisoMercadoNuevoVisto: true,
+      entorno: ENTORNO_INICIAL,
     };
 
     setPlayerProfile(profileWithLeague);
@@ -1186,6 +1229,31 @@ export default function App() {
     notify(playerName
       ? `${playerName} te tomó bajo su ala. Su respaldo en el vestuario te va a sostener en las malas.`
       : 'Te soltaste del ala de tu referente: de acá en más, solo.');
+  };
+
+  // Entorno: dedicarles tiempo a los tuyos. Cuesta plata y ENERGÍA a propósito -- si sólo costara
+  // dinero sería un botón sin decisión, y lo que el fútbol te saca de verdad es el tiempo.
+  const handleVisitarEntorno = () => {
+    if (!playerProfile) return;
+    if (playerProfile.capital < ENTORNO_VISITA_COSTO) {
+      notify(`No te alcanza: un viaje a ver a los tuyos sale $${ENTORNO_VISITA_COSTO.toLocaleString()}.`);
+      return;
+    }
+    if (playerProfile.energy < ENTORNO_VISITA_ENERGIA) {
+      notify('Estás fundido. Descansá antes de subirte a un avión.');
+      return;
+    }
+    const actual = playerProfile.entorno ?? ENTORNO_INICIAL;
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      capital: playerProfile.capital - ENTORNO_VISITA_COSTO,
+      energy: Math.max(0, playerProfile.energy - ENTORNO_VISITA_ENERGIA),
+      entorno: Math.min(100, actual + ENTORNO_VISITA_SUBE),
+      mentalHealth: Math.min(100, playerProfile.mentalHealth + ENTORNO_VISITA_MENTE),
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify('🏠 Te tomaste unos días con los tuyos. Volvés con la cabeza en otro lado — en el bueno.');
   };
 
   // Fase 2.5 -- Vida amorosa: relación de pareja opcional con su propia barra (loveMeter) y sus
@@ -3334,9 +3402,13 @@ export default function App() {
     // calculado para que la regla siga viviendo en un solo lugar.
     const golpeAnimicoBase = results.resultado === 'W' ? 4 : results.resultado === 'L' ? -5 : -1;
     const tieneMentor = !!playerProfile.mentorName && puedeTenerMentor(playerProfile.age);
-    const matchMentalHealthChange = tieneMentor && golpeAnimicoBase < 0
+    const conMentor = tieneMentor && golpeAnimicoBase < 0
       ? Math.ceil(golpeAnimicoBase * MENTOR_DEFEAT_CUSHION)
       : golpeAnimicoBase;
+    // El entorno se aplica DESPUÉS del mentor y sobre el mismo golpe: son dos redes distintas -- una
+    // del vestuario y otra de afuera -- y tener las dos amortigua más que tener una sola. Como las
+    // dos sólo actúan sobre caídas, no hay forma de que una victoria termine valiendo más.
+    const matchMentalHealthChange = ajustePorEntorno(playerProfile.entorno ?? ENTORNO_INICIAL, conMentor);
     const isViralPerformance = results.rating >= 8.5;
     const viralMarketBonus = isViralPerformance ? 50000 : 0;
 
@@ -3775,6 +3847,7 @@ export default function App() {
           onTrainAttribute={handleTrainAttribute}
           onSelectMentee={handleSelectMentee}
           onSelectMentor={handleSelectMentor}
+          onVisitarEntorno={handleVisitarEntorno}
           onFindGirlfriend={handleFindGirlfriend}
           onGirlfriendFlowers={handleGirlfriendFlowers}
           onGirlfriendPhoto={handleGirlfriendPhoto}

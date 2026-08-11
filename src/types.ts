@@ -138,6 +138,12 @@ export interface PlayerProfile {
   // encuentra de golpe con que un club que la quería ahora le queda lejos, y sin explicación eso se
   // lee como un bug. Este flag hace que el aviso salga UNA sola vez por partida.
   avisoMercadoNuevoVisto?: boolean;
+  // 0-100: la gente de tu vida fuera del club -- familia y amigos juntos, sin separarlos. Es la
+  // contracara de las otras barras: DT, compañeros y hinchada miden cómo te ve el fútbol; ésta mide
+  // lo que el fútbol te va costando. Se enfría sola si encadenás partidos sin parar nunca, y sostiene
+  // (o hunde) la salud mental. La PAREJA no entra acá: tiene su propio medidor y sus propias
+  // acciones desde antes. Opcional: las partidas viejas arrancan en ENTORNO_INICIAL.
+  entorno?: number;
   missedClubMatchesForCountry: number; // Partidos importantes del club que te perdiste por ir con la selección (fecha FIFA, eliminatorias). Irte está permitido -- el club libera al jugador, como en la realidad -- pero perderse un partido de eliminación o un clásico enfría la relación con el DT: ver resolveNationalTeamCallup en App.tsx
   hasSteppedDownRetirement: boolean; // Fase 2.5: ya usaste la única chance de "retiro escalonado" (bajar de categoría en vez de retirarte al llegar a FORCED_RETIREMENT_AGE) -- ver isPastRetirementAge/findStepDownClub en App.tsx
   girlfriend: Girlfriend | null; // Fase 2.5: relación de pareja opcional -- null si estás soltero. Ver handleFindGirlfriend/handleGirlfriend* en App.tsx

@@ -29,7 +29,7 @@ import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users,
-  Menu, X
+  Menu, X, Home
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 import SeasonComparisonChart from './SeasonComparisonChart';
@@ -243,6 +243,7 @@ interface DashboardProps {
   onTrainAttribute: (attr: keyof PlayerStats) => void;
   onSelectMentee: (playerName: string | null) => void;
   onSelectMentor: (playerName: string | null) => void;
+  onVisitarEntorno: () => void;
   onFindGirlfriend: () => void;
   onGirlfriendFlowers: () => void;
   onGirlfriendPhoto: () => void;
@@ -305,6 +306,7 @@ export default function Dashboard({
   onTrainAttribute,
   onSelectMentee,
   onSelectMentor,
+  onVisitarEntorno,
   onFindGirlfriend,
   onGirlfriendFlowers,
   onGirlfriendPhoto,
@@ -2330,6 +2332,22 @@ export default function Dashboard({
             </div>
 
             <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+              <Home size={14} className="text-emerald-400" />
+              <div>
+                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
+                  <span>Entorno</span>
+                  <span className="text-white">{playerProfile.entorno ?? 60}/100</span>
+                </div>
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                  <div
+                    className="bg-emerald-500 h-full rounded-full transition-[width] duration-500 ease-out"
+                    style={{ width: `${playerProfile.entorno ?? 60}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Brain size={14} className="text-sky-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
@@ -3051,6 +3069,51 @@ export default function Dashboard({
               </div>
 
               <div className="space-y-4">
+                {/* Entorno: familia y amigos. Va acá arriba, junto a la vida amorosa, porque es la
+                    misma mitad de la carrera -- la que pasa fuera de la cancha. La pareja tiene su
+                    propio medidor desde antes y no se toca. */}
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+                    🏠 Familia y Amigos
+                  </h3>
+                  {(() => {
+                    const entorno = playerProfile.entorno ?? 60;
+                    return (
+                      <>
+                        <div className="flex justify-between text-3xs text-slate-400 font-mono mb-1">
+                          <span>Entorno</span>
+                          <span className="text-emerald-400 font-bold">{entorno}/100</span>
+                        </div>
+                        <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800 mb-2.5">
+                          <div
+                            className="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded-full transition-[width] duration-500 ease-out"
+                            style={{ width: `${entorno}%` }}
+                          />
+                        </div>
+                        <p className="text-3xs text-slate-400 leading-relaxed mb-3">
+                          {entorno >= 70
+                            ? 'Los tuyos están cerca. Cuando el fútbol sale mal, tenés dónde apoyarte.'
+                            : entorno <= 30
+                            ? 'Hace mucho que no aparecés. Las derrotas te pegan más fuerte cuando volvés a una casa vacía.'
+                            : 'Los tuyos siguen ahí, pero las semanas pasan y vos no. El entorno se enfría solo al cerrar cada temporada.'}
+                        </p>
+                        <button
+                          onClick={onVisitarEntorno}
+                          disabled={playerProfile.capital < 900 || playerProfile.energy < 12}
+                          title={playerProfile.capital < 900
+                            ? 'Necesitás $900 para el viaje.'
+                            : playerProfile.energy < 12
+                            ? 'Necesitás 12 de energía: estás fundido.'
+                            : 'Unos días con los tuyos.'}
+                          className="btn-fx-subtle w-full min-h-[44px] py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          Visitar a los tuyos · $900 · −12 energía
+                        </button>
+                      </>
+                    );
+                  })()}
+                </div>
+
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     💕 Vida Amorosa
