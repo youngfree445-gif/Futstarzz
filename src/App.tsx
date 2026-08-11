@@ -155,16 +155,19 @@ function syncBackgroundCups(
   let nextContinental = continentalCups;
   let nextUefa = uefaCups;
 
-  // Si el club tiene calendario con fechas reales, ese calendario ES su temporada completa: liga,
-  // copa nacional y continental. El motor no debe montarle además su propia Libertadores.
+  // El estado de la copa se lleva y se PERSISTE para todos los clubes, tengan calendario real o no.
   //
-  // Sin esto quedaban DOS Libertadores corriendo en paralelo para el mismo club -- la del calendario
-  // real (6 partidos entre abril y mayo) y la que el motor le arma por estar clasificado -- y la del
-  // motor le reclamaba el turno cuando el calendario decía otra cosa: ibas a jugar Libertadores y
-  // terminabas jugando la vuelta de la Superliga, o al revés.
-  const tieneCalendarioPropio = !!myClub && hasDatedLeagueSchedule(myClub.name);
-
-  if (myClub && !tieneCalendarioPropio) {
+  // Antes esto se salteaba para los clubes con calendario propio, porque el motor les montaba una
+  // Libertadores paralela y le reclamaba el turno al calendario: ibas a jugar Libertadores y
+  // terminabas jugando la vuelta de la Superliga. Ese problema ya no existe por acá — la rama que
+  // elige el partido del jugador está guardada por `usaCalendarioReal`, así que el calendario manda
+  // siempre y el bracket del motor no puede robarle el turno.
+  //
+  // Saltearlo tenía en cambio un costo feo: sin estado guardado, "Copas y Tablas" lo recreaba de
+  // cero en CADA render (Dashboard llama a getOrCreate*State con `existing` undefined) y, como cada
+  // recreación vuelve a simular con azar nuevo, la tabla del grupo se movía sola entre un vistazo y
+  // el siguiente. Persistirlo acá la deja quieta: se simula una vez por paso y se guarda.
+  if (myClub) {
     const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(CLUBS_DATABASE, year, posiciones, campeones).includes(myClub.id)
       ? 'libertadores'
       : getSudamericanaParticipants(CLUBS_DATABASE, year, posiciones, campeones).includes(myClub.id)
