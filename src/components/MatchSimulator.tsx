@@ -257,6 +257,7 @@ const DELANTERO_LATE: MatchDecision[] = [
   },
   {
     prompt: "Tu equipo gana por la mínima y quedan pocos minutos. Te cae un balón cerca del banderín de córner con el rival volcado al ataque...",
+    requiereDiferencia: (mios, rival) => mios - rival === 1,
     choices: [
       {
         text: 'Proteger el balón en la esquina para hacer tiempo',
@@ -1265,6 +1266,7 @@ const ARQUERO_LATE: MatchDecision[] = [
   },
   {
     prompt: "Últimos minutos, tu equipo gana por la mínima. Saque de meta con presión altísima del rival...",
+    requiereDiferencia: (mios, rival) => mios - rival === 1,
     choices: [
       {
         text: 'Sacar rápido y corto arriesgando la salida',
@@ -1303,18 +1305,27 @@ const ARQUERO_LATE: MatchDecision[] = [
   }
 ];
 
-function getPositionDecision(pos: Position, min: number, usedPrompts: Set<string>): MatchDecision {
+function getPositionDecision(
+  pos: Position,
+  min: number,
+  usedPrompts: Set<string>,
+  golesMios: number,
+  golesRival: number,
+): MatchDecision {
   const pools: Record<Position, { early: MatchDecision[]; late: MatchDecision[] }> = {
     Delantero: { early: DELANTERO_EARLY, late: DELANTERO_LATE },
     Mediocampista: { early: MEDIOCAMPISTA_EARLY, late: MEDIOCAMPISTA_LATE },
     Defensor: { early: DEFENSOR_EARLY, late: DEFENSOR_LATE },
     Arquero: { early: ARQUERO_EARLY, late: ARQUERO_LATE },
   };
-  const pool = min < 45 ? pools[pos].early : pools[pos].late;
+  const poolCompleto = min < 45 ? pools[pos].early : pools[pos].late;
+  // Fuera las decisiones cuyo texto contradice el marcador de arriba. Se filtra ANTES de mirar los
+  // repetidos: una decisión que no encaja con el partido no es candidata aunque sea la única nueva.
+  const pool = poolCompleto.filter(d => !d.requiereDiferencia || d.requiereDiferencia(golesMios, golesRival));
   // Evita repetir el mismo prompt dos veces en el mismo partido (ahora que hay 4 momentos por
   // posición, con solo 3-4 decisiones por bolsa la repetición se notaba demasiado seguido).
   const fresh = pool.filter(d => !usedPrompts.has(d.prompt));
-  const candidates = fresh.length > 0 ? fresh : pool;
+  const candidates = fresh.length > 0 ? fresh : (pool.length > 0 ? pool : poolCompleto);
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
@@ -1628,13 +1639,16 @@ export default function MatchSimulator({
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
     const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${seasonYear} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league, currentClub.division).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${seasonYear} 🟢`;
     
+    // El aviso del banco es del minuto 0, así que va pegado al silbatazo y ANTES del ambiente, que
+    // es del 4. Cuando se empujaba al final del array, la transmisión mostraba un 0' publicado
+    // debajo de un 4': el relato arrancaba contradiciendo su propio reloj.
     const kickoffLog: MatchEvent[] = [
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
-      { minute: 4, text: `Ambiente ensordecedor en las tribunas. El recibimiento llena el aire de color.`, type: 'neutral' }
     ];
     if (lineupStatus === 'substitute') {
       kickoffLog.push({ minute: 0, text: `📋 El técnico te deja en el banco de suplentes para arrancar este partido.`, type: 'neutral' });
     }
+    kickoffLog.push({ minute: 4, text: `Ambiente ensordecedor en las tribunas. El recibimiento llena el aire de color.`, type: 'neutral' });
     setMatchLog(kickoffLog);
     // Silbatazo inicial: desactivado por ahora a pedido (ver WHISTLE_SFX_ENABLED arriba). El resto
     // de los efectos del partido siguen sonando normalmente.
@@ -1920,7 +1934,10 @@ export default function MatchSimulator({
   };
 
   const triggerDecisionEvent = (min: number) => {
-    const decision = getPositionDecision(playerProfile.position, min, usedPrompts.current);
+    // El marcador visto desde MI equipo, que es lo que afirman los prompts (no el local/visitante).
+    const golesMios = isHome.current ? scoreHome : scoreAway;
+    const golesRival = isHome.current ? scoreAway : scoreHome;
+    const decision = getPositionDecision(playerProfile.position, min, usedPrompts.current, golesMios, golesRival);
     usedPrompts.current.add(decision.prompt);
     setActiveDecision(decision);
     setDecisionStage('choosing');
@@ -2278,7 +2295,11 @@ export default function MatchSimulator({
           )}
         </div>
 
-        <div className="order-1 lg:order-2 flex flex-col bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative h-[420px]">
+        {/* La altura fija de 420px se comía casi toda la pantalla de un teléfono, y como el panel
+            tiene su propio scroll interno, el dedo movía la narración en vez de la página: llegar a
+            los botones de abajo costaba. Con min(420px, 60vh) el panel cede en pantallas bajas y
+            queda igual que siempre en escritorio, donde 60vh es más que 420px. */}
+        <div className="order-1 lg:order-2 flex flex-col bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative h-[min(420px,60vh)] lg:h-[420px]">
           
           <div className="px-5 py-3.5 border-b border-slate-800 bg-slate-950/50 flex justify-between items-center z-10">
             <span className="font-mono text-xs uppercase tracking-widest text-slate-400 font-bold">
@@ -2290,7 +2311,11 @@ export default function MatchSimulator({
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-3.5 select-none flex flex-col-reverse justify-start">
-            {matchLog.slice().reverse().map((log, index) => (
+            {/* Orden garantizado por minuto además del orden de inserción: si en el futuro algún
+                evento se agrega tarde con un minuto viejo, la transmisión no se desordena sola.
+                El sort de JS es estable, así que dos eventos del mismo minuto conservan el orden en
+                que ocurrieron. */}
+            {matchLog.slice().sort((a, b) => a.minute - b.minute).reverse().map((log, index) => (
               <div 
                 key={index} 
                 className={`p-3 rounded-2xl border text-xs leading-relaxed transition-all ${

@@ -493,6 +493,11 @@ export interface MatchDecision {
   // arquero rival -- ver renderKickDirectionPicker en MatchSimulator.tsx. choices queda vacío/sin
   // uso en este modo.
   kickMode?: 'penalty' | 'freekick';
+  // Algunos prompts AFIRMAN cómo va el partido ("tu equipo gana por la mínima"). Si se sortean sin
+  // mirar el marcador real, el texto contradice al tanteador de arriba: se leía "gana por la mínima"
+  // con un 2-0 en pantalla. Con esto, esa decisión sólo entra al sorteo si la diferencia de gol
+  // coincide. Las que no afirman nada del resultado dejan el campo sin definir y entran siempre.
+  requiereDiferencia?: (golesMios: number, golesRival: number) => boolean;
   choices: {
     text: string;
     requiredAttr: keyof PlayerStats;

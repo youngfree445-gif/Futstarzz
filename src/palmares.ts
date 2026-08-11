@@ -64,8 +64,23 @@ export function getPalmares(
   // para disparar el festejo de campeón, así que la vitrina no puede contradecir al overlay.
   for (const season of Object.values(profile.leagueSeasons ?? {}) as LeagueSeasonState[]) {
     if (!season?.table?.length) continue;
-    const quedanPartidos = season.fixtures?.some(f => !f.played);
-    if (quedanPartidos) continue;
+
+    // Ojo con la diferencia entre "no quedan partidos" y "no hay partidos".
+    //
+    // Las ligas con calendario real se crean con `fixtures: []` a propósito (ver
+    // getOrCreateSeasonForLeague): los partidos los resuelve resolveLigaPorFecha, no un fixture
+    // pregenerado. Con la guarda vieja, `[].some(...)` daba false y el torneo se leía como
+    // TERMINADO ya en el minuto cero de la carrera: se coronaba al primero de una tabla con todo
+    // en 0 -- que por el orden estable de sortTable es el primer club del array de la liga. El
+    // jugador de ese club arrancaba con un título que nunca jugó.
+    //
+    // Esas ligas no necesitan este bloque: su campeón lo anota App.tsx en cupTitles al ganarlo.
+    // Acá sólo queda la deducción de respaldo para las ligas de fixture pregenerado.
+    if (!season.fixtures?.length) continue;
+    if (season.fixtures.some(f => !f.played)) continue;
+
+    // Y aunque haya fixture, una tabla sin un solo partido jugado no corona a nadie.
+    if (!season.table.some(t => t.pj > 0)) continue;
 
     const campeon = sortTable([...season.table])[0];
     if (!campeon) continue;

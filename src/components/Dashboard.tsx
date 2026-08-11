@@ -27,7 +27,8 @@ import {
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
   Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
-  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users
+  ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users,
+  Menu, X
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 import SeasonComparisonChart from './SeasonComparisonChart';
@@ -274,6 +275,28 @@ interface DashboardProps {
   onResetGame: () => void;
 }
 
+type SeccionKey =
+  | 'carrera' | 'mi_club' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos'
+  | 'tienda' | 'patrocinios' | 'tablas' | 'calendario' | 'logros';
+
+// Las pestañas de la barra lateral, en el orden en que se muestran. Estaban escritas una por una
+// como once botones idénticos salvo ícono y rótulo, así que cualquier cambio transversal --el alto
+// mínimo táctil, el anillo de foco, los roles de accesibilidad-- había que repetirlo once veces y
+// alcanzaba con olvidarse de uno para que quedara desparejo.
+const SECCIONES: readonly { key: SeccionKey; label: string; Icon: typeof User }[] = [
+  { key: 'carrera',       label: 'Mi Carrera',       Icon: User },
+  { key: 'mi_club',       label: 'Plantilla de Club', Icon: Sparkles },
+  { key: 'entrenamiento', label: 'Entrenamiento',    Icon: Dumbbell },
+  { key: 'chutsocial',    label: 'ChutSocial',       Icon: Send },
+  { key: 'prensa',        label: 'Sala de Prensa',   Icon: Radio },
+  { key: 'traspasos',     label: 'Traspasos',        Icon: RefreshCw },
+  { key: 'tienda',        label: 'Tienda de Lujos',  Icon: ShoppingBag },
+  { key: 'patrocinios',   label: 'Patrocinios',      Icon: Award },
+  { key: 'tablas',        label: 'Copas y Tablas',   Icon: Table },
+  { key: 'calendario',    label: 'Calendario',       Icon: Calendar },
+  { key: 'logros',        label: 'Logros',           Icon: Trophy },
+];
+
 export default function Dashboard({
   playerProfile,
   shopItems,
@@ -311,7 +334,12 @@ export default function Dashboard({
   onLogout,
   onResetGame
 }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<'carrera' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos' | 'tienda' | 'patrocinios' | 'tablas' | 'mi_club' | 'calendario' | 'logros'>('carrera');
+  const [activeTab, setActiveTab] = useState<SeccionKey>('carrera');
+  // En móvil el menú arranca cerrado. La barra lateral es `w-full` en pantallas chicas, así que las
+  // once pestañas se desplegaban enteras ARRIBA del contenido: había que hacer scroll por todas
+  // antes de ver los atributos o el botón de jugar. En md+ no aplica -- la barra es una columna al
+  // costado y el menú se muestra siempre.
+  const [navAbiertoEnMovil, setNavAbiertoEnMovil] = useState(false);
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
@@ -2127,76 +2155,61 @@ export default function Dashboard({
             </div>
           </div>
 
-          <nav className="space-y-1">
-            <button
-              onClick={() => setActiveTab('carrera')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'carrera' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <User size={15} /> Mi Carrera
-            </button>
-            <button
-              onClick={() => setActiveTab('mi_club')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'mi_club' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Sparkles size={15} /> Plantilla de Club 
-            </button>
-            <button
-              onClick={() => setActiveTab('entrenamiento')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'entrenamiento' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Dumbbell size={15} /> Entrenamiento
-            </button>
-            <button
-              onClick={() => setActiveTab('chutsocial')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'chutsocial' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Send size={15} /> ChutSocial
-            </button>
-            <button
-              onClick={() => setActiveTab('prensa')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'prensa' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Radio size={15} /> Sala de Prensa
-            </button>
-            <button
-              onClick={() => setActiveTab('traspasos')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'traspasos' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <RefreshCw size={15} /> Traspasos
-            </button>
-            <button
-              onClick={() => setActiveTab('tienda')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tienda' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <ShoppingBag size={15} /> Tienda de Lujos
-            </button>
-            <button
-              onClick={() => setActiveTab('patrocinios')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'patrocinios' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Award size={15} /> Patrocinios
-            </button>
-            <button
-              onClick={() => setActiveTab('tablas')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'tablas' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Table size={15} /> Copas y Tablas
-            </button>
-            <button
-              onClick={() => setActiveTab('calendario')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'calendario' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Calendar size={15} /> Calendario
-            </button>
-            <button
-              onClick={() => setActiveTab('logros')}
-              className={`btn-fx-subtle w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer ${activeTab === 'logros' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
-            >
-              <Trophy size={15} /> Logros
-              <span className="ml-auto text-3xs font-mono text-slate-500">
-                {Object.keys(playerProfile.unlockedAchievements).length}/{ACHIEVEMENTS_DATABASE.length}
-              </span>
-            </button>
+          {/* Botón de menú, sólo en móvil. La ficha del jugador de arriba NO se colapsa a propósito:
+              es identidad, no navegación, y esconderla detrás de un menú saca de la vista lo que el
+              jugador quiere ver primero. */}
+          <button
+            type="button"
+            onClick={() => setNavAbiertoEnMovil(v => !v)}
+            aria-expanded={navAbiertoEnMovil}
+            aria-controls="nav-principal"
+            className="btn-fx-subtle md:hidden w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest bg-slate-900 border border-slate-800 text-slate-300 transition-all cursor-pointer"
+          >
+            {navAbiertoEnMovil ? <X size={16} /> : <Menu size={16} />}
+            {navAbiertoEnMovil ? 'Cerrar menú' : 'Menú'}
+            <span className="ml-auto text-3xs font-mono text-gold-400 normal-case tracking-normal">
+              {SECCIONES.find(s => s.key === activeTab)?.label}
+            </span>
+          </button>
+
+          {/* Las pestañas salen de SECCIONES y no una por una: el tamaño táctil, el foco y los roles
+              de accesibilidad se tocan en un solo lugar en vez de en once botones copiados. */}
+          <nav
+            id="nav-principal"
+            role="tablist"
+            aria-orientation="vertical"
+            aria-label="Secciones de la carrera"
+            className={`space-y-1 ${navAbiertoEnMovil ? 'block' : 'hidden'} md:block`}
+          >
+            {/* min-h-[44px]: los botones quedaban en ~36px de alto, por debajo de la guía de zona
+                táctil. En escritorio no se nota; con el pulgar, sí. */}
+            {SECCIONES.map(({ key, label, Icon }) => {
+              const activa = activeTab === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  role="tab"
+                  id={`tab-${key}`}
+                  aria-selected={activa}
+                  aria-controls="panel-seccion"
+                  onClick={() => {
+                    setActiveTab(key);
+                    // En móvil el menú se cierra solo al elegir: dejarlo abierto obligaba a subir y
+                    // cerrarlo a mano para llegar al contenido que se acaba de pedir.
+                    setNavAbiertoEnMovil(false);
+                  }}
+                  className={`btn-fx-subtle w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950 ${activa ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+                >
+                  <Icon size={15} /> {label}
+                  {key === 'logros' && (
+                    <span className={`ml-auto text-3xs font-mono ${activa ? 'text-slate-800' : 'text-slate-400'}`}>
+                      {Object.keys(playerProfile.unlockedAchievements).length}/{ACHIEVEMENTS_DATABASE.length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </nav>
         </div>
 
@@ -2218,7 +2231,10 @@ export default function Dashboard({
 
       <main className="flex-1 flex flex-col min-h-screen">
         
-        <header className="bg-slate-900 border-b border-slate-800 p-3 md:px-8 md:py-3 flex flex-col md:flex-row gap-4 justify-between items-center z-10">
+        {/* Sticky: la barra siempre estuvo en todas las pestañas -- se renderiza fuera de los
+            condicionales de activeTab -- pero se iba con el scroll. En Entrenamiento eso dejaba el
+            aviso de "no te alcanza el capital" en pantalla sin poder ver cuánto capital tenés. */}
+        <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 p-3 md:px-8 md:py-3 flex flex-col md:flex-row gap-3 md:gap-4 justify-between items-center">
           
           <div className="flex gap-1.5 items-center flex-wrap">
             <span className="text-gold-400 text-sm font-black">FECHA {playerProfile.currentWeek}</span>
@@ -2235,24 +2251,28 @@ export default function Dashboard({
             )}
           </div>
 
-          <div className="grid grid-cols-2 md:flex items-center gap-4 text-xs font-mono w-full md:w-auto">
-            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+          {/* En móvil las seis métricas iban en una grilla de 2 columnas: tres filas altas que, con
+              el header pegado arriba, se comían media pantalla. Ahora son una tira que se desliza
+              en horizontal (de ahí el shrink-0 de cada tarjeta), así el header ocupa una sola fila
+              y puede quedarse fijo sin estorbar. En md+ vuelve a ser la fila de siempre. */}
+          <div className="flex overflow-x-auto md:overflow-x-visible items-center gap-3 md:gap-4 text-xs font-mono w-full md:w-auto -mx-1 px-1 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Zap size={14} className="text-burgundy-500" />
               <div>
-                <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
+                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Energía</span>
                   <span className="text-white">{playerProfile.energy}/100</span>
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
                   <div 
-                    className="bg-burgundy-500 h-full rounded-full"
+                    className="bg-burgundy-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.energy}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <DollarSign size={14} className="text-gold-400 font-bold" />
               <div>
                 <span className="text-3xs text-slate-500 block leading-none font-bold uppercase">Capital</span>
@@ -2260,64 +2280,64 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Star size={14} className="text-yellow-400" />
               <div>
-                <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
+                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Relación DT</span>
                   <span className="text-white">{playerProfile.prestige}/100</span>
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
                   <div
-                    className="bg-yellow-500 h-full rounded-full"
+                    className="bg-yellow-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.prestige}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Users size={14} className="text-sky-400" />
               <div>
-                <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
+                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Compañeros</span>
                   <span className="text-white">{playerProfile.prestigeCompaneros ?? playerProfile.prestige}/100</span>
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
                   <div
-                    className="bg-sky-500 h-full rounded-full"
+                    className="bg-sky-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.prestigeCompaneros ?? playerProfile.prestige}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Heart size={14} className="text-rose-500" />
               <div>
-                <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
+                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Hinchada</span>
                   <span className="text-white">{playerProfile.fans}/100</span>
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
                   <div
-                    className="bg-rose-500 h-full rounded-full"
+                    className="bg-rose-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.fans}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
               <Brain size={14} className="text-sky-400" />
               <div>
-                <div className="flex justify-between items-center text-3xs text-slate-500 font-bold uppercase leading-none min-w-[70px]">
+                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Mente</span>
                   <span className="text-white">{playerProfile.mentalHealth}/100</span>
                 </div>
                 <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
                   <div
-                    className="bg-sky-400 h-full rounded-full"
+                    className="bg-sky-400 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.mentalHealth}%` }}
                   />
                 </div>
@@ -2326,7 +2346,18 @@ export default function Dashboard({
           </div>
         </header>
 
-        <div className="p-3 md:p-6 flex-1">
+        {/* Un solo panel que cambia de contenido, en vez de once paneles ocultos: por eso lleva un
+            id fijo y se etiqueta con la pestaña activa. Así un lector de pantalla anuncia en qué
+            sección quedó parado al cambiar de pestaña. */}
+        {/* pb-24 en móvil: los controles flotantes de música y sonido viven en las esquinas de abajo
+            (fixed bottom-4), así que sin este colchón el último bloque de cada pestaña queda tapado
+            justo cuando terminás de bajar. En escritorio sobra ancho y no hace falta. */}
+        <div
+          className="p-3 pb-24 md:p-6 md:pb-8 flex-1"
+          id="panel-seccion"
+          role="tabpanel"
+          aria-labelledby={`tab-${activeTab}`}
+        >
 
           {activeTab === 'carrera' && (
             <div className="space-y-4 animate-fade-in">
@@ -2358,7 +2389,7 @@ export default function Dashboard({
                         </div>
                         <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden mt-1 border border-slate-800">
                           <div
-                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full"
+                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-[width] duration-500 ease-out"
                             style={{ width: `${(val / 99) * 100}%` }}
                           />
                         </div>
@@ -2378,7 +2409,7 @@ export default function Dashboard({
                     </h4>
 
                     {misTrofeos.length === 0 ? (
-                      <p className="text-3xs font-mono text-slate-500 uppercase leading-relaxed text-center py-2">
+                      <p className="text-2xs font-mono text-slate-400 leading-relaxed text-center py-2">
                         Todavía no ganaste ningún título. Llevá a tu equipo a lo más alto.
                       </p>
                     ) : (
@@ -2393,11 +2424,17 @@ export default function Dashboard({
                                   llevar 🥈 (se lee como subcampeón). Va con la copa de asas. */}
                               {t.tipo === 'mundial' ? '🌎' : t.tipo === 'continental' ? '🏆' : t.tipo === 'copa' ? '🏅' : '🥇'}
                             </span>
+                            {/* El club va en su PROPIO renglón, no pegado al detalle. Juntos en una
+                                sola línea, el truncate cortaba los nombres largos a media palabra
+                                ("Junior de Barranquil..."). El truncate se queda -- está para que un
+                                nombre largo no rompa la tarjeta -- pero ahora tiene el ancho entero
+                                para él, y el title deja leer el completo si aun así no entra. */}
                             <span className="min-w-0 flex-1">
-                              <span className="block text-2xs font-black text-white truncate">{t.nombre}</span>
-                              <span className="block text-3xs font-mono text-slate-500 truncate">
-                                {t.detalle} · {t.clubName}
+                              <span className="block text-2xs font-black text-white truncate" title={t.nombre}>{t.nombre}</span>
+                              <span className="block text-3xs font-mono text-slate-400 truncate" title={t.clubName}>
+                                {t.clubName}
                               </span>
+                              <span className="block text-3xs font-mono text-slate-500">{t.detalle}</span>
                             </span>
                           </li>
                         ))}
@@ -2405,7 +2442,7 @@ export default function Dashboard({
                     )}
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-slate-800 text-3xs font-mono text-slate-500 uppercase leading-relaxed text-center">
+                  <div className="mt-4 pt-3 border-t border-slate-800 text-2xs font-mono text-slate-400 leading-relaxed text-center">
                     Entrena de forma exigente en el complejo deportivo para potenciar tus capacidades.
                   </div>
                 </div>
@@ -2455,7 +2492,10 @@ export default function Dashboard({
                       <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center col-span-2">
                         <span className="text-3xs text-slate-500 font-mono uppercase block">Partidos Totales</span>
                         <span className="text-base font-black text-white font-mono block mt-1">
-                          {playerProfile.careerStats.partidosHistoricos} encuentros oficiales
+                          {/* El sustantivo concuerda con el número: con un solo partido jugado la
+                              tarjeta decía "1 encuentros oficiales". */}
+                          {playerProfile.careerStats.partidosHistoricos}{' '}
+                          {playerProfile.careerStats.partidosHistoricos === 1 ? 'encuentro oficial' : 'encuentros oficiales'}
                         </span>
                       </div>
                     </div>
@@ -2477,7 +2517,7 @@ export default function Dashboard({
                       <>
                         <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
                           <div
-                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full"
+                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-[width] duration-500 ease-out"
                             style={{ width: `${milestoneProgressPct}%` }}
                           />
                         </div>
@@ -3042,7 +3082,7 @@ export default function Dashboard({
                         </div>
                         <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
                           <div
-                            className="bg-gradient-to-r from-burgundy-600 to-burgundy-400 h-full rounded-full"
+                            className="bg-gradient-to-r from-burgundy-600 to-burgundy-400 h-full rounded-full transition-[width] duration-500 ease-out"
                             style={{ width: `${playerProfile.girlfriend.loveMeter}%` }}
                           />
                         </div>
@@ -3220,7 +3260,9 @@ export default function Dashboard({
 
                   {/* Backdrop tipo "step and repeat" de rueda de prensa real, detrás del encabezado */}
                   <div className="absolute inset-x-0 top-0 h-28 overflow-hidden pointer-events-none select-none">
-                    <div className="flex flex-wrap gap-x-6 gap-y-4 -rotate-6 -translate-x-6 -translate-y-3 opacity-[0.08] whitespace-nowrap">
+                    {/* Bajado de 0.08 a 0.05: el patrón tiene que leerse como textura de fondo, no
+                        competir con la pregunta del periodista, que es lo único que hay que leer. */}
+                    <div className="flex flex-wrap gap-x-6 gap-y-4 -rotate-6 -translate-x-6 -translate-y-3 opacity-[0.05] whitespace-nowrap">
                       {Array.from({ length: 16 }).map((_, i) => (
                         <span key={i} className="text-2xs font-black uppercase tracking-widest text-white">
                           ★ FutStarzz
@@ -3558,10 +3600,20 @@ export default function Dashboard({
                   <button
                     onClick={onRequestRenewal}
                     disabled={playerProfile.prestige < 55}
-                    className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    title={playerProfile.prestige < 55
+                      ? `Necesitás 55 de Relación DT para pedir la renovación (tenés ${playerProfile.prestige}).`
+                      : 'Pedile al club que renueve tu contrato.'}
+                    className="btn-fx-subtle w-full min-h-[44px] py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     Pedir renovación
                   </button>
+                  {/* La condición se MUESTRA, no se deja sólo en el title: en un teléfono no hay
+                      hover, así que el botón gris era un callejón sin salida sin explicación. */}
+                  {playerProfile.prestige < 55 && (
+                    <p className="text-3xs text-slate-400 font-mono mt-2 text-center">
+                      Te faltan {55 - playerProfile.prestige} de Relación DT (vas {playerProfile.prestige}/55).
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

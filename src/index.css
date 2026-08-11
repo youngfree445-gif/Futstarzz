@@ -16,9 +16,20 @@
   --color-slate-500: #6b5f53;
   --color-slate-600: #4f4740;
   --color-slate-700: #3a332e;
-  --color-slate-800: #26211d;
-  --color-slate-900: #19161a;
-  --color-slate-950: #0b0a0d;
+  /* Escala de ELEVACIÓN. Antes el fondo de página y los cuadros internos compartían el mismo
+     #0b0a0d, así que la interfaz se leía plana: no había forma de saber qué está apoyado sobre qué.
+     Ahora hay tres niveles bien separados, del más hundido al más levantado:
+
+       body  #08070a  <  slate-950 #100d12  <  slate-900 #1c181d  <  slate-800 #2b2521 (bordes)
+
+     Se cambian los TOKENS y no las clases de cada componente: el juego usa bg-slate-950/900/800 en
+     cientos de lugares y tocarlos uno por uno era garantía de dejar la mitad desparejo.
+
+     Los valores siguen siendo grafito CÁLIDO (tienen más rojo que azul) a propósito: es el tema
+     "Noche de Campeones". Una escala de grises fría los volvería un dashboard genérico. */
+  --color-slate-800: #2b2521;
+  --color-slate-900: #1c181d;
+  --color-slate-950: #100d12;
 
   --color-gold-50: #faf6ec;
   --color-gold-100: #f3ead0;
@@ -66,10 +77,20 @@
   --text-3xs--line-height: 0.8rem;
   --text-4xs: 0.5625rem;
   --text-4xs--line-height: 0.75rem;
+
+  /* Sombras para fondo oscuro. Las de Tailwind están calibradas para páginas claras -- negro al
+     10% sobre un fondo casi negro no se ve -- así que las tarjetas quedaban recortadas sólo por su
+     borde. Con más opacidad y más difusión, la sombra vuelve a separar la tarjeta del fondo. */
+  --shadow-md: 0 4px 10px -2px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 10px 20px -6px rgb(0 0 0 / 0.55);
+  --shadow-xl: 0 16px 32px -10px rgb(0 0 0 / 0.6);
+  --shadow-2xl: 0 26px 55px -14px rgb(0 0 0 / 0.7);
 }
 
 body {
-  background-color: #0b0a0d;
+  /* El nivel más hundido de la escala: por debajo de slate-950, para que un panel apoyado sobre la
+     página se note apoyado. Ver el comentario de la escala de elevación arriba. */
+  background-color: #08070a;
   color: #f5f0e8;
   font-family: var(--font-sans);
   background-image: radial-gradient(circle at top right, rgba(168, 132, 46, 0.09), transparent 70%),
@@ -91,11 +112,13 @@ body {
   text-shadow: 0 0 12px rgba(168, 132, 46, 0.45);
 }
 
+/* Estos hexes van a mano y siguen la misma escala de elevación que los tokens de arriba: si se
+   cambia una, hay que cambiar la otra o esta tarjeta queda de un gris distinto al resto. */
 .card-sophisticated {
-  background-color: #19161a;
-  border: 1px solid #26211d;
+  background-color: #1c181d;
+  border: 1px solid #2b2521;
   border-radius: 12px;
-  box-shadow: 0 4px 20px -2px rgba(11, 10, 13, 0.5);
+  box-shadow: 0 10px 20px -6px rgb(0 0 0 / 0.55);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -106,7 +129,7 @@ body {
 
 .btn-premium {
   background: linear-gradient(135deg, #d4b86a, #a8842e 55%, #8a6a22);
-  color: #0b0a0d;
+  color: #08070a;
   font-weight: 800;
   padding: 12px 32px;
   border-radius: 8px;
@@ -133,10 +156,10 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0a0d;
+  background: #08070a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #26211d;
+  background: #2b2521;
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {

@@ -71,7 +71,9 @@ export default function SeasonComparisonChart({ seasonHistory }: SeasonCompariso
   if (temporadas.length < 2 || !tieneAlgunSnapshot) {
     return (
       <div className="bg-slate-950/60 p-5 rounded-2xl border border-slate-800 text-center">
-        <p className="text-3xs text-slate-500 font-mono uppercase leading-relaxed">
+        {/* Sin uppercase: es una oración entera, no una etiqueta. En mayúsculas sostenidas se lee
+            mucho peor, que es justo lo contrario de lo que necesita un texto explicativo. */}
+        <p className="text-2xs text-slate-400 font-mono leading-relaxed">
           El comparador de temporadas se completa a medida que cerrás años de carrera. Todavía no hay
           suficientes temporadas cerradas con datos para graficar.
         </p>

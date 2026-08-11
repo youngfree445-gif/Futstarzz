@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PlayerProfile } from '../types';
 import { CLUBS_DATABASE } from '../data';
-import { Trophy, Play, RefreshCw, Trash2, Calendar, Star, DollarSign, Award, Flame, Disc, Coins, Heart } from 'lucide-react';
+import { exportarPartida, importarPartida } from '../partidaArchivo';
+import { Trophy, Play, RefreshCw, Trash2, Calendar, Star, DollarSign, Award, Flame, Disc, Coins, Heart, Download, Upload } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onStartNew: (slotId: string) => void;
@@ -42,6 +43,33 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
     setSlots(loadedSlots);
   }, []);
 
+  // Un <input type="file"> oculto por ranura. Se usa un ref por id y no uno solo compartido porque
+  // el archivo tiene que entrar en la ranura cuyo botón se apretó, no en la última que se tocó.
+  const importInputRef = useRef<Record<string, HTMLInputElement | null>>({});
+
+  const handleExport = (slotId: string, profile: PlayerProfile) => {
+    const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId)?.name ?? '—';
+    const nombre = exportarPartida(slotId, club);
+    if (!nombre) alert('No se pudo leer esta partida para exportarla.');
+  };
+
+  const handleImport = async (slotId: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    // Se limpia el input SIEMPRE: si no, elegir el mismo archivo dos veces seguidas no dispara
+    // onChange la segunda vez y parece que el botón dejó de andar.
+    e.target.value = '';
+    if (!file) return;
+
+    const res = await importarPartida(file, slotId);
+    if (!res.ok || !res.perfil) {
+      alert(res.error ?? 'No se pudo restaurar la partida.');
+      return;
+    }
+    const restaurado = res.perfil;
+    setSlots(prev => prev.map(s => s.id === slotId ? { ...s, profile: restaurado } : s));
+    alert(`Partida restaurada: ${restaurado.name}. Ya podés continuarla desde esta ranura.`);
+  };
+
   const handleDeleteSave = (slotId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (confirm('¿Estás seguro de que quieres borrar esta partida guardada? Todo tu historial, dinero y balones de oro se perderán en esta ranura.')) {
@@ -78,11 +106,21 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
         </p>
       </div>
 
-      {/* Pestañas de Navegación */}
-      <div className="flex gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 mb-6 w-full max-w-md relative z-10">
+      {/* Pestañas de Navegación. Van con los roles de tabs de verdad (tablist/tab/tabpanel): eran
+          dos botones sueltos, así que con teclado o lector de pantalla no había forma de saber que
+          formaban un grupo ni cuál estaba elegida. */}
+      <div
+        role="tablist"
+        aria-label="Secciones del menú principal"
+        className="flex gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 mb-6 w-full max-w-md relative z-10"
+      >
         <button
+          role="tab"
+          id="tab-saves"
+          aria-selected={activeTab === 'saves'}
+          aria-controls="panel-inicio"
           onClick={() => setActiveTab('saves')}
-          className={`btn-fx-subtle flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
             activeTab === 'saves'
               ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
@@ -91,8 +129,12 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           <Play size={13} /> Mis Partidas Guardadas
         </button>
         <button
+          role="tab"
+          id="tab-awards"
+          aria-selected={activeTab === 'awards'}
+          aria-controls="panel-inicio"
           onClick={() => setActiveTab('awards')}
-          className={`btn-fx-subtle flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
             activeTab === 'awards'
               ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
@@ -102,8 +144,14 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
         </button>
       </div>
 
-      {/* Contenedor Principal de Datos */}
-      <div className="w-full max-w-3xl relative z-10">
+      {/* Contenedor Principal de Datos. Un solo panel que cambia de contenido, etiquetado con la
+          pestaña activa para que se anuncie dónde quedó parado el foco. */}
+      <div
+        className="w-full max-w-3xl relative z-10"
+        id="panel-inicio"
+        role="tabpanel"
+        aria-labelledby={activeTab === 'saves' ? 'tab-saves' : 'tab-awards'}
+      >
         {activeTab === 'saves' ? (
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             {slots.map(slot => {
@@ -175,28 +223,62 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => onLoadGame(profile, slot.id)}
-                        className="btn-fx w-full py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-xs font-black flex items-center justify-center gap-1 cursor-pointer"
-                      >
-                        <RefreshCw size={12} className="text-slate-950" />
-                        Continuar
-                      </button>
+                      <div className="space-y-1.5">
+                        <button
+                          onClick={() => onLoadGame(profile, slot.id)}
+                          className="btn-fx w-full min-h-[44px] py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-xs font-black flex items-center justify-center gap-1 cursor-pointer"
+                        >
+                          <RefreshCw size={12} className="text-slate-950" />
+                          Continuar
+                        </button>
+                        <button
+                          onClick={() => handleExport(slot.id, profile)}
+                          aria-label={`Descargar copia de seguridad de ${profile.name}`}
+                          className="btn-fx-subtle w-full min-h-[36px] py-1.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 text-3xs font-bold flex items-center justify-center gap-1.5 cursor-pointer hover:border-gold-500/40 hover:text-gold-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+                        >
+                          <Download size={11} />
+                          Descargar copia
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <div className="flex-1 flex flex-col justify-center items-center py-8 text-center">
-                      <div className="w-10 h-10 rounded-full border border-dashed border-slate-800 flex items-center justify-center text-slate-600 text-sm mb-3">
+                      {/* aria-hidden: el "+" es decoración. Sin esto un lector de pantalla lo lee
+                          como "más", que no significa nada al lado del botón que ya dice qué hace. */}
+                      <div aria-hidden="true" className="w-10 h-10 rounded-full border border-dashed border-slate-800 flex items-center justify-center text-slate-600 text-sm mb-3">
                         +
                       </div>
-                      <p className="text-2xs text-slate-500 font-semibold mb-3">
+                      <p className="text-2xs text-slate-400 font-semibold mb-3">
                         No hay carrera activa en esta ranura
                       </p>
+                      {/* Las seis ranuras vacías tienen botones con el MISMO texto. El aria-label
+                          las distingue: leídos de corrido, "Nueva Partida" seis veces no dice en
+                          cuál estás parado. */}
                       <button
                         onClick={() => onStartNew(slot.id)}
-                        className="btn-fx-subtle py-1.5 px-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold text-xs hover:border-gold-500 hover:text-gold-400 transition-colors cursor-pointer"
+                        aria-label={`Nueva partida en ${slot.label}`}
+                        className="btn-fx-subtle min-h-[44px] py-1.5 px-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold text-xs hover:border-gold-500 hover:text-gold-400 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                       >
                         Nueva Partida
                       </button>
+                      {/* Restaurar sólo se ofrece en ranuras VACÍAS: así importar nunca puede pisar
+                          una carrera en curso por un clic de más. Para restaurar sobre una ranura
+                          ocupada hay que borrarla antes, que ya pide confirmación. */}
+                      <button
+                        onClick={() => importInputRef.current?.[slot.id]?.click()}
+                        aria-label={`Restaurar una copia de seguridad en ${slot.label}`}
+                        className="btn-fx-subtle mt-2 min-h-[36px] py-1.5 px-3 rounded-xl text-slate-400 text-3xs font-bold flex items-center justify-center gap-1.5 cursor-pointer hover:text-gold-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+                      >
+                        <Upload size={11} />
+                        Restaurar copia
+                      </button>
+                      <input
+                        type="file"
+                        accept="application/json,.json"
+                        className="hidden"
+                        ref={el => { if (importInputRef.current) importInputRef.current[slot.id] = el; }}
+                        onChange={e => handleImport(slot.id, e)}
+                      />
                     </div>
                   )}
                 </div>
