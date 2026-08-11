@@ -12,6 +12,7 @@ import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
+import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { postsDelPartido } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
@@ -983,11 +984,10 @@ export default function Dashboard({
   // club exacto hasta que está muy cerca (>=92%) -- antes de eso queda en "un club de la liga X".
   const generateOwnTransferRumorPosts = () => {
     const week = playerProfile.currentWeek;
-    const matchesPlayed = playerProfile.careerStats.partidosHistoricos;
-    const contributionPerMatch = matchesPlayed > 0
-      ? (playerProfile.careerStats.golesHistoricos + playerProfile.careerStats.asistenciasHistoricos) / matchesPlayed
-      : 0;
-    const performanceScore = Math.min(100, playerProfile.prestige * 0.55 + contributionPerMatch * 70 + playerProfile.careerStats.campeonatos * 6);
+    // La fórmula estaba copiada a mano acá y ya se había desincronizado de transferMarket.ts: esta
+    // copia no aplicaba el ajuste del agente, así que la prensa rumoreaba con un umbral distinto al
+    // de las ofertas que después aparecían en Traspasos. Ahora las dos leen del mismo lugar.
+    const performanceScore = rendimientoDe(playerProfile);
     if (performanceScore <= 0) return [];
 
     const personas = [
@@ -999,8 +999,7 @@ export default function Dashboard({
     const candidatos = ULTIMATE_CLUBS_DATABASE
       .filter(c => c.id !== playerProfile.currentClubId)
       .map(c => {
-        const reputationGap = c.reputation - currentClub.reputation;
-        const reqPrestige = Math.round(Math.min(95, c.reputation * 12 + Math.max(0, reputationGap) * 15));
+        const { reqPrestige } = requisitosDe(c, currentClub, playerProfile.agent);
         return { club: c, closeness: reqPrestige > 0 ? performanceScore / reqPrestige : 0 };
       })
       // Cerca del umbral (80%-99%) pero sin cumplirlo todavía: si ya lo cumple, la oferta real ya
@@ -3540,6 +3539,66 @@ export default function Dashboard({
                   );
                 })}
               </div>
+
+              {/* Radar de interés: los clubes que TODAVÍA no podés fichar y cuánto te falta.
+                  Antes el mercado sólo mostraba las 3 mejores ofertas ya disponibles, así que un
+                  club grande aparecía de la nada el día que lo alcanzabas -- no había forma de
+                  saber cuánto faltaba ni si lo que faltaba era rendimiento o partidos. Usa el mismo
+                  criterio que las ofertas reales: si dice "te faltan 8", a los 8 aparece la oferta. */}
+              {(() => {
+                const rendimiento = rendimientoDe(playerProfile);
+                const radar = radarDeInteres(playerProfile, currentClub, ULTIMATE_CLUBS_DATABASE)
+                  .map(p => ({ ...p, club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === p.clubId) }))
+                  .filter((p): p is typeof p & { club: Club } => !!p.club);
+                if (radar.length === 0) return null;
+                return (
+                  <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
+                      🎯 Quién te está mirando
+                    </h3>
+                    <p className="text-2xs text-slate-400 mb-3 leading-relaxed">
+                      Tu Rendimiento hoy es <strong className="text-gold-400">{Math.round(rendimiento)}</strong> con{' '}
+                      <strong className="text-gold-400">{playerProfile.careerStats.partidosHistoricos}</strong>{' '}
+                      {playerProfile.careerStats.partidosHistoricos === 1 ? 'partido' : 'partidos'} en las piernas.
+                      Sube con prestigio, con goles y asistencias por partido, y con títulos.
+                    </p>
+
+                    <div className="space-y-2.5">
+                      {radar.map(p => (
+                        <div key={p.clubId} className="bg-slate-950 border border-slate-800 rounded-2xl p-3">
+                          <div className="flex items-center gap-2.5">
+                            <ClubBadge club={p.club} size={22} colorFallback={false} />
+                            <span className="text-2xs font-black text-white truncate flex-1 min-w-0" title={p.club.name}>
+                              {p.club.name}
+                            </span>
+                            <span className="text-3xs font-mono text-slate-400 shrink-0">
+                              {Math.round(p.progreso * 100)}%
+                            </span>
+                          </div>
+
+                          <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-2">
+                            <div
+                              className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-[width] duration-500 ease-out"
+                              style={{ width: `${Math.min(100, p.progreso * 100)}%` }}
+                            />
+                          </div>
+
+                          {/* Se dice QUÉ falta, no sólo cuánto: sin esto un jugador con el
+                              rendimiento cumplido pero sin partidos no entiende por qué sigue
+                              sin poder ir. */}
+                          <p className="text-3xs font-mono text-slate-400 mt-1.5">
+                            {p.faltaRendimiento > 0 && p.faltanPartidos > 0
+                              ? `Te faltan ${p.faltaRendimiento} de Rendimiento y ${p.faltanPartidos} ${p.faltanPartidos === 1 ? 'partido' : 'partidos'}.`
+                              : p.faltaRendimiento > 0
+                              ? `Rendimiento: te faltan ${p.faltaRendimiento} para llegar a ${p.reqPrestige}.`
+                              : `Ya tenés el nivel: te faltan ${p.faltanPartidos} ${p.faltanPartidos === 1 ? 'partido' : 'partidos'} de rodaje.`}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">

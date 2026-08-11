@@ -335,7 +335,12 @@ export function roundLabelByMatchCount(n: number): string {
 // (es el dato curado de data.ts) y el valor ajusta dentro de esa categoría.
 const REFERENCE_SQUAD_VALUE = 1_000_000_000;
 
-function clubStrength(club: Club): number {
+// Se exporta porque el mercado de pases la usa para saber cuánto vale ficharte (ver requisitosDe en
+// transferMarket.ts). Antes el mercado medía por `reputation` sola, que va de 1 a 5, y ahí Junior,
+// Millonarios, Real Madrid y el City eran todos 5: un club colombiano y un gigante europeo pedían
+// exactamente lo mismo. La fuerza ya distinguía a los dos para simular partidos (58 contra 85), sólo
+// que el mercado no la estaba mirando.
+export function clubStrength(club: Club): number {
   const repScore = club.reputation * 11;                              // 11-55
   // Raíz cuadrada: sigue premiando al plantel caro, pero sin que la distancia entre el 5º y el
   // último se vuelva un abismo. Con proporción lineal pura el colista terminaba con 8 puntos.

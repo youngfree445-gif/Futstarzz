@@ -165,8 +165,45 @@ a toda la app.
 ## Features derivadas
 
 9. ~~**Lado receptor de la mentoría**~~ — **HECHO**. Ver abajo.
-10. **Señal de interés de los clubes grandes:** hoy no hay forma de saber cuánto prestigio falta para
-    que un club europeo se fije en vos.
+10. ~~**Señal de interés de los clubes grandes**~~ — **HECHO**. Ver abajo.
+
+### Radar de interés, y el agujero que destapó — hecho
+
+La auditoría pedía un indicador de cuánto le falta al jugador para que un gigante europeo lo mire.
+Al ir a construirlo apareció que **la pregunta no tenía respuesta porque no había requisito**: con
+una carrera modesta en Junior (prestigio 55, 30 partidos, 10 goles) los **691 clubes del juego ya
+eran alcanzables**, Real Madrid y Manchester City incluidos.
+
+La causa: el umbral salía de `reputation`, que va de 1 a 5, y Junior, Millonarios, Real Madrid y el
+City son **todos 5**. El término que ajustaba por la diferencia contra tu club actual daba cero.
+
+**Arreglo**, con el criterio ya existente y no uno nuevo: el umbral pasa a ser `clubStrength`
+(reputación + valor de plantel), **la misma función que la simulación de partidos ya usaba** para
+saber que el Madrid (85) no es Junior (58). Sólo hubo que exportarla.
+
+**Y el rendimiento del jugador ahora incluye sus atributos**, con el mismo peso que el prestigio.
+Sin eso, la única forma de que un gigante te mirara era acumular temporadas, y un jugador que
+explota en su primer año quedaba invisible. De paso corrige un sesgo de posición: con la fórmula
+vieja mandaba el aporte por partido, así que un central o un arquero tenían techo bajo por
+definición.
+
+Curva resultante, medida:
+
+| Perfil | Rendimiento | Clubes accesibles | ¿Real Madrid? |
+|---|---|---|---|
+| Debutante (0 PJ) | 37 | 0 / 691 | no |
+| Modesto (30 PJ) | 52 | 582 / 691 | no |
+| Buen primer año | 75 | 674 / 691 | no |
+| Primer año excepcional | 89 | 691 / 691 | **sí** |
+| Consagrado | 100 | 691 / 691 | sí |
+
+El **radar** muestra una escalera, no los cuatro clubes más cercanos: se agrupa por peldaño, se toma
+el club más reconocible de cada uno y se reparten de punta a punta. Ordenar por cercanía a secas
+devolvía cuatro nombres intercambiables a los que les faltaba 1 punto — inútil, y encima escondía el
+club con el que el jugador sueña.
+
+Usa el mismo criterio que las ofertas reales, así que si dice "te faltan 10", a los 10 aparece la
+oferta. Verificado con 17 chequeos.
 
 ### El referente (lado receptor de la mentoría) — hecho
 
