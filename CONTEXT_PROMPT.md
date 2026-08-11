@@ -42,6 +42,17 @@ corren su calendario y tabla en simultáneo de fondo.
   `MatchSimulator.tsx`, `DecisionCenter.tsx` (eventos random), `PostMatch.tsx`,
   `PenaltyShootout.tsx`, `SetupScreen.tsx`, `WelcomeScreen.tsx`,
   `CareerSummary.tsx`, `ClubBadge.tsx`
+- `partidaArchivo.ts` — exportar/importar una partida como `.json` desde la
+  pantalla de inicio. Una carrera de hasta 32 temporadas vive sólo en
+  `localStorage`, así que sin esto un borrado de caché la evapora. El archivo
+  lleva las **dos** claves de la ranura (`futbol_star_save_*` y
+  `futbol_star_shop_*`). La importación valida el perfil campo por campo y **no
+  escribe nada si falla**; se ofrece sólo en ranuras vacías, para que no pise una
+  carrera en curso
+- `palmares.ts` — la vitrina de trofeos, **derivada** del perfil (no se guarda
+  aparte, así una partida vieja muestra su palmarés sin migrar nada). Ojo con la
+  diferencia entre "no quedan partidos" y "no hay partidos": las ligas con
+  calendario real nacen con `fixtures: []` a propósito
 - `soccerDatabase.ts`, `clubExtras.ts` — datos auxiliares de clubes
 - `audio.ts` — motor de SFX (gol, tarjeta, silbato). Archivos en `public/sfx/`,
   ver [docs/SFX.md](docs/SFX.md)
