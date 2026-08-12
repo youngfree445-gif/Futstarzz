@@ -13,7 +13,7 @@
 
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
 import { CAREER_START_YEAR } from './leagueEngine';
-import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada } from './seasonCalendar';
+import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada, partidosDePlayoff } from './seasonCalendar';
 // copaNacional sólo importa ./types, así que no hay ciclo posible en esta dirección.
 import { nombreCopaNacional } from './copaNacional';
 
@@ -38,6 +38,15 @@ export interface DatedFixture {
    * `opponentName` en estos casos es un cartel de relleno y no debe usarse para buscar un club.
    */
   esReservaDeCuadro?: boolean;
+  /**
+   * Fecha de PLAYOFF (los cuadrangulares de Colombia y Argentina), no de la fase regular.
+   *
+   * Importa porque estos partidos NO van a la tabla. En el Apertura 2026 el Junior jugó 25 fechas y
+   * el Millonarios 19: las 6 de más son cuartos, semis y final, a ida y vuelta. Sumándolas a la
+   * misma tabla, el campeón salía de comparar 25 partidos contra 19 -- y el que llegó a la final
+   * quedaba arriba por haber jugado más, no por andar mejor.
+   */
+  esPlayoff?: boolean;
 }
 
 // Se re-exporta para no romper a los módulos que ya la importaban de acá; la definición vive en
@@ -133,12 +142,19 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
       if (temporada !== 1) continue;
     }
 
-    for (const match of comp.matches) {
+    // Los playoffs se marcan ACÁ, al crear el fixture, y no en una pasada aparte: recorrer los
+    // ~8000 partidos de las 32 temporadas una segunda vez armando la clave de cada uno llevó el
+    // armado del calendario de 545 a 762 ms, por encima del tope. Lo agarró el validador.
+    const playoffs = original.kind === 'league' ? partidosDePlayoff(original) : null;
+
+    for (let i = 0; i < comp.matches.length; i++) {
+      const match = comp.matches[i];
       // En la temporada 1 se descartan las fechas anteriores al arranque de la carrera (media
       // temporada europea ya jugada). De la 2 en adelante todas las fechas son futuras.
       if (temporada === 1 && match.date < CAREER_START_DATE) continue;
-      agregar(match.home, { competition: comp, match, date: match.date, isHome: true, opponentName: match.away, temporada });
-      agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home, temporada });
+      const esPlayoff = playoffs?.has(i) || undefined;
+      agregar(match.home, { competition: comp, match, date: match.date, isHome: true, opponentName: match.away, temporada, esPlayoff });
+      agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home, temporada, esPlayoff });
     }
   }
   // Las reservas se calculan ANTES de ordenar y se ordena una sola vez al final: ordenar el índice
@@ -468,6 +484,26 @@ export function fechaDelPaso(clubName: string, paso: number): string | null {
 export function rivalDeLigaEnPaso(clubName: string, paso: number): DatedFixture | null {
   const s = fixturesAtStep(clubName, paso);
   return s?.fixtures.find(f => f.competition.kind === 'league') ?? null;
+}
+
+// --- LOS PLAYOFFS DE LIGA (cuadrangulares) ------------------------------------------------------
+//
+// En Colombia y Argentina el semestre no termina con la tabla: los mejores juegan una eliminatoria
+// aparte. En el Apertura 2026 se ve clarísimo en los datos -- 12 clubes juegan 19 fechas y se van a
+// casa; ocho llegan a 21, cuatro a 23 y dos a 25. O sea cuartos, semis y final, todo a ida y vuelta.
+//
+// Esas fechas de más NO son fase regular y no pueden ir a la misma tabla. Sumándolas, el campeón
+// salía de comparar 25 partidos contra 19: el que llegaba a la final quedaba arriba por haber
+// jugado más, no por andar mejor.
+//
+// LA REGLA SALE DE LOS DATOS, no de una suposición sobre el formato: la cantidad MÁS COMÚN de
+// fechas por club en ese semestre es la fase regular, y lo que un club juegue por encima de eso es
+// playoff. Así funciona igual con 20 clubes que con 30, con zonas o sin ellas, y una liga sin
+// playoffs (donde todos juegan lo mismo) no marca nada.
+
+/** ¿Este partido de liga es de playoff y no de la fase regular? */
+export function esPartidoDePlayoff(clubName: string, date: string): boolean {
+  return fixturesForClub(clubName).some(f => f.date === date && f.esPlayoff === true);
 }
 
 // --- EL MERCADO DE PASES -------------------------------------------------------------------------

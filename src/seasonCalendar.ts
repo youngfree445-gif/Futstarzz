@@ -5,7 +5,7 @@
 // ponerlo allá creaba un ciclo entre los dos módulos. Acá abajo solo hay datos puros
 // (realCalendarDates.ts no importa nada), así que no hay ciclo posible.
 
-import { DATED_CALENDARS, type DatedCompetition } from './realCalendarDates';
+import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
 
 /** Día 1 de la carrera. Coincide con el arranque real de la temporada 2026. */
 export const CAREER_START_DATE = '2026-01-12';
@@ -100,6 +100,89 @@ export function competicionEnTemporada(comp: DatedCompetition, temporada: number
 /** Todas las competiciones de una temporada dada. */
 export function competicionesDeTemporada(temporada: number): DatedCompetition[] {
   return DATED_CALENDARS.map(c => competicionEnTemporada(c, temporada));
+}
+
+// --- PLAYOFFS DE LIGA (cuadrangulares de Colombia y Argentina) ----------------------------------
+//
+// Vive acá, y no en dateSchedule.ts, porque hace falta en los DOS lados: el calendario los marca
+// para mostrarlos distinto, y el motor de tablas necesita EXCLUIRLOS al sumar puntos. dateSchedule
+// importa leagueEngine, así que leagueEngine no puede importar dateSchedule; este módulo, que no
+// importa nada más que datos, es el único lugar donde los dos alcanzan la misma respuesta.
+//
+// El caso: en el Apertura 2026 doce clubes juegan 19 fechas y se van a casa, ocho llegan a 21,
+// cuatro a 23 y dos a 25 -- cuartos, semis y final a ida y vuelta. Sumando esas fechas a la misma
+// tabla, el campeón salía de comparar 25 partidos contra 19.
+
+/** Ligas que reparten DOS títulos por año. Misma lista que en dateSchedule.ts y leagueEngine.ts. */
+const LIGAS_DE_DOS_TORNEOS = new Set(['Colombiana', 'Argentina']);
+
+/** El semestre al que pertenece una fecha: 'Apertura', 'Clausura', o la liga entera si no se parte. */
+function semestreDe(comp: DatedCompetition, date: string): string {
+  if (!comp.league || !LIGAS_DE_DOS_TORNEOS.has(comp.league)) return comp.name;
+  return Number(date.slice(5, 7)) <= 6 ? 'Apertura' : 'Clausura';
+}
+
+/** El valor que más se repite. Con empate gana el más chico: la fase regular es el piso. */
+function moda(valores: number[]): number {
+  const cuenta = new Map<number, number>();
+  for (const v of valores) cuenta.set(v, (cuenta.get(v) ?? 0) + 1);
+  let mejor = valores[0] ?? 0;
+  let mejorN = -1;
+  for (const [v, n] of [...cuenta].sort((a, b) => a[0] - b[0])) {
+    if (n > mejorN) { mejor = v; mejorN = n; }
+  }
+  return mejor;
+}
+
+const cachePlayoffs = new Map<string, Set<number>>();
+
+/**
+ * Los ÍNDICES (dentro de `comp.matches`) de los partidos de PLAYOFF de esta competición.
+ *
+ * Índices y no fechas a propósito. `competicionEnTemporada` arma cada temporada mapeando la lista
+ * original uno a uno -- misma longitud, mismo orden, sólo cambian los nombres y el año -- así que
+ * la posición 384 es el mismo partido del cuadro en todas. Calculándolo por FECHA había que
+ * rehacer la agrupación para cada una de las 32 temporadas, y eso llevó el armado del calendario
+ * de 545 a 762 ms, por encima del tope de 600 que vigila el validador. Por índice se calcula una
+ * sola vez, sobre la competición original.
+ *
+ * La regla sale de los DATOS y no de una suposición sobre el formato: la cantidad más común de
+ * fechas por club en ese semestre es la fase regular, y lo que un club juegue por encima es
+ * playoff. Funciona igual con 20 clubes que con 30, con zonas o sin ellas, y una liga donde todos
+ * juegan lo mismo (Brasil, Premier) no marca nada -- medido, cero en las dos.
+ */
+export function partidosDePlayoff(comp: DatedCompetition): Set<number> {
+  const cacheado = cachePlayoffs.get(comp.id);
+  if (cacheado) return cacheado;
+
+  const indices = new Set<number>();
+  if (comp.kind === 'league') {
+    // semestre -> club -> índices de sus partidos, en orden de fecha
+    const porSemestre = new Map<string, Map<string, number[]>>();
+    comp.matches.forEach((m, i) => {
+      const s = semestreDe(comp, m.date);
+      let clubes = porSemestre.get(s);
+      if (!clubes) { clubes = new Map(); porSemestre.set(s, clubes); }
+      for (const club of [m.home, m.away]) {
+        const suyos = clubes.get(club);
+        if (suyos) suyos.push(i); else clubes.set(club, [i]);
+      }
+    });
+
+    for (const clubes of porSemestre.values()) {
+      const cuentas = [...clubes.values()].map(is => is.length);
+      if (cuentas.length < 4) continue;
+      const regulares = moda(cuentas);
+      if (!cuentas.some(n => n > regulares)) continue;
+      for (const is of clubes.values()) {
+        if (is.length <= regulares) continue;
+        const enOrden = [...is].sort((a, b) => comp.matches[a].date.localeCompare(comp.matches[b].date));
+        for (let k = regulares; k < enOrden.length; k++) indices.add(enOrden[k]);
+      }
+    }
+  }
+  cachePlayoffs.set(comp.id, indices);
+  return indices;
 }
 
 /** La competición de LIGA de un conjunto de clubes, buscada por sus nombres. Null si no hay. */

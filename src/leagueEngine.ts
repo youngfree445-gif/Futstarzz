@@ -3,7 +3,7 @@ import type { DomesticCupState } from './copaNacional';
 import { participantesConmebol, type CampeonesConmebol, type PosicionesFinales } from './copasConmebol';
 import { participantesUefa, type CampeonesUefa } from './copasUefa';
 import { GRUPOS_MUNDIAL_2026 } from './mundialReal';
-import { competicionEnTemporada, ligaDeClubes } from './seasonCalendar';
+import { competicionEnTemporada, ligaDeClubes, partidosDePlayoff } from './seasonCalendar';
 import { ALIAS_CALENDARIO } from './clubAliases';
 import { displayName } from './worldRetirements';
 
@@ -1724,11 +1724,13 @@ function resolveLigaPorFecha(
   // encima de los del anterior y los clubes terminaban con 44 partidos jugados en vez de 38.
   const cambioDeTemporada = season.seasonYear !== undefined && season.seasonYear !== ctx.temporada;
   const reiniciar = esSaveLegado || cambioDeTemporada;
+  const playoffs = partidosDePlayoff(base);
   let table = reiniciar ? buildInitialTable(leagueClubs) : season.table;
   const fixtures = reiniciar ? [] : [...season.fixtures];
   const yaJugadas = new Set(fixtures.map(fx => fx.round).filter((r): r is string => !!r));
 
-  for (const m of comp.matches) {
+  for (let i = 0; i < comp.matches.length; i++) {
+    const m = comp.matches[i];
     if (m.date > ctx.fecha) continue;
     const clave = `${m.date}|${m.home}|${m.away}`;
     if (yaJugadas.has(clave)) continue;
@@ -1748,7 +1750,14 @@ function resolveLigaPorFecha(
       ({ homeGoals, awayGoals } = simulateMatch(home, away));
     }
 
-    table = applyResultToTable(table, home.id, away.id, homeGoals, awayGoals);
+    // Los PLAYOFFS no van a la tabla. En el Apertura colombiano el Junior juega 25 fechas y el
+    // Millonarios 19: sumando las seis de cuartos, semis y final a la misma tabla, el campeón salía
+    // de comparar 25 partidos contra 19 -- el que llegaba a la final quedaba arriba por haber
+    // jugado más, no por andar mejor. El partido igual se guarda en `fixtures` (se jugó, y el
+    // calendario lo muestra con su resultado), pero no mueve puntos.
+    if (!playoffs.has(i)) {
+      table = applyResultToTable(table, home.id, away.id, homeGoals, awayGoals);
+    }
     fixtures.push({ matchweek: 0, homeTeamId: home.id, awayTeamId: away.id, played: true, homeGoals, awayGoals, round: clave });
     yaJugadas.add(clave);
   }
