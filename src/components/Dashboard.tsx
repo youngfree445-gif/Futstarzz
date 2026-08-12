@@ -13,6 +13,7 @@ import { getLeagueDisplay } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
+import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelPartido } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
@@ -494,7 +495,7 @@ export default function Dashboard({
   // jugador), agrupadas por leagueKey (liga+división) -- ver tablesLeagueOverride arriba.
   const allLeagueKeys = Array.from(new Set(ULTIMATE_CLUBS_DATABASE.map(c => leagueKeyFor(c)))).sort();
   const selectedLeagueKey = tablesLeagueOverride ?? myLeagueKey;
-  const selectedLeagueClubs = ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === selectedLeagueKey);
+  const selectedLeagueClubs = clubesDeLiga(selectedLeagueKey);
   const selectedLeagueTable = selectedLeagueKey === myLeagueKey
     ? myLeagueTable
     : selectedLeagueClubs.length > 0
@@ -831,7 +832,7 @@ export default function Dashboard({
     // la base y se desambigua con el torneo.
     const rivalReal = realDeLiga
       ? resolverClubDeCalendario(
-          ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === myLeagueKey),
+          clubesDeLiga(myLeagueKey),
           realDeLiga.opponentName, currentClub.league, 'league', realDeLiga.competition.name)
       : realDeLaSemana
         ? resolverClubDeCalendario(
@@ -1846,7 +1847,7 @@ export default function Dashboard({
   // de arriba queda vacía en fase eliminatoria (season.fixtures solo cubre la fase regular), así
   // que acá se agrega el próximo cruce de knockout con el nombre real de la ronda.
   if (myLeagueSeason && isApeturaClausuraLeague(currentClub.league) && myLeagueSeason.stage === 'knockout') {
-    const myLeagueClubs = ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === myLeagueKey);
+    const myLeagueClubs = clubesDeLiga(myLeagueKey);
     const upcomingKO = getUpcomingMatchForLeague(myLeagueSeason, myLeagueClubs, playerProfile.currentWeek, currentClub.id);
     if (upcomingKO) {
       let roundLabel = 'Playoff';
@@ -3669,7 +3670,7 @@ export default function Dashboard({
                   criterio que las ofertas reales: si dice "te faltan 8", a los 8 aparece la oferta. */}
               {(() => {
                 const rendimiento = rendimientoDe(playerProfile);
-                const radar = radarDeInteres(playerProfile, currentClub, ULTIMATE_CLUBS_DATABASE)
+                const radar = radarDeInteres(playerProfile, currentClub, clubesJugables())
                   .map(p => ({ ...p, club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === p.clubId) }))
                   .filter((p): p is typeof p & { club: Club } => !!p.club);
                 if (radar.length === 0) return null;

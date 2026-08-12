@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Position, Nationality, PlayerProfile, PlayerStats, Club, Superstition } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE } from '../data';
+import { esClubJugable } from '../clubesJugables';
 import { User, Shield, Compass, Calendar, Award, DollarSign, ArrowRight, ArrowLeft, Flag } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 
@@ -86,9 +87,14 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
 
   // Los clubes se filtran por la LIGA elegida, no por la nacionalidad: son independientes. En modo
   // veterano además se acota a reputación media.
+  // esClubJugable es la puerta: sólo clubes con calendario de FECHAS reales. Sin este filtro se
+  // podía empezar carrera en un club que el calendario no sabe hacer jugar -- toda la Segunda
+  // inglesa, italiana, española, alemana, francesa, y las 21 ligas chicas -- y ahí arrancaba el
+  // motor viejo por semanas, que es de donde salían los bugs de calendario. Ver clubesJugables.ts.
   const filteredClubs = CLUBS_DATABASE.filter(c => {
     const matchLeague = c.league === leagueOrigin;
     if (!matchLeague) return false;
+    if (!esClubJugable(c)) return false;
     if (selectedDivision !== 'all' && c.division !== selectedDivision) return false;
     if (startedAsVeteran && c.reputation > VETERAN_MODE_MAX_REPUTATION) return false;
     return true;
@@ -100,7 +106,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       setSelectedClubId(filteredClubs[0].id);
     } else {
       // Fallback: search for any club in this league if specific division is empty
-      const fallbackClubs = CLUBS_DATABASE.filter(c => c.league === leagueOrigin);
+      const fallbackClubs = CLUBS_DATABASE.filter(c => c.league === leagueOrigin && esClubJugable(c));
       if (fallbackClubs.length > 0) {
         setSelectedClubId(fallbackClubs[0].id);
       }
@@ -649,7 +655,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                     independientes (un colombiano puede arrancar en la Premier). Consultando
                     `nationality`, el botón de 2ª División no aparecía cuando la liga elegida no
                     coincidía con el país del jugador -- y la Segunda quedaba inalcanzable. */}
-                {CLUBS_DATABASE.some(c => c.league === leagueOrigin && c.division === 2) && (
+                {CLUBS_DATABASE.some(c => c.league === leagueOrigin && c.division === 2 && esClubJugable(c)) && (
                   <button
                     type="button"
                     onClick={() => setSelectedDivision(2)}

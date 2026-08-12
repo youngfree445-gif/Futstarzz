@@ -383,6 +383,20 @@ export function hasDatedSchedule(clubName: string): boolean {
 }
 
 /**
+ * Versión BARATA de hasDatedLeagueSchedule, para preguntarlo de a miles.
+ *
+ * hasDatedLeagueSchedule pasa por fixturesForClub, que concatena las 32 temporadas del club y las
+ * cachea: preguntarlo por los 1103 clubes de la base -- que es lo que hace el filtro de clubes
+ * jugables -- construye 1103 listas completas que después nadie usa. Acá alcanza con mirar la
+ * temporada 1, porque las siguientes son permutaciones del MISMO conjunto de clubes: si un club
+ * juega liga con fechas alguna temporada, juega la 1.
+ */
+export function tieneLigaConFechasReales(clubName: string): boolean {
+  const suyos = getIndice(1).get(clubName);
+  return !!suyos && suyos.some(f => f.competition.kind === 'league');
+}
+
+/**
  * ¿Este club tiene calendario real de LIGA (no solo copa)?
  *
  * Los clubes de Segunda como Barranquilla FC o Real Cartagena figuran con calendario propio por dos

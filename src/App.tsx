@@ -7,6 +7,7 @@ import {
 } from './data';
 import { applyClubTheme } from './clubTheme';
 import { refreshTransferOffersIfNeeded } from './transferMarket';
+import { clubesDeLiga, clubesJugables, esClubJugable, ligaTieneCalendario } from './clubesJugables';
 import { generateWorldRanking } from './worldRanking';
 import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
@@ -698,6 +699,11 @@ function applyPromotionRelegationIfNewSeason(
 
   for (const league of [...new Set(CLUBS_DATABASE.map(c => c.league))]) {
     if (!reglasDeLiga(league)) continue;
+    // Sin Segunda con calendario no hay descenso posible: mandar al jugador ahí lo dejaba en un
+    // club que el calendario no sabe hacer jugar. Hoy sólo Colombia, Argentina y Brasil tienen
+    // su Segunda con fechas; Inglaterra, España, Alemania, Francia y Holanda no. En cuanto se
+    // carguen esos calendarios, el descenso vuelve solo -- no hay nada más que tocar acá.
+    if (!ligaTieneCalendario(`${league}-2`)) continue;
 
     const primera = tablaDeDescenso(historial, league, anioCerrado, id =>
       CLUBS_DATABASE.find(c => c.id === id)?.name ?? '')
@@ -802,7 +808,7 @@ function findStepDownClub(profile: PlayerProfile): Club | null {
   const myClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
   if (!myClub) return null;
   const leagueKey = leagueKeyFor(myClub);
-  const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey && c.id !== myClub.id);
+  const leagueClubs = clubesDeLiga(leagueKey).filter(c => c.id !== myClub.id);
   const lowerTier = leagueClubs.filter(c => c.reputation < myClub.reputation).sort((a, b) => b.reputation - a.reputation);
   if (lowerTier.length > 0) return lowerTier[0];
   return [...leagueClubs].sort((a, b) => a.reputation - b.reputation)[0] || null;
@@ -969,7 +975,7 @@ export default function App() {
       const myClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
       if (myClub) {
         const leagueKey = leagueKeyFor(myClub);
-        const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+        const leagueClubs = clubesDeLiga(leagueKey);
         const season = getOrCreateSeasonForLeague(leagueClubs, undefined, profile.currentWeek);
         profile = { ...profile, leagueSeasons: { [leagueKey]: season } };
       } else {
@@ -1142,7 +1148,7 @@ export default function App() {
 
     const myClub = CLUBS_DATABASE.find(c => c.id === newProfile.currentClubId)!;
     const leagueKey = leagueKeyFor(myClub);
-    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const leagueClubs = clubesDeLiga(leagueKey);
     const season = getOrCreateSeasonForLeague(leagueClubs, undefined, newProfile.currentWeek);
     // Igual que la liga: generamos y persistimos Libertadores/Sudamericana/Champions/Europa desde
     // el arranque mismo de la carrera (si tu club clasifica a alguna), para que el sorteo de
@@ -1518,7 +1524,9 @@ export default function App() {
     if (playerProfile.transferOffersGeneratedWeek === playerProfile.currentWeek && playerProfile.pendingTransferOffers) return;
     const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
     if (!myClub) return;
-    const refreshed = refreshTransferOffersIfNeeded(playerProfile, myClub, CLUBS_DATABASE);
+    // Sólo clubes jugables: una oferta de un club sin calendario te dejaba dentro del motor
+    // viejo por semanas apenas la aceptabas. Ver clubesJugables.ts.
+    const refreshed = refreshTransferOffersIfNeeded(playerProfile, myClub, clubesJugables());
     const updatedProfile: PlayerProfile = { ...playerProfile, ...refreshed };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
@@ -1613,7 +1621,7 @@ export default function App() {
     const targetClub = CLUBS_DATABASE.find(c => c.id === clubId)!;
     const originClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
     const leagueKey = leagueKeyFor(targetClub);
-    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const leagueClubs = clubesDeLiga(leagueKey);
     const season = getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
     const returnWeek = playerProfile.currentWeek + LOAN_MIN_WEEKS + Math.floor(Math.random() * (LOAN_MAX_WEEKS - LOAN_MIN_WEEKS));
     const updatedProfile: PlayerProfile = {
@@ -1658,7 +1666,7 @@ export default function App() {
       const originClub = CLUBS_DATABASE.find(c => c.id === loan.originClubId);
       if (!originClub) return;
       const leagueKey = leagueKeyFor(originClub);
-      const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+      const leagueClubs = clubesDeLiga(leagueKey);
       const season = getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
       const updatedProfile: PlayerProfile = {
         ...playerProfile,
@@ -1863,7 +1871,7 @@ export default function App() {
     // Si es una liga que todavía no visitaste, se genera y se pone al día
     // (queda "corriendo de fondo" como si nunca la hubieras dejado de mirar).
     const leagueKey = leagueKeyFor(targetClub);
-    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const leagueClubs = clubesDeLiga(leagueKey);
     const season = getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], playerProfile.currentWeek);
 
     // Llegás a un plantel y a un cuerpo técnico que no te conocen: hay que ganarse el lugar de
@@ -1921,7 +1929,7 @@ export default function App() {
     // getOrCreateSeasonForLeague. Sin este recálculo, la temporada quedaba marcada 'done' para
     // siempre y el botón nunca volvía a decir "Disputar Partido" -- un loop sin salida.
     const leagueKey = leagueKeyFor(myClub);
-    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const leagueClubs = clubesDeLiga(leagueKey);
     const updatedLeagueSeasons = {
       ...playerProfile.leagueSeasons,
       [leagueKey]: getOrCreateSeasonForLeague(leagueClubs, playerProfile.leagueSeasons[leagueKey], nextWeek),
@@ -1985,7 +1993,7 @@ export default function App() {
         if (!inWorldCupBreak && !isCup) {
           const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
           const leagueKey = leagueKeyFor(myClub);
-          const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+          const leagueClubs = clubesDeLiga(leagueKey);
           const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
           const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
           // El calendario real manda, y no se exige `upcoming`: con la deriva entre relojes el motor
@@ -2713,7 +2721,7 @@ export default function App() {
       setActiveGlobalScoreLabel(null);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const leagueKey = leagueKeyFor(myClub);
-      const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+      const leagueClubs = clubesDeLiga(leagueKey);
       const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
       const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
 
@@ -2907,7 +2915,7 @@ export default function App() {
 
     for (const key of Object.keys(updatedLeagueSeasons)) {
       if (key === leagueKey) continue;
-      const otherLeagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+      const otherLeagueClubs = clubesDeLiga(key);
       if (otherLeagueClubs.length === 0) continue;
       updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
     }
@@ -2975,14 +2983,14 @@ export default function App() {
     if (!playerProfile?.activeInjury) return;
     const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
     const leagueKey = leagueKeyFor(myClub);
-    const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+    const leagueClubs = clubesDeLiga(leagueKey);
     const nextWeek = playerProfile.currentWeek + 1;
 
     // Tu propia liga se pone al día igual que en advanceSuspendedIdleWeek; el resto de las ligas
     // que ya visitaste (leagueSeasons) también sigue de fondo para no quedar desincronizadas.
     const updatedLeagueSeasons = { ...playerProfile.leagueSeasons };
     for (const key of Object.keys(updatedLeagueSeasons)) {
-      const otherLeagueClubs = key === leagueKey ? leagueClubs : CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+      const otherLeagueClubs = key === leagueKey ? leagueClubs : clubesDeLiga(key);
       if (otherLeagueClubs.length === 0) continue;
       updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], nextWeek);
     }
@@ -3037,7 +3045,7 @@ export default function App() {
     // La liga propia igual se pone al día: el resto de los clubes juega su fecha aunque vos no.
     const updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: season };
     for (const key of Object.keys(updatedLeagueSeasons)) {
-      const otherLeagueClubs = key === leagueKey ? leagueClubs : CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+      const otherLeagueClubs = key === leagueKey ? leagueClubs : clubesDeLiga(key);
       if (otherLeagueClubs.length === 0) continue;
       updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
     }
@@ -3320,7 +3328,7 @@ export default function App() {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const usaFechasRealesParaMiClub = hasDatedLeagueSchedule(myClub.name);
       const leagueKey = leagueKeyFor(myClub);
-      const leagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey);
+      const leagueClubs = clubesDeLiga(leagueKey);
       const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
 
       // En fase de knockout de liga (cuadrangulares/final de Colombia o Argentina), la localía que
@@ -3490,7 +3498,7 @@ export default function App() {
       // Ligas ya visitadas (por traspasos anteriores) siguen corriendo de fondo aunque ya no juegues ahí.
       for (const key of Object.keys(updatedLeagueSeasons)) {
         if (key === leagueKey) continue;
-        const otherLeagueClubs = CLUBS_DATABASE.filter(c => leagueKeyFor(c) === key);
+        const otherLeagueClubs = clubesDeLiga(key);
         if (otherLeagueClubs.length === 0) continue;
         updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
       }
