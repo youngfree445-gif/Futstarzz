@@ -13,13 +13,13 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, esDiaDeCopa, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
 import {
-  leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable, isApeturaClausuraLeague,
+  leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
@@ -1980,7 +1980,9 @@ export default function App() {
     if (playerProfile.energy < 20) {
       if (!confirm('Tu nivel de fatiga física es alarmante (Energía < 20). ¿Deseas arriesgarte a saltar al campo?')) {
         const inWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
-        const isCup = !inWorldCupBreak && isCupWeek(playerProfile.currentWeek);
+        const miClubHoy = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+        const isCup = !inWorldCupBreak && !!miClubHoy
+          && esDiaDeCopa(miClubHoy.name, playerProfile.currentWeek);
 
         // Si esta semana te tocaba partido de LIGA DOMÉSTICA, ese partido no se cancela porque
         // vos descanses -- tu club lo juega igual, simulado sin vos (mismo criterio que una
@@ -2189,17 +2191,14 @@ export default function App() {
     const esReservaDeCopa = !!realPrimary?.esReservaDeCuadro
       && realPrimary.competition.kind === 'domestic_cup';
 
-    const isCup = !inWorldCupBreak && (
-      usaCalendarioReal
-        ? realPrimary?.competition.kind === 'continental_cup'
-          || realPrimary?.competition.kind === 'domestic_cup'
-          // El calendario no cubre la copa de este club: manda el reparto del motor, que es el que
-          // de verdad lleva su llave (ver getOrCreateCupState más abajo). Con fechas reales esto no
-          // hace falta -- el partido de hoy ya dice de qué torneo es -- así que solo aplica al
-          // calendario semanal.
-          || (!datedPrimary && clubEnCopaContinental && isCupWeek(playerProfile.currentWeek))
-        : isCupWeek(playerProfile.currentWeek)
-    );
+    // Si hoy es día de copa lo dice el CALENDARIO, y nadie más. Antes acá había un ternario con
+    // isCupWeek de respaldo -- un reparto aritmético que decidía "2 de cada 5 semanas son de copa"
+    // sin mirar el calendario de nadie -- para los clubes que no tenían fechas. Desde que sólo se
+    // puede hacer carrera en clubes con calendario (ver clubesJugables.ts) ese respaldo no cubre a
+    // nadie, y tener dos formas de contestar la misma pregunta era justamente el problema.
+    const isCup = !inWorldCupBreak
+      && (realPrimary?.competition.kind === 'continental_cup'
+        || realPrimary?.competition.kind === 'domestic_cup');
     // isCopaLibertadores es, en la práctica, un "no es liga doméstica" genérico (nombre legado de
     // antes de que existieran Champions/Mundial): debe ser true tanto en semana de copa normal
     // como en semana de Mundial con partido de selección. Si el Mundial no tiene partido puntual

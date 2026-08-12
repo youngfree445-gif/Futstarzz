@@ -106,12 +106,12 @@ console.log('\n=== E) Lo que queda del reloj de semanas ===');
 const TECHOS: Record<string, number> = {
   // Usos en CÓDIGO (sin comentarios) al 12 de agosto de 2026, con el reemplazo de cada uno al lado.
   // Estos números sólo pueden bajar.
-  'SEASON_LENGTH_WEEKS': 8,    // -> la temporada dura lo que dice el calendario
-  'isCupWeek': 16,             // -> la competición de la fecha de hoy
-  'getRealDate': 27,           // -> fixturesAtStep(club, paso).date
-  'cupWeeksElapsed': 4,        // -> fechas de copa ya pasadas, según el calendario
-  'isWorldCupBreakWeek': 15,   // -> una ventana de FECHAS
-  'getSeasonYear': 64,         // -> temporadaDelPaso(club, paso).temporada
+  'SEASON_LENGTH_WEEKS': 6,    // -> la temporada dura lo que dice el calendario
+  'isCupWeek': 3,              // -> esDiaDeCopa(club, paso)                    (era 16)
+  'getRealDate': 0,            // BORRADA -> fechaDelPaso(club, paso)           (era 27)
+  'cupWeeksElapsed': 0,        // BORRADA -> fechasDeCopaTranscurridas(...)     (era 4)
+  'isWorldCupBreakWeek': 10,   // -> una ventana de FECHAS
+  'getSeasonYear': 62,         // -> temporadaDelPaso(club, paso).temporada
 };
 
 /**

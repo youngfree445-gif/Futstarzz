@@ -84,98 +84,34 @@ export const CAREER_START_YEAR = 2026;
 const CAREER_START_MONTH = 0; // enero (0-indexado)
 const CAREER_START_DAY = 18;
 
+// Acá vivían getRealDate y formatRealDate: traducían "semana N de la carrera" a una fecha,
+// anclando el año a getSeasonYear y moviendo el día siete por semana. Eran el reloj de semanas
+// hecho fecha, y siempre iban por su lado -- en el paso 18 del Junior (9 de abril de verdad)
+// daban mediados de mayo. Borradas el 12 de agosto de 2026: la fecha de un paso la da el
+// calendario (fechaDelPaso en dateSchedule.ts) y no hay una segunda respuesta posible.
+
 const MONTH_NAMES_ES = [
   'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
   'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
 ];
 
-export function getRealDate(currentWeek: number): Date {
-  // La temporada dura SEASON_LENGTH_WEEKS (38) semanas de juego, que a 7 días por semana son 266
-  // días: ~8.8 meses, no un año. Si se avanzara la fecha 7 días por semana de forma corrida, el
-  // calendario se atrasaría ~3.3 meses por temporada -- en una carrera larga la temporada 2047
-  // terminaba mostrando fechas de 2041 (6 años de desfase).
-  //
-  // Por eso la fecha se ancla al AÑO de la temporada (getSeasonYear) y las semanas solo mueven el
-  // día dentro de ese año. Así el calendario y el año de la temporada nunca divergen, y cada
-  // temporada arranca en su enero real.
-  const seasonIndex = getSeasonYear(currentWeek) - 1;
-  const weekInSeason = ((currentWeek - 1) % SEASON_LENGTH_WEEKS);
-  const date = new Date(CAREER_START_YEAR + seasonIndex, CAREER_START_MONTH, CAREER_START_DAY);
-  date.setDate(date.getDate() + weekInSeason * 7);
-  return date;
-}
 
-export function formatRealDate(currentWeek: number): string {
-  const date = getRealDate(currentWeek);
-  return `${date.getDate()} de ${MONTH_NAMES_ES[date.getMonth()]} de ${date.getFullYear()}`;
-}
 
-// Fecha real del paso N° stepsAhead de LIGA doméstica (una fecha de fase regular o una pierna de
-// playoff) contando hacia adelante desde currentWeek -- para pintar el calendario en una grilla
-// mensual real. stepsAhead=1 es el próximo paso de liga, sea cual sea (currentWeek mismo si ya es
-// semana de liga, si no la primera semana de liga futura). Nunca cuelga: el ciclo cada-3-semanas
-// de isCupWeek garantiza encontrar una semana de liga en como mucho 2 vueltas, y las ventanas del
-// Mundial son finitas.
-export function getRealDateForLeagueStepsAhead(currentWeek: number, stepsAhead: number): Date {
-  let w = currentWeek;
-  let count = 0;
-  while (true) {
-    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) {
-      count++;
-      if (count === stepsAhead) return getRealDate(w);
-    }
-    w++;
-  }
-}
 
-// Igual que getRealDateForLeagueStepsAhead, pero contando semanas de COPA (Libertadores/
-// Sudamericana/Champions/Europa) en vez de semanas de liga.
-export function getRealDateForCupStepsAhead(currentWeek: number, stepsAhead: number): Date {
-  let w = currentWeek;
-  let count = 0;
-  while (true) {
-    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) {
-      count++;
-      if (count === stepsAhead) return getRealDate(w);
-    }
-    w++;
-  }
-}
 
-// Contraparte "hacia atrás" de las dos funciones de arriba -- para ubicar en el calendario real la
-// fecha en la que se jugó un partido YA disputado (stepsBehind=1 es el más reciente), en vez de uno
-// pendiente. Mismo criterio de conteo (solo semanas de liga/copa reales, sin fecha FIFA).
-export function getRealDateForLeagueStepsBehind(currentWeek: number, stepsBehind: number): Date {
-  let w = currentWeek - 1;
-  let count = 0;
-  while (w >= 1) {
-    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) {
-      count++;
-      if (count === stepsBehind) return getRealDate(w);
-    }
-    w--;
-  }
-  return getRealDate(1);
-}
 
-export function getRealDateForCupStepsBehind(currentWeek: number, stepsBehind: number): Date {
-  let w = currentWeek - 1;
-  let count = 0;
-  while (w >= 1) {
-    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) {
-      count++;
-      if (count === stepsBehind) return getRealDate(w);
-    }
-    w--;
-  }
-  return getRealDate(1);
-}
 
 // División "real" de cada club en la partida en curso. CLUBS_DATABASE es estático, así que cuando
 // un club asciende o desciende (ver promocionDescenso.ts) el cambio se guarda acá y se aplica
 // encima. Se registra una sola vez, al cargar/actualizar el perfil, para que todo el motor lo vea
 // sin tener que pasarle el perfil a cada función.
 let divisionOverrides: Record<string, 1 | 2> = {};
+// Acá vivían getRealDateForLeagueStepsAhead/Behind y getRealDateForCupStepsAhead/Behind: cuatro
+// funciones que traducían "dentro de N jornadas" a una fecha caminando el reparto isCupWeek.
+// Eran la fuente del calendario en pantalla para los clubes SIN fechas propias. Borradas el 12
+// de agosto de 2026 junto con esa vista: ahora la fecha de un partido la dice el calendario y
+// nada más (fixturesAtStep).
+
 
 export function setDivisionOverrides(overrides: Record<string, 1 | 2> | undefined): void {
   divisionOverrides = overrides ?? {};

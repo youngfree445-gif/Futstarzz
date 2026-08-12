@@ -1,35 +1,24 @@
 // Validador del calendario. Se corre con `npm run validar:calendario`.
 //
 // Contesta dos preguntas que no se pueden mirar a ojo, y que conviene re-chequear después de
-// cualquier cambio en dateSchedule.ts, seasonCalendar.ts o en el reparto de semanas de copa.
+// cualquier cambio en dateSchedule.ts o seasonCalendar.ts.
 //
-//   A) ¿El calendario con FECHAS respeta el descanso? Dos partidos con menos de dos días entre
-//      medio, o más de tres en siete días, son señal de que la generación se desordenó.
+//   A) ¿El calendario respeta el descanso? Dos partidos con menos de dos días entre medio, o más de
+//      tres en siete días, son señal de que la generación se desordenó.
 //
-//   B) ¿Alcanzan las semanas de copa? Las copas corren por PASOS de semana (isCupWeek), no por
-//      fecha, y el motor sólo ofrece copa un día en el que el calendario no trajo partido. Si las
-//      semanas libres son menos que los pasos que la copa necesita para coronar campeón, el torneo
-//      no termina en su temporada y se desfasa de la liga -- que es un bug que este juego ya tuvo.
+//   C) ¿Cuánto cuesta armarlo? Es la primera pantalla del juego, así que un salto acá se siente
+//      como un congelamiento al abrir.
 
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
 import { fixturesForClub } from '../src/dateSchedule';
-import { isCupWeek, getRealDate, SEASON_LENGTH_WEEKS } from '../src/leagueEngine';
 
 const MIN_DESCANSO_DIAS = 2;
 const MAX_PARTIDOS_EN_7_DIAS = 3;
 const TEMPORADAS_A_REVISAR = [1, 2, 3];
 const CLUBES_A_REVISAR = 250;
 
-/** Pasos que necesita cada copa para llegar al campeón. Sirve de referencia contra las semanas libres. */
-const PASOS_QUE_NECESITA: Record<string, number> = {
-  'copa nacional (desde cuartos, ida y vuelta)': 6,
-  'Libertadores / Sudamericana': 14,
-  'Champions / Europa': 18,
-};
-
 const dias = (a: string, b: string) =>
   Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
-const iso = (d: Date) => d.toISOString().slice(0, 10);
 
 interface Hallazgo { club: string; temporada: number; detalle: string; }
 
@@ -57,18 +46,6 @@ function validarDescanso(club: string, temporada: number): Hallazgo[] {
     }
   }
   return out;
-}
-
-/** Semanas de copa que el club puede usar de verdad: las que no chocan con una fecha suya. */
-function semanasDeCopaUtilizables(club: string, temporada: number): { total: number; libres: number } {
-  const ocupadas = new Set(fechasConPartido(club, temporada));
-  let total = 0, libres = 0;
-  for (let w = 1; w <= SEASON_LENGTH_WEEKS; w++) {
-    if (!isCupWeek(w)) continue;
-    total++;
-    if (!ocupadas.has(iso(getRealDate((temporada - 1) * SEASON_LENGTH_WEEKS + w)))) libres++;
-  }
-  return { total, libres };
 }
 
 // --- C) Costo de armar el calendario ---
@@ -103,22 +80,11 @@ for (const h of pocoDescanso.slice(0, 8)) console.log(`   ${h.club} (T${h.tempor
 console.log(`Más de ${MAX_PARTIDOS_EN_7_DIAS} partidos en 7 días: ${saturadas.length}`);
 for (const h of saturadas.slice(0, 8)) console.log(`   ${h.club} (T${h.temporada}): ${h.detalle}`);
 
-// --- B) Presupuesto de semanas de copa ---
-console.log('\n=== B) Semanas de copa utilizables por club ===');
-console.log('(las copas corren por paso de semana; una semana con partido de liga queda bloqueada)\n');
-let apretados = 0;
-for (const nombre of ['Santos', 'FC Barcelona', 'Junior de Barranquilla', 'Real Madrid', 'Flamengo']) {
-  if (!CLUBS.some(c => c.name === nombre)) continue;
-  const filas = TEMPORADAS_A_REVISAR.map(t => {
-    const { total, libres } = semanasDeCopaUtilizables(nombre, t);
-    if (libres < PASOS_QUE_NECESITA['Champions / Europa']) apretados++;
-    return `T${t}: ${libres}/${total}`;
-  });
-  console.log(`  ${nombre.padEnd(24)} ${filas.join('   ')}`);
-}
-
-console.log('\nPasos que necesita cada copa para coronar campeón:');
-for (const [k, v] of Object.entries(PASOS_QUE_NECESITA)) console.log(`  ${k.padEnd(46)} ${v}`);
+// La sección B de este validador medía "cuántas semanas de copa le quedan libres a un club", con
+// isCupWeek y getRealDate. Se borró el 12 de agosto de 2026 junto con esas funciones: las copas ya
+// no corren por semanas sino por las fechas de copa del calendario (ver fechasDeCopaTranscurridas),
+// así que ese presupuesto no existe. Lo que hay que vigilar ahora -- que la copa se pueda jugar y
+// llegue a coronar campeón -- lo mide `npm run validar:copas`.
 
 const TOPE_DE_ARMADO_MS = 600;
 console.log(`\n=== C) Armar el calendario (32 temporadas, en frío) ===`);
@@ -126,6 +92,3 @@ console.log(`  ${msDeArmado} ms   ${msDeArmado > TOPE_DE_ARMADO_MS ? `<-- PASADO
 
 const problemas = pocoDescanso.length + saturadas.length;
 console.log(`\n${problemas === 0 ? 'Sin problemas de descanso.' : `${problemas} hallazgos de descanso (ver arriba).`}`);
-if (apretados > 0) {
-  console.log(`ATENCIÓN: hay ${apretados} club-temporadas con menos semanas libres que los ${PASOS_QUE_NECESITA['Champions / Europa']} pasos que necesita una copa europea. Esa copa no llega a coronar campeón en su temporada.`);
-}

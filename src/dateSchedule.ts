@@ -420,6 +420,36 @@ const esCopaConCuadro = (comp: DatedCompetition) =>
   comp.kind === 'domestic_cup' && usaCuadroDelMotor(comp);
 
 /**
+ * La fecha del paso, o la ÚLTIMA que el club tenga si el calendario ya se agotó.
+ *
+ * El agotamiento sólo pasa pasadas las 32 temporadas de MAX_TEMPORADAS, o sea después del final de
+ * cualquier carrera. Existe igual porque la pantalla necesita SIEMPRE una fecha que mostrar, y el
+ * respaldo que había antes era getRealDate -- el reloj de semanas -- que en ese punto ya llevaba
+ * años de desfase contra el calendario. Devolver la última fecha real dice la verdad: ahí terminó.
+ */
+export function fechaDelPaso(clubName: string, paso: number): string | null {
+  const s = fixturesAtStep(clubName, paso);
+  if (s) return s.date;
+  const todas = fixturesForClub(clubName);
+  return todas.length ? todas[todas.length - 1].date : null;
+}
+
+/**
+ * ¿Hoy le toca COPA a este club?
+ *
+ * Es la pregunta que antes contestaba isCupWeek con aritmética -- "2 de cada 5 semanas son de
+ * copa" -- sin mirar el calendario de nadie. Con eso la pantalla podía anunciar un rival de copa y
+ * al apretar el botón salir a jugar la liga, porque las dos cosas se decidían por caminos
+ * distintos. Ahora hay una sola fuente: lo que el calendario puso ese día.
+ */
+export function esDiaDeCopa(clubName: string, paso: number): boolean {
+  const s = fixturesAtStep(clubName, paso);
+  if (!s) return false;
+  const p = pickPrimary(s.fixtures);
+  return !!p && (p.competition.kind === 'continental_cup' || p.competition.kind === 'domestic_cup');
+}
+
+/**
  * Cuántas fechas de COPA del club ya pasaron, contando hasta (sin incluir) el paso actual.
  *
  * Es el reemplazo directo de cupWeeksElapsedInYear/cupWeeksElapsedTotal, y con él las copas pasan a

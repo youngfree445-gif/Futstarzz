@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { calendarioDeLigaAgotado, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
+import { anioDelPaso, calendarioDeLigaAgotado, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -16,13 +16,12 @@ import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelPartido } from '../chutSocialVoces';
 import {
-  leagueKeyFor, sortTable, getSeasonYear, isCupWeek, isWorldCupBreakWeek,
+  leagueKeyFor, sortTable, getSeasonYear, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
   isClubStillInCup, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
-  isTransferWindowOpen, weeksUntilTransferWindow, formatRealDate, getRealDate,
-  getRealDateForLeagueStepsAhead, getRealDateForCupStepsAhead, getRealDateForLeagueStepsBehind, getRealDateForCupStepsBehind,
+  isTransferWindowOpen, weeksUntilTransferWindow,
   isApeturaClausuraLeague, getUpcomingMatchForLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
   CAREER_START_YEAR, roundLabelByMatchCount
 } from '../leagueEngine';
@@ -660,7 +659,10 @@ export default function Dashboard({
   // realmente congeladas -- así que el único rival posible es el de la selección (y solo si estás
   // convocado y tu selección todavía tiene partido pendiente esa semana puntual).
   const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
-  const nextWeekIsCup = !nextWeekInWorldCupBreak && isCupWeek(playerProfile.currentWeek);
+  // Igual que en App: lo que se juega hoy lo dice el calendario. Con isCupWeek, la tarjeta y el
+  // partido de verdad se decidían por caminos distintos y podían no coincidir.
+  const nextWeekIsCup = !nextWeekInWorldCupBreak
+    && esDiaDeCopa(currentClub.name, playerProfile.currentWeek);
   // rivalPos/rivalTotal: posición del rival en la tabla que corresponda (liga doméstica, grupo de
   // Fecha completa del partido que viene, para la tarjeta de "próximo partido". Es la MISMA fecha
   // que el calendario usa para ubicarlo, así que las dos vistas no pueden contradecirse.
@@ -688,11 +690,8 @@ export default function Dashboard({
   // declararla ahí repetiría el TDZ que dejó la pantalla en blanco.
   const fechaEnPantalla = (() => {
     const club = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-    if (club && hasDatedLeagueSchedule(club.name)) {
-      const paso = fixturesAtStep(club.name, playerProfile.currentWeek);
-      if (paso) return formatDate(paso.date);
-    }
-    return formatRealDate(playerProfile.currentWeek);
+    const fecha = club ? fechaDelPaso(club.name, playerProfile.currentWeek) : null;
+    return fecha ? formatDate(fecha) : '';
   })();
 
   // Palmarés del jugador para la vitrina de la tarjeta de atributos. Se calcula acá arriba, y no
@@ -1798,137 +1797,15 @@ export default function Dashboard({
         esHoy: paso === pasoActual,
       });
     }
-  } else {
-  allUpcomingLeagueFixtures.forEach((fx, i) => {
-    calendarEvents.push({
-      date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, i + 1),
-      label: `J${fx.matchweek}`,
-      sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
-      colorClass: 'bg-gold-600 text-white',
-      opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === fx.opponentId)
-    });
-  });
+  }
 
-  // Copa nacional sintética (ver copaNacional.ts) para clubes SIN calendario real de liga: las
-  // semanas que el motor reparte como isCupWeek quedaban vacías en esta grilla -- solo se pintaban
-  // las jornadas de liga, filtradas para NO caer en semana de copa -- así que el jugador veía "nada"
-  // ese día en el calendario y al llegar a esa semana el juego lo mandaba a jugar la Copa BetPlay
-  // por sorpresa. Bug reportado: "esperaba liga regular, salió una copa por sorpresa".
+  // NOTA: acá vivían dos bloques enteros para clubes SIN calendario de fechas -- una grilla de
+  // meses armada a partir de getRealDateForLeagueStepsAhead/Behind y del reparto isCupWeek, y su
+  // historial equivalente. 300 líneas que dibujaban el calendario del OTRO motor.
   //
-  // Solo se muestra la PRÓXIMA semana de copa, no varias: el cruce de una ida y vuelta recién se
-  // conoce al jugarse (avanzar de ronda depende del resultado), así que "adivinar" 6 semanas hacia
-  // adelante repetía el mismo rival de la ronda actual una y otra vez -- información falsa, ya que
-  // ese cruce en realidad solo dura hasta que se resuelve.
-  if (!usaFechasEnCalendario && !conmebolCup) {
-    const cupYearNow = getSeasonYear(playerProfile.currentWeek);
-    const cupKeyNow = `${currentClub.league}-${cupYearNow}`;
-    const cupNow = playerProfile.domesticCups?.[cupKeyNow]
-      ?? crearCopaNacional(currentClub.league, cupYearNow, ULTIMATE_CLUBS_DATABASE, c => (c.division === 2 ? 2 : 1));
-    for (let w = playerProfile.currentWeek; w < playerProfile.currentWeek + 20; w++) {
-      if (!isCupWeek(w)) continue;
-      const sigoEnCopa = sigueEnCopa(cupNow, currentClub.id);
-      const cruce = sigoEnCopa ? cruceActual(cupNow, currentClub.id) : null;
-      const rivalId = cruce
-        ? (cruce.clubAId === currentClub.id ? cruce.clubBId : cruce.clubAId)
-        : null;
-      const rivalClub = rivalId ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === rivalId) : undefined;
-      calendarEvents.push({
-        date: getRealDate(w),
-        label: nombreCopaNacional(currentClub.league),
-        sublabel: rivalClub ? `vs. ${rivalClub.name}` : (sigoEnCopa ? rondaActual(cupNow) : 'Eliminado'),
-        colorClass: 'bg-burgundy-500 text-slate-950',
-        opponentClub: rivalClub,
-      });
-      break;
-    }
-  }
-
-  // Playoffs de Apertura/Clausura (Colombia a ida y vuelta / Argentina a partido único): la lista
-  // de arriba queda vacía en fase eliminatoria (season.fixtures solo cubre la fase regular), así
-  // que acá se agrega el próximo cruce de knockout con el nombre real de la ronda.
-  if (myLeagueSeason && isApeturaClausuraLeague(currentClub.league) && myLeagueSeason.stage === 'knockout') {
-    const myLeagueClubs = clubesDeLiga(myLeagueKey);
-    const upcomingKO = getUpcomingMatchForLeague(myLeagueSeason, myLeagueClubs, playerProfile.currentWeek, currentClub.id);
-    if (upcomingKO) {
-      let roundLabel = 'Playoff';
-      let legLabel = '';
-      if (myLeagueSeason.twoLegKnockout) {
-        const round = myLeagueSeason.twoLegKnockout.tiesByRound[myLeagueSeason.twoLegKnockout.tiesByRound.length - 1];
-        roundLabel = roundLabelByMatchCount(round.length);
-        const tie = round.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
-        if (tie) {
-          const { leg, global } = tieStatusLabel(tie, currentClub.id);
-          legLabel = global ? ` (${leg}, global ${global})` : ` (${leg})`;
-        }
-      } else if (myLeagueSeason.knockout) {
-        const round = myLeagueSeason.knockout.matchesByRound[myLeagueSeason.knockout.matchesByRound.length - 1];
-        roundLabel = roundLabelByMatchCount(round.length);
-      }
-      calendarEvents.push({
-        date: getRealDateForLeagueStepsAhead(playerProfile.currentWeek, 1),
-        label: `${roundLabel}${legLabel}`,
-        sublabel: `${upcomingKO.isHome ? 'vs.' : '@'} ${clubNameById(upcomingKO.opponentId)}`,
-        colorClass: 'bg-red-600 text-white',
-        opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === upcomingKO.opponentId)
-      });
-    }
-  }
-
-  upcomingCupFixtures.forEach((fx, i) => {
-    calendarEvents.push({
-      date: getRealDateForCupStepsAhead(playerProfile.currentWeek, i + 1),
-      label: `G${fx.matchweek}`,
-      sublabel: `${fx.isHome ? 'vs.' : '@'} ${fx.opponentName}`,
-      colorClass: 'bg-burgundy-500 text-slate-950',
-      opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === fx.opponentId)
-    });
-  });
-
-  if (upcomingCupKnockoutOpponent) {
-    calendarEvents.push({
-      date: getRealDateForCupStepsAhead(playerProfile.currentWeek, 1),
-      label: 'Copa Playoff',
-      sublabel: `${upcomingCupKnockoutOpponent.isHome ? 'vs.' : '@'} ${upcomingCupKnockoutOpponent.opponentName}`,
-      colorClass: 'bg-burgundy-500 text-slate-950',
-      opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === upcomingCupKnockoutOpponent.opponentId)
-    });
-  }
-
-  // Copas del calendario real que sí tiene este club aunque su liga vaya por el motor: el
-  // Barranquilla FC juega dos partidos de Copa BetPlay contra el Junior y son fecha real, con día
-  // exacto. Se agregan acá para no perderlos al elegir la rama del motor.
-  //
-  // Solo se agregan los que estén CERCA de la semana actual (jugados hace poco o próximos): esta
-  // grilla sintética avanza mes a mes desde currentWeek, así que una fecha real fija (ej. julio) que
-  // ya quedó muy atrás en la carrera aparecía igual, clavada en medio de meses que ya no
-  // correspondían -- el calendario mostraba "julio" y al lado el arranque de la temporada
-  // siguiente (enero), como si el tiempo saltara. Bug reportado: "el calendario ... pasa de julio a
-  // enero". Con calendario_propio de solo 2 fechas de copa (todos los clubes de Segunda), esas 2
-  // fechas deben ubicarse una sola vez, en su momento real, y no perseguir a currentWeek para
-  // siempre.
-  const ventanaVisibleDias = 120; // ~4 meses a cada lado, igual de generoso que la grilla sintética
-  const hoyRealAprox = getRealDate(playerProfile.currentWeek).getTime();
-  for (const f of fixturesForClub(currentClub.name)) {
-    if (f.competition.kind === 'league') continue;
-    const fechaMs = new Date(`${f.date}T00:00:00`).getTime();
-    if (Math.abs(fechaMs - hoyRealAprox) > ventanaVisibleDias * 24 * 60 * 60 * 1000) continue;
-    const rival = resolverClubDeCalendario(
-      ULTIMATE_CLUBS_DATABASE, f.opponentName,
-      f.competition.league, f.competition.kind, f.competition.name,
-    );
-    const porFecha = playerProfile.datedResults?.find(r => r.date === f.date);
-    calendarEvents.push({
-      date: new Date(`${f.date}T00:00:00`),
-      label: f.competition.name,
-      sublabel: `${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
-      colorClass: porFecha ? 'bg-slate-700 text-slate-300' : 'bg-burgundy-500 text-slate-950',
-      opponentClub: rival ?? undefined,
-      played: !!porFecha,
-      result: porFecha ? resultFromScore(porFecha.myGoals, porFecha.rivalGoals) : undefined,
-      score: porFecha ? `${porFecha.myGoals}-${porFecha.rivalGoals}` : undefined,
-    });
-  }
-  } // fin del calendario sin fechas reales
+  // Se borraron el 12 de agosto de 2026: desde que sólo se puede hacer carrera en clubes con
+  // calendario propio (ver clubesJugables.ts), `usaFechasEnCalendario` es siempre true y esa rama
+  // no la alcanzaba nadie. Mientras existió, las dos vistas del mismo día podían no coincidir.
 
   // --- Historial: partidos YA jugados, con su resultado real (V/E/D + marcador) -- antes el
   // calendario solo mostraba fechas futuras y perdía todo rastro apenas se jugaba el partido (bug
@@ -1939,175 +1816,6 @@ export default function Dashboard({
   // partidos con fechas calculadas por semanas, y aparecían días con dos y tres partidos que no
   // existen ("en el calendario salen otros partidos que no sé de dónde salen"). Ahí arriba el
   // calendario ya incluye los jugados con su resultado, en su fecha verdadera.
-  if (!usaFechasEnCalendario) {
-  let leagueStepsBehindUsed = 0;
-  const nextLeagueStepBehind = () => {
-    leagueStepsBehindUsed++;
-    return getRealDateForLeagueStepsBehind(playerProfile.currentWeek, leagueStepsBehindUsed);
-  };
-  let cupStepsBehindUsed = 0;
-  const nextCupStepBehind = () => {
-    cupStepsBehindUsed++;
-    return getRealDateForCupStepsBehind(playerProfile.currentWeek, cupStepsBehindUsed);
-  };
-
-  if (myLeagueSeason && isApeturaClausuraLeague(currentClub.league) && (myLeagueSeason.stage === 'knockout' || myLeagueSeason.stage === 'done')) {
-    if (myLeagueSeason.twoLegKnockout) {
-      [...myLeagueSeason.twoLegKnockout.tiesByRound].reverse().forEach(round => {
-        const tie = round.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
-        if (!tie) return;
-        const roundLabel = roundLabelByMatchCount(round.length);
-        twoLegTieToEvents(tie, currentClub.id).forEach(leg => {
-          const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === leg.opponentId);
-          calendarEvents.push({
-            date: nextLeagueStepBehind(),
-            label: `${roundLabel} (${leg.leg === 'Ida' ? 'I' : 'V'})`,
-            sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
-            colorClass: 'bg-red-600 text-white',
-            opponentClub, played: true,
-            result: resultFromScore(leg.myGoals, leg.rivalGoals),
-            score: `${leg.myGoals}-${leg.rivalGoals}`
-          });
-        });
-      });
-    } else if (myLeagueSeason.knockout) {
-      [...myLeagueSeason.knockout.matchesByRound].reverse().forEach(round => {
-        const m = round.find(mm => mm.homeTeamId === currentClub.id || mm.awayTeamId === currentClub.id);
-        const resolved = m && singleLegMatchToEvent(m, currentClub.id);
-        if (!resolved) return;
-        const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === resolved.opponentId);
-        calendarEvents.push({
-          date: nextLeagueStepBehind(),
-          label: roundLabelByMatchCount(round.length),
-          sublabel: `${resolved.isHome ? 'vs.' : '@'} ${opponentClub?.name || resolved.opponentId}`,
-          colorClass: 'bg-red-600 text-white',
-          opponentClub, played: true,
-          result: resultFromScore(resolved.myGoals, resolved.rivalGoals),
-          score: `${resolved.myGoals}-${resolved.rivalGoals}`
-        });
-      });
-    }
-  }
-
-  myLeagueFixtures
-    .filter(f => f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
-    .sort((a, b) => b.matchweek - a.matchweek)
-    .slice(0, 8)
-    .forEach(f => {
-      const isHome = f.homeTeamId === currentClub.id;
-      const opponentId = isHome ? f.awayTeamId : f.homeTeamId;
-      const myGoals = (isHome ? f.homeGoals : f.awayGoals)!;
-      const rivalGoals = (isHome ? f.awayGoals : f.homeGoals)!;
-      calendarEvents.push({
-        date: nextLeagueStepBehind(),
-        label: `J${f.matchweek}`,
-        sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
-        colorClass: 'bg-gold-600 text-white',
-        opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
-        played: true,
-        result: resultFromScore(myGoals, rivalGoals),
-        score: `${myGoals}-${rivalGoals}`
-      });
-    });
-
-  if (conmebolCup) {
-    if (conmebolCup.stage === 'knockout' || conmebolCup.stage === 'done') {
-      [...(conmebolCup.knockout?.matchesByRound || [])].reverse().forEach(round => {
-        const m = round.find(mm => mm.homeTeamId === currentClub.id || mm.awayTeamId === currentClub.id);
-        const resolved = m && singleLegMatchToEvent(m, currentClub.id);
-        if (!resolved) return;
-        const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === resolved.opponentId);
-        calendarEvents.push({
-          date: nextCupStepBehind(),
-          label: roundLabelByMatchCount(round.length),
-          sublabel: `${resolved.isHome ? 'vs.' : '@'} ${opponentClub?.name || resolved.opponentId}`,
-          colorClass: 'bg-burgundy-500 text-slate-950',
-          opponentClub, played: true,
-          result: resultFromScore(resolved.myGoals, resolved.rivalGoals),
-          score: `${resolved.myGoals}-${resolved.rivalGoals}`
-        });
-      });
-    }
-    const myGroup = conmebolCup.groups.find(g => g.clubIds.includes(currentClub.id));
-    if (myGroup) {
-      myGroup.fixtures
-        .filter(f => f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
-        .sort((a, b) => b.matchweek - a.matchweek)
-        .forEach(f => {
-          const isHome = f.homeTeamId === currentClub.id;
-          const opponentId = isHome ? f.awayTeamId : f.homeTeamId;
-          const myGoals = (isHome ? f.homeGoals : f.awayGoals)!;
-          const rivalGoals = (isHome ? f.awayGoals : f.homeGoals)!;
-          calendarEvents.push({
-            date: nextCupStepBehind(),
-            label: `G${f.matchweek}`,
-            sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
-            colorClass: 'bg-burgundy-500 text-slate-950',
-            opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
-            played: true,
-            result: resultFromScore(myGoals, rivalGoals),
-            score: `${myGoals}-${rivalGoals}`
-          });
-        });
-    }
-  } else if (uefaCup) {
-    if (uefaCup.stage === 'knockout' || uefaCup.stage === 'done') {
-      [...(uefaCup.knockout?.tiesByRound || [])].reverse().forEach(round => {
-        const tie = round.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
-        if (!tie) return;
-        const roundLabel = roundLabelByMatchCount(round.length);
-        twoLegTieToEvents(tie, currentClub.id).forEach(leg => {
-          const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === leg.opponentId);
-          calendarEvents.push({
-            date: nextCupStepBehind(),
-            label: `${roundLabel} (${leg.leg === 'Ida' ? 'I' : 'V'})`,
-            sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
-            colorClass: 'bg-burgundy-500 text-slate-950',
-            opponentClub, played: true,
-            result: resultFromScore(leg.myGoals, leg.rivalGoals),
-            score: `${leg.myGoals}-${leg.rivalGoals}`
-          });
-        });
-      });
-    } else if (uefaCup.stage === 'playoff' && uefaCup.playoff) {
-      const tie = uefaCup.playoff.find(t => t.clubAId === currentClub.id || t.clubBId === currentClub.id);
-      if (tie) {
-        twoLegTieToEvents(tie, currentClub.id).forEach(leg => {
-          const opponentClub = ULTIMATE_CLUBS_DATABASE.find(c => c.id === leg.opponentId);
-          calendarEvents.push({
-            date: nextCupStepBehind(),
-            label: `Playoff (${leg.leg === 'Ida' ? 'I' : 'V'})`,
-            sublabel: `${leg.isHome ? 'vs.' : '@'} ${opponentClub?.name || leg.opponentId}`,
-            colorClass: 'bg-burgundy-500 text-slate-950',
-            opponentClub, played: true,
-            result: resultFromScore(leg.myGoals, leg.rivalGoals),
-            score: `${leg.myGoals}-${leg.rivalGoals}`
-          });
-        });
-      }
-    }
-    uefaCup.fixtures
-      .filter(f => f.played && (f.homeTeamId === currentClub.id || f.awayTeamId === currentClub.id))
-      .sort((a, b) => b.matchweek - a.matchweek)
-      .forEach(f => {
-        const isHome = f.homeTeamId === currentClub.id;
-        const opponentId = isHome ? f.awayTeamId : f.homeTeamId;
-        const myGoals = (isHome ? f.homeGoals : f.awayGoals)!;
-        const rivalGoals = (isHome ? f.awayGoals : f.homeGoals)!;
-        calendarEvents.push({
-          date: nextCupStepBehind(),
-          label: `F${f.matchweek}`,
-          sublabel: `${isHome ? 'vs.' : '@'} ${clubNameByIdEarly(opponentId)}`,
-          colorClass: 'bg-burgundy-500 text-slate-950',
-          opponentClub: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
-          played: true,
-          result: resultFromScore(myGoals, rivalGoals),
-          score: `${myGoals}-${rivalGoals}`
-        });
-      });
-  }
-
-  } // fin del historial por semanas (solo clubes sin fechas reales)
 
   // El mes que abre el calendario es el del partido de HOY, tomado del calendario real.
   //
@@ -2116,11 +1824,8 @@ export default function Dashboard({
   // abría en un mes equivocado y los partidos de Libertadores "no aparecían" -- estaban, pero en
   // abril, y la grilla mostraba mayo.
   const calendarBaseDate = (() => {
-    if (hasDatedLeagueSchedule(currentClub.name)) {
-      const paso = fixturesAtStep(currentClub.name, playerProfile.currentWeek);
-      if (paso) return new Date(`${paso.date}T00:00:00`);
-    }
-    return getRealDate(playerProfile.currentWeek);
+    const fecha = fechaDelPaso(currentClub.name, playerProfile.currentWeek);
+    return fecha ? new Date(`${fecha}T00:00:00`) : new Date();
   })();
   const calendarGridDate = new Date(calendarBaseDate.getFullYear(), calendarBaseDate.getMonth() + calendarMonthOffset, 1);
   const calendarGridYear = calendarGridDate.getFullYear();
@@ -3473,7 +3178,7 @@ export default function Dashboard({
                   Oficina de Contratos y Representaciones
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Revisa las propuestas de los clubes interesados en tu perfil deportivo para la temporada {getRealDate(playerProfile.currentWeek).getFullYear()}. Tu margen de negociación salarial y los bonos de fichaje se expanden a la par de tu Prestigio general.
+                  Revisa las propuestas de los clubes interesados en tu perfil deportivo para la temporada {anioDelPaso(currentClub.name, playerProfile.currentWeek) ?? calendarBaseDate.getFullYear()}. Tu margen de negociación salarial y los bonos de fichaje se expanden a la par de tu Prestigio general.
                 </p>
               </div>
 
