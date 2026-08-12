@@ -82,8 +82,18 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
     // 1 y 5 por club, idéntico en las temporadas 1, 2 y 5. No es una copa, es un fragmento
     // congelado repartido al azar -- sin final y sin campeón posible.
     //
-    // La temporada 1 sí conserva sus cruces reales: son de verdad hasta donde llegan.
-    if (temporada >= 2 && original.kind !== 'league') continue;
+    // REVERTIDO (11 ago 2026). Acá se filtraban las copas desde la temporada 2 para que las armara
+    // el cuadro del motor, y el efecto real fue dejar a esos clubes SIN copas.
+    //
+    // El motivo: fixturesAtStep mapea el paso N a la N-ésima FECHA del club, corrido entre
+    // temporadas, así que un club con calendario real tiene partido en todos los pasos. Medido en
+    // la temporada 2: 52 pasos, 52 con liga, 0 libres. La rama que ofrece el partido del cuadro
+    // exige `!datedPrimary` -- que nunca se cumple -- así que el bracket no llegaba a jugar nunca.
+    //
+    // El arreglo de verdad no es filtrar: es GENERAR las fechas de copa e inyectarlas en el
+    // calendario, para que liga y copa corran por el mismo reloj y pickPrimary elija entre las dos
+    // cuando caen el mismo día (que es exactamente como funciona la temporada 1). Mientras tanto se
+    // vuelve a las copas permutadas: son imperfectas, pero existen.
     const comp = competicionEnTemporada(original, temporada);
     for (const match of comp.matches) {
       // En la temporada 1 se descartan las fechas anteriores al arranque de la carrera (media

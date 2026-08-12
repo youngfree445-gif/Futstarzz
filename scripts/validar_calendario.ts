@@ -1,192 +1,115 @@
-/**
- * Valida un JSON/CSV de calendario antes de importarlo al juego.
- *
- *   npx tsx scripts/validar_calendario.ts <archivo>
- *
- * Comprueba lo que realmente rompe una importación: nombres de club que no existen en data.ts
- * (esos partidos se perderían en silencio), fechas mal formadas, jornadas faltantes y equipos
- * jugando dos veces el mismo día. Ver docs/FORMATO_CALENDARIO.md.
- */
-import { readFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+// Validador del calendario. Se corre con `npm run validar:calendario`.
+//
+// Contesta dos preguntas que no se pueden mirar a ojo, y que conviene re-chequear después de
+// cualquier cambio en dateSchedule.ts, seasonCalendar.ts o en el reparto de semanas de copa.
+//
+//   A) ¿El calendario con FECHAS respeta el descanso? Dos partidos con menos de dos días entre
+//      medio, o más de tres en siete días, son señal de que la generación se desordenó.
+//
+//   B) ¿Alcanzan las semanas de copa? Las copas corren por PASOS de semana (isCupWeek), no por
+//      fecha, y el motor sólo ofrece copa un día en el que el calendario no trajo partido. Si las
+//      semanas libres son menos que los pasos que la copa necesita para coronar campeón, el torneo
+//      no termina en su temporada y se desfasa de la liga -- que es un bug que este juego ya tuvo.
 
-// El proyecto es ESM ("type": "module"), así que no hay __dirname.
-const HERE = dirname(fileURLToPath(import.meta.url));
+import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
+import { fixturesForClub } from '../src/dateSchedule';
+import { isCupWeek, getRealDate, SEASON_LENGTH_WEEKS } from '../src/leagueEngine';
 
-// Los nombres de club se leen del TEXTO de data.ts en vez de importarlo: data.ts importa los
-// escudos (.png), que solo Vite sabe resolver, así que un `import` acá haría fallar el script con
-// ERR_UNKNOWN_FILE_EXTENSION. Solo hacen falta los nombres y su liga, no el módulo entero.
-function loadClubs(): { name: string; league: string }[] {
-  const src = readFileSync(join(HERE, '..', 'src', 'data.ts'), 'utf8');
-  const out: { name: string; league: string }[] = [];
-  // Cada club declara name y league en el mismo literal, en ese orden. El cuerpo del nombre puede
-  // contener la OTRA comilla (O"Higgins se declara con dobles, Ligat ha'Al con simples), así que se
-  // excluye solo el delimitador propio -- excluir ambas descartaba esos clubes y los reportaba como
-  // "no reconocidos" aunque estuvieran perfectos en data.ts.
-  const re = /name:\s*(["'])((?:\\.|(?!\1)[^\\]){2,60})\1[\s\S]{0,400}?league:\s*(["'])((?:\\.|(?!\3)[^\\]){2,40})\3/g;
-  let m: RegExpExecArray | null;
-  // Desescapar: en data.ts O'Higgins se declara como 'O\'Higgins', y el nombre real no lleva la
-  // barra. Sin esto no matchea nunca contra el dato del scraper.
-  const unesc = (s: string) => s.replace(/\\(.)/g, '$1');
-  while ((m = re.exec(src))) out.push({ name: unesc(m[2]), league: unesc(m[4]) });
-  // Deduplicar: un mismo club puede aparecer más de una vez si el regex solapa.
-  const byName = new Map(out.map(c => [c.name, c]));
-  return [...byName.values()];
+const MIN_DESCANSO_DIAS = 2;
+const MAX_PARTIDOS_EN_7_DIAS = 3;
+const TEMPORADAS_A_REVISAR = [1, 2, 3];
+const CLUBES_A_REVISAR = 250;
+
+/** Pasos que necesita cada copa para llegar al campeón. Sirve de referencia contra las semanas libres. */
+const PASOS_QUE_NECESITA: Record<string, number> = {
+  'copa nacional (desde cuartos, ida y vuelta)': 6,
+  'Libertadores / Sudamericana': 14,
+  'Champions / Europa': 18,
+};
+
+const dias = (a: string, b: string) =>
+  Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+
+interface Hallazgo { club: string; temporada: number; detalle: string; }
+
+/** Días DISTINTOS con partido. Dos competiciones el mismo día son una fecha con dos opciones
+ *  (el motor elige una con pickPrimary), no una falta de descanso. */
+function fechasConPartido(club: string, temporada: number): string[] {
+  const fx = fixturesForClub(club).filter(f => f.temporada === temporada);
+  return [...new Set(fx.map(f => f.date))].sort();
 }
 
-const CLUBS = loadClubs();
+function validarDescanso(club: string, temporada: number): Hallazgo[] {
+  const out: Hallazgo[] = [];
+  const fechas = fechasConPartido(club, temporada);
 
-const file = process.argv[2];
-if (!file) {
-  console.error('uso: npx tsx scripts/validar_calendario.ts <archivo.json|.csv>');
-  process.exit(1);
+  for (let i = 1; i < fechas.length; i++) {
+    const d = dias(fechas[i - 1], fechas[i]);
+    if (d < MIN_DESCANSO_DIAS) {
+      out.push({ club, temporada, detalle: `${d} día(s) entre ${fechas[i - 1]} y ${fechas[i]}` });
+    }
+  }
+  for (let i = 0; i < fechas.length; i++) {
+    const ventana = fechas.filter(f => { const d = dias(fechas[i], f); return d >= 0 && d <= 7; });
+    if (ventana.length > MAX_PARTIDOS_EN_7_DIAS) {
+      out.push({ club, temporada, detalle: `${ventana.length} partidos en 7 días desde ${fechas[i]}` });
+    }
+  }
+  return out;
 }
 
-interface Match {
-  date: string; round: string | number; home: string; away: string;
-  stage?: string; leg?: number; group?: string;
+/** Semanas de copa que el club puede usar de verdad: las que no chocan con una fecha suya. */
+function semanasDeCopaUtilizables(club: string, temporada: number): { total: number; libres: number } {
+  const ocupadas = new Set(fechasConPartido(club, temporada));
+  let total = 0, libres = 0;
+  for (let w = 1; w <= SEASON_LENGTH_WEEKS; w++) {
+    if (!isCupWeek(w)) continue;
+    total++;
+    if (!ocupadas.has(iso(getRealDate((temporada - 1) * SEASON_LENGTH_WEEKS + w)))) libres++;
+  }
+  return { total, libres };
 }
 
-const raw = readFileSync(file, 'utf8');
-let competition: any = {};
-let matches: Match[] = [];
-let aliases: Record<string, string> = {};
+// --- A) Descanso ---
+const muestra = CLUBS.filter(c => c.starPlayers?.length).slice(0, CLUBES_A_REVISAR);
+const hallazgos: Hallazgo[] = [];
+let revisados = 0;
+for (const c of muestra) {
+  if (!fixturesForClub(c.name).length) continue;
+  revisados++;
+  for (const t of TEMPORADAS_A_REVISAR) hallazgos.push(...validarDescanso(c.name, t));
+}
 
-if (file.endsWith('.csv')) {
-  const lines = raw.trim().split(/\r?\n/);
-  const cols = lines[0].split(',').map(c => c.trim());
-  const idx = (n: string) => cols.indexOf(n);
-  matches = lines.slice(1).map(l => {
-    const v = l.split(',');
-    return {
-      date: v[idx('date')]?.trim(),
-      round: v[idx('round')]?.trim(),
-      home: v[idx('home')]?.trim(),
-      away: v[idx('away')]?.trim(),
-      stage: idx('stage') >= 0 ? v[idx('stage')]?.trim() : undefined,
-    };
+const pocoDescanso = hallazgos.filter(h => h.detalle.includes('entre'));
+const saturadas = hallazgos.filter(h => h.detalle.includes('en 7 días'));
+
+console.log('=== A) Descanso en el calendario con fechas ===');
+console.log(`${revisados} clubes, temporadas ${TEMPORADAS_A_REVISAR.join(', ')}\n`);
+console.log(`Menos de ${MIN_DESCANSO_DIAS} días de descanso: ${pocoDescanso.length}`);
+for (const h of pocoDescanso.slice(0, 8)) console.log(`   ${h.club} (T${h.temporada}): ${h.detalle}`);
+console.log(`Más de ${MAX_PARTIDOS_EN_7_DIAS} partidos en 7 días: ${saturadas.length}`);
+for (const h of saturadas.slice(0, 8)) console.log(`   ${h.club} (T${h.temporada}): ${h.detalle}`);
+
+// --- B) Presupuesto de semanas de copa ---
+console.log('\n=== B) Semanas de copa utilizables por club ===');
+console.log('(las copas corren por paso de semana; una semana con partido de liga queda bloqueada)\n');
+let apretados = 0;
+for (const nombre of ['Santos', 'FC Barcelona', 'Junior de Barranquilla', 'Real Madrid', 'Flamengo']) {
+  if (!CLUBS.some(c => c.name === nombre)) continue;
+  const filas = TEMPORADAS_A_REVISAR.map(t => {
+    const { total, libres } = semanasDeCopaUtilizables(nombre, t);
+    if (libres < PASOS_QUE_NECESITA['Champions / Europa']) apretados++;
+    return `T${t}: ${libres}/${total}`;
   });
-  competition = { league: matches.length ? raw.split(/\r?\n/)[1]?.split(',')[idx('league')]?.trim() : undefined };
-} else {
-  const j = JSON.parse(raw);
-  // Se aceptan las tres formas: {competition,matches}, array suelto, o formato ALLgames.json
-  if (Array.isArray(j)) {
-    matches = j.map((g: any) => ({
-      date: g.date, round: g.round, home: g.home ?? g.home_club_name, away: g.away ?? g.away_club_name,
-      stage: g.stage, leg: g.leg, group: g.group,
-    }));
-  } else {
-    competition = j.competition ?? {};
-    aliases = j.aliases ?? {};
-    matches = (j.matches ?? []).map((g: any) => ({
-      date: g.date, round: g.round, home: g.home ?? g.home_club_name, away: g.away ?? g.away_club_name,
-      stage: g.stage, leg: g.leg, group: g.group,
-    }));
-  }
+  console.log(`  ${nombre.padEnd(24)} ${filas.join('   ')}`);
 }
 
-console.log(`archivo:      ${file}`);
-console.log(`competición:  ${competition.name ?? competition.id ?? '(sin declarar)'}`);
-console.log(`liga:         ${competition.league ?? '(sin declarar)'}`);
-console.log(`partidos:     ${matches.length}\n`);
+console.log('\nPasos que necesita cada copa para coronar campeón:');
+for (const [k, v] of Object.entries(PASOS_QUE_NECESITA)) console.log(`  ${k.padEnd(46)} ${v}`);
 
-if (!matches.length) {
-  console.error('*** no se leyó ningún partido: revisá la estructura (docs/FORMATO_CALENDARIO.md)');
-  process.exit(1);
-}
-
-// --- nombres de club ---
-// Hay homónimos entre países: "Universidad Católica" existe en Chile y Ecuador, "Liverpool" en
-// Uruguay e Inglaterra. Un Map global se queda con uno solo y el otro queda "no reconocido" para
-// siempre, así que se resuelve primero dentro de la liga declarada en el archivo.
-const declaredLeague: string | undefined = competition.league;
-const inLeague = new Map(
-  CLUBS.filter(c => c.league === declaredLeague).map(c => [c.name.toLowerCase(), c])
-);
-const anyLeague = new Map(CLUBS.map(c => [c.name.toLowerCase(), c]));
-
-const resolve = (n: string) => {
-  if (!n) return null;
-  const key = (aliases[n] ?? n).toLowerCase();
-  return inLeague.get(key) ?? anyLeague.get(key) ?? null;
-};
-
-const unknown = new Map<string, number>();
-for (const m of matches) {
-  for (const n of [m.home, m.away]) if (!resolve(n)) unknown.set(n, (unknown.get(n) ?? 0) + 1);
-}
-
-const teams = new Set<string>();
-for (const m of matches) { if (resolve(m.home)) teams.add(m.home); if (resolve(m.away)) teams.add(m.away); }
-
-console.log(`equipos reconocidos:     ${teams.size}`);
-console.log(`nombres NO reconocidos:  ${unknown.size}`);
-if (unknown.size) {
-  console.log('\n  Estos partidos se perderían. Agregalos al bloque "aliases" o corregí el nombre:');
-  [...unknown.entries()].sort((a, b) => b[1] - a[1]).slice(0, 40)
-    .forEach(([n, c]) => console.log(`    "${n}"  (${c} partidos)`));
-  // Sugerencia por parecido: ayuda a detectar "CSD Colo Colo" vs "Colo-Colo"
-  console.log('\n  Candidatos parecidos en la base del juego:');
-  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
-  for (const [n] of [...unknown.entries()].slice(0, 12)) {
-    const t = norm(n);
-    const near = CLUBS.filter(c => { const x = norm(c.name); return x.includes(t) || t.includes(x); }).slice(0, 3);
-    if (near.length) console.log(`    "${n}" -> ${near.map(c => `"${c.name}"`).join(' | ')}`);
-  }
-}
-
-// --- fechas ---
-const badDates = matches.filter(m => !/^\d{4}-\d{2}-\d{2}$/.test(String(m.date ?? '')));
-console.log(`\nfechas mal formadas:     ${badDates.length}`);
-if (badDates.length) badDates.slice(0, 5).forEach(m => console.log(`    "${m.date}" (${m.home} vs ${m.away})`));
-
-const dates = matches.map(m => m.date).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(String(d))).sort();
-if (dates.length) {
-  console.log(`rango:                   ${dates[0]} a ${dates[dates.length - 1]}`);
-  const meses = new Set(dates.map(d => d.slice(0, 7)));
-  console.log(`meses cubiertos:         ${meses.size}`);
-}
-
-// --- jornadas ---
-const roundNum = (r: any) => {
-  const m = String(r ?? '').match(/(\d+)/);
-  return m ? Number(m[1]) : null;
-};
-const nums = matches.map(m => roundNum(m.round)).filter((n): n is number => n !== null);
-if (nums.length) {
-  const max = Math.max(...nums), min = Math.min(...nums);
-  const present = new Set(nums);
-  const faltan: number[] = [];
-  for (let i = min; i <= max; i++) if (!present.has(i)) faltan.push(i);
-  console.log(`\njornadas:                ${min} a ${max}`);
-  if (faltan.length) console.log(`  *** jornadas faltantes: ${faltan.slice(0, 20).join(', ')}${faltan.length > 20 ? '…' : ''}`);
-}
-const sinRound = matches.filter(m => m.round === undefined || m.round === '').length;
-if (sinRound) console.log(`  *** ${sinRound} partidos sin "round"`);
-
-// --- coherencia ---
-let sameTeam = 0;
-const perDay = new Map<string, Set<string>>();
-let dobles = 0;
-for (const m of matches) {
-  if (m.home && m.away && m.home === m.away) sameTeam++;
-  const key = String(m.date);
-  const set = perDay.get(key) ?? new Set<string>();
-  for (const t of [m.home, m.away]) {
-    if (set.has(t)) dobles++;
-    set.add(t);
-  }
-  perDay.set(key, set);
-}
-console.log(`\nequipo contra sí mismo:  ${sameTeam}`);
-console.log(`equipos 2 veces/día:     ${dobles}`);
-
-// --- veredicto ---
-const errores = unknown.size + badDates.length + sameTeam;
-console.log('\n=====================================');
-if (errores === 0) {
-  console.log('LISTO PARA IMPORTAR');
-} else {
-  console.log(`${errores} problemas a revisar (lo más importante: los ${unknown.size} nombres no reconocidos)`);
+const problemas = pocoDescanso.length + saturadas.length;
+console.log(`\n${problemas === 0 ? 'Sin problemas de descanso.' : `${problemas} hallazgos de descanso (ver arriba).`}`);
+if (apretados > 0) {
+  console.log(`ATENCIÓN: hay ${apretados} club-temporadas con menos semanas libres que los ${PASOS_QUE_NECESITA['Champions / Europa']} pasos que necesita una copa europea. Esa copa no llega a coronar campeón en su temporada.`);
 }

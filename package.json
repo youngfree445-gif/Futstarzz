@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
+    "validar:calendario": "esbuild scripts/validar_calendario.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_calendario.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_calendario.cjs",
     "build:netlify": "cross-env GH_PAGES= CAPACITOR= vite build",
     "build:ghpages": "cross-env GH_PAGES=true vite build",
     "deploy": "npm run build:ghpages && gh-pages -d dist-ghpages",
