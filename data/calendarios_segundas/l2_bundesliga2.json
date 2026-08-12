@@ -1,0 +1,1849 @@
+{
+  "competition": {
+    "id": "L2",
+    "name": "L2",
+    "league": "Alemana",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Hertha BSC",
+      "date": "2025-08-01"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "SV Elversberg",
+      "away": "1.FC Nuremberg",
+      "date": "2025-08-02"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "SC Paderborn",
+      "away": "Holstein Kiel",
+      "date": "2025-08-02"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Pr. Münster",
+      "date": "2025-08-02"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Darmstadt 98",
+      "away": "VfL Bochum",
+      "date": "2025-08-02"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "F. Düsseldorf",
+      "date": "2025-08-02"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Hannover 96",
+      "away": "1.FC K'lautern",
+      "date": "2025-08-03"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "E. Braunschweig",
+      "date": "2025-08-03"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Dynamo Dresden",
+      "date": "2025-08-03"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Darmstadt 98",
+      "date": "2025-08-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Pr. Münster",
+      "away": "SC Paderborn",
+      "date": "2025-08-08"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Hannover 96",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Greuther Fürth",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "1.FC Magdeburg",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "FC Schalke 04",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Arm. Bielefeld",
+      "date": "2025-08-10"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "VfL Bochum",
+      "away": "SV Elversberg",
+      "date": "2025-08-10"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Hertha BSC",
+      "away": "Karlsruher SC",
+      "date": "2025-08-10"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "SV Elversberg",
+      "away": "1.FC K'lautern",
+      "date": "2025-08-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Pr. Münster",
+      "away": "1.FC Nuremberg",
+      "date": "2025-08-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "SC Paderborn",
+      "away": "F. Düsseldorf",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Karlsruher SC",
+      "away": "E. Braunschweig",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Hannover 96",
+      "away": "1.FC Magdeburg",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "FC Schalke 04",
+      "away": "VfL Bochum",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Hertha BSC",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Holstein Kiel",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Dynamo Dresden",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "SC Paderborn",
+      "date": "2025-08-29"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Hertha BSC",
+      "away": "SV Elversberg",
+      "date": "2025-08-29"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Hannover 96",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "VfL Bochum",
+      "away": "Pr. Münster",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Arm. Bielefeld",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Karlsruher SC",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Greuther Fürth",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Darmstadt 98",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "FC Schalke 04",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "SC Paderborn",
+      "away": "VfL Bochum",
+      "date": "2025-09-12"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "1.FC Magdeburg",
+      "date": "2025-09-12"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Karlsruher SC",
+      "away": "1.FC Nuremberg",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Darmstadt 98",
+      "away": "E. Braunschweig",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Holstein Kiel",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Hannover 96",
+      "away": "Hertha BSC",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "SV Elversberg",
+      "away": "Dynamo Dresden",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Greuther Fürth",
+      "away": "1.FC K'lautern",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Pr. Münster",
+      "away": "F. Düsseldorf",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Pr. Münster",
+      "date": "2025-09-19"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Greuther Fürth",
+      "date": "2025-09-19"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "FC Schalke 04",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Hertha BSC",
+      "away": "SC Paderborn",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "E. Braunschweig",
+      "away": "SV Elversberg",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "VfL Bochum",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Karlsruher SC",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Darmstadt 98",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Hannover 96",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Dynamo Dresden",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Greuther Fürth",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "SV Elversberg",
+      "away": "Holstein Kiel",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "SC Paderborn",
+      "away": "1.FC K'lautern",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Karlsruher SC",
+      "away": "1.FC Magdeburg",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "VfL Bochum",
+      "away": "F. Düsseldorf",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Hannover 96",
+      "away": "Arm. Bielefeld",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Hertha BSC",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Pr. Münster",
+      "away": "E. Braunschweig",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "1.FC Nuremberg",
+      "date": "2025-10-03"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "E. Braunschweig",
+      "away": "SC Paderborn",
+      "date": "2025-10-03"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Darmstadt 98",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "VfL Bochum",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Hertha BSC",
+      "away": "Pr. Münster",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Karlsruher SC",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "SV Elversberg",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Hannover 96",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "FC Schalke 04",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "E. Braunschweig",
+      "date": "2025-10-17"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Hannover 96",
+      "away": "FC Schalke 04",
+      "date": "2025-10-17"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "SC Paderborn",
+      "away": "Arm. Bielefeld",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Karlsruher SC",
+      "away": "1.FC K'lautern",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Pr. Münster",
+      "away": "Dynamo Dresden",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "VfL Bochum",
+      "away": "Hertha BSC",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "SV Elversberg",
+      "away": "Greuther Fürth",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Holstein Kiel",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Darmstadt 98",
+      "away": "1.FC Magdeburg",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Karlsruher SC",
+      "date": "2025-10-24"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Darmstadt 98",
+      "date": "2025-10-24"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Holstein Kiel",
+      "away": "VfL Bochum",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "SV Elversberg",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "SC Paderborn",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Hertha BSC",
+      "away": "F. Düsseldorf",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Pr. Münster",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "1.FC Nuremberg",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Hannover 96",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "SV Elversberg",
+      "away": "Hannover 96",
+      "date": "2025-10-31"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Pr. Münster",
+      "away": "Holstein Kiel",
+      "date": "2025-10-31"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Karlsruher SC",
+      "away": "FC Schalke 04",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "E. Braunschweig",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Hertha BSC",
+      "away": "Dynamo Dresden",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Arm. Bielefeld",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "VfL Bochum",
+      "away": "1.FC Magdeburg",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "SC Paderborn",
+      "away": "Greuther Fürth",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "1.FC K'lautern",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Pr. Münster",
+      "date": "2025-11-07"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "1.FC Nuremberg",
+      "date": "2025-11-07"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Hannover 96",
+      "away": "Darmstadt 98",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "FC Schalke 04",
+      "away": "SV Elversberg",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Karlsruher SC",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Hertha BSC",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Holstein Kiel",
+      "away": "F. Düsseldorf",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "SC Paderborn",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "E. Braunschweig",
+      "away": "VfL Bochum",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "VfL Bochum",
+      "away": "Dynamo Dresden",
+      "date": "2025-11-21"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Hertha BSC",
+      "away": "E. Braunschweig",
+      "date": "2025-11-21"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "SC Paderborn",
+      "away": "Hannover 96",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "1.FC Magdeburg",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Pr. Münster",
+      "away": "FC Schalke 04",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Greuther Fürth",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Holstein Kiel",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Karlsruher SC",
+      "away": "SV Elversberg",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Arm. Bielefeld",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Hannover 96",
+      "away": "Karlsruher SC",
+      "date": "2025-11-28"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "FC Schalke 04",
+      "away": "SC Paderborn",
+      "date": "2025-11-28"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Hertha BSC",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Greuther Fürth",
+      "away": "VfL Bochum",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "E. Braunschweig",
+      "away": "1.FC K'lautern",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "1.FC Nuremberg",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "SV Elversberg",
+      "away": "Darmstadt 98",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Pr. Münster",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "F. Düsseldorf",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "FC Schalke 04",
+      "date": "2025-12-05"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Pr. Münster",
+      "away": "Hannover 96",
+      "date": "2025-12-05"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "VfL Bochum",
+      "away": "Arm. Bielefeld",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "SC Paderborn",
+      "away": "SV Elversberg",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Dynamo Dresden",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Karlsruher SC",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Greuther Fürth",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Hertha BSC",
+      "away": "1.FC Magdeburg",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Holstein Kiel",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Hertha BSC",
+      "date": "2025-12-12"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "E. Braunschweig",
+      "date": "2025-12-12"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Holstein Kiel",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Karlsruher SC",
+      "away": "SC Paderborn",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "1.FC K'lautern",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Hannover 96",
+      "away": "VfL Bochum",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Pr. Münster",
+      "date": "2025-12-14"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "FC Schalke 04",
+      "away": "1.FC Nuremberg",
+      "date": "2025-12-14"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "SV Elversberg",
+      "away": "F. Düsseldorf",
+      "date": "2025-12-14"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "SC Paderborn",
+      "away": "Darmstadt 98",
+      "date": "2025-12-19"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Hertha BSC",
+      "away": "Arm. Bielefeld",
+      "date": "2025-12-19"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "VfL Bochum",
+      "away": "Karlsruher SC",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Greuther Fürth",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "1.FC Magdeburg",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Dynamo Dresden",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Hannover 96",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Pr. Münster",
+      "away": "SV Elversberg",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "E. Braunschweig",
+      "away": "FC Schalke 04",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Arm. Bielefeld",
+      "date": "2026-01-16"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "E. Braunschweig",
+      "away": "1.FC Magdeburg",
+      "date": "2026-01-16"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "SV Elversberg",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Pr. Münster",
+      "away": "Karlsruher SC",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Greuther Fürth",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Hertha BSC",
+      "away": "FC Schalke 04",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Holstein Kiel",
+      "away": "SC Paderborn",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "VfL Bochum",
+      "away": "Darmstadt 98",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Hannover 96",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Darmstadt 98",
+      "away": "1.FC Nuremberg",
+      "date": "2026-01-23"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Holstein Kiel",
+      "date": "2026-01-23"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Hertha BSC",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Hannover 96",
+      "away": "F. Düsseldorf",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Greuther Fürth",
+      "away": "E. Braunschweig",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Dynamo Dresden",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "SV Elversberg",
+      "away": "VfL Bochum",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "SC Paderborn",
+      "away": "Pr. Münster",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "FC Schalke 04",
+      "away": "1.FC K'lautern",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Hannover 96",
+      "date": "2026-01-30"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Pr. Münster",
+      "date": "2026-01-30"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Greuther Fürth",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "VfL Bochum",
+      "away": "FC Schalke 04",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Karlsruher SC",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "SV Elversberg",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "SC Paderborn",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Hertha BSC",
+      "away": "Darmstadt 98",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Arm. Bielefeld",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Greuther Fürth",
+      "away": "1.FC Magdeburg",
+      "date": "2026-02-06"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Pr. Münster",
+      "away": "VfL Bochum",
+      "date": "2026-02-06"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "SV Elversberg",
+      "away": "Hertha BSC",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "SC Paderborn",
+      "away": "1.FC Nuremberg",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Dynamo Dresden",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Darmstadt 98",
+      "away": "1.FC K'lautern",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Karlsruher SC",
+      "away": "F. Düsseldorf",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Hannover 96",
+      "away": "Holstein Kiel",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "E. Braunschweig",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Pr. Münster",
+      "date": "2026-02-13"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Karlsruher SC",
+      "date": "2026-02-13"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Greuther Fürth",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Hertha BSC",
+      "away": "Hannover 96",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Darmstadt 98",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "SV Elversberg",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Holstein Kiel",
+      "away": "FC Schalke 04",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "VfL Bochum",
+      "away": "SC Paderborn",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Arm. Bielefeld",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "VfL Bochum",
+      "away": "1.FC Nuremberg",
+      "date": "2026-02-20"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Arm. Bielefeld",
+      "date": "2026-02-20"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "SV Elversberg",
+      "away": "E. Braunschweig",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Holstein Kiel",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Darmstadt 98",
+      "away": "F. Düsseldorf",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "FC Schalke 04",
+      "away": "1.FC Magdeburg",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "SC Paderborn",
+      "away": "Hertha BSC",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Hannover 96",
+      "away": "Dynamo Dresden",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Pr. Münster",
+      "away": "1.FC K'lautern",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "VfL Bochum",
+      "date": "2026-02-27"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Darmstadt 98",
+      "date": "2026-02-27"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Holstein Kiel",
+      "away": "SV Elversberg",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "SC Paderborn",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Hannover 96",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Greuther Fürth",
+      "away": "FC Schalke 04",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Karlsruher SC",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Hertha BSC",
+      "away": "1.FC Nuremberg",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Pr. Münster",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "SV Elversberg",
+      "away": "1.FC Magdeburg",
+      "date": "2026-03-06"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Arm. Bielefeld",
+      "date": "2026-03-06"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "SC Paderborn",
+      "away": "E. Braunschweig",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "F. Düsseldorf",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Holstein Kiel",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "VfL Bochum",
+      "away": "1.FC K'lautern",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Dynamo Dresden",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Hannover 96",
+      "away": "Greuther Fürth",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Pr. Münster",
+      "away": "Hertha BSC",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Darmstadt 98",
+      "date": "2026-03-13"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Greuther Fürth",
+      "away": "SV Elversberg",
+      "date": "2026-03-13"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Holstein Kiel",
+      "away": "1.FC Nuremberg",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "E. Braunschweig",
+      "away": "F. Düsseldorf",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "SC Paderborn",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Hertha BSC",
+      "away": "VfL Bochum",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Karlsruher SC",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Hannover 96",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Pr. Münster",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Greuther Fürth",
+      "date": "2026-03-20"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Hannover 96",
+      "away": "E. Braunschweig",
+      "date": "2026-03-20"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "SV Elversberg",
+      "away": "Arm. Bielefeld",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "SC Paderborn",
+      "away": "Dynamo Dresden",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "1.FC K'lautern",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Darmstadt 98",
+      "away": "FC Schalke 04",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "VfL Bochum",
+      "away": "Holstein Kiel",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Hertha BSC",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Pr. Münster",
+      "away": "1.FC Magdeburg",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "VfL Bochum",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "F. Düsseldorf",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Darmstadt 98",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Hertha BSC",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Holstein Kiel",
+      "away": "Pr. Münster",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Hannover 96",
+      "away": "SV Elversberg",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Greuther Fürth",
+      "away": "SC Paderborn",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Karlsruher SC",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "E. Braunschweig",
+      "away": "1.FC Nuremberg",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Holstein Kiel",
+      "date": "2026-04-10"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Arm. Bielefeld",
+      "date": "2026-04-10"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "Dynamo Dresden",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Hertha BSC",
+      "away": "1.FC K'lautern",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Pr. Münster",
+      "away": "Greuther Fürth",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Darmstadt 98",
+      "away": "Hannover 96",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "VfL Bochum",
+      "away": "E. Braunschweig",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "SV Elversberg",
+      "away": "FC Schalke 04",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "SC Paderborn",
+      "away": "1.FC Magdeburg",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Holstein Kiel",
+      "away": "1.FC K'lautern",
+      "date": "2026-04-17"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "SV Elversberg",
+      "away": "Karlsruher SC",
+      "date": "2026-04-17"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "F. Düsseldorf",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "1.FC Nuremberg",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "VfL Bochum",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Hannover 96",
+      "away": "SC Paderborn",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Greuther Fürth",
+      "away": "Darmstadt 98",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "FC Schalke 04",
+      "away": "Pr. Münster",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Hertha BSC",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "Dynamo Dresden",
+      "date": "2026-04-24"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "E. Braunschweig",
+      "date": "2026-04-24"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Hannover 96",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Hertha BSC",
+      "away": "Holstein Kiel",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Pr. Münster",
+      "away": "Arm. Bielefeld",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Darmstadt 98",
+      "away": "SV Elversberg",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "VfL Bochum",
+      "away": "Greuther Fürth",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "SC Paderborn",
+      "away": "FC Schalke 04",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "1.FC Magdeburg",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Holstein Kiel",
+      "away": "E. Braunschweig",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "VfL Bochum",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "1.FC K'lautern",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "FC Schalke 04",
+      "away": "F. Düsseldorf",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "SV Elversberg",
+      "away": "SC Paderborn",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "Hertha BSC",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Karlsruher SC",
+      "away": "Darmstadt 98",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Hannover 96",
+      "away": "Pr. Münster",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Greuther Fürth",
+      "away": "1.FC Nuremberg",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "SC Paderborn",
+      "away": "Karlsruher SC",
+      "date": "2026-05-08"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "1.FC K'lautern",
+      "away": "Arm. Bielefeld",
+      "date": "2026-05-08"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Holstein Kiel",
+      "away": "1.FC Magdeburg",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "VfL Bochum",
+      "away": "Hannover 96",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "E. Braunschweig",
+      "away": "Dynamo Dresden",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "1.FC Nuremberg",
+      "away": "FC Schalke 04",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "F. Düsseldorf",
+      "away": "SV Elversberg",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Hertha BSC",
+      "away": "Greuther Fürth",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Pr. Münster",
+      "away": "Darmstadt 98",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "SV Elversberg",
+      "away": "Pr. Münster",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "1.FC Magdeburg",
+      "away": "1.FC K'lautern",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Karlsruher SC",
+      "away": "VfL Bochum",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Hannover 96",
+      "away": "1.FC Nuremberg",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Darmstadt 98",
+      "away": "SC Paderborn",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Greuther Fürth",
+      "away": "F. Düsseldorf",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "FC Schalke 04",
+      "away": "E. Braunschweig",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Arm. Bielefeld",
+      "away": "Hertha BSC",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Dynamo Dresden",
+      "away": "Holstein Kiel",
+      "date": "2026-05-17"
+    }
+  ]
+}

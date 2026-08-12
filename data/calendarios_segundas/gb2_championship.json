@@ -1,0 +1,3325 @@
+{
+  "competition": {
+    "id": "GB2",
+    "name": "GB2",
+    "league": "Inglesa",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "Birmingham",
+      "away": "Ipswich",
+      "date": "2025-08-08"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Charlton",
+      "away": "Watford",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Coventry",
+      "away": "Hull City",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Southampton",
+      "away": "Wrexham",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Middlesbrough",
+      "away": "Swansea",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Norwich",
+      "away": "Millwall",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Oxford United",
+      "away": "Portsmouth",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "QPR",
+      "away": "Preston",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Stoke City",
+      "away": "Derby",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "West Brom",
+      "away": "Blackburn",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Sheff Utd",
+      "away": "Bristol City",
+      "date": "2025-08-09"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Leicester",
+      "away": "Sheff Wed",
+      "date": "2025-08-10"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Derby",
+      "away": "Coventry",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Portsmouth",
+      "away": "Norwich",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Wrexham",
+      "away": "West Brom",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Blackburn",
+      "away": "Birmingham",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Bristol City",
+      "away": "Charlton",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Millwall",
+      "away": "Middlesbrough",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Preston",
+      "away": "Leicester",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Sheff Wed",
+      "away": "Stoke City",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Swansea",
+      "away": "Sheff Utd",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Watford",
+      "away": "QPR",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Ipswich",
+      "away": "Southampton",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Hull City",
+      "away": "Oxford United",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Derby",
+      "away": "Bristol City",
+      "date": "2025-08-22"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Charlton",
+      "away": "Leicester",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Hull City",
+      "away": "Blackburn",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Swansea",
+      "away": "Watford",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Birmingham",
+      "away": "Oxford United",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Coventry",
+      "away": "QPR",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Norwich",
+      "away": "Middlesbrough",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Preston",
+      "away": "Ipswich",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Sheff Utd",
+      "away": "Millwall",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Southampton",
+      "away": "Stoke City",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "West Brom",
+      "away": "Portsmouth",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Wrexham",
+      "away": "Sheff Wed",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Leicester",
+      "away": "Birmingham",
+      "date": "2025-08-29"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Middlesbrough",
+      "away": "Sheff Utd",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "QPR",
+      "away": "Charlton",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Stoke City",
+      "away": "West Brom",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Blackburn",
+      "away": "Norwich",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Bristol City",
+      "away": "Hull City",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Ipswich",
+      "away": "Derby",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Millwall",
+      "away": "Wrexham",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Oxford United",
+      "away": "Coventry",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Portsmouth",
+      "away": "Preston",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Sheff Wed",
+      "away": "Swansea",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Watford",
+      "away": "Southampton",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Ipswich",
+      "away": "Sheff Utd",
+      "date": "2025-09-12"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Charlton",
+      "away": "Millwall",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Oxford United",
+      "away": "Leicester",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Preston",
+      "away": "Middlesbrough",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Coventry",
+      "away": "Norwich",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Sheff Wed",
+      "away": "Bristol City",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Stoke City",
+      "away": "Birmingham",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Watford",
+      "away": "Blackburn",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "West Brom",
+      "away": "Derby",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Wrexham",
+      "away": "QPR",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Swansea",
+      "away": "Hull City",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Southampton",
+      "away": "Portsmouth",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Middlesbrough",
+      "away": "West Brom",
+      "date": "2025-09-19"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Birmingham",
+      "away": "Swansea",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Leicester",
+      "away": "Coventry",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "QPR",
+      "away": "Stoke City",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Derby",
+      "away": "Preston",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Hull City",
+      "away": "Southampton",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Norwich",
+      "away": "Wrexham",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Portsmouth",
+      "away": "Sheff Wed",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Sheff Utd",
+      "away": "Charlton",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Bristol City",
+      "away": "Oxford United",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Millwall",
+      "away": "Watford",
+      "date": "2025-09-22"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Blackburn",
+      "away": "Ipswich",
+      "date": "2025-12-02"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "West Brom",
+      "away": "Leicester",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Coventry",
+      "away": "Birmingham",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Swansea",
+      "away": "Millwall",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Wrexham",
+      "away": "Derby",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Charlton",
+      "away": "Blackburn",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Ipswich",
+      "away": "Portsmouth",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Oxford United",
+      "away": "Sheff Utd",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Preston",
+      "away": "Bristol City",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Sheff Wed",
+      "away": "QPR",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Southampton",
+      "away": "Middlesbrough",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Stoke City",
+      "away": "Norwich",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Watford",
+      "away": "Hull City",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Birmingham",
+      "away": "Sheff Wed",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Blackburn",
+      "away": "Swansea",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Bristol City",
+      "away": "Ipswich",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Hull City",
+      "away": "Preston",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Leicester",
+      "away": "Wrexham",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Middlesbrough",
+      "away": "Stoke City",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Sheff Utd",
+      "away": "Southampton",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Derby",
+      "away": "Charlton",
+      "date": "2025-09-30"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Millwall",
+      "away": "Coventry",
+      "date": "2025-10-01"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Norwich",
+      "away": "West Brom",
+      "date": "2025-10-01"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Portsmouth",
+      "away": "Watford",
+      "date": "2025-10-01"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "QPR",
+      "away": "Oxford United",
+      "date": "2025-10-01"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Wrexham",
+      "away": "Birmingham",
+      "date": "2025-10-03"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Blackburn",
+      "away": "Stoke City",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Hull City",
+      "away": "Sheff Utd",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Sheff Wed",
+      "away": "Coventry",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Bristol City",
+      "away": "QPR",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Derby",
+      "away": "Southampton",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Millwall",
+      "away": "West Brom",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Portsmouth",
+      "away": "Middlesbrough",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Preston",
+      "away": "Charlton",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Swansea",
+      "away": "Leicester",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Watford",
+      "away": "Oxford United",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Ipswich",
+      "away": "Norwich",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Middlesbrough",
+      "away": "Ipswich",
+      "date": "2025-10-17"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Oxford United",
+      "away": "Derby",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "QPR",
+      "away": "Millwall",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Southampton",
+      "away": "Swansea",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Birmingham",
+      "away": "Hull City",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Charlton",
+      "away": "Sheff Wed",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Coventry",
+      "away": "Blackburn",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Norwich",
+      "away": "Bristol City",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Sheff Utd",
+      "away": "Watford",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Stoke City",
+      "away": "Wrexham",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "West Brom",
+      "away": "Preston",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Leicester",
+      "away": "Portsmouth",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Blackburn",
+      "away": "Sheff Utd",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Derby",
+      "away": "Norwich",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Hull City",
+      "away": "Leicester",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Ipswich",
+      "away": "Charlton",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Millwall",
+      "away": "Stoke City",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Portsmouth",
+      "away": "Coventry",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Preston",
+      "away": "Birmingham",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Bristol City",
+      "away": "Southampton",
+      "date": "2025-10-21"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Swansea",
+      "away": "QPR",
+      "date": "2025-10-22"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Watford",
+      "away": "West Brom",
+      "date": "2025-10-22"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Wrexham",
+      "away": "Oxford United",
+      "date": "2025-10-22"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Sheff Wed",
+      "away": "Middlesbrough",
+      "date": "2025-10-22"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Preston",
+      "away": "Sheff Utd",
+      "date": "2025-10-24"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Coventry",
+      "away": "Watford",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Ipswich",
+      "away": "West Brom",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Blackburn",
+      "away": "Southampton",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Bristol City",
+      "away": "Birmingham",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Derby",
+      "away": "QPR",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Hull City",
+      "away": "Charlton",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Middlesbrough",
+      "away": "Wrexham",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Millwall",
+      "away": "Leicester",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Portsmouth",
+      "away": "Stoke City",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Sheff Wed",
+      "away": "Oxford United",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Swansea",
+      "away": "Norwich",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Wrexham",
+      "away": "Coventry",
+      "date": "2025-10-31"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Leicester",
+      "away": "Blackburn",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Norwich",
+      "away": "Hull City",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "West Brom",
+      "away": "Sheff Wed",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Birmingham",
+      "away": "Portsmouth",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Charlton",
+      "away": "Swansea",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Oxford United",
+      "away": "Millwall",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "QPR",
+      "away": "Ipswich",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Sheff Utd",
+      "away": "Derby",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Southampton",
+      "away": "Preston",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Stoke City",
+      "away": "Bristol City",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Watford",
+      "away": "Middlesbrough",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Birmingham",
+      "away": "Millwall",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Bristol City",
+      "away": "Blackburn",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Charlton",
+      "away": "West Brom",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Derby",
+      "away": "Hull City",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Ipswich",
+      "away": "Watford",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Leicester",
+      "away": "Middlesbrough",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Oxford United",
+      "away": "Stoke City",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Coventry",
+      "away": "Sheff Utd",
+      "date": "2025-11-04"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Preston",
+      "away": "Swansea",
+      "date": "2025-11-05"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "QPR",
+      "away": "Southampton",
+      "date": "2025-11-05"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Sheff Wed",
+      "away": "Norwich",
+      "date": "2025-11-05"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Portsmouth",
+      "away": "Wrexham",
+      "date": "2025-11-05"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Watford",
+      "away": "Bristol City",
+      "date": "2025-11-07"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Blackburn",
+      "away": "Derby",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Hull City",
+      "away": "Portsmouth",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Millwall",
+      "away": "Preston",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Middlesbrough",
+      "away": "Birmingham",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Norwich",
+      "away": "Leicester",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Sheff Utd",
+      "away": "QPR",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Southampton",
+      "away": "Sheff Wed",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Stoke City",
+      "away": "Coventry",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Swansea",
+      "away": "Ipswich",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "West Brom",
+      "away": "Oxford United",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Wrexham",
+      "away": "Charlton",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Preston",
+      "away": "Blackburn",
+      "date": "2025-11-21"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Charlton",
+      "away": "Southampton",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Coventry",
+      "away": "West Brom",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Birmingham",
+      "away": "Norwich",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Bristol City",
+      "away": "Swansea",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Derby",
+      "away": "Watford",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Ipswich",
+      "away": "Wrexham",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Leicester",
+      "away": "Stoke City",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Oxford United",
+      "away": "Middlesbrough",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Portsmouth",
+      "away": "Millwall",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "QPR",
+      "away": "Hull City",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Sheff Wed",
+      "away": "Sheff Utd",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Hull City",
+      "away": "Ipswich",
+      "date": "2025-11-25"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Middlesbrough",
+      "away": "Coventry",
+      "date": "2025-11-25"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Stoke City",
+      "away": "Charlton",
+      "date": "2025-11-25"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Swansea",
+      "away": "Derby",
+      "date": "2025-11-25"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Watford",
+      "away": "Preston",
+      "date": "2025-11-25"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Norwich",
+      "away": "Oxford United",
+      "date": "2025-11-25"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Southampton",
+      "away": "Leicester",
+      "date": "2025-11-25"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Millwall",
+      "away": "Sheff Wed",
+      "date": "2025-11-26"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Sheff Utd",
+      "away": "Portsmouth",
+      "date": "2025-11-26"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Blackburn",
+      "away": "QPR",
+      "date": "2025-11-26"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Wrexham",
+      "away": "Bristol City",
+      "date": "2025-11-26"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "West Brom",
+      "away": "Birmingham",
+      "date": "2025-11-26"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Oxford United",
+      "away": "Ipswich",
+      "date": "2025-11-28"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Leicester",
+      "away": "Sheff Utd",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Portsmouth",
+      "away": "Bristol City",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Stoke City",
+      "away": "Hull City",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Coventry",
+      "away": "Charlton",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Middlesbrough",
+      "away": "Derby",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Millwall",
+      "away": "Southampton",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Norwich",
+      "away": "QPR",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Sheff Wed",
+      "away": "Preston",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "West Brom",
+      "away": "Swansea",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Wrexham",
+      "away": "Blackburn",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Birmingham",
+      "away": "Watford",
+      "date": "2025-12-01"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Hull City",
+      "away": "Middlesbrough",
+      "date": "2025-12-05"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Derby",
+      "away": "Leicester",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Watford",
+      "away": "Norwich",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Bristol City",
+      "away": "Millwall",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Ipswich",
+      "away": "Coventry",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Preston",
+      "away": "Wrexham",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "QPR",
+      "away": "West Brom",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Sheff Utd",
+      "away": "Stoke City",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Southampton",
+      "away": "Birmingham",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Swansea",
+      "away": "Oxford United",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Blackburn",
+      "away": "Sheff Wed",
+      "date": "2026-02-03"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Charlton",
+      "away": "Portsmouth",
+      "date": "2026-02-17"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Blackburn",
+      "away": "Oxford United",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Charlton",
+      "away": "Middlesbrough",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Preston",
+      "away": "Coventry",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Sheff Utd",
+      "away": "Norwich",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Southampton",
+      "away": "West Brom",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Swansea",
+      "away": "Portsmouth",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Watford",
+      "away": "Sheff Wed",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "QPR",
+      "away": "Birmingham",
+      "date": "2025-12-09"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Bristol City",
+      "away": "Leicester",
+      "date": "2025-12-10"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Derby",
+      "away": "Millwall",
+      "date": "2025-12-10"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Ipswich",
+      "away": "Stoke City",
+      "date": "2025-12-10"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Hull City",
+      "away": "Wrexham",
+      "date": "2025-12-10"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "West Brom",
+      "away": "Sheff Utd",
+      "date": "2025-12-12"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Norwich",
+      "away": "Southampton",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Oxford United",
+      "away": "Preston",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Stoke City",
+      "away": "Swansea",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Birmingham",
+      "away": "Charlton",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Coventry",
+      "away": "Bristol City",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Leicester",
+      "away": "Ipswich",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Middlesbrough",
+      "away": "QPR",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Millwall",
+      "away": "Hull City",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Portsmouth",
+      "away": "Blackburn",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Wrexham",
+      "away": "Watford",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Sheff Wed",
+      "away": "Derby",
+      "date": "2025-12-15"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Swansea",
+      "away": "Wrexham",
+      "date": "2025-12-19"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Blackburn",
+      "away": "Millwall",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Preston",
+      "away": "Norwich",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Southampton",
+      "away": "Coventry",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Bristol City",
+      "away": "Middlesbrough",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Charlton",
+      "away": "Oxford United",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Derby",
+      "away": "Portsmouth",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Hull City",
+      "away": "West Brom",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Ipswich",
+      "away": "Sheff Wed",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "QPR",
+      "away": "Leicester",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Sheff Utd",
+      "away": "Birmingham",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Watford",
+      "away": "Stoke City",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Birmingham",
+      "away": "Derby",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Millwall",
+      "away": "Ipswich",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Coventry",
+      "away": "Swansea",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Leicester",
+      "away": "Watford",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Middlesbrough",
+      "away": "Blackburn",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Norwich",
+      "away": "Charlton",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Oxford United",
+      "away": "Southampton",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Portsmouth",
+      "away": "QPR",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Sheff Wed",
+      "away": "Hull City",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Stoke City",
+      "away": "Preston",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "West Brom",
+      "away": "Bristol City",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Wrexham",
+      "away": "Sheff Utd",
+      "date": "2025-12-26"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Coventry",
+      "away": "Ipswich",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Leicester",
+      "away": "Derby",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Middlesbrough",
+      "away": "Hull City",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Millwall",
+      "away": "Bristol City",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Norwich",
+      "away": "Watford",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Oxford United",
+      "away": "Swansea",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Portsmouth",
+      "away": "Charlton",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Sheff Wed",
+      "away": "Blackburn",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Stoke City",
+      "away": "Sheff Utd",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "West Brom",
+      "away": "QPR",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Wrexham",
+      "away": "Preston",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Birmingham",
+      "away": "Southampton",
+      "date": "2025-12-29"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Blackburn",
+      "away": "Wrexham",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Bristol City",
+      "away": "Portsmouth",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Charlton",
+      "away": "Coventry",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Derby",
+      "away": "Middlesbrough",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Hull City",
+      "away": "Stoke City",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Ipswich",
+      "away": "Oxford United",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Preston",
+      "away": "Sheff Wed",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "QPR",
+      "away": "Norwich",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Southampton",
+      "away": "Millwall",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Swansea",
+      "away": "West Brom",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Watford",
+      "away": "Birmingham",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Sheff Utd",
+      "away": "Leicester",
+      "date": "2026-01-01"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Birmingham",
+      "away": "Coventry",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "QPR",
+      "away": "Sheff Wed",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Blackburn",
+      "away": "Charlton",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Bristol City",
+      "away": "Preston",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Derby",
+      "away": "Wrexham",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Middlesbrough",
+      "away": "Southampton",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Millwall",
+      "away": "Swansea",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Norwich",
+      "away": "Stoke City",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Leicester",
+      "away": "West Brom",
+      "date": "2026-01-05"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Hull City",
+      "away": "Watford",
+      "date": "2026-02-03"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Sheff Utd",
+      "away": "Oxford United",
+      "date": "2026-02-03"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Portsmouth",
+      "away": "Ipswich",
+      "date": "2026-04-14"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "West Brom",
+      "away": "Middlesbrough",
+      "date": "2026-01-16"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Coventry",
+      "away": "Leicester",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Ipswich",
+      "away": "Blackburn",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Watford",
+      "away": "Millwall",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Charlton",
+      "away": "Sheff Utd",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Oxford United",
+      "away": "Bristol City",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Preston",
+      "away": "Derby",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Sheff Wed",
+      "away": "Portsmouth",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Southampton",
+      "away": "Hull City",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Stoke City",
+      "away": "QPR",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Swansea",
+      "away": "Birmingham",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Wrexham",
+      "away": "Norwich",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Coventry",
+      "away": "Millwall",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Ipswich",
+      "away": "Bristol City",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Oxford United",
+      "away": "QPR",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Preston",
+      "away": "Hull City",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Sheff Wed",
+      "away": "Birmingham",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Swansea",
+      "away": "Blackburn",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "West Brom",
+      "away": "Norwich",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Charlton",
+      "away": "Derby",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Wrexham",
+      "away": "Leicester",
+      "date": "2026-01-20"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Southampton",
+      "away": "Sheff Utd",
+      "date": "2026-01-21"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Watford",
+      "away": "Portsmouth",
+      "date": "2026-01-21"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Stoke City",
+      "away": "Middlesbrough",
+      "date": "2026-01-21"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Derby",
+      "away": "West Brom",
+      "date": "2026-01-23"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Millwall",
+      "away": "Charlton",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Birmingham",
+      "away": "Stoke City",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Blackburn",
+      "away": "Watford",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Bristol City",
+      "away": "Sheff Wed",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Hull City",
+      "away": "Swansea",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Leicester",
+      "away": "Oxford United",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Middlesbrough",
+      "away": "Preston",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "QPR",
+      "away": "Wrexham",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Sheff Utd",
+      "away": "Ipswich",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Portsmouth",
+      "away": "Southampton",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Norwich",
+      "away": "Coventry",
+      "date": "2026-01-26"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Bristol City",
+      "away": "Derby",
+      "date": "2026-01-30"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Leicester",
+      "away": "Charlton",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Sheff Wed",
+      "away": "Wrexham",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Stoke City",
+      "away": "Southampton",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Blackburn",
+      "away": "Hull City",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Ipswich",
+      "away": "Preston",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Middlesbrough",
+      "away": "Norwich",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Millwall",
+      "away": "Sheff Utd",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Oxford United",
+      "away": "Birmingham",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Portsmouth",
+      "away": "West Brom",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "QPR",
+      "away": "Coventry",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Watford",
+      "away": "Swansea",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Charlton",
+      "away": "QPR",
+      "date": "2026-02-06"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Derby",
+      "away": "Ipswich",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Norwich",
+      "away": "Blackburn",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Southampton",
+      "away": "Watford",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Birmingham",
+      "away": "Leicester",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Coventry",
+      "away": "Oxford United",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Hull City",
+      "away": "Bristol City",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Preston",
+      "away": "Portsmouth",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "West Brom",
+      "away": "Stoke City",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Wrexham",
+      "away": "Millwall",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Swansea",
+      "away": "Sheff Wed",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Sheff Utd",
+      "away": "Middlesbrough",
+      "date": "2026-02-09"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Leicester",
+      "away": "Southampton",
+      "date": "2026-02-10"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Oxford United",
+      "away": "Norwich",
+      "date": "2026-02-10"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Birmingham",
+      "away": "West Brom",
+      "date": "2026-02-10"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Charlton",
+      "away": "Stoke City",
+      "date": "2026-02-11"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Derby",
+      "away": "Swansea",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Portsmouth",
+      "away": "Sheff Utd",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Preston",
+      "away": "Watford",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "QPR",
+      "away": "Blackburn",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Sheff Wed",
+      "away": "Millwall",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Coventry",
+      "away": "Middlesbrough",
+      "date": "2026-02-16"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Bristol City",
+      "away": "Wrexham",
+      "date": "2026-02-17"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Ipswich",
+      "away": "Hull City",
+      "date": "2026-03-03"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Blackburn",
+      "away": "Preston",
+      "date": "2026-02-20"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Hull City",
+      "away": "QPR",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Stoke City",
+      "away": "Leicester",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Swansea",
+      "away": "Bristol City",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "West Brom",
+      "away": "Coventry",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Middlesbrough",
+      "away": "Oxford United",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Millwall",
+      "away": "Portsmouth",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Norwich",
+      "away": "Birmingham",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Southampton",
+      "away": "Charlton",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Watford",
+      "away": "Derby",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Wrexham",
+      "away": "Ipswich",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Sheff Utd",
+      "away": "Sheff Wed",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Hull City",
+      "away": "Derby",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Middlesbrough",
+      "away": "Leicester",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Swansea",
+      "away": "Preston",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Watford",
+      "away": "Ipswich",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "West Brom",
+      "away": "Charlton",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Wrexham",
+      "away": "Portsmouth",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Blackburn",
+      "away": "Bristol City",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Southampton",
+      "away": "QPR",
+      "date": "2026-02-24"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Millwall",
+      "away": "Birmingham",
+      "date": "2026-02-25"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Norwich",
+      "away": "Sheff Wed",
+      "date": "2026-02-25"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Sheff Utd",
+      "away": "Coventry",
+      "date": "2026-02-25"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Stoke City",
+      "away": "Oxford United",
+      "date": "2026-02-25"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Bristol City",
+      "away": "Watford",
+      "date": "2026-02-27"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Derby",
+      "away": "Blackburn",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Leicester",
+      "away": "Norwich",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Portsmouth",
+      "away": "Hull City",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Charlton",
+      "away": "Wrexham",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Coventry",
+      "away": "Stoke City",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Ipswich",
+      "away": "Swansea",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Oxford United",
+      "away": "West Brom",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Preston",
+      "away": "Millwall",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "QPR",
+      "away": "Sheff Utd",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Sheff Wed",
+      "away": "Southampton",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Birmingham",
+      "away": "Middlesbrough",
+      "date": "2026-03-02"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Preston",
+      "away": "Oxford United",
+      "date": "2026-03-06"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Blackburn",
+      "away": "Portsmouth",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Hull City",
+      "away": "Millwall",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Bristol City",
+      "away": "Coventry",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Charlton",
+      "away": "Birmingham",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Derby",
+      "away": "Sheff Wed",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Ipswich",
+      "away": "Leicester",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Sheff Utd",
+      "away": "West Brom",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Swansea",
+      "away": "Stoke City",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "QPR",
+      "away": "Middlesbrough",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Watford",
+      "away": "Wrexham",
+      "date": "2026-03-17"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Southampton",
+      "away": "Norwich",
+      "date": "2026-03-18"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Leicester",
+      "away": "Bristol City",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Millwall",
+      "away": "Derby",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Portsmouth",
+      "away": "Swansea",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Sheff Wed",
+      "away": "Watford",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Wrexham",
+      "away": "Hull City",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Stoke City",
+      "away": "Ipswich",
+      "date": "2026-03-10"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Birmingham",
+      "away": "QPR",
+      "date": "2026-03-11"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Norwich",
+      "away": "Sheff Utd",
+      "date": "2026-03-11"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Middlesbrough",
+      "away": "Charlton",
+      "date": "2026-03-11"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Oxford United",
+      "away": "Blackburn",
+      "date": "2026-03-11"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "West Brom",
+      "away": "Southampton",
+      "date": "2026-03-11"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Coventry",
+      "away": "Preston",
+      "date": "2026-03-11"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Wrexham",
+      "away": "Swansea",
+      "date": "2026-03-13"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Coventry",
+      "away": "Southampton",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Middlesbrough",
+      "away": "Bristol City",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Oxford United",
+      "away": "Charlton",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Birmingham",
+      "away": "Sheff Utd",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Leicester",
+      "away": "QPR",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Millwall",
+      "away": "Blackburn",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Norwich",
+      "away": "Preston",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Sheff Wed",
+      "away": "Ipswich",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Stoke City",
+      "away": "Watford",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "West Brom",
+      "away": "Hull City",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Portsmouth",
+      "away": "Derby",
+      "date": "2026-03-16"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Preston",
+      "away": "Stoke City",
+      "date": "2026-03-20"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Blackburn",
+      "away": "Middlesbrough",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Derby",
+      "away": "Birmingham",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Ipswich",
+      "away": "Millwall",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Bristol City",
+      "away": "West Brom",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Charlton",
+      "away": "Norwich",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Hull City",
+      "away": "Sheff Wed",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "QPR",
+      "away": "Portsmouth",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Sheff Utd",
+      "away": "Wrexham",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Southampton",
+      "away": "Oxford United",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Watford",
+      "away": "Leicester",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Swansea",
+      "away": "Coventry",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Middlesbrough",
+      "away": "Millwall",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Birmingham",
+      "away": "Blackburn",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Charlton",
+      "away": "Bristol City",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Leicester",
+      "away": "Preston",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Norwich",
+      "away": "Portsmouth",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Oxford United",
+      "away": "Hull City",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "QPR",
+      "away": "Watford",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Sheff Utd",
+      "away": "Swansea",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Stoke City",
+      "away": "Sheff Wed",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "West Brom",
+      "away": "Wrexham",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Coventry",
+      "away": "Derby",
+      "date": "2026-04-03"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Southampton",
+      "away": "Ipswich",
+      "date": "2026-04-28"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Portsmouth",
+      "away": "Oxford United",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Millwall",
+      "away": "Norwich",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Blackburn",
+      "away": "West Brom",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Bristol City",
+      "away": "Sheff Utd",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Derby",
+      "away": "Stoke City",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Ipswich",
+      "away": "Birmingham",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Preston",
+      "away": "QPR",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Sheff Wed",
+      "away": "Leicester",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Watford",
+      "away": "Charlton",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Swansea",
+      "away": "Middlesbrough",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Hull City",
+      "away": "Coventry",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Wrexham",
+      "away": "Southampton",
+      "date": "2026-04-07"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "West Brom",
+      "away": "Millwall",
+      "date": "2026-04-10"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Coventry",
+      "away": "Sheff Wed",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Norwich",
+      "away": "Ipswich",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "QPR",
+      "away": "Bristol City",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Charlton",
+      "away": "Preston",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Leicester",
+      "away": "Swansea",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Middlesbrough",
+      "away": "Portsmouth",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Oxford United",
+      "away": "Watford",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Sheff Utd",
+      "away": "Hull City",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Southampton",
+      "away": "Derby",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Stoke City",
+      "away": "Blackburn",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Birmingham",
+      "away": "Wrexham",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Blackburn",
+      "away": "Coventry",
+      "date": "2026-04-17"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Derby",
+      "away": "Oxford United",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Millwall",
+      "away": "QPR",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Portsmouth",
+      "away": "Leicester",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Bristol City",
+      "away": "Norwich",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Hull City",
+      "away": "Birmingham",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Preston",
+      "away": "West Brom",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Sheff Wed",
+      "away": "Charlton",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Swansea",
+      "away": "Southampton",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Watford",
+      "away": "Sheff Utd",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Wrexham",
+      "away": "Stoke City",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "43. Matchday",
+      "home": "Ipswich",
+      "away": "Middlesbrough",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Coventry",
+      "away": "Portsmouth",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Norwich",
+      "away": "Derby",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Oxford United",
+      "away": "Wrexham",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "QPR",
+      "away": "Swansea",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Southampton",
+      "away": "Bristol City",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Stoke City",
+      "away": "Millwall",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "West Brom",
+      "away": "Watford",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Leicester",
+      "away": "Hull City",
+      "date": "2026-04-21"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Middlesbrough",
+      "away": "Sheff Wed",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Birmingham",
+      "away": "Preston",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Charlton",
+      "away": "Ipswich",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "44. Matchday",
+      "home": "Sheff Utd",
+      "away": "Blackburn",
+      "date": "2026-04-22"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Southampton",
+      "away": "Blackburn",
+      "date": "2026-04-14"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Leicester",
+      "away": "Millwall",
+      "date": "2026-04-24"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Charlton",
+      "away": "Hull City",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Middlesbrough",
+      "away": "Watford",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "West Brom",
+      "away": "Ipswich",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Birmingham",
+      "away": "Bristol City",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Norwich",
+      "away": "Swansea",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Oxford United",
+      "away": "Sheff Wed",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "QPR",
+      "away": "Derby",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Sheff Utd",
+      "away": "Preston",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Stoke City",
+      "away": "Portsmouth",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "45. Matchday",
+      "home": "Coventry",
+      "away": "Wrexham",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Blackburn",
+      "away": "Leicester",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Bristol City",
+      "away": "Stoke City",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Derby",
+      "away": "Sheff Utd",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Hull City",
+      "away": "Norwich",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Ipswich",
+      "away": "QPR",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Millwall",
+      "away": "Oxford United",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Portsmouth",
+      "away": "Birmingham",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Preston",
+      "away": "Southampton",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Sheff Wed",
+      "away": "West Brom",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Swansea",
+      "away": "Charlton",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Watford",
+      "away": "Coventry",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "46. Matchday",
+      "home": "Wrexham",
+      "away": "Middlesbrough",
+      "date": "2026-05-02"
+    }
+  ]
+}

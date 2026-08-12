@@ -1,0 +1,2785 @@
+{
+  "competition": {
+    "id": "ES2",
+    "name": "ES2",
+    "league": "Espanola",
+    "type": "domestic_league",
+    "format": "round_robin",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "round": "1. Matchday",
+      "home": "Burgos CF",
+      "away": "CyD Leonesa",
+      "date": "2025-08-15"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Real Valladolid",
+      "away": "AD Ceuta",
+      "date": "2025-08-15"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Racing",
+      "away": "Castellón",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Málaga CF",
+      "away": "SD Eibar",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Granada CF",
+      "away": "Dep. La Coruña",
+      "date": "2025-08-16"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Real Zaragoza",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Cádiz CF",
+      "away": "CD Mirandés",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "UD Las Palmas",
+      "away": "FC Andorra",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "SD Huesca",
+      "away": "CD Leganés",
+      "date": "2025-08-17"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Córdoba CF",
+      "date": "2025-08-18"
+    },
+    {
+      "round": "1. Matchday",
+      "home": "UD Almería",
+      "away": "Albacete",
+      "date": "2025-08-18"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "SD Eibar",
+      "away": "Granada CF",
+      "date": "2025-08-22"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "CD Leganés",
+      "away": "Cádiz CF",
+      "date": "2025-08-22"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Castellón",
+      "away": "Real Valladolid",
+      "date": "2025-08-22"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "CD Mirandés",
+      "away": "SD Huesca",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "AD Ceuta",
+      "away": "Sporting Gijón",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Real Zaragoza",
+      "away": "FC Andorra",
+      "date": "2025-08-23"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Málaga CF",
+      "away": "Real Sociedad B",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Burgos CF",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "CyD Leonesa",
+      "away": "UD Almería",
+      "date": "2025-08-24"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Albacete",
+      "away": "Racing",
+      "date": "2025-08-25"
+    },
+    {
+      "round": "2. Matchday",
+      "home": "Córdoba CF",
+      "away": "UD Las Palmas",
+      "date": "2025-08-25"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Real Sociedad B",
+      "away": "UD Almería",
+      "date": "2025-08-29"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Sporting Gijón",
+      "away": "CyD Leonesa",
+      "date": "2025-08-29"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Racing",
+      "away": "AD Ceuta",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Real Valladolid",
+      "away": "Córdoba CF",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Castellón",
+      "away": "Real Zaragoza",
+      "date": "2025-08-30"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "FC Andorra",
+      "away": "Burgos CF",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Cádiz CF",
+      "away": "Albacete",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Málaga CF",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "Granada CF",
+      "away": "CD Mirandés",
+      "date": "2025-08-31"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "SD Huesca",
+      "away": "SD Eibar",
+      "date": "2025-09-01"
+    },
+    {
+      "round": "3. Matchday",
+      "home": "CD Leganés",
+      "away": "Dep. La Coruña",
+      "date": "2025-09-01"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Albacete",
+      "away": "CD Mirandés",
+      "date": "2025-09-05"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Córdoba CF",
+      "away": "Castellón",
+      "date": "2025-09-05"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Sporting Gijón",
+      "date": "2025-09-06"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Real Valladolid",
+      "date": "2025-09-06"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Málaga CF",
+      "away": "Granada CF",
+      "date": "2025-09-06"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "AD Ceuta",
+      "away": "SD Huesca",
+      "date": "2025-09-07"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Burgos CF",
+      "away": "UD Las Palmas",
+      "date": "2025-09-07"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Cádiz CF",
+      "date": "2025-09-07"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "CyD Leonesa",
+      "away": "CD Leganés",
+      "date": "2025-09-07"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "UD Almería",
+      "away": "Racing",
+      "date": "2025-09-07"
+    },
+    {
+      "round": "4. Matchday",
+      "home": "SD Eibar",
+      "away": "FC Andorra",
+      "date": "2025-09-08"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Real Sociedad B",
+      "date": "2025-09-12"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "CD Mirandés",
+      "away": "Dep. La Coruña",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Cádiz CF",
+      "away": "SD Eibar",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "SD Huesca",
+      "away": "Málaga CF",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Real Valladolid",
+      "away": "UD Almería",
+      "date": "2025-09-13"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "FC Andorra",
+      "away": "Córdoba CF",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Racing",
+      "away": "CyD Leonesa",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Burgos CF",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Castellón",
+      "away": "AD Ceuta",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Granada CF",
+      "away": "CD Leganés",
+      "date": "2025-09-14"
+    },
+    {
+      "round": "5. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Albacete",
+      "date": "2025-09-15"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "SD Huesca",
+      "date": "2025-09-19"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Castellón",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "CD Leganés",
+      "away": "UD Las Palmas",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "FC Andorra",
+      "away": "CD Mirandés",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "UD Almería",
+      "away": "Sporting Gijón",
+      "date": "2025-09-20"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "AD Ceuta",
+      "away": "Real Zaragoza",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Albacete",
+      "away": "Real Valladolid",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "SD Eibar",
+      "away": "Real Sociedad B",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Málaga CF",
+      "away": "Cádiz CF",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Córdoba CF",
+      "away": "Racing",
+      "date": "2025-09-21"
+    },
+    {
+      "round": "6. Matchday",
+      "home": "Burgos CF",
+      "away": "Granada CF",
+      "date": "2025-09-22"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "CD Mirandés",
+      "away": "Real Zaragoza",
+      "date": "2025-09-26"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "SD Eibar",
+      "away": "Dep. La Coruña",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Racing",
+      "away": "FC Andorra",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "UD Las Palmas",
+      "away": "UD Almería",
+      "date": "2025-09-27"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Córdoba CF",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Burgos CF",
+      "away": "Málaga CF",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Cádiz CF",
+      "away": "AD Ceuta",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Albacete",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "Real Valladolid",
+      "away": "CyD Leonesa",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "SD Huesca",
+      "away": "Granada CF",
+      "date": "2025-09-28"
+    },
+    {
+      "round": "7. Matchday",
+      "home": "CD Leganés",
+      "away": "Castellón",
+      "date": "2025-09-29"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "AD Ceuta",
+      "away": "SD Eibar",
+      "date": "2025-10-03"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "UD Almería",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "FC Andorra",
+      "away": "CD Leganés",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "SD Huesca",
+      "away": "Burgos CF",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Granada CF",
+      "away": "Real Sociedad B",
+      "date": "2025-10-04"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Córdoba CF",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Castellón",
+      "away": "Sporting Gijón",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Racing",
+      "away": "Málaga CF",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "Real Valladolid",
+      "away": "CD Mirandés",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Cádiz CF",
+      "date": "2025-10-05"
+    },
+    {
+      "round": "8. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Albacete",
+      "date": "2025-10-06"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Granada CF",
+      "away": "UD Las Palmas",
+      "date": "2025-10-10"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "CD Mirandés",
+      "away": "CD Leganés",
+      "date": "2025-10-11"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "UD Almería",
+      "away": "Real Zaragoza",
+      "date": "2025-10-11"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Real Sociedad B",
+      "away": "FC Andorra",
+      "date": "2025-10-11"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Albacete",
+      "away": "AD Ceuta",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "SD Eibar",
+      "away": "Castellón",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Racing",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Burgos CF",
+      "away": "Real Valladolid",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Cádiz CF",
+      "away": "SD Huesca",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Málaga CF",
+      "away": "Dep. La Coruña",
+      "date": "2025-10-12"
+    },
+    {
+      "round": "9. Matchday",
+      "home": "Córdoba CF",
+      "away": "CyD Leonesa",
+      "date": "2025-10-13"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "FC Andorra",
+      "away": "Granada CF",
+      "date": "2025-10-17"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "AD Ceuta",
+      "away": "CD Mirandés",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Real Zaragoza",
+      "away": "CyD Leonesa",
+      "date": "2025-10-18"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "CD Leganés",
+      "away": "Málaga CF",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Castellón",
+      "away": "Albacete",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Real Valladolid",
+      "away": "Sporting Gijón",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Racing",
+      "away": "Dep. La Coruña",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Córdoba CF",
+      "away": "UD Almería",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "UD Las Palmas",
+      "away": "SD Eibar",
+      "date": "2025-10-19"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Cádiz CF",
+      "away": "Burgos CF",
+      "date": "2025-10-20"
+    },
+    {
+      "round": "10. Matchday",
+      "home": "Real Sociedad B",
+      "away": "SD Huesca",
+      "date": "2025-11-05"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "SD Huesca",
+      "away": "UD Las Palmas",
+      "date": "2025-10-24"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "CyD Leonesa",
+      "away": "AD Ceuta",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Albacete",
+      "away": "Córdoba CF",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "SD Eibar",
+      "away": "CD Leganés",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Burgos CF",
+      "away": "Real Sociedad B",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Granada CF",
+      "away": "Cádiz CF",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "CD Mirandés",
+      "away": "Racing",
+      "date": "2025-10-25"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Málaga CF",
+      "away": "FC Andorra",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Real Zaragoza",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "UD Almería",
+      "away": "Castellón",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "11. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Real Valladolid",
+      "date": "2025-10-26"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Racing",
+      "away": "Real Sociedad B",
+      "date": "2025-10-31"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "CyD Leonesa",
+      "away": "CD Mirandés",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Albacete",
+      "away": "SD Huesca",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "CD Leganés",
+      "away": "Burgos CF",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "UD Almería",
+      "away": "SD Eibar",
+      "date": "2025-11-01"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "FC Andorra",
+      "away": "Cádiz CF",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Córdoba CF",
+      "away": "AD Ceuta",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Sporting Gijón",
+      "away": "UD Las Palmas",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Castellón",
+      "away": "Málaga CF",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Dep. La Coruña",
+      "date": "2025-11-02"
+    },
+    {
+      "round": "12. Matchday",
+      "home": "Real Valladolid",
+      "away": "Granada CF",
+      "date": "2025-11-03"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "CD Mirandés",
+      "away": "Sporting Gijón",
+      "date": "2025-11-07"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Real Sociedad B",
+      "away": "CD Leganés",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "SD Huesca",
+      "away": "FC Andorra",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "SD Eibar",
+      "away": "Albacete",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "CyD Leonesa",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Málaga CF",
+      "away": "Córdoba CF",
+      "date": "2025-11-08"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Racing",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Granada CF",
+      "away": "Real Zaragoza",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Cádiz CF",
+      "away": "Real Valladolid",
+      "date": "2025-11-09"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "Burgos CF",
+      "away": "Castellón",
+      "date": "2025-11-10"
+    },
+    {
+      "round": "13. Matchday",
+      "home": "AD Ceuta",
+      "away": "UD Almería",
+      "date": "2025-11-26"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Real Valladolid",
+      "away": "UD Las Palmas",
+      "date": "2025-11-14"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Albacete",
+      "away": "FC Andorra",
+      "date": "2025-11-15"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Castellón",
+      "away": "Real Sociedad B",
+      "date": "2025-11-15"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Racing",
+      "away": "Granada CF",
+      "date": "2025-11-15"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "AD Ceuta",
+      "away": "CD Leganés",
+      "date": "2025-11-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "UD Almería",
+      "away": "Cádiz CF",
+      "date": "2025-11-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Sporting Gijón",
+      "away": "SD Eibar",
+      "date": "2025-11-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Córdoba CF",
+      "away": "Dep. La Coruña",
+      "date": "2025-11-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "CD Mirandés",
+      "away": "Burgos CF",
+      "date": "2025-11-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "Real Zaragoza",
+      "away": "SD Huesca",
+      "date": "2025-11-16"
+    },
+    {
+      "round": "14. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Málaga CF",
+      "date": "2025-11-17"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Albacete",
+      "date": "2025-11-21"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "FC Andorra",
+      "away": "Castellón",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "CD Leganés",
+      "away": "UD Almería",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "SD Eibar",
+      "away": "Real Zaragoza",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Granada CF",
+      "away": "Córdoba CF",
+      "date": "2025-11-22"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "AD Ceuta",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Cádiz CF",
+      "away": "CyD Leonesa",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "SD Huesca",
+      "away": "Sporting Gijón",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Burgos CF",
+      "away": "Racing",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Málaga CF",
+      "away": "CD Mirandés",
+      "date": "2025-11-23"
+    },
+    {
+      "round": "15. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Real Valladolid",
+      "date": "2025-11-24"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Sporting Gijón",
+      "away": "FC Andorra",
+      "date": "2025-11-28"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "AD Ceuta",
+      "away": "Burgos CF",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Granada CF",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Albacete",
+      "away": "Dep. La Coruña",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "UD Almería",
+      "away": "SD Huesca",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Real Valladolid",
+      "away": "Málaga CF",
+      "date": "2025-11-29"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Real Zaragoza",
+      "away": "CD Leganés",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Racing",
+      "away": "SD Eibar",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "CD Mirandés",
+      "away": "Real Sociedad B",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Córdoba CF",
+      "away": "Cádiz CF",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "16. Matchday",
+      "home": "Castellón",
+      "away": "UD Las Palmas",
+      "date": "2025-11-30"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "FC Andorra",
+      "away": "UD Almería",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "SD Huesca",
+      "away": "Real Valladolid",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Sporting Gijón",
+      "date": "2025-12-06"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Cádiz CF",
+      "away": "Racing",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "CD Leganés",
+      "away": "Córdoba CF",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Castellón",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "SD Eibar",
+      "away": "CyD Leonesa",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Granada CF",
+      "away": "AD Ceuta",
+      "date": "2025-12-07"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Burgos CF",
+      "away": "Albacete",
+      "date": "2025-12-08"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "UD Las Palmas",
+      "away": "CD Mirandés",
+      "date": "2025-12-08"
+    },
+    {
+      "round": "17. Matchday",
+      "home": "Málaga CF",
+      "away": "Real Zaragoza",
+      "date": "2025-12-08"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "CyD Leonesa",
+      "away": "SD Huesca",
+      "date": "2025-12-12"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Córdoba CF",
+      "away": "SD Eibar",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Granada CF",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Real Valladolid",
+      "away": "FC Andorra",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Racing",
+      "away": "CD Leganés",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Real Sociedad B",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Cádiz CF",
+      "date": "2025-12-13"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Albacete",
+      "away": "Málaga CF",
+      "date": "2025-12-14"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "UD Almería",
+      "away": "Burgos CF",
+      "date": "2025-12-14"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "AD Ceuta",
+      "away": "UD Las Palmas",
+      "date": "2025-12-14"
+    },
+    {
+      "round": "18. Matchday",
+      "home": "Castellón",
+      "away": "CD Mirandés",
+      "date": "2025-12-15"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "SD Eibar",
+      "away": "Real Valladolid",
+      "date": "2025-12-19"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "FC Andorra",
+      "away": "Dep. La Coruña",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "SD Huesca",
+      "away": "Racing",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "CD Leganés",
+      "away": "Sporting Gijón",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "UD Las Palmas",
+      "away": "CyD Leonesa",
+      "date": "2025-12-20"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Málaga CF",
+      "away": "UD Almería",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Real Sociedad B",
+      "away": "AD Ceuta",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "CD Mirandés",
+      "away": "Córdoba CF",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Burgos CF",
+      "away": "Real Zaragoza",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Granada CF",
+      "away": "Albacete",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "19. Matchday",
+      "home": "Cádiz CF",
+      "away": "Castellón",
+      "date": "2025-12-21"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "SD Eibar",
+      "away": "CD Mirandés",
+      "date": "2026-01-02"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Real Sociedad B",
+      "date": "2026-01-03"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Castellón",
+      "away": "SD Huesca",
+      "date": "2026-01-03"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "UD Almería",
+      "away": "Granada CF",
+      "date": "2026-01-03"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Real Valladolid",
+      "away": "Racing",
+      "date": "2026-01-03"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Córdoba CF",
+      "away": "Burgos CF",
+      "date": "2026-01-03"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Málaga CF",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "AD Ceuta",
+      "away": "FC Andorra",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Real Zaragoza",
+      "away": "UD Las Palmas",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Albacete",
+      "away": "CD Leganés",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "20. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Cádiz CF",
+      "date": "2026-01-04"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Cádiz CF",
+      "away": "Sporting Gijón",
+      "date": "2026-01-09"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "CD Mirandés",
+      "away": "UD Almería",
+      "date": "2026-01-10"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Albacete",
+      "date": "2026-01-10"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "FC Andorra",
+      "away": "CyD Leonesa",
+      "date": "2026-01-10"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Dep. La Coruña",
+      "date": "2026-01-10"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Burgos CF",
+      "away": "SD Eibar",
+      "date": "2026-01-10"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Racing",
+      "away": "Real Zaragoza",
+      "date": "2026-01-10"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "CD Leganés",
+      "away": "Real Valladolid",
+      "date": "2026-01-11"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Granada CF",
+      "away": "Castellón",
+      "date": "2026-01-11"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "Málaga CF",
+      "away": "AD Ceuta",
+      "date": "2026-01-11"
+    },
+    {
+      "round": "21. Matchday",
+      "home": "SD Huesca",
+      "away": "Córdoba CF",
+      "date": "2026-01-12"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Castellón",
+      "away": "CD Leganés",
+      "date": "2026-01-16"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "AD Ceuta",
+      "away": "Real Valladolid",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Sporting Gijón",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Real Sociedad B",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "UD Almería",
+      "away": "Dep. La Coruña",
+      "date": "2026-01-17"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "CD Mirandés",
+      "away": "FC Andorra",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Racing",
+      "away": "UD Las Palmas",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Albacete",
+      "away": "Cádiz CF",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Burgos CF",
+      "away": "SD Huesca",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Córdoba CF",
+      "away": "Málaga CF",
+      "date": "2026-01-18"
+    },
+    {
+      "round": "22. Matchday",
+      "home": "Granada CF",
+      "away": "SD Eibar",
+      "date": "2026-01-19"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Málaga CF",
+      "away": "Burgos CF",
+      "date": "2026-01-23"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Real Valladolid",
+      "away": "Albacete",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "CD Leganés",
+      "away": "Real Sociedad B",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Córdoba CF",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Sporting Gijón",
+      "away": "CD Mirandés",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Cádiz CF",
+      "away": "Granada CF",
+      "date": "2026-01-24"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "FC Andorra",
+      "away": "SD Huesca",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "SD Eibar",
+      "away": "UD Almería",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Castellón",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Racing",
+      "date": "2026-01-25"
+    },
+    {
+      "round": "23. Matchday",
+      "home": "AD Ceuta",
+      "away": "CyD Leonesa",
+      "date": "2026-01-26"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Real Sociedad B",
+      "away": "UD Las Palmas",
+      "date": "2026-01-30"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Albacete",
+      "away": "Real Zaragoza",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Burgos CF",
+      "away": "CD Leganés",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Dep. La Coruña",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Córdoba CF",
+      "away": "Real Valladolid",
+      "date": "2026-01-31"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "UD Almería",
+      "away": "AD Ceuta",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "SD Eibar",
+      "away": "Sporting Gijón",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "SD Huesca",
+      "away": "Cádiz CF",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Castellón",
+      "away": "FC Andorra",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "Granada CF",
+      "away": "Racing",
+      "date": "2026-02-01"
+    },
+    {
+      "round": "24. Matchday",
+      "home": "CD Mirandés",
+      "away": "Málaga CF",
+      "date": "2026-02-02"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "CD Leganés",
+      "away": "Granada CF",
+      "date": "2026-02-06"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "FC Andorra",
+      "away": "Real Sociedad B",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Burgos CF",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Real Zaragoza",
+      "away": "SD Eibar",
+      "date": "2026-02-07"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Real Valladolid",
+      "away": "Castellón",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Cádiz CF",
+      "away": "UD Almería",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Albacete",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Sporting Gijón",
+      "away": "SD Huesca",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Málaga CF",
+      "away": "CyD Leonesa",
+      "date": "2026-02-08"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "Racing",
+      "away": "CD Mirandés",
+      "date": "2026-02-09"
+    },
+    {
+      "round": "25. Matchday",
+      "home": "AD Ceuta",
+      "away": "Córdoba CF",
+      "date": "2026-02-25"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "UD Almería",
+      "away": "FC Andorra",
+      "date": "2026-02-13"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Córdoba CF",
+      "away": "CD Leganés",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Burgos CF",
+      "away": "Cádiz CF",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Real Zaragoza",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Granada CF",
+      "away": "Real Valladolid",
+      "date": "2026-02-14"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "CD Mirandés",
+      "away": "UD Las Palmas",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "SD Eibar",
+      "away": "Racing",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "SD Huesca",
+      "away": "AD Ceuta",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Albacete",
+      "away": "Sporting Gijón",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Castellón",
+      "away": "Dep. La Coruña",
+      "date": "2026-02-15"
+    },
+    {
+      "round": "26. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Málaga CF",
+      "date": "2026-02-16"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "AD Ceuta",
+      "away": "Granada CF",
+      "date": "2026-02-20"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "CD Leganés",
+      "away": "CyD Leonesa",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "SD Eibar",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "SD Huesca",
+      "away": "CD Mirandés",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "UD Almería",
+      "away": "Córdoba CF",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Castellón",
+      "date": "2026-02-21"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Real Valladolid",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "FC Andorra",
+      "away": "Real Zaragoza",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Racing",
+      "away": "Burgos CF",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Málaga CF",
+      "away": "Albacete",
+      "date": "2026-02-22"
+    },
+    {
+      "round": "27. Matchday",
+      "home": "Cádiz CF",
+      "away": "Real Sociedad B",
+      "date": "2026-02-23"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Albacete",
+      "away": "UD Almería",
+      "date": "2026-02-27"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Burgos CF",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Granada CF",
+      "away": "Málaga CF",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Real Valladolid",
+      "away": "SD Huesca",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Castellón",
+      "away": "Racing",
+      "date": "2026-02-28"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Dep. La Coruña",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "CD Mirandés",
+      "away": "AD Ceuta",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "CyD Leonesa",
+      "away": "UD Las Palmas",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "SD Eibar",
+      "away": "Cádiz CF",
+      "date": "2026-03-01"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Sporting Gijón",
+      "away": "CD Leganés",
+      "date": "2026-03-02"
+    },
+    {
+      "round": "28. Matchday",
+      "home": "Córdoba CF",
+      "away": "FC Andorra",
+      "date": "2026-03-02"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Cádiz CF",
+      "away": "Real Zaragoza",
+      "date": "2026-03-06"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "SD Huesca",
+      "away": "Albacete",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Castellón",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Burgos CF",
+      "away": "CD Mirandés",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Málaga CF",
+      "away": "Real Valladolid",
+      "date": "2026-03-07"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "UD Las Palmas",
+      "away": "AD Ceuta",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "FC Andorra",
+      "away": "Sporting Gijón",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Racing",
+      "away": "Córdoba CF",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "CD Leganés",
+      "away": "SD Eibar",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Granada CF",
+      "date": "2026-03-08"
+    },
+    {
+      "round": "29. Matchday",
+      "home": "UD Almería",
+      "away": "CyD Leonesa",
+      "date": "2026-03-09"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "CD Mirandés",
+      "away": "Cádiz CF",
+      "date": "2026-03-13"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Racing",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Real Valladolid",
+      "away": "CD Leganés",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Real Zaragoza",
+      "away": "UD Almería",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "AD Ceuta",
+      "away": "Dep. La Coruña",
+      "date": "2026-03-14"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Córdoba CF",
+      "away": "Real Sociedad B",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Granada CF",
+      "away": "FC Andorra",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "SD Eibar",
+      "away": "Burgos CF",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Málaga CF",
+      "away": "SD Huesca",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Castellón",
+      "date": "2026-03-15"
+    },
+    {
+      "round": "30. Matchday",
+      "home": "Albacete",
+      "away": "UD Las Palmas",
+      "date": "2026-03-16"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "SD Huesca",
+      "away": "UD Almería",
+      "date": "2026-03-20"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "CD Leganés",
+      "away": "AD Ceuta",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "FC Andorra",
+      "away": "SD Eibar",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Racing",
+      "away": "Albacete",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Cádiz CF",
+      "away": "Málaga CF",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Real Zaragoza",
+      "date": "2026-03-21"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Burgos CF",
+      "away": "Córdoba CF",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Granada CF",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "CD Mirandés",
+      "away": "Real Valladolid",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Sporting Gijón",
+      "date": "2026-03-22"
+    },
+    {
+      "round": "31. Matchday",
+      "home": "Castellón",
+      "away": "CyD Leonesa",
+      "date": "2026-03-23"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Córdoba CF",
+      "away": "CD Mirandés",
+      "date": "2026-03-27"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "AD Ceuta",
+      "away": "Cádiz CF",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Granada CF",
+      "away": "SD Huesca",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Real Valladolid",
+      "away": "Burgos CF",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Málaga CF",
+      "away": "CD Leganés",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Albacete",
+      "away": "Castellón",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Dep. La Coruña",
+      "date": "2026-03-28"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "SD Eibar",
+      "away": "UD Las Palmas",
+      "date": "2026-03-29"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "CyD Leonesa",
+      "away": "FC Andorra",
+      "date": "2026-03-29"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Racing",
+      "date": "2026-03-29"
+    },
+    {
+      "round": "32. Matchday",
+      "home": "UD Almería",
+      "away": "Real Sociedad B",
+      "date": "2026-03-29"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "CD Mirandés",
+      "away": "Albacete",
+      "date": "2026-03-31"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Córdoba CF",
+      "date": "2026-03-31"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Real Valladolid",
+      "away": "Cádiz CF",
+      "date": "2026-03-31"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "FC Andorra",
+      "away": "Málaga CF",
+      "date": "2026-04-01"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Burgos CF",
+      "away": "AD Ceuta",
+      "date": "2026-04-01"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "SD Huesca",
+      "away": "CyD Leonesa",
+      "date": "2026-04-01"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Racing",
+      "away": "Sporting Gijón",
+      "date": "2026-04-01"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Granada CF",
+      "date": "2026-04-02"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Real Sociedad B",
+      "away": "SD Eibar",
+      "date": "2026-04-02"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "Castellón",
+      "away": "UD Almería",
+      "date": "2026-04-02"
+    },
+    {
+      "round": "33. Matchday",
+      "home": "CD Leganés",
+      "away": "Real Zaragoza",
+      "date": "2026-04-02"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Cádiz CF",
+      "away": "Córdoba CF",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Albacete",
+      "away": "Burgos CF",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "Málaga CF",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Real Valladolid",
+      "date": "2026-04-04"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "SD Eibar",
+      "away": "AD Ceuta",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "FC Andorra",
+      "away": "Racing",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "UD Las Palmas",
+      "away": "SD Huesca",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "UD Almería",
+      "away": "CD Leganés",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Real Zaragoza",
+      "away": "CD Mirandés",
+      "date": "2026-04-05"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Castellón",
+      "away": "Granada CF",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "34. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Real Sociedad B",
+      "date": "2026-04-06"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "AD Ceuta",
+      "away": "Real Sociedad B",
+      "date": "2026-04-10"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Burgos CF",
+      "away": "Sporting Gijón",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "CD Leganés",
+      "away": "Albacete",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Málaga CF",
+      "away": "UD Las Palmas",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Córdoba CF",
+      "away": "Real Zaragoza",
+      "date": "2026-04-11"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Granada CF",
+      "away": "CyD Leonesa",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "SD Huesca",
+      "away": "Dep. La Coruña",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Cádiz CF",
+      "away": "FC Andorra",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "CD Mirandés",
+      "away": "Castellón",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Racing",
+      "away": "UD Almería",
+      "date": "2026-04-12"
+    },
+    {
+      "round": "35. Matchday",
+      "home": "Real Valladolid",
+      "away": "SD Eibar",
+      "date": "2026-04-13"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Racing",
+      "date": "2026-04-17"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "UD Las Palmas",
+      "away": "CD Leganés",
+      "date": "2026-04-17"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Real Zaragoza",
+      "away": "AD Ceuta",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Castellón",
+      "away": "Burgos CF",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Córdoba CF",
+      "date": "2026-04-18"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "FC Andorra",
+      "away": "Real Valladolid",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Sporting Gijón",
+      "away": "Cádiz CF",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Albacete",
+      "away": "Granada CF",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "SD Eibar",
+      "away": "SD Huesca",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "UD Almería",
+      "away": "Málaga CF",
+      "date": "2026-04-19"
+    },
+    {
+      "round": "36. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "CD Mirandés",
+      "date": "2026-04-20"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Albacete",
+      "away": "SD Eibar",
+      "date": "2026-04-24"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Real Valladolid",
+      "away": "Real Sociedad B",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Burgos CF",
+      "away": "Dep. La Coruña",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Málaga CF",
+      "away": "Castellón",
+      "date": "2026-04-25"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Córdoba CF",
+      "away": "Sporting Gijón",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "CD Mirandés",
+      "away": "CyD Leonesa",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Granada CF",
+      "away": "UD Almería",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "SD Huesca",
+      "away": "Real Zaragoza",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "CD Leganés",
+      "away": "FC Andorra",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "AD Ceuta",
+      "away": "Racing",
+      "date": "2026-04-26"
+    },
+    {
+      "round": "37. Matchday",
+      "home": "Cádiz CF",
+      "away": "UD Las Palmas",
+      "date": "2026-04-27"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "FC Andorra",
+      "away": "Albacete",
+      "date": "2026-05-01"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "CD Leganés",
+      "date": "2026-05-01"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Granada CF",
+      "date": "2026-05-01"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Cádiz CF",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Castellón",
+      "away": "Córdoba CF",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "SD Eibar",
+      "away": "Málaga CF",
+      "date": "2026-05-02"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Racing",
+      "away": "SD Huesca",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Sporting Gijón",
+      "away": "AD Ceuta",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "Real Sociedad B",
+      "away": "Burgos CF",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Real Valladolid",
+      "date": "2026-05-03"
+    },
+    {
+      "round": "38. Matchday",
+      "home": "UD Almería",
+      "away": "CD Mirandés",
+      "date": "2026-05-04"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Cádiz CF",
+      "away": "Dep. La Coruña",
+      "date": "2026-05-08"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "AD Ceuta",
+      "away": "Castellón",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Burgos CF",
+      "away": "UD Almería",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Albacete",
+      "away": "CyD Leonesa",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Real Valladolid",
+      "away": "Real Zaragoza",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Málaga CF",
+      "away": "Sporting Gijón",
+      "date": "2026-05-09"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "FC Andorra",
+      "away": "UD Las Palmas",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "CD Leganés",
+      "away": "Racing",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "CD Mirandés",
+      "away": "SD Eibar",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "Córdoba CF",
+      "away": "Granada CF",
+      "date": "2026-05-10"
+    },
+    {
+      "round": "39. Matchday",
+      "home": "SD Huesca",
+      "away": "Real Sociedad B",
+      "date": "2026-05-11"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Castellón",
+      "away": "Cádiz CF",
+      "date": "2026-05-15"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Córdoba CF",
+      "away": "Albacete",
+      "date": "2026-05-15"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Real Sociedad B",
+      "away": "CD Mirandés",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "CyD Leonesa",
+      "away": "SD Eibar",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "AD Ceuta",
+      "away": "Málaga CF",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Granada CF",
+      "away": "Burgos CF",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Racing",
+      "away": "Real Valladolid",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "UD Almería",
+      "away": "UD Las Palmas",
+      "date": "2026-05-16"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "FC Andorra",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Sporting Gijón",
+      "date": "2026-05-17"
+    },
+    {
+      "round": "40. Matchday",
+      "home": "CD Leganés",
+      "away": "SD Huesca",
+      "date": "2026-05-18"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "FC Andorra",
+      "away": "AD Ceuta",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Albacete",
+      "away": "Real Sociedad B",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "UD Las Palmas",
+      "away": "Real Zaragoza",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Málaga CF",
+      "away": "Racing",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "CyD Leonesa",
+      "away": "Burgos CF",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "SD Huesca",
+      "away": "Castellón",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "SD Eibar",
+      "away": "Córdoba CF",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Real Valladolid",
+      "away": "Dep. La Coruña",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "CD Mirandés",
+      "away": "Granada CF",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Sporting Gijón",
+      "away": "UD Almería",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "41. Matchday",
+      "home": "Cádiz CF",
+      "away": "CD Leganés",
+      "date": "2026-05-24"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "AD Ceuta",
+      "away": "Albacete",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Real Sociedad B",
+      "away": "CyD Leonesa",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Granada CF",
+      "away": "Sporting Gijón",
+      "date": "2026-05-30"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Dep. La Coruña",
+      "away": "UD Las Palmas",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "UD Almería",
+      "away": "Real Valladolid",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Racing",
+      "away": "Cádiz CF",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Real Zaragoza",
+      "away": "Málaga CF",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Burgos CF",
+      "away": "FC Andorra",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Castellón",
+      "away": "SD Eibar",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "Córdoba CF",
+      "away": "SD Huesca",
+      "date": "2026-05-31"
+    },
+    {
+      "round": "42. Matchday",
+      "home": "CD Leganés",
+      "away": "CD Mirandés",
+      "date": "2026-05-31"
+    }
+  ]
+}
