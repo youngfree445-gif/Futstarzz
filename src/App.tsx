@@ -6,6 +6,7 @@ import {
   AGENTS_DATABASE, INVESTMENTS_DATABASE
 } from './data';
 import { applyClubTheme } from './clubTheme';
+import { limpiarTitulosFantasma } from './limpiarTitulos';
 import { refreshTransferOffersIfNeeded } from './transferMarket';
 import { clubesDeLiga, clubesJugables, esClubJugable, ligaTieneCalendario } from './clubesJugables';
 import { generateWorldRanking } from './worldRanking';
@@ -1158,12 +1159,24 @@ export default function App() {
         }
       };
     }
+    // Títulos que se anotaron por bugs ya corregidos. El palmarés se deriva del estado, así que los
+    // de liga se arreglaron solos; los de cupTitles están GUARDADOS y hay que sacarlos a mano. La
+    // regla es una: no se puede ganar un torneo en el que no se jugó ni un partido.
+    const limpieza = limpiarTitulosFantasma(profile);
+    profile = limpieza.perfil;
+
     // Aviso del cambio de balance del mercado, una sola vez por partida. Va antes de setPlayerProfile
     // para que el flag quede guardado junto con el resto de las migraciones y no vuelva a salir.
     const debeAvisarMercado = !profile.avisoMercadoNuevoVisto;
     if (debeAvisarMercado) profile = { ...profile, avisoMercadoNuevoVisto: true };
 
     setPlayerProfile(profile);
+    if (limpieza.quitados.length) {
+      // Se guarda enseguida: si no, el título vuelve a aparecer en la próxima carga.
+      saveGameState(profile, shopItems);
+      const cuales = limpieza.quitados.map(t => `${t.competition} ${t.year}`).join(', ');
+      notify(`🧹 Se quitaron ${limpieza.quitados.length} título${limpieza.quitados.length === 1 ? '' : 's'} de la vitrina que un error había anotado sin que los jugaras: ${cuales}. El resto de tu palmarés queda igual.`);
+    }
     if (debeAvisarMercado) {
       notify('📊 El mercado de pases cambió: ahora los clubes grandes exigen bastante más que los chicos, así que alguno que antes te seguía puede haber quedado lejos. Mirá "Quién te está mirando" en Traspasos para ver cuánto te falta.');
     }
