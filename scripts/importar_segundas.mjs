@@ -27,6 +27,10 @@ const FUENTES = [
   { archivo: 'es2_hypermotion.json',  id: 'es2', name: 'LaLiga Hypermotion', league: 'Española' },
   { archivo: 'l2_bundesliga2.json',   id: 'l2',  name: '2. Bundesliga',      league: 'Alemana' },
   { archivo: 'fr2_ligue2.json',       id: 'fr2', name: 'Ligue 2',            league: 'Francesa' },
+  // Holanda entra con las DOS: la Eredivisie del juego venía de otra temporada, así que ADO Den
+  // Haag, SC Cambuur y Willem II figuraban en Primera Y en la Eerste Divisie real. Bajando las dos
+  // de la misma fuente y el mismo año quedan coherentes entre sí.
+  { archivo: 'nl1_eredivisie.json',   id: 'ned1', name: 'Eredivisie',        league: 'Holandesa' },
   { archivo: 'nl2_eerste.json',       id: 'nl2', name: 'Eerste Divisie',     league: 'Holandesa' },
 ];
 
@@ -58,7 +62,12 @@ const ALIAS = {
     'Pr. Münster': 'Preußen Münster',
   },
   Francesa: {},
-  Holandesa: {},
+  Holandesa: {
+    'Ajax U21': 'Jong Ajax',
+    'PSV U21': 'Jong PSV',
+    'AZ Alkmaar U21': 'Jong AZ',
+    'Utrecht U21': 'Jong FC Utrecht',
+  },
 };
 
 const norm = s => (s || '')
@@ -161,8 +170,14 @@ async function main() {
     // descendieron -- y en el juego esos pueden seguir en Primera. Un club en las dos ligas juega
     // el doble de partidos de liga en la misma temporada. Pasó con la Serie B (Hellas Verona, Pisa
     // y Cremonese) y se detectó a mano; acá se detecta solo.
+    // La Primera contra la que se compara NO puede ser una que este mismo import va a reemplazar:
+    // Holanda entra con las dos divisiones a la vez, y comparando contra la Eredivisie vieja -- de
+    // otra temporada, con ADO Den Haag y Willem II en Primera -- la guardia se disparaba contra un
+    // dato que estaba por dejar de existir. Se mira primero lo ya construido en esta corrida.
     const enPrimera = new Set();
-    const primeraDelPais = existentes.find(c => c.kind === 'league' && c.league === f.league);
+    const aReemplazar = new Set(FUENTES.map(x => x.id));
+    const primeraDelPais = nuevas.find(c => c.kind === 'league' && c.league === f.league && c.id !== f.id)
+      ?? existentes.find(c => c.kind === 'league' && c.league === f.league && !aReemplazar.has(c.id));
     if (primeraDelPais) for (const m of primeraDelPais.matches) { enPrimera.add(m.home); enPrimera.add(m.away); }
     const solapan = [...new Set(mapa.values())].filter(n => enPrimera.has(n));
     if (solapan.length) {
