@@ -80,12 +80,29 @@ export function crearCopaNacional(
   year: number,
   allClubs: readonly Club[],
   divisionDe: (c: Club) => 1 | 2 = c => (c.division === 2 ? 2 : 1),
+  /**
+   * Clubes que arrancan el cuadro, si en vez de una edición desde cero hay que CONTINUAR una que
+   * ya venía jugándose.
+   *
+   * El caso es la temporada 1: el calendario real de una copa nacional trae sólo las rondas que ya
+   * estaban sorteadas al scrapear (el Santos tiene 4 fechas de Copa do Brasil y se acaban), así que
+   * al agotarse hay que seguir el torneo desde donde quedó. Sin esto la única opción era arrancar
+   * otra edición completa desde dieciseisavos, y el jugador terminaba disputando la misma copa dos
+   * veces en el mismo año.
+   *
+   * Se recorta a la potencia de dos más cercana hacia abajo, así el cuadro siempre cierra en una
+   * final y nadie recibe un pase libre inventado.
+   */
+  soloEstosClubes?: readonly string[],
 ): DomesticCupState {
   const delPais = allClubs.filter(c => c.league === league);
   // Los de Primera entran primero para que, al recortar, los que queden afuera sean de Segunda.
   const ordenados = [...delPais].sort((a, b) =>
     divisionDe(a) - divisionDe(b) || (b.reputation ?? 0) - (a.reputation ?? 0));
-  const entran = ordenados.slice(0, tamanoDelCuadro(ordenados.length)).map(c => c.id);
+  const base = soloEstosClubes
+    ? ordenados.filter(c => soloEstosClubes.includes(c.id))
+    : ordenados;
+  const entran = base.slice(0, tamanoDelCuadro(base.length)).map(c => c.id);
   const sorteados = sortear(entran, year);
 
   return {

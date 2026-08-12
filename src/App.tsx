@@ -2503,8 +2503,30 @@ export default function App() {
         const cupKey = myClubForCup ? `${myClubForCup.league}-${year}` : null;
         let cupCruce: ReturnType<typeof cruceActual> = null;
         if (myClubForCup && cupKey) {
+          // ¿Este año la copa nacional ya vino del calendario real? Entonces lo que hace falta es
+          // CONTINUARLA desde donde se agotaron sus fechas, no empezar otra edición: el jugador ya
+          // disputó rondas de verdad y arrancar de dieciseisavos le haría jugar la misma copa dos
+          // veces en el mismo año.
+          //
+          // Quiénes siguen: vos más los siete clubes más fuertes del país. El calendario real sólo
+          // dice cómo te fue a VOS -- de los demás no hay resultados -- así que el resto del cuadro
+          // se sortea, que es lo acordado: generar, pero con lógica. Ocho clubes cierran en cuartos,
+          // semis y final, sin pases libres inventados.
+          const nacionalVinoDelCalendario = usaFechasReales
+            && competitionsForClubInSeason(myClubForCup.name, year).some(c => c.kind === 'domestic_cup');
+          const clubesParaContinuar = nacionalVinoDelCalendario
+            ? [
+                myClubForCup.id,
+                ...CLUBS_DATABASE
+                  .filter(c => c.league === myClubForCup.league && c.id !== myClubForCup.id)
+                  .sort((a, b) => (b.reputation ?? 0) - (a.reputation ?? 0))
+                  .slice(0, 7)
+                  .map(c => c.id),
+              ]
+            : undefined;
+
           const cup = playerProfile.domesticCups?.[cupKey]
-            ?? crearCopaNacional(myClubForCup.league, year, CLUBS_DATABASE, divisionDeClub(playerProfile));
+            ?? crearCopaNacional(myClubForCup.league, year, CLUBS_DATABASE, divisionDeClub(playerProfile), clubesParaContinuar);
           if (!playerProfile.domesticCups?.[cupKey]) {
             setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cup } }));
           }
