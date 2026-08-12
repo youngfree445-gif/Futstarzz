@@ -2,7 +2,7 @@ import React from 'react';
 import { PlayerProfile, Club } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from '../data';
 import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
-import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
+import { anioDeCarrera } from '../dateSchedule';
 import { getLeagueDisplay } from '../leagueDisplay';
 import { outcomeOf } from '../matchPhoto';
 import MatchPhoto from './MatchPhoto';
@@ -180,7 +180,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
           <div className="flex justify-between items-center text-xs font-mono text-burgundy-500 font-bold tracking-widest mb-4">
             {/* Año y cobertura salían fijos ("2026", "Colombia-Brasil-Arg") aunque el jugador
                 estuviera en Europa y en la temporada 20 de su carrera. */}
-            <span>📰 EL DIARIO DEPORTIVO {CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1}</span>
+            <span>📰 EL DIARIO DEPORTIVO {anioDeCarrera(currentClub.name, playerProfile.currentWeek)}</span>
             <span className="truncate">Edición Semanal · {getLeagueDisplay(currentClub?.league, currentClub?.division).name}</span>
           </div>
 

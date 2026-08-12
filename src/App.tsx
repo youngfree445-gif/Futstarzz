@@ -13,14 +13,14 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, esDiaDeCopa, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, esDiaDeCopa, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
 import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
-  getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
+  getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
@@ -151,7 +151,9 @@ function syncBackgroundCups(
   cupos?: Pick<PlayerProfile, 'posicionesFinales' | 'campeonesContinentales'>
 ): { continentalCups: Record<string, any>; uefaCups: Record<string, any> } {
   const myClub = CLUBS_DATABASE.find(c => c.id === clubId);
-  const year = getSeasonYear(atWeek);
+  // La temporada sale del calendario del club, igual que en todos lados. Con getSeasonYear, un
+  // club de 65 fechas por año cambiaba de edición de copa a mitad de temporada.
+  const year = myClub ? temporadaDeCarrera(myClub.name, atWeek) : 1;
   const posiciones = cupos?.posicionesFinales;
   const campeones = {
     libertadores: cupos?.campeonesContinentales?.[`libertadores-${year - 1}`] ?? null,
@@ -339,11 +341,36 @@ const VETERAN_MODE_DECLINE_RATE = 3;
 const RETIREMENT_DECISION_AGE = 43;
 const RETIREMENT_MAX_AGE = 45;
 
+// --- LA TEMPORADA LA DICE EL CALENDARIO ---------------------------------------------------------
+//
+// Estas tres reemplazan a getSeasonYear, que calculaba la temporada como floor(paso / 52) + 1.
+// Ninguna temporada dura 52 pasos: el Junior juega 65 fechas en 2026 y un club europeo 34 en su
+// media temporada inicial. Pasada la 52, getSeasonYear decía "temporada 2" con el calendario
+// todavía en 2026, y de ese número cuelgan la clave de cada copa, el año de cada título y qué
+// edición estás jugando -- por eso la copa se reiniciaba a mitad de año con el jugador adentro.
+
+/** La temporada de carrera en la que cae ese paso, según el calendario del club del perfil. */
+function temporadaDe(profile: PlayerProfile, paso: number): number {
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  return club ? temporadaDeCarrera(club.name, paso) : 1;
+}
+
+/** El AÑO calendario de ese paso (2026, 2027...). */
+function anioDe(profile: PlayerProfile, paso: number): number {
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  return club ? anioDeCarrera(club.name, paso) : CAREER_START_YEAR;
+}
+
+/** ¿Entre estos dos pasos se cruzó a una temporada nueva? Es el disparador de todo lo anual. */
+function cambioDeTemporada(profile: PlayerProfile, previousWeek: number, newWeek: number): boolean {
+  return temporadaDe(profile, previousWeek) !== temporadaDe(profile, newWeek);
+}
+
 // Se llama una vez por cada semana que avanza la carrera; si esa semana cruza el límite de un
 // "año" (SEASON_LENGTH_WEEKS), el jugador cumple años y, si ya es veterano, sufre un pequeño
 // declive físico automático que el entrenamiento normal ya no alcanza a compensar del todo.
 function applyAgingIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
 
   const newAge = profile.age + 1;
   // Un save viejo con startedAsVeteran undefined SIEMPRE cae acá, en la curva normal -- nunca en
@@ -373,7 +400,7 @@ const COACH_CHANGE_CHANCE_PER_SEASON = 0.25;
 const COACH_CHANGE_PRESTIGE_MULTIPLIER = 0.94;
 
 function applyCoachChangeIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   if (Math.random() >= COACH_CHANGE_CHANCE_PER_SEASON) return profile;
   return { ...profile, prestige: Math.round(profile.prestige * COACH_CHANGE_PRESTIGE_MULTIPLIER) };
 }
@@ -390,7 +417,7 @@ const SOPHOMORE_SLUMP_PRESTIGE_PENALTY = 5;
 const SOPHOMORE_SLUMP_FANS_PENALTY = 6;
 
 function applyBreakoutSeasonIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
 
   let next = profile;
   if (profile.hadBreakoutSeason) {
@@ -404,7 +431,7 @@ function applyBreakoutSeasonIfNewSeason(profile: PlayerProfile, previousWeek: nu
     }
   }
 
-  const endedSeasonYear = getSeasonYear(previousWeek);
+  const endedSeasonYear = temporadaDe(profile, previousWeek);
   const endedSeasonContribution = profile.seasonHistory
     .filter(s => s.seasonNum === endedSeasonYear)
     .reduce((sum, s) => sum + s.goles + s.asistencias, 0);
@@ -425,7 +452,7 @@ const NORMAL_TRAINING_GAIN = 3;
 const COMFORT_ZONE_TRAINING_GAIN = 1;
 
 function applyYearsAtClubIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   return { ...profile, yearsAtClub: profile.yearsAtClub + 1 };
 }
 
@@ -472,7 +499,7 @@ export function ajustePorEntorno(entorno: number, cambioAnimico: number): number
 }
 
 function applyEntornoIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   const actual = profile.entorno ?? ENTORNO_INICIAL;
   const desgaste = profile.matchesWithoutRest >= ENTORNO_PARTIDOS_SEGUIDOS_DUROS
     ? ENTORNO_DESGASTE_POR_TEMPORADA * 2
@@ -487,7 +514,7 @@ const MENTOR_COMPANEROS = 2;
 const MENTOR_DEFEAT_CUSHION = 0.6;
 
 function applyMentorFigureIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   if (!profile.mentorName) return profile;
 
   // La edad del perfil ya la subió applyAgingIfNewSeason antes de llegar acá.
@@ -505,7 +532,7 @@ function applyMentorFigureIfNewSeason(profile: PlayerProfile, previousWeek: numb
 }
 
 function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   if (!profile.mentorshipPlayerName) return profile;
 
   const roll = Math.random();
@@ -517,7 +544,7 @@ function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number
 
   // El ahijado también cumple años: pasado el límite se "gradúa" y deja de serlo, o seguirías
   // apadrinando al mismo jugador cuando ya tiene 30. El roll de esta temporada igual se aplica.
-  const seguiaSiendoJoven = getSquadPlayerAge(profile.currentClubId, profile.mentorshipPlayerName, getSeasonYear(newWeek) - CAREER_START_YEAR) < MENTEE_MAX_AGE;
+  const seguiaSiendoJoven = getSquadPlayerAge(profile.currentClubId, profile.mentorshipPlayerName, temporadaDe(profile, newWeek) - CAREER_START_YEAR) < MENTEE_MAX_AGE;
 
   // La mentoría es un vínculo con un compañero de plantel, no con el cuerpo técnico -- golpea la
   // barra de compañeros, no la de prestige (DT).
@@ -537,7 +564,7 @@ function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number
 // grandes es lo que termina de romper la relación. El golpe puntual ya se aplicó partido a partido
 // (ver pendingCountryDutyCost); esto es el saldo acumulado que se cobra al cerrar la temporada.
 function applyCountryDutyToll(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(newWeek) === getSeasonYear(previousWeek)) return profile;
+  if (temporadaDe(profile, newWeek) === temporadaDe(profile, previousWeek)) return profile;
   const penalty = seasonEndPrestigePenalty(profile.missedClubMatchesForCountry);
   return {
     ...profile,
@@ -551,7 +578,7 @@ function applyCountryDutyToll(profile: PlayerProfile, previousWeek: number, newW
 // para colgar los botines, y al que se va lo reemplaza un canterano generado. Sin esto los
 // planteles quedan congelados para siempre. Ver worldRetirements.ts para la curva de edades.
 function applyWorldRetirementsIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
 
   // Los retiros previos ya están aplicados, así que se le pasan los planteles YA renovados: un
   // canterano de 18 que subió la temporada pasada no puede retirarse en la siguiente.
@@ -563,7 +590,7 @@ function applyWorldRetirementsIfNewSeason(profile: PlayerProfile, previousWeek: 
     starPlayers: applySquadRetirements(c.id, c.starPlayers, previos),
   }));
 
-  const { events, replacements } = resolveWorldRetirements(clubs, getSeasonYear(newWeek));
+  const { events, replacements } = resolveWorldRetirements(clubs, temporadaDe(profile, newWeek));
   if (events.length === 0) return { ...profile, lastRetirementNews: [] };
 
   // Se fusiona con lo que ya había: cada club acumula sus retiros de todas las temporadas.
@@ -588,7 +615,7 @@ function applyWorldRetirementsIfNewSeason(profile: PlayerProfile, previousWeek: 
 // porque sale del gf/pj de la tabla), así que sin esto no quedaría rastro de quién fue goleador
 // en los años anteriores de la carrera.
 function freezeSeasonLeadersIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   const history = profile.seasonHistory ?? [];
   const last = history[history.length - 1];
   if (!last || last.leagueTopScorer) return profile; // sin temporada que cerrar, o ya congelada
@@ -636,9 +663,9 @@ function divisionDeClub(profile: PlayerProfile): (c: Club) => 1 | 2 {
 function applyPromotionRelegationIfNewSeason(
   profile: PlayerProfile, previousWeek: number, newWeek: number,
 ): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
 
-  const anioCerrado = getSeasonYear(previousWeek);
+  const anioCerrado = temporadaDe(profile, previousWeek);
   const divisionDe = (c: Club): 1 | 2 =>
     (profile.divisionOverrides?.[c.id] ?? (c.division === 2 ? 2 : 1));
 
@@ -756,7 +783,7 @@ function applyPromotionRelegationIfNewSeason(
 const BALLON_DOR_MIN_MATCHES = 20; // sin trayectoria mínima ese año, no hay ceremonia que narrar
 
 function applyBallonDorIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  if (getSeasonYear(previousWeek) === getSeasonYear(newWeek)) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   if (profile.careerStats.partidosHistoricos < BALLON_DOR_MIN_MATCHES) return profile;
 
   const myClubName = CLUBS_DATABASE.find(c => c.id === profile.currentClubId)?.name ?? '';
@@ -765,7 +792,7 @@ function applyBallonDorIfNewSeason(profile: PlayerProfile, previousWeek: number,
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const winner = ranking.find(e => !e.isPlayer) ?? ranking[0];
 
-  const anioCerrado = CAREER_START_YEAR + getSeasonYear(previousWeek) - 1;
+  const anioCerrado = anioDe(profile, previousWeek);
   const entry = { year: anioCerrado, rank, winnerName: rank === 1 ? profile.name : winner.name };
   return { ...profile, ballonDorHistory: [...(profile.ballonDorHistory ?? []), entry] };
 }
@@ -1076,7 +1103,7 @@ export default function App() {
     // "joven promesa" en Junior) y ese valor sobrevivía para siempre a cualquier arreglo posterior.
     // Acá se vuelve a chequear contra la edad actual y se limpia si ya no corresponde.
     if (profile.mentorshipPlayerName) {
-      const edad = getSquadPlayerAge(profile.currentClubId, profile.mentorshipPlayerName, getSeasonYear(profile.currentWeek) - CAREER_START_YEAR);
+      const edad = getSquadPlayerAge(profile.currentClubId, profile.mentorshipPlayerName, temporadaDe(profile, profile.currentWeek) - CAREER_START_YEAR);
       if (edad > MENTEE_MAX_AGE) {
         profile = { ...profile, mentorshipPlayerName: null };
       }
@@ -1094,7 +1121,7 @@ export default function App() {
     // -- getSquadPlayerAge se pregunta contra el club ACTUAL, así que un veterano del club anterior
     // no sobrevive al cambio.
     if (profile.mentorName) {
-      const edadMentor = getSquadPlayerAge(profile.currentClubId, profile.mentorName, getSeasonYear(profile.currentWeek) - CAREER_START_YEAR);
+      const edadMentor = getSquadPlayerAge(profile.currentClubId, profile.mentorName, temporadaDe(profile, profile.currentWeek) - CAREER_START_YEAR);
       if (edadMentor < MENTOR_MIN_AGE || !puedeTenerMentor(profile.age)) {
         profile = { ...profile, mentorName: null };
       }
@@ -1222,7 +1249,7 @@ export default function App() {
     if (!playerProfile) return;
     // Última barrera: la UI ya filtra por edad, pero esto garantiza que ningún camino (un save
     // manipulado, un plantel que cambió entre render y click) pueda dejar a un veterano de ahijado.
-    if (playerName && getSquadPlayerAge(playerProfile.currentClubId, playerName, getSeasonYear(playerProfile.currentWeek) - CAREER_START_YEAR) > MENTEE_MAX_AGE) {
+    if (playerName && getSquadPlayerAge(playerProfile.currentClubId, playerName, temporadaDe(playerProfile, playerProfile.currentWeek) - CAREER_START_YEAR) > MENTEE_MAX_AGE) {
       notify('Ese jugador ya no es un juvenil: la mentoría es solo para promesas del plantel.');
       return;
     }
@@ -1241,7 +1268,7 @@ export default function App() {
       notify(`Ya pasaste los ${MENTEE_SELF_MAX_AGE}: a esta altura de la carrera el que apadrina sos vos.`);
       return;
     }
-    if (playerName && getSquadPlayerAge(playerProfile.currentClubId, playerName, getSeasonYear(playerProfile.currentWeek) - CAREER_START_YEAR) < MENTOR_MIN_AGE) {
+    if (playerName && getSquadPlayerAge(playerProfile.currentClubId, playerName, temporadaDe(playerProfile, playerProfile.currentWeek) - CAREER_START_YEAR) < MENTOR_MIN_AGE) {
       notify('Ese compañero no tiene la trayectoria para ser tu referente: buscá a un veterano del plantel.');
       return;
     }
@@ -1963,7 +1990,7 @@ export default function App() {
     saveGameState(aged, shopItems);
     setNewSeasonInfo({
       clubName: myClub.name,
-      year: CAREER_START_YEAR + getSeasonYear(nextWeek) - 1,
+      year: anioDeCarrera(myClub.name, nextWeek),
       badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
     });
   };
@@ -2171,7 +2198,7 @@ export default function App() {
       // La pregunta es por la temporada EN CURSO, no por todas juntas: desde la 2 el calendario ya
       // no trae copas, así que preguntarle al histórico responde "sí, la cubre" por lo que hubo en
       // la 1 y el club se quedaría sin copa para siempre.
-      const temporadaActual = getSeasonYear(playerProfile.currentWeek);
+      const temporadaActual = temporadaDe(playerProfile, playerProfile.currentWeek);
       const laCubreElCalendario = (re: RegExp) =>
         usaFechasReales && competitionsForClubInSeason(myClub.name, temporadaActual).some(c => re.test(c.name));
 
@@ -2216,7 +2243,7 @@ export default function App() {
     let foundWorldCupTeamId: string | null = null;
 
     if (inWorldCupBreak) {
-      const year = getSeasonYear(playerProfile.currentWeek);
+      const year = temporadaDe(playerProfile, playerProfile.currentWeek);
       const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
       const isEligible = !!wcTeamId
         && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
@@ -2362,7 +2389,7 @@ export default function App() {
       //
       // Lo que sigue sin poder pasar es que las dos fuentes se peleen el turno: la rama de arriba
       // atiende primero y sólo se llega acá si el calendario NO trajo un partido de copa hoy.
-      const year = getSeasonYear(playerProfile.currentWeek);
+      const year = temporadaDe(playerProfile, playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
 
       const cupCampeones = {
@@ -3279,7 +3306,7 @@ export default function App() {
       // la temporada del calendario, no el contador de 52 semanas. Si las dos no coinciden, el
       // resultado se guarda en una edición distinta de la que se jugó y el cuadro no avanza nunca.
       const temporadaDeCopa = temporadaDelPaso(myClub.name, playerProfile.currentWeek)?.temporada
-        ?? getSeasonYear(playerProfile.currentWeek);
+        ?? temporadaDe(playerProfile, playerProfile.currentWeek);
       const cupKey = `${myClub.league}-${temporadaDeCopa}`;
       const cup = playerProfile.domesticCups?.[cupKey];
       if (!cup || cup.championId) return;
@@ -3397,7 +3424,7 @@ export default function App() {
             : resolvedSeason.knockout?.matchesByRound[resolvedSeason.knockout.matchesByRound.length - 1];
           const anioPlayoff = hoyJuegoLigaPorCalendario && pasoHoy
             ? Number(pasoHoy.date.slice(0, 4))
-            : CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+            : anioDe(playerProfile, playerProfile.currentWeek);
           setSeasonEndInfo({
             competition: getLeagueDisplay(myClub.league, myClub.division).name,
             clubName: myClub.name,
@@ -3434,7 +3461,7 @@ export default function App() {
         const formato = isApeturaClausuraLeague(myClub.league);
         const anio = hoyJuegoLigaPorCalendario
           ? Number(pasoHoy!.date.slice(0, 4))
-          : CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+          : anioDe(playerProfile, playerProfile.currentWeek);
         const semestreReal = hoyJuegoLigaPorCalendario
           ? torneoDelClubEnFecha(myClub.name, pasoHoy!.date)
           : null;
@@ -3509,7 +3536,7 @@ export default function App() {
 
     let updatedContinentalCups = playerProfile.continentalCups;
     if (isCopaLibertadores && activeCupId && activeOppositionClubId) {
-      const year = getSeasonYear(playerProfile.currentWeek);
+      const year = temporadaDe(playerProfile, playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const cupKey = `${activeCupId}-${year}`;
       // Mismo myClub.id que al armar el partido. Si acá se omite, este estado "antes del partido"
@@ -3587,7 +3614,7 @@ export default function App() {
 
     let updatedWorldCups = playerProfile.worldCups;
     if (isCopaLibertadores && activeWorldCupTeamId && activeOppositionClubId) {
-      const year = getSeasonYear(playerProfile.currentWeek);
+      const year = temporadaDe(playerProfile, playerProfile.currentWeek);
       const wcBeforeMatch = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek);
       const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, WORLD_CUP_TEAMS_DATABASE, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedWorldCup.knockout, activeWorldCupTeamId, activeOppositionClubId);
@@ -3744,7 +3771,7 @@ export default function App() {
       ? playerProfile.seasonHistory
       : recordSeasonHistory(
           playerProfile.seasonHistory,
-          getSeasonYear(playerProfile.currentWeek),
+          temporadaDe(playerProfile, playerProfile.currentWeek),
           playerProfile.currentClubId,
           CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.name || '',
           results.goles,

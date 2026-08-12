@@ -5,7 +5,7 @@ import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
-import { CAREER_START_YEAR, getSeasonYear } from '../leagueEngine';
+import { anioDeCarrera } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -1466,7 +1466,7 @@ export default function MatchSimulator({
   // Año de la temporada en curso, calculado desde la semana real de la carrera. Antes estaba
   // hardcodeado "2026" en el encabezado y en el relato del partido, así que en la temporada 20 de
   // una carrera larga el partido seguía anunciándose como 2026.
-  const seasonYear = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+  const seasonYear = anioDeCarrera(currentClub.name, playerProfile.currentWeek);
 
   // En Colombia y Argentina el año tiene DOS ligas -- Apertura y Clausura -- cada una con su propio
   // campeón. El rótulo decía solo "Primera División Dimayor", así que en pantalla no había forma de

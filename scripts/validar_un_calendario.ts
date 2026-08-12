@@ -14,7 +14,7 @@
 
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
 import { clubesDeLiga, clubesJugables, esClubJugable, ligaTieneCalendario } from '../src/clubesJugables';
-import { fixturesForClub } from '../src/dateSchedule';
+import { fixturesForClub, temporadaDeCarrera, temporadaDelPaso } from '../src/dateSchedule';
 import { leagueKeyFor } from '../src/leagueEngine';
 import { reglasDeLiga } from '../src/promocionDescenso';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -94,6 +94,30 @@ for (const c of jugables) {
 console.log(`   sin partidos de liga: ${sinPartidos}`);
 console.log(`   con menos de 10 fechas en la temporada 1: ${flacos}  (la carrera arranca el 12 de enero: en Europa es media temporada)`);
 
+// --- D2) La temporada avanza de a una y sólo en el borde ---
+//
+// Es la red de seguridad del reemplazo de getSeasonYear. De ese número cuelgan el año de cada
+// título, la clave de cada torneo y qué edición de copa jugás, y sobre todo el disparador de TODO
+// lo anual: envejecer, retiros, Balón de Oro, ascensos. Si saltara de a dos, una temporada entera
+// no ocurriría; si retrocediera, se repetiría.
+console.log('\n=== D2) La temporada de carrera es monótona ===');
+let saltos = 0;
+for (const c of jugables.slice(0, 60)) {
+  let previa = 1;
+  let cambios = 0;
+  for (let paso = 1; paso <= 200; paso++) {
+    const t = temporadaDelPaso(c.name, paso);
+    if (!t) break;
+    const ahora = temporadaDeCarrera(c.name, paso);
+    if (ahora < previa) { fallo(`${c.name}: la temporada RETROCEDE de ${previa} a ${ahora} en el paso ${paso}`); saltos++; }
+    else if (ahora > previa + 1) { fallo(`${c.name}: la temporada SALTA de ${previa} a ${ahora} en el paso ${paso}`); saltos++; }
+    if (ahora !== previa) cambios++;
+    previa = ahora;
+  }
+  if (cambios === 0) { fallo(`${c.name}: la temporada NUNCA cambia en 200 pasos`); saltos++; }
+}
+console.log(`   ${saltos === 0 ? '60 clubes revisados, sin saltos ni retrocesos.' : `${saltos} problemas`}`);
+
 // --- E) El reloj de semanas: cuánto queda por sacar ---
 //
 // TRINQUETE. El objetivo final es que estas funciones no existan: mientras existan, existen dos
@@ -111,7 +135,7 @@ const TECHOS: Record<string, number> = {
   'getRealDate': 0,            // BORRADA -> fechaDelPaso(club, paso)           (era 27)
   'cupWeeksElapsed': 0,        // BORRADA -> fechasDeCopaTranscurridas(...)     (era 4)
   'isWorldCupBreakWeek': 10,   // -> una ventana de FECHAS
-  'getSeasonYear': 62,         // -> temporadaDelPaso(club, paso).temporada
+  'getSeasonYear': 3,          // -> temporadaDeCarrera(club, paso)              (era 62)
 };
 
 /**

@@ -12,7 +12,7 @@
 // tantos partidos como tenga en la realidad.
 
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
-import { CAREER_START_YEAR, getSeasonYear } from './leagueEngine';
+import { CAREER_START_YEAR } from './leagueEngine';
 import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada } from './seasonCalendar';
 // copaNacional sólo importa ./types, así que no hay ciclo posible en esta dirección.
 import { nombreCopaNacional } from './copaNacional';
@@ -418,6 +418,27 @@ function elegirDias(desde: number, hasta: number, vetados: Set<number>, cuantas:
 
 const esCopaConCuadro = (comp: DatedCompetition) =>
   comp.kind === 'domestic_cup' && usaCuadroDelMotor(comp);
+
+/**
+ * En qué temporada de carrera está el club en este paso. 1 = la primera.
+ *
+ * Reemplaza a getSeasonYear, que lo calculaba como floor(paso / 52) + 1. Esa cuenta asume que toda
+ * temporada dura 52 pasos y ninguna los dura: el Junior juega 65 fechas en 2026 y el Barcelona 34
+ * en su media temporada inicial. Pasada la 52, getSeasonYear decía "temporada 2" mientras el
+ * calendario seguía en 2026 -- y como de ese número cuelgan la clave de cada copa, el año de cada
+ * título y qué edición jugás, la copa se reiniciaba a mitad de año con el jugador adentro.
+ *
+ * Agotado el calendario (más allá de MAX_TEMPORADAS) devuelve la última: a esa altura la carrera
+ * terminó hace décadas y lo único que importa es que el número no siga creciendo solo.
+ */
+export function temporadaDeCarrera(clubName: string, paso: number): number {
+  return temporadaDelPaso(clubName, paso)?.temporada ?? MAX_TEMPORADAS;
+}
+
+/** El AÑO calendario de ese paso (2026, 2027...), sacado de la fecha del partido. */
+export function anioDeCarrera(clubName: string, paso: number): number {
+  return anioDelPaso(clubName, paso) ?? CAREER_START_YEAR + temporadaDeCarrera(clubName, paso) - 1;
+}
 
 /**
  * La fecha del paso, o la ÚLTIMA que el club tenga si el calendario ya se agotó.

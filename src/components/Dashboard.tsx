@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { anioDelPaso, calendarioDeLigaAgotado, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
+import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -16,7 +16,7 @@ import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelPartido } from '../chutSocialVoces';
 import {
-  leagueKeyFor, sortTable, getSeasonYear, isWorldCupBreakWeek,
+  leagueKeyFor, sortTable, isWorldCupBreakWeek,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
   isClubStillInCup, isClubStillInUefaCup,
@@ -96,8 +96,17 @@ function resultFromScore(myGoals: number, rivalGoals: number): 'V' | 'E' | 'D' {
 // que la mentoría seguía ofreciendo como promesa.
 const getMenteeAge = getSquadPlayerAge;
 
-/** Temporadas transcurridas desde el inicio de la carrera, para envejecer al mundo. */
-const seasonsElapsed = (week: number) => Math.max(0, getSeasonYear(week) - CAREER_START_YEAR);
+/**
+ * Temporadas transcurridas desde el inicio de la carrera, para envejecer al mundo.
+ *
+ * Ojo: esto estaba MAL y devolvía siempre 0. Decía `getSeasonYear(week) - CAREER_START_YEAR`, o
+ * sea "1 menos 2026" -- una temporada (1, 2, 3...) restándole un año (2026), dos magnitudes que no
+ * se pueden restar. Con el máximo contra 0, el resultado era 0 siempre, así que los compañeros de
+ * plantel no envejecían nunca para la mentoría: uno de 30 seguía leyéndose 30 cinco temporadas
+ * después. Salió a la luz al sacar getSeasonYear.
+ */
+const seasonsElapsed = (clubName: string, paso: number) =>
+  Math.max(0, temporadaDeCarrera(clubName, paso) - 1);
 
 // Ligas que dominan la conversación en ChutSocial. Son las que un hincha real sigue a diario, así
 // que el feed tiene que sonar a ellas: sin esto, de los 706 clubes con plantel solo el 43% es de
@@ -517,7 +526,7 @@ export default function Dashboard({
     const season = playerProfile.leagueSeasons[selectedLeagueKey];
     if (!season) return null;
     const nombre = season.semester === 2 ? 'Clausura' : 'Apertura';
-    const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+    const anio = anioDeCarrera(currentClub.name, playerProfile.currentWeek);
     // En playoffs se nombra la RONDA concreta ("Semifinal", "Final"), no un "Playoffs" genérico:
     // el jugador llegaba a la final del Apertura sin que nada le dijera en qué instancia estaba.
     // La ronda se deriva de cuántas llaves quedan vivas (ver roundLabelByMatchCount).
@@ -539,12 +548,12 @@ export default function Dashboard({
   // (arrancás viendo a Muriel goleador, como en la vida real). De la segunda en adelante manda
   // lo que pasó en TU carrera, o el panel se quedaría congelado en 2026 para siempre mostrando
   // goleadores que ya se retiraron.
-  const isFirstSeason = getSeasonYear(playerProfile.currentWeek) === CAREER_START_YEAR;
+  const isFirstSeason = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek) === CAREER_START_YEAR;
   const selectedLeagueLeaders = (isFirstSeason ? REAL_LEAGUE_LEADERS[selectedLeagueName] : undefined)
     ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable, playerProfile.retiredWorldPlayers);
 
   // Copa continental real que le corresponde al club actual (si clasifica a alguna).
-  const cupYear = getSeasonYear(playerProfile.currentWeek);
+  const cupYear = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
   // Los cupos de la temporada 2 en adelante salen de la tabla del año anterior y de los campeones
   // vigentes; hay que pasarlos también acá o esta pantalla mostraría una copa distinta de la que el
   // motor está jugando de fondo.
@@ -712,7 +721,7 @@ export default function Dashboard({
     jornada: string; rivalPos: number | null; rivalTotal: number | null;
   } | null = null;
   if (nextWeekInWorldCupBreak) {
-    const wcYear = getSeasonYear(playerProfile.currentWeek);
+    const wcYear = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
     const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
     const isEligible = !!wcTeamId
       && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
@@ -853,7 +862,7 @@ export default function Dashboard({
       // La temporada la manda el calendario cuando lo hay -- misma clave que usa App.tsx, o la
       // tarjeta leería la edición del año equivocado.
       const cupYearNow = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
-        ?? getSeasonYear(playerProfile.currentWeek);
+        ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
       const cupKeyNow = `${currentClub.league}-${cupYearNow}`;
       // En una fecha reservada NO se inventa un cuadro de muestra: si la edición todavía no está
       // guardada, el rival que se anunciaría acá saldría de un sorteo distinto del que va a armar
@@ -1240,7 +1249,7 @@ export default function Dashboard({
       const sample = ULTIMATE_CLUBS_DATABASE.find(c => leagueKeyFor(c) === key);
       if (!sample) continue;
 
-      const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+      const anio = anioDeCarrera(currentClub.name, playerProfile.currentWeek);
       const formato = isApeturaClausuraLeague(sample.league);
       // El id lleva el semestre: en Apertura/Clausura hay dos campeones por año y con un solo id
       // el segundo título nunca aparecería (React los deduplica por key).
@@ -1715,7 +1724,7 @@ export default function Dashboard({
     : myLeagueSeason.fixtures.length > 0 && !myLeagueSeason.fixtures.some(f => !f.played);
   const copaNacionalCerradaElAnio = (() => {
     if (!tieneCopaNacionalReal(currentClub.league)) return true;
-    const cupYearNacional = getSeasonYear(playerProfile.currentWeek);
+    const cupYearNacional = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
     const cupKeyNacional = `${currentClub.league}-${cupYearNacional}`;
     const cupNacional = playerProfile.domesticCups?.[cupKeyNacional];
     // Sin estado guardado todavía: no se armó el cuadro, no hay nada pendiente que bloquee el cierre.
@@ -4221,7 +4230,7 @@ export default function Dashboard({
 
                 {isViewingOwnClub && <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md">
                   {(() => {
-                    const eligibleMentees = squadOf(currentClub).filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p, seasonsElapsed(playerProfile.currentWeek)) <= MENTEE_MAX_AGE);
+                    const eligibleMentees = squadOf(currentClub).filter(p => p !== playerProfile.name && getMenteeAge(currentClub.id, p, seasonsElapsed(currentClub.name, playerProfile.currentWeek)) <= MENTEE_MAX_AGE);
                     return (
                       <>
                         {/* Título y botones en la MISMA fila, y la explicación larga solo si hay a
@@ -4275,7 +4284,7 @@ export default function Dashboard({
                     {(() => {
                       const posiblesMentores = squadOf(currentClub)
                         .filter(p => p !== playerProfile.name
-                          && getMenteeAge(currentClub.id, p, seasonsElapsed(playerProfile.currentWeek)) >= MENTOR_MIN_AGE);
+                          && getMenteeAge(currentClub.id, p, seasonsElapsed(currentClub.name, playerProfile.currentWeek)) >= MENTOR_MIN_AGE);
                       return (
                         <>
                           <div className="flex flex-wrap items-center gap-1.5">
