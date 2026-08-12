@@ -1246,13 +1246,30 @@ export function getOrCreateCupState(
   existing: CupState | undefined,
   currentWeek: number,
   posiciones?: PosicionesFinales,
-  campeones?: CampeonesConmebol
+  campeones?: CampeonesConmebol,
+  /**
+   * El club del jugador. Si se pasa, la copa NO avanza por encima de un partido suyo pendiente:
+   * ese paso queda esperando a que lo juegue.
+   *
+   * Sin esto, la copa se jugaba sola. El caso es real y frecuente: de los 64 participantes de
+   * Libertadores y Sudamericana, 38 no tienen ni una fecha de esa copa en el calendario scrapeado,
+   * así que el jugador nunca recibía un partido — pero este bucle igual simulaba los suyos semana
+   * a semana. En pantalla aparecían puntos, avance de ronda y hasta la eliminación de un torneo
+   * que nunca jugó. Reportado tal cual: "la juego pero jamás jugué ningún partido y además se
+   * juega sola".
+   */
+  playerClubId?: string,
 ): CupState {
   let cup = existing ?? freshCupState(cupId, year, allClubs, posiciones, campeones);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
   const targetSteps = cupWeeksElapsedInYear(year, currentWeek);
 
   while (stepsConsumed < targetSteps && cup.stage !== 'done') {
+    // El turno es del jugador: se frena acá y no se consume el paso, así la próxima vez que se
+    // pregunte el partido sigue estando. Si ya quedó eliminado, getUpcomingCupMatch devuelve null
+    // y el resto del cuadro sigue corriendo con normalidad -- no se generan partidos fantasma para
+    // alguien que ya está afuera.
+    if (playerClubId && getUpcomingCupMatch(cup, playerClubId)) break;
     cup = resolveCupStep(cup, allClubs);
     stepsConsumed++;
   }
@@ -1627,7 +1644,11 @@ function freshUefaCupState(
 export function getOrCreateUefaCupState(
   cupId: 'champions' | 'europa', allClubs: Club[],
   existing: UefaCupState | undefined, currentWeek: number,
-  posiciones?: PosicionesFinales, campeones?: CampeonesUefa
+  posiciones?: PosicionesFinales, campeones?: CampeonesUefa,
+  /** Ver el mismo parámetro en getOrCreateCupState: la copa no avanza por encima de un partido
+   *  pendiente del jugador. Acá el riesgo es idéntico -- Champions y Europa tampoco tienen fecha
+   *  scrapeada para todos sus participantes. */
+  playerClubId?: string,
 ): UefaCupState {
   let cup = existing ?? freshUefaCupState(cupId, 1, allClubs, 0, posiciones, campeones);
   const totalStepsAvailable = cupWeeksElapsedTotal(currentWeek);
@@ -1638,6 +1659,7 @@ export function getOrCreateUefaCupState(
         cupId, cup.year + 1, allClubs, cup.startedAtStep + cup.stepsConsumed, posiciones, campeones);
       continue;
     }
+    if (playerClubId && getUpcomingUefaCupMatch(cup, playerClubId)) break;
     cup = { ...resolveUefaCupStep(cup, allClubs), stepsConsumed: cup.stepsConsumed + 1 };
   }
   return cup;

@@ -12,7 +12,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, competitionsForClub, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -183,7 +183,9 @@ function syncBackgroundCups(
       : null;
     if (conmebolCupId && !skipConmebol) {
       const cupKey = `${conmebolCupId}-${year}`;
-      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], atWeek, posiciones, campeones) };
+      // myClub.id al final: la copa de fondo NO puede jugar los partidos del jugador. Se detiene en
+      // el suyo y lo deja pendiente. Ver getOrCreateCupState.
+      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], atWeek, posiciones, campeones, myClub.id) };
     }
 
     const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(CLUBS_DATABASE, year, posiciones, campeonesEuropa).includes(myClub.id)
@@ -192,7 +194,7 @@ function syncBackgroundCups(
       ? 'europa'
       : null;
     if (uefaCupId && !skipUefa) {
-      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], atWeek, posiciones, campeonesEuropa) };
+      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], atWeek, posiciones, campeonesEuropa, myClub.id) };
     }
   }
   return { continentalCups: nextContinental, uefaCups: nextUefa };
@@ -2143,12 +2145,26 @@ export default function App() {
     const clubEnCopaContinental = (() => {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
       if (!myClub) return false;
-      // Con calendario propio, sus copas son las del calendario: el motor no le agrega ninguna.
-      if (usaFechasReales) return false;
-      return getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id)
-        || getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id)
-        || getChampionsParticipants(CLUBS_DATABASE).includes(myClub.id)
-        || getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id);
+
+      // Antes acá decía: "con calendario propio, sus copas son las del calendario, el motor no le
+      // agrega ninguna". Es falso, y era la raíz de que una copa se jugara sola.
+      //
+      // De los 64 participantes de Libertadores y Sudamericana, 38 no tienen NI UNA fecha de esa
+      // copa en el calendario scrapeado -- el Santos entre ellos: está en la Sudamericana y su
+      // calendario sólo trae Brasileirão y Copa do Brasil. Con la regla vieja, esos clubes quedaban
+      // en tierra de nadie: el calendario no les daba partido de copa y el motor tenía prohibido
+      // dárselo, pero igual les simulaba la copa de fondo. El jugador veía puntos, avance de ronda
+      // y hasta su eliminación de un torneo que nunca jugó.
+      //
+      // Ahora la pregunta es por copa, no por club: el calendario manda donde tiene fechas, y donde
+      // no las tiene manda el cuadro del motor. Una sola fuente por competición, nunca dos.
+      const laCubreElCalendario = (re: RegExp) =>
+        usaFechasReales && competitionsForClub(myClub.name).some(c => re.test(c.name));
+
+      return (getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/libertadores/i))
+        || (getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/sudamericana/i))
+        || (getChampionsParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/champions/i))
+        || (getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/europa/i));
     })();
 
     const isCup = !inWorldCupBreak && (
@@ -2307,12 +2323,17 @@ export default function App() {
       } else {
         setActiveGlobalScoreLabel(null);
       }
-    } else if (isCup && !usaFechasReales) {
-      // Con calendario propio esta rama NO corre: arma la copa por clasificación del motor,
-      // ignorando lo que dice el calendario. Ahí nacía el cruce -- ibas a jugar Libertadores según
-      // tus fechas reales y el motor te montaba su propia llave, o al revés: te mandaba a la vuelta
-      // de la Superliga cuando tocaba Libertadores. La rama de arriba ya resolvió el partido con la
-      // fecha real; ésta es solo para los clubes sin fechas cargadas.
+    } else if (isCup && (!usaFechasReales || clubEnCopaContinental)) {
+      // Copa armada por el cuadro del motor. Corre en dos casos:
+      //
+      //   1. El club no tiene fechas reales cargadas (el caso de siempre).
+      //   2. El club SÍ las tiene, pero su calendario no cubre esta copa (clubEnCopaContinental).
+      //      Ver el comentario largo de ese flag: son 38 de 64 participantes de las copas Conmebol.
+      //      Sin este segundo caso quedaban en tierra de nadie -- ni partido del calendario ni
+      //      partido del cuadro -- y la copa avanzaba sola de fondo.
+      //
+      // Lo que sigue sin poder pasar es que las dos fuentes se peleen el turno: la rama de arriba
+      // atiende primero y sólo se llega acá si el calendario NO trajo un partido de copa hoy.
       const year = getSeasonYear(playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
 
