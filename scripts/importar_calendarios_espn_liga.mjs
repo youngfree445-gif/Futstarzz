@@ -20,13 +20,26 @@ const FUENTES = [
   { archivo: 'bra.1_liga.json',              id: 'bra1', name: 'Brasileirão Serie A', kind: 'league', league: 'Brasileña', division: 1 },
   { archivo: 'bra.2_liga.json',              id: 'bra2', name: 'Brasileirão Serie B', kind: 'league', league: 'Brasileña', division: 2 },
   { archivo: 'bra.copa_do_brazil_liga.json', id: 'copabr', name: 'Copa do Brasil',    kind: 'domestic_cup', league: 'Brasileña' },
-  // Italia NO entra por acá: estos dos archivos de ESPN son la temporada 2026/27, y la Serie A ya
-  // viene de ALLgames como `it1` con la 2025/26 -- la que está en curso cuando arranca la carrera,
-  // igual que Premier, LaLiga, Bundesliga y Ligue 1. Cargar las dos hacía que un club italiano
-  // jugara 57 partidos de liga en una misma temporada de carrera (el resto juega 17-19), porque
-  // fixturesForClub le devolvía las dos temporadas juntas.
-  // { archivo: 'ita.1_liga.json', id: 'ita1', ... }
-  // { archivo: 'ita.2_liga.json', id: 'ita2', ... }
+  // La Serie A de ESPN (ita.1) NO entra: ya viene de ALLgames como `it1` con la 2025/26, que es la
+  // temporada en curso cuando arranca la carrera -- igual que Premier, LaLiga, Bundesliga y Ligue
+  // 1. Cargar las dos hacía que un club italiano jugara 57 partidos de liga en una misma temporada
+  // (el resto juega 17-19), porque fixturesForClub le devolvía las dos temporadas juntas.
+  //
+  // La Serie B sí entra, y es la única fuente que hay para ella. Viene con la 2026/27, así que se
+  // corre un año atrás para quedar alineada con la Serie A: sin eso, un club de Serie B tendría su
+  // primer partido en agosto de 2026 y la carrera le "arrancaría" ahí en vez de en enero -- el
+  // mismo bug que ya pasó con Barranquilla FC ("por qué inicia la carrera allí y no en enero?").
+  // Corrida, un club de Serie B llega al 12 de enero con media temporada por delante, igual que
+  // uno de Serie A. Es para lo que sirve una temporada de otro año: como molde.
+  //
+  // `sustituir`: el archivo es la 2026/27, o sea DESPUÉS del descenso, así que trae a Hellas
+  // Verona, Pisa y Cremonese -- que en el juego siguen en la Serie A 2025/26. Sin esto esos tres
+  // jugarían 76 partidos de liga en una misma temporada (38 en cada categoría). Se los reemplaza
+  // por los tres clubes de Serie B de mayor reputación que este calendario no usa, así el
+  // round-robin queda intacto (38 partidos por club, sin excepción) y todos los que juegan la
+  // Serie B son clubes de Serie B de verdad.
+  { archivo: 'ita.2_liga.json', id: 'ita2', name: 'Serie B', kind: 'league', league: 'Italiana', desplazarAnios: -1,
+    sustituir: { 'Hellas Verona': 'Monza', 'Pisa': 'Venezia', 'Cremonese': 'Frosinone' } },
   { archivo: 'ned.1_liga.json', id: 'ned1', name: 'Eredivisie',        kind: 'league', league: 'Holandesa' },
   { archivo: 'por.1_liga.json', id: 'por1', name: 'Primeira Liga',     kind: 'league', league: 'Portuguesa' },
   { archivo: 'usa.1_liga.json', id: 'usa1', name: 'MLS',               kind: 'league', league: 'Estadounidense' },
@@ -40,7 +53,47 @@ const FUENTES = [
   { archivo: 'ven.1_liga.json', id: 'ven1', name: 'Venezuela Primera División', kind: 'league', league: 'Venezolana' },
 ];
 
-// Los nombres de ESPN no coinciden siempre con los del juego. Solo lo mínimo verificado a mano.
+/** Misma fecha, `anios` años después (o antes, con negativo). El 29/2 cae en 28/2 los no bisiestos. */
+function correrAnios(date, anios) {
+  if (!anios) return date;
+  const [a, m, d] = date.split('-').map(Number);
+  const anio = a + anios;
+  const ultimoDia = new Date(Date.UTC(anio, m, 0)).getUTCDate();
+  return `${anio}-${String(m).padStart(2, '0')}-${String(Math.min(d, ultimoDia)).padStart(2, '0')}`;
+}
+
+// ============================================================================================
+// ATENCIÓN ANTES DE CORRER ESTE SCRIPT
+// ============================================================================================
+//
+// Lee la base de clubes de `_import_clubs/clubs.js`, que es una COPIA VIEJA -- no src/data.ts.
+// Regenerar a ciegas revierte todo lo que se corrigió a mano en data.ts desde esa copia. Medido el
+// 12 de agosto de 2026, una regeneración deshizo cuatro desambiguaciones de homónimos:
+//
+//   Nacional de Asunción          -> Nacional            (se fusionó con el Nacional de Uruguay)
+//   Universidad Católica de Quito -> Universidad Católica (con la chilena)
+//   Leones FC de Ecuador          -> Leones FC            (con el colombiano)
+//   Everton de Viña del Mar       -> Everton              (con el inglés)
+//
+// El calendario se indexa por NOMBRE de club, así que fusionarlos hace que uno juegue los partidos
+// del otro: "Nacional" pasó de 69 partidos a 211, y el validador de calendario saltó de 30 a 97
+// casos de menos de dos días de descanso.
+//
+// Poner alias acá NO alcanza: apuntarían a nombres que la copia vieja no tiene, el club no
+// resolvería y se perderían sus partidos (medido: la LigaPro de Ecuador cayó de 228 a 198).
+//
+// Lo que hay que hacer ANTES de regenerar es refrescar `_import_clubs/clubs.js` desde src/data.ts.
+// Mientras tanto, si sólo hace falta agregar UNA competición, conviene injertarla en el archivo
+// existente en vez de regenerar todo.
+// ============================================================================================
+
+// Los nombres de ESPN no coinciden siempre con los del juego. Solo lo mínimo verificado a mano. El calendario se indexa por
+// NOMBRE de club, así que dos clubes que se llaman igual comparten una sola entrada y terminan
+// jugando los partidos del otro. Medido cuando se perdieron estos alias: "Nacional" pasó de 69 a
+// 211 partidos (los 69 suyos de Uruguay más los 132 del Nacional paraguayo), "Universidad Católica"
+// juntó la chilena con la de Quito y "Leones FC" el colombiano con el ecuatoriano. En la base ya
+// existen con el nombre largo -- Nacional de Asunción, Universidad Católica de Quito, Leones FC de
+// Ecuador, Everton de Viña del Mar -- y acá se los mapea para que la regeneración no los pierda.
 const ALIAS = {
   Brasileña: {
     'Red Bull Bragantino': 'RB Bragantino',
@@ -183,7 +236,9 @@ async function main() {
     for (const c of candidatos) porNombre.set(norm(c.name), c.name);
 
     const alias = ALIAS[f.league] ?? {};
+    const sustituto = f.sustituir ?? {};
     const resolver = nombre => {
+      if (sustituto[nombre]) return porNombre.get(norm(sustituto[nombre])) ?? null;
       const directo = porNombre.get(norm(alias[nombre] ?? nombre));
       if (directo) return directo;
       // Si hay alias explícito y aun así no matcheó, es un error de datos: NO se cae al prefijo,
@@ -205,7 +260,7 @@ async function main() {
       if (!away) sinMapear.add(p.visita);
       // Un partido con un solo club reconocido dejaría un rival fantasma en el calendario.
       if (!home || !away || home === away) continue;
-      matches.push({ date: p.fecha, home, away, ...(p.ronda ? { round: p.ronda } : {}) });
+      matches.push({ date: correrAnios(p.fecha, f.desplazarAnios ?? 0), home, away, ...(p.ronda ? { round: p.ronda } : {}) });
     }
 
     const fechas = matches.map(m => m.date).sort();

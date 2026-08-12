@@ -139,6 +139,22 @@ const REGLAS: Record<string, ReglasAscenso> = {
     ventanaAnios: 1,
     ascensoPorPlayoff: { desde: 3, hasta: 6 },
   },
+  // FIGC: Serie A de 20. Bajan directo los 3 últimos (18°, 19° y 20°) y suben directo los 2
+  // primeros de la Serie B. La tercera plaza sale de los play-off entre el 3° y el 8° -- Italia
+  // mete ocho, no seis, pero el cuadro es el mismo: sólo clubes de Segunda, ningún equipo de Serie
+  // A se juega la categoría ahí. O sea, el esquema de España e Inglaterra, no el de Alemania.
+  //
+  // Se agrega ahora porque recién ahora la Serie B tiene calendario propio (ver `ita2` en
+  // realCalendarDates.ts): sin él, descender dejaba al jugador en una división que el calendario no
+  // sabe hacer jugar, y por eso App.tsx salta las ligas cuya Segunda no tiene fechas.
+  Italiana: {
+    sistema: 'espana',
+    cuposDescenso: 3,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    ascensoPorPlayoff: { desde: 3, hasta: 8 },
+  },
   // LFP: Ligue 1 de 18. Bajan directo los 2 últimos (17° y 18°) y suben directo los 2 primeros de
   // Ligue 2. La tercera plaza es un HÍBRIDO de los dos formatos anteriores: primero el 3°, 4° y 5°
   // de Ligue 2 se cruzan entre sí (barrages), y recién el ganador enfrenta al 16° de Ligue 1 a ida
