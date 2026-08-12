@@ -19,67 +19,19 @@ export type ForcedResult = {
   opponentGoals: number;
   shootoutOverride?: PenaltyShootoutResult;
 };
-
-// Semanas de carrera por temporada (incluye semanas de Copa). Fija e igual
-// para TODAS las ligas, sin importar cuántos equipos tenga cada una —
-// esto es lo que permite sincronizar copas continentales y el ciclo de
-// 4 años de los torneos de selecciones más adelante.
-// Una temporada real no entra en 38 semanas: con el calendario de Transfermarkt importado (ver
-// src/realCalendar.ts) las ligas ocupan de 39 a 48 semanas de punta a punta -- LaLiga 41, Ligue 1
-// 44, la Superliga danesa 48 -- porque entre la primera y la última fecha hay parones, copas y
-// fechas FIFA. Con 38 semanas el calendario real quedaba recortado y los torneos largos no
-// llegaban a terminar.
+// EL RELOJ DE SEMANAS YA NO EXISTE.
 //
-// 52 = un año calendario completo, que además hace que la fecha real (getRealDate) avance un año
-// por temporada de forma natural.
-export const SEASON_LENGTH_WEEKS = 52;
-
-// Una de cada 3 semanas era de copa cuando la temporada duraba 38: eso daba 12 semanas (9 en año
-// mundialista) para un cupo que comparten TODAS las copas, y Champions/Europa necesitan ~18 pasos
-// para coronar campeón. Resultado: tardaban 2,4 temporadas y quedaban desfasadas de la liga.
+// Acá vivían SEASON_LENGTH_WEEKS (52), isCupWeek, weekInSeason, getSeasonYear, getRealDate,
+// isWorldCupBreakWeek, cupWeeksElapsed*, leagueMatchweeksElapsed* y las ventanas de fichajes por
+// número de semana. Eran la SEGUNDA forma de contar el tiempo del juego, y de esa convivencia
+// salieron casi todos los bugs de calendario: el mismo número se leía como "la N-ésima fecha que
+// jugás" en un lado y como "semana N, 52 por año" en el otro.
 //
-// Con la temporada en 52 semanas, 2 de cada 5 deja 17 semanas de copa y 26 de liga descontando el
-// parón del Mundial: casi el doble de copa que antes (eran 9) sin ahogar la liga.
-//
-// Con esto Libertadores y Sudamericana entran holgadas (11 pasos) y Champions/Europa pasan de 2,4 a
-// ~1,3 temporadas. No llegan a 1,0: el motor las resuelve gastando un paso por semana de copa
-// COMPARTIDA con todos los demás torneos, y necesitan 22. Subir más el ratio arregla la Champions
-// pero deja la liga en 21 fechas de 38, que es peor.
-//
-// El arreglo de fondo no es este ratio sino el calendario real ya importado (src/realCalendar.ts):
-// ahí cada torneo tiene SUS semanas -- la Champions ocupa 16 reales -- y el cupo compartido, que es
-// la causa raíz, desaparece. Este reparto es la transición hasta que el motor consuma esas fechas.
-export function isCupWeek(week: number): boolean {
-  return week % 5 === 3 || week % 5 === 0;
-}
+// Se fueron entre el 11 y el 12 de agosto de 2026, en siete tramos. Hoy el tiempo lo dice el
+// calendario y nadie más: ver dateSchedule.ts (temporadaDeCarrera, fechaDelPaso, esDiaDeCopa,
+// enVentanaDelMundial, mercadoAbierto) y el trinquete de scripts/validar_un_calendario.ts, que
+// falla si alguno vuelve a aparecer.
 
-// Ventanas de fichajes, inspiradas en las fechas reales del fútbol colombiano (enero, antes del
-// Apertura, y mitad de año antes del Clausura), escaladas a las 38 semanas de temporada: ventana 1
-// ≈ enero (arranque de temporada), ventana 2 ≈ mitad de año.
-const TRANSFER_WINDOW_1_END = 7;
-const TRANSFER_WINDOW_2_START = 19;
-const TRANSFER_WINDOW_2_END = 22;
-
-function weekInSeason(currentWeek: number): number {
-  return ((currentWeek - 1) % SEASON_LENGTH_WEEKS) + 1;
-}
-
-export function isTransferWindowOpen(currentWeek: number): boolean {
-  const w = weekInSeason(currentWeek);
-  return w <= TRANSFER_WINDOW_1_END || (w >= TRANSFER_WINDOW_2_START && w <= TRANSFER_WINDOW_2_END);
-}
-
-// Solo tiene sentido llamarla cuando isTransferWindowOpen(currentWeek) es false.
-export function weeksUntilTransferWindow(currentWeek: number): number {
-  const w = weekInSeason(currentWeek);
-  if (w < TRANSFER_WINDOW_2_START) return TRANSFER_WINDOW_2_START - w;
-  return SEASON_LENGTH_WEEKS - w + 1;
-}
-
-// Fecha calendario real: semana 1 = 18 de enero 2026 (arranque real de la fecha 1 del Torneo
-// Apertura colombiano, y de paso la ventana de fichajes 1, ver arriba), y cada semana de carrera
-// suma 7 días. Puramente cosmético — no reemplaza currentWeek, que sigue siendo la base de
-// fixtures, copas y mundiales.
 export const CAREER_START_YEAR = 2026;
 const CAREER_START_MONTH = 0; // enero (0-indexado)
 const CAREER_START_DAY = 18;
@@ -126,24 +78,8 @@ export function leagueKeyFor(club: Club): string {
   return `${club.league}-${divisionActual(club)}`;
 }
 
-export function getSeasonYear(currentWeek: number): number {
-  return Math.floor((currentWeek - 1) / SEASON_LENGTH_WEEKS) + 1;
-}
 
-function getSeasonStartWeek(currentWeek: number): number {
-  return (getSeasonYear(currentWeek) - 1) * SEASON_LENGTH_WEEKS + 1;
-}
 
-// Cuántas fechas de LIGA (no de Copa) ya pasaron desde el arranque de la
-// temporada actual hasta antes de currentWeek.
-export function leagueMatchweeksElapsed(currentWeek: number): number {
-  const start = getSeasonStartWeek(currentWeek);
-  let count = 0;
-  for (let w = start; w < currentWeek; w++) {
-    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
-  }
-  return count;
-}
 
 
 function shuffle<T>(items: T[]): T[] {
@@ -340,60 +276,7 @@ export function simulatePenaltyShootout(clubA: Club, clubB: Club): PenaltyShooto
 }
 
 
-// Rival + condición de local/visitante de tu club para la fecha que
-// corresponde jugar esta semana (según currentWeek), sin resolverla todavía.
-export function getUpcomingFixtureForClub(
-  season: LeagueSeasonState,
-  clubs: Club[],
-  currentWeek: number,
-  clubId: string
-): { opponentId: string; isHome: boolean } | null {
-  const clubIds = clubs.map(c => c.id);
-  const mw = leagueMatchweeksElapsed(currentWeek) + 1;
-  const { fixtures } = ensureFixturesUpTo(season.fixtures, mw, clubIds);
-  const fx = fixtures.find(f => f.matchweek === mw && (f.homeTeamId === clubId || f.awayTeamId === clubId));
-  if (!fx) return null;
-  return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
-}
 
-// Resuelve la fecha de esta semana: tu partido usa el resultado REAL que
-// jugaste, el resto de los partidos de esa fecha se simulan.
-export function resolvePlayerMatchweek(
-  season: LeagueSeasonState,
-  clubs: Club[],
-  currentWeek: number,
-  playerClubId: string,
-  playerIsHome: boolean,
-  playerGoals: number,
-  opponentGoals: number
-): LeagueSeasonState {
-  const clubIds = clubs.map(c => c.id);
-  const mw = leagueMatchweeksElapsed(currentWeek) + 1;
-  const extended = ensureFixturesUpTo(season.fixtures, mw, clubIds);
-  let fixtures = extended.fixtures;
-  let table = season.table;
-
-  fixtures = fixtures.map(fx => {
-    if (fx.matchweek !== mw || fx.played) return fx;
-    const isPlayerMatch = fx.homeTeamId === playerClubId || fx.awayTeamId === playerClubId;
-
-    let homeGoals: number, awayGoals: number;
-    if (isPlayerMatch) {
-      homeGoals = playerIsHome ? playerGoals : opponentGoals;
-      awayGoals = playerIsHome ? opponentGoals : playerGoals;
-    } else {
-      const home = clubs.find(c => c.id === fx.homeTeamId);
-      const away = clubs.find(c => c.id === fx.awayTeamId);
-      if (!home || !away) return fx;
-      ({ homeGoals, awayGoals } = simulateMatch(home, away));
-    }
-
-    table = applyResultToTable(table, fx.homeTeamId, fx.awayTeamId, homeGoals, awayGoals);
-    return { ...fx, played: true, homeGoals, awayGoals };
-  });
-
-  return { leagueKey: season.leagueKey, fixtures, table, round: season.round + extended.roundsAdded };
-}
 
 // ==========================================================================
 // --- FORMATO APERTURA/CLAUSURA (Colombia y Argentina) ---
@@ -749,67 +632,7 @@ function faseRegularTerminada(season: LeagueSeasonState): boolean {
     && !season.fixtures.some(f => !f.played);
 }
 
-// Resuelve la semana actual con el resultado REAL de tu partido (si te
-// corresponde jugar esta semana en cualquiera de las etapas).
-export function resolveApeturaClausuraWeek(
-  season: LeagueSeasonState,
-  clubs: Club[],
-  currentWeek: number,
-  format: 'colombia' | 'argentina',
-  playerClubId: string,
-  playerIsHome: boolean,
-  playerGoals: number,
-  opponentGoals: number,
-  shootoutOverride?: PenaltyShootoutResult
-): LeagueSeasonState {
-  const updated = resolveApeturaClausuraStep(season, clubs, currentWeek, format, {
-    clubId: playerClubId,
-    isHome: playerIsHome,
-    goals: playerGoals,
-    opponentGoals,
-    shootoutOverride,
-  });
-  return { ...updated, stepsConsumed: (season.stepsConsumed ?? 0) + 1 };
-}
 
-// Rival de tu club para el paso que corresponde esta semana, en cualquiera
-// de las etapas (regular, knockout de Cuartos/Semifinal/Final a ida y vuelta
-// en Colombia, knockout a partido único en Argentina). null si tu club no
-// tiene partido esta semana (quedaste afuera / etapa ya sin tu equipo) —
-// en ese caso el llamador cae al fallback de partido amistoso ya existente.
-export function getUpcomingApeturaClausuraMatch(
-  season: LeagueSeasonState,
-  currentWeek: number,
-  clubId: string
-): { opponentId: string; isHome: boolean } | null {
-  const stage = season.stage ?? 'regular';
-
-  if (stage === 'regular') {
-    // Misma fecha que resolveApeturaClausuraStep tomaría como "próximo paso"
-    // (la fecha más baja con algún partido sin jugar) — si tu club no tiene
-    // partido justo en esa fecha (ej. fecha libre en una zona impar de
-    // Argentina), no hay partido esta semana para vos.
-    const nextMw = season.fixtures.find(f => !f.played)?.matchweek;
-    if (nextMw === undefined) return null;
-    const fx = season.fixtures.find(f => f.matchweek === nextMw && (f.homeTeamId === clubId || f.awayTeamId === clubId));
-    if (!fx) return null;
-    return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
-  }
-
-  if (stage === 'knockout' && season.twoLegKnockout && !season.twoLegKnockout.championId) {
-    const currentRound = season.twoLegKnockout.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1];
-    return findUpcomingTwoLegMatch(currentRound, clubId);
-  }
-
-  if (stage === 'knockout' && season.knockout && !season.knockout.championId) {
-    const currentRound = season.knockout.matchesByRound[season.knockout.matchesByRound.length - 1];
-    const m = currentRound.find(mm => !mm.played && (mm.homeTeamId === clubId || mm.awayTeamId === clubId));
-    if (!m) return null;
-    return m.homeTeamId === clubId ? { opponentId: m.awayTeamId, isHome: true } : { opponentId: m.homeTeamId, isHome: false };
-  }
-
-  return null;
-}
 
 // ==========================================================================
 // --- DISPATCHERS: eligen entre el motor simple (tabla larga) y el de
@@ -839,16 +662,6 @@ export function getOrCreateSeasonForLeague(
 }
 
 
-export function getUpcomingMatchForLeague(
-  season: LeagueSeasonState,
-  leagueClubs: Club[],
-  currentWeek: number,
-  clubId: string
-): { opponentId: string; isHome: boolean } | null {
-  const format = isApeturaClausuraLeague(leagueClubs[0].league);
-  if (format) return getUpcomingApeturaClausuraMatch(season, currentWeek, clubId);
-  return getUpcomingFixtureForClub(season, leagueClubs, currentWeek, clubId);
-}
 
 // ==========================================================================
 // --- COPA LIBERTADORES / COPA SUDAMERICANA (Conmebol) ---
@@ -1566,11 +1379,6 @@ export const WORLD_CUP_CALLUP_MIN_MATCHES = 40;
 const WORLD_CUP_BREAK_START_WEEK = 19;
 const WORLD_CUP_BREAK_LENGTH_WEEKS = 9;
 
-export function isWorldCupBreakWeek(currentWeek: number): boolean {
-  if (!isWorldCupYear(getSeasonYear(currentWeek))) return false;
-  const w = weekInSeason(currentWeek);
-  return w >= WORLD_CUP_BREAK_START_WEEK && w < WORLD_CUP_BREAK_START_WEEK + WORLD_CUP_BREAK_LENGTH_WEEKS;
-}
 
 // Acá vivía worldCupWeeksElapsedInYear, que contaba las semanas del bloque del Mundial. El torneo
 // ahora avanza por las FECHAS que el calendario le reserva (pasosDeMundialTranscurridos en
@@ -1841,16 +1649,15 @@ export function resolvePlayerWeekForLeague(
   // mismo calendario del que sale el partido que juega el jugador. Antes había dos sistemas más --
   // el legado semanal (realSchedule) y el fixture sintético generado -- cada uno con su reloj, y la
   // tabla terminaba registrando un rival distinto al que se veía en pantalla.
-  if (ctxReal) {
-    const porFecha = resolveLigaPorFecha(season, leagueClubs, playerClubId, playerGoals, opponentGoals, ctxReal);
-    if (porFecha) return porFecha;
-  }
-
-  const format = isApeturaClausuraLeague(leagueClubs[0].league);
-  if (format) {
-    return resolveApeturaClausuraWeek(season, leagueClubs, currentWeek, format, playerClubId, playerIsHome, playerGoals, opponentGoals, shootoutOverride);
-  }
-  return resolvePlayerMatchweek(season, leagueClubs, currentWeek, playerClubId, playerIsHome, playerGoals, opponentGoals);
+  // Sin ctxReal no hay nada que resolver: la tabla se arma con las FECHAS del calendario y punto.
+  //
+  // Acá abajo había dos ramas de respaldo -- resolveApeturaClausuraWeek y resolvePlayerMatchweek --
+  // que resolvían la fecha con el reloj de semanas cuando el calendario no contestaba. Eran la
+  // última red del otro motor. Se fueron el 12 de agosto de 2026 junto con él: los tres llamadores
+  // pasan ctxReal siempre, y resolveLigaPorFecha sólo devuelve null si el grupo de clubes no es una
+  // liga del calendario, cosa que no pasa para ningún club jugable (medido: las 27 ligas entran).
+  if (!ctxReal) return season;
+  return resolveLigaPorFecha(season, leagueClubs, playerClubId, playerGoals, opponentGoals, ctxReal) ?? season;
 }
 
 

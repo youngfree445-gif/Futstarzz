@@ -128,14 +128,14 @@ console.log(`   ${saltos === 0 ? '60 clubes revisados, sin saltos ni retrocesos.
 console.log('\n=== E) Lo que queda del reloj de semanas ===');
 
 const TECHOS: Record<string, number> = {
-  // Usos en CÓDIGO (sin comentarios) al 12 de agosto de 2026, con el reemplazo de cada uno al lado.
-  // Estos números sólo pueden bajar.
-  'SEASON_LENGTH_WEEKS': 5,    // -> la temporada dura lo que dice el calendario
-  'isCupWeek': 2,              // -> esDiaDeCopa(club, paso)                    (era 16)
-  'getRealDate': 0,            // BORRADA -> fechaDelPaso(club, paso)           (era 27)
-  'cupWeeksElapsed': 0,        // BORRADA -> fechasDeCopaTranscurridas(...)     (era 4)
-  'isWorldCupBreakWeek': 2,    // -> enVentanaDelMundial(club, paso)            (era 15)
-  'getSeasonYear': 3,          // -> temporadaDeCarrera(club, paso)              (era 62)
+  // LLEGÓ A CERO el 12 de agosto de 2026. Ninguna de estas existe ya en el código; el techo queda
+  // en 0 para que si alguna vuelve a aparecer, este validador falle antes de que llegue a producción.
+  'SEASON_LENGTH_WEEKS': 0,    // BORRADA -> la temporada dura lo que dice el calendario  (era 8)
+  'isCupWeek': 0,              // BORRADA -> esDiaDeCopa(club, paso)                      (era 16)
+  'getRealDate': 0,            // BORRADA -> fechaDelPaso(club, paso)                     (era 27)
+  'cupWeeksElapsed': 0,        // BORRADA -> fechasDeCopaTranscurridas(club, paso)        (era 4)
+  'isWorldCupBreakWeek': 0,    // BORRADA -> enVentanaDelMundial(club, paso)              (era 15)
+  'getSeasonYear': 0,          // BORRADA -> temporadaDeCarrera(club, paso)               (era 64)
 };
 
 /**

@@ -456,6 +456,54 @@ export function fechaDelPaso(clubName: string, paso: number): string | null {
   return todas.length ? todas[todas.length - 1].date : null;
 }
 
+/**
+ * El rival de LIGA que tiene el club en ese paso, según el calendario.
+ *
+ * Reemplaza a getUpcomingMatchForLeague, que preguntaba "¿qué jornada toca esta semana?" y, si el
+ * fixture no llegaba hasta ahí, GENERABA un round-robin sintético sobre la marcha. O sea: el último
+ * lugar donde el motor viejo seguía inventando partidos, y encima para responder algo que el
+ * calendario ya sabe. Se usa para los partidos que tu club juega sin vos (lesión, sanción,
+ * descanso).
+ */
+export function rivalDeLigaEnPaso(clubName: string, paso: number): DatedFixture | null {
+  const s = fixturesAtStep(clubName, paso);
+  return s?.fixtures.find(f => f.competition.kind === 'league') ?? null;
+}
+
+// --- EL MERCADO DE PASES -------------------------------------------------------------------------
+//
+// Los meses en los que se puede fichar, como en la vida real: enero (la ventana de invierno) y de
+// junio a agosto (la de verano, que en Sudamérica es la de mitad de año).
+//
+// Antes esto era "las semanas 1 a 7 y 19 a 22 de la temporada", con la temporada fijada en 52
+// semanas. Como ninguna dura 52 -- el Junior juega 65 fechas y un club europeo 34 en su media
+// temporada inicial -- la semana 19 caía en un mes distinto para cada club: el mercado se abría en
+// marzo para uno y en agosto para otro, sin relación con ninguna ventana real.
+const MESES_DE_MERCADO = new Set([1, 6, 7, 8]);
+
+/** ¿Está abierto el mercado en la fecha de este paso? */
+export function mercadoAbierto(clubName: string, paso: number): boolean {
+  const fecha = fechaDelPaso(clubName, paso);
+  return !!fecha && MESES_DE_MERCADO.has(Number(fecha.slice(5, 7)));
+}
+
+/**
+ * Días hasta que vuelva a abrir el mercado. Sólo tiene sentido si está cerrado.
+ *
+ * Se cuenta en DÍAS y no en semanas porque el jugador avanza por fechas: decirle "faltan 3 semanas"
+ * cuando su próximo mes de mercado empieza en 19 días es una cuenta que no se corresponde con nada.
+ */
+export function diasHastaElMercado(clubName: string, paso: number): number {
+  const fecha = fechaDelPaso(clubName, paso);
+  if (!fecha) return 0;
+  const hoy = dayForDate(fecha);
+  // Se busca hacia adelante el primer día de un mes de mercado. Un año alcanza siempre.
+  for (let d = hoy + 1; d <= hoy + 366; d++) {
+    if (MESES_DE_MERCADO.has(Number(dateForDay(d).slice(5, 7)))) return d - hoy;
+  }
+  return 0;
+}
+
 // --- LA VENTANA DEL MUNDIAL ---------------------------------------------------------------------
 //
 // El Mundial se juega en una ventana de FECHAS, como en la vida real: el de 2026 va del 11 de junio

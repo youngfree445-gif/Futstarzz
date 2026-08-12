@@ -13,13 +13,13 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
 import {
-  leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
+  leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
@@ -340,6 +340,18 @@ const VETERAN_MODE_DECLINE_RATE = 3;
 // a los 39 dejaba afuera una franja de veteranos que en la vida real siguen en cancha.
 const RETIREMENT_DECISION_AGE = 43;
 const RETIREMENT_MAX_AGE = 45;
+
+/**
+ * El rival de liga del paso, ya resuelto contra la base de clubes. Es lo que antes daba
+ * getUpcomingMatchForLeague, pero leyéndolo del calendario en vez de generando un fixture.
+ */
+function rivalDeLigaDelPaso(leagueClubs: Club[], clubName: string, paso: number):
+  { opponentId: string; isHome: boolean } | null {
+  const fx = rivalDeLigaEnPaso(clubName, paso);
+  if (!fx) return null;
+  const rival = resolverClubDeCalendario(leagueClubs, fx.opponentName, undefined, 'league', fx.competition.name);
+  return rival ? { opponentId: rival.id, isHome: fx.isHome } : null;
+}
 
 // --- LA TEMPORADA LA DICE EL CALENDARIO ---------------------------------------------------------
 //
@@ -2024,7 +2036,7 @@ export default function App() {
           const leagueKey = leagueKeyFor(myClub);
           const leagueClubs = clubesDeLiga(leagueKey);
           const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
-          const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
+          const upcoming = rivalDeLigaDelPaso(leagueClubs, myClub.name, playerProfile.currentWeek);
           // El calendario real manda, y no se exige `upcoming`: con la deriva entre relojes el motor
           // puede no tener fixture mientras el calendario real sí tiene fecha, y ahí "Sin ti en el
           // campo..." se saltaba un partido que de verdad se jugaba. Bug reportado: "la pantalla que
@@ -2761,7 +2773,7 @@ export default function App() {
       const leagueKey = leagueKeyFor(myClub);
       const leagueClubs = clubesDeLiga(leagueKey);
       const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
-      const upcoming = getUpcomingMatchForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id);
+      const upcoming = rivalDeLigaDelPaso(leagueClubs, myClub.name, playerProfile.currentWeek);
 
       // Sanción disciplinaria pendiente (ver handleFinishMatch/handleResolveEvent): la liga
       // doméstica no espera, tu club juega igual pero simulado sin vos, sin pantalla de partido.

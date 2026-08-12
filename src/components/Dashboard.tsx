@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, enVentanaDelMundial, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
+import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -21,8 +21,7 @@ import {
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
   isClubStillInCup, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
-  isTransferWindowOpen, weeksUntilTransferWindow,
-  isApeturaClausuraLeague, getUpcomingMatchForLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
+  isApeturaClausuraLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
   CAREER_START_YEAR, roundLabelByMatchCount
 } from '../leagueEngine';
 import {
@@ -3223,7 +3222,7 @@ export default function Dashboard({
               )}
 
               {(() => {
-                const windowOpen = isTransferWindowOpen(playerProfile.currentWeek);
+                const windowOpen = mercadoAbierto(currentClub.name, playerProfile.currentWeek);
                 if (windowOpen) {
                   return (
                     <div className="px-4 py-2.5 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold flex items-center gap-2">
@@ -3231,10 +3230,12 @@ export default function Dashboard({
                     </div>
                   );
                 }
-                const weeksLeft = weeksUntilTransferWindow(playerProfile.currentWeek);
+                // En DÍAS, no en semanas: el jugador avanza por fechas, así que "faltan 3 semanas"
+                // era una cuenta que no se correspondía con nada de lo que veía en el calendario.
+                const diasQueFaltan = diasHastaElMercado(currentClub.name, playerProfile.currentWeek);
                 return (
                   <div className="px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-xs font-bold flex items-center gap-2">
-                    <RefreshCw size={13} /> Mercado de fichajes CERRADO — vuelve a abrir en {weeksLeft} semana{weeksLeft !== 1 ? 's' : ''}. Podés revisar ofertas, pero no concretarlas hasta entonces.
+                    <RefreshCw size={13} /> Mercado de fichajes CERRADO — vuelve a abrir en {diasQueFaltan} día{diasQueFaltan !== 1 ? 's' : ''}. Podés revisar ofertas, pero no concretarlas hasta entonces.
                   </div>
                 );
               })()}
@@ -3301,7 +3302,7 @@ export default function Dashboard({
                             <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
                               Rendimiento Insuficiente (Mín: {offer.reqPrestige})
                             </span>
-                          ) : !isTransferWindowOpen(playerProfile.currentWeek) ? (
+                          ) : !mercadoAbierto(currentClub.name, playerProfile.currentWeek) ? (
                             <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
                               Mercado Cerrado
                             </span>
