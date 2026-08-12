@@ -165,6 +165,17 @@ const NOMBRES: Record<string, string> = {
   Francesa: 'Coupe de France',
   Holandesa: 'KNVB Beker',
   Portuguesa: 'Taça de Portugal',
+  // Las siete de abajo se activaron el 12 de agosto de 2026, al cargar sus calendarios (estaban en
+  // data/calendarios/copas/ sin usar). El nombre TIENE que coincidir exacto con el `name` de la
+  // competición en realCalendarDates.ts: es la llave con la que el calendario decide a qué copa
+  // reservarle fechas, y con otro nombre el país se queda sin copa en silencio.
+  Chilena: 'Copa Chile',
+  Ecuatoriana: 'Copa Ecuador',
+  Boliviana: 'Copa Bolivia',
+  Uruguaya: 'Copa Uruguay',
+  Venezolana: 'Copa Venezuela',
+  Mexicana: 'Copa MX',
+  Estadounidense: 'US Open Cup',
 };
 
 export function nombreCopaNacional(league: string): string {

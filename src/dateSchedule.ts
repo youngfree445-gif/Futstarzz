@@ -139,7 +139,10 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
       // fechas para CONTINUAR el torneo cuando el fragmento scrapeado se acaba.
       // Temporada 2+: no hay nada real que conservar (la permutación repartía un fragmento
       // congelado), así que la copa entera sale del cuadro.
-      if (temporada !== 1) continue;
+      //
+      // Y si es soloReservas, tampoco en la temporada 1: sus fechas son de otro año y chocarían
+      // con la liga. Las pone enteras la reserva, que las elige respetando el descanso.
+      if (temporada !== 1 || original.soloReservas) continue;
     }
 
     // Los playoffs se marcan ACÁ, al crear el fixture, y no en una pasada aparte: recorrer los
@@ -298,7 +301,10 @@ function usaCuadroDelMotor(comp: DatedCompetition): boolean {
   if (cacheado !== undefined) return cacheado;
 
   let r = false;
-  if (comp.kind === 'domestic_cup' && !!comp.league && comp.name === nombreCopaNacional(comp.league)) {
+  // Una copa marcada soloReservas siempre corre por cuadro: su calendario es de otra temporada y
+  // está ahí sólo para decir que el torneo existe.
+  if (comp.soloReservas && comp.kind === 'domestic_cup') r = true;
+  else if (comp.kind === 'domestic_cup' && !!comp.league && comp.name === nombreCopaNacional(comp.league)) {
     const porClub = new Map<string, number>();
     for (const m of comp.matches) {
       porClub.set(m.home, (porClub.get(m.home) ?? 0) + 1);
@@ -410,28 +416,35 @@ function reservarFechasDeCopa(
 }
 
 /**
- * Hasta `cuantas` días libres entre `desde` y `hasta`, lo más espaciados que se pueda.
+ * Hasta `cuantas` fechas libres entre `desde` y `hasta`, lo más espaciadas que se pueda.
  *
- * Se prueba primero con la separación cómoda y se va apretando sólo si no entran todos. Devolver de
+ * Se prueba primero con la separación cómoda y se va apretando sólo si no entran todas. Devolver de
  * menos no rompe nada -- la copa simplemente no llega a la final ese año -- pero es lo que hay que
  * evitar, así que conviene apretar antes que quedarse corto.
+ *
+ * SALTA en vez de recorrer día por día. Con 49 competiciones y 32 temporadas, caminar los ~300 días
+ * de la ventana de cada copa para cada club llevó el armado del calendario a 703 ms, por encima del
+ * tope de 600 que vigila el validador. Ahora se va directo al día ideal de cada slot y sólo se
+ * avanza si está vetado: unas pocas comprobaciones en vez de trescientas.
  */
 function elegirDias(desde: number, hasta: number, vetados: Set<number>, cuantas: number): number[] {
   let mejor: number[] = [];
   for (const espaciado of ESPACIADOS_DE_COPA_DIAS) {
     const elegidos: number[] = [];
-    let ultimo = -Infinity;
-    for (let d = desde; d <= hasta && elegidos.length < cuantas; d++) {
-      if (vetados.has(d)) continue;
-      if (d - ultimo < espaciado) continue;
+    let objetivo = desde;
+    while (elegidos.length < cuantas && objetivo <= hasta) {
+      let d = objetivo;
+      while (d <= hasta && vetados.has(d)) d++;
+      if (d > hasta) break;
       elegidos.push(d);
-      ultimo = d;
+      objetivo = d + espaciado;
     }
     if (elegidos.length > mejor.length) mejor = elegidos;
     if (mejor.length >= cuantas) break;
   }
   return mejor;
 }
+
 
 const esCopaConCuadro = (comp: DatedCompetition) =>
   comp.kind === 'domestic_cup' && usaCuadroDelMotor(comp);
