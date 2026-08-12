@@ -2234,14 +2234,17 @@ export default function Dashboard({
 
       <main className="flex-1 flex flex-col min-h-screen">
         
-        {/* Sticky: la barra siempre estuvo en todas las pestañas -- se renderiza fuera de los
-            condicionales de activeTab -- pero se iba con el scroll. En Entrenamiento eso dejaba el
-            aviso de "no te alcanza el capital" en pantalla sin poder ver cuánto capital tenés. */}
-        <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 p-3 md:px-8 md:py-3 flex flex-col md:flex-row gap-3 md:gap-4 justify-between items-center">
-          
-          <div className="flex gap-1.5 items-center flex-wrap">
+        {/* NO es sticky. Se probó pegada arriba para que el capital siguiera a la vista en
+            Entrenamiento, y en uso real tapaba contenido al bajar: molestaba más de lo que
+            resolvía. Se queda arriba de todo y se va con el scroll, como cualquier encabezado. */}
+        <header className="bg-slate-900 border-b border-slate-800 px-3 py-2 md:px-8 flex flex-col md:flex-row gap-2 md:gap-4 justify-between items-center">
+
+          {/* shrink-0 + nowrap en la fecha: sin esto el bloque se encogía contra la tira de
+              métricas y "miércoles 11 de marzo de 2026" se partía en tres renglones, que era lo
+              que estiraba la barra a lo alto. */}
+          <div className="flex gap-1.5 items-center flex-wrap shrink-0">
             <span className="text-gold-400 text-sm font-black">FECHA {playerProfile.currentWeek}</span>
-            <span className="text-slate-500 text-2xs">· {fechaEnPantalla}</span>
+            <span className="text-slate-500 text-2xs whitespace-nowrap">· {fechaEnPantalla}</span>
             {playerProfile.suspendedMatches > 0 && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-3xs font-black uppercase">
                 🚫 Sancionado · {playerProfile.suspendedMatches} PJ
@@ -2258,15 +2261,15 @@ export default function Dashboard({
               el header pegado arriba, se comían media pantalla. Ahora son una tira que se desliza
               en horizontal (de ahí el shrink-0 de cada tarjeta), así el header ocupa una sola fila
               y puede quedarse fijo sin estorbar. En md+ vuelve a ser la fila de siempre. */}
-          <div className="flex overflow-x-auto md:overflow-x-visible items-center gap-3 md:gap-4 text-xs font-mono w-full md:w-auto -mx-1 px-1 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+          <div className="flex overflow-x-auto items-center gap-2 md:gap-3 text-xs font-mono w-full md:w-auto min-w-0 -mx-1 px-1 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Zap size={14} className="text-burgundy-500" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Energía</span>
                   <span className="text-white">{playerProfile.energy}/100</span>
                 </div>
-                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
                   <div 
                     className="bg-burgundy-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.energy}%` }}
@@ -2275,7 +2278,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <DollarSign size={14} className="text-gold-400 font-bold" />
               <div>
                 <span className="text-3xs text-slate-500 block leading-none font-bold uppercase">Capital</span>
@@ -2283,14 +2286,14 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Star size={14} className="text-yellow-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Relación DT</span>
                   <span className="text-white">{playerProfile.prestige}/100</span>
                 </div>
-                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
                   <div
                     className="bg-yellow-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.prestige}%` }}
@@ -2299,14 +2302,14 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Users size={14} className="text-sky-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Compañeros</span>
                   <span className="text-white">{playerProfile.prestigeCompaneros ?? playerProfile.prestige}/100</span>
                 </div>
-                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
                   <div
                     className="bg-sky-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.prestigeCompaneros ?? playerProfile.prestige}%` }}
@@ -2315,14 +2318,14 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Heart size={14} className="text-rose-500" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Hinchada</span>
                   <span className="text-white">{playerProfile.fans}/100</span>
                 </div>
-                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
                   <div
                     className="bg-rose-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.fans}%` }}
@@ -2331,14 +2334,14 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Home size={14} className="text-emerald-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Entorno</span>
                   <span className="text-white">{playerProfile.entorno ?? 60}/100</span>
                 </div>
-                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
                   <div
                     className="bg-emerald-500 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.entorno ?? 60}%` }}
@@ -2347,14 +2350,14 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Brain size={14} className="text-sky-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[70px]">
                   <span>Mente</span>
                   <span className="text-white">{playerProfile.mentalHealth}/100</span>
                 </div>
-                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                <div className="w-20 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
                   <div
                     className="bg-sky-400 h-full rounded-full transition-[width] duration-500 ease-out"
                     style={{ width: `${playerProfile.mentalHealth}%` }}

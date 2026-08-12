@@ -42,9 +42,15 @@ partido, así que **nada de esto valida motor, calendarios ni datos**.
   solo al elegir. **La ficha del jugador NO se colapsa**: es identidad, no navegación.
 - **Las métricas son una tira horizontal.** Eran una grilla de 2 columnas: tres filas altas que con
   el header fijo se comían media pantalla.
-- **Header de stats sticky.** Siempre estuvo en todas las pestañas — se renderiza fuera de los
-  condicionales de `activeTab` — pero se iba con el scroll, y en Entrenamiento eso dejaba el aviso de
-  "no te alcanza el capital" sin poder ver el capital.
+- **Header de stats: se probó sticky y se revirtió.** La auditoría pedía fijarlo porque en
+  Entrenamiento el aviso de "no te alcanza el capital" quedaba sin el capital a la vista. Fijado,
+  en uso real **tapaba contenido** al bajar y molestaba más de lo que resolvía. Volvió a scrollear
+  con la página, pero **más compacto**: la fecha lleva `whitespace-nowrap` y el bloque `shrink-0`
+  (sin eso, "miércoles 11 de marzo de 2026" se partía en tres renglones y era lo que estiraba la
+  barra a lo alto), y las tarjetas de métrica pasaron de `p-1.5` a `px-2 py-1`.
+
+  Queda como recordatorio de que una recomendación de auditoría puede ser correcta en el papel y
+  peor en la mano: lo decide el uso, no el informe.
 - **Colchón inferior de 96px.** Los controles de música y sonido son `fixed bottom-4` en las dos
   esquinas y tapaban el último bloque de cada pestaña.
 - **Panel de narración en `min(420px, 60vh)`.** La altura fija se comía la pantalla de un teléfono y,
