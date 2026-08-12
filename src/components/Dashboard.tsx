@@ -683,6 +683,19 @@ export default function Dashboard({
 
   // Etiqueta corta de cada celda del calendario. En las ligas de Apertura/Clausura dice cuál de los
   // dos torneos es, que es la información que faltaba: son dos campeonatos distintos en el mismo año.
+  /** La ronda de copa, corta y en español, para que entre en la celda del calendario. */
+  const rondaCorta = (ronda: string) => {
+    const b = ronda.replace(/\s*\([^)]*\)\s*$/, '').trim().toLowerCase();
+    if (/^final$/.test(b)) return 'Final';
+    if (/semi/.test(b)) return 'Semis';
+    if (/quarter|cuartos/.test(b)) return 'Cuartos';
+    if (/round of 16|last 16|octavos/.test(b)) return 'Octavos';
+    if (/round of 32|last 32|dieciseis/.test(b)) return '16avos';
+    if (/round of 64/.test(b)) return '32avos';
+    if (/group|grupo/.test(b)) return 'Grupos';
+    return ronda.length > 12 ? ronda.slice(0, 12) : ronda;
+  };
+
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string) => {
     if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
     if (/Libertadores/i.test(comp.name)) return 'Libertadores';
@@ -1792,9 +1805,11 @@ export default function Dashboard({
         label: etiquetaCompetencia(f.competition, f.date),
         // En una fecha RESERVADA para la copa el rival todavía no existe: depende de cómo terminen
         // las rondas anteriores. Decirlo es más honesto que mostrar el cartel de relleno.
+        // En una copa se dice la RONDA además del rival: no es lo mismo unos octavos que una final,
+        // y el dato ya venía en el calendario sin usarse.
         sublabel: f.esReservaDeCuadro
           ? 'Rival por definir'
-          : `${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
+          : `${f.competition.kind !== 'league' && f.match.round ? rondaCorta(f.match.round) + ' · ' : ''}${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
         colorClass: yaJugado
           ? 'bg-slate-700 text-slate-300'
           : f.competition.kind === 'league' ? 'bg-gold-600 text-white' : 'bg-burgundy-500 text-slate-950',

@@ -86,16 +86,14 @@ for (const h of saturadas.slice(0, 8)) console.log(`   ${h.club} (T${h.temporada
 // así que ese presupuesto no existe. Lo que hay que vigilar ahora -- que la copa se pueda jugar y
 // llegue a coronar campeón -- lo mide `npm run validar:copas`.
 
-// Subido de 600 a 750 el 12 de agosto de 2026, y con motivo: el juego pasó de 34 a 49
-// competiciones (las 4 Segundas europeas, las 2 holandesas y 9 copas nacionales), o sea 44% más
-// contenido. Medido dónde se va: 185 ms en generar las 32 temporadas y 440 ms en armar el índice
-// -- 650.000 objetos de fixture. No es un bucle lento, es el volumen.
+// BAJADO a 300, por debajo del 600 original, porque se arregló la causa y no el síntoma.
 //
-// EL ARREGLO DE FONDO, pendiente: fixturesForClub construye las 32 temporadas de una, y ninguna
-// carrera necesita la 32 el día que arranca. Construyéndolas por demanda, esto baja a una fracción
-// y deja de crecer con cada competición que se agregue. Mientras tanto el tope sube una vez, no
-// cada vez.
-const TOPE_DE_ARMADO_MS = 750;
+// Este tope llegó a subirse a 750 cuando el juego pasó de 34 a 49 competiciones y el armado se fue
+// a 764 ms. Subir la vara para pasar era lo cómodo; lo correcto era que fixturesForClub dejara de
+// construir las 32 temporadas de una sola vez -- 650.000 objetos de fixture -- cuando ninguna
+// carrera necesita la 32 el día que arranca. Con el horizonte perezoso (ver asegurarHorizonte en
+// dateSchedule.ts) bajó a 121 ms, y deja de crecer con cada competición que se agregue.
+const TOPE_DE_ARMADO_MS = 300;
 console.log(`\n=== C) Armar el calendario (32 temporadas, en frío) ===`);
 console.log(`  ${msDeArmado} ms   ${msDeArmado > TOPE_DE_ARMADO_MS ? `<-- PASADO EL TOPE de ${TOPE_DE_ARMADO_MS} ms: esto se congela al abrir` : `(tope ${TOPE_DE_ARMADO_MS} ms)`}`);
 

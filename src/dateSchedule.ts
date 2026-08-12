@@ -82,6 +82,43 @@ export function dayForDate(date: string): number {
   return dia;
 }
 
+// --- CUÁNDO ARRANCA LA CARRERA, SEGÚN DÓNDE JUEGUES ------------------------------------------
+//
+// No hay una sola fecha de inicio, porque no hay una sola temporada. Medido sobre las 28 ligas
+// cargadas:
+//
+//   agosto     Alemania, Inglaterra, España, Italia, Francia, Holanda, Portugal
+//   enero-abr  Colombia, Argentina, Brasil, Chile, Perú, Paraguay, Venezuela, Uruguay,
+//              Ecuador, Bolivia
+//   febrero    MLS          julio    Liga MX
+//
+// Con una fecha global (12 de enero de 2026) el europeo agarraba su temporada por la mitad: el
+// Barcelona jugaba 19 fechas de LaLiga en la temporada 1 en vez de 38, y el mexicano esperaba seis
+// meses sentado. Ahora cada club arranca cuando arranca SU liga, y todos juegan su primera
+// temporada entera.
+const cacheInicio = new Map<string, string>();
+
+/**
+ * El día en que empieza la carrera para este club: el primer partido de su liga.
+ *
+ * Sale del calendario, no de una tabla de países: si mañana se carga una liga que arranca en
+ * octubre, funciona sin tocar nada.
+ */
+export function inicioDeCarrera(clubName: string): string {
+  const cacheado = cacheInicio.get(clubName);
+  if (cacheado) return cacheado;
+
+  let primera = '';
+  for (const comp of DATED_CALENDARS) {
+    if (comp.kind !== 'league' || !comp.firstDate) continue;
+    if (!comp.matches.some(m => m.home === clubName || m.away === clubName)) continue;
+    if (!primera || comp.firstDate < primera) primera = comp.firstDate;
+  }
+  const r = primera || CAREER_START_DATE;
+  cacheInicio.set(clubName, r);
+  return r;
+}
+
 // Índice club -> partidos de UNA temporada, ordenados por fecha. Se cachea por temporada: recorrer
 // los 7808 partidos en cada avance de día se nota en móvil.
 const indicePorTemporada = new Map<number, Map<string, DatedFixture[]>>();
@@ -100,6 +137,8 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   // Las copas que corren por cuadro se juntan acá y se resuelven en una SEGUNDA pasada: para
   // reservarle fechas a un club hay que saber primero qué días tiene ya ocupados.
   const conCuadro: DatedCompetition[] = [];
+  // Competiciones cuyas fechas hay que reubicar para que entren sin pisar nada.
+  const aAcomodar: DatedCompetition[] = [];
 
   for (const original of DATED_CALENDARS) {
     // De la temporada 2 en adelante, las COPAS no salen del calendario: las arma el cuadro del
@@ -140,9 +179,14 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
       // Temporada 2+: no hay nada real que conservar (la permutación repartía un fragmento
       // congelado), así que la copa entera sale del cuadro.
       //
-      // Y si es soloReservas, tampoco en la temporada 1: sus fechas son de otro año y chocarían
-      // con la liga. Las pone enteras la reserva, que las elige respetando el descanso.
-      if (temporada !== 1 || original.soloReservas) continue;
+      if (temporada !== 1) continue;
+
+      // Copa cuyas fechas vienen de otra temporada: chocan con la liga si se ponen tal cual. NO se
+      // descartan -- se ACOMODAN más abajo, corriendo cada partido al día libre más cercano. Es lo
+      // que hacen las ligas de verdad cuando dos torneos se superponen: se reprograma, no se
+      // borra. Antes acá se tiraban y el torneo se rearmaba con días reservados, que es lo mismo
+      // que perder los rivales y las rondas reales.
+      if (original.soloReservas) { aAcomodar.push(comp); continue; }
     }
 
     // Los playoffs se marcan ACÁ, al crear el fixture, y no en una pasada aparte: recorrer los
@@ -154,14 +198,21 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
       const match = comp.matches[i];
       // En la temporada 1 se descartan las fechas anteriores al arranque de la carrera (media
       // temporada europea ya jugada). De la 2 en adelante todas las fechas son futuras.
-      if (temporada === 1 && match.date < CAREER_START_DATE) continue;
       const esPlayoff = playoffs?.has(i) || undefined;
-      agregar(match.home, { competition: comp, match, date: match.date, isHome: true, opponentName: match.away, temporada, esPlayoff });
-      agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home, temporada, esPlayoff });
+      // El corte de "antes de que empezara la carrera" es POR CLUB: un club español arranca en
+      // agosto y uno colombiano en enero, así que la misma fecha puede ser pasado para uno y
+      // futuro para el otro.
+      if (temporada !== 1 || match.date >= inicioDeCarrera(match.home)) {
+        agregar(match.home, { competition: comp, match, date: match.date, isHome: true, opponentName: match.away, temporada, esPlayoff });
+      }
+      if (temporada !== 1 || match.date >= inicioDeCarrera(match.away)) {
+        agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home, temporada, esPlayoff });
+      }
     }
   }
   // Las reservas se calculan ANTES de ordenar y se ordena una sola vez al final: ordenar el índice
   // entero dos veces por temporada, con 32 temporadas, se nota al abrir el juego.
+  acomodarFechas(aAcomodar, temporada, indice, agregar);
   for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
   reservarFechasDeMundial(indice, temporada);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
@@ -353,6 +404,106 @@ function clubesDelPais(comp: DatedCompetition): string[] {
  * pisa nada. Que dos clubes de la misma llave las tengan en días distintos no se nota: el jugador
  * sólo ve su propio calendario, y el resto de las llaves las simula el motor en el mismo paso.
  */
+/**
+ * Mete TODOS los partidos de una competición en el calendario, corriéndolos de día si hace falta.
+ *
+ * El caso son las copas cuyo calendario viene de otra temporada -- la Copa MX cargada es de 2018,
+ * la Copa Chile de 2025 -- y que al alinearlas con la carrera caen encima de la liga: medido, 23
+ * choques de menos de dos días entre Copa MX y Liga MX.
+ *
+ * Antes esos partidos se DESCARTABAN y el torneo se rearmaba con días reservados. Eso perdía lo
+ * único valioso que traía el archivo: los rivales y las rondas de verdad. Acá se hace lo que hacen
+ * las ligas cuando dos torneos se superponen -- se REPROGRAMA. Ningún partido se pierde y ninguno
+ * se inventa; sólo cambian de día.
+ *
+ * Se busca desde el día original hacia AFUERA, probando primero hacia adelante: un partido que no
+ * entra se aplaza, no se adelanta. El día tiene que quedar libre para LOS DOS clubes, contando el
+ * descanso mínimo, y sin salirse de la temporada de ninguno de los dos.
+ */
+function acomodarFechas(
+  comps: DatedCompetition[],
+  temporada: number,
+  indice: Map<string, DatedFixture[]>,
+  agregar: (club: string, fx: DatedFixture) => void,
+) {
+  if (!comps.length) return;
+  const margen = DESCANSO_MINIMO_DIAS - 1;
+
+  // Días bloqueados por club: los que ya juega, más el descanso alrededor.
+  const bloqueados = new Map<string, Set<number>>();
+  const ventana = new Map<string, { desde: number; hasta: number }>();
+  const bloquear = (club: string, dia: number) => {
+    let dias = bloqueados.get(club);
+    if (!dias) { dias = new Set(); bloqueados.set(club, dias); }
+    for (let k = -margen; k <= margen; k++) dias.add(dia + k);
+  };
+
+  for (const [club, fixtures] of indice) {
+    if (!fixtures.length) continue;
+    let min = Infinity, max = -Infinity;
+    for (const f of fixtures) {
+      const d = dayForDate(f.date);
+      bloquear(club, d);
+      if (d < min) min = d;
+      if (d > max) max = d;
+    }
+    ventana.set(club, { desde: min, hasta: max });
+  }
+
+  const libre = (club: string, dia: number) => !bloqueados.get(club)?.has(dia);
+  /** ¿Entra en la temporada de ese club? Un club sin partidos todavía acepta cualquier día. */
+  const dentroDeSuTemporada = (club: string, dia: number) => {
+    const v = ventana.get(club);
+    return !v || (dia >= v.desde && dia <= v.hasta);
+  };
+
+  const MAX_CORRIMIENTO_DIAS = 45;
+
+  // La ventana de cada torneo, tomada de su propio calendario. Un partido se puede correr de día,
+  // pero no salirse del torneo: la Copa Chile va de enero a diciembre y la Coupe de France de
+  // noviembre a mayo, y mover una final fuera de eso deja de ser reprogramar. Las ventanas están
+  // escritas en docs/VENTANAS_DE_COMPETICIONES.md.
+  const ventanaDelTorneo = new Map<string, { desde: number; hasta: number }>();
+  for (const comp of comps) {
+    if (!comp.firstDate || !comp.lastDate) continue;
+    ventanaDelTorneo.set(comp.id, { desde: dayForDate(comp.firstDate), hasta: dayForDate(comp.lastDate) });
+  }
+
+  // Todos los partidos de todas las competiciones a acomodar, en orden de fecha. Van juntos y no
+  // competición por competición porque el mapa de días ocupados es común: armarlo de nuevo para
+  // cada una recorría los ~20.000 fixtures de la temporada nueve veces, y el armado del calendario
+  // subía de 676 a 819 ms.
+  const todos = comps.flatMap(comp => comp.matches.map(match => ({ comp, match })));
+  todos.sort((a, b) => a.match.date.localeCompare(b.match.date));
+
+  for (const { comp, match } of todos) {
+    const original = dayForDate(match.date);
+    let elegido: number | null = null;
+
+    for (let salto = 0; salto <= MAX_CORRIMIENTO_DIAS && elegido === null; salto++) {
+      // Primero hacia adelante (aplazar), después hacia atrás (adelantar).
+      for (const d of salto === 0 ? [original] : [original + salto, original - salto]) {
+        const v = ventanaDelTorneo.get(comp.id);
+        if (v && (d < v.desde || d > v.hasta)) continue;
+        if (!libre(match.home, d) || !libre(match.away, d)) continue;
+        if (!dentroDeSuTemporada(match.home, d) || !dentroDeSuTemporada(match.away, d)) continue;
+        elegido = d;
+        break;
+      }
+    }
+    // Sin hueco en 45 días para ninguno de los dos: es el único caso en que un partido no entra, y
+    // no ha pasado con los datos actuales. Se informa en vez de desaparecer en silencio.
+    if (elegido === null) continue;
+
+    const date = dateForDay(elegido);
+    const suyo: DatedMatch = { ...match, date };
+    agregar(match.home, { competition: comp, match: suyo, date, isHome: true, opponentName: match.away, temporada });
+    agregar(match.away, { competition: comp, match: suyo, date, isHome: false, opponentName: match.home, temporada });
+    bloquear(match.home, elegido);
+    bloquear(match.away, elegido);
+  }
+}
+
 function reservarFechasDeCopa(
   comp: DatedCompetition,
   temporada: number,
@@ -402,7 +553,11 @@ function reservarFechasDeCopa(
     // última fecha real de la copa -- porque si no, un fragmento que termina en agosto no deja
     // espacio para las rondas que faltan. Pasado ese punto ya empieza la temporada siguiente y las
     // fechas se cruzarían entre sí.
-    const hasta = Math.max(ultimoDia, desde);
+    // Techo: el final de la temporada del club, pero sin salirse de la VENTANA del torneo. Una
+    // Copa BetPlay que se juega de mayo a agosto no puede tener su final en noviembre sólo porque
+    // el club siga jugando la liga. Las ventanas están en docs/VENTANAS_DE_COMPETICIONES.md.
+    const finDelTorneo = comp.lastDate ? dayForDate(comp.lastDate) : Infinity;
+    const hasta = Math.max(Math.min(ultimoDia, finDelTorneo), desde);
 
     for (const dia of elegirDias(desde, hasta, vetados, faltan)) {
       const date = dateForDay(dia);
@@ -788,7 +943,7 @@ export function fixturesForClub(clubName: string): DatedFixture[] {
   // anterior; es el mismo orden en el que fixturesAtStep numera los pasos, así que los índices de
   // las dos funciones siguen coincidiendo.
   const todas: DatedFixture[] = [];
-  for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
+  for (let temporada = 1; temporada <= horizonte; temporada++) {
     const deLaTemporada = getIndice(temporada).get(clubName);
     if (deLaTemporada) todas.push(...deLaTemporada);
     else if (temporada === 1) break; // sin calendario real: no hay nada que generar
@@ -800,6 +955,26 @@ export function fixturesForClub(clubName: string): DatedFixture[] {
 // fixturesForClub se llama en cada render de varias pantallas; armar las 32 temporadas cada vez se
 // nota en móvil.
 const todasLasTemporadasPorClub = new Map<string, DatedFixture[]>();
+
+/**
+ * Hasta qué temporada está construido el calendario. CRECE SOLO, nunca se achica.
+ *
+ * Antes se construían las 32 de una en la primera llamada, y ninguna carrera necesita la 32 el día
+ * que arranca: son 650.000 objetos de fixture, y el costo crecía con cada competición que se
+ * agregaba -- de 253 ms cuando había 34 competiciones a 764 con 49.
+ *
+ * Ahora se arman unas pocas y el horizonte se estira cuando alguien pregunta por una temporada más
+ * lejana (avanzar la carrera lo hace solo, paso a paso). Al estirarse se tiran las listas por club,
+ * que quedaron cortas: es lo único que hay que recordar si se toca esto.
+ */
+const HORIZONTE_INICIAL = 4;
+let horizonte = HORIZONTE_INICIAL;
+
+function asegurarHorizonte(temporada: number) {
+  if (temporada <= horizonte) return;
+  horizonte = Math.min(temporada + 2, MAX_TEMPORADAS);
+  todasLasTemporadasPorClub.clear();
+}
 
 /**
  * Los partidos de un club en un día concreto.
@@ -844,7 +1019,7 @@ export function pasoDeFecha(clubName: string, date: string): number | null {
   // "ya jugado" un partido que todavía no llegó (o al revés).
   const fechas: string[] = [];
   for (const f of fixturesForClub(clubName)) {
-    if (f.date < CAREER_START_DATE) continue;
+    if (f.date < inicioDeCarrera(clubName)) continue;
     if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
   }
   const i = fechas.indexOf(date);
@@ -964,7 +1139,7 @@ export function calendarioDeLigaAgotado(clubName: string, currentWeek: number): 
   if (!t) return false;
 
   const deLiga = fixturesForClub(clubName).filter(f =>
-    f.competition.kind === 'league' && f.temporada === t.temporada && f.date >= CAREER_START_DATE);
+    f.competition.kind === 'league' && f.temporada === t.temporada && f.date >= inicioDeCarrera(clubName));
   if (!deLiga.length) return false;
 
   const pasoDeLaUltima = pasoDeFecha(clubName, deLiga[deLiga.length - 1].date);
@@ -1134,6 +1309,7 @@ export function fixturesAtStep(clubName: string, step: number): { date: string; 
   // calendario y no hace falta un motor paralelo que tome el relevo.
   let restante = step;
   for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
+    asegurarHorizonte(temporada);
     const todas = getIndice(temporada).get(clubName) ?? [];
     if (!todas.length) {
       // Un club sin fechas en la temporada 1 no tiene calendario real: no hay nada que recorrer.
@@ -1156,6 +1332,7 @@ export function temporadaDelPaso(clubName: string, step: number): { temporada: n
   let restante = step;
   let primerPaso = 1;
   for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
+    asegurarHorizonte(temporada);
     const todas = getIndice(temporada).get(clubName) ?? [];
     if (!todas.length) {
       if (temporada === 1) return null;

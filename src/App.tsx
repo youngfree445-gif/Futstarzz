@@ -355,6 +355,35 @@ function rivalDeLigaDelPaso(leagueClubs: Club[], clubName: string, paso: number)
   return rival ? { opponentId: rival.id, isHome: fx.isHome } : null;
 }
 
+/**
+ * "Copa do Brasil · Octavos de Final" a partir del nombre del torneo y la ronda del calendario.
+ *
+ * Las rondas vienen de Transfermarkt en inglés y con formatos distintos según la copa ("Round of
+ * 16", "Quarter-Finals", "1. Round"). Se traducen las habituales y el resto pasa tal cual: es
+ * preferible mostrar "Group Stage" que no mostrar nada.
+ */
+const RONDAS_EN_ESPANOL: Record<string, string> = {
+  'final': 'Final',
+  'semi-finals': 'Semifinal', 'semi-final': 'Semifinal', 'semifinals': 'Semifinal',
+  'quarter-finals': 'Cuartos de Final', 'quarter-final': 'Cuartos de Final',
+  'round of 16': 'Octavos de Final', 'last 16': 'Octavos de Final',
+  'round of 32': 'Dieciseisavos', 'last 32': 'Dieciseisavos',
+  'round of 64': 'Treintaidosavos',
+  'group stage': 'Fase de Grupos', 'first round': 'Primera Ronda', 'second round': 'Segunda Ronda',
+  'third round': 'Tercera Ronda', 'preliminary round': 'Ronda Preliminar',
+};
+
+function rotuloDeRonda(competicion: string, ronda?: string): string {
+  if (!ronda) return competicion;
+  const limpia = ronda.trim();
+  // "Final (Vuelta)" -> se traduce "Final" y se conserva el paréntesis.
+  const conParentesis = /^(.*?)\s*\(([^)]*)\)\s*$/.exec(limpia);
+  const base = (conParentesis ? conParentesis[1] : limpia).trim();
+  const sufijo = conParentesis ? ` (${conParentesis[2].trim()})` : '';
+  const traducida = RONDAS_EN_ESPANOL[base.toLowerCase()] ?? base;
+  return `${competicion} · ${traducida}${sufijo}`;
+}
+
 // --- LA TEMPORADA LA DICE EL CALENDARIO ---------------------------------------------------------
 //
 // Estas tres reemplazan a getSeasonYear, que calculaba la temporada como floor(paso / 52) + 1.
@@ -2384,7 +2413,10 @@ export default function App() {
       setActiveUefaCupId(esContinental && /Champions/i.test(nombre) ? 'champions'
         : esContinental && /Europa/i.test(nombre) ? 'europa' : null);
       setActiveDomesticCup(!esContinental);
-      setActiveCompetitionName(nombre);
+      // En una copa hay que decir QUÉ RONDA es: no es lo mismo unos octavos que una final, y el
+      // dato ya venía en el calendario (`round` de Transfermarkt) sin usarse. Los partidos que
+      // arma el cuadro del motor ya lo mostraban; los que salen del calendario, no.
+      setActiveCompetitionName(rotuloDeRonda(nombre, realPrimary.match.round));
       setActiveMyTablePosition(null);
       setActiveRivalTablePosition(null);
       setActiveLeagueTeamCount(null);

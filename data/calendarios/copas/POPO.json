@@ -1,0 +1,913 @@
+{
+  "competition": {
+    "id": "POPO",
+    "name": "Taça de Portugal",
+    "league": "Portuguesa",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2025-08-30",
+      "round": "First Round",
+      "home": "São Martinho",
+      "away": "Machico"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "First Round",
+      "home": "Trofense",
+      "away": "Varzim"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "First Round",
+      "home": "Vasco da Gama",
+      "away": "Lagoa"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "First Round",
+      "home": "Vila Real",
+      "away": "Camacha"
+    },
+    {
+      "date": "2025-08-30",
+      "round": "First Round",
+      "home": "Belenenses",
+      "away": "Amora FC"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Salgueiros",
+      "away": "Pontassolense"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Rebordosa",
+      "away": "Leça"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Vila Caiz",
+      "away": "Ribeira Brava"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Lusitânia",
+      "away": "O Elvas"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Valenciano",
+      "away": "Vianense"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Carregal do Sal",
+      "away": "Mortágua"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Correlhã",
+      "away": "Valpaços"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Vilaverdense",
+      "away": "Monção"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Maria da Fonte",
+      "away": "Brito"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Moncarapachense",
+      "away": "Sp. Viana"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Castrense",
+      "away": "Quarteirense"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Cinfães",
+      "away": "Marco 09"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Florgrade",
+      "away": "Espinho"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Tirsense",
+      "away": "Amarante"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Aparecida",
+      "away": "AC Vila Meã"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "FC Serpa",
+      "away": "GD Portel"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Charn. Caparica",
+      "away": "CO Montijo"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Marinhense",
+      "away": "Samora Correia"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Peniche",
+      "away": "Ferr. Zêzere"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Naval 1893",
+      "away": "Ac. Fundão"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Coimbra",
+      "away": "Marialvas"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Castro Daire",
+      "away": "Anadia"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Ovarense",
+      "away": "SC Celoricense"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "CD Celoricense",
+      "away": "CD Celeirós"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Oriental",
+      "away": "Alcochetense"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Com. Indústria",
+      "away": "Juv. Évora"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "JD Lajense",
+      "away": "1º Dezembro"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "Gouveia",
+      "away": "Beira-Mar"
+    },
+    {
+      "date": "2025-08-31",
+      "round": "First Round",
+      "home": "GD Nazarenos",
+      "away": "Sourense"
+    },
+    {
+      "date": "2025-09-05",
+      "round": "First Round",
+      "home": "Caldas",
+      "away": "Portomosense"
+    },
+    {
+      "date": "2025-09-06",
+      "round": "First Round",
+      "home": "Lajense",
+      "away": "L. Alentejo"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "First Round",
+      "home": "Sacavenense",
+      "away": "Rabo de Peixe"
+    },
+    {
+      "date": "2025-09-07",
+      "round": "First Round",
+      "home": "FC Urzelinense",
+      "away": "AC Malveira"
+    },
+    {
+      "date": "2025-09-14",
+      "round": "First Round",
+      "home": "Fayal",
+      "away": "Oliv. Moscavide"
+    },
+    {
+      "date": "2025-09-19",
+      "round": "Second Round",
+      "home": "Marco 09",
+      "away": "O Elvas"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Belenenses",
+      "away": "Marítimo"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Sintrense",
+      "away": "Vizela"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Castrense",
+      "away": "Lus. Lourosa"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Ovarense",
+      "away": "SC Covilhã"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Sanjoanense",
+      "away": "Felgueiras"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Sernache",
+      "away": "Portimonense"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Vidago",
+      "away": "Farense"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Caldas",
+      "away": "Fátima"
+    },
+    {
+      "date": "2025-09-20",
+      "round": "Second Round",
+      "home": "Paredes",
+      "away": "Chaves"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "S. João Ver",
+      "away": "Vasco da Gama"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Louletano",
+      "away": "Operário"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "FC Alpendorada",
+      "away": "Estrela Calheta"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "BC Branco",
+      "away": "Angrense"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Ançã FC",
+      "away": "Vinhais"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Naval 1893",
+      "away": "Leixões"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Vila Caiz",
+      "away": "Eléctrico"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Mortágua",
+      "away": "Marialvas"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Limianos",
+      "away": "AC Vila Meã"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Amarante",
+      "away": "União Santarém"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "União Lamas",
+      "away": "AC Malveira"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Peniche",
+      "away": "1º Dezembro"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Marinhense",
+      "away": "FC Mosteirense"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Atlético CP",
+      "away": "Rebordosa"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Oriental",
+      "away": "Fafe"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Bragança",
+      "away": "Brito"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Espinho",
+      "away": "CD Almodôvar"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "L. Alentejo",
+      "away": "FC Serpa"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "CD Celoricense",
+      "away": "Mafra"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Oliv. Moscavide",
+      "away": "União da Serra"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Trofense",
+      "away": "Vianense"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Moncarapachense",
+      "away": "Anadia"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Com. Indústria",
+      "away": "Salgueiros"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Rebordelo",
+      "away": "Gouveia"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Fazendense",
+      "away": "Mirandela"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Sacavenense",
+      "away": "Leiria"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Monção",
+      "away": "Oliveirense"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "GD Nazarenos",
+      "away": "Paços Ferreira"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Correlhã",
+      "away": "Torreense"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Machico",
+      "away": "Vila Real"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Resende",
+      "away": "Feirense"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Portalegrense",
+      "away": "Académico Viseu"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Portimonense",
+      "away": "Penafiel"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Nogueirense",
+      "away": "Águias Moradal"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "Silves",
+      "away": "Oliv. Hospital"
+    },
+    {
+      "date": "2025-09-21",
+      "round": "Second Round",
+      "home": "F. Algodres",
+      "away": "Charn. Caparica"
+    },
+    {
+      "date": "2025-10-17",
+      "round": "Third Round",
+      "home": "Chaves",
+      "away": "Benfica"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "FC Alpendorada",
+      "away": "Estrela Amadora"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "S. João Ver",
+      "away": "Famalicão"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Espinho",
+      "away": "Santa Clara"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "F. Algodres",
+      "away": "Avs FS"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Leiria",
+      "away": "Alverca"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Rebordelo",
+      "away": "Nacional"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Torreense",
+      "away": "Oliveirense"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "SC Covilhã",
+      "away": "Nogueirense"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Bragança",
+      "away": "Braga"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Portimonense",
+      "away": "Arouca"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Marco 09",
+      "away": "Farense"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "CD Celoricense",
+      "away": "Porto"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Académico Viseu",
+      "away": "Gil Vicente"
+    },
+    {
+      "date": "2025-10-18",
+      "round": "Third Round",
+      "home": "Paços Ferreira",
+      "away": "Sporting"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Fafe",
+      "away": "Moreirense"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Vila Real",
+      "away": "Tondela"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Sintrense",
+      "away": "Rio Ave"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Ançã FC",
+      "away": "Casa Pia"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "União Lamas",
+      "away": "Vit. Guimarães"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Silves",
+      "away": "Louletano"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "AC Vila Meã",
+      "away": "Vila Caiz"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Atlético CP",
+      "away": "Felgueiras"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Mortágua",
+      "away": "Portimonense"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Anadia",
+      "away": "Marinhense"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "L. Alentejo",
+      "away": "Oliv. Moscavide"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Amarante",
+      "away": "Leixões"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Lus. Lourosa",
+      "away": "Resende"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Caldas",
+      "away": "Mirandela"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "1º Dezembro",
+      "away": "BC Branco"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Com. Indústria",
+      "away": "Vianense"
+    },
+    {
+      "date": "2025-10-19",
+      "round": "Third Round",
+      "home": "Belenenses",
+      "away": "Estoril"
+    },
+    {
+      "date": "2025-11-21",
+      "round": "Fourth Round",
+      "home": "Atlético CP",
+      "away": "Benfica"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "Avs FS",
+      "away": "Académico Viseu"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "FC Alpendorada",
+      "away": "Casa Pia"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "Vit. Guimarães",
+      "away": "Mortágua"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "SC Covilhã",
+      "away": "L. Alentejo"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "1º Dezembro",
+      "away": "Leiria"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "Sporting",
+      "away": "Marinhense"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "Estoril",
+      "away": "Famalicão"
+    },
+    {
+      "date": "2025-11-22",
+      "round": "Fourth Round",
+      "home": "Porto",
+      "away": "Sintrense"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "Fourth Round",
+      "home": "Lus. Lourosa",
+      "away": "Torreense"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "Fourth Round",
+      "home": "AC Vila Meã",
+      "away": "Leixões"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "Fourth Round",
+      "home": "Fafe",
+      "away": "Arouca"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "Fourth Round",
+      "home": "Farense",
+      "away": "Silves"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "Fourth Round",
+      "home": "Santa Clara",
+      "away": "Com. Indústria"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "Fourth Round",
+      "home": "Tondela",
+      "away": "Caldas"
+    },
+    {
+      "date": "2025-11-23",
+      "round": "Fourth Round",
+      "home": "Braga",
+      "away": "Nacional"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "Round of 16",
+      "home": "AC Vila Meã",
+      "away": "Leiria"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "Round of 16",
+      "home": "Casa Pia",
+      "away": "Torreense"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "Round of 16",
+      "home": "Vit. Guimarães",
+      "away": "Avs FS"
+    },
+    {
+      "date": "2025-12-17",
+      "round": "Round of 16",
+      "home": "Farense",
+      "away": "Benfica"
+    },
+    {
+      "date": "2025-12-18",
+      "round": "Round of 16",
+      "home": "Santa Clara",
+      "away": "Sporting"
+    },
+    {
+      "date": "2025-12-18",
+      "round": "Round of 16",
+      "home": "Porto",
+      "away": "Famalicão"
+    },
+    {
+      "date": "2025-12-23",
+      "round": "Round of 16",
+      "home": "Caldas",
+      "away": "Braga"
+    },
+    {
+      "date": "2025-12-27",
+      "round": "Round of 16",
+      "home": "L. Alentejo",
+      "away": "Fafe"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "Quarter-Finals",
+      "home": "Torreense",
+      "away": "Leiria"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "Quarter-Finals",
+      "home": "Fafe",
+      "away": "Braga"
+    },
+    {
+      "date": "2026-01-14",
+      "round": "Quarter-Finals",
+      "home": "Porto",
+      "away": "Benfica"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Fafe",
+      "away": "Torreense"
+    },
+    {
+      "date": "2026-02-05",
+      "round": "Quarter-Finals",
+      "home": "Sporting",
+      "away": "Avs FS"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "Semi-Finals 1st Leg",
+      "home": "Sporting",
+      "away": "Porto"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Porto",
+      "away": "Sporting"
+    },
+    {
+      "date": "2026-04-23",
+      "round": "Semi-Finals 2nd Leg",
+      "home": "Torreense",
+      "away": "Fafe"
+    },
+    {
+      "date": "2026-05-24",
+      "round": "Final",
+      "home": "Sporting",
+      "away": "Torreense"
+    }
+  ]
+}

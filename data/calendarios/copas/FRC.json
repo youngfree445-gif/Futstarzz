@@ -1,0 +1,2539 @@
+{
+  "competition": {
+    "id": "FRC",
+    "name": "Coupe de France",
+    "league": "Francesa",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2025
+  },
+  "aliases": {},
+  "matches": [
+    {
+      "date": "2025-10-10",
+      "round": "First Round",
+      "home": "AG Caen",
+      "away": "SM Caen"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "First Round",
+      "home": "Bourgoin-Jall.",
+      "away": "US Feurs"
+    },
+    {
+      "date": "2025-10-10",
+      "round": "First Round",
+      "home": "FC Riedisheim",
+      "away": "FC Mulhouse"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "AS Butten",
+      "away": "SR Colmar"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Saran FC",
+      "away": "C'Chartres"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Reding",
+      "away": "Sarreguemines"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Racing Besançon",
+      "away": "Jura Dolois"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "RC Labourse",
+      "away": "Wasquehal"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Hyères 83",
+      "away": "Istres FC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Bennwihr",
+      "away": "US Raon-l'Étape"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "G. Ajaccio",
+      "away": "GC Lucciana"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Drusenheim",
+      "away": "US Forbach"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Aubenas SudArd.",
+      "away": "AS Saint-Priest"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "CS Villedieu",
+      "away": "QRM"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "US Alençon",
+      "away": "FC Rouen 1899"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "IC de Croix",
+      "away": "Valenciennes FC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Audincourt",
+      "away": "FC Sochaux"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Montagnarde",
+      "away": "Concarneau"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "US Ivry",
+      "away": "FC Versailles"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Saumur",
+      "away": "FC Challans"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "ES Golbey",
+      "away": "SAS Épinal"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Pacy Ménilles",
+      "away": "FC Dieppe"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Bois-Guillaume",
+      "away": "SU Dives"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "St-Co Locminé",
+      "away": "Ergué-Gabéric"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Borgo",
+      "away": "FC Balagne"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "US Laon",
+      "away": "US Chantilly"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Roanne",
+      "away": "GFA Rumilly Val"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Ploërmel FC",
+      "away": "Fougères"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "ASM Belfort",
+      "away": "Morteau"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Linas-Montlhéry",
+      "away": "Montrouge FC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Ste. Geneviève",
+      "away": "FC Mantois"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Portet",
+      "away": "US Colomiers"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "AC Le Pontet V.",
+      "away": "ES Fosséenne"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "FC Lavaur",
+      "away": "Onet-le-Chât."
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Paray le Monial",
+      "away": "FC Chalon"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "RC Lédonien",
+      "away": "CA Pontarlier"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "US Fécamp",
+      "away": "Caucriauville"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Blagnac FC",
+      "away": "AF Lozère"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Orvault Sports",
+      "away": "Pouzauges"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Mont-de-Marsan",
+      "away": "Mérignac"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "FC Gueugnon",
+      "away": "FC Montceau B."
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "St Juéry O.",
+      "away": "Union SaintJean"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Ol. Por. Mehun",
+      "away": "LB Châteauroux"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Contres",
+      "away": "Saint-Pryvé FC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Stade Pontivyen",
+      "away": "Vannes"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Boulay",
+      "away": "FR Haguenau"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "AS Espinat",
+      "away": "Le Puy Foot"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Saint-Jacques",
+      "away": "Stade Briochin"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "FC Lèves",
+      "away": "US Orléans"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "VFC La Roche",
+      "away": "St-Philbert"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "AS Cherbourg",
+      "away": "US Avranches"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Montlouis",
+      "away": "Bourges FC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "ASM Football",
+      "away": "Andrézieux"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "L'Etrat La Tour",
+      "away": "GOAL FC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Paizay-le-sec",
+      "away": "Stade Poitevin"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Thionville Lus.",
+      "away": "Rosselange"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Choisy-au-Bac",
+      "away": "Saint-Quentin"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Sauveteurs Br.",
+      "away": "Hauts Lyonnais"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "CS Neuvillois",
+      "away": "FC Limonest"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Boé Bon Encon.",
+      "away": "Lège Cap-Ferret"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Châteauneuf",
+      "away": "Vineuil"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Malesherbes",
+      "away": "Blois Foot 41"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Châtenoy",
+      "away": "Dijon"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "AS Porto Vecchio",
+      "away": "AS Furiani"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "SC Azay Cheillé",
+      "away": "Avoine OCC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Villefontaine",
+      "away": "FC Villefranche"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Allobroges A.",
+      "away": "Bourg-en-Bresse"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Tulle",
+      "away": "G. Bordeaux"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "US Le Blanc",
+      "away": "SO Romorantin"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Gouzon",
+      "away": "Châtellerault"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "Jonzac",
+      "away": "Angoulême CFC"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "FC Comtal",
+      "away": "RCO Agde"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "J. Villenavaise",
+      "away": "FC Bassin d'Arcachon"
+    },
+    {
+      "date": "2025-10-11",
+      "round": "First Round",
+      "home": "US Liffré",
+      "away": "Châteaubourg"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "L'Isle-Adam",
+      "away": "FC Fleury 91"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Atl. Bagnolet",
+      "away": "Racing CFF"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "ES Herblay",
+      "away": "Aubervilliers"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "FC Montfermeil",
+      "away": "FC 93 Bobigny"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "US Torcy",
+      "away": "CS Brétigny"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Thonon Évian",
+      "away": "Crest-Aouste"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Annecy Vieux",
+      "away": "Lyon La Duchère"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Séauve Sports",
+      "away": "Moulins-Yzeure"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Haut d’Allier",
+      "away": "FC Chamalières"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Côte St André",
+      "away": "Valence"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Saint-Auban",
+      "away": "Aubagne Air Bel"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "ASF 94 Perreux",
+      "away": "Paris 13 Atl."
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Guipavas",
+      "away": "GSI Pontivy"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Baud FC",
+      "away": "St-Pierre Mi."
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Chap.-Mtgermont",
+      "away": "AS Vitré"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Agneaux",
+      "away": "US Granville"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "CS Carentan",
+      "away": "CMS Oissel"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "US Ruch Carvin",
+      "away": "AS Beauvais"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "FC Aubinois",
+      "away": "Dinan Léhon"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Muzillac OC",
+      "away": "US Saint-Malo"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "AS Auneuil",
+      "away": "FC Chambly Oise"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "FC Maritime",
+      "away": "FC Chauray"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "AS Erstein",
+      "away": "ASC Biesheim"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "AS Géménos",
+      "away": "Fréjus-St-Raph."
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "US Yzeures Pr.",
+      "away": "UF Touraine"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "SC Cadaujac",
+      "away": "Av. Bayonnais"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Neauphle-P.",
+      "away": "US Créteil-L"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Biache",
+      "away": "EFAFC"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Anduze",
+      "away": "US Castanet"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "FC2L",
+      "away": "Les Herbiers"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Cap d'Ail",
+      "away": "Cannes"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Canet Rous.",
+      "away": "FU Narbonne"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "US Lamorlaye",
+      "away": "Pays du Valois"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "AS Mignaloux",
+      "away": "US Chauvigny"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Villers-Semeuse",
+      "away": "OCPAM 08"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "P. Cassel",
+      "away": "Grande-Synthe"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Domtac",
+      "away": "AC Seyssinet"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "SO Cholet",
+      "away": "Fontenay"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Montenay",
+      "away": "Châtaigneraie"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "La Nicolaïte",
+      "away": "St. Beaucairois"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "SC Orée Loire",
+      "away": "Les Sables VF"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Sud Nivernaise",
+      "away": "Mâcon 71"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "US Valbonne",
+      "away": "Carnoux FC"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Moncé",
+      "away": "Sablé FC"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Pays Chantonnay",
+      "away": "Mans Villaret"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Pornic Foot",
+      "away": "Beaucouzé"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Beaumont SA",
+      "away": "Nort AC"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "AS Ghisonaccia",
+      "away": "USC Corte"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "FA Illkirch Gr.",
+      "away": "Sundhoffen"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Saint-Just Ch.",
+      "away": "AC Cambrai"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Pavilly",
+      "away": "ASPTT Caen"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Breteuil",
+      "away": "FC Montigny"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "JS Écourt",
+      "away": "Saint-Amand"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Martigues Sud",
+      "away": "RC Grasse"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "AC Paris 15",
+      "away": "JA Drancy"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Villemomble",
+      "away": "US Lusitanos"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "Longvic",
+      "away": "ASPTT Dijon"
+    },
+    {
+      "date": "2025-10-12",
+      "round": "First Round",
+      "home": "ESOFV La Roche",
+      "away": "St-Pierre Mont."
+    },
+    {
+      "date": "2025-10-24",
+      "round": "Second Round",
+      "home": "FC Chambly Oise",
+      "away": "Wasquehal"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Séauve Sports",
+      "away": "Hauts Lyonnais"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "AS Guereins",
+      "away": "Thonon Évian"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FAC Alizay",
+      "away": "SM Caen"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Blain",
+      "away": "FC Challans"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US La Baule",
+      "away": "Les Herbiers"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "La Valette",
+      "away": "Istres FC"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Vannes",
+      "away": "Dinan Léhon"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Orvault Sports",
+      "away": "VFC La Roche"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FA Illkirch Gr.",
+      "away": "ASC Biesheim"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Mans Villaret",
+      "away": "Sablé FC"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Chavanay",
+      "away": "Andrézieux"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Fougères",
+      "away": "AS Vitré"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Pluvigner",
+      "away": "Stade Briochin"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "SO Romorantin",
+      "away": "Avoine OCC"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FC Villars",
+      "away": "ASM Belfort"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FC Montceau B.",
+      "away": "Saint-Marcel"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FC Chamalières",
+      "away": "Valence"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FC Chalon",
+      "away": "Mâcon 71"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "C'Chartres",
+      "away": "Blois Foot 41"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "UF Touraine",
+      "away": "Montlouis"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Sarreguemines",
+      "away": "SR Colmar"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "USP Saint-Omer",
+      "away": "IC de Croix"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US Raon-l'Étape",
+      "away": "FC Geispolsheim"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Pont-de-Roide",
+      "away": "FC Sochaux"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Is-Selongey",
+      "away": "Dijon"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Vineuil",
+      "away": "US Orléans"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "MOS Caen",
+      "away": "QRM"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Union SaintJean",
+      "away": "US Castanet"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US Seysses",
+      "away": "Blagnac FC"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Beaucouzé",
+      "away": "ESOFV La Roche"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Carnoux FC",
+      "away": "Fréjus-St-Raph."
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Revermont",
+      "away": "Lyon La Duchère"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "CMS Oissel",
+      "away": "US Alençon"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "USC Corte",
+      "away": "G. Ajaccio"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FC 93 Bobigny",
+      "away": "JA Drancy"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US Colomiers",
+      "away": "Saint Clément"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "AC Seyssinet",
+      "away": "AS Saint-Priest"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "CA Pontarlier",
+      "away": "FC Sens"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Bayeux FC",
+      "away": "Caucriauville"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Étoile Bobigny",
+      "away": "Linas-Montlhéry"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Coutances",
+      "away": "FC Dieppe"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US Forbach",
+      "away": "FR Haguenau"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "ASPTT Caen",
+      "away": "Évreux FC 27"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Bar-le-Duc",
+      "away": "OCPAM 08"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Neuville",
+      "away": "Angoulême CFC"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Boulazac",
+      "away": "G. Bordeaux"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US Tourcoing",
+      "away": "Portug. Amiens"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "AS Furiani",
+      "away": "FC Balagne"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Bourg-en-Bresse",
+      "away": "GFA Rumilly Val"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Contres",
+      "away": "LB Châteauroux"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Grande-Synthe",
+      "away": "US Chantilly"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "FC Cournon",
+      "away": "Le Puy Foot"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "RC Grasse",
+      "away": "ES Fosséenne"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US Avranches",
+      "away": "SU Dives"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Limoges Foot",
+      "away": "Stade Poitevin"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "US Liffré",
+      "away": "St-Co Locminé"
+    },
+    {
+      "date": "2025-10-25",
+      "round": "Second Round",
+      "home": "Union St-Jean",
+      "away": "Av. Bayonnais"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Cergy Pontoise",
+      "away": "US Torcy"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Aspach-le-Haut",
+      "away": "FC Mulhouse"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Vic-Le-Comte",
+      "away": "US Feurs"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "LSO Colombes",
+      "away": "US Ivry"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Argenteuil",
+      "away": "FC Fleury 91"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "AAS Sarcelles",
+      "away": "Paris 13 Atl."
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "FC St-Méziéry",
+      "away": "SAS Épinal"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Thionville Lus.",
+      "away": "Uckange"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Pays du Valois",
+      "away": "Saint-Amand"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "CA Évronnais",
+      "away": "Les Sables VF"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "AC Cambrai",
+      "away": "SC Coquelles"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "AS Steenvoorde",
+      "away": "RC Calais"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Beaumont SA",
+      "away": "Châtaigneraie"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Mérignac",
+      "away": "Thouars Foot 79"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Targon SFC",
+      "away": "US Chauvigny"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Ginglin Cesson",
+      "away": "Concarneau"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Ol Larchois",
+      "away": "FC Bassin d'Arcachon"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "AS Vieillevigne",
+      "away": "Fontenay"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Vernon",
+      "away": "US Granville"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Vignoc Hédé G",
+      "away": "US Saint-Malo"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "St-Pierre Mi.",
+      "away": "GSI Pontivy"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "US Lusitanos",
+      "away": "US Créteil-L"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "FC Montigny",
+      "away": "EFAFC"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "USR Pertuis",
+      "away": "Cannes"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Lecelles Rosult",
+      "away": "AS Beauvais"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Héricourt",
+      "away": "Racing Besançon"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Fonsorbes",
+      "away": "Canet Rous."
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Mauguio",
+      "away": "St. Beaucairois"
+    },
+    {
+      "date": "2025-10-26",
+      "round": "Second Round",
+      "home": "Toulouse Prad.",
+      "away": "RCO Agde"
+    },
+    {
+      "date": "2025-11-12",
+      "round": "Second Round",
+      "home": "Aubagne Air Bel",
+      "away": "Avignon Ouest"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Third Round",
+      "home": "Villefontaine",
+      "away": "Grenoble"
+    },
+    {
+      "date": "2025-11-14",
+      "round": "Third Round",
+      "home": "Cannes",
+      "away": "FC Annecy"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "AS Magenta",
+      "away": "FC Mulhouse"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "US Auby",
+      "away": "Amiens SC"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "OCPAM 08",
+      "away": "Stade Reims"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "US Avranches",
+      "away": "Paris 13 Atl."
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "ASPTT Dijon",
+      "away": "Le Puy Foot"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Aizenay",
+      "away": "Troyes"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "CA Pontarlier",
+      "away": "FC Sochaux"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "FC Lavaur",
+      "away": "Rodez AF"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Château-Malo",
+      "away": "SC Bastia"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "St-Co Locminé",
+      "away": "Guingamp"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Orvault Sports",
+      "away": "Les Herbiers"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "FC Villars",
+      "away": "US Sarre-Union"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Andrézieux",
+      "away": "Hauts Lyonnais"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Rhône Vallées",
+      "away": "RC Grasse"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Sarreguemines",
+      "away": "AS Furiani"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Le Pertre",
+      "away": "Concarneau"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "FC 2 Rives 82",
+      "away": "Mazères"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "AC Cambrai",
+      "away": "EFAFC"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "AS Steenvoorde",
+      "away": "FC Chambly Oise"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "FC Loon-Plage",
+      "away": "Béthune"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "APM Metz",
+      "away": "FC Fleury 91"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Fontenay",
+      "away": "FC Chamalières"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Sablé FC",
+      "away": "US Saint-Malo"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Montréal-Cluse",
+      "away": "FC Chalon"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "AC Yvetot",
+      "away": "ASPTT Caen"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "FCOSK 06",
+      "away": "ASC Biesheim"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Racing Besançon",
+      "away": "Thionville Lus."
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "US Orléans",
+      "away": "Av. Bayonnais"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Union SaintJean",
+      "away": "Angoulême CFC"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Stade Quimperlé",
+      "away": "Ch.Gontier"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "IC de Croix",
+      "away": "Racing CFF"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Montreuil FC",
+      "away": "Bandrélé FC"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "FC Montceau B.",
+      "away": "L'Etrat La Tour"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Trélissac FC",
+      "away": "Pau FC"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "US Granville",
+      "away": "Dinan Léhon"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Cellier Mauves",
+      "away": "Stade Lavallois"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Atlas Paillade",
+      "away": "Bourg-en-Bresse"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "AC Seyssinet",
+      "away": "Aubagne Air Bel"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "US Ivry",
+      "away": "Le Mans FC"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Bayeux FC",
+      "away": "SM Caen"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Lapalisse",
+      "away": "Stade Poitevin"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "CMS Oissel",
+      "away": "QRM"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "FC Challans",
+      "away": "GSI Pontivy"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "UES Montmorillon",
+      "away": "Beaucouzé"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Prémontré St-G.",
+      "away": "US Chantilly"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "SS Allinges",
+      "away": "Istres FC"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Biars Bretenoux",
+      "away": "LB Châteauroux"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Seignosse FC",
+      "away": "FC Marmande 47"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Carnoux FC",
+      "away": "AS Pirae"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Auch Football",
+      "away": "Canet Rous."
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Étoile Matoury",
+      "away": "ASC Le Geldar"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Gouzon",
+      "away": "US Chauvigny"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "CS Moulien",
+      "away": "AS Gosier"
+    },
+    {
+      "date": "2025-11-15",
+      "round": "Third Round",
+      "home": "Quetigny",
+      "away": "Saint-Étienne"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Espoir Ste-Luce",
+      "away": "Éveil Trois-Il."
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Saint-Pauloise",
+      "away": "ES Dominicaine"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Reims Sainte-A.",
+      "away": "G. Ajaccio"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Wittenheim",
+      "away": "FC Freyming"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Still Mutzig",
+      "away": "US Raon-l'Étape"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "AS Saint-Brice",
+      "away": "Bogny-sur-Meuse"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "FC Bassin d'Arcachon",
+      "away": "Blagnac FC"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Mérignac",
+      "away": "US Colomiers"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Plédran",
+      "away": "Plabennec"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "FC St-Méziéry",
+      "away": "Périgny"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "EN Lozère",
+      "away": "Ecotay Moingt"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Mauguio",
+      "away": "Is-Selongey"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Montbrison",
+      "away": "US Feurs"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Étoile Bobigny",
+      "away": "Am. Villeneuve"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Beaumont SA",
+      "away": "Aubervilliers"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Atom Sports",
+      "away": "Lyon La Duchère"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "St-Cyr Coll.",
+      "away": "Thonon Évian"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "JS Longuenesse",
+      "away": "FC Bondues"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Ol. Marcquois",
+      "away": "Aire-sur-la-Lys"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "ES Cappelloise",
+      "away": "SC Abbeville"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "JA Drancy",
+      "away": "AS Beauvais"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "US Camon",
+      "away": "US Lusitanos"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "CS Avion",
+      "away": "US Torcy"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Cormontreuil",
+      "away": "Portug. Amiens"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Le Poinçonnet",
+      "away": "SO Romorantin"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "FC Penhir",
+      "away": "Les Sables VF"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Saint-Renan",
+      "away": "Stade Briochin"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Saint-Amand",
+      "away": "FC Dieppe"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "AS Vitré",
+      "away": "Plouvorn"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "UF Touraine",
+      "away": "RC Epernay"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "RCO Agde",
+      "away": "Montpellier"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Boé Bon Encon.",
+      "away": "G. Bordeaux"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "US Boulogne",
+      "away": "USL Dunkerque"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "US Forbach",
+      "away": "Red Star FC"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "AS Nancy",
+      "away": "GSA Tomblaine"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Third Round",
+      "home": "Blois Foot 41",
+      "away": "Clermont Foot"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "Fourth Round",
+      "home": "Concarneau",
+      "away": "Stade Briochin"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "Fourth Round",
+      "home": "FC Annecy",
+      "away": "Grenoble"
+    },
+    {
+      "date": "2025-11-28",
+      "round": "Fourth Round",
+      "home": "Sarreguemines",
+      "away": "AS Nancy"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "US Torcy",
+      "away": "Stade Reims"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Bogny-sur-Meuse",
+      "away": "US Lusitanos"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "FC Montceau B.",
+      "away": "Montpellier"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "US Sarre-Union",
+      "away": "FC Sochaux"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "FC Freyming",
+      "away": "Racing Besançon"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Reims Sainte-A.",
+      "away": "Amiens SC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Union SaintJean",
+      "away": "US Orléans"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "IC de Croix",
+      "away": "ASC Le Geldar"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Canet Rous.",
+      "away": "Rodez AF"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "ASC Biesheim",
+      "away": "Red Star FC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "AS Gosier",
+      "away": "CMS Oissel"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "US Saint-Malo",
+      "away": "SC Bastia"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Stade Lavallois",
+      "away": "Saint-Pauloise"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Hauts Lyonnais",
+      "away": "US Feurs"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Am. Villeneuve",
+      "away": "Le Mans FC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Montreuil FC",
+      "away": "US Granville"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "AC Yvetot",
+      "away": "Bayeux FC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Mérignac",
+      "away": "Pau FC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Ch.Gontier",
+      "away": "Guingamp"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Plabennec",
+      "away": "Les Herbiers"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "SC Abbeville",
+      "away": "USL Dunkerque"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "FC Chalon",
+      "away": "Le Puy Foot"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Is-Selongey",
+      "away": "Bourg-en-Bresse"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Lyon La Duchère",
+      "away": "Carnoux FC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Ol. Marcquois",
+      "away": "FC Bondues"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "AS Beauvais",
+      "away": "FC Dieppe"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "AS Steenvoorde",
+      "away": "Béthune"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "APM Metz",
+      "away": "EFAFC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Fontenay",
+      "away": "LB Châteauroux"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "SO Romorantin",
+      "away": "Blois Foot 41"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "AC Seyssinet",
+      "away": "Istres FC"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "US Raon-l'Étape",
+      "away": "FC Mulhouse"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Mazères",
+      "away": "G. Bordeaux"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Périgny",
+      "away": "Beaucouzé"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "US Chauvigny",
+      "away": "Stade Poitevin"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "FC Marmande 47",
+      "away": "FC Bassin d'Arcachon"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Saint-Étienne",
+      "away": "Ecotay Moingt"
+    },
+    {
+      "date": "2025-11-29",
+      "round": "Fourth Round",
+      "home": "Espoir Ste-Luce",
+      "away": "GSI Pontivy"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "Fourth Round",
+      "home": "Cormontreuil",
+      "away": "US Chantilly"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "Fourth Round",
+      "home": "St-Cyr Coll.",
+      "away": "Rhône Vallées"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "Fourth Round",
+      "home": "US Avranches",
+      "away": "Aubervilliers"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "Fourth Round",
+      "home": "Les Sables VF",
+      "away": "Plouvorn"
+    },
+    {
+      "date": "2025-11-30",
+      "round": "Fourth Round",
+      "home": "UF Touraine",
+      "away": "Troyes"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Fifth Round",
+      "home": "Guingamp",
+      "away": "Stade Lavallois"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Fifth Round",
+      "home": "US Avranches",
+      "away": "Stade Brestois"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Fifth Round",
+      "home": "Les Herbiers",
+      "away": "Angers SCO"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Fifth Round",
+      "home": "Périgny",
+      "away": "Le Mans FC"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Fifth Round",
+      "home": "Canet Rous.",
+      "away": "Montpellier"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Fifth Round",
+      "home": "IC de Croix",
+      "away": "Stade Reims"
+    },
+    {
+      "date": "2025-12-19",
+      "round": "Fifth Round",
+      "home": "Lens",
+      "away": "EFAFC"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "AS Gosier",
+      "away": "FC Lorient"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "Bayeux FC",
+      "away": "Blois Foot 41"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "US Lusitanos",
+      "away": "Lille"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "FC Freyming",
+      "away": "US Chantilly"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "ASC Biesheim",
+      "away": "FC Metz"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "Ol. Marcquois",
+      "away": "Troyes"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "Grenoble",
+      "away": "AS Nancy"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "GSI Pontivy",
+      "away": "SC Bastia"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "US Raon-l'Étape",
+      "away": "Paris FC"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "Béthune",
+      "away": "FC Sochaux"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "Lyon La Duchère",
+      "away": "Toulouse"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "Mérignac",
+      "away": "Istres FC"
+    },
+    {
+      "date": "2025-12-20",
+      "round": "Fifth Round",
+      "home": "Fontenay",
+      "away": "PSG"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "R. Strasbourg",
+      "away": "USL Dunkerque"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Concarneau",
+      "away": "FC Nantes"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "AJ Auxerre",
+      "away": "Monaco"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Nice",
+      "away": "Saint-Étienne"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Bourg-en-Bresse",
+      "away": "Marseille"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "US Orléans",
+      "away": "FC Dieppe"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Le Havre AC",
+      "away": "Amiens SC"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "FC Bassin d'Arcachon",
+      "away": "Hauts Lyonnais"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Le Puy Foot",
+      "away": "G. Bordeaux"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Montreuil FC",
+      "away": "US Chauvigny"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Stade Rennais",
+      "away": "Les Sables VF"
+    },
+    {
+      "date": "2025-12-21",
+      "round": "Fifth Round",
+      "home": "Lyon",
+      "away": "St-Cyr Coll."
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "Montreuil FC",
+      "away": "Amiens SC"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "US Orléans",
+      "away": "Monaco"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "SC Bastia",
+      "away": "Troyes"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "Angers SCO",
+      "away": "Toulouse"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "Le Puy Foot",
+      "away": "Stade Reims"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "Hauts Lyonnais",
+      "away": "FC Lorient"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "Istres FC",
+      "away": "Stade Lavallois"
+    },
+    {
+      "date": "2026-01-10",
+      "round": "Round of 32",
+      "home": "US Avranches",
+      "away": "R. Strasbourg"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "Round of 32",
+      "home": "FC Sochaux",
+      "away": "Lens"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "Round of 32",
+      "home": "FC Nantes",
+      "away": "Nice"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "Round of 32",
+      "home": "Le Mans FC",
+      "away": "AS Nancy"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "Round of 32",
+      "home": "FC Metz",
+      "away": "Montpellier"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "Round of 32",
+      "home": "US Chantilly",
+      "away": "Stade Rennais"
+    },
+    {
+      "date": "2026-01-11",
+      "round": "Round of 32",
+      "home": "Lille",
+      "away": "Lyon"
+    },
+    {
+      "date": "2026-01-12",
+      "round": "Round of 32",
+      "home": "PSG",
+      "away": "Paris FC"
+    },
+    {
+      "date": "2026-01-13",
+      "round": "Round of 32",
+      "home": "Bayeux FC",
+      "away": "Marseille"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "Round of 16",
+      "home": "Stade Reims",
+      "away": "Le Mans FC"
+    },
+    {
+      "date": "2026-02-03",
+      "round": "Round of 16",
+      "home": "Marseille",
+      "away": "Stade Rennais"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Round of 16",
+      "home": "Toulouse",
+      "away": "Amiens SC"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Round of 16",
+      "home": "Nice",
+      "away": "Montpellier"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Round of 16",
+      "home": "Lyon",
+      "away": "Stade Lavallois"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Round of 16",
+      "home": "FC Lorient",
+      "away": "Paris FC"
+    },
+    {
+      "date": "2026-02-04",
+      "round": "Round of 16",
+      "home": "Troyes",
+      "away": "Lens"
+    },
+    {
+      "date": "2026-02-05",
+      "round": "Round of 16",
+      "home": "R. Strasbourg",
+      "away": "Monaco"
+    },
+    {
+      "date": "2026-03-03",
+      "round": "Quarter-Finals",
+      "home": "R. Strasbourg",
+      "away": "Stade Reims"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "Quarter-Finals",
+      "home": "FC Lorient",
+      "away": "Nice"
+    },
+    {
+      "date": "2026-03-04",
+      "round": "Quarter-Finals",
+      "home": "Marseille",
+      "away": "Toulouse"
+    },
+    {
+      "date": "2026-03-05",
+      "round": "Quarter-Finals",
+      "home": "Lyon",
+      "away": "Lens"
+    },
+    {
+      "date": "2026-04-21",
+      "round": "Semi-Finals",
+      "home": "Lens",
+      "away": "Toulouse"
+    },
+    {
+      "date": "2026-04-22",
+      "round": "Semi-Finals",
+      "home": "R. Strasbourg",
+      "away": "Nice"
+    },
+    {
+      "date": "2026-05-22",
+      "round": "Final",
+      "home": "Lens",
+      "away": "Nice"
+    }
+  ]
+}

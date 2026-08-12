@@ -41,6 +41,12 @@ const FUENTES = [
   { archivo: 'VEC1.json', id: 'vec1', name: 'Copa Venezuela',    league: 'Venezolana' },
   { archivo: 'MXCA.json', id: 'mxca', name: 'Copa MX',           league: 'Mexicana' },
   { archivo: 'MLSP.json', id: 'mlsp', name: 'US Open Cup',       league: 'Estadounidense' },
+  // Scrapeadas el 12 de agosto de 2026 (Transfermarkt FRC y POPO). Son copas ABIERTAS: la Coupe de
+  // France trae 426 clubes y la Taça 148, casi todos amateurs que no están en la base. Los que no
+  // están simplemente no entran y el cuadro del motor completa el torneo -- que es exactamente para
+  // lo que sirve.
+  { archivo: 'FRC.json',  id: 'frc',  name: 'Coupe de France',   league: 'Francesa' },
+  { archivo: 'POPO.json', id: 'popo', name: 'Taça de Portugal',  league: 'Portuguesa' },
 ];
 
 const ANIO_CARRERA = 2026;
@@ -76,9 +82,16 @@ async function main() {
     const crudos = (datos.matches ?? []).filter(m => m.date && m.home && m.away);
     if (!crudos.length) { console.log(`${f.name.padEnd(18)} VACÍO`); continue; }
 
-    // Se corren los años hasta caer en el año 1 de la carrera.
-    const anioOriginal = Number(crudos.map(m => m.date).sort()[0].slice(0, 4));
-    const desplazamiento = ANIO_CARRERA - anioOriginal;
+    // Los años se corren para alinear la copa con la LIGA de su país, no con el año 1 a secas.
+    //
+    // Forzar "que la primera fecha caiga en 2026" funciona en Sudamérica, donde la temporada es el
+    // año calendario, y rompe en Europa, donde va de agosto a mayo: la Coupe de France arranca en
+    // octubre de 2025 y ya está alineada con la Ligue 1 2025/26, pero la regla vieja la corría un
+    // año y la dejaba jugándose en 2026/27, una temporada entera después de su liga.
+    const primeraDeLaCopa = crudos.map(m => m.date).sort()[0];
+    const ligaDelPais = existentes.find(c => c.kind === 'league' && c.league === f.league && c.firstDate);
+    const anioDeReferencia = ligaDelPais ? Number(ligaDelPais.firstDate.slice(0, 4)) : ANIO_CARRERA;
+    const desplazamiento = anioDeReferencia - Number(primeraDeLaCopa.slice(0, 4));
 
     const delPais = CLUBS.filter(c => c.league === f.league);
     const porNombre = new Map(delPais.map(c => [norm(c.name), c.name]));
