@@ -12,7 +12,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClub, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -2158,8 +2158,12 @@ export default function App() {
       //
       // Ahora la pregunta es por copa, no por club: el calendario manda donde tiene fechas, y donde
       // no las tiene manda el cuadro del motor. Una sola fuente por competición, nunca dos.
+      // La pregunta es por la temporada EN CURSO, no por todas juntas: desde la 2 el calendario ya
+      // no trae copas, así que preguntarle al histórico responde "sí, la cubre" por lo que hubo en
+      // la 1 y el club se quedaría sin copa para siempre.
+      const temporadaActual = getSeasonYear(playerProfile.currentWeek);
       const laCubreElCalendario = (re: RegExp) =>
-        usaFechasReales && competitionsForClub(myClub.name).some(c => re.test(c.name));
+        usaFechasReales && competitionsForClubInSeason(myClub.name, temporadaActual).some(c => re.test(c.name));
 
       return (getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/libertadores/i))
         || (getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/sudamericana/i))

@@ -65,6 +65,25 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   };
 
   for (const original of DATED_CALENDARS) {
+    // De la temporada 2 en adelante, las COPAS no salen del calendario: las arma el cuadro del
+    // motor (copaNacional.ts y getOrCreateCupState).
+    //
+    // El generador de temporadas permuta los clubes del calendario real y le corre las fechas un
+    // año. Para una LIGA eso es perfecto: la estructura del round-robin se conserva intacta --
+    // medido, 380 partidos, 38 por club y cada par exactamente dos veces, en la temporada 1, la 2
+    // y la 5.
+    //
+    // Para una copa de eliminación no significa nada. El calendario real de una copa es una foto
+    // PARCIAL (sólo las rondas ya sorteadas al scrapear) y además su forma la decidieron los
+    // resultados de ese año: quién llegó a la final jugó cinco partidos y el eliminado en primera
+    // ronda, uno. Al permutar nombres sobre esa forma, el club al que le toca el lugar del
+    // finalista juega cinco partidos TODAS las temporadas y el que hereda el lugar del eliminado
+    // juega uno, sin importar qué tan bueno sea. Medido en la Copa do Brasil: 46 partidos y entre
+    // 1 y 5 por club, idéntico en las temporadas 1, 2 y 5. No es una copa, es un fragmento
+    // congelado repartido al azar -- sin final y sin campeón posible.
+    //
+    // La temporada 1 sí conserva sus cruces reales: son de verdad hasta donde llegan.
+    if (temporada >= 2 && original.kind !== 'league') continue;
     const comp = competicionEnTemporada(original, temporada);
     for (const match of comp.matches) {
       // En la temporada 1 se descartan las fechas anteriores al arranque de la carrera (media
@@ -408,10 +427,24 @@ export function partidosDeLaMismaLlave(clubName: string, competitionId: string, 
     .map(f => f.date);
 }
 
-/** Todas las competiciones en las que participa el club. */
+/** Todas las competiciones en las que participa el club, sumando todas las temporadas. */
 export function competitionsForClub(clubName: string): DatedCompetition[] {
   const vistas = new Map<string, DatedCompetition>();
   for (const f of fixturesForClub(clubName)) vistas.set(f.competition.id, f.competition);
+  return [...vistas.values()];
+}
+
+/**
+ * Las competiciones del club en UNA temporada concreta.
+ *
+ * Hace falta desde que las copas dejaron de salir del calendario a partir de la temporada 2: la
+ * versión que suma todas las temporadas responde "sí, el calendario cubre esa copa" por lo que
+ * había en la temporada 1, y con eso el motor no le arma el cuadro en la 2 -- el club se queda sin
+ * copa. La pregunta correcta es siempre por el año en curso.
+ */
+export function competitionsForClubInSeason(clubName: string, temporada: number): DatedCompetition[] {
+  const vistas = new Map<string, DatedCompetition>();
+  for (const f of getIndice(temporada).get(clubName) ?? []) vistas.set(f.competition.id, f.competition);
   return [...vistas.values()];
 }
 
