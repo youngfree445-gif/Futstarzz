@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats, PlayClipType } from '../types';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
+import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
@@ -2125,6 +2126,27 @@ export default function MatchSimulator({
     setPendingClipType(null);
   };
 
+  // Los dos lados del marcador, ya puestos en su localía. Se arman acá y no en el JSX para que el
+  // marcador de abajo quede leyéndose de corrido: izquierda = local, derecha = visitante, siempre.
+  const miLado = {
+    nombre: teamName,
+    club: currentClub,
+    esMio: true,
+    etiqueta: `Tu Equipo${myTablePosition != null ? ` · ${myTablePosition}°` : ''}`,
+  };
+  const ladoRival = {
+    nombre: opponentName,
+    // Puede no existir en la base (rivales de calendario sin ficha propia): el escudo se omite y el
+    // nombre queda igual, en vez de dejar un hueco roto. En el Mundial el rival es una selección,
+    // que vive en otra tabla -- se busca ahí también para que esa pantalla no quede sin escudos.
+    club: opponentClub
+      ?? (opponentClubId ? WORLD_CUP_TEAMS_DATABASE.find(t => t.id === opponentClubId) : undefined),
+    esMio: false,
+    etiqueta: `Rival${rivalTablePosition != null ? ` · ${rivalTablePosition}°` : ''}`,
+  };
+  const ladoLocal = isHome.current ? miLado : ladoRival;
+  const ladoVisitante = isHome.current ? ladoRival : miLado;
+
   return (
     <div id="match-simulator" className="min-h-screen bg-slate-950 text-white flex flex-col justify-between py-6 px-4">
       
@@ -2216,23 +2238,37 @@ export default function MatchSimulator({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-4 bg-slate-900 px-3 sm:px-5 py-2 rounded-2xl border border-slate-800 shadow-lg lg:flex-1 lg:max-w-md lg:mx-4">
-          <div className="min-w-0 flex-1 text-right">
-            <span className="font-black text-xs sm:text-sm block truncate">{teamName}</span>
-            <span className="text-3xs text-gold-400 uppercase font-mono font-bold tracking-wider block truncate">
-              Tu Equipo{myTablePosition != null && ` · ${myTablePosition}°`}
-            </span>
+        {/* El marcador se lee LOCAL - VISITANTE, como en cualquier cancha del mundo. Antes tu equipo
+            salía siempre a la izquierda jugaras donde jugaras, así que un 2-0 en tu contra de
+            visitante se veía igual que un 2-0 a favor de local y había que mirar los nombres para
+            entender quién iba ganando. Los goles ya venían separados por localía (scoreHome /
+            scoreAway); lo único que faltaba era ponerlos del lado que les toca.
+
+            El color sigue a TU equipo, no al lado: el dorado es siempre el tuyo, seas local o
+            visitante. Es lo que deja leer el resultado de un vistazo sin buscar el nombre. */}
+        <div className="flex items-center gap-2 sm:gap-3 bg-slate-900 px-3 sm:px-4 py-2 rounded-2xl border border-slate-800 shadow-lg lg:flex-1 lg:max-w-md lg:mx-4">
+          <div className="min-w-0 flex-1 flex items-center justify-end gap-1.5 sm:gap-2">
+            <div className="min-w-0 text-right">
+              <span className="font-black text-xs sm:text-sm block truncate">{ladoLocal.nombre}</span>
+              <span className={`text-3xs uppercase font-mono tracking-wider block truncate ${ladoLocal.esMio ? 'text-gold-400 font-bold' : 'text-slate-500'}`}>
+                {ladoLocal.etiqueta}
+              </span>
+            </div>
+            {ladoLocal.club && <ClubBadge club={ladoLocal.club} size={24} />}
           </div>
 
           <div className="shrink-0 text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums">
-            {isHome.current ? scoreHome : scoreAway} - {isHome.current ? scoreAway : scoreHome}
+            {scoreHome} - {scoreAway}
           </div>
 
-          <div className="min-w-0 flex-1 text-left">
-            <span className="font-black text-xs sm:text-sm block truncate">{opponentName}</span>
-            <span className="text-3xs text-slate-500 uppercase font-mono tracking-wider block truncate">
-              Rival{rivalTablePosition != null && ` · ${rivalTablePosition}°`}
-            </span>
+          <div className="min-w-0 flex-1 flex items-center gap-1.5 sm:gap-2">
+            {ladoVisitante.club && <ClubBadge club={ladoVisitante.club} size={24} />}
+            <div className="min-w-0 text-left">
+              <span className="font-black text-xs sm:text-sm block truncate">{ladoVisitante.nombre}</span>
+              <span className={`text-3xs uppercase font-mono tracking-wider block truncate ${ladoVisitante.esMio ? 'text-gold-400 font-bold' : 'text-slate-500'}`}>
+                {ladoVisitante.etiqueta}
+              </span>
+            </div>
           </div>
         </div>
 

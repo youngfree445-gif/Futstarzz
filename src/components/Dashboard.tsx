@@ -559,7 +559,10 @@ export default function Dashboard({
     ? 'sudamericana'
     : null;
   const conmebolCup = conmebolCupId
-    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], playerProfile.currentWeek, cupPosiciones, cupCampeones)
+    // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
+    // adelantaba el torneo de fondo con sólo mirarlo: la tabla de grupos mostraba fechas que el
+    // jugador todavía no jugó, y peor, ese estado adelantado quedaba guardado.
+    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], playerProfile.currentWeek, cupPosiciones, cupCampeones, currentClub.id)
     : null;
 
   const cupCampeonesUefa = {
@@ -572,7 +575,7 @@ export default function Dashboard({
     ? 'europa'
     : null;
   const uefaCup = uefaCupId
-    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek, cupPosiciones, cupCampeonesUefa)
+    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek, cupPosiciones, cupCampeonesUefa, currentClub.id)
     : null;
 
   // Distingue "no clasificaste a ninguna copa" de "clasificaste pero quedaste afuera": las dos

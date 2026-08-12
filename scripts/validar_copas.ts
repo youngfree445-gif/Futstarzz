@@ -13,7 +13,7 @@
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
 import { fechasDeCopaNacionalRestantes, fixturesAtStep, hasDatedLeagueSchedule, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
-import { resolverPasoCopaNacional, simulateMatch, CAREER_START_YEAR } from '../src/leagueEngine';
+import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, CAREER_START_YEAR } from '../src/leagueEngine';
 import type { Club } from '../src/types';
 
 const TEMPORADAS = 3;
@@ -252,6 +252,71 @@ if (sinCoronarPorLiga.size) {
     console.log(`   ${liga.padEnd(14)} ${String(n).padStart(4)} de ${revisadasPorLiga.get(liga)}`);
   }
 }
+
+// --- Copas continentales: ¿el motor se adelanta al jugador? ---
+//
+// La copa Conmebol avanza por CONTEO DE SEMANAS (cupWeeksElapsedInYear) mientras el jugador avanza
+// por fechas del calendario. Si getOrCreateCupState no recibe el club del jugador, se come de fondo
+// todos los pasos que "corresponden" a la semana actual -- incluida la fase de grupos entera -- y el
+// jugador gana su primer partido de grupos para enterarse enseguida de que quedó eliminado en
+// octavos. Reportado tal cual con el Junior en la Libertadores.
+//
+// Se corre el mismo escenario CON y SIN la guardia para que la diferencia quede a la vista.
+// El escenario es el real: la copa está en CERO pasos consumidos hasta que el jugador llega a su
+// primera fecha de Libertadores, allá por el paso 20-30 del calendario. Recién ahí se la consulta,
+// y ahí es donde se decide si el jugador entra a jugar su fase de grupos o si el motor ya se la
+// jugó solo.
+console.log('\n--- Copas continentales: el motor no puede adelantarse al jugador ---');
+console.log('club'.padEnd(24), 'guardia'.padStart(8), 'fase'.padStart(10), 'sigue dentro'.padStart(13), '  le toca jugar');
+
+/** El paso en el que el club llega a su primera fecha continental del calendario. */
+function primerPasoContinental(club: Club): number {
+  for (let paso = 1; paso <= 60; paso++) {
+    const s = fixturesAtStep(club.name, paso);
+    if (!s) break;
+    if (s.fixtures.some(f => f.competition.kind === 'continental_cup')) return paso;
+  }
+  return 25; // sin fecha continental propia: el jugador igual llega acá por semana de copa
+}
+
+let adelantados = 0;
+for (const [nombre, cupId] of [
+  ['Junior de Barranquilla', 'libertadores'], ['Atlético Nacional', 'libertadores'],
+  ['Santos', 'sudamericana'], ['Flamengo', 'libertadores'],
+] as [string, 'libertadores' | 'sudamericana'][]) {
+  const club = clubDe(nombre);
+  if (!club) continue;
+  const clasificados = cupId === 'libertadores'
+    ? getLibertadoresParticipants(CLUBS as Club[])
+    : getSudamericanaParticipants(CLUBS as Club[]);
+  if (!clasificados.includes(club.id)) {
+    console.log(`${nombre.padEnd(24)} (no clasificó a esta copa: no aplica)`);
+    continue;
+  }
+  const paso = primerPasoContinental(club);
+
+  for (const conGuardia of [false, true]) {
+    const cup = getOrCreateCupState(
+      cupId, 1, CLUBS as Club[], undefined, paso, undefined, undefined, conGuardia ? club.id : undefined);
+    const dentro = isClubStillInCup(cup, club.id);
+    const up = getUpcomingCupMatch(cup, club.id);
+    // Lo correcto: llegás a tu primera fecha y el torneo TODAVÍA está en fase de grupos, con tu
+    // partido esperándote. Si ya está en knockout, el motor te jugó los seis partidos de grupos.
+    const malo = cup.stage !== 'groups' || !up;
+    if (conGuardia && malo) adelantados++;
+    console.log(
+      (conGuardia ? `${nombre} (p.${paso})` : '').padEnd(24),
+      (conGuardia ? 'SÍ' : 'no').padStart(8),
+      cup.stage.padStart(10),
+      (dentro ? 'sí' : 'NO').padStart(13),
+      '  ' + (up ? `vs ${CLUBS.find(c => c.id === up.opponentId)?.name ?? up.opponentId}` : 'nada'),
+      malo ? '  <-- el motor ya jugó su fase de grupos' : '',
+    );
+  }
+}
+console.log(`\n${adelantados === 0
+  ? 'Con guardia, todos llegan a su primera fecha con la fase de grupos por jugar.'
+  : `ATENCIÓN: ${adelantados} clubes llegan tarde a su propia copa AUN CON la guardia.`}`);
 
 const anio = (t: number) => CAREER_START_YEAR + t - 1;
 console.log(`\n(temporada 1 = ${anio(1)}, calendario real; ${anio(2)}+ generadas)`);

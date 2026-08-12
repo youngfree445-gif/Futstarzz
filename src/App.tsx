@@ -2390,7 +2390,11 @@ export default function App() {
       let eliminatedFromQualifiedCup = false;
       if (qualifiedCupId) {
         const cupKey = `${qualifiedCupId}-${year}`;
-        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek);
+        // myClub.id NO es opcional acá: sin él la copa se adelanta hasta el paso que le toca por
+        // conteo de semanas, aunque el jugador tenga un partido suyo sin jugar. Reportado: ganar el
+        // PRIMER partido de la fase de grupos y que salte "eliminado en octavos" acto seguido --
+        // el motor se había comido la fase de grupos entera de fondo. Ver getOrCreateCupState.
+        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek, playerProfile.posicionesFinales, cupCampeones, myClub.id);
         const upcoming = getUpcomingCupMatch(cup, myClub.id);
         if (!upcoming && !isClubStillInCup(cup, myClub.id)) {
           eliminatedFromQualifiedCup = true;
@@ -2432,7 +2436,7 @@ export default function App() {
           : null;
 
         if (qualifiedUefaCupId) {
-          const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], playerProfile.currentWeek);
+          const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], playerProfile.currentWeek, undefined, undefined, myClub.id);
           const upcoming = getUpcomingUefaCupMatch(uefaCup, myClub.id);
           if (!upcoming && !isClubStillInUefaCup(uefaCup, myClub.id)) {
             eliminatedFromQualifiedCup = true;
@@ -3497,7 +3501,10 @@ export default function App() {
       const year = getSeasonYear(playerProfile.currentWeek);
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const cupKey = `${activeCupId}-${year}`;
-      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek);
+      // Mismo myClub.id que al armar el partido. Si acá se omite, este estado "antes del partido"
+      // sale adelantado respecto del que el jugador vio en pantalla, y su resultado se aplica a una
+      // ronda que no es la suya.
+      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek, playerProfile.posicionesFinales, undefined, myClub.id);
       const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
       if (shootout) {
@@ -3528,7 +3535,7 @@ export default function App() {
     let updatedUefaCups = playerProfile.uefaCups;
     if (isCopaLibertadores && activeUefaCupId && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], playerProfile.currentWeek);
+      const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], playerProfile.currentWeek, undefined, undefined, myClub.id);
       // Desde el playoff en adelante, Champions/Europa es ida y vuelta (TwoLegTie): mismo bug ya
       // corregido en el playoff de liga y en la copa nacional -- la localía para el motor tiene que
       // salir de la llave interna, no del calendario real (activeIsHome), porque se invierte entre
