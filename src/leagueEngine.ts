@@ -145,18 +145,6 @@ export function leagueMatchweeksElapsed(currentWeek: number): number {
   return count;
 }
 
-// Igual que leagueMatchweeksElapsed, pero SIN reiniciarse cada
-// SEASON_LENGTH_WEEKS — cuenta desde el arranque de la carrera. Lo usa el
-// motor de Apertura/Clausura, que necesita más de un "año" del motor de
-// tabla larga para completar Apertura + Clausura (fase regular + playoffs
-// de cada semestre).
-export function leagueMatchweeksElapsedTotal(currentWeek: number): number {
-  let count = 0;
-  for (let w = 1; w < currentWeek; w++) {
-    if (!isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
-  }
-  return count;
-}
 
 function shuffle<T>(items: T[]): T[] {
   const arr = [...items];
@@ -351,42 +339,6 @@ export function simulatePenaltyShootout(clubA: Club, clubB: Club): PenaltyShooto
   };
 }
 
-// Crea (si no existe) o pone al día la temporada de una liga: simula de
-// golpe todas las fechas que ya deberían estar jugadas según currentWeek.
-// Esto es lo que permite el enfoque perezoso: una liga que recién visitás
-// por primera vez (ej. tras un traspaso) aparece con tabla e historial
-// "como si viniera corriendo de fondo" sin haber generado los ~20 ligas
-// del juego desde el arranque de la carrera.
-export function getOrCreateLeagueSeason(
-  leagueKey: string,
-  clubs: Club[],
-  existing: LeagueSeasonState | undefined,
-  currentWeek: number
-): LeagueSeasonState {
-  const clubIds = clubs.map(c => c.id);
-  let fixtures = existing ? existing.fixtures : [];
-  let table = existing ? existing.table : buildInitialTable(clubs);
-  let round = existing ? existing.round : 0;
-
-  const targetMatchweeks = Math.max(leagueMatchweeksElapsed(currentWeek), 1);
-  const extended = ensureFixturesUpTo(fixtures, targetMatchweeks, clubIds);
-  fixtures = extended.fixtures;
-  round += extended.roundsAdded;
-
-  for (let mw = 1; mw <= leagueMatchweeksElapsed(currentWeek); mw++) {
-    fixtures = fixtures.map(fx => {
-      if (fx.matchweek !== mw || fx.played) return fx;
-      const home = clubs.find(c => c.id === fx.homeTeamId);
-      const away = clubs.find(c => c.id === fx.awayTeamId);
-      if (!home || !away) return fx;
-      const { homeGoals, awayGoals } = simulateMatch(home, away);
-      table = applyResultToTable(table, fx.homeTeamId, fx.awayTeamId, homeGoals, awayGoals);
-      return { ...fx, played: true, homeGoals, awayGoals };
-    });
-  }
-
-  return { leagueKey, fixtures, table, round };
-}
 
 // Rival + condición de local/visitante de tu club para la fecha que
 // corresponde jugar esta semana (según currentWeek), sin resolverla todavía.
@@ -771,73 +723,7 @@ function startNextSemester(
   return resolveApeturaClausuraStep(fresh, clubs, currentWeek, format, forced);
 }
 
-// Crea (si no existe) o pone al día la temporada Apertura/Clausura,
-// simulando de golpe (sin resultado forzado) todos los pasos ya pasados.
-// Cada llamada a resolveApeturaClausuraStep consume EXACTAMENTE una fecha
-// de liga, sea cual sea la etapa en la que caiga (una fecha de fase regular,
-// o una ida/vuelta de playoffs) — así que alcanza con contar cuántas fechas
-// de liga ya transcurrieron en total.
-/**
- * Pasos de Apertura/Clausura que ya deberían haberse jugado a esta altura de la carrera.
- *
- * Avanza UN paso por semana, incluidas las semanas de copa. Antes usaba leagueMatchweeksElapsedTotal,
- * que las saltea, y eso metía un límite artificial: quedaban ~11 semanas útiles por semestre para un
- * torneo que necesita 20 pasos (16 fechas + 4 playoffs), así que el campeonato se jugaba a medias y
- * los campeones salían con 12 puntos.
- *
- * Ese límite venía de asumir una competencia por semana. En la realidad no es así, y el calendario
- * real importado ya lo refleja: el Barcelona juega 11 semanas con partido de liga Y de Champions.
- * Las copas de estos clubes se resuelven por su propio contador (cupWeeksElapsed*), que sigue
- * corriendo en paralelo, así que jugar la fecha de liga esa semana no le quita nada a la copa.
- *
- * El bloque del Mundial sí se respeta: ahí no se juega nada.
- */
-function apeturaClausuraStepsElapsed(currentWeek: number): number {
-  let pasos = 0;
-  for (let w = 1; w < currentWeek; w++) {
-    if (!isWorldCupBreakWeek(w)) pasos++;
-  }
-  return pasos;
-}
 
-export function getOrCreateApeturaClausuraSeason(
-  clubs: Club[],
-  existing: LeagueSeasonState | undefined,
-  currentWeek: number,
-  format: 'colombia' | 'argentina'
-): LeagueSeasonState {
-  let season = existing ?? freshRegularPhase(clubs, format, 1, currentWeek);
-  let stepsConsumed = existing?.stepsConsumed ?? 0;
-  const targetSteps = apeturaClausuraStepsElapsed(currentWeek);
-
-  while (stepsConsumed < targetSteps) {
-    season = resolveApeturaClausuraStep(season, clubs, currentWeek, format);
-    stepsConsumed++;
-  }
-
-  // Se acabaron las fechas de la fase regular: toca armar los cuadrangulares. Va acá y no solo
-  // dentro de resolveApeturaClausuraStep porque esa función se llama únicamente cuando el jugador
-  // TIENE partido, y justo al terminar la fase regular no lo tiene: la temporada se quedaba en
-  // `regular` con cero fechas pendientes, sin rival y sin pasar nunca a playoffs. Resultado: no
-  // había campeón ni de Apertura ni de Clausura.
-  if (faseRegularTerminada(season)) {
-    season = resolveApeturaClausuraStep(season, clubs, currentWeek, format);
-    stepsConsumed++;
-  }
-
-  // El semestre puede haberse agotado sin que el contador de pasos lo note. Pasa con los clubes de
-  // calendario real: sus fechas las consume resolveApeturaClausuraWeek una por partido REAL, no una
-  // por semana, así que stepsConsumed se adelanta a targetSteps y el `while` de arriba no corre.
-  // La temporada quedaba con todos los partidos jugados y ningún playoff pendiente -- un estado
-  // terminal del que no salía nunca: getUpcomingApeturaClausuraMatch devolvía null para siempre y
-  // la carrera se quedaba sin partidos a partir de noviembre del primer año.
-  if (temporadaAgotada(season)) {
-    season = startNextSemester(season, clubs, currentWeek, format);
-    stepsConsumed++;
-  }
-
-  return { ...season, stepsConsumed };
-}
 
 /**
  * La temporada ya no tiene nada por jugar y hay que arrancar la siguiente.
@@ -936,19 +822,20 @@ export function getOrCreateSeasonForLeague(
   existing: LeagueSeasonState | undefined,
   currentWeek: number
 ): LeagueSeasonState {
-  const format = isApeturaClausuraLeague(leagueClubs[0].league);
-  const leagueKey = leagueKeyFor(leagueClubs[0]);
-
-  // Con calendario real no se pre-genera nada ni se hace catch-up acá: resolveLigaPorFecha ya
-  // resuelve, en cada paso, todo lo pendiente hasta la fecha de hoy. Antes esto llamaba a
-  // catchUpRealLeague, que ponía la liga al día con el reloj de JORNADAS del calendario legado --
-  // otro reloj más, escribiendo en la misma tabla con un formato de `round` incompatible.
-  if (ligaDeClubes(new Set(leagueClubs.map(c => c.name)))) {
-    return existing ?? { leagueKey, fixtures: [], table: buildInitialTable(leagueClubs), round: 0 };
-  }
-
-  if (format) return getOrCreateApeturaClausuraSeason(leagueClubs, existing, currentWeek, format);
-  return getOrCreateLeagueSeason(leagueKey, leagueClubs, existing, currentWeek);
+  // No se pre-genera NADA: resolveLigaPorFecha resuelve, en cada paso, todo lo pendiente hasta la
+  // fecha de hoy. La tabla arranca vacía y la llena el calendario.
+  //
+  // Acá abajo había dos ramas más -- getOrCreateApeturaClausuraSeason y getOrCreateLeagueSeason --
+  // que generaban un fixture sintético por SEMANAS para los clubes sin calendario. Desde que sólo
+  // se puede hacer carrera en clubes con fechas propias (ver clubesJugables.ts) no las alcanza
+  // nadie: medido, las 27 ligas jugables entran por ligaDeClubes. Eran el último resto del otro
+  // motor, y con ellas se fueron sus contadores por semana.
+  return existing ?? {
+    leagueKey: leagueKeyFor(leagueClubs[0]),
+    fixtures: [],
+    table: buildInitialTable(leagueClubs),
+    round: 0,
+  };
 }
 
 
