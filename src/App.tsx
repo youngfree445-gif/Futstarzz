@@ -3256,7 +3256,20 @@ export default function App() {
       // ¿Cerró el torneo y quedaste primero?
       const cerroElTorneo = hoyJuegoLigaPorCalendario
         ? esUltimaFechaDelTorneo(myClub.name, pasoHoy!.date)
-        : !resolvedSeason.fixtures.some(
+        // Con calendario real la liga cierra SOLO en su última fecha, y esa fecha se juega. Si hoy
+        // jugaste otra cosa -- la Superliga, una copa -- la liga no cerró nada hoy.
+        //
+        // Sin esta rama caía al respaldo de abajo, que pregunta por fixtures pendientes sobre un
+        // array VACÍO: las ligas con calendario real nacen con `fixtures: []` a propósito, así que
+        // `[].some(...)` daba false y el torneo se leía como cerrado. Cada partido de copa coronaba
+        // campeón de liga al primero de la tabla. Reportado: ganar la Superliga con Junior anotaba
+        // también un "Primera División Dimayor · Apertura 2026" que nadie jugó.
+        //
+        // Es la misma trampa que el trofeo fantasma de la vitrina (ver palmares.ts): confundir
+        // "no quedan partidos" con "no hay partidos".
+        : usaFechasRealesParaMiClub
+        ? false
+        : resolvedSeason.fixtures.length > 0 && !resolvedSeason.fixtures.some(
             f => !f.played && (f.homeTeamId === myClub.id || f.awayTeamId === myClub.id));
 
       if (cerroElTorneo && resolvedSeason.table.length > 0) {

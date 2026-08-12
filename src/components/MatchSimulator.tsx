@@ -2138,11 +2138,28 @@ export default function MatchSimulator({
                 ? `🏆 ${activeCupLabel} ${seasonYear}`
                 : `${getLeagueDisplay(currentClub.league, currentClub.division).flag} ${getLeagueDisplay(currentClub.league, currentClub.division).name}${torneoDelPartido ? ` · ${torneoDelPartido} ${seasonYear}` : ''}`}
             </span>
-            {globalScoreLabel && (
-              <span className="text-2xs font-bold text-white bg-burgundy-600 px-1.5 py-0.5 rounded mb-0.5 inline-block">
-                Global {globalScoreLabel}
-              </span>
-            )}
+            {/* El global se mueve EN VIVO: globalScoreLabel trae sólo lo que venía de la ida, y acá
+                se le suman los goles de este partido. Mostrar el global congelado mientras el
+                marcador de arriba cambiaba dejaba al jugador sin saber si iba clasificando o no,
+                que es justamente la única cuenta que importa en una vuelta. */}
+            {globalScoreLabel && (() => {
+              const [previosMios, previosRival] = globalScoreLabel.split('-').map(Number);
+              if (!Number.isFinite(previosMios) || !Number.isFinite(previosRival)) return null;
+              const mios = previosMios + (isHome.current ? scoreHome : scoreAway);
+              const rival = previosRival + (isHome.current ? scoreAway : scoreHome);
+              return (
+                <span
+                  className={`text-2xs font-bold px-1.5 py-0.5 rounded mb-0.5 inline-block transition-colors ${
+                    mios > rival ? 'bg-emerald-700 text-white'
+                    : mios < rival ? 'bg-burgundy-600 text-white'
+                    : 'bg-slate-700 text-white'
+                  }`}
+                  title="Suma de la ida y lo que va de este partido."
+                >
+                  Global {mios}-{rival}
+                </span>
+              );
+            })()}
             <div className="flex items-center gap-2">
               <span className="font-mono text-2xs px-2 py-0.5 bg-slate-900 border border-slate-800 rounded font-bold whitespace-nowrap">
                 Minuto {minute}'

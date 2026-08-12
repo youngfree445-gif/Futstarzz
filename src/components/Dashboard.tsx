@@ -1201,8 +1201,14 @@ export default function Dashboard({
     // terminaron su fixture.
     for (const [key, season] of Object.entries(playerProfile.leagueSeasons)) {
       if (!season?.table?.length) continue;
-      const quedanPartidos = season.fixtures?.some(f => !f.played) ?? false;
-      if (quedanPartidos) continue;
+      // Sin fixtures NO se corona a nadie. Las ligas con calendario real nacen con `fixtures: []`
+      // a propósito, y preguntar por partidos pendientes sobre un array vacío devuelve false: la
+      // liga se leía como terminada y la prensa anunciaba un campeón inventado --el primero de una
+      // tabla en cero-- en cada liga del mundo. Misma trampa que el trofeo fantasma de la vitrina.
+      if (!season.fixtures?.length) continue;
+      if (season.fixtures.some(f => !f.played)) continue;
+      // Y aunque haya fixtures, una tabla sin un solo partido jugado no tiene campeón.
+      if (!season.table.some(t => t.pj > 0)) continue;
 
       const lider = sortTable([...season.table])[0];
       if (!lider) continue;
