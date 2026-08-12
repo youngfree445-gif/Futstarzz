@@ -21,6 +21,13 @@ import { CAREER_START_YEAR } from './leagueEngine';
 export const MENTEE_MAX_AGE = 20;
 
 /**
+ * Techo de un atributo. Vive acá, junto al resto de los topes compartidos, porque lo necesitan
+ * App.tsx (para no cobrar una sesión de entrenamiento que no puede subir nada) y Dashboard.tsx
+ * (para deshabilitar el botón y decir por qué).
+ */
+export const ATTRIBUTE_MAX = 99;
+
+/**
  * El otro lado del vínculo: edad mínima de un compañero para poder ser TU referente, y edad máxima
  * tuya para tener uno. Viven acá por el mismo motivo que MENTEE_MAX_AGE -- los necesitan App.tsx
  * (revalidar al cargar y al cerrar temporada) y Dashboard.tsx (filtrar la lista), y si se declaran

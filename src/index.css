@@ -87,6 +87,23 @@
   --shadow-2xl: 0 26px 55px -14px rgb(0 0 0 / 0.7);
 }
 
+/* La página NUNCA se desplaza en horizontal. Un solo elemento que se pase de ancho -- una tabla, un
+   nombre largo sin espacios, un resplandor decorativo posicionado fuera de la caja -- le agrega
+   scroll lateral a TODO el documento, y en un teléfono eso se siente como si la interfaz estuviera
+   rota. El contenido que de verdad es más ancho que la pantalla (las tablas de posiciones, la tira
+   de métricas del header) ya lleva su propio contenedor con overflow-x: auto, así que se desliza
+   dentro de su caja sin arrastrar la página entera. */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Red de seguridad para cualquier medio que venga más ancho de lo previsto (escudos de origen
+   desconocido, GIFs de Giphy, fotos de stock). */
+img, svg, video, canvas, iframe {
+  max-width: 100%;
+}
+
 body {
   /* El nivel más hundido de la escala: por debajo de slate-950, para que un panel apoyado sobre la
      página se note apoyado. Ver el comentario de la escala de elevación arriba. */

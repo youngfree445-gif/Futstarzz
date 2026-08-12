@@ -5,7 +5,7 @@ import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_A
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
-import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
+import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { calendarioDeLigaAgotado, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -2783,8 +2783,12 @@ export default function Dashboard({
                     <div className="relative h-28 shrink-0 overflow-hidden">
                       <img src={item.img} alt={item.label} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-                      <span className="absolute top-2 right-2 text-3xs font-mono font-black uppercase bg-slate-950/80 px-2 py-0.5 rounded text-burgundy-500 border border-slate-800">
-                        {playerProfile.attributes[item.key as keyof PlayerStats]}/99
+                      <span className={`absolute top-2 right-2 text-3xs font-mono font-black uppercase bg-slate-950/80 px-2 py-0.5 rounded border ${
+                        playerProfile.attributes[item.key as keyof PlayerStats] >= ATTRIBUTE_MAX
+                          ? 'text-gold-400 border-gold-500/40'
+                          : 'text-burgundy-500 border-slate-800'
+                      }`}>
+                        {playerProfile.attributes[item.key as keyof PlayerStats]}/{ATTRIBUTE_MAX}
                       </span>
                       <h4 className="absolute bottom-2 left-3 font-bold text-sm text-white drop-shadow-lg pr-3">{item.label}</h4>
                     </div>
@@ -2792,17 +2796,34 @@ export default function Dashboard({
                     <div className="p-5 flex flex-col justify-between flex-1">
                       <p className="text-3xs text-slate-400 leading-relaxed">{item.desc}</p>
 
-                      <button
-                        onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
-                        disabled={playerProfile.energy < 20 || playerProfile.capital < trainingCost}
-                        className={`btn-fx-subtle w-full mt-4 py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
-                          playerProfile.energy >= 20 && playerProfile.capital >= trainingCost
-                            ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 border border-slate-800 hover:border-gold-400 cursor-pointer'
-                            : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
-                        }`}
-                      >
-                        Ejercitar (-20 E · -${trainingCost.toLocaleString()})
-                      </button>
+                      {/* Al máximo el botón se apaga y lo dice. Antes cobraba la sesión igual y el
+                          atributo no se movía, así que el jugador pagaba por enterarse. */}
+                      {(() => {
+                        const alMaximo = playerProfile.attributes[item.key as keyof PlayerStats] >= ATTRIBUTE_MAX;
+                        const puede = !alMaximo && playerProfile.energy >= 20 && playerProfile.capital >= trainingCost;
+                        return (
+                          <button
+                            onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
+                            disabled={!puede}
+                            title={alMaximo
+                              ? `Ya está en ${ATTRIBUTE_MAX}, el máximo.`
+                              : playerProfile.energy < 20
+                              ? 'Te falta energía para entrenar.'
+                              : playerProfile.capital < trainingCost
+                              ? `Te faltan $${(trainingCost - playerProfile.capital).toLocaleString()}.`
+                              : 'Una sesión de entrenamiento.'}
+                            className={`btn-fx-subtle w-full mt-4 min-h-[44px] py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                              puede
+                                ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 border border-slate-800 hover:border-gold-400 cursor-pointer'
+                                : alMaximo
+                                ? 'bg-gold-950/20 text-gold-500/70 cursor-not-allowed border border-gold-500/25'
+                                : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
+                            }`}
+                          >
+                            {alMaximo ? `Al máximo · ${ATTRIBUTE_MAX}` : `Ejercitar (-20 E · -$${trainingCost.toLocaleString()})`}
+                          </button>
+                        );
+                      })()}
                     </div>
                   </div>
                 ))}

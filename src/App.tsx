@@ -16,7 +16,7 @@ import { type DatedFixture, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fec
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
-import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor } from './worldRetirements';
+import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
 import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, isCupWeek, sortTable, isApeturaClausuraLeague,
   getSeasonYear, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
@@ -1173,6 +1173,12 @@ export default function App() {
   const TRAINING_COST_PER_REPUTATION = 150;
   const handleTrainAttribute = (attr: keyof PlayerStats) => {
     if (!playerProfile) return;
+    // El tope se aplicaba con Math.min(99, ...) DESPUÉS de cobrar, así que con el atributo en 99
+    // seguías pagando la sesión y gastando energía a cambio de nada. Se corta antes de tocar nada.
+    if (playerProfile.attributes[attr] >= ATTRIBUTE_MAX) {
+      notify(`Ya tenés ${attr} en ${ATTRIBUTE_MAX}, el máximo. Entrenarlo de nuevo sería tirar la plata: metele a otra cosa.`);
+      return;
+    }
     if (playerProfile.energy < TRAINING_ENERGY_COST) {
       notify('¡No tienes suficiente energía para entrenar!');
       return;
@@ -1193,7 +1199,7 @@ export default function App() {
       capital: playerProfile.capital - trainingCost,
       attributes: {
         ...playerProfile.attributes,
-        [attr]: Math.min(99, playerProfile.attributes[attr] + trainingGain)
+        [attr]: Math.min(ATTRIBUTE_MAX, playerProfile.attributes[attr] + trainingGain)
       }
     };
 
@@ -2281,6 +2287,26 @@ export default function App() {
       setActiveMyTablePosition(null);
       setActiveRivalTablePosition(null);
       setActiveLeagueTeamCount(null);
+
+      // Global de la llave, ANTES de jugar. La suma ya se calculaba para coronar campeón al cerrar
+      // la vuelta (ver handleFinishMatch), pero el jugador entraba a la vuelta de una Copa do Brasil
+      // sin ver con qué resultado llegaba: el rótulo "Global" sólo aparecía en las copas del cuadro
+      // sintético, no en las que salen del calendario real.
+      //
+      // Mismo criterio que la coronación, así que no puede decir una cosa acá y otra al final:
+      // partidosDeLaMismaLlave da las fechas anteriores contra el mismo rival en la misma temporada,
+      // y los marcadores salen de datedResults -- que incluye las fechas que el club resolvió sin
+      // vos. En la ida no hay nada que sumar todavía y se deja en null.
+      const idasPrevias = partidosDeLaMismaLlave(myClubForCup?.name ?? '', realPrimary.competition.id, realPrimary.date);
+      const jugadasPrevias = (playerProfile.datedResults ?? [])
+        .filter(r => r.competition === nombre && idasPrevias.includes(r.date));
+      if (jugadasPrevias.length > 0) {
+        const misGoles = jugadasPrevias.reduce((n, r) => n + r.myGoals, 0);
+        const susGoles = jugadasPrevias.reduce((n, r) => n + r.rivalGoals, 0);
+        setActiveGlobalScoreLabel(`${misGoles}-${susGoles}`);
+      } else {
+        setActiveGlobalScoreLabel(null);
+      }
     } else if (isCup && !usaFechasReales) {
       // Con calendario propio esta rama NO corre: arma la copa por clasificación del motor,
       // ignorando lo que dice el calendario. Ahí nacía el cruce -- ibas a jugar Libertadores según
