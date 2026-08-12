@@ -71,6 +71,18 @@ function semanasDeCopaUtilizables(club: string, temporada: number): { total: num
   return { total, libres };
 }
 
+// --- C) Costo de armar el calendario ---
+//
+// Va PRIMERO porque mide la llamada en frío: cualquier cosa que se haya llamado antes ya dejó el
+// índice cacheado y el número saldría en cero.
+//
+// Se mide porque es la primera pantalla del juego. El reparto de fechas de copa recorre ventanas de
+// meses día por día, y hacerlo con aritmética de Date en vez de números enteros lo llevó una vez de
+// 253 ms a 2124 ms -- un congelamiento visible al abrir, y mucho peor en un teléfono.
+const arranque = Date.now();
+fixturesForClub('FC Barcelona');
+const msDeArmado = Date.now() - arranque;
+
 // --- A) Descanso ---
 const muestra = CLUBS.filter(c => c.starPlayers?.length).slice(0, CLUBES_A_REVISAR);
 const hallazgos: Hallazgo[] = [];
@@ -107,6 +119,10 @@ for (const nombre of ['Santos', 'FC Barcelona', 'Junior de Barranquilla', 'Real 
 
 console.log('\nPasos que necesita cada copa para coronar campeón:');
 for (const [k, v] of Object.entries(PASOS_QUE_NECESITA)) console.log(`  ${k.padEnd(46)} ${v}`);
+
+const TOPE_DE_ARMADO_MS = 600;
+console.log(`\n=== C) Armar el calendario (32 temporadas, en frío) ===`);
+console.log(`  ${msDeArmado} ms   ${msDeArmado > TOPE_DE_ARMADO_MS ? `<-- PASADO EL TOPE de ${TOPE_DE_ARMADO_MS} ms: esto se congela al abrir` : `(tope ${TOPE_DE_ARMADO_MS} ms)`}`);
 
 const problemas = pocoDescanso.length + saturadas.length;
 console.log(`\n${problemas === 0 ? 'Sin problemas de descanso.' : `${problemas} hallazgos de descanso (ver arriba).`}`);

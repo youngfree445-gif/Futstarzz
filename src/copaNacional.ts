@@ -30,7 +30,7 @@ export interface DomesticCupState {
  * clubes se juegan 32, y los 4 que quedan afuera son los peor rankeados. Es lo que hace la Copa
  * BetPlay real con sus rondas previas, sin tener que modelarlas aparte.
  */
-function tamanoDelCuadro(n: number): number {
+export function tamanoDelCuadro(n: number): number {
   let p = 2;
   while (p * 2 <= n) p *= 2;
   return p;

@@ -14,6 +14,8 @@
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
 import { CAREER_START_YEAR, getSeasonYear } from './leagueEngine';
 import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada } from './seasonCalendar';
+// copaNacional sólo importa ./types, así que no hay ciclo posible en esta dirección.
+import { nombreCopaNacional } from './copaNacional';
 
 export interface DatedFixture {
   competition: DatedCompetition;
@@ -29,6 +31,13 @@ export interface DatedFixture {
    * campeón. Bug reportado: "gané ambos partidos de la Superliga y no me dijo que quedé campeón".
    */
   temporada: number;
+  /**
+   * Fecha RESERVADA para la copa: el día está apartado, pero el rival lo decide el cuadro del motor
+   * (copaNacional.ts), no el calendario. Ver RESERVAS DE COPA más abajo.
+   *
+   * `opponentName` en estos casos es un cartel de relleno y no debe usarse para buscar un club.
+   */
+  esReservaDeCuadro?: boolean;
 }
 
 // Se re-exporta para no romper a los módulos que ya la importaban de acá; la definición vive en
@@ -37,16 +46,31 @@ export { CAREER_START_DATE };
 
 const MS_POR_DIA = 86_400_000;
 
+// Las dos conversiones de abajo se llaman decenas de miles de veces al armar el calendario (el
+// reparto de fechas de copa recorre ventanas de meses día por día), y tanto Date.parse como
+// toISOString son caros. Con memo el conjunto de valores distintos es chico -- unas 10.000 fechas
+// para las 32 temporadas -- y se reusa entre clubes de la misma liga, que juegan los mismos días.
+const diaPorFecha = new Map<string, number>();
+const fechaPorDia = new Map<number, string>();
+
 /** Fecha (YYYY-MM-DD) del día N de carrera. day=1 es CAREER_START_DATE. */
 export function dateForDay(day: number): string {
+  const cacheado = fechaPorDia.get(day);
+  if (cacheado !== undefined) return cacheado;
   const base = Date.parse(`${CAREER_START_DATE}T00:00:00Z`);
-  return new Date(base + (day - 1) * MS_POR_DIA).toISOString().slice(0, 10);
+  const fecha = new Date(base + (day - 1) * MS_POR_DIA).toISOString().slice(0, 10);
+  fechaPorDia.set(day, fecha);
+  return fecha;
 }
 
 /** Día de carrera de una fecha. Inverso de dateForDay. */
 export function dayForDate(date: string): number {
+  const cacheado = diaPorFecha.get(date);
+  if (cacheado !== undefined) return cacheado;
   const base = Date.parse(`${CAREER_START_DATE}T00:00:00Z`);
-  return Math.round((Date.parse(`${date}T00:00:00Z`) - base) / MS_POR_DIA) + 1;
+  const dia = Math.round((Date.parse(`${date}T00:00:00Z`) - base) / MS_POR_DIA) + 1;
+  diaPorFecha.set(date, dia);
+  return dia;
 }
 
 // Índice club -> partidos de UNA temporada, ordenados por fecha. Se cachea por temporada: recorrer
@@ -63,6 +87,10 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
     if (lista) lista.push(fx);
     else indice.set(club, [fx]);
   };
+
+  // Las copas que corren por cuadro se juntan acá y se resuelven en una SEGUNDA pasada: para
+  // reservarle fechas a un club hay que saber primero qué días tiene ya ocupados.
+  const conCuadro: DatedCompetition[] = [];
 
   for (const original of DATED_CALENDARS) {
     // De la temporada 2 en adelante, las COPAS no salen del calendario: las arma el cuadro del
@@ -90,11 +118,21 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
     // la temporada 2: 52 pasos, 52 con liga, 0 libres. La rama que ofrece el partido del cuadro
     // exige `!datedPrimary` -- que nunca se cumple -- así que el bracket no llegaba a jugar nunca.
     //
-    // El arreglo de verdad no es filtrar: es GENERAR las fechas de copa e inyectarlas en el
-    // calendario, para que liga y copa corran por el mismo reloj y pickPrimary elija entre las dos
-    // cuando caen el mismo día (que es exactamente como funciona la temporada 1). Mientras tanto se
-    // vuelve a las copas permutadas: son imperfectas, pero existen.
+    // El arreglo de verdad no es filtrar: es RESERVARLES fechas en el calendario, para que liga y
+    // copa corran por el mismo reloj y pickPrimary elija entre las dos cuando caen el mismo día
+    // (que es exactamente como funciona la temporada 1). Es lo que hace la segunda pasada de abajo.
     const comp = competicionEnTemporada(original, temporada);
+
+    if (usaCuadroDelMotor(original)) {
+      conCuadro.push(comp);
+      // Temporada 1: los partidos de copa REALES se juegan igual -- rival, ronda y fecha salen de
+      // Transfermarkt, y esa es la mejor materia prima que hay. Lo que se agrega después son las
+      // fechas para CONTINUAR el torneo cuando el fragmento scrapeado se acaba.
+      // Temporada 2+: no hay nada real que conservar (la permutación repartía un fragmento
+      // congelado), así que la copa entera sale del cuadro.
+      if (temporada !== 1) continue;
+    }
+
     for (const match of comp.matches) {
       // En la temporada 1 se descartan las fechas anteriores al arranque de la carrera (media
       // temporada europea ya jugada). De la 2 en adelante todas las fechas son futuras.
@@ -103,9 +141,233 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
       agregar(match.away, { competition: comp, match, date: match.date, isHome: false, opponentName: match.home, temporada });
     }
   }
+  // Las reservas se calculan ANTES de ordenar y se ordena una sola vez al final: ordenar el índice
+  // entero dos veces por temporada, con 32 temporadas, se nota al abrir el juego.
+  for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
+
   indicePorTemporada.set(temporada, indice);
   return indice;
+}
+
+// --- RESERVAS DE COPA -------------------------------------------------------------------------
+//
+// El calendario real de una copa nacional no es un torneo: es un FRAGMENTO. Sólo trae las rondas
+// que ya estaban sorteadas el día que se scrapeó, y su forma la decidieron los resultados de ese
+// año. Medido en la Copa do Brasil: 46 partidos entre 33 clubes, de 1 a 5 por club. En la Copa del
+// Rey, 12 partidos entre 16 clubes.
+//
+// De ahí salían dos cosas que el jugador reportó:
+//   - La copa se terminaba sola: "gané esos partidos de la Copa do Brasil pero en el calendario
+//     jamás salió mi siguiente rival".
+//   - Nadie salía campeón nunca. Medido antes de este cambio con `npm run validar:copas`:
+//     0 de 12 ediciones coronaron a alguien, en cuatro países distintos.
+//
+// El motor SÍ tiene un cuadro de verdad (copaNacional.ts): los clubes del país, ida y vuelta,
+// eliminación real y campeón. Nunca llegaba a usarse, porque fixturesAtStep numera los pasos por
+// FECHA CON PARTIDO -- un club con calendario real tiene partido en TODOS los pasos -- y la rama de
+// App.tsx que ofrece el cuadro exigía un paso libre que no existía jamás.
+//
+// La salida no es sacar la copa del calendario: eso ya se intentó (ver el comentario largo de
+// arriba) y dejó a los clubes sin ninguna copa. Es al revés. El calendario le RESERVA días a la
+// copa; el cuadro decide contra quién se juega. Cada pregunta con una sola fuente, y las dos
+// corriendo por el mismo reloj.
+
+/** Fechas de copa que se le apartan a cada club por temporada. Un cuadro de 32 son 5 rondas de ida
+ *  y vuelta = 10; las 2 de más son holgura y, si sobran, quedan como días de descanso. */
+const FECHAS_DE_COPA_RESERVADAS = 12;
+
+/** Días mínimos entre una fecha de copa y cualquier otro partido del club. */
+const DESCANSO_MINIMO_DIAS = 3;
+
+/**
+ * Días entre una fecha de copa y la siguiente. Se prueban de mayor a menor: lo natural es que una
+ * ida y su vuelta estén a una semana, pero un club europeo con liga + Champions casi no tiene
+ * huecos, y ahí vale más apretar el torneo que dejarlo sin terminar. Medido en el Manchester City
+ * de la temporada 1 (que arranca en enero, a media temporada): con 7 días fijos entraban 4 fechas
+ * de FA Cup y el cuadro necesita 6.
+ */
+const ESPACIADOS_DE_COPA_DIAS = [7, 5, 4, 3];
+
+/** Cartel del rival en una fecha reservada. No es un club: el cuadro todavía no sorteó el cruce. */
+export const RIVAL_POR_SORTEAR = 'Por definir';
+
+/**
+ * ¿Esta copa la tiene que armar el cuadro del motor en vez del calendario?
+ *
+ * El síntoma de un fragmento es que los clubes no juegan la misma cantidad de partidos: el que
+ * heredó el lugar del finalista tiene cinco y el del eliminado en primera ronda, uno. Un torneo de
+ * verdad cargado entero no se ve así.
+ *
+ * La Superliga de Colombia queda afuera y debe quedar afuera: son 2 clubes y 2 partidos, o sea la
+ * final de ida y vuelta COMPLETA. No hay nada que generar ahí.
+ *
+ * Y se exige que sea LA copa nacional del país, la que el motor modela (nombreCopaNacional). En
+ * Inglaterra hay dos en el calendario, FA Cup y EFL Cup, pero un solo cuadro: sin este filtro las
+ * dos se repartían las fechas reservadas contra el mismo bracket -- medido, la EFL se quedaba con
+ * las 12 del Manchester City y la FA Cup con ninguna -- y encima el partido de una salía rotulado
+ * con el nombre de la otra. La segunda copa se queda como estaba: imperfecta, pero suya.
+ */
+const cacheUsaCuadro = new Map<string, boolean>();
+
+function usaCuadroDelMotor(comp: DatedCompetition): boolean {
+  const cacheado = cacheUsaCuadro.get(comp.id);
+  if (cacheado !== undefined) return cacheado;
+
+  let r = false;
+  if (comp.kind === 'domestic_cup' && !!comp.league && comp.name === nombreCopaNacional(comp.league)) {
+    const porClub = new Map<string, number>();
+    for (const m of comp.matches) {
+      porClub.set(m.home, (porClub.get(m.home) ?? 0) + 1);
+      porClub.set(m.away, (porClub.get(m.away) ?? 0) + 1);
+    }
+    const cuentas = [...porClub.values()];
+    // Menos de 4 clubes no es un cuadro con rondas, es una final: se deja como está.
+    r = cuentas.length >= 4 && Math.min(...cuentas) !== Math.max(...cuentas);
+  }
+  cacheUsaCuadro.set(comp.id, r);
+  return r;
+}
+
+/**
+ * Los clubes a los que hay que reservarles fechas de esta copa.
+ *
+ * No alcanza con los que aparecen en el fragmento scrapeado: el cuadro del motor se arma con los
+ * clubes del PAÍS, y la Copa del Rey real sólo trae 16 nombres de los ~40 españoles que hay en la
+ * base. Un club que entra al cuadro pero no figura en el fragmento se quedaría sin ninguna fecha
+ * reservada -- o sea, sin copa, que es justo el bug que esto viene a arreglar.
+ */
+const cacheClubesDelPais = new Map<string, string[]>();
+
+function clubesDelPais(comp: DatedCompetition): string[] {
+  const cacheado = cacheClubesDelPais.get(comp.id);
+  if (cacheado) return cacheado;
+
+  const set = new Set<string>();
+  for (const otra of DATED_CALENDARS) {
+    const mismaCopa = otra.id === comp.id;
+    const mismoPais = !!comp.league && otra.league === comp.league;
+    if (!mismaCopa && !mismoPais) continue;
+    for (const m of otra.matches) { set.add(m.home); set.add(m.away); }
+  }
+  const lista = [...set];
+  cacheClubesDelPais.set(comp.id, lista);
+  return lista;
+}
+
+/**
+ * Le aparta a cada club del país sus días de copa en esta temporada.
+ *
+ * Las fechas se eligen POR CLUB, no una grilla común: si se le pusiera a todo el país el mismo día,
+ * chocaría con la fecha de liga de la mitad de ellos y pickPrimary -- que le da prioridad a la copa
+ * -- se comería ese partido de liga. Al elegirlas contra el calendario propio de cada club, no se
+ * pisa nada. Que dos clubes de la misma llave las tengan en días distintos no se nota: el jugador
+ * sólo ve su propio calendario, y el resto de las llaves las simula el motor en el mismo paso.
+ */
+function reservarFechasDeCopa(
+  comp: DatedCompetition,
+  temporada: number,
+  indice: Map<string, DatedFixture[]>,
+  agregar: (club: string, fx: DatedFixture) => void,
+) {
+  for (const club of clubesDelPais(comp)) {
+    const propios = indice.get(club) ?? [];
+    // Un club sin ningún partido esta temporada no está jugando: no hay dónde meterle la copa.
+    if (!propios.length) continue;
+
+    const deEstaCopa = propios.filter(f => f.competition.id === comp.id);
+    // Si el fragmento real ya lo llevó hasta la FINAL, la copa terminó para este club: reservarle
+    // fechas después la haría empezar de nuevo y coronar un segundo campeón del mismo torneo en el
+    // mismo año. Pasa en la temporada 1 con la Copa del Rey y la Coppa Italia, que en el calendario
+    // real llegan hasta la final.
+    if (deEstaCopa.some(f => esRondaFinal(f.match.round))) continue;
+
+    const fechasDeEstaCopa = deEstaCopa.map(f => f.date).sort();
+    const faltan = FECHAS_DE_COPA_RESERVADAS - fechasDeEstaCopa.length;
+    if (faltan <= 0) continue;
+
+    // De acá para abajo se trabaja con NÚMEROS DE DÍA, no con strings de fecha. El bucle recorre
+    // ventanas de varios meses día por día, y hacerlo con aritmética de Date multiplicaba por ocho
+    // el tiempo de armar el calendario: medido, 253 ms -> 2124 ms en la primera pantalla.
+    //
+    // El índice todavía no está ordenado en este punto (se ordena una sola vez, después), así que
+    // el primer y el último día se sacan a mano en la misma pasada que arma los vetados.
+    const vetados = new Set<number>();
+    let primerDia = Infinity;
+    let ultimoDia = -Infinity;
+    for (const f of propios) {
+      const dia = dayForDate(f.date);
+      if (dia < primerDia) primerDia = dia;
+      if (dia > ultimoDia) ultimoDia = dia;
+      for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+    }
+
+    // Se arranca DESPUÉS del último partido real de esta copa: primero lo que sorteó la vida, y
+    // recién cuando se acaba, lo generado.
+    const ultimaReal = fechasDeEstaCopa[fechasDeEstaCopa.length - 1];
+    const desde = ultimaReal
+      ? dayForDate(ultimaReal) + ESPACIADOS_DE_COPA_DIAS[0]
+      : (comp.firstDate ? dayForDate(comp.firstDate) : primerDia);
+
+    // El techo es el final de la temporada del club. Se deja llegar hasta ahí -- y no sólo hasta la
+    // última fecha real de la copa -- porque si no, un fragmento que termina en agosto no deja
+    // espacio para las rondas que faltan. Pasado ese punto ya empieza la temporada siguiente y las
+    // fechas se cruzarían entre sí.
+    const hasta = Math.max(ultimoDia, desde);
+
+    for (const dia of elegirDias(desde, hasta, vetados, faltan)) {
+      const date = dateForDay(dia);
+      const match: DatedMatch = { date, home: club, away: RIVAL_POR_SORTEAR };
+      agregar(club, {
+        competition: comp, match, date, isHome: true,
+        opponentName: RIVAL_POR_SORTEAR, temporada, esReservaDeCuadro: true,
+      });
+    }
+  }
+}
+
+/**
+ * Hasta `cuantas` días libres entre `desde` y `hasta`, lo más espaciados que se pueda.
+ *
+ * Se prueba primero con la separación cómoda y se va apretando sólo si no entran todos. Devolver de
+ * menos no rompe nada -- la copa simplemente no llega a la final ese año -- pero es lo que hay que
+ * evitar, así que conviene apretar antes que quedarse corto.
+ */
+function elegirDias(desde: number, hasta: number, vetados: Set<number>, cuantas: number): number[] {
+  let mejor: number[] = [];
+  for (const espaciado of ESPACIADOS_DE_COPA_DIAS) {
+    const elegidos: number[] = [];
+    let ultimo = -Infinity;
+    for (let d = desde; d <= hasta && elegidos.length < cuantas; d++) {
+      if (vetados.has(d)) continue;
+      if (d - ultimo < espaciado) continue;
+      elegidos.push(d);
+      ultimo = d;
+    }
+    if (elegidos.length > mejor.length) mejor = elegidos;
+    if (mejor.length >= cuantas) break;
+  }
+  return mejor;
+}
+
+const esCopaConCuadro = (comp: DatedCompetition) =>
+  comp.kind === 'domestic_cup' && usaCuadroDelMotor(comp);
+
+/**
+ * Cuántas fechas de copa nacional le quedan al club en esta temporada, contando desde `desdeFecha`.
+ *
+ * Es el presupuesto real del torneo, y sirve para no armar un cuadro que no entra. La temporada 1
+ * arranca el 12 de enero, o sea a mitad de la temporada europea: al Manchester City le quedan 4
+ * fechas de FA Cup, y un cuadro de 8 clubes necesita 6 (tres rondas de ida y vuelta). Con esas dos
+ * de menos el torneo no llegaba a la final y moría en semis sin campeón. Sabiendo el presupuesto,
+ * se arma un cuadro de 4 y se corona igual.
+ */
+export function fechasDeCopaNacionalRestantes(clubName: string, temporada: number, desdeFecha: string): number {
+  const fechas = new Set<string>();
+  for (const f of getIndice(temporada).get(clubName) ?? []) {
+    if (esCopaConCuadro(f.competition) && f.date >= desdeFecha) fechas.add(f.date);
+  }
+  return fechas.size;
 }
 
 /** Las fechas distintas de una lista de partidos: dos partidos el mismo día son UN paso. */

@@ -12,8 +12,8 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
-import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from './copaNacional';
+import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeCopaNacionalRestantes, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
@@ -2171,6 +2171,12 @@ export default function App() {
         || (getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/europa/i));
     })();
 
+    // Fecha RESERVADA para la copa nacional: el calendario aparta el día y el cuadro del motor
+    // (copaNacional.ts) decide contra quién se juega. Ver RESERVAS DE COPA en dateSchedule.ts --
+    // es lo que permite que la copa exista de verdad en vez de ser un fragmento repartido al azar.
+    const esReservaDeCopaNacional = !!realPrimary?.esReservaDeCuadro
+      && realPrimary.competition.kind === 'domestic_cup';
+
     const isCup = !inWorldCupBreak && (
       usaCalendarioReal
         ? realPrimary?.competition.kind === 'continental_cup'
@@ -2268,6 +2274,9 @@ export default function App() {
       // motor pero no figura en el calendario de esa copa (Junior en Libertadores) entraba acá con
       // un partido de liga y lo jugaba rotulado como copa.
       && (realPrimary.competition.kind === 'continental_cup' || realPrimary.competition.kind === 'domestic_cup')
+      // Una fecha RESERVADA no trae rival: el calendario sólo apartó el día. El cruce lo pone el
+      // cuadro, así que cede el paso a la rama de abajo.
+      && !realPrimary.esReservaDeCuadro
       // Si es copa NACIONAL y viene del calendario semanal LEGADO (sin datedPrimary, es decir sin
       // fecha real verdadera) para un país que ya tiene el bracket real de copaNacional.ts, cede el
       // paso: ese legado es un calendario semanal fijo de 2024 sin eliminación (todo "round":
@@ -2327,14 +2336,18 @@ export default function App() {
       } else {
         setActiveGlobalScoreLabel(null);
       }
-    } else if (isCup && (!usaFechasReales || clubEnCopaContinental)) {
-      // Copa armada por el cuadro del motor. Corre en dos casos:
+    } else if (isCup && (!usaFechasReales || clubEnCopaContinental || esReservaDeCopaNacional)) {
+      // Copa armada por el cuadro del motor. Corre en tres casos:
       //
       //   1. El club no tiene fechas reales cargadas (el caso de siempre).
       //   2. El club SÍ las tiene, pero su calendario no cubre esta copa (clubEnCopaContinental).
       //      Ver el comentario largo de ese flag: son 38 de 64 participantes de las copas Conmebol.
       //      Sin este segundo caso quedaban en tierra de nadie -- ni partido del calendario ni
       //      partido del cuadro -- y la copa avanzaba sola de fondo.
+      //   3. Hoy es una fecha RESERVADA para la copa nacional (esReservaDeCopaNacional). El
+      //      calendario apartó el día y el cuadro pone el rival. Sin este tercer caso la rama no se
+      //      alcanzaba NUNCA para un club con calendario real -- fixturesAtStep le da partido en
+      //      todos los pasos -- y por eso ninguna copa nacional llegaba a coronar campeón.
       //
       // Lo que sigue sin poder pasar es que las dos fuentes se peleen el turno: la rama de arriba
       // atiende primero y sólo se llega acá si el calendario NO trajo un partido de copa hoy.
@@ -2347,7 +2360,13 @@ export default function App() {
       };
       const libertadoresIds = new Set(getLibertadoresParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
       const sudamericanaIds = new Set(getSudamericanaParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
-      const qualifiedCupId: 'libertadores' | 'sudamericana' | null = libertadoresIds.has(myClub.id)
+      // En una fecha reservada para la copa NACIONAL no se pregunta por las continentales: el día
+      // ya tiene dueño. Sin este corte, un club como el Santos -- que juega Sudamericana y su
+      // calendario no la cubre -- se llevaba su fecha de Copa do Brasil para jugar la Sudamericana,
+      // y la copa nacional volvía a quedarse sin fechas.
+      const qualifiedCupId: 'libertadores' | 'sudamericana' | null = esReservaDeCopaNacional
+        ? null
+        : libertadoresIds.has(myClub.id)
         ? 'libertadores'
         : sudamericanaIds.has(myClub.id)
         ? 'sudamericana'
@@ -2403,7 +2422,10 @@ export default function App() {
       if (!foundOpponentId) {
         const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE));
         const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE));
-        const qualifiedUefaCupId: 'champions' | 'europa' | null = championsIds.has(myClub.id)
+        // Mismo corte que arriba: la fecha reservada es de la copa nacional y de nadie más.
+        const qualifiedUefaCupId: 'champions' | 'europa' | null = esReservaDeCopaNacional
+          ? null
+          : championsIds.has(myClub.id)
           ? 'champions'
           : europaIds.has(myClub.id)
           ? 'europa'
@@ -2500,37 +2522,79 @@ export default function App() {
         //
         // Ahora es un cuadro de eliminación directa entre los 36 clubes del país (Primera y
         // Segunda), a ida y vuelta, que arranca en dieciseisavos y termina con un campeón.
-        const cupKey = myClubForCup ? `${myClubForCup.league}-${year}` : null;
+        // La temporada de la copa la manda el CALENDARIO, no el contador de semanas. getSeasonYear
+        // cuenta 52 semanas por año, pero acá un paso es una fecha con partido y el Junior tiene 63
+        // en 2026: pasada la número 52, el contador ya decía "temporada 2" y la clave de la copa
+        // cambiaba EN MEDIO de la edición -- el cuadro se reiniciaba solo y el jugador volvía a
+        // dieciseisavos con la copa a mitad de camino.
+        const temporadaDeCopa = myClubForCup && usaFechasReales
+          ? (temporadaDelPaso(myClubForCup.name, playerProfile.currentWeek)?.temporada ?? year)
+          : year;
+        const cupKey = myClubForCup ? `${myClubForCup.league}-${temporadaDeCopa}` : null;
         let cupCruce: ReturnType<typeof cruceActual> = null;
+        // Se guarda afuera para poder seguir avanzando el cuadro en las fechas en las que el
+        // jugador ya no juega (ver el día de descanso más abajo).
+        let cupNacional: ReturnType<typeof crearCopaNacional> | null = null;
         if (myClubForCup && cupKey) {
-          // ¿Este año la copa nacional ya vino del calendario real? Entonces lo que hace falta es
-          // CONTINUARLA desde donde se agotaron sus fechas, no empezar otra edición: el jugador ya
-          // disputó rondas de verdad y arrancar de dieciseisavos le haría jugar la misma copa dos
-          // veces en el mismo año.
+          // El cuadro se dimensiona a las FECHAS QUE QUEDAN, no al revés. Cada ronda son dos
+          // partidos (ida y vuelta), así que con N fechas entran floor(N/2) rondas y 2^rondas
+          // clubes. Si el cuadro natural del país ya entra en ese presupuesto no se recorta nada.
           //
-          // Quiénes siguen: vos más los siete clubes más fuertes del país. El calendario real sólo
-          // dice cómo te fue a VOS -- de los demás no hay resultados -- así que el resto del cuadro
-          // se sortea, que es lo acordado: generar, pero con lógica. Ocho clubes cierran en cuartos,
-          // semis y final, sin pases libres inventados.
-          const nacionalVinoDelCalendario = usaFechasReales
-            && competitionsForClubInSeason(myClubForCup.name, year).some(c => c.kind === 'domestic_cup');
-          const clubesParaContinuar = nacionalVinoDelCalendario
-            ? [
-                myClubForCup.id,
-                ...CLUBS_DATABASE
-                  .filter(c => c.league === myClubForCup.league && c.id !== myClubForCup.id)
-                  .sort((a, b) => (b.reputation ?? 0) - (a.reputation ?? 0))
-                  .slice(0, 7)
-                  .map(c => c.id),
-              ]
+          // Importa sobre todo en la temporada 1, que arranca el 12 de enero -- a media temporada
+          // europea. Al Manchester City le quedan 4 fechas de FA Cup: un cuadro de 32 necesita 10 y
+          // moría sin final. Con 4 fechas se arma uno de 4 y se corona igual, que además es lo que
+          // pasa de verdad (cuando empezás la carrera, la copa ya va por cuartos).
+          //
+          // Los rivales son los clubes más fuertes del país: de ellos el calendario real no dice
+          // nada, así que se sortea -- generar, pero con lógica.
+          //
+          // Y TU CLUB entra siempre. El cuadro se recorta a la potencia de 2 de abajo (36 clubes
+          // colombianos -> 32), y ese recorte se llevaba por delante a los cuatro de menor
+          // reputación: no jugaban la Copa BetPlay ninguna temporada, para siempre, sin que nada se
+          // lo dijera al jugador. Medido: 28 club-temporadas sin un solo partido de copa.
+          const clubesParaContinuar = usaFechasReales
+            ? (() => {
+                const quedan = fechasDeCopaNacionalRestantes(
+                  myClubForCup.name, temporadaDeCopa, datedStep?.date ?? '');
+                const delPais = CLUBS_DATABASE.filter(c => c.league === myClubForCup.league);
+                const cupo = Math.min(
+                  2 ** Math.max(1, Math.min(6, Math.floor(quedan / 2))),
+                  tamanoDelCuadro(delPais.length),
+                );
+                return [
+                  myClubForCup.id,
+                  ...delPais
+                    .filter(c => c.id !== myClubForCup.id)
+                    .sort((a, b) => (b.reputation ?? 0) - (a.reputation ?? 0))
+                    .slice(0, cupo - 1)
+                    .map(c => c.id),
+                ];
+              })()
             : undefined;
 
-          const cup = playerProfile.domesticCups?.[cupKey]
-            ?? crearCopaNacional(myClubForCup.league, year, CLUBS_DATABASE, divisionDeClub(playerProfile), clubesParaContinuar);
-          if (!playerProfile.domesticCups?.[cupKey]) {
-            setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cup } }));
+          let cup = playerProfile.domesticCups?.[cupKey]
+            ?? crearCopaNacional(myClubForCup.league, temporadaDeCopa, CLUBS_DATABASE, divisionDeClub(playerProfile), clubesParaContinuar);
+
+          // Ronda anterior ya completa: se arma la siguiente ANTES de preguntar por el cruce. Sin
+          // esto cruceActual devolvía la llave YA JUGADA -- sigueEnCopa da true porque la ganaste --
+          // y el jugador la disputaba de nuevo contra el mismo rival, con un resultado que el motor
+          // después descartaba. Un partido fantasma en cada cambio de ronda.
+          const ultimaRonda = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1];
+          if (!cup.championId && ultimaRonda?.every(t => t.played)) {
+            cup = resolverPasoCopaNacional(cup, CLUBS_DATABASE);
           }
-          cupCruce = sigueEnCopa(cup, myClubForCup.id) ? cruceActual(cup, myClubForCup.id) : null;
+          if (playerProfile.domesticCups?.[cupKey] !== cup) {
+            const cupGuardada = cup;
+            setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cupGuardada } }));
+          }
+          cupNacional = cup;
+
+          // Con campeón coronado la edición terminó: las fechas que sobren ya no son de copa.
+          // sigueEnCopa devuelve true para el campeón (sigue, porque ganó), así que sin este corte
+          // el campeón salía a jugar la final otra vez.
+          cupCruce = !cup.championId && sigueEnCopa(cup, myClubForCup.id)
+            ? cruceActual(cup, myClubForCup.id)
+            : null;
           if (cupCruce) {
             const rivalId = cupCruce.clubAId === myClubForCup.id ? cupCruce.clubBId : cupCruce.clubAId;
             const rivalCup = CLUBS_DATABASE.find(c => c.id === rivalId);
@@ -2555,6 +2619,47 @@ export default function App() {
               }
             }
           }
+        }
+
+        // Fecha reservada para la copa y sin cruce que jugar: ya saliste campeón, te eliminaron, o
+        // el cuadro terminó antes de que se acabaran las fechas apartadas. El día queda libre DE
+        // VERDAD.
+        //
+        // Antes acá se inventaba un amistoso contra un rival al azar del país, y eso es exactamente
+        // el "partido fantasma" que hay que evitar: un partido que no existe en ningún torneo, que
+        // no cuenta para nada y que igual te gasta energía. La reserva no es una obligación de
+        // jugar, es un día que el calendario tenía apartado por si la copa lo necesitaba.
+        if (esReservaDeCopaNacional && !cupCruce) {
+          const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
+
+          // El torneo sigue sin vos. Antes el cuadro sólo avanzaba cuando el jugador tenía partido,
+          // así que apenas lo eliminaban la copa se congelaba a mitad de camino y NADIE salía
+          // campeón -- el club que te ganó tampoco. Medido: de 12 ediciones, 6 terminaban sin
+          // coronar a nadie. Ahora cada fecha reservada que no jugás resuelve una pierna del resto
+          // del cuadro, y la copa llega a su final igual.
+          let cupsDelPais = playerProfile.domesticCups;
+          if (cupKey && cupNacional && !cupNacional.championId) {
+            cupsDelPais = { ...(playerProfile.domesticCups ?? {}), [cupKey]: resolverPasoCopaNacional(cupNacional, CLUBS_DATABASE) };
+          }
+
+          const updated = {
+            ...playerProfile,
+            energy: Math.min(100, playerProfile.energy + 20),
+            currentWeek: playerProfile.currentWeek + 1,
+            matchesWithoutRest: 0,
+            continentalCups: restSync.continentalCups,
+            uefaCups: restSync.uefaCups,
+            domesticCups: cupsDelPais,
+          };
+          const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
+          if (isPastRetirementAge(aged)) {
+            resolveRetirementCheckpoint(aged);
+            return;
+          }
+          setPlayerProfile(aged);
+          saveGameState(aged, shopItems);
+          notify(`📅 Fecha de ${nombreCopaNacional(myClubForCup?.league ?? '')} sin partido para tu club. Semana de descanso.`);
+          return;
         }
 
         // Sin cruce (ya eliminado, o liga sin copa modelada): rival suelto del país, como antes.
@@ -3081,7 +3186,10 @@ export default function App() {
       datedResultToday = {
         date: paso.date,
         competition: fx.competition.name,
-        opponentName: fx.opponentName,
+        // En una fecha reservada el calendario no sabe contra quién jugaste -- el rival lo puso el
+        // cuadro. Guardar el cartel de relleno dejaría el historial (y las rivalidades, que se
+        // arman con este nombre) apuntando a un club que no existe.
+        opponentName: fx.esReservaDeCuadro ? activeOpposition : fx.opponentName,
         myGoals: results.golesMiEquipo,
         rivalGoals: results.golesRival,
       };
@@ -3152,7 +3260,12 @@ export default function App() {
     (() => {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
       if (!myClub || !activeDomesticCup || !activeOppositionClubId) return;
-      const cupKey = `${myClub.league}-${getSeasonYear(playerProfile.currentWeek)}`;
+      // MISMA clave que al armar el partido (ver temporadaDeCopa allá): con calendario real manda
+      // la temporada del calendario, no el contador de 52 semanas. Si las dos no coinciden, el
+      // resultado se guarda en una edición distinta de la que se jugó y el cuadro no avanza nunca.
+      const temporadaDeCopa = temporadaDelPaso(myClub.name, playerProfile.currentWeek)?.temporada
+        ?? getSeasonYear(playerProfile.currentWeek);
+      const cupKey = `${myClub.league}-${temporadaDeCopa}`;
       const cup = playerProfile.domesticCups?.[cupKey];
       if (!cup || cup.championId) return;
       const tie = cruceActual(cup, myClub.id);
@@ -3180,7 +3293,9 @@ export default function App() {
 
       if (resuelta.championId === myClub.id) {
         salioCampeon = true;
-        const anio = CAREER_START_YEAR + getSeasonYear(playerProfile.currentWeek) - 1;
+        // Mismo criterio que la clave de la copa: el año sale de la temporada del CALENDARIO. Con
+        // getSeasonYear, un club de 60 pasos por año veía su título fechado en el año siguiente.
+        const anio = CAREER_START_YEAR + temporadaDeCopa - 1;
         setChampionInfo({
           competition: nombreCopaNacional(myClub.league),
           clubName: myClub.name,

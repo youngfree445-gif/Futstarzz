@@ -6,11 +6,11 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { calendarioDeLigaAgotado, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, torneoDeFecha } from '../dateSchedule';
+import { calendarioDeLigaAgotado, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
-import { crearCopaNacional, cruceActual, nombreCopaNacional, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
+import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { postsDelPartido } from '../chutSocialVoces';
@@ -841,16 +841,33 @@ export default function Dashboard({
     // el rival sale del cruce actual del cuadro, no del legado semanal descartado arriba ni del
     // fixture de liga (que anunciaría un partido de liga para una semana que en realidad es de
     // copa). Mismo criterio que usa el calendario mensual más abajo.
-    const cupBracketDeLaSemana = (!realDeLaSemana && legadoEsCopaConBracketReal) ? (() => {
-      const cupYearNow = getSeasonYear(playerProfile.currentWeek);
+    // Y también cuando el día de hoy es una fecha RESERVADA para la copa (ver dateSchedule.ts): el
+    // calendario apartó el día pero no trae rival, así que sin esto la tarjeta caía al fixture
+    // generado de liga y anunciaba un rival de liga para un día que en realidad es de copa.
+    const esReservaDeCopa = !!realDeLaSemana?.esReservaDeCuadro
+      && realDeLaSemana.competition.kind === 'domestic_cup';
+    const cupBracketDeLaSemana = ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa) ? (() => {
+      // La temporada la manda el calendario cuando lo hay -- misma clave que usa App.tsx, o la
+      // tarjeta leería la edición del año equivocado.
+      const cupYearNow = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
+        ?? getSeasonYear(playerProfile.currentWeek);
       const cupKeyNow = `${currentClub.league}-${cupYearNow}`;
+      // En una fecha reservada NO se inventa un cuadro de muestra: si la edición todavía no está
+      // guardada, el rival que se anunciaría acá saldría de un sorteo distinto del que va a armar
+      // App.tsx, y la tarjeta prometería un rival que después no es. Mejor no decir nada.
       const cupNow = playerProfile.domesticCups?.[cupKeyNow]
-        ?? crearCopaNacional(currentClub.league, cupYearNow, ULTIMATE_CLUBS_DATABASE, c => (c.division === 2 ? 2 : 1));
-      if (!sigueEnCopa(cupNow, currentClub.id)) return null;
+        ?? (esReservaDeCopa
+          ? null
+          : crearCopaNacional(currentClub.league, cupYearNow, ULTIMATE_CLUBS_DATABASE, c => (c.division === 2 ? 2 : 1)));
+      if (!cupNow || cupNow.championId || !sigueEnCopa(cupNow, currentClub.id)) return null;
       const cruce = cruceActual(cupNow, currentClub.id);
       if (!cruce) return null;
       const rivalId = cruce.clubAId === currentClub.id ? cruce.clubBId : cruce.clubAId;
-      return { rivalId, ronda: rondaActual(cupNow) };
+      // La localía sale de la LLAVE, no del calendario: en la ida es local el clubA y en la vuelta
+      // se invierte. La reserva viene siempre marcada como local porque no tiene rival todavía.
+      const esIda = piernaDelCruce(cruce) === 'ida';
+      const soyLocal = esIda ? cruce.clubAId === currentClub.id : cruce.clubBId === currentClub.id;
+      return { rivalId, ronda: rondaActual(cupNow), soyLocal };
     })() : null;
 
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
@@ -858,8 +875,13 @@ export default function Dashboard({
     const opponentId = cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId;
     const opponentName = cupBracketDeLaSemana
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === cupBracketDeLaSemana.rivalId)?.name ?? '')
+      : esReservaDeCopa
+      // Fecha de copa sin cruce todavía: se dice la verdad en vez de anunciar un rival de liga.
+      ? 'Rival por definir'
       : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
-    const isHome = realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
+    const isHome = cupBracketDeLaSemana
+      ? cupBracketDeLaSemana.soyLocal
+      : realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
 
     nextMatchOpponent = {
@@ -1757,7 +1779,11 @@ export default function Dashboard({
       calendarEvents.push({
         date: new Date(`${f.date}T00:00:00`),
         label: etiquetaCompetencia(f.competition, f.date),
-        sublabel: `${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
+        // En una fecha RESERVADA para la copa el rival todavía no existe: depende de cómo terminen
+        // las rondas anteriores. Decirlo es más honesto que mostrar el cartel de relleno.
+        sublabel: f.esReservaDeCuadro
+          ? 'Rival por definir'
+          : `${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
         colorClass: yaJugado
           ? 'bg-slate-700 text-slate-300'
           : f.competition.kind === 'league' ? 'bg-gold-600 text-white' : 'bg-burgundy-500 text-slate-950',
