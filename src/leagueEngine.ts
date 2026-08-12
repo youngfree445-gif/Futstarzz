@@ -1685,17 +1685,11 @@ export function isWorldCupBreakWeek(currentWeek: number): boolean {
   return w >= WORLD_CUP_BREAK_START_WEEK && w < WORLD_CUP_BREAK_START_WEEK + WORLD_CUP_BREAK_LENGTH_WEEKS;
 }
 
-// A diferencia de Libertadores/Sudamericana (que usan cupWeeksElapsedInYear, saltando la ventana
-// del Mundial), el Mundial consume TODAS las semanas de su propia ventana 1 a 1 (sus 8 pasos en
-// sus 8 semanas seguidas, sin compartir cupo con nada más).
-function worldCupWeeksElapsedInYear(year: number, currentWeek: number): number {
-  const yearStartWeek = (year - 1) * SEASON_LENGTH_WEEKS + 1;
-  let count = 0;
-  for (let w = yearStartWeek; w < currentWeek; w++) {
-    if (isWorldCupBreakWeek(w)) count++;
-  }
-  return count;
-}
+// Acá vivía worldCupWeeksElapsedInYear, que contaba las semanas del bloque del Mundial. El torneo
+// ahora avanza por las FECHAS que el calendario le reserva (pasosDeMundialTranscurridos en
+// dateSchedule.ts): 9 días entre el 11 de junio y el 19 de julio, los mismos para todos los
+// clubes. Antes el bloque arrancaba en la semana 19 de la temporada, que con temporadas de entre
+// 34 y 66 pasos caía en un mes distinto para cada club.
 
 function drawWorldCupGroups(teamIds: string[], allTeams: Club[], year: number): CupGroup[] {
   // El Mundial 2026 (año 1 de la carrera) usa el SORTEO REAL, no uno al azar: sin esto Argentina
@@ -1763,11 +1757,13 @@ export function getOrCreateWorldCupState(
   year: number,
   allTeams: Club[],
   existing: WorldCupState | undefined,
-  currentWeek: number
+  /** Cuántas fechas del Mundial ya pasaron para el club del jugador. Cada una es un paso del
+   *  torneo: ver pasosDeMundialTranscurridos en dateSchedule.ts. */
+  pasosDeMundial: number
 ): WorldCupState {
   let cup = existing ?? freshWorldCupState(year, allTeams);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
-  const targetSteps = worldCupWeeksElapsedInYear(year, currentWeek);
+  const targetSteps = pasosDeMundial;
 
   while (stepsConsumed < targetSteps && cup.stage !== 'done') {
     cup = resolveWorldCupStep(cup, allTeams);

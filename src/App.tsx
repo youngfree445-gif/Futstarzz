@@ -13,7 +13,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, esDiaDeCopa, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -22,7 +22,7 @@ import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, getUpcomingMatchForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
-  isWorldCupBreakWeek, getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
+  getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, simulatePenaltyShootout, roundLabelByMatchCount
 } from './leagueEngine';
@@ -2006,8 +2006,8 @@ export default function App() {
 
     if (playerProfile.energy < 20) {
       if (!confirm('Tu nivel de fatiga física es alarmante (Energía < 20). ¿Deseas arriesgarte a saltar al campo?')) {
-        const inWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
         const miClubHoy = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+        const inWorldCupBreak = !!miClubHoy && enVentanaDelMundial(miClubHoy.name, playerProfile.currentWeek);
         const isCup = !inWorldCupBreak && !!miClubHoy
           && esDiaDeCopa(miClubHoy.name, playerProfile.currentWeek);
 
@@ -2116,12 +2116,6 @@ export default function App() {
       return;
     }
 
-    // El Mundial ya NO comparte cupo con Libertadores/Champions cada 3 semanas -- ocupa su propio
-    // bloque de 8 semanas SEGUIDAS (ver isWorldCupBreakWeek en leagueEngine.ts), como la fecha
-    // FIFA real: mientras dura, liga doméstica y copas de club quedan congeladas de verdad (los
-    // conteos de leagueMatchweeksElapsed*/cupWeeksElapsed* ya excluyen esas semanas).
-    const inWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
-
     // Si el club tiene calendario REAL (src/realCalendar.ts), es él quien decide si esta semana toca
     // copa o liga, en vez del reparto aritmético isCupWeek(). Esa es la diferencia de fondo: antes
     // todas las copas compartían un cupo global de semanas y por eso Champions/Europa necesitaban
@@ -2141,6 +2135,20 @@ export default function App() {
     // primer paso de la carrera entera, y el jugador arrancaba en julio jugando contra Junior en vez
     // de arrancar en enero con la liga. Bug reportado: "por que inicia la carrera alli y no en
     // enero?" + "junior me elimino" (era rival de un partido que ni siquiera correspondía todavía).
+    // La ventana del Mundial la dice el CALENDARIO: son las fechas que él mismo le reservó al
+    // torneo (11 de junio a 19 de julio del año que toca; ver reservarFechasDeMundial). Mientras
+    // dura, la liga y las copas de clubes están paradas de verdad -- es la fecha FIFA más larga que
+    // existe y el calendario ya les sacó esas fechas a los clubes.
+    //
+    // Antes era "un bloque de 9 semanas a partir de la semana 19 de la temporada". Como cada club
+    // tiene una temporada de largo distinto -- entre 34 y 66 pasos -- esa semana 19 caía en un mes
+    // distinto para cada uno: al Junior en mayo y a un club europeo en diciembre.
+    //
+    // Va DESPUÉS de myClubForSchedule a propósito: declararlo antes es el TDZ que ya dejó la
+    // pantalla en blanco una vez.
+    const inWorldCupBreak = !!myClubForSchedule
+      && enVentanaDelMundial(myClubForSchedule.name, playerProfile.currentWeek);
+
     const tieneFechasReales = !!myClubForSchedule && hasDatedLeagueSchedule(myClubForSchedule.name);
     const datedStep = tieneFechasReales && !inWorldCupBreak
       ? fixturesAtStep(myClubForSchedule!.name, playerProfile.currentWeek)
@@ -2250,7 +2258,7 @@ export default function App() {
         && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
 
       const upcoming = isEligible
-        ? getUpcomingWorldCupMatch(getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek), wcTeamId!)
+        ? getUpcomingWorldCupMatch(getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], pasosDeMundialTranscurridos(myClubForSchedule?.name ?? '', playerProfile.currentWeek)), wcTeamId!)
         : null;
 
       if (upcoming) {
@@ -3615,7 +3623,8 @@ export default function App() {
     let updatedWorldCups = playerProfile.worldCups;
     if (isCopaLibertadores && activeWorldCupTeamId && activeOppositionClubId) {
       const year = temporadaDe(playerProfile, playerProfile.currentWeek);
-      const wcBeforeMatch = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], playerProfile.currentWeek);
+      const clubDelMundial = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+      const wcBeforeMatch = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], pasosDeMundialTranscurridos(clubDelMundial?.name ?? '', playerProfile.currentWeek));
       const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, WORLD_CUP_TEAMS_DATABASE, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedWorldCup.knockout, activeWorldCupTeamId, activeOppositionClubId);
       if (shootout) {

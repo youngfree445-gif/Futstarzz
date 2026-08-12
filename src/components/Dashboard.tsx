@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
+import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, enVentanaDelMundial, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -16,7 +16,7 @@ import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelPartido } from '../chutSocialVoces';
 import {
-  leagueKeyFor, sortTable, isWorldCupBreakWeek,
+  leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
   isClubStillInCup, isClubStillInUefaCup,
@@ -595,7 +595,7 @@ export default function Dashboard({
 
   // Para el post de "campeón del Mundo" en ChutSocial -- ver generateCupChampionPosts.
   const wcState = isWorldCupYear(cupYear)
-    ? getOrCreateWorldCupState(cupYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[cupYear], playerProfile.currentWeek)
+    ? getOrCreateWorldCupState(cupYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[cupYear], pasosDeMundialTranscurridos(currentClub.name, playerProfile.currentWeek))
     : null;
 
   // Calendario: próximos rivales de liga y de copa, en el orden real en que ya están fijados en
@@ -667,7 +667,7 @@ export default function Dashboard({
   // leagueEngine.ts), NI la liga doméstica NI Libertadores/Champions tienen partido -- están
   // realmente congeladas -- así que el único rival posible es el de la selección (y solo si estás
   // convocado y tu selección todavía tiene partido pendiente esa semana puntual).
-  const nextWeekInWorldCupBreak = isWorldCupBreakWeek(playerProfile.currentWeek);
+  const nextWeekInWorldCupBreak = enVentanaDelMundial(currentClub.name, playerProfile.currentWeek);
   // Igual que en App: lo que se juega hoy lo dice el calendario. Con isCupWeek, la tarjeta y el
   // partido de verdad se decidían por caminos distintos y podían no coincidir.
   const nextWeekIsCup = !nextWeekInWorldCupBreak
@@ -727,7 +727,7 @@ export default function Dashboard({
       && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
       && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
     if (isEligible) {
-      const wcState = getOrCreateWorldCupState(wcYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[wcYear], playerProfile.currentWeek);
+      const wcState = getOrCreateWorldCupState(wcYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[wcYear], pasosDeMundialTranscurridos(currentClub.name, playerProfile.currentWeek));
       const upcoming = getUpcomingWorldCupMatch(wcState, wcTeamId!);
       if (upcoming) {
         nextMatchOpponent = {

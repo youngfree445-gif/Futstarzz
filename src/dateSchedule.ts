@@ -144,6 +144,7 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   // Las reservas se calculan ANTES de ordenar y se ordena una sola vez al final: ordenar el índice
   // entero dos veces por temporada, con 32 temporadas, se nota al abrir el juego.
   for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
+  reservarFechasDeMundial(indice, temporada);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
 
   indicePorTemporada.set(temporada, indice);
@@ -453,6 +454,125 @@ export function fechaDelPaso(clubName: string, paso: number): string | null {
   if (s) return s.date;
   const todas = fixturesForClub(clubName);
   return todas.length ? todas[todas.length - 1].date : null;
+}
+
+// --- LA VENTANA DEL MUNDIAL ---------------------------------------------------------------------
+//
+// El Mundial se juega en una ventana de FECHAS, como en la vida real: el de 2026 va del 11 de junio
+// al 19 de julio, y los siguientes caen en el mismo tramo del año cada cuatro. Mientras dura, la
+// liga doméstica y las copas de clubes están realmente paradas -- es la fecha FIFA más larga que
+// existe.
+//
+// Antes era "un bloque de 9 semanas seguidas a partir de la semana 19 de la temporada". Con
+// temporadas que duran entre 34 y 66 pasos según el club, la semana 19 caía en un mes distinto para
+// cada uno: al Junior le tocaba en mayo y a un club europeo en diciembre. El Mundial ocurre en una
+// fecha del calendario, no en un número de semana.
+
+/** Primer y último día del Mundial, en el año que se juega. */
+const MUNDIAL_DESDE = '06-11';
+const MUNDIAL_HASTA = '07-19';
+
+/**
+ * Fechas que el Mundial ocupa. Son los pasos que necesita para resolverse entero: 3 de fase de
+ * grupos, 5 de eliminación (32avos, octavos, cuartos, semis, final) y uno más donde el motor recién
+ * detecta al campeón.
+ */
+const FECHAS_DE_MUNDIAL = 9;
+
+/** La competición del Mundial dentro del calendario. No sale de los datos: la arma el motor. */
+const COMPETICION_MUNDIAL: DatedCompetition = {
+  id: 'mundial', name: 'Copa Mundial FIFA', kind: 'national_tournament',
+  firstDate: null, lastDate: null, matches: [],
+};
+
+/**
+ * Le reserva a CADA club las fechas del Mundial, y le saca las suyas de esa ventana.
+ *
+ * Las dos mitades hacen falta:
+ *
+ * - **Reservar** porque si no, el Mundial no se puede jugar. Un club europeo no tiene ni una fecha
+ *   entre el 11 de junio y el 19 de julio -- su temporada terminó en mayo -- así que sin fechas
+ *   propias el torneo no tendría dónde avanzar. Medido: Barcelona y Manchester City, 0 fechas en la
+ *   ventana; Millonarios, 8.
+ * - **Sacar las del club** porque durante el Mundial la liga está parada de verdad. Es la fecha
+ *   FIFA más larga que hay, y en la vida real ningún torneo de clubes la pisa.
+ *
+ * Sólo corre en los años de Mundial. En los otros tres de cada cuatro, esta función no toca nada.
+ */
+function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada: number) {
+  const anio = CAREER_START_YEAR + temporada - 1;
+  if (!esAnioDeMundial(anio)) return;
+
+  const desde = dayForDate(`${anio}-${MUNDIAL_DESDE}`);
+  const hasta = dayForDate(`${anio}-${MUNDIAL_HASTA}`);
+  const paso = Math.floor((hasta - desde) / (FECHAS_DE_MUNDIAL - 1));
+
+  for (const [club, propios] of indice) {
+    if (!propios.length) continue;
+
+    // Fuera lo del club que caiga en la ventana: el torneo doméstico está parado.
+    const sobreviven = propios.filter(f => {
+      const d = dayForDate(f.date);
+      return d < desde || d > hasta;
+    });
+
+    // Los días pegados a un partido que SÍ sobrevive quedan vetados, igual que en las reservas de
+    // copa. Sin esto, un club que jugaba el 10 de junio arrancaba el Mundial el 11: un día de
+    // descanso entre el club y la selección.
+    const vetados = new Set<number>();
+    for (const f of sobreviven) {
+      const d = dayForDate(f.date);
+      for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(d + k);
+    }
+
+    const elegidos = elegirDias(desde, hasta, vetados, FECHAS_DE_MUNDIAL);
+    // Si el veto dejó menos de las que hace falta, se cae al reparto parejo: es preferible un
+    // Mundial apretado contra el calendario del club a un Mundial que no llega a la final.
+    const dias = elegidos.length >= FECHAS_DE_MUNDIAL
+      ? elegidos
+      : Array.from({ length: FECHAS_DE_MUNDIAL }, (_, i) => desde + i * paso);
+
+    for (const dia of dias) {
+      const date = dateForDay(dia);
+      sobreviven.push({
+        competition: COMPETICION_MUNDIAL,
+        match: { date, home: club, away: RIVAL_POR_SORTEAR },
+        date, isHome: true, opponentName: RIVAL_POR_SORTEAR,
+        temporada, esReservaDeCuadro: true,
+      });
+    }
+    indice.set(club, sobreviven);
+  }
+}
+
+/** Los Mundiales del juego: 2026, 2030, 2034... igual que los de verdad. */
+export function esAnioDeMundial(anio: number): boolean {
+  return (anio - CAREER_START_YEAR) % 4 === 0;
+}
+
+/** ¿La fecha de este paso cae dentro del Mundial? Ahí no hay liga ni copa de clubes. */
+export function enVentanaDelMundial(clubName: string, paso: number): boolean {
+  const fecha = fixturesAtStep(clubName, paso)?.date;
+  if (!fecha) return false;
+  if (!esAnioDeMundial(Number(fecha.slice(0, 4)))) return false;
+  const diaDelAnio = fecha.slice(5);
+  return diaDelAnio >= MUNDIAL_DESDE && diaDelAnio <= MUNDIAL_HASTA;
+}
+
+/**
+ * Cuántas fechas del club ya cayeron dentro del Mundial de este año.
+ *
+ * Es el paso del torneo, igual que fechasDeCopaTranscurridas lo es para las copas de clubes: el
+ * Mundial avanza al ritmo de los días que el jugador va jugando, no de un contador aparte.
+ */
+export function pasosDeMundialTranscurridos(clubName: string, paso: number): number {
+  const t = temporadaDelPaso(clubName, paso);
+  if (!t) return 0;
+  let n = 0;
+  for (let p = t.primerPaso; p < paso; p++) {
+    if (enVentanaDelMundial(clubName, p)) n++;
+  }
+  return n;
 }
 
 /**
