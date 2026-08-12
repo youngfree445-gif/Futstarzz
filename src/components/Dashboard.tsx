@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { calendarioDeLigaAgotado, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
+import { calendarioDeLigaAgotado, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -563,7 +563,7 @@ export default function Dashboard({
     // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
     // adelantaba el torneo de fondo con sólo mirarlo: la tabla de grupos mostraba fechas que el
     // jugador todavía no jugó, y peor, ese estado adelantado quedaba guardado.
-    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], playerProfile.currentWeek, cupPosiciones, cupCampeones, currentClub.id)
+    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true), cupPosiciones, cupCampeones, currentClub.id)
     : null;
 
   const cupCampeonesUefa = {
@@ -576,7 +576,7 @@ export default function Dashboard({
     ? 'europa'
     : null;
   const uefaCup = uefaCupId
-    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], playerProfile.currentWeek, cupPosiciones, cupCampeonesUefa, currentClub.id)
+    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false), cupPosiciones, cupCampeonesUefa, currentClub.id)
     : null;
 
   // Distingue "no clasificaste a ninguna copa" de "clasificaste pero quedaste afuera": las dos

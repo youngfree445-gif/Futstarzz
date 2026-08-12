@@ -11,9 +11,9 @@
 // campeones coronados. Si una copa no se puede jugar, acá sale en cero.
 
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
-import { fechasDeCopaNacionalRestantes, fixturesAtStep, hasDatedLeagueSchedule, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
+import { fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
-import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, CAREER_START_YEAR } from '../src/leagueEngine';
+import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
 import type { Club } from '../src/types';
 
 const TEMPORADAS = 3;
@@ -262,61 +262,69 @@ if (sinCoronarPorLiga.size) {
 // octavos. Reportado tal cual con el Junior en la Libertadores.
 //
 // Se corre el mismo escenario CON y SIN la guardia para que la diferencia quede a la vista.
-// El escenario es el real: la copa está en CERO pasos consumidos hasta que el jugador llega a su
-// primera fecha de Libertadores, allá por el paso 20-30 del calendario. Recién ahí se la consulta,
-// y ahí es donde se decide si el jugador entra a jugar su fase de grupos o si el motor ya se la
-// jugó solo.
-console.log('\n--- Copas continentales: el motor no puede adelantarse al jugador ---');
-console.log('club'.padEnd(24), 'guardia'.padStart(8), 'fase'.padStart(10), 'sigue dentro'.padStart(13), '  le toca jugar');
+// Ahora se camina el CALENDARIO, que es lo que cambió: las copas continentales ya no corren por
+// un reparto de semanas sino por las fechas de copa del club, igual que la nacional. Se cuenta lo
+// único que importa: cuántos partidos de su copa continental llega a jugar el jugador.
+//
+// El caso testigo es el Santos: está en la Sudamericana y su calendario sólo trae Brasileirão y
+// Copa do Brasil, así que antes NO la jugaba nunca -- primero se le jugaba sola de fondo, después
+// quedó congelada. Tiene que dar mayor que cero.
+console.log('\n--- Copas continentales: ¿se juegan de verdad? ---');
+console.log('club'.padEnd(24), 'copa'.padStart(13), 'jugados'.padStart(8), 'fase final'.padStart(12), '  desenlace');
 
-/** El paso en el que el club llega a su primera fecha continental del calendario. */
-function primerPasoContinental(club: Club): number {
-  for (let paso = 1; paso <= 60; paso++) {
-    const s = fixturesAtStep(club.name, paso);
-    if (!s) break;
-    if (s.fixtures.some(f => f.competition.kind === 'continental_cup')) return paso;
-  }
-  return 25; // sin fecha continental propia: el jugador igual llega acá por semana de copa
-}
+let sinJugarContinental = 0;
 
-let adelantados = 0;
-for (const [nombre, cupId] of [
-  ['Junior de Barranquilla', 'libertadores'], ['Atlético Nacional', 'libertadores'],
-  ['Santos', 'sudamericana'], ['Flamengo', 'libertadores'],
-] as [string, 'libertadores' | 'sudamericana'][]) {
+for (const nombre of ['Santos', 'Junior de Barranquilla', 'Flamengo', 'FC Barcelona']) {
   const club = clubDe(nombre);
   if (!club) continue;
-  const clasificados = cupId === 'libertadores'
-    ? getLibertadoresParticipants(CLUBS as Club[])
-    : getSudamericanaParticipants(CLUBS as Club[]);
-  if (!clasificados.includes(club.id)) {
-    console.log(`${nombre.padEnd(24)} (no clasificó a esta copa: no aplica)`);
-    continue;
-  }
-  const paso = primerPasoContinental(club);
+  const libs = getLibertadoresParticipants(CLUBS as Club[]);
+  const suda = getSudamericanaParticipants(CLUBS as Club[]);
+  const cupId: 'libertadores' | 'sudamericana' | null =
+    libs.includes(club.id) ? 'libertadores' : suda.includes(club.id) ? 'sudamericana' : null;
+  if (!cupId) { console.log(`${nombre.padEnd(24)}   (no juega copa Conmebol)`); continue; }
 
-  for (const conGuardia of [false, true]) {
-    const cup = getOrCreateCupState(
-      cupId, 1, CLUBS as Club[], undefined, paso, undefined, undefined, conGuardia ? club.id : undefined);
-    const dentro = isClubStillInCup(cup, club.id);
+  let cup: ReturnType<typeof getOrCreateCupState> | undefined;
+  let jugados = 0;
+  let desenlace = 'seguía dentro';
+
+  for (let paso = 1; paso <= 120; paso++) {
+    const t = temporadaDelPaso(nombre, paso);
+    if (!t || t.temporada > 1) break;
+    const step = fixturesAtStep(nombre, paso);
+    if (!step) break;
+    const primary = pickPrimary(step.fixtures);
+    const esDiaDeCopa = !!primary && (primary.competition.kind === 'continental_cup'
+      || (primary.competition.kind === 'domestic_cup' && primary.esReservaDeCuadro));
+    if (!esDiaDeCopa) continue;
+
+    // Mismo cálculo que App.tsx: el paso del cuadro sale del calendario, no de semanas.
+    cup = getOrCreateCupState(cupId, 1, CLUBS as Club[], cup,
+      fechasDeCopaTranscurridas(nombre, paso, true), undefined, undefined, club.id);
     const up = getUpcomingCupMatch(cup, club.id);
-    // Lo correcto: llegás a tu primera fecha y el torneo TODAVÍA está en fase de grupos, con tu
-    // partido esperándote. Si ya está en knockout, el motor te jugó los seis partidos de grupos.
-    const malo = cup.stage !== 'groups' || !up;
-    if (conGuardia && malo) adelantados++;
-    console.log(
-      (conGuardia ? `${nombre} (p.${paso})` : '').padEnd(24),
-      (conGuardia ? 'SÍ' : 'no').padStart(8),
-      cup.stage.padStart(10),
-      (dentro ? 'sí' : 'NO').padStart(13),
-      '  ' + (up ? `vs ${CLUBS.find(c => c.id === up.opponentId)?.name ?? up.opponentId}` : 'nada'),
-      malo ? '  <-- el motor ya jugó su fase de grupos' : '',
-    );
+    if (!up) {
+      if (desenlace === 'seguía dentro' && !isClubStillInCup(cup, club.id)) desenlace = `eliminado en ${cup.stage}`;
+      continue;
+    }
+    const rival = CLUBS.find(c => c.id === up.opponentId);
+    if (!rival) continue;
+    const sim = up.isHome ? simulateMatch(club, rival) : simulateMatch(rival, club);
+    cup = resolveCupWeek(cup, CLUBS as Club[], club.id, up.isHome,
+      up.isHome ? sim.homeGoals : sim.awayGoals, up.isHome ? sim.awayGoals : sim.homeGoals);
+    jugados++;
   }
+
+  if (cup?.championId === club.id) desenlace = 'CAMPEÓN';
+  if (jugados === 0) sinJugarContinental++;
+  console.log(
+    nombre.padEnd(24), cupId.padStart(13), String(jugados).padStart(8),
+    (cup?.stage ?? '-').padStart(12), '  ' + desenlace,
+    jugados === 0 ? '   <-- NO la juega' : '');
 }
-console.log(`\n${adelantados === 0
-  ? 'Con guardia, todos llegan a su primera fecha con la fase de grupos por jugar.'
-  : `ATENCIÓN: ${adelantados} clubes llegan tarde a su propia copa AUN CON la guardia.`}`);
+
+console.log(`
+${sinJugarContinental === 0
+  ? 'Todos juegan su copa continental por el calendario.'
+  : `ATENCIÓN: ${sinJugarContinental} clubes clasificados que NO llegan a jugar ni un partido.`}`);
 
 const anio = (t: number) => CAREER_START_YEAR + t - 1;
 console.log(`\n(temporada 1 = ${anio(1)}, calendario real; ${anio(2)}+ generadas)`);

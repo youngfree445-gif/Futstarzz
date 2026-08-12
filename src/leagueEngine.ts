@@ -1191,60 +1191,38 @@ function freshCupState(
   };
 }
 
-// Cuántas semanas de Copa (isCupWeek) ya transcurrieron en total desde el
-// arranque de la carrera — el equivalente de leagueMatchweeksElapsedTotal
-// pero contando las semanas que SÍ son de copa en vez de las que no.
+// LAS COPAS YA NO CUENTAN SEMANAS.
 //
-// La usa el motor de Champions/Europa, que SÍ se pausa del todo durante el bloque del Mundial
-// (comparte fixtures de liga doméstica con jugadores de selecciones europeas). A diferencia de
-// Libertadores/Sudamericana (contador anual, ver cupWeeksElapsedInYear más abajo), este contador
-// es ACUMULATIVO GLOBAL y nunca se reinicia por año -- así que aunque el Mundial también le
-// congele el avance unas semanas, la edición en curso simplemente retoma exactamente donde había
-// quedado al terminar el Mundial, sin perder progreso ni resetearse. Por eso Champions/Europa es
-// inmune al bug que sí tenía Libertadores/Sudamericana (edición que nunca llegaba a terminar en
-// años mundialistas y se reiniciaba sola al año siguiente).
-export function cupWeeksElapsedTotal(currentWeek: number): number {
-  let count = 0;
-  for (let w = 1; w < currentWeek; w++) {
-    if (isCupWeek(w) && !isWorldCupBreakWeek(w)) count++;
-  }
-  return count;
-}
-
-// A diferencia de la liga (cuyo LeagueSeasonState vive toda la carrera y por
-// eso necesita un contador que nunca se reinicia), cada CupState se crea de
-// cero por año (freshCupState). Si el catch-up usara cupWeeksElapsedTotal
-// (que no se reinicia) como objetivo, a partir del año 2 ese objetivo ya
-// sería enorme frente al stepsConsumed=0 de un torneo recién creado, y el
-// catch-up resolvería TODA la edición (grupos + eliminatoria) de un solo
-// golpe sin dejarle nunca un partido real al jugador. Por eso acá contamos
-// solo las semanas de copa transcurridas DESDE el arranque de ese año.
+// Acá vivían cupWeeksElapsedTotal y cupWeeksElapsedInYear: repartían las semanas del año entre
+// liga y copa con aritmética (isCupWeek) y le decían al motor cuántos pasos de copa "deberían"
+// haberse jugado. Era el segundo reloj del juego, y de él salieron una fila de bugs -- la copa que
+// se jugaba sola, la que se reiniciaba a mitad de año, y la peor: ganar el primer partido de la
+// fase de grupos y que saltara "eliminado en octavos", porque en el paso 18 del calendario del
+// Junior ese conteo ya iba por el paso 10 de copa y el motor le había jugado los grupos de fondo.
 //
-// BUGFIX: antes esto excluía también las semanas del bloque del Mundial (isWorldCupBreakWeek),
-// igual que cupWeeksElapsedTotal. Eso dejaba solo 9 semanas de copa disponibles en un año
-// mundialista (de las 12 normales), pero Libertadores/Sudamericana necesitan 10 steps completos
-// (6 de fase de grupos ida/vuelta + 4 de eliminatoria) para coronar campeón -- el torneo nunca
-// terminaba esos años, y al arrancar el año siguiente se creaba una edición nueva desde cero
-// (reporte real: "me eliminan de Libertadores y en julio vuelve a aparecer la fase de grupos").
-// Libertadores/Sudamericana SÍ pueden seguir resolviéndose de fondo durante el Mundial (el club
-// sigue jugando su copa aunque el usuario esté con la selección esa semana puntual -- el motor ya
-// simula sin él cualquier semana que no le toque su propio partido), así que ya no se descuentan
-// esas semanas acá.
-function cupWeeksElapsedInYear(year: number, currentWeek: number): number {
-  const yearStartWeek = (year - 1) * SEASON_LENGTH_WEEKS + 1;
-  let count = 0;
-  for (let w = yearStartWeek; w < currentWeek; w++) {
-    if (isCupWeek(w)) count++;
-  }
-  return count;
-}
+// Ahora el paso lo da el CALENDARIO: cada fecha de copa del club es exactamente un paso del cuadro
+// (ver fechasDeCopaTranscurridas en dateSchedule.ts). Las copas corren por RONDA, al mismo reloj
+// que el jugador, y no hay forma de que se adelanten.
+//
+// El cálculo se le pide a quien llama en vez de hacerlo acá porque dateSchedule.ts importa este
+// módulo: al revés sería un ciclo.
 
 export function getOrCreateCupState(
   cupId: 'libertadores' | 'sudamericana',
   year: number,
   allClubs: Club[],
   existing: CupState | undefined,
-  currentWeek: number,
+  /**
+   * Cuántas fechas de COPA del calendario ya pasaron para el club del jugador en esta temporada.
+   * Cada una es UN paso del cuadro: así la copa corre por RONDA, al mismo reloj que el jugador.
+   *
+   * Antes acá entraba `currentWeek` y el paso se sacaba de cupWeeksElapsedInYear, un reparto
+   * aritmético de semanas que no tenía nada que ver con las fechas que el jugador iba jugando. En
+   * el paso 18 del calendario del Junior, ese conteo ya iba por el paso 10 de copa: el motor le
+   * jugaba la fase de grupos entera de fondo y el jugador ganaba su primer partido para enterarse
+   * enseguida de que estaba "eliminado en octavos".
+   */
+  pasosDeCopa: number,
   posiciones?: PosicionesFinales,
   campeones?: CampeonesConmebol,
   /**
@@ -1262,7 +1240,7 @@ export function getOrCreateCupState(
 ): CupState {
   let cup = existing ?? freshCupState(cupId, year, allClubs, posiciones, campeones);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
-  const targetSteps = cupWeeksElapsedInYear(year, currentWeek);
+  const targetSteps = pasosDeCopa;
 
   while (stepsConsumed < targetSteps && cup.stage !== 'done') {
     // El turno es del jugador: se frena acá y no se consume el paso, así la próxima vez que se
@@ -1643,7 +1621,10 @@ function freshUefaCupState(
 // corresponde, sin quedar nunca "pegado").
 export function getOrCreateUefaCupState(
   cupId: 'champions' | 'europa', allClubs: Club[],
-  existing: UefaCupState | undefined, currentWeek: number,
+  existing: UefaCupState | undefined,
+  /** Ver el mismo parámetro en getOrCreateCupState. Acá es el total CORRIDO de la carrera, no el
+   *  del año: la Champions arrastra su estado de una temporada a la siguiente. */
+  pasosDeCopa: number,
   posiciones?: PosicionesFinales, campeones?: CampeonesUefa,
   /** Ver el mismo parámetro en getOrCreateCupState: la copa no avanza por encima de un partido
    *  pendiente del jugador. Acá el riesgo es idéntico -- Champions y Europa tampoco tienen fecha
@@ -1651,7 +1632,7 @@ export function getOrCreateUefaCupState(
   playerClubId?: string,
 ): UefaCupState {
   let cup = existing ?? freshUefaCupState(cupId, 1, allClubs, 0, posiciones, campeones);
-  const totalStepsAvailable = cupWeeksElapsedTotal(currentWeek);
+  const totalStepsAvailable = pasosDeCopa;
 
   while (cup.startedAtStep + cup.stepsConsumed < totalStepsAvailable) {
     if (cup.stage === 'done') {

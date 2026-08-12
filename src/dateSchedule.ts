@@ -173,9 +173,75 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
 // copa; el cuadro decide contra quién se juega. Cada pregunta con una sola fuente, y las dos
 // corriendo por el mismo reloj.
 
-/** Fechas de copa que se le apartan a cada club por temporada. Un cuadro de 32 son 5 rondas de ida
- *  y vuelta = 10; las 2 de más son holgura y, si sobran, quedan como días de descanso. */
-const FECHAS_DE_COPA_RESERVADAS = 12;
+/**
+ * Fechas de copa que se le apartan a cada club por temporada.
+ *
+ * Es UNA SOLA BOLSA para todas las copas, no una por torneo. El día queda apartado y, cuando llega,
+ * el juego pregunta en orden: ¿tengo partido de copa continental? ¿y de copa nacional? ¿no? entonces
+ * descanso. Es como funciona de verdad -- el miércoles es de copa, la que te toque -- y evita el
+ * problema de tener que adivinar de antemano a qué torneo pertenece cada día, que es imposible:
+ * quién juega la Libertadores depende de cómo terminó la tabla del año anterior, y el calendario es
+ * una función pura del nombre del club.
+ *
+ * Base 12: alcanza para un cuadro nacional de 32 (5 rondas de ida y vuelta = 10) más holgura.
+ */
+const FECHAS_DE_COPA_BASE = 12;
+
+/**
+ * Las de más para los clubes cuyo país juega copas continentales.
+ *
+ * Una Libertadores son 6 fechas de grupo más 4 de eliminación; una Champions, 8 de fase de liga más
+ * el playoff y cuatro rondas de ida y vuelta. Con la bolsa base sola, un club que juega las dos
+ * copas se quedaba sin fechas para la nacional -- o al revés.
+ *
+ * Los clubes de esos países que NO clasifican ese año no pierden nada: sus fechas sobrantes son
+ * días de descanso, que es exactamente lo que le pasa a un club sin copa internacional.
+ */
+const FECHAS_DE_COPA_CONTINENTAL = 10;
+
+/**
+ * Los clubes que pueden llegar a jugar una copa continental, y por eso necesitan la bolsa grande.
+ *
+ * Se decide por COMPETICIÓN de liga, no por país: la Serie A italiana pone clubes en la Champions
+ * y la Serie B no, aunque las dos sean "Italiana". Preguntando por país, Sampdoria -- que sólo
+ * juega la Coppa -- se llevaba 22 fechas de copa para una temporada de 18 partidos de liga: doce
+ * días de descanso inventados en el medio.
+ *
+ * Alcanza con que UN club de esa competición aparezca en una copa continental. No se pregunta club
+ * por club a propósito: quién clasifica depende de la tabla del año anterior, así que cualquier
+ * club de Primera puede terminar jugándola. Los que no clasifican ese año usan esas fechas para la
+ * copa nacional, y lo que sobre queda como descanso.
+ */
+let cacheClubesConBono: Set<string> | null = null;
+
+function clubesConBonoContinental(): Set<string> {
+  if (cacheClubesConBono) return cacheClubesConBono;
+
+  const enCopa = new Set<string>();
+  for (const c of DATED_CALENDARS) {
+    if (c.kind !== 'continental_cup') continue;
+    for (const m of c.matches) { enCopa.add(m.home); enCopa.add(m.away); }
+  }
+
+  const conBono = new Set<string>();
+  for (const c of DATED_CALENDARS) {
+    if (c.kind !== 'league') continue;
+    const suyos = new Set<string>();
+    let alguno = false;
+    for (const m of c.matches) {
+      suyos.add(m.home); suyos.add(m.away);
+      if (enCopa.has(m.home) || enCopa.has(m.away)) alguno = true;
+    }
+    if (alguno) for (const n of suyos) conBono.add(n);
+  }
+  cacheClubesConBono = conBono;
+  return conBono;
+}
+
+function fechasDeCopaReservadas(club: string): number {
+  return FECHAS_DE_COPA_BASE
+    + (clubesConBonoContinental().has(club) ? FECHAS_DE_COPA_CONTINENTAL : 0);
+}
 
 /** Días mínimos entre una fecha de copa y cualquier otro partido del club. */
 const DESCANSO_MINIMO_DIAS = 3;
@@ -283,7 +349,7 @@ function reservarFechasDeCopa(
     if (deEstaCopa.some(f => esRondaFinal(f.match.round))) continue;
 
     const fechasDeEstaCopa = deEstaCopa.map(f => f.date).sort();
-    const faltan = FECHAS_DE_COPA_RESERVADAS - fechasDeEstaCopa.length;
+    const faltan = fechasDeCopaReservadas(club) - fechasDeEstaCopa.length;
     if (faltan <= 0) continue;
 
     // De acá para abajo se trabaja con NÚMEROS DE DÍA, no con strings de fecha. El bucle recorre
@@ -352,6 +418,34 @@ function elegirDias(desde: number, hasta: number, vetados: Set<number>, cuantas:
 
 const esCopaConCuadro = (comp: DatedCompetition) =>
   comp.kind === 'domestic_cup' && usaCuadroDelMotor(comp);
+
+/**
+ * Cuántas fechas de COPA del club ya pasaron, contando hasta (sin incluir) el paso actual.
+ *
+ * Es el reemplazo directo de cupWeeksElapsedInYear/cupWeeksElapsedTotal, y con él las copas pasan a
+ * correr POR RONDA en vez de por semanas: cada fecha de copa del calendario es exactamente un paso
+ * del cuadro. Antes las dos cosas iban por relojes distintos -- el jugador avanzaba por fechas y la
+ * copa por un reparto aritmético de semanas -- y de ahí salía que el motor le jugara la fase de
+ * grupos de fondo: en el paso 18 del Junior, el conteo de semanas ya iba por el paso 10 de copa.
+ *
+ * `porTemporada` para las copas que empiezan y terminan dentro del año (Libertadores, Sudamericana)
+ * y el total corrido para las que arrastran estado entre temporadas (Champions, Europa).
+ */
+export function fechasDeCopaTranscurridas(
+  clubName: string, paso: number, porTemporada: boolean,
+): number {
+  const t = temporadaDelPaso(clubName, paso);
+  if (!t) return 0;
+  const desdePaso = porTemporada ? t.primerPaso : 1;
+
+  let n = 0;
+  for (let p = desdePaso; p < paso; p++) {
+    const s = fixturesAtStep(clubName, p);
+    if (!s) break;
+    if (s.fixtures.some(f => f.competition.kind === 'continental_cup' || f.competition.kind === 'domestic_cup')) n++;
+  }
+  return n;
+}
 
 /**
  * Cuántas fechas de copa nacional le quedan al club en esta temporada, contando desde `desdeFecha`.

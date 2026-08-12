@@ -13,7 +13,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeCopaNacionalRestantes, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -186,7 +186,7 @@ function syncBackgroundCups(
       const cupKey = `${conmebolCupId}-${year}`;
       // myClub.id al final: la copa de fondo NO puede jugar los partidos del jugador. Se detiene en
       // el suyo y lo deja pendiente. Ver getOrCreateCupState.
-      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], atWeek, posiciones, campeones, myClub.id) };
+      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], fechasDeCopaTranscurridas(myClub.name, atWeek, true), posiciones, campeones, myClub.id) };
     }
 
     const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(CLUBS_DATABASE, year, posiciones, campeonesEuropa).includes(myClub.id)
@@ -195,7 +195,7 @@ function syncBackgroundCups(
       ? 'europa'
       : null;
     if (uefaCupId && !skipUefa) {
-      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], atWeek, posiciones, campeonesEuropa, myClub.id) };
+      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], fechasDeCopaTranscurridas(myClub.name, atWeek, false), posiciones, campeonesEuropa, myClub.id) };
     }
   }
   return { continentalCups: nextContinental, uefaCups: nextUefa };
@@ -2179,10 +2179,14 @@ export default function App() {
         || (getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/europa/i));
     })();
 
-    // Fecha RESERVADA para la copa nacional: el calendario aparta el día y el cuadro del motor
-    // (copaNacional.ts) decide contra quién se juega. Ver RESERVAS DE COPA en dateSchedule.ts --
-    // es lo que permite que la copa exista de verdad en vez de ser un fragmento repartido al azar.
-    const esReservaDeCopaNacional = !!realPrimary?.esReservaDeCuadro
+    // Fecha RESERVADA para COPA. Es una sola bolsa de días para todas: cuando llega, se pregunta en
+    // orden -- ¿hay partido de copa continental?, ¿y de copa nacional?, ¿no? entonces descanso. Es
+    // como funciona de verdad (el miércoles es de copa, la que te toque) y evita tener que adivinar
+    // de antemano a qué torneo pertenece cada día, que es imposible: quién juega la Libertadores
+    // depende de la tabla del año anterior y el calendario es una función pura del club.
+    //
+    // Ver RESERVAS DE COPA en dateSchedule.ts.
+    const esReservaDeCopa = !!realPrimary?.esReservaDeCuadro
       && realPrimary.competition.kind === 'domestic_cup';
 
     const isCup = !inWorldCupBreak && (
@@ -2344,7 +2348,7 @@ export default function App() {
       } else {
         setActiveGlobalScoreLabel(null);
       }
-    } else if (isCup && (!usaFechasReales || clubEnCopaContinental || esReservaDeCopaNacional)) {
+    } else if (isCup && (!usaFechasReales || clubEnCopaContinental || esReservaDeCopa)) {
       // Copa armada por el cuadro del motor. Corre en tres casos:
       //
       //   1. El club no tiene fechas reales cargadas (el caso de siempre).
@@ -2352,7 +2356,7 @@ export default function App() {
       //      Ver el comentario largo de ese flag: son 38 de 64 participantes de las copas Conmebol.
       //      Sin este segundo caso quedaban en tierra de nadie -- ni partido del calendario ni
       //      partido del cuadro -- y la copa avanzaba sola de fondo.
-      //   3. Hoy es una fecha RESERVADA para la copa nacional (esReservaDeCopaNacional). El
+      //   3. Hoy es una fecha RESERVADA para la copa nacional (esReservaDeCopa). El
       //      calendario apartó el día y el cuadro pone el rival. Sin este tercer caso la rama no se
       //      alcanzaba NUNCA para un club con calendario real -- fixturesAtStep le da partido en
       //      todos los pasos -- y por eso ninguna copa nacional llegaba a coronar campeón.
@@ -2368,13 +2372,12 @@ export default function App() {
       };
       const libertadoresIds = new Set(getLibertadoresParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
       const sudamericanaIds = new Set(getSudamericanaParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
-      // En una fecha reservada para la copa NACIONAL no se pregunta por las continentales: el día
-      // ya tiene dueño. Sin este corte, un club como el Santos -- que juega Sudamericana y su
-      // calendario no la cubre -- se llevaba su fecha de Copa do Brasil para jugar la Sudamericana,
-      // y la copa nacional volvía a quedarse sin fechas.
-      const qualifiedCupId: 'libertadores' | 'sudamericana' | null = esReservaDeCopaNacional
-        ? null
-        : libertadoresIds.has(myClub.id)
+      // La copa CONTINENTAL tiene prioridad sobre la nacional en un día de copa, igual que en el
+      // calendario real. Antes acá se la bloqueaba en las fechas reservadas, porque con una bolsa
+      // de 12 días la continental se comía los de la nacional y ésta se quedaba sin terminar. Ya no
+      // hace falta: los clubes que juegan copa internacional tienen bolsa de 22 (ver
+      // FECHAS_DE_COPA_CONTINENTAL), que alcanza para las dos.
+      const qualifiedCupId: 'libertadores' | 'sudamericana' | null = libertadoresIds.has(myClub.id)
         ? 'libertadores'
         : sudamericanaIds.has(myClub.id)
         ? 'sudamericana'
@@ -2402,7 +2405,7 @@ export default function App() {
         // conteo de semanas, aunque el jugador tenga un partido suyo sin jugar. Reportado: ganar el
         // PRIMER partido de la fase de grupos y que salte "eliminado en octavos" acto seguido --
         // el motor se había comido la fase de grupos entera de fondo. Ver getOrCreateCupState.
-        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek, playerProfile.posicionesFinales, cupCampeones, myClub.id);
+        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true), playerProfile.posicionesFinales, cupCampeones, myClub.id);
         const upcoming = getUpcomingCupMatch(cup, myClub.id);
         if (!upcoming && !isClubStillInCup(cup, myClub.id)) {
           eliminatedFromQualifiedCup = true;
@@ -2434,17 +2437,14 @@ export default function App() {
       if (!foundOpponentId) {
         const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE));
         const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE));
-        // Mismo corte que arriba: la fecha reservada es de la copa nacional y de nadie más.
-        const qualifiedUefaCupId: 'champions' | 'europa' | null = esReservaDeCopaNacional
-          ? null
-          : championsIds.has(myClub.id)
+        const qualifiedUefaCupId: 'champions' | 'europa' | null = championsIds.has(myClub.id)
           ? 'champions'
           : europaIds.has(myClub.id)
           ? 'europa'
           : null;
 
         if (qualifiedUefaCupId) {
-          const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], playerProfile.currentWeek, undefined, undefined, myClub.id);
+          const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, false), undefined, undefined, myClub.id);
           const upcoming = getUpcomingUefaCupMatch(uefaCup, myClub.id);
           if (!upcoming && !isClubStillInUefaCup(uefaCup, myClub.id)) {
             eliminatedFromQualifiedCup = true;
@@ -2492,7 +2492,11 @@ export default function App() {
       // una fecha FIFA sin partido puntual, no un partido de relleno bajo el cartel de un torneo
       // del que ya te bajaron (bug reportado: "si te eliminan de Libertadores, en julio vuelve a
       // aparecer la fase de grupos").
-      if (eliminatedFromQualifiedCup && !foundOpponentId && !foundUefaOpponentId) {
+      // `!esReservaDeCopa` es clave desde que las fechas de copa son UNA SOLA BOLSA: si hoy es un
+      // día de copa reservado y ya te eliminaron de la continental, ese día le toca a la copa
+      // NACIONAL, no a un descanso. Cortar acá se la robaba. El descanso de verdad se decide más
+      // abajo, recién cuando tampoco hay cruce nacional que jugar.
+      if (eliminatedFromQualifiedCup && !foundOpponentId && !foundUefaOpponentId && !esReservaDeCopa) {
         const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
         const updated = {
           ...playerProfile,
@@ -2641,7 +2645,7 @@ export default function App() {
         // el "partido fantasma" que hay que evitar: un partido que no existe en ningún torneo, que
         // no cuenta para nada y que igual te gasta energía. La reserva no es una obligación de
         // jugar, es un día que el calendario tenía apartado por si la copa lo necesitaba.
-        if (esReservaDeCopaNacional && !cupCruce) {
+        if (esReservaDeCopa && !cupCruce) {
           const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
 
           // El torneo sigue sin vos. Antes el cuadro sólo avanzaba cuando el jugador tenía partido,
@@ -3512,7 +3516,7 @@ export default function App() {
       // Mismo myClub.id que al armar el partido. Si acá se omite, este estado "antes del partido"
       // sale adelantado respecto del que el jugador vio en pantalla, y su resultado se aplica a una
       // ronda que no es la suya.
-      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], playerProfile.currentWeek, playerProfile.posicionesFinales, undefined, myClub.id);
+      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true), playerProfile.posicionesFinales, undefined, myClub.id);
       const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
       if (shootout) {
@@ -3543,7 +3547,7 @@ export default function App() {
     let updatedUefaCups = playerProfile.uefaCups;
     if (isCopaLibertadores && activeUefaCupId && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], playerProfile.currentWeek, undefined, undefined, myClub.id);
+      const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, false), undefined, undefined, myClub.id);
       // Desde el playoff en adelante, Champions/Europa es ida y vuelta (TwoLegTie): mismo bug ya
       // corregido en el playoff de liga y en la copa nacional -- la localía para el motor tiene que
       // salir de la llave interna, no del calendario real (activeIsHome), porque se invierte entre
