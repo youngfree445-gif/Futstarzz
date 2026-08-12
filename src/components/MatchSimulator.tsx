@@ -2146,6 +2146,33 @@ export default function MatchSimulator({
     setPendingClipType(null);
   };
 
+  /**
+   * La RONDA del partido, para mostrarla pegada al marcador.
+   *
+   * App arma el rótulo con la forma "Copa do Brasil · Octavos de Final (Ida)" para las copas y
+   * "Cuartos de Final (Ida)" para los cuadrangulares, así que la ronda es lo que va después del
+   * punto medio, o el rótulo entero si no lo tiene. Se muestra en el marcador y no sólo en el
+   * encabezado porque durante el partido se mira el marcador: saber que es la VUELTA de unas semis
+   * cambia cómo se juegan los últimos minutos.
+   */
+  const rondaDelPartido = (() => {
+    if (!competitionNameOverride) return null;
+    const partes = competitionNameOverride.split('·').map(x => x.trim());
+    const cola = partes.length > 1 ? partes[partes.length - 1] : partes[0];
+    // Sólo es ronda si nombra una eliminatoria o dice ida/vuelta; si no, es el nombre del torneo.
+    return /\(ida\)|\(vuelta\)|final|semi|cuartos|octavos|dieciseis|ronda|grupos|fase/i.test(cola)
+      ? cola
+      : null;
+  })();
+
+  /** 'Ida' o 'Vuelta', si el rótulo lo dice. Va aparte para poder resaltarlo. */
+  const piernaDelPartido = /\(vuelta\)/i.test(competitionNameOverride ?? '') ? 'VUELTA'
+    : /\(ida\)/i.test(competitionNameOverride ?? '') ? 'IDA'
+    : null;
+
+  /** La ronda sin el "(Ida)"/"(Vuelta)", que se muestra aparte. */
+  const rondaSinPierna = rondaDelPartido?.replace(/\s*\((?:ida|vuelta)\)\s*$/i, '').trim() || null;
+
   // Los dos lados del marcador, ya puestos en su localía. Se arman acá y no en el JSX para que el
   // marcador de abajo quede leyéndose de corrido: izquierda = local, derecha = visitante, siempre.
   const miLado = {
@@ -2277,8 +2304,19 @@ export default function MatchSimulator({
             {ladoLocal.club && <ClubBadge club={ladoLocal.club} size={24} />}
           </div>
 
-          <div className="shrink-0 text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums">
-            {scoreHome} - {scoreAway}
+          <div className="shrink-0 flex flex-col items-center gap-0.5">
+            <div className="text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums">
+              {scoreHome} - {scoreAway}
+            </div>
+            {/* La ronda, pegada al marcador: durante el partido se mira acá, no el encabezado. */}
+            {rondaSinPierna && (
+              <span className="text-3xs font-black uppercase tracking-wider text-slate-400 whitespace-nowrap leading-none">
+                {rondaSinPierna}
+                {piernaDelPartido && (
+                  <span className={piernaDelPartido === 'VUELTA' ? 'text-gold-400' : 'text-slate-500'}> · {piernaDelPartido}</span>
+                )}
+              </span>
+            )}
           </div>
 
           <div className="min-w-0 flex-1 flex items-center gap-1.5 sm:gap-2">

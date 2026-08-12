@@ -951,6 +951,107 @@ export default function Dashboard({
   };
   const clubNameById = (id: string | null) => (id ? ULTIMATE_CLUBS_DATABASE.find(c => c.id === id)?.name || id : '');
 
+  /**
+   * El CUADRO de una eliminatoria, ronda por ronda.
+   *
+   * Antes acá salía "Tu club sigue en carrera en la fase eliminatoria. Los cruces se resuelven
+   * semana a semana en tu calendario" -- una frase que no dice nada: ni contra quién jugás, ni
+   * cómo va el cuadro, ni si seguís vivo. Pedido textual: "que no salga un mensaje diciendo que
+   * sigues en carrera, que te salga cual es tu siguiente rival o el cuadro completo, o si ya estas
+   * eliminado que lo diga".
+   *
+   * Sirve para los dos formatos que hay: partido único (Conmebol) y ida y vuelta (UEFA, copas
+   * nacionales, cuadrangulares).
+   */
+  const CuadroEliminatoria = ({ rondas, miId, campeonId }: {
+    rondas: { nombre: string; cruces: { aId: string; bId: string; marcador: string | null; ganadorId: string | null }[] }[];
+    miId: string;
+    campeonId: string | null;
+  }) => {
+    if (!rondas.length) return <p className="text-2xs text-slate-500">El cuadro todavía no está sorteado.</p>;
+
+    const ultima = rondas[rondas.length - 1];
+    const miCruce = ultima.cruces.find(c => c.aId === miId || c.bId === miId);
+    const sigoVivo = campeonId === miId || (!!miCruce && (!miCruce.ganadorId || miCruce.ganadorId === miId));
+    // En qué ronda me quedé afuera, mirando de atrás para adelante.
+    const rondaEnQueSali = !sigoVivo
+      ? [...rondas].reverse().find(r => r.cruces.some(c => c.aId === miId || c.bId === miId))?.nombre
+      : null;
+
+    return (
+      <div className="space-y-3">
+        {/* Lo primero es tu situación, que es lo que se viene a mirar. */}
+        {campeonId === miId ? (
+          <div className="px-3 py-2 rounded-lg bg-gold-500/10 border border-gold-500/30 text-gold-300 text-2xs font-bold">
+            🏆 Campeón. No queda nada por jugar.
+          </div>
+        ) : !sigoVivo ? (
+          <div className="px-3 py-2 rounded-lg bg-burgundy-600/10 border border-burgundy-600/30 text-burgundy-300 text-2xs font-bold">
+            Eliminado en {rondaEnQueSali ?? 'la fase eliminatoria'}.
+            {campeonId && <span className="text-slate-400 font-normal"> Ganó {clubNameById(campeonId)}.</span>}
+          </div>
+        ) : miCruce ? (
+          <div className="px-3 py-2 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-400 text-2xs font-bold">
+            {ultima.nombre}: te toca {clubNameById(miCruce.aId === miId ? miCruce.bId : miCruce.aId)}
+            {miCruce.marcador && <span className="text-slate-300 font-normal"> · va {miCruce.marcador}</span>}
+          </div>
+        ) : null}
+
+        {rondas.map(ronda => (
+          <div key={ronda.nombre}>
+            <p className="text-3xs uppercase tracking-widest text-slate-500 font-bold mb-1">{ronda.nombre}</p>
+            <ul className="space-y-0.5 font-mono text-3xs">
+              {ronda.cruces.map((c, i) => {
+                const mio = c.aId === miId || c.bId === miId;
+                return (
+                  <li key={i} className={`flex justify-between gap-2 border-b border-slate-900/40 pb-0.5 ${mio ? 'text-gold-400 font-bold' : 'text-slate-400'}`}>
+                    <span className="truncate">
+                      <span className={c.ganadorId && c.ganadorId !== c.aId ? 'opacity-50' : ''}>{clubNameById(c.aId)}</span>
+                      <span className="text-slate-600"> vs </span>
+                      <span className={c.ganadorId && c.ganadorId !== c.bId ? 'opacity-50' : ''}>{clubNameById(c.bId)}</span>
+                    </span>
+                    <span className="text-slate-500 shrink-0">{c.marcador ?? '—'}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  /** Un PlayoffBracket (partido único) llevado a la forma que dibuja CuadroEliminatoria. */
+  const rondasDePartidoUnico = (matchesByRound: PlayoffMatch[][] | undefined) =>
+    (matchesByRound ?? []).map(ronda => ({
+      nombre: roundLabelByMatchCount(ronda.length),
+      cruces: ronda.map(m => ({
+        aId: m.homeTeamId, bId: m.awayTeamId,
+        marcador: m.played ? `${m.homeGoals}-${m.awayGoals}` : null,
+        ganadorId: m.played
+          ? (m.penaltyShootout?.winnerId
+            ?? ((m.homeGoals ?? 0) > (m.awayGoals ?? 0) ? m.homeTeamId : m.awayTeamId))
+          : null,
+      })),
+    }));
+
+  /** Un TwoLegBracket (ida y vuelta) llevado a la misma forma. El marcador es el GLOBAL. */
+  const rondasDeIdaYVuelta = (tiesByRound: TwoLegTie[][] | undefined) =>
+    (tiesByRound ?? []).map(ronda => ({
+      nombre: roundLabelByMatchCount(ronda.length),
+      cruces: ronda.map(t => {
+        const jugadoAlgo = t.firstLegGoalsA !== null;
+        const golesA = (t.firstLegGoalsA ?? 0) + (t.secondLegGoalsA ?? 0);
+        const golesB = (t.firstLegGoalsB ?? 0) + (t.secondLegGoalsB ?? 0);
+        return {
+          aId: t.clubAId, bId: t.clubBId,
+          marcador: jugadoAlgo ? `${golesA}-${golesB}` : null,
+          ganadorId: t.winnerId,
+        };
+      }),
+    }));
+
+
   // Los patrocinios (tienen "category") son ofertas que le llegan al jugador, no compras de
   // catálogo -- viven en su propia pestaña "Patrocinios", separados de los lujos puros de la
   // "Tienda de Estilo de Vida" (ver handleAcceptSponsor en App.tsx).
@@ -3933,7 +4034,11 @@ export default function Dashboard({
                     ) : conmebolCup.stage === 'done' ? (
                       <p className="text-2xs text-slate-300">🏆 Campeón: <strong className="text-white">{clubNameById(conmebolCup.championId)}</strong></p>
                     ) : (
-                      <p className="text-2xs text-slate-400">Tu club sigue en carrera en la fase eliminatoria. Los cruces se resuelven semana a semana en tu calendario.</p>
+                      <CuadroEliminatoria
+                        rondas={rondasDePartidoUnico(conmebolCup.knockout?.matchesByRound)}
+                        miId={currentClub.id}
+                        campeonId={conmebolCup.knockout?.championId ?? conmebolCup.championId ?? null}
+                      />
                     )}
                   </>
                 ) : uefaCup ? (
@@ -3974,7 +4079,11 @@ export default function Dashboard({
                     ) : uefaCup.stage === 'done' ? (
                       <p className="text-2xs text-slate-300">🏆 Campeón: <strong className="text-white">{clubNameById(uefaCup.championId)}</strong></p>
                     ) : (
-                      <p className="text-2xs text-slate-400">Tu club sigue en carrera en {uefaCup.stage === 'playoff' ? 'el playoff' : 'la fase eliminatoria'}, a ida y vuelta. Los cruces se resuelven semana a semana en tu calendario.</p>
+                      <CuadroEliminatoria
+                        rondas={rondasDeIdaYVuelta(uefaCup.stage === 'playoff' ? [uefaCup.playoff ?? []] : uefaCup.knockout?.tiesByRound)}
+                        miId={currentClub.id}
+                        campeonId={uefaCup.knockout?.championId ?? uefaCup.championId ?? null}
+                      />
                     )}
                   </>
                 ) : (
