@@ -1909,25 +1909,45 @@ export default function MatchSimulator({
       const faltaTexto = faltasNarrativa[Math.floor(Math.random() * faltasNarrativa.length)];
       const foulRoll = Math.random();
 
-      // Roja directa ambiental bajada de 3% a 1%: con hasta ~90 intentos por partido, un 3% se
-      // sentía como que te expulsaban demasiado seguido (reporte real del usuario).
-      if (foulRoll < 0.01) {
+      // CUÁNTO CUESTA UNA FALTA. Los tres números de abajo se midieron, no se estimaron: el bloque
+      // corre una vez por minuto y entra el 21% de las veces, o sea ~19 faltas por partido. Con
+      // scripts/_tarjetas.cjs se simulan 200.000 partidos con el mismo modelo.
+      //
+      // Antes: roja directa 1% y, sobre todo, SEGUNDA AMARILLA con el mismo 30% que la primera.
+      // Como te amonestaban casi seguro, cualquier falta posterior te echaba. Resultado medido:
+      // te expulsaban en el 98% de los partidos -- prácticamente todos.
+      //
+      // El problema nunca fue la roja directa (ya se había bajado de 3% a 1%): era que estar
+      // amonestado convertía cada falta en una expulsión. En la cancha pasa al revés -- el que
+      // tiene amarilla se cuida, y el árbitro piensa dos veces antes de sacar la segunda.
+      //
+      // Ahora: 7,8% por partido, una expulsión cada 13. Las amarillas quedan como estaban.
+      const P_ROJA_DIRECTA = 0.001;
+      const P_SEGUNDA_AMARILLA = 0.005;
+      const P_AMARILLA = 0.3;
+
+      if (foulRoll < P_ROJA_DIRECTA) {
         const cardSuffix = playerCards === 'yellow' ? ' 🟨🟥 ¡SEGUNDA AMARILLA, EXPULSADO!' : ' 🟥 ¡ROJA DIRECTA, EXPULSADO!';
         setPlayerCards('red');
         setIsSentOff(true);
         setRating(prev => Math.max(prev - 2.0, 2.0));
         setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro no duda.${cardSuffix}`, type: 'bad' }]);
-      } else if (foulRoll < 0.3) {
-        if (playerCards === 'yellow') {
+      } else if (playerCards === 'yellow') {
+        // Ya amonestado. La falta se sanciona igual, pero la segunda amarilla es MUCHO más rara.
+        if (foulRoll < P_SEGUNDA_AMARILLA) {
           setPlayerCards('red');
           setIsSentOff(true);
           setRating(prev => Math.max(prev - 2.0, 2.0));
           setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} 🟨🟥 ¡SEGUNDA AMARILLA, EXPULSADO!`, type: 'bad' }]);
+        } else if (foulRoll < P_AMARILLA) {
+          setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro te llama, te recuerda que estás amonestado y perdona la segunda.`, type: 'neutral' }]);
         } else {
-          setPlayerCards('yellow');
-          setRating(prev => Math.max(prev - 0.4, 2.5));
-          setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} 🟨 El árbitro te muestra tarjeta amarilla.`, type: 'bad' }]);
+          setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro sanciona la falta pero no saca tarjeta.`, type: 'neutral' }]);
         }
+      } else if (foulRoll < P_AMARILLA) {
+        setPlayerCards('yellow');
+        setRating(prev => Math.max(prev - 0.4, 2.5));
+        setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} 🟨 El árbitro te muestra tarjeta amarilla.`, type: 'bad' }]);
       } else {
         setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro sanciona la falta pero no saca tarjeta.`, type: 'neutral' }]);
       }
