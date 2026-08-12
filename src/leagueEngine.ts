@@ -144,11 +144,11 @@ function ensureFixturesUpTo(fixtures: Fixture[], requiredMatchweeks: number, clu
   return { fixtures: result, roundsAdded };
 }
 
-function buildInitialTable(clubs: Club[]): TableTeam[] {
+export function buildInitialTable(clubs: Club[]): TableTeam[] {
   return clubs.map(c => ({ clubId: c.id, name: c.name, puntos: 0, pj: 0, g: 0, e: 0, p: 0, gf: 0, gc: 0 }));
 }
 
-function applyResultToTable(table: TableTeam[], homeId: string, awayId: string, homeGoals: number, awayGoals: number): TableTeam[] {
+export function applyResultToTable(table: TableTeam[], homeId: string, awayId: string, homeGoals: number, awayGoals: number): TableTeam[] {
   return table.map(row => {
     if (row.clubId !== homeId && row.clubId !== awayId) return row;
     const isHomeRow = row.clubId === homeId;
@@ -1109,6 +1109,68 @@ function siguienteRondaTwoLeg(bracket: TwoLegBracket): TwoLegBracket {
  *
  * @param forced Resultado real del partido del jugador, si le tocaba jugar esta pierna.
  */
+/**
+ * Un paso del PLAYOFF de liga: los cuadrangulares de Colombia y la fase final argentina.
+ *
+ * El cuadro se siembra con los OCHO PRIMEROS DE LA TABLA de la fase regular, que es de lo que se
+ * trata: hasta ahora, quién los jugaba en las temporadas generadas lo decidía la permutación de
+ * nombres del calendario -- el club al que le tocaba el lugar de un finalista jugaba la final
+ * todos los años, sin importar cómo le hubiera ido.
+ *
+ * Ida y vuelta en las tres rondas (cuartos, semis, final), que es lo que muestran los datos reales
+ * del Apertura 2026: ocho clubes llegan a 21 fechas, cuatro a 23 y dos a 25.
+ *
+ * Mismo motor de llaves que la copa nacional y las copas europeas, y con el mismo cuidado: si la
+ * ronda ya está completa se arma la siguiente y se corta, sin resolverla en el mismo paso.
+ *
+ * @param forced El resultado real del jugador, si le tocaba jugar esta pierna.
+ */
+export function prepararPlayoffDeLiga(
+  bracket: TwoLegBracket | undefined,
+  tabla: TableTeam[],
+): TwoLegBracket {
+  if (!bracket) {
+    // Arranque: los 8 mejores de la fase regular, en orden. seedSingleTwoLegRound cruza 1-8, 2-7...
+    const ocho = sortTable(tabla).slice(0, 8).map(t => t.clubId);
+    if (ocho.length < 2) return { tiesByRound: [[]], championId: null };
+    return seedTwoLegBracket(ocho);
+  }
+  if (bracket.championId) return bracket;
+
+  // Ronda completa: se arma la siguiente ANTES de preguntar por el cruce. Sin esto, el cruce que
+  // se ofrece es el que YA se jugó y el jugador lo disputa de nuevo contra el mismo rival -- un
+  // partido fantasma por cada cambio de ronda. Es el mismo error que ya apareció en la copa
+  // nacional, y se arregla en el mismo lugar del ciclo.
+  const ultima = bracket.tiesByRound[bracket.tiesByRound.length - 1];
+  if (ultima?.length && ultima.every(t => t.played)) return siguienteRondaTwoLeg(bracket);
+  return bracket;
+}
+
+/** Resuelve UNA pierna del playoff con el resultado del jugador; el resto de las llaves se simula. */
+export function resolverPasoPlayoffDeLiga(
+  bracket: TwoLegBracket,
+  clubs: Club[],
+  forced?: ForcedResult,
+): TwoLegBracket {
+  if (bracket.championId) return bracket;
+  return resolveTwoLegRound(bracket, clubs, forced);
+}
+
+/** El cruce del club en la ronda en curso del playoff, o null si ya no juega. */
+export function crucePlayoffDeLiga(bracket: TwoLegBracket | undefined, clubId: string): TwoLegTie | null {
+  if (!bracket || bracket.championId) return null;
+  const ronda = bracket.tiesByRound[bracket.tiesByRound.length - 1];
+  const tie = ronda?.find(t => t.clubAId === clubId || t.clubBId === clubId) ?? null;
+  if (!tie || (tie.played && tie.winnerId !== clubId)) return null;
+  return tie;
+}
+
+/** Cómo se llama la ronda que se está jugando. */
+export function rondaDelPlayoff(bracket: TwoLegBracket | undefined): string {
+  const ronda = bracket?.tiesByRound[bracket.tiesByRound.length - 1];
+  return roundLabelByMatchCount(ronda?.length ?? 0);
+}
+
 export function resolverPasoCopaNacional(
   cup: DomesticCupState,
   allClubs: Club[],

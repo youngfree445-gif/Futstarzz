@@ -190,6 +190,13 @@ export interface PlayerProfile {
   // dos divisiones, a ida y vuelta. Se guarda porque el calendario real solo traía los dos partidos
   // del jugador y ganar la llave no llevaba a ninguna ronda siguiente.
   domesticCups?: Record<string, import('./copaNacional').DomesticCupState>;
+  /**
+   * Cuadrangulares de Colombia y fase final argentina, por `liga|temporada|torneo`.
+   *
+   * Se guarda aparte de leagueSeasons porque NO es la tabla: la fase regular corona por puntos y
+   * esto es una eliminatoria sembrada con los 8 primeros de esa tabla.
+   */
+  playoffsDeLiga?: Record<string, TwoLegBracket>;
   // Movimientos del último cierre de temporada, para poder contarlos en pantalla.
   ultimoAscensoDescenso?: {
     year: number;

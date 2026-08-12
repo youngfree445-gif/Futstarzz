@@ -19,7 +19,8 @@
     "ios": "npm run cap:sync && npx cap open ios",
     "validar:copas": "esbuild scripts/validar_copas.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_copas.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_copas.cjs",
     "validar:uncalendario": "esbuild scripts/validar_un_calendario.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_un_calendario.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_un_calendario.cjs",
-    "validar:titulos": "esbuild scripts/validar_titulos.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_titulos.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_titulos.cjs"
+    "validar:titulos": "esbuild scripts/validar_titulos.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_titulos.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_titulos.cjs",
+    "validar:playoffs": "esbuild scripts/validar_playoffs.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_playoffs.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_playoffs.cjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",

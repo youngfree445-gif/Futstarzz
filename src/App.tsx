@@ -25,7 +25,8 @@ import {
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
-  resolverPasoCopaNacional, simulatePenaltyShootout, roundLabelByMatchCount
+  resolverPasoCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
+  simulatePenaltyShootout, roundLabelByMatchCount
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
@@ -2838,10 +2839,67 @@ export default function App() {
       // Se busca dentro de leagueClubs (la propia liga) y no en toda la base: hay nombres duplicados
       // entre países -- "Athletic Club" existe en Brasil y en España -- y un find() global devolvía
       // el primero, metiendo un club brasileño en LaLiga.
-      const rivalDeCalendarioReal = usaCalendarioReal && realPrimary?.competition.kind === 'league'
+      let rivalDeCalendarioReal = usaCalendarioReal && realPrimary?.competition.kind === 'league'
         ? resolverClubDeCalendario(
             leagueClubs, realPrimary.opponentName, myClub.league, 'league', realPrimary.competition.name)
         : null;
+
+      // PLAYOFF DE LIGA (cuadrangulares de Colombia, fase final argentina).
+      //
+      // El calendario dice CUÁNDO -- esas fechas ya vienen marcadas como esPlayoff -- pero el rival
+      // lo pone el CUADRO, sembrado con los ocho primeros de la tabla de la fase regular. Es de lo
+      // que se trata: hasta ahora quién los jugaba en las temporadas generadas lo decidía la
+      // permutación de nombres del calendario, así que al club que heredaba el lugar de un
+      // finalista le tocaba la final todos los años sin importar cómo le había ido.
+      //
+      // Mismo reparto que en las copas: el calendario pone el día, el cuadro pone el rival.
+      const esFechaDePlayoff = !!realPrimary?.esPlayoff;
+      let brackedDelPlayoff: TwoLegBracket | undefined;
+      let clavePlayoff = '';
+      if (esFechaDePlayoff && datedStep) {
+        const semestre = torneoDelClubEnFecha(myClub.name, datedStep.date) ?? '';
+        clavePlayoff = `${leagueKey}|${temporadaDe(playerProfile, playerProfile.currentWeek)}|${semestre}`;
+        brackedDelPlayoff = prepararPlayoffDeLiga(playerProfile.playoffsDeLiga?.[clavePlayoff], season.table);
+        if (playerProfile.playoffsDeLiga?.[clavePlayoff] !== brackedDelPlayoff) {
+          const guardar = brackedDelPlayoff;
+          setPlayerProfile(prev => prev && ({ ...prev, playoffsDeLiga: { ...(prev.playoffsDeLiga ?? {}), [clavePlayoff]: guardar } }));
+        }
+
+        const cruce = crucePlayoffDeLiga(brackedDelPlayoff, myClub.id);
+        if (cruce) {
+          const rivalId = cruce.clubAId === myClub.id ? cruce.clubBId : cruce.clubAId;
+          const rival = leagueClubs.find(c => c.id === rivalId);
+          if (rival) {
+            rivalDeCalendarioReal = rival;
+            // La localía la manda la LLAVE, no el calendario: en la ida es local el clubA y en la
+            // vuelta se invierte. Es el mismo cuidado que ya hubo que tener en la copa nacional.
+            const esIda = cruce.firstLegGoalsA === null;
+            isHomeThisMatch = esIda ? cruce.clubAId === myClub.id : cruce.clubBId === myClub.id;
+            setActiveCompetitionName(`${rondaDelPlayoff(brackedDelPlayoff)} (${esIda ? 'Ida' : 'Vuelta'})`);
+          }
+        } else {
+          // Quedaste afuera del cuadro (no entraste al top 8, o te eliminaron): esa fecha no es
+          // tuya. El torneo sigue sin vos y el día queda libre, igual que en las copas.
+          const bracketSinVos = brackedDelPlayoff && !brackedDelPlayoff.championId
+            ? resolverPasoPlayoffDeLiga(brackedDelPlayoff, leagueClubs)
+            : brackedDelPlayoff;
+          const updated = {
+            ...playerProfile,
+            energy: Math.min(100, playerProfile.energy + 20),
+            currentWeek: playerProfile.currentWeek + 1,
+            matchesWithoutRest: 0,
+            playoffsDeLiga: bracketSinVos
+              ? { ...(playerProfile.playoffsDeLiga ?? {}), [clavePlayoff]: bracketSinVos }
+              : playerProfile.playoffsDeLiga,
+          };
+          const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
+          if (isPastRetirementAge(aged)) { resolveRetirementCheckpoint(aged); return; }
+          setPlayerProfile(aged);
+          saveGameState(aged, shopItems);
+          notify('🏁 Los cuadrangulares se juegan sin tu club. Semana de descanso.');
+          return;
+        }
+      }
 
       if (rivalDeCalendarioReal || upcoming) {
         // La TABLA la sigue llevando el motor (necesita simular los otros 19 partidos de la fecha),
@@ -3332,6 +3390,7 @@ export default function App() {
     // y el resto de las llaves se simulan. Al completarse la ronda, el motor encadena la siguiente
     // hasta la final (ver resolverPasoCopaNacional).
     let updatedDomesticCups = playerProfile.domesticCups;
+    let updatedPlayoffs = playerProfile.playoffsDeLiga;
     (() => {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
       if (!myClub || !activeDomesticCup || !activeOppositionClubId) return;
@@ -3443,29 +3502,54 @@ export default function App() {
       const pasoHoy = usaFechasRealesParaMiClub ? fixturesAtStep(myClub.name, playerProfile.currentWeek) : null;
       const hoyJuegoLigaPorCalendario = !!pasoHoy && pasoHoy.fixtures.some(f => f.competition.kind === 'league');
 
-      // Eliminado del playoff de liga (cuadrangulares/final de Colombia o Argentina): antes esto
-      // pasaba en silencio, igual que la eliminación de copa continental. Pedido explícito: "en los
-      // playoffs de argentina y colombia... si te eliminan tambien colocas esa animacion".
-      if (!shootout || shootoutOverride) {
-        const seguiaAntes = estaEnPlayoffDeLiga(existingSeason, myClub.id);
-        const sigueAhora = estaEnPlayoffDeLiga(resolvedSeason, myClub.id);
-        const campeonAhora = resolvedSeason.twoLegKnockout?.championId === myClub.id
-          || resolvedSeason.knockout?.championId === myClub.id;
-        if (seguiaAntes && !sigueAhora && !campeonAhora) {
-          const ultimaRonda = resolvedSeason.twoLegKnockout
-            ? resolvedSeason.twoLegKnockout.tiesByRound[resolvedSeason.twoLegKnockout.tiesByRound.length - 1]
-            : resolvedSeason.knockout?.matchesByRound[resolvedSeason.knockout.matchesByRound.length - 1];
-          const anioPlayoff = hoyJuegoLigaPorCalendario && pasoHoy
-            ? Number(pasoHoy.date.slice(0, 4))
-            : anioDe(playerProfile, playerProfile.currentWeek);
-          setSeasonEndInfo({
-            competition: getLeagueDisplay(myClub.league, myClub.division).name,
-            clubName: myClub.name,
-            season: `${resolvedSeason.semester === 2 ? 'Clausura' : 'Apertura'} ${anioPlayoff}`,
-            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
-            eliminated: true,
-            eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
+      // PLAYOFF DE LIGA: el partido de hoy avanza el cuadro sembrado por tabla (ver
+      // prepararPlayoffDeLiga). El resultado del jugador entra por `forced` y el resto de las
+      // llaves las simula el motor en la misma llamada.
+      const hoyFuePlayoff = !!pasoHoy && pasoHoy.fixtures.some(f => f.esPlayoff);
+      if (hoyFuePlayoff && pasoHoy && activeOppositionClubId) {
+        const semestre = torneoDelClubEnFecha(myClub.name, pasoHoy.date) ?? '';
+        const clave = `${leagueKey}|${temporadaDe(playerProfile, playerProfile.currentWeek)}|${semestre}`;
+        const antes = playerProfile.playoffsDeLiga?.[clave];
+        const tie = crucePlayoffDeLiga(antes, myClub.id);
+
+        if (antes && tie) {
+          // La localía que va al motor es la de la LLAVE, no la del calendario: en la ida es local
+          // el clubA y en la vuelta se invierte. Con activeIsHome el global salía dado vuelta.
+          const esIda = tie.firstLegGoalsA === null;
+          const soyLocalEnLaLlave = esIda ? tie.clubAId === myClub.id : tie.clubBId === myClub.id;
+          const despues = resolverPasoPlayoffDeLiga(antes, leagueClubs, {
+            clubId: myClub.id, isHome: soyLocalEnLaLlave,
+            goals: results.golesMiEquipo, opponentGoals: results.golesRival,
           });
+          updatedPlayoffs = { ...(playerProfile.playoffsDeLiga ?? {}), [clave]: despues };
+
+          const anioPlayoff = Number(pasoHoy.date.slice(0, 4));
+          const semestreLabel = `${semestre || 'Playoff'} ${anioPlayoff}`;
+
+          if (despues.championId === myClub.id) {
+            salioCampeon = true;
+            setChampionInfo({
+              competition: getLeagueDisplay(myClub.league, myClub.division).name,
+              clubName: myClub.name,
+              season: semestreLabel,
+              badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+            });
+            leagueTitleWon = {
+              competition: getLeagueDisplay(myClub.league, myClub.division).name,
+              year: anioPlayoff, clubId: myClub.id, torneo: semestre || undefined, tipo: 'liga',
+            };
+          } else if ((!shootout || shootoutOverride) && !crucePlayoffDeLiga(despues, myClub.id)) {
+            // Recién eliminado con este partido. Antes esto pasaba en silencio.
+            const ronda = despues.tiesByRound[despues.tiesByRound.length - 1];
+            setSeasonEndInfo({
+              competition: getLeagueDisplay(myClub.league, myClub.division).name,
+              clubName: myClub.name,
+              season: semestreLabel,
+              badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+              eliminated: true,
+              eliminatedRound: ronda ? roundLabelByMatchCount(ronda.length) : null,
+            });
+          }
         }
       }
 
@@ -3852,6 +3936,7 @@ export default function App() {
       seasonHistory: updatedSeasonHistory,
       headToHeadRecords: updatedHeadToHead,
       domesticCups: updatedDomesticCups,
+      playoffsDeLiga: updatedPlayoffs,
       // Copas y ligas van a la misma lista: todo campeonato ganado queda anotado en la vitrina.
       // El filtro por id evita duplicar si se rejuega el mismo paso.
       cupTitles: (() => {
