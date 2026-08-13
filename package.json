@@ -22,7 +22,8 @@
     "validar:titulos": "esbuild scripts/validar_titulos.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_titulos.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_titulos.cjs",
     "validar:playoffs": "esbuild scripts/validar_playoffs.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_playoffs.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_playoffs.cjs",
     "validar:tarjetas": "node scripts/validar_tarjetas.cjs",
-    "validar:eliminatorias": "esbuild scripts/validar_eliminatorias.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_eliminatorias.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_eliminatorias.cjs"
+    "validar:eliminatorias": "esbuild scripts/validar_eliminatorias.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_eliminatorias.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_eliminatorias.cjs",
+    "validar:partida": "esbuild scripts/validar_partida_archivo.ts --bundle --platform=node --format=esm --outfile=node_modules/.cache/validar_partida.mjs --log-level=error && node node_modules/.cache/validar_partida.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
