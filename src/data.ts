@@ -5671,8 +5671,16 @@ export const REAL_LEAGUE_LEADERS: Record<string, LeagueLeaders> = {
   },
 };
 
+// Se arma con TODAS las selecciones, no sólo con las 48 del Mundial 2026.
+//
+// Antes salía de WORLD_CUP_2026_TEAMS_SEED, así que a un jugador italiano, chileno o peruano no lo
+// podían convocar NUNCA: su selección no había clasificado, y por lo tanto no existía para el
+// juego. Con las eliminatorias jugándose eso dejó de tener sentido -- Italia y Chile juegan su
+// eliminatoria como cualquiera, y justamente la gracia es ver si esta vez entran.
 export const NATIONALITY_TO_WORLD_CUP_TEAM_ID: Record<string, string> = Object.fromEntries(
-  WORLD_CUP_2026_TEAMS_SEED.filter(t => t.league).map(t => [t.league as string, t.id])
+  [...WORLD_CUP_2026_TEAMS_SEED, ...EXTRA_NATIONAL_TEAMS_SEED]
+    .filter(t => t.league)
+    .map(t => [t.league as string, t.id])
 );
 
 // Etiquetas legibles de cada tipo de lesión (ver INJURY_TYPES en App.tsx, mismo catálogo de ids).

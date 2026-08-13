@@ -2,9 +2,14 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle, InjuryType, ActiveInjury, Agent } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
-  WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE, ROLES_DATABASE,
+  WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE, ROLES_DATABASE,
   AGENTS_DATABASE, INVESTMENTS_DATABASE
 } from './data';
+import {
+  CONFEDERACION_POR_SELECCION, crearEliminatoria, esJugable, ponerAlDiaLaEliminatoria,
+  proximoPartidoDeEliminatoria, resolverPasoEliminatoria, seleccionesDelMundial, tablaDeEliminatoria,
+  terminarEliminatoria, zonaDe,
+} from './eliminatorias';
 import { applyClubTheme } from './clubTheme';
 import { limpiarTitulosFantasma } from './limpiarTitulos';
 import { refreshTransferOffersIfNeeded } from './transferMarket';
@@ -14,7 +19,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -371,6 +376,29 @@ const RONDAS_EN_ESPANOL: Record<string, string> = {
   'group stage': 'Fase de Grupos', 'first round': 'Primera Ronda', 'second round': 'Segunda Ronda',
   'third round': 'Tercera Ronda', 'preliminary round': 'Ronda Preliminar',
 };
+
+/**
+ * Las 48 selecciones que juegan el Mundial de ese año.
+ *
+ * La edición 1 (2026) es la real: son las 48 que clasificaron de verdad, y para eso está
+ * WORLD_CUP_TEAMS_DATABASE. De la segunda en adelante SE CLASIFICA JUGANDO -- salen de las
+ * eliminatorias que se disputaron en los tres años previos (ver eliminatorias.ts).
+ *
+ * Antes acá iba siempre WORLD_CUP_TEAMS_DATABASE, y por eso el Mundial 2030 lo jugaban las mismas
+ * 48 de 2026: Colombia clasificaba siempre e Italia no jugaba nunca, pasaran veinte años.
+ */
+function seleccionesDelMundialDe(anio: number, perfil: PlayerProfile): Club[] {
+  if (anio <= CAREER_START_YEAR) return WORLD_CUP_TEAMS_DATABASE;
+  // Se cierra lo que haya quedado a medio jugar: el calendario no siempre le alcanza al club para
+  // darle las 18 fechas de Conmebol, y una carrera que arranca a mitad de ciclo llega más tarde.
+  const jugadas = Object.values(perfil.eliminatorias ?? {})
+    .filter(e => e.mundial === anio)
+    .map(e => terminarEliminatoria(e, ALL_NATIONAL_TEAMS_DATABASE));
+  const ids = new Set(seleccionesDelMundial(anio, jugadas, ALL_NATIONAL_TEAMS_DATABASE));
+  const clasificadas = ALL_NATIONAL_TEAMS_DATABASE.filter(t => ids.has(t.id));
+  // Red de seguridad: el sorteo son 12 grupos de 4 y con 47 no se puede armar.
+  return clasificadas.length === 48 ? clasificadas : WORLD_CUP_TEAMS_DATABASE;
+}
 
 function rotuloDeRonda(competicion: string, ronda?: string): string {
   if (!ronda) return competicion;
@@ -968,6 +996,10 @@ export default function App() {
   // termina el partido: si se aplicara antes, el jugador vería bajar su prestigio sin saber por qué.
   const pendingCountryDutyCost = useRef<{ prestige: number; notice: string | null; important: boolean } | null>(null);
   const [activeWorldCupTeamId, setActiveWorldCupTeamId] = useState<string | null>(null);
+  // Clave de la eliminatoria del partido en curso ('CONMEBOL-2030'). Distingue un partido de
+  // eliminatoria de uno del Mundial: los dos son con la selección y los dos pasan por la misma
+  // pantalla, pero el resultado va a tablas distintas.
+  const [activeEliminatoriaKey, setActiveEliminatoriaKey] = useState<string | null>(null);
   // Posiciones en la tabla al momento de armar el partido (solo liga doméstica -- en copas/Mundial
   // no hay una tabla comparable entre rivales de países distintos). Alimentan tanto el badge de
   // posiciones en MatchSimulator como el multiplicador de dificultad de las decisiones.
@@ -2303,20 +2335,80 @@ export default function App() {
     // handleFinishMatch podía resolver el Mundial con el resultado de un partido de liga
     // doméstica de otra semana).
     let foundWorldCupTeamId: string | null = null;
+    // Clave de la eliminatoria que se este jugando hoy, si hoy es fecha FIFA. Se guarda para que
+    // handleFinishMatch sepa a que tabla aplicarle el resultado.
+    let foundEliminatoriaKey: string | null = null;
+
+    // --- FECHA FIFA: eliminatoria del Mundial ---------------------------------------------------
+    //
+    // Va ANTES que todo lo demas porque en el calendario la fecha FIFA le gana al partido del club
+    // (national_tournament es la prioridad mas alta en pickPrimary): si hoy juega tu seleccion, te
+    // vas con ella y tu club juega sin vos. Es lo que pasa de verdad.
+    const esFechaFifa = !!myClubForSchedule
+      && !inWorldCupBreak
+      && realPrimary?.competition.id === 'eliminatorias';
+
+    if (esFechaFifa) {
+      const teamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
+      const conf = teamId ? CONFEDERACION_POR_SELECCION[teamId] : undefined;
+      const anio = anioDeCarrera(myClubForSchedule!.name, playerProfile.currentWeek);
+      const ciclo = cicloDeEliminatorias(anio);
+      // Solo se juegan las tres confederaciones modeladas partido a partido; las demas clasifican
+      // por fuerza y no tienen tabla que disputar (ver la nota larga en eliminatorias.ts).
+      const convocado = !!teamId && !!conf && esJugable(conf) && !!ciclo
+        && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
+        && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
+
+      if (convocado && ciclo) {
+        const clave = `${conf}-${ciclo.mundial}`;
+        const guardada = playerProfile.eliminatorias?.[clave];
+        const puesta = ponerAlDiaLaEliminatoria(
+          guardada ?? crearEliminatoria(conf!, ciclo.mundial, ALL_NATIONAL_TEAMS_DATABASE),
+          ALL_NATIONAL_TEAMS_DATABASE,
+          pasosDeEliminatoriasTranscurridos(myClubForSchedule!.name, playerProfile.currentWeek),
+          teamId,
+        );
+        const proximo = proximoPartidoDeEliminatoria(puesta, teamId!);
+        if (proximo) {
+          const rival = ALL_NATIONAL_TEAMS_DATABASE.find(t => t.id === proximo.opponentId);
+          opName = rival?.name ?? '';
+          opClubId = proximo.opponentId;
+          isHomeThisMatch = proximo.isHome;
+          foundWorldCupTeamId = teamId!;
+          foundEliminatoriaKey = clave;
+          const zona = zonaDe(puesta, teamId!);
+          setActiveCompetitionName(`Eliminatorias ${ciclo.mundial}${zona ? ` · ${zona}` : ''} · Fecha ${proximo.fecha}`);
+          setActiveCupId(null); setActiveUefaCupId(null); setActiveDomesticCup(false);
+          setActiveGlobalScoreLabel(null); setActiveTorneoLabel(null);
+          // La posicion en la tabla de la eliminatoria: es lo que se mira en una eliminatoria.
+          const tabla = tablaDeEliminatoria(puesta, teamId!);
+          const miIdx = tabla?.findIndex(r => r.clubId === teamId) ?? -1;
+          const suIdx = tabla?.findIndex(r => r.clubId === proximo.opponentId) ?? -1;
+          setActiveMyTablePosition(miIdx >= 0 ? miIdx + 1 : null);
+          setActiveRivalTablePosition(suIdx >= 0 ? suIdx + 1 : null);
+          setActiveLeagueTeamCount(tabla?.length ?? null);
+          setPlayerProfile(p => ({ ...p, eliminatorias: { ...(p.eliminatorias ?? {}), [clave]: puesta } }));
+        }
+      }
+    }
 
     if (inWorldCupBreak) {
       const year = temporadaDe(playerProfile, playerProfile.currentWeek);
+      // `year` es el NÚMERO de temporada (1, 2, 3...) y es la clave con la que se guarda el Mundial.
+      // Para saber QUIÉNES lo juegan hace falta el año calendario: las eliminatorias se guardan por
+      // año de Mundial (2030), no por número de temporada.
+      const anioDelMundial = anioDeCarrera(myClubForSchedule?.name ?? '', playerProfile.currentWeek);
       const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
       const isEligible = !!wcTeamId
         && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
         && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
 
       const upcoming = isEligible
-        ? getUpcomingWorldCupMatch(getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], pasosDeMundialTranscurridos(myClubForSchedule?.name ?? '', playerProfile.currentWeek)), wcTeamId!)
+        ? getUpcomingWorldCupMatch(getOrCreateWorldCupState(year, seleccionesDelMundialDe(anioDelMundial, playerProfile), playerProfile.worldCups[year], pasosDeMundialTranscurridos(myClubForSchedule?.name ?? '', playerProfile.currentWeek)), wcTeamId!)
         : null;
 
       if (upcoming) {
-        const opponentTeam = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId);
+        const opponentTeam = seleccionesDelMundialDe(anioDelMundial, playerProfile).find(t => t.id === upcoming.opponentId);
         opName = opponentTeam?.name || '';
         opClubId = upcoming.opponentId;
         isHomeThisMatch = upcoming.isHome;
@@ -3017,6 +3109,7 @@ export default function App() {
     }
 
     setActiveWorldCupTeamId(foundWorldCupTeamId);
+    setActiveEliminatoriaKey(foundEliminatoriaKey);
     setActiveOpposition(opName);
     setActiveOppositionClubId(opClubId);
     setActiveIsHome(isHomeThisMatch);
@@ -3782,16 +3875,36 @@ export default function App() {
     }
 
     let updatedWorldCups = playerProfile.worldCups;
-    if (isCopaLibertadores && activeWorldCupTeamId && activeOppositionClubId) {
+    // --- Resultado de un partido de ELIMINATORIA ------------------------------------------------
+    //
+    // Va antes que el Mundial y corta con `else`: los dos son partidos de selección y comparten
+    // activeWorldCupTeamId, pero el resultado tiene que ir a la tabla de la eliminatoria, no al
+    // cuadro del Mundial. Sin el corte, un partido de eliminatoria le movería el Mundial.
+    let updatedEliminatorias = playerProfile.eliminatorias;
+    if (activeEliminatoriaKey && activeWorldCupTeamId) {
+      const guardada = playerProfile.eliminatorias?.[activeEliminatoriaKey];
+      if (guardada) {
+        updatedEliminatorias = {
+          ...(playerProfile.eliminatorias ?? {}),
+          [activeEliminatoriaKey]: resolverPasoEliminatoria(guardada, ALL_NATIONAL_TEAMS_DATABASE, {
+            teamId: activeWorldCupTeamId,
+            goals: results.golesMiEquipo,
+            opponentGoals: results.golesRival,
+          }),
+        };
+      }
+    } else if (isCopaLibertadores && activeWorldCupTeamId && activeOppositionClubId) {
       const year = temporadaDe(playerProfile, playerProfile.currentWeek);
       const clubDelMundial = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-      const wcBeforeMatch = getOrCreateWorldCupState(year, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[year], pasosDeMundialTranscurridos(clubDelMundial?.name ?? '', playerProfile.currentWeek));
-      const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, WORLD_CUP_TEAMS_DATABASE, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
+      const seleccionesDeEsteMundial = seleccionesDelMundialDe(
+        anioDeCarrera(clubDelMundial?.name ?? '', playerProfile.currentWeek), playerProfile);
+      const wcBeforeMatch = getOrCreateWorldCupState(year, seleccionesDeEsteMundial, playerProfile.worldCups[year], pasosDeMundialTranscurridos(clubDelMundial?.name ?? '', playerProfile.currentWeek));
+      const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, seleccionesDeEsteMundial, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedWorldCup.knockout, activeWorldCupTeamId, activeOppositionClubId);
       if (shootout) {
         foundShootout = shootout;
         foundShootoutMyId = activeWorldCupTeamId;
-        foundShootoutMyName = WORLD_CUP_TEAMS_DATABASE.find(t => t.id === activeWorldCupTeamId)?.name || '';
+        foundShootoutMyName = seleccionesDeEsteMundial.find(t => t.id === activeWorldCupTeamId)?.name || '';
       }
       updatedWorldCups = { ...playerProfile.worldCups, [year]: resolvedWorldCup };
     }
@@ -4014,6 +4127,7 @@ export default function App() {
       continentalCups: updatedContinentalCups,
       uefaCups: updatedUefaCups,
       worldCups: updatedWorldCups,
+      eliminatorias: updatedEliminatorias,
       careerStats: {
         goles: playerProfile.careerStats.goles + results.goles,
         asistencias: playerProfile.careerStats.asistencias + results.asistencias,

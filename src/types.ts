@@ -161,6 +161,10 @@ export interface PlayerProfile {
   continentalCups: Record<string, CupState>; // Copa Libertadores / Sudamericana por año, clave = `${cupId}-${year}`
   uefaCups: Record<string, UefaCupState>; // Champions / Europa League, clave = cupId ('champions' | 'europa') -- una edición corre varios "años" calendario, ver nota en UefaCupState
   worldCups: Record<string, WorldCupState>; // Mundial cada 4 años, clave = year de esa edición
+  // Eliminatorias en curso, clave = `${confederación}-${año del Mundial}` (ej. 'CONMEBOL-2030').
+  // Guardan la tabla entera del ciclo: son 18 fechas repartidas en tres años, así que NO se pueden
+  // reiniciar por temporada como las copas. Opcional: las partidas viejas no lo traen.
+  eliminatorias?: Record<string, EliminatoriaState>;
   // Copas del calendario real que ganó el jugador (Superliga, Copa Colombia, Libertadores...).
   // Estas copas no tienen bracket en el motor -- sus cruces salen del calendario importado -- así
   // que no hay un championId que consultar y el título se anota acá al ganar la final.
@@ -450,6 +454,8 @@ export interface UefaCupState {
 // afecta quién sale campeón) y los "mejores 8 terceros" no se ubican en el
 // cuadro según las reglas reales de cruce de la FIFA -- se siembran junto a
 // los demás clasificados por reputación, igual que en Libertadores.
+import type { EliminatoriaState } from './eliminatorias';
+
 export interface WorldCupState {
   year: number; // año de esta edición dentro de la carrera (cada 4 años)
   groups: CupGroup[]; // 12 grupos de 4
