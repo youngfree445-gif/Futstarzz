@@ -274,6 +274,28 @@ function reservarFechasDeCuadrangular(
 ) {
   if (!esCalendarioDeDosTorneos(comp)) return;
 
+  // LOS DÍAS QUE LA LIGA YA RESERVÓ PARA CUADRANGULARES, por torneo.
+  //
+  // Al club que no clasificó en la vida real no hay que inventarle fechas: la liga ya dijo cuáles
+  // son. Los que sí clasificaron las tienen scrapeadas (del 10 de mayo al 8 de junio, en el Apertura
+  // 2026), y ésas son las buenas -- son los días en que la Dimayor paró la fase regular justamente
+  // para jugar el cuadro. Reusarlas sale gratis en descanso, porque en esos días el club que no
+  // clasificó no juega nada.
+  //
+  // La alternativa que probé primero -- generar días nuevos después del cierre del semestre -- caía
+  // justo en el parón del Mundial, que es lo que ocupa el hueco entre Apertura y Clausura: nueve
+  // fechas de selección entre el 11 de junio y el 13 de julio. Los tramos de 4 partidos en 7 días de
+  // la Dimayor pasaban de 21 a 95.
+  const diasRealesPorTorneo = new Map<string, string[]>();
+  for (const i of partidosDePlayoff(comp)) {
+    const m = comp.matches[i];
+    const t = torneoDeFecha(comp, m.date);
+    const lista = diasRealesPorTorneo.get(t);
+    if (lista) { if (!lista.includes(m.date)) lista.push(m.date); }
+    else diasRealesPorTorneo.set(t, [m.date]);
+  }
+  for (const lista of diasRealesPorTorneo.values()) lista.sort();
+
   for (const club of clubesDelPais(comp)) {
     const propios = indice.get(club) ?? [];
     const suyosDeLiga = propios.filter(f => f.competition.id === comp.id);
@@ -295,11 +317,62 @@ function reservarFechasDeCuadrangular(
       if (lista) lista.push(f); else porTorneo.set(t, [f]);
     }
 
-    for (const fs of porTorneo.values()) {
+    for (const [torneoDelSemestre, fs] of porTorneo) {
       // Ya tiene cuadrangular de verdad (el Apertura): no se le inventa uno encima.
       if (fs.some(f => f.esPlayoff)) continue;
       // Un club con cuatro fechas sueltas del semestre no jugó ese torneo: no hay nada que definir.
       if (fs.length < 8) continue;
+
+      const ponerEn = (dia: number) => {
+        const date = dateForDay(dia);
+        // El cuadrangular del Apertura no puede caer en julio. torneoDeFecha parte el año por mes, y
+        // un día pasado el corte queda contado como del OTRO torneo: al Millonarios le apareció una
+        // fecha de "cuadrangular del Clausura" el 21 de julio, antes de que el Clausura empezara.
+        if (torneoDeFecha(comp, date) !== torneoDelSemestre) return;
+        agregar(club, {
+          competition: comp,
+          match: { date, home: club, away: RIVAL_POR_SORTEAR },
+          date, isHome: true, opponentName: RIVAL_POR_SORTEAR, temporada, esPlayoff: true,
+        });
+        ocupados.add(dia);
+        for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+      };
+
+      // Camino bueno: el semestre YA tiene días de cuadrangular en el calendario real.
+      const reales = diasRealesPorTorneo.get(torneoDelSemestre);
+      if (reales?.length) {
+        // Se recorren de atrás para adelante -- las rondas hondas primero, que son las que no se
+        // pueden perder -- y se descartan los días pegados a otro partido. La lista real trae los
+        // días de TODOS los cruces del semestre, así que hay varios seguidos: al Millonarios le
+        // tocaban el 16 y el 17 de mayo, dos partidos en dos días. El veto los separa.
+        const elegidas: number[] = [];
+        for (let i = reales.length - 1; i >= 0 && elegidas.length < FECHAS_DE_CUADRANGULAR; i--) {
+          const dia = dayForDate(reales[i]);
+          if (ocupados.has(dia) || vetados.has(dia)) continue;
+          elegidas.push(dia);
+          for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+        }
+        for (const dia of elegidas.sort((a, b) => a - b)) ponerEn(dia);
+
+        // Si el veto dejó afuera casi todos los días reales -- pasa cuando las reservas de copa ya
+        // se llevaron esa ventana, que es el caso del Millonarios -- se COMPLETA con días nuevos
+        // dentro del mismo tramo. No se abandona: el semestre se define en cancha o no se define.
+        const faltan = FECHAS_DE_CUADRANGULAR - elegidas.length;
+        if (faltan > 0) {
+          const primero = dayForDate(reales[0]);
+          const ultimoReal = dayForDate(reales[reales.length - 1]);
+          // Ventana ancha a propósito: apretados en el tramo real salían seis partidos en trece días
+          // (al Millonarios le tocaba uno cada dos). El techo es el arranque del OTRO torneo, que es
+          // el límite de verdad -- más allá, el cuadrangular pisaría el semestre siguiente.
+          // El techo se CLAVA en el fin del semestre, no se filtra al colocar: elegirDias devuelve
+          // exactamente lo que se le pide, así que si después se descartaban los días que se pasaban
+          // de junio, el club terminaba con dos fechas de cuadrangular en vez de seis.
+          const anio = Number(reales[0].slice(0, 4));
+          const finDelSemestre = dayForDate(`${anio}-${torneoDelSemestre === 'Apertura' ? '06-30' : '12-31'}`);
+          for (const dia of elegirDias(primero, Math.min(finDelSemestre, ultimoReal + 45), vetados, faltan, ocupados)) ponerEn(dia);
+        }
+        continue;
+      }
 
       const ultimo = dayForDate(fs[fs.length - 1].date);
       // Arranca una semana después del cierre de la fase regular, como en la vida real, y tiene un
@@ -320,23 +393,12 @@ function reservarFechasDeCuadrangular(
       // Mundial -- nueve fechas de selección entre el 11 de junio y el 13 de julio. Forzando ahí las
       // seis fechas del cuadrangular, los tramos de 4 partidos en 7 días de la Dimayor pasaban de 21
       // a 95. Con este corte se agregan sólo donde el semestre deja aire, que es el Clausura.
-      // Lo que decide no es cuántos días quedan libres, sino cuántos partidos hay YA en el hueco:
-      // el parón del Mundial deja 36 días libres de 45, y sin embargo mete nueve partidos ahí. Seis
-      // fechas más encima dan un partido cada tres días. Se exige un hueco tranquilo.
-      let ocupadosEnLaVentana = 0;
-      for (let d = desde; d <= hasta; d++) if (ocupados.has(d)) ocupadosEnLaVentana++;
-      if (ocupadosEnLaVentana > 2) continue;
-
-      for (const dia of elegirDias(desde, hasta, vetados, FECHAS_DE_CUADRANGULAR, ocupados)) {
-        const date = dateForDay(dia);
-        agregar(club, {
-          competition: comp,
-          match: { date, home: club, away: RIVAL_POR_SORTEAR },
-          date, isHome: true, opponentName: RIVAL_POR_SORTEAR, temporada, esPlayoff: true,
-        });
-        ocupados.add(dia);
-        for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
-      }
+      // Camino de respaldo: el semestre NO tiene ningún día de cuadrangular en el calendario real.
+      // Es el caso del Clausura, que se scrapeó antes de que se jugaran. Acá sí se generan, y se
+      // generan SIEMPRE: el torneo tiene que definirse en cancha aunque el hueco venga apretado.
+      // No es el caso del Mundial -- ese hueco cae entre semestres, no después del último --, así
+      // que acá no hay nada con qué chocar: el Clausura cierra el 8 de noviembre y el año sigue.
+      for (const dia of elegirDias(desde, hasta, vetados, FECHAS_DE_CUADRANGULAR, ocupados)) ponerEn(dia);
     }
   }
 }
@@ -827,8 +889,17 @@ function reservarFechasDeCopa(
     if (reales) {
       for (const mesDia of reales.dias) {
         const dia = dayForDate(sumarAniosADia(`${CAREER_START_YEAR}-${mesDia}`, temporada - 1));
-        if (dia < primerDia || dia > ultimoDia) continue;
-        if (!ocupadosDelClub.has(dia) && vetados.has(dia)) continue;
+        // Sin techo por `ultimoDia`: la final de la Libertadores es el 29 de noviembre y el Junior
+        // cerraba su calendario el 8, así que su propia final le quedaba fuera de rango. Un club que
+        // llega a la final juega en noviembre aunque su liga ya haya terminado -- eso es lo normal.
+        if (dia < primerDia) continue;
+        // ENTRAN SIEMPRE. Antes se descartaba la fecha real si caía pegada a otro partido, y así se
+        // perdían casi todas: al Junior le entraban 2 de 7, al Flamengo 2, al Santos 3. La final de
+        // la Libertadores del 29 de noviembre no se jugaba nunca en su día.
+        //
+        // El veto de descanso no aplica acá porque no hay nada que negociar: la Conmebol fija sus
+        // fechas y el torneo doméstico se acomoda alrededor: es al revés de como estaba. Un club que
+        // juega los octavos el 13 de agosto y tiene liga el 15 juega los dos, como en la vida real.
         diasElegidos.push(dia);
         for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
       }
@@ -915,8 +986,15 @@ function elegirDias(
   for (let i = 0; i < libres.length && mejor.length < cuantas; i++) {
     const dia = Math.floor(libres[i] / 100);
     // Se re-chequea contra lo ya elegido en ESTA pasada: el conteo de vecinos se hizo antes de
-    // empezar a colocar, y sin esto las dos mejores opciones podían terminar siendo días seguidos.
-    if (elegidos.has(dia) || elegidos.has(dia - 1) || elegidos.has(dia + 1)) continue;
+    // empezar a colocar, y sin esto las mejores opciones terminan siendo días casi seguidos. Y se
+    // exige el descanso entero, no sólo que no sean consecutivos: con el chequeo de ±1 al
+    // Millonarios le salía un cuadrangular el 9, 11, 13, 16 y 19 de mayo -- un partido cada dos
+    // días dentro de una ventana de cincuenta.
+    let pegado = false;
+    for (let k = -VENTANA_DE_DESCANSO_DIAS; k <= VENTANA_DE_DESCANSO_DIAS && !pegado; k++) {
+      if (elegidos.has(dia + k)) pegado = true;
+    }
+    if (pegado) continue;
     elegidos.add(dia);
     mejor.push(dia);
   }
