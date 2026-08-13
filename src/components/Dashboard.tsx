@@ -555,6 +555,36 @@ export default function Dashboard({
   const selectedLeagueLeaders = (isFirstSeason ? REAL_LEAGUE_LEADERS[selectedLeagueName] : undefined)
     ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable, playerProfile.retiredWorldPlayers);
 
+
+  // Copa continental real que le corresponde al club actual (si clasifica a alguna).
+  const cupYear = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
+  // Los cupos de la temporada 2 en adelante salen de la tabla del año anterior y de los campeones
+  // vigentes; hay que pasarlos también acá o esta pantalla mostraría una copa distinta de la que el
+  // motor está jugando de fondo.
+  const cupPosiciones = playerProfile.posicionesFinales;
+  const cupCampeones = {
+    libertadores: playerProfile.campeonesContinentales?.[`libertadores-${cupYear - 1}`] ?? null,
+    sudamericana: playerProfile.campeonesContinentales?.[`sudamericana-${cupYear - 1}`] ?? null,
+  };
+  const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
+    ? 'libertadores'
+    : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
+    ? 'sudamericana'
+    : null;
+  const conmebolCup = conmebolCupId
+    // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
+    // adelantaba el torneo de fondo con sólo mirarlo: la tabla de grupos mostraba fechas que el
+    // jugador todavía no jugó, y peor, ese estado adelantado quedaba guardado.
+    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true), cupPosiciones, cupCampeones, currentClub.id)
+    : null;
+
+  // Va DESPUES de conmebolCup a proposito, y esto no es cosmetico.
+  //
+  // Estaba arriba, antes de que conmebolCupId se declarara, y compDeHoy lo usa adentro de una
+  // funcion que se ejecuta en el acto. Un `const` leido antes de su declaracion tira
+  // "Cannot access 'X' before initialization" -- zona muerta temporal --, y como pasa durante el
+  // render, React desmonta el arbol entero: la pantalla en negro que se reporto jugando con el
+  // Santos. En desarrollo no siempre salta; compilado y minificado, siempre.
   // LA TABLA DE LÍDERES SIGUE AL TORNEO QUE JUGÁS HOY.
   //
   // Si hoy es día de Libertadores, el panel muestra los goleadores de la Libertadores; al día
@@ -583,28 +613,6 @@ export default function Dashboard({
   // atrás: en ese caso se sigue viendo la de la liga.
   const hayLideresDeHoy = !!lideresDeHoy && lideresDeHoy.goleadores.length > 0;
   const tituloDeLideres = hayLideresDeHoy && compDeHoy ? compDeHoy : selectedLeagueName;
-
-  // Copa continental real que le corresponde al club actual (si clasifica a alguna).
-  const cupYear = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
-  // Los cupos de la temporada 2 en adelante salen de la tabla del año anterior y de los campeones
-  // vigentes; hay que pasarlos también acá o esta pantalla mostraría una copa distinta de la que el
-  // motor está jugando de fondo.
-  const cupPosiciones = playerProfile.posicionesFinales;
-  const cupCampeones = {
-    libertadores: playerProfile.campeonesContinentales?.[`libertadores-${cupYear - 1}`] ?? null,
-    sudamericana: playerProfile.campeonesContinentales?.[`sudamericana-${cupYear - 1}`] ?? null,
-  };
-  const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
-    ? 'libertadores'
-    : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
-    ? 'sudamericana'
-    : null;
-  const conmebolCup = conmebolCupId
-    // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
-    // adelantaba el torneo de fondo con sólo mirarlo: la tabla de grupos mostraba fechas que el
-    // jugador todavía no jugó, y peor, ese estado adelantado quedaba guardado.
-    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true), cupPosiciones, cupCampeones, currentClub.id)
-    : null;
 
   const cupCampeonesUefa = {
     champions: playerProfile.campeonesContinentales?.[`champions-${cupYear - 1}`] ?? null,
