@@ -85,6 +85,97 @@ Los datos ya están todos — palmarés, logros, Balón de Oro, tablas por compe
 
 ---
 
+### 7. El técnico te habla en el entretiempo
+
+Si vas perdiendo te pide algo concreto ("andá a buscarla al medio"). Cumplirlo sube la relación con
+él; ignorarlo y ganar igual sube tu ego pero lo enfría. Usa las decisiones que ya existen en el
+partido.
+
+### 8. Rival de carrera
+
+Un jugador de otro club que sube contigo y al que te comparan toda la carrera. El feed los enfrenta;
+superarlo vale más que superar a cualquiera.
+
+### 9. El bajón anímico
+
+`mentalHealth` ya existe pero hoy es un número sin consecuencia. Se convierte en un ESTADO con
+salida:
+
+- **Se entra** por acumulación, no por un mal partido suelto: dos o tres derrotas con nota baja, una
+  lesión larga, o un escándalo. Tiene que sentirse merecido.
+- **Mientras dura** el costo se ve en la cancha: menos energía inicial, las decisiones arriesgadas
+  salen peor, y el feed lo nota. Si el bajón no se ve jugando, es decoración.
+- **Se sale decidiendo**, y ninguna opción es obviamente correcta: psicólogo del club (cuesta plata y
+  que el DT se entere), volver al barrio (perdés una fecha), o apretar los dientes (gratis, podés
+  hundirte más).
+
+Reutiliza decisiones, feed y "Visitar a los tuyos", que ya está en Entorno.
+
+### 10. Rachas de TU historia
+
+**La fuente cambia respecto de la idea original, y eso la vuelve viable.** Buscar rachas reales de
+600 clubes no lo es: no existe esa base, habría que scrapear décadas y quedaría vieja al día
+siguiente.
+
+Pero el juego ya guarda tu historia entera -- cada resultado con su fecha, todas las temporadas,
+todos los títulos. Así que las rachas salen de tu carrera: *"no le ganás a Nacional hace 6
+partidos"*, *"cuarta final consecutiva que perdés"*. Cero datos externos, cero mantenimiento, y pesa
+más: es una racha que viviste, no una que leíste.
+
+Costo real: escribir las consultas sobre `datedResults` y elegir cuáles son interesantes.
+
+### 11. El fichaje que te tapa
+
+El club compra a alguien de tu puesto y tenés que pelear el lugar.
+
+**Viable y de bajo riesgo, verificado:** `decideLineupStatus` (App.tsx ~2219) ya decide cada semana
+si sos titular, suplente o ni convocado, comparando tu prestigio contra un umbral que sale de la
+reputación del club. Ser suplente ya funciona, con entrada desde el banco incluida.
+
+Osea que el fichaje NO necesita un sistema nuevo: es subir ese umbral temporalmente y bajarlo a
+medida que rendís. No toca calendario ni motor -- los dos lugares donde vivieron casi todos los bugs.
+
+**Tope obligatorio:** nunca puede dejarte en `not_called`, sólo en `substitute`. Así el peor caso es
+banco de más, nunca una temporada sin jugar.
+
+### 12. Publicar vos en ChutSocial
+
+Un botón en el feed, UNA publicación por fecha. Se abre con tres o cuatro opciones escritas según tu
+último partido -- no texto libre, que no hay forma de evaluar.
+
+- Después de ganar: agradecer a la hinchada / reconocer al rival / picantear el próximo clásico.
+- Después de perder: hacerte cargo / señalar al equipo / no decir nada.
+
+Cada una mueve fans, prestigio y relación con el DT en direcciones distintas, y **ninguna es gratis**:
+picantear da fans y enfría al técnico; hacerte cargo da respeto y baja el ánimo.
+
+Y el feed RESPONDE, reusando el mecanismo de la rueda de prensa: se guarda el saldo de la publicación
+y las voces reaccionan. Así el feed deja de ser de una sola vía sin inventar nada nuevo.
+
+---
+
+## Descartadas, con el motivo
+
+Anotadas para no volver a proponerlas.
+
+| Idea | Motivo |
+|---|---|
+| El capitán | Descartada por el autor. |
+| Cláusula de rescisión | Descartada por el autor. |
+| Sorteo en vivo | Descartada por el autor. |
+| Equipo del año | Descartada por el autor. |
+| Partido homenaje | Descartada por el autor. |
+| Hijos futbolistas | Buena idea pero traería muchos bugs: toca retiro, generaciones y estado guardado a la vez. |
+| **VAR** | Haría el juego injusto. Un gol anulado por algo que el jugador no controla es frustración sin decisión detrás. |
+| Pelear por el número | Descartada por el autor. |
+| Primas por objetivos | Descartada por el autor. |
+| Pretemporada y gira | Descartada por el autor. |
+| La entrevista larga | Descartada por el autor. |
+
+**Sin decidir todavía:** adaptación al extranjero, barra brava, el casi-traspaso.
+
+---
+
 ## Lo grande que quedó a medias
 
 - **Goleadores reales en las copas.** Hoy el motor atribuye goleadores en los partidos de LIGA de
