@@ -837,3 +837,39 @@ export function respuestasAMiPublicacion(
     .slice(0, 2)
     .map(x => x.c);
 }
+
+/**
+ * La prensa anuncia el refuerzo que llega para TU puesto.
+ *
+ * Sin esto el fichaje seria un numero invisible que te manda al banco sin explicacion. El jugador
+ * tiene que entender POR QUE de golpe le cuesta ser titular -- si no, se lee como un bug.
+ */
+export function postsDeRefuerzo(
+  nombre: string,
+  refuerzo: string,
+  posicion: string,
+  club: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 17) * 61.9 + i * 29.7) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = [
+    { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+      content: `Confirmado: ${refuerzo} llega a ${club} para jugar de ${posicion}. Le va a pelear el puesto a ${nombre}.` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${club} refuerza justo la posición de ${nombre}. La competencia interna sube y los minutos ya no están garantizados.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `Bienvenido ${refuerzo} 👏 A ver si ahora ${nombre} se pone las pilas, que venía cómodo.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Llega ${refuerzo}. Nadie tiene el puesto asegurado en este club, y está bien que sea así.` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `Ojo con esto: ${refuerzo} no viene a ser suplente. ${nombre} va a tener que ganarse el lugar cada fin de semana.` },
+  ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}

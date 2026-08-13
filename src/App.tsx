@@ -471,6 +471,38 @@ function applyAgingIfNewSeason(profile: PlayerProfile, previousWeek: number, new
 const COACH_CHANGE_CHANCE_PER_SEASON = 0.25;
 const COACH_CHANGE_PRESTIGE_MULTIPLIER = 0.94;
 
+// EL FICHAJE QUE TE TAPA. Cada temporada, el club puede traer a alguien de tu puesto.
+//
+// Es la contracara del mercado: hoy los traspasos son siempre una oportunidad para el jugador, y en
+// el futbol de verdad tambien son una amenaza -- llega uno mejor y te toca pelear el lugar.
+//
+// La chance sube con la reputacion del club (los grandes fichan mas) y BAJA con tu prestigio: si sos
+// intocable, no traen a nadie para tu puesto. Asi el refuerzo llega cuando duele y tiene sentido,
+// no al azar puro.
+const REFUERZO_CHANCE_BASE = 0.30;
+
+const NOMBRES_DE_REFUERZO = [
+  'Matías Ferreyra', 'Diego Sanabria', 'Lucas Ospina', 'Bruno Cardozo', 'Iván Mendoza',
+  'Tomás Villalba', 'Kevin Restrepo', 'Andrés Quintero', 'Rodrigo Cabral', 'Nicolás Duarte',
+];
+
+function applyRefuerzoIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  if (!club) return profile;
+  // Un jugador consagrado no se ve amenazado: a los 85 de prestigio la chance ya es cero.
+  const chance = REFUERZO_CHANCE_BASE * (club.reputation / 5) * Math.max(0, 1 - profile.prestige / 85);
+  if (Math.random() >= chance) return profile;
+  return {
+    ...profile,
+    fichajeRival: {
+      nombre: NOMBRES_DE_REFUERZO[Math.floor(Math.random() * NOMBRES_DE_REFUERZO.length)],
+      posicion: profile.position,
+      desdeSemana: newWeek,
+    },
+  };
+}
+
 function applyCoachChangeIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   if (Math.random() >= COACH_CHANGE_CHANCE_PER_SEASON) return profile;
@@ -875,6 +907,7 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
+  next = applyRefuerzoIfNewSeason(next, previousWeek, newWeek);
   next = applyBreakoutSeasonIfNewSeason(next, previousWeek, newWeek);
   next = applyYearsAtClubIfNewSeason(next, previousWeek, newWeek);
   next = applyMentorshipIfNewSeason(next, previousWeek, newWeek);
@@ -2239,12 +2272,30 @@ export default function App() {
   // con el DT tiene chance real de arrancar en el banco o directamente quedar afuera de la lista,
   // igual que en la vida real (las jóvenes promesas de clubes top rotan menos que en clubes chicos).
   // reputation va de 1 (chico) a 5 (élite mundial); prestige va de 0 a 100.
-  function decideLineupStatus(reputation: number, prestige: number, starMode?: boolean): 'starter' | 'substitute' | 'not_called' {
+  /**
+   * Cuanto te complica hoy el refuerzo que trajeron para tu puesto.
+   *
+   * Devuelve puntos que se SUMAN al umbral de titularidad: mientras el fichaje esta fresco cuesta
+   * mas ser titular, y el efecto se va aflojando solo con las fechas -- gana el lugar el que rinde,
+   * no el que llego ultimo. A las ~10 fechas ya no pesa nada y no hace falta ningun evento que lo
+   * saque.
+   */
+  function refuerzoQueTeTapa(profile: PlayerProfile): number {
+    if (!profile.fichajeRival) return 0;
+    const fechas = profile.currentWeek - profile.fichajeRival.desdeSemana;
+    if (fechas < 0 || fechas > 10) return 0;
+    return Math.round(14 * (1 - fechas / 10));
+  }
+
+  function decideLineupStatus(reputation: number, prestige: number, starMode?: boolean, estorbo = 0): 'starter' | 'substitute' | 'not_called' {
     // Modo Superestrella: titular garantizado, sin importar el umbral de la reputation del club --
     // es la promesa central del modo (ver SetupScreen).
     if (starMode) return 'starter';
     // Umbral de prestige que un club de esa reputation exige para considerarte titular indiscutido.
-    const starterThreshold = 25 + reputation * 11; // ~36 (reputation 1) a ~80 (reputation 5)
+    // El refuerzo sube la vara de la titularidad, no la de la convocatoria: por eso `estorbo` entra
+    // SOLO aca. Un fichaje te puede mandar al banco, nunca dejarte fuera de la lista -- eso seria
+    // perder fechas enteras por algo que no hiciste, y el peor caso tiene que seguir siendo jugable.
+    const starterThreshold = 25 + reputation * 11 + estorbo; // ~36 (reputation 1) a ~80 (reputation 5)
     const notCalledThreshold = Math.max(0, reputation * 7 - 15); // 0 (reputation <=2) a 20 (reputation 5)
 
     if (prestige >= starterThreshold) return 'starter';
@@ -3192,7 +3243,7 @@ export default function App() {
     // arriba), así que si estás ahí siempre arrancás titular.
     if (!foundWorldCupTeamId && opClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige, playerProfile.starModeEnabled);
+      const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige, playerProfile.starModeEnabled, refuerzoQueTeTapa(playerProfile));
 
       if (lineupStatus === 'not_called') {
         const { homeGoals, awayGoals } = isHomeThisMatch ? simulateMatch(myClub, CLUBS_DATABASE.find(c => c.id === opClubId) || myClub) : simulateMatch(CLUBS_DATABASE.find(c => c.id === opClubId) || myClub, myClub);

@@ -15,7 +15,7 @@ import { getPalmares } from '../palmares';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -1890,6 +1890,22 @@ export default function Dashboard({
     // La ELIMINACION pisa a todo lo demas: si el equipo quedo afuera, esa es la noticia. El resto
     // del feed sigue mirando tu calificacion individual, y una buena nota no salva a nadie cuando
     // se acabo el torneo.
+    // EL REFUERZO QUE TE TAPA, en las fechas siguientes a su llegada. Sin este aviso el fichaje
+    // seria un numero invisible que te manda al banco sin explicacion, y eso se lee como un bug.
+    const llegadaDelRefuerzo: SocialPost[] = playerProfile.fichajeRival
+      && week - playerProfile.fichajeRival.desdeSemana >= 0
+      && week - playerProfile.fichajeRival.desdeSemana <= 2
+      ? postsDeRefuerzo(pName, playerProfile.fichajeRival.nombre, playerProfile.fichajeRival.posicion,
+          currentClub.name, week)
+          .map((c, i) => ({
+            id: `refuerzo_${playerProfile.fichajeRival!.desdeSemana}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 2000 + Math.floor(Math.random() * 9000),
+            commentsCount: 300 + Math.floor(Math.random() * 2000),
+            timestamp: 'Mercado de pases', avatar: c.avatar,
+          }))
+      : [];
+
     // TU PUBLICACION y lo que le respondieron. Va primero de todo: lo dijiste vos.
     const miPost: SocialPost[] = playerProfile.miPublicacion?.semana === week
       ? [
@@ -1939,6 +1955,7 @@ export default function Dashboard({
 
     return [
       ...miPost,
+      ...llegadaDelRefuerzo,
       ...golpeDeEliminacion,
       ...ecoDePrensa,
       ...reacciones,
