@@ -272,7 +272,12 @@ function reservarFechasDeCuadrangular(
   indice: Map<string, DatedFixture[]>,
   agregar: (club: string, fx: DatedFixture) => void,
 ) {
-  if (!esCalendarioDeDosTorneos(comp)) return;
+  // No sólo las ligas de Apertura/Clausura. Ecuador, Venezuela y Uruguay también definen con un
+  // cuadro final, y sus fechas están en el calendario real -- pero de a una o dos por club, porque
+  // el fragmento se scrapeó a medio jugar. Al filtrar por "liga de dos torneos" ni siquiera se les
+  // miraba: 25 clubes con 1 día de cuadrangular para un cuadro que pide 6.
+  const tienePlayoffReal = partidosDePlayoff(comp).size > 0;
+  if (!esCalendarioDeDosTorneos(comp) && !tienePlayoffReal) return;
 
   // LOS DÍAS QUE LA LIGA YA RESERVÓ PARA CUADRANGULARES, por torneo.
   //
@@ -318,8 +323,12 @@ function reservarFechasDeCuadrangular(
     }
 
     for (const [torneoDelSemestre, fs] of porTorneo) {
-      // Ya tiene cuadrangular de verdad (el Apertura): no se le inventa uno encima.
-      if (fs.some(f => f.esPlayoff)) continue;
+      // Se COMPLETA hasta seis, no se salta al primer día que ya exista. Preguntar "¿tiene alguno?"
+      // dejaba afuera a los clubes cuyo fragmento trae una o dos fechas sueltas del cuadro -- 25
+      // clubes de Ecuador, Venezuela y Uruguay con UN día para un cuadrangular que pide seis.
+      const yaTiene = fs.filter(f => f.esPlayoff).length;
+      const objetivo = FECHAS_DE_CUADRANGULAR - yaTiene;
+      if (objetivo <= 0) continue;
       // Un club con cuatro fechas sueltas del semestre no jugó ese torneo: no hay nada que definir.
       if (fs.length < 8) continue;
 
@@ -346,7 +355,7 @@ function reservarFechasDeCuadrangular(
         // días de TODOS los cruces del semestre, así que hay varios seguidos: al Millonarios le
         // tocaban el 16 y el 17 de mayo, dos partidos en dos días. El veto los separa.
         const elegidas: number[] = [];
-        for (let i = reales.length - 1; i >= 0 && elegidas.length < FECHAS_DE_CUADRANGULAR; i--) {
+        for (let i = reales.length - 1; i >= 0 && elegidas.length < objetivo; i--) {
           const dia = dayForDate(reales[i]);
           if (ocupados.has(dia) || vetados.has(dia)) continue;
           elegidas.push(dia);
@@ -357,7 +366,7 @@ function reservarFechasDeCuadrangular(
         // Si el veto dejó afuera casi todos los días reales -- pasa cuando las reservas de copa ya
         // se llevaron esa ventana, que es el caso del Millonarios -- se COMPLETA con días nuevos
         // dentro del mismo tramo. No se abandona: el semestre se define en cancha o no se define.
-        const faltan = FECHAS_DE_CUADRANGULAR - elegidas.length;
+        const faltan = objetivo - elegidas.length;
         if (faltan > 0) {
           const primero = dayForDate(reales[0]);
           const ultimoReal = dayForDate(reales[reales.length - 1]);
@@ -398,7 +407,7 @@ function reservarFechasDeCuadrangular(
       // generan SIEMPRE: el torneo tiene que definirse en cancha aunque el hueco venga apretado.
       // No es el caso del Mundial -- ese hueco cae entre semestres, no después del último --, así
       // que acá no hay nada con qué chocar: el Clausura cierra el 8 de noviembre y el año sigue.
-      for (const dia of elegirDias(desde, hasta, vetados, FECHAS_DE_CUADRANGULAR, ocupados)) ponerEn(dia);
+      for (const dia of elegirDias(desde, hasta, vetados, objetivo, ocupados)) ponerEn(dia);
     }
   }
 }
@@ -905,7 +914,32 @@ function reservarFechasDeCopa(
       }
     }
     // Lo que falte se completa como siempre, repartido dentro de la ventana.
-    diasElegidos.push(...elegirDias(desde, hasta, vetados, Math.max(0, faltan - diasElegidos.length), ocupadosDelClub));
+    // LA VENTANA SE ENSANCHA HASTA QUE ENTRA TODO. Nunca se entrega de menos.
+    //
+    // El techo de arriba es la ventana declarada del torneo, y para muchos clubes es más chica que
+    // el cuadro que tienen que jugar: medido sobre los 549 clubes con calendario, 170 se quedaban
+    // cortos. Los peores, con la ventana estricta: un club colombiano con 2 días de Copa BetPlay
+    // para un cuadro de 10, uno holandés con 2, uno argentino con 5 de 12.
+    //
+    // Cuando la ventana declarada no alcanza, se corre el techo: primero hasta el final de la
+    // temporada del club, y si todavía falta, hasta donde haga falta dentro del año. Es la regla de
+    // siempre: se aprieta el calendario, no se recorta el torneo. Una copa que no llega a su final
+    // es una copa que desaparece a mitad de camino, y eso ya pasó una vez.
+    let porPoner = Math.max(0, faltan - diasElegidos.length);
+    for (const tope of [hasta, Math.max(hasta, ultimoDia), Math.max(hasta, ultimoDia) + 60]) {
+      if (porPoner <= 0) break;
+      const puestos = elegirDias(desde, tope, vetados, porPoner, ocupadosDelClub);
+      for (const dia of puestos) {
+        if (diasElegidos.includes(dia)) continue;
+        diasElegidos.push(dia);
+        // Se marca OCUPADO, no sólo vetado: la pasada siguiente descarta los vetados sólo como
+        // preferencia y termina devolviendo los mismos días, así que sin esto el ensanchado no
+        // avanzaba ni un día -- la Copa Argentina se quedaba en 10 de 12 pasara lo que pasara.
+        ocupadosDelClub.add(dia);
+        for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+      }
+      porPoner = Math.max(0, faltan - diasElegidos.length);
+    }
 
     for (const dia of diasElegidos) {
       const date = dateForDay(dia);
@@ -997,6 +1031,24 @@ function elegirDias(
     if (pegado) continue;
     elegidos.add(dia);
     mejor.push(dia);
+  }
+  if (mejor.length >= cuantas) return mejor.sort((a, b) => a - b);
+
+  // ÚLTIMO RECURSO: cualquier día sin partido, sin pedirle separación a nadie.
+  //
+  // La pasada de arriba exige el descanso entero entre las fechas nuevas, y en un calendario denso
+  // eso puede dejar el torneo corto igual: medido, 135 clubes seguían sin días para llegar a su
+  // final. Acá se abandona la última comodidad. Lo único que se sigue respetando es no poner dos
+  // partidos el mismo día, porque eso no es incomodidad -- es un partido que se pierde, ya que el
+  // paso del calendario elige uno solo (ver pickPrimary).
+  //
+  // Es la regla del proyecto llevada hasta el final: se aprieta el calendario, no se recorta el
+  // torneo. Un club que juega cada dos días en abril es incómodo; una copa que no llega a su final
+  // es una copa que no existe.
+  for (let d = desde; d <= hasta && mejor.length < cuantas; d++) {
+    if (elegidos.has(d) || ocupados.has(d)) continue;
+    elegidos.add(d);
+    mejor.push(d);
   }
   return mejor.sort((a, b) => a - b);
 }
@@ -1203,11 +1255,24 @@ function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada:
   for (const [club, propios] of indice) {
     if (!propios.length) continue;
 
-    // Fuera lo del club que caiga en la ventana: el torneo doméstico está parado.
+    // El torneo doméstico está parado durante el Mundial, así que lo que caiga en la ventana sale
+    // de ahí. Pero SALE DE AHÍ, no se borra: las fechas de copa se reubican después del parón.
+    //
+    // Antes se filtraban y listo. Como las reservas de copa se reparten ANTES que el Mundial, cada
+    // día apartado que caía entre el 11 de junio y el 13 de julio desaparecía sin más, y el torneo
+    // quedaba corto: Boca recibía sus 12 días de Copa Argentina y terminaba con 10, y así 135
+    // clubes de los 549. Un partido de liga sí se puede perder -- la fecha de liga se juega igual
+    // en otro momento del año y la tabla no lo nota --, pero un día de CUADRO es una ronda entera:
+    // sin él la copa no llega a la final.
+    const enLaVentana = propios.filter(f => {
+      const d = dayForDate(f.date);
+      return d >= desde && d <= hasta;
+    });
     const sobreviven = propios.filter(f => {
       const d = dayForDate(f.date);
       return d < desde || d > hasta;
     });
+    const aReubicar = enLaVentana.filter(f => f.esReservaDeCuadro || f.esPlayoff);
 
     // Los días pegados a un partido que SÍ sobrevive quedan vetados, igual que en las reservas de
     // copa. Sin esto, un club que jugaba el 10 de junio arrancaba el Mundial el 11: un día de
@@ -1234,6 +1299,25 @@ function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada:
         temporada, esReservaDeCuadro: true,
       });
     }
+
+    // Y ahora se reubican los días de cuadro que el parón se llevó por delante. Van DESPUÉS del
+    // Mundial, en los primeros huecos libres, respetando el descanso mientras se pueda.
+    if (aReubicar.length) {
+      const ocupados = new Set(sobreviven.map(f => dayForDate(f.date)));
+      const vetadosAhora = new Set<number>();
+      for (const d of ocupados) {
+        for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetadosAhora.add(d + k);
+      }
+      const nuevos = elegirDias(hasta + 4, hasta + 150, vetadosAhora, aReubicar.length, ocupados);
+      aReubicar.forEach((f, i) => {
+        const dia = nuevos[i];
+        if (dia === undefined) return;
+        const date = dateForDay(dia);
+        sobreviven.push({ ...f, date, match: { ...f.match, date } });
+      });
+    }
+
+    sobreviven.sort((a, b) => a.date.localeCompare(b.date));
     indice.set(club, sobreviven);
   }
 }
