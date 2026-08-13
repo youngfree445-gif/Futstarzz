@@ -93,7 +93,7 @@ function shuffle<T>(items: T[]): T[] {
 
 // Genera UNA vuelta ida-y-vuelta completa (método del círculo) para el
 // conjunto de clubIds dado, con matchweek arrancando en 1.
-function generateRoundRobin(clubIds: string[]): Fixture[] {
+export function generateRoundRobin(clubIds: string[]): Fixture[] {
   const teams = clubIds.length % 2 === 0 ? [...clubIds] : [...clubIds, '__BYE__'];
   const n = teams.length;
   const rounds: [string, string][][] = [];

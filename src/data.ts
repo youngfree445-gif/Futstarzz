@@ -5113,6 +5113,31 @@ const WORLD_CUP_FIFA_POINTS: Record<string, number> = {
   wc_paraguay: 1505.3, wc_portugal: 1766.2, wc_rd_congo: 1479.7, wc_senegal: 1686.4,
   wc_sudafrica: 1428.4, wc_suecia: 1509.8, wc_suiza: 1650.1, wc_tunez: 1476.4,
   wc_turquia: 1605.7, wc_uruguay: 1673.1, wc_usa: 1671.2, wc_uzbekistan: 1461.2,
+
+  // --- Las que NO fueron al Mundial 2026 -------------------------------------------------------
+  //
+  // Sin estos puntos todas caían en el valor por defecto de abajo -- el punto medio de la escala --
+  // y salían con la MISMA fuerza: San Marino, Andorra y Gibraltar empataban con Italia, y les
+  // ganaban a Suecia y a Escocia, que sí habían clasificado. Con las eliminatorias jugándose eso
+  // dejó de ser un detalle: en 30 ediciones simuladas San Marino clasificaba al Mundial el 7% de
+  // las veces e Italia el 27%.
+  //
+  // Los que quedan por debajo de WC_FIFA_POINTS_MIN se aplastan todos contra el piso de la escala,
+  // y está bien: son las selecciones más flojas de Europa y entre ellas la diferencia no cambia
+  // nada. Lo que importaba era separarlas de Italia.
+  wc_italia: 1702.1, wc_dinamarca: 1637.2, wc_serbia: 1516.8, wc_polonia: 1517.4,
+  wc_ucrania: 1520.6, wc_hungria: 1502.9, wc_rumania: 1479.3, wc_eslovaquia: 1477.1,
+  wc_eslovenia: 1478.5, wc_albania: 1421.9, wc_georgia: 1425.7, wc_grecia: 1502.3,
+  wc_gales: 1546.1, wc_irlanda: 1442.6, wc_irlanda_norte: 1364.2, wc_islandia: 1385.4,
+  wc_finlandia: 1401.8, wc_macedonia: 1361.7, wc_montenegro: 1367.9, wc_kosovo: 1354.2,
+  wc_bulgaria: 1300.5, wc_bielorrusia: 1265.3, wc_israel: 1428.9, wc_kazajistan: 1264.7,
+  wc_azerbaiyan: 1180.4, wc_armenia: 1256.8, wc_moldavia: 1092.6, wc_letonia: 1152.3,
+  wc_lituania: 1130.9, wc_estonia: 1108.5, wc_chipre: 1201.7, wc_malta: 1035.2,
+  wc_luxemburgo: 1274.1, wc_islas_feroe: 1090.8, wc_andorra: 907.4, wc_san_marino: 748.6,
+  wc_liechtenstein: 843.2, wc_gibraltar: 826.5,
+  // Conmebol y Concacaf que no fueron a 2026.
+  wc_chile: 1476.3, wc_peru: 1409.1, wc_venezuela: 1454.7, wc_bolivia: 1352.8,
+  wc_costa_rica: 1500.4, wc_jamaica: 1439.6,
 };
 const WC_FIFA_POINTS_MIN = 1275;
 const WC_FIFA_POINTS_MAX = 1877;
