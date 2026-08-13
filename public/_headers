@@ -15,3 +15,13 @@
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# El service worker NUNCA se cachea. Es el archivo que decide que se guarda y que no; si el
+# navegador se queda con una copia vieja, el juego sigue sirviendo el build anterior para siempre y
+# ningun deploy nuevo llega nunca. Mismo motivo que index.html, pero peor: este se auto-perpetua.
+
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=0, must-revalidate
