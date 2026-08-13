@@ -695,3 +695,49 @@ export function comentariosDeRuedaDePrensa(
     .slice(0, 3)
     .map(x => x.c);
 }
+
+/**
+ * Lo que dice la prensa cuando te ELIMINAN de una copa.
+ *
+ * Hasta ahora el feed sólo miraba tu calificación individual: podías jugar un 7 y quedar afuera de
+ * la Superliga, y la prensa te felicitaba por el buen partido mientras el club se quedaba sin
+ * torneo. Reportado: "quedé eliminado y me alaban mucho, tengo que sentir la presión de haber
+ * perdido".
+ *
+ * Y es cierto que así funciona el fútbol: cuando el equipo queda afuera, la nota individual no
+ * salva a nadie. Estos posts pisan al resto porque son la noticia del día.
+ */
+export function postsDeEliminacion(
+  nombre: string,
+  competicion: string,
+  club: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 11) * 33.71 + i * 19.3) * 43758.5453;
+    return x - Math.floor(x);
+  };
+
+  const voces = [
+    { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+      content: `Afuera de la ${competicion}. Y que nadie venga a hablar de rendimientos individuales: el equipo fracasó y punto.` },
+    { author: 'David Faitelson', role: 'Comentarista', avatar: '🎯',
+      content: `${club} eliminado. A ${nombre} le van a preguntar por esto en cada rueda de prensa hasta que gane algo.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `ELIMINADOS OTRA VEZ 🤬 ${nombre}, la camiseta pesa. Si no podés con eso, andate.` },
+    { author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
+      content: `Se acabó la ${competicion} para ${club}. Un año más sin nada. La paciencia se terminó.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Duele. ${club} afuera y con la sensación de que faltó algo. A ${nombre} le queda demostrar que puede cargar con esto.` },
+    { author: 'Marcos Beltrán', role: 'Periodista internacional', avatar: '🎙️',
+      content: `Quedar eliminado no arruina una carrera, pero la marca. ${nombre} tiene que responder ya, en el próximo partido.` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${club} queda fuera de la ${competicion}. Es la clase de golpe que se mide en las tres fechas siguientes, no hoy.` },
+  ];
+
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 3)
+    .map(x => x.v);
+}

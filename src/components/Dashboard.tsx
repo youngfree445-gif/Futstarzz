@@ -15,7 +15,7 @@ import { getPalmares } from '../palmares';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -1852,9 +1852,14 @@ export default function Dashboard({
       const r = generateWorldRanking(playerProfile, currentClub.name, week, currentClub.league);
       if (r.length < 2) return [];
       const idx = r.findIndex(e => e.isPlayer);
-      const otros = r.filter(e => !e.isPlayer);
+      // El SEGUNDO es el segundo de la lista, no "el primero que no sos vos". Con ese criterio,
+      // cuando el jugador no entra al ranking -- que es lo normal al empezar la carrera -- el
+      // primero que no era el jugador resultaba ser el lider, y el post decia "Dembele sigue al
+      // frente, con Dembele pisandole los talones". Reportado con captura.
+      const lider = r[0];
+      const escolta = r.find(e => e !== lider) ?? r[1];
       return postsDelBalonDeOro(pName, idx >= 0 ? idx + 1 : null,
-        r[0].name, r[0].clubName, otros[0]?.name ?? r[1].name, week)
+        lider.name, lider.clubName, escolta.name, week)
         .map((p, i) => ({
           id: `balon_${week}_${i}`,
           author: p.author, role: p.role, content: p.content,
@@ -1879,6 +1884,21 @@ export default function Dashboard({
           }))
       : [];
 
+    // La ELIMINACION pisa a todo lo demas: si el equipo quedo afuera, esa es la noticia. El resto
+    // del feed sigue mirando tu calificacion individual, y una buena nota no salva a nadie cuando
+    // se acabo el torneo.
+    const golpeDeEliminacion: SocialPost[] = playerProfile.ultimaEliminacion?.semana === week
+      ? postsDeEliminacion(pName, playerProfile.ultimaEliminacion.competicion, currentClub.name, week)
+          .map((c, i) => ({
+            id: `elim_${week}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 3000 + Math.floor(Math.random() * 15000),
+            commentsCount: 500 + Math.floor(Math.random() * 3000),
+            timestamp: 'Hace instantes',
+            avatar: c.avatar,
+          }))
+      : [];
+
     const reacciones: SocialPost[] = playerProfile.lastMatchRating > 0
       ? postsDelPartido(pName, playerProfile.lastMatchRating, playerProfile.lastMatchGoals, week)
           .map((p, i) => ({
@@ -1894,6 +1914,7 @@ export default function Dashboard({
       : [];
 
     return [
+      ...golpeDeEliminacion,
       ...ecoDePrensa,
       ...reacciones,
       // Despues de las reacciones al partido y antes del resto: la carrera del Balon de Oro es

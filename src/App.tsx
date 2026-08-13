@@ -3552,6 +3552,7 @@ export default function App() {
           eliminated: true,
           eliminatedRound: rotuloDeRonda('', fx.match.round) || null,
         });
+        setPlayerProfile(p => ({ ...p, ultimaEliminacion: { competicion: fx.competition.name, semana: p.currentWeek } }));
         return;
       }
 
@@ -3976,6 +3977,7 @@ export default function App() {
             eliminated: true,
             eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
           });
+          setPlayerProfile(p => ({ ...p, ultimaEliminacion: { competicion: nombreDeLaCopa, semana: p.currentWeek } }));
         } else if (seguiaAntes && sigueAhora && !resolvedCup.championId && pasoDeRonda(cupBeforeMatch, resolvedCup)) {
           // PASASTE DE RONDA. El contrario exacto del caso de arriba, y hasta ahora no existia: la
           // copa te despedia al perder pero nunca te felicitaba al ganar. Avanzar es la mitad buena
