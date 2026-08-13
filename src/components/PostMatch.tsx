@@ -29,7 +29,7 @@ interface PostMatchProps {
    * hablaba de la actuación individual como cualquier otro domingo. Reportado: "me eliminaron y en
    * ningún lado dice eso". Ahora la tapa lo grita, que es lo que haría un diario de verdad.
    */
-  desenlaceDeCopa?: { tipo: 'eliminado' | 'avanza'; competicion: string; ronda?: string | null } | null;
+  desenlaceDeCopa?: { tipo: 'eliminado'; competicion: string; ronda?: string | null } | null;
   onContinue: () => void;
 }
 
@@ -157,10 +157,15 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
 
   // El desenlace de copa MANDA sobre el titular del partido. Que te eliminen es la noticia del día;
   // tu calificación individual, al lado de eso, es una nota interior.
-  const headline = desenlaceDeCopa
-    ? desenlaceDeCopa.tipo === 'eliminado'
-      ? `ELIMINADOS DE LA ${desenlaceDeCopa.competicion.toUpperCase()}`
-      : `¡A ${(desenlaceDeCopa.ronda ?? 'LA SIGUIENTE RONDA').toUpperCase()}!`
+  // SOLO la eliminacion. El aviso de "pasaste de ronda" se saco a proposito: la ronda siguiente
+  // sale de contar las llaves del cuadro, y eso da un nombre correcto solo si el cuadro tiene la
+  // forma esperada. La Superliga, por ejemplo, es UNA final a ida y vuelta -- no hay ronda que
+  // viene --, y en un cuadro a medio armar puede anunciar "a semifinal" estando en octavos.
+  //
+  // Un titular a toda pagina que dice algo falso es peor que no decir nada. Quedar eliminado, en
+  // cambio, es un hecho sin ambiguedad: o seguis en la copa o no seguis.
+  const headline = desenlaceDeCopa?.tipo === 'eliminado'
+    ? `ELIMINADOS DE LA ${desenlaceDeCopa.competicion.toUpperCase()}`
     : titularNormal;
 
   // Semilla fija por partido: sin esto, cada re-render sortearía otra foto y la tapa parpadearía.

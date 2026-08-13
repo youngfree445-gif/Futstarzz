@@ -4749,8 +4749,6 @@ export default function App() {
           // deducirlo por segunda vez y arriesgar que las dos cuentas digan cosas distintas.
           desenlaceDeCopa={seasonEndInfo?.eliminated
             ? { tipo: 'eliminado' as const, competicion: seasonEndInfo.competition, ronda: seasonEndInfo.eliminatedRound }
-            : seasonEndInfo?.avanzo
-            ? { tipo: 'avanza' as const, competicion: seasonEndInfo.competition, ronda: seasonEndInfo.rondaSiguiente }
             : null}
           onContinue={handleContinuePostMatch}
         />

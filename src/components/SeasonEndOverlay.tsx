@@ -22,14 +22,15 @@ export interface SeasonEndInfo {
   /** Ronda en la que quedaste eliminado ("Cuartos de Final"), solo si eliminated es true. */
   eliminatedRound?: string | null;
   /**
-   * true si con este partido PASASTE de ronda. El contrario exacto de `eliminated`.
+   * true si con este partido pasaste de ronda.
    *
-   * Existe porque el aviso solo aparecia al perder: la copa te despedia pero nunca te felicitaba, y
-   * avanzar -- que es la mitad buena del cuadro -- pasaba en silencio. Pedido: "si pasas de ronda
-   * tambien que salga un aviso que diga: a siguiente ronda".
+   * NO se usa para un titular. Se probo y se saco: el nombre de la ronda siguiente sale de contar
+   * las llaves del cuadro, y eso solo acierta si el cuadro tiene la forma esperada -- la Superliga
+   * es UNA final a ida y vuelta y no tiene "ronda que viene". Anunciar "a semifinal" estando en
+   * octavos es peor que no anunciar nada. Queda el dato por si algun dia se muestra de una forma
+   * que no dependa de adivinar el nombre.
    */
   avanzo?: boolean;
-  /** La ronda que se viene ("Semifinal"), solo si avanzo es true. */
   rondaSiguiente?: string | null;
 }
 
@@ -52,9 +53,7 @@ export default function SeasonEndOverlay({ info, onClose }: SeasonEndOverlayProp
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  const headline = info.avanzo
-    ? (info.rondaSiguiente ? `¡A ${info.rondaSiguiente}!` : '¡Pasaste de ronda!')
-    : info.eliminated
+  const headline = info.eliminated
     ? `Eliminado en ${info.eliminatedRound ?? 'la eliminatoria'}`
     : info.finalPosition === 1
     ? 'Campeón' // no debería pasar (eso lo cubre ChampionOverlay), pero por las dudas no dice "sin título"
