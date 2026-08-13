@@ -4186,24 +4186,34 @@ export default function Dashboard({
                   const expulsado = hayLideresDeHoy ? lideresDeHoy!.expulsados[0] : null;
                   const arquero = hayLideresDeHoy ? lideresDeHoy!.arqueros[0] : null;
                   const stats: { icon: string; label: string; entry: { name: string; clubName: string } | null; value: string | null }[] = [
+                    // LAS CINCO salen de la tabla de TU carrera, sin excepcion y sin respaldo.
+                    //
+                    // Antes cada tarjeta caia por su cuenta a REAL_LEAGUE_LEADERS cuando su dato
+                    // todavia no existia, y el resultado era un panel MEZCLADO: el goleador ya era
+                    // real (Anderson Angulo, 2 goles) mientras al lado seguia "Omar Fernandez, 8
+                    // asistencias" de la tabla fija de 2026. Peor que estar todo viejo, porque
+                    // parece consistente y no lo es. Reportado: "se arreglo los goleadores pero
+                    // quiero eso mismo con todos los datos".
+                    //
+                    // Sin dato todavia, la tarjeta lo dice. Que es la verdad: nadie dio una
+                    // asistencia todavia en esta carrera.
                     { icon: '⚽', label: 'Máximo Goleador',
-                      entry: goleador ? { name: goleador.esVos ? `${goleador.nombre} (vos)` : goleador.nombre, clubName: goleador.clubName } : selectedLeagueLeaders.topScorer,
-                      value: goleador ? `${goleador.goles} goles` : selectedLeagueLeaders.topScorer ? `${selectedLeagueLeaders.topScorer.value} goles` : null },
+                      entry: goleador ? { name: goleador.esVos ? `${goleador.nombre} (vos)` : goleador.nombre, clubName: goleador.clubName } : null,
+                      value: goleador ? `${goleador.goles} goles` : null },
                     { icon: '🎯', label: 'Máximo Asistidor',
-                      entry: asistidor ? { name: asistidor.esVos ? `${asistidor.nombre} (vos)` : asistidor.nombre, clubName: asistidor.clubName } : selectedLeagueLeaders.topAssist,
-                      value: asistidor ? `${asistidor.asistencias} asistencias` : selectedLeagueLeaders.topAssist ? `${selectedLeagueLeaders.topAssist.value} asistencias` : null },
-                    // Las tres de abajo también salen de la tabla del torneo del día cuando la hay.
+                      entry: asistidor ? { name: asistidor.esVos ? `${asistidor.nombre} (vos)` : asistidor.nombre, clubName: asistidor.clubName } : null,
+                      value: asistidor ? `${asistidor.asistencias} asistencias` : null },
                     // El arquero muestra el PROMEDIO de goles recibidos, que es como se mide la
                     // portería menos vencida: el total premiaba al que menos jugó.
                     { icon: '🧤', label: 'Portería Menos Vencida',
-                      entry: arquero ? { name: arquero.nombre, clubName: arquero.clubName } : selectedLeagueLeaders.topGoalkeeper,
+                      entry: arquero ? { name: arquero.nombre, clubName: arquero.clubName } : null,
                       value: arquero ? `${(arquero.golesRecibidos! / arquero.partidosDeArquero!).toFixed(2)} goles por partido` : null },
                     { icon: '🟨', label: 'Más Amarillas',
-                      entry: amonestado ? { name: amonestado.esVos ? `${amonestado.nombre} (vos)` : amonestado.nombre, clubName: amonestado.clubName } : selectedLeagueLeaders.topYellow,
-                      value: amonestado ? `${amonestado.amarillas} amarillas` : selectedLeagueLeaders.topYellow ? `${selectedLeagueLeaders.topYellow.value} amarillas` : null },
+                      entry: amonestado ? { name: amonestado.esVos ? `${amonestado.nombre} (vos)` : amonestado.nombre, clubName: amonestado.clubName } : null,
+                      value: amonestado ? `${amonestado.amarillas} amarillas` : null },
                     { icon: '🟥', label: 'Más Rojas',
-                      entry: expulsado ? { name: expulsado.esVos ? `${expulsado.nombre} (vos)` : expulsado.nombre, clubName: expulsado.clubName } : selectedLeagueLeaders.topRed,
-                      value: expulsado ? `${expulsado.rojas} rojas` : selectedLeagueLeaders.topRed ? `${selectedLeagueLeaders.topRed.value} rojas` : null },
+                      entry: expulsado ? { name: expulsado.esVos ? `${expulsado.nombre} (vos)` : expulsado.nombre, clubName: expulsado.clubName } : null,
+                      value: expulsado ? `${expulsado.rojas} rojas` : null },
                   ];
                   return (
                     <div className="grid sm:grid-cols-2 gap-3">
@@ -4221,7 +4231,7 @@ export default function Dashboard({
                           ) : (
                             <div className="min-w-0">
                               <p className="text-3xs uppercase font-mono text-slate-500 font-bold">{s.label}</p>
-                              <p className="text-3xs text-slate-600 italic">Todavía no se jugó esta competición.</p>
+                              <p className="text-3xs text-slate-600 italic">Todavía nadie en esta competición.</p>
                             </div>
                           )}
                         </div>
