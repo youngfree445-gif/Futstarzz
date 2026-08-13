@@ -699,8 +699,20 @@ export default function Dashboard({
     return ronda.length > 12 ? ronda.slice(0, 12) : ronda;
   };
 
-  const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string) => {
+  const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
     if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
+    // Un día RESERVADO de copa continental no sabe todavía de qué copa es, y no puede saberlo: la
+    // bolsa de días es una sola y el motor recién ese día pregunta "¿tengo continental? ¿nacional?".
+    // La reserva se guarda bajo la competición que le tocó a su liga, que no tiene por qué ser la
+    // tuya -- en Colombia hay clubes en Libertadores y clubes en Sudamericana, y al Junior, que
+    // juega la Libertadores, el calendario le mostraba "Sudamericana" en sus días reservados
+    // (reportado: "con Junior por alguna razón me sale un partido de Sudamericana"). Sus partidos
+    // REALES siempre estuvieron bien: los seis de grupos contra Palmeiras, Cerro Porteño y
+    // Sporting Cristal. Era sólo el cartel de los días apartados.
+    if (esReserva && comp.kind === 'continental_cup') return 'Copa Continental';
+    // Las fechas FIFA: el nombre completo no entra en la celda del calendario.
+    if (/Eliminatorias/i.test(comp.name)) return 'Eliminatorias';
+    if (/Mundial/i.test(comp.name)) return 'Mundial';
     if (/Libertadores/i.test(comp.name)) return 'Libertadores';
     if (/Sudamericana/i.test(comp.name)) return 'Sudamericana';
     if (/Superliga/i.test(comp.name)) return 'Superliga';
@@ -1896,7 +1908,7 @@ export default function Dashboard({
       // marcador se muestra el torneo, atenuado para que se note que ya pasó.
       calendarEvents.push({
         date: new Date(`${f.date}T00:00:00`),
-        label: etiquetaCompetencia(f.competition, f.date),
+        label: etiquetaCompetencia(f.competition, f.date, f.esReservaDeCuadro),
         // En una fecha RESERVADA para la copa el rival todavía no existe: depende de cómo terminen
         // las rondas anteriores. Decirlo es más honesto que mostrar el cartel de relleno.
         // En una copa se dice la RONDA además del rival: no es lo mismo unos octavos que una final,
@@ -2417,7 +2429,14 @@ export default function Dashboard({
                     altura del más alto de la fila -- acá, la tarjeta de atributos. Resultado: debajo
                     del botón "Disputar Partido" quedaba un vacío enorme del alto de media pantalla,
                     y encima empujaba todo lo de abajo fuera de la vista. */}
-                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-4 shadow-xl flex flex-col self-start relative overflow-hidden">
+              {/* Tercera columna: el partido y, debajo, el ranking.
+
+                  El ranking vivia al final de la pestaña, asi que para verlo habia que
+                  scrollear toda la pantalla principal. Acá arriba entra en el hueco que
+                  dejó la tarjeta del partido al dejar de estirarse (self-start), y de paso
+                  empareja el alto de las tres columnas en vez de dejar una corta. */}
+              <div className="space-y-4 self-start">
+                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-4 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
@@ -2505,6 +2524,33 @@ export default function Dashboard({
                 </div>
 
               </div>
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+                <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
+                  🌎 Ranking mundial
+                </h3>
+                {/* Filas finas: el ranking es una lista para recorrer con la vista, no tarjetas.
+                    Con py-1.5 y separación entre filas entraban 8 y había que scrollear dentro del
+                    panel para ver el resto; así entran 12 en menos alto del que ocupaban 8. Se
+                    cambió la separación por una línea divisoria, que ordena sin gastar píxeles. */}
+                <div className="max-h-56 overflow-y-auto divide-y divide-slate-800/60">
+                  {generateWorldRanking(playerProfile, currentClub.name, playerProfile.currentWeek).map((entry, i) => (
+                    <div
+                      key={`${entry.name}_${i}`}
+                      className={`flex items-center justify-between gap-2 px-2.5 py-1 text-2xs ${
+                        entry.isPlayer ? 'bg-gold-950/30' : ''
+                      }`}
+                    >
+                      <span className="flex items-baseline gap-2 min-w-0">
+                        <span className="text-3xs font-mono text-slate-500 w-5 shrink-0 text-right">{i + 1}°</span>
+                        <span className={`truncate font-bold ${entry.isPlayer ? 'text-gold-400' : 'text-white'}`}>{entry.name}</span>
+                        <span className="text-3xs text-slate-500 truncate">{entry.clubName}</span>
+                      </span>
+                      <span className="text-3xs font-mono text-slate-400 shrink-0 tabular-nums">{Math.round(entry.score)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              </div>{/* fin tercera columna */}
 
               {playerProfile.activeInjury && (
                 <div className="bg-slate-900 border border-red-900/40 rounded-3xl p-5 shadow-lg">
@@ -2580,32 +2626,6 @@ export default function Dashboard({
                 <SeasonComparisonChart seasonHistory={playerProfile.seasonHistory} />
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
-                <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
-                  🌎 Ranking mundial
-                </h3>
-                {/* Filas finas: el ranking es una lista para recorrer con la vista, no tarjetas.
-                    Con py-1.5 y separación entre filas entraban 8 y había que scrollear dentro del
-                    panel para ver el resto; así entran 12 en menos alto del que ocupaban 8. Se
-                    cambió la separación por una línea divisoria, que ordena sin gastar píxeles. */}
-                <div className="max-h-56 overflow-y-auto divide-y divide-slate-800/60">
-                  {generateWorldRanking(playerProfile, currentClub.name, playerProfile.currentWeek).map((entry, i) => (
-                    <div
-                      key={`${entry.name}_${i}`}
-                      className={`flex items-center justify-between gap-2 px-2.5 py-1 text-2xs ${
-                        entry.isPlayer ? 'bg-gold-950/30' : ''
-                      }`}
-                    >
-                      <span className="flex items-baseline gap-2 min-w-0">
-                        <span className="text-3xs font-mono text-slate-500 w-5 shrink-0 text-right">{i + 1}°</span>
-                        <span className={`truncate font-bold ${entry.isPlayer ? 'text-gold-400' : 'text-white'}`}>{entry.name}</span>
-                        <span className="text-3xs text-slate-500 truncate">{entry.clubName}</span>
-                      </span>
-                      <span className="text-3xs font-mono text-slate-400 shrink-0 tabular-nums">{Math.round(entry.score)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
 
@@ -3380,7 +3400,12 @@ export default function Dashboard({
                 );
               })()}
 
-              <div className="space-y-3">
+              {/* Dos columnas: cada oferta ocupaba el ancho ENTERO con un vacío grande en el medio
+                  -- el club a la izquierda y el sueldo a la derecha, y entre medio nada -- así que
+                  sólo entraban tres y había que scrollear para comparar. Compactadas y de a dos,
+                  entran seis en el mismo alto, que es justo lo que hace falta acá: verlas juntas
+                  para elegir. */}
+              <div className="grid xl:grid-cols-2 gap-2.5 items-start">
                 {transferOffers.map(offer => {
                   const getLeagueFlagText = (lg: string) => {
                     switch (lg) {
@@ -3406,37 +3431,41 @@ export default function Dashboard({
                   return (
                     <div 
                       key={offer.club.id} 
-                      className={`p-5 rounded-2xl border flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all bg-slate-900 border-slate-800 ${!offer.possible ? 'opacity-60' : ''}`}
+                      className={`p-3 rounded-xl border flex flex-col gap-2 transition-all bg-slate-900 border-slate-800 ${!offer.possible ? 'opacity-60' : ''}`}
                     >
-                      <div className="flex items-center gap-3.5 min-w-0">
-                        <ClubBadge club={offer.club} size={44} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
-                        <div className="space-y-1 min-w-0">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <ClubBadge club={offer.club} size={34} className="rounded-lg border border-slate-800 bg-slate-950 shadow-inner shrink-0" />
+                        <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-1.5">
-                            <h3 className="font-extrabold text-sm text-white truncate max-w-[170px] sm:max-w-[250px]">
+                            <h3 className="font-extrabold text-xs text-white truncate max-w-[150px] sm:max-w-[210px]">
                               {offer.club.name}
                             </h3>
-                            <span className="text-3xs bg-slate-950 border border-slate-800 rounded px-1.5 py-0.5 text-slate-400 font-mono">
+                            <span className="text-3xs bg-slate-950 border border-slate-800 rounded px-1 py-0.5 text-slate-400 font-mono">
                               {getLeagueFlagText(offer.club.league)}
                             </span>
-                            <span className={`text-[9px] px-1.5 py-0.2 rounded font-black uppercase text-3xs ${
+                            <span className={`text-[9px] px-1 py-0.5 rounded font-black uppercase text-3xs ${
                               offer.club.division === 2 ? 'bg-burgundy-500/10 text-burgundy-500 border border-burgundy-500/10' : 'bg-gold-500/10 text-gold-400 border border-gold-500/10'
                             }`}>
                               {offer.club.division === 2 ? '2ª Div' : '1ª Div'}
                             </span>
                           </div>
-                          <p className="text-3xs text-slate-400">
-                            <strong>Mánager:</strong> {offer.club.dt} · {offer.club.description}
-                          </p>
+                          {/* El sueldo pegado al club, que es lo que se compara entre ofertas.
+                              Antes vivía en la otra punta de la fila, con medio ancho de pantalla
+                              de vacío en el medio. */}
+                          <div className="font-mono text-3xs flex items-baseline gap-2 mt-0.5">
+                            <span className="text-gold-400 font-bold">${offer.salaryOffer.toLocaleString()}/sem</span>
+                            <span className="text-burgundy-500">+${offer.signOnBonus.toLocaleString()} firma</span>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="flex flex-row md:flex-col justify-between w-full md:w-auto items-center md:items-end mt-4 md:mt-0 gap-4">
-                        <div className="text-left md:text-right font-mono text-xs">
-                          <span className="text-slate-500 block text-3xs font-bold uppercase">Oferta Salarial</span>
-                          <span className="text-gold-400 font-bold block">${offer.salaryOffer.toLocaleString()} / sem</span>
-                          <span className="text-burgundy-500 text-3xs block">Prima por Firma: +${offer.signOnBonus.toLocaleString()}</span>
-                        </div>
+                      {/* La descripción del club, recortada: es color, no un dato que se compare. */}
+                      <p className="text-3xs text-slate-400 leading-snug line-clamp-2"
+                         title={`${offer.club.dt} · ${offer.club.description}`}>
+                        <strong>Mánager:</strong> {offer.club.dt} · {offer.club.description}
+                      </p>
 
+                      <div className="flex flex-row justify-end items-center gap-2">
                         <div>
                           {!offer.possible ? (
                             <span className="inline-block py-1 px-2.5 rounded bg-slate-950 text-slate-500 text-3xs font-bold border border-slate-800">
