@@ -190,6 +190,14 @@ if (cupIdMio && !continental.knockout?.championId) raro(`la ${cupIdMio} terminó
 const jugadasDeLiga = jugados['Liga BetPlay Dimayor'] ?? jugados[Object.keys(jugados).find(k => /Liga|Primera|LaLiga|Serie|Premier/.test(k)) ?? ''] ?? 0;
 if (jugadasDeLiga < 30) raro(`sólo ${jugadasDeLiga} fechas de liga jugadas en toda la temporada`);
 
+// Los titulos se leen del ESTADO FINAL, no se van anotando durante la temporada: una final que se
+// resuelve al cerrar el torneo (terminarTorneoSinElJugador) no pasa por el paso del partido, y el
+// informe decia "CAMPEON" arriba y "titulos: ninguno" abajo.
+jugador.titulos = [];
+if (copaNacional.championId === club.id) jugador.titulos.push(`Copa nacional ${CAREER_START_YEAR}`);
+if (continental.knockout?.championId === club.id) jugador.titulos.push(`Copa ${cupIdMio} ${CAREER_START_YEAR}`);
+for (const [sem, b] of Object.entries(playoffs)) if (b.championId === club.id) jugador.titulos.push(`${sem} ${CAREER_START_YEAR}`);
+
 console.log('\n--- TU JUGADOR ---');
 console.log(`   ${jugador.nombre}, ${jugador.edad} años, ${jugador.posicion} · ${club.name}`);
 console.log(`   ${jugador.partidos} partidos · ${jugador.goles} goles · ${jugador.asistencias} asistencias`);

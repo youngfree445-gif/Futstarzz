@@ -95,18 +95,17 @@ export function sumaDeCupos(): number {
 }
 
 /**
- * Cuándo se juega, y por qué NO es la ventana real del torneo.
+ * Cuándo se juega. Ahora sí, la ventana real: del 4 de febrero al 1 de junio.
  *
- * La de verdad va del 4 de febrero al 1 de junio. Acá no se puede usar: la Liga MX que tenemos
- * cargada es sólo el Apertura, del 17 de julio al 23 de noviembre, así que en febrero un club
- * mexicano no está jugando nada y no hay dónde meterle la copa. Se probó y el resultado fue que
- * América disputaba su Concacaf en octubre igual, pero contra una ventana declarada que decía otra
- * cosa -- lo peor de los dos mundos: ni real ni coherente.
+ * Hasta el 13 de agosto de 2026 esto decía agosto-noviembre, y era un parche: la Liga MX cargada
+ * traía sólo el Apertura (17 de julio al 23 de noviembre), así que en febrero un club mexicano no
+ * estaba jugando nada y no había dónde meterle la copa. Se probó con la ventana real y el resultado
+ * era que América disputaba su Concacaf en octubre igual, pero contra una ventana declarada que
+ * decía otra cosa -- ni real ni coherente.
  *
- * Así que la ventana es el tramo donde las DOS ligas están jugando de verdad: la MLS va de febrero
- * a noviembre y la Liga MX de julio a noviembre, con lo cual se solapan de agosto a noviembre. Son
- * catorce semanas para siete fechas de cuadro, que entran holgadas.
- *
- * El día que se cargue el Clausura mexicano, esto vuelve a ser febrero-junio y se acabó el parche.
+ * El Clausura mexicano estaba en data/calendarios/Mexicana.json sin importar (153 partidos del 10 de
+ * enero al 27 de abril). Al cargarlo, la Liga MX pasó a cubrir el año entero y el parche sobra: la
+ * MLS va de febrero a noviembre y la Liga MX ahora también juega en ese tramo, que es justo cuando
+ * se disputa la Concacaf de verdad.
  */
-export const VENTANA_CONCACAF = { desde: '08-01', hasta: '11-08' } as const;
+export const VENTANA_CONCACAF = { desde: '02-04', hasta: '06-01' } as const;

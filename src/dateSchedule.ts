@@ -1670,7 +1670,9 @@ export function torneoDeFecha(competition: DatedCompetition, date: string): stri
   // temporada. Se detecta por la forma del calendario, no por una lista de ligas.
   if (!esCalendarioDeDosTorneos(competition)) return competition.name;
   const mes = Number(date.slice(5, 7));
-  return mes <= 6 ? 'Apertura' : 'Clausura';
+  const primeroDelAnio = LIGAS_QUE_ARRANCAN_EN_CLAUSURA.has(competition.league ?? '') ? 'Clausura' : 'Apertura';
+  const elOtro = primeroDelAnio === 'Clausura' ? 'Apertura' : 'Clausura';
+  return mes <= 6 ? primeroDelAnio : elOtro;
 }
 
 /**
@@ -1684,7 +1686,16 @@ export function torneoDeFecha(competition: DatedCompetition, date: string): stri
  * Es la misma lista que isApeturaClausuraLeague en leagueEngine, y tiene que seguir coincidiendo:
  * acá no se importa para no crear una dependencia circular entre los dos módulos.
  */
-const LIGAS_DE_DOS_TORNEOS = new Set(['Colombiana', 'Argentina']);
+const LIGAS_DE_DOS_TORNEOS = new Set(['Colombiana', 'Argentina', 'Mexicana']);
+
+/**
+ * Ligas donde el semestre de ENERO es el Clausura y el de JULIO el Apertura -- al revés que Colombia.
+ *
+ * En México la temporada arranca en julio con el Apertura y se cierra en mayo con el Clausura del
+ * año siguiente, así que los dos torneos de un mismo año calendario van Clausura primero. Llamarlos
+ * como en Colombia dejaba a un jugador del América ganando el "Apertura" en abril.
+ */
+const LIGAS_QUE_ARRANCAN_EN_CLAUSURA = new Set(['Mexicana']);
 
 function esCalendarioDeDosTorneos(competition: DatedCompetition): boolean {
   return LIGAS_DE_DOS_TORNEOS.has(competition.league);
