@@ -922,6 +922,26 @@ const POSITION_RECONVERSION_BIAS: Record<Position, Partial<Record<keyof PlayerSt
   Arquero: { defensa: 10, pase: -3, tiro: -10, regate: -6 }
 };
 
+/**
+ * Le agrega a una tienda GUARDADA los articulos que se sumaron al catalogo despues.
+ *
+ * La tienda viaja dentro de la partida (localStorage `futbol_star_shop_${slot}`), asi que una
+ * carrera vieja se abre con la lista que existia el dia que se creo. Al ampliar el catalogo de 6 a
+ * 35 articulos, el jugador seguia viendo los 6 de siempre y parecia que el cambio no habia entrado.
+ * Reportado con captura: "sale igual".
+ *
+ * Se conserva TODO lo comprado -- la entrada guardada manda sobre la del catalogo -- y solo se
+ * agregan los ids que faltan, sin comprar. Asi una carrera de veinte temporadas no pierde nada y
+ * ademas ve las novedades.
+ */
+function fusionarTienda(guardada: ShopItem[]): ShopItem[] {
+  const porId = new Map(guardada.map(i => [i.id, i]));
+  return INITIAL_LIFESTYLE_ITEMS.map(base => porId.get(base.id) ?? { ...base, purchased: false })
+    // Y lo que este guardado pero ya no exista en el catalogo se conserva igual: si el jugador lo
+    // compro, tiene que seguir siendo suyo aunque el articulo se haya retirado de la tienda.
+    .concat(guardada.filter(i => !INITIAL_LIFESTYLE_ITEMS.some(b => b.id === i.id)));
+}
+
 export default function App() {
   const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event' | 'penalty_shootout' | 'career_summary'>('welcome');
 
@@ -1247,7 +1267,7 @@ export default function App() {
     const savedShop = localStorage.getItem(`futbol_star_shop_${slotId}`);
     if (savedShop) {
       try {
-        setShopItems(JSON.parse(savedShop));
+        setShopItems(fusionarTienda(JSON.parse(savedShop)));
       } catch (e) {
         console.error('Error al cargar la tienda', e);
         setShopItems(INITIAL_LIFESTYLE_ITEMS.map(item => ({ ...item, purchased: false })));
