@@ -2661,7 +2661,7 @@ export default function Dashboard({
                     panel para ver el resto; así entran 12 en menos alto del que ocupaban 8. Se
                     cambió la separación por una línea divisoria, que ordena sin gastar píxeles. */}
                 <div className="max-h-56 overflow-y-auto divide-y divide-slate-800/60">
-                  {generateWorldRanking(playerProfile, currentClub.name, playerProfile.currentWeek).map((entry, i) => (
+                  {generateWorldRanking(playerProfile, currentClub.name, playerProfile.currentWeek, currentClub.league).map((entry, i) => (
                     <div
                       key={`${entry.name}_${i}`}
                       className={`flex items-center justify-between gap-2 px-2.5 py-1 text-2xs ${

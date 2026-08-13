@@ -76,7 +76,22 @@ const ELITE_WORLD_POOL: { name: string; clubName: string; baseScore: number }[] 
 // Variación semanal leve (±2) para que el ranking respire sin depender de Math.random() puro ni
 // desviarse del consenso real -- mismo criterio de estabilidad que worldRetirements.ts.
 function weeklyDrift(name: string, week: number): number {
-  return (hashName(`${name}_${Math.floor(week / 4)}`) % 5) - 2;
+  // CADA FECHA, no cada cuatro. Antes el paso era `week / 4`, asi que el ranking quedaba congelado
+  // tres fechas de cada cuatro y no se veia la carrera: mirabas la lista dos partidos seguidos y era
+  // identica. Pedido: "que funcione como la tabla de goleadores, que cada fecha se vean cambios".
+  //
+  // El movimiento es de +-4 y no de +-2, tambien a proposito: con dos puntos de recorrido los
+  // empates de la parte alta -- que estan a uno o dos puntos entre si -- casi nunca se daban vuelta.
+  // Con cuatro, el podio cambia de manos varias veces por temporada, que es lo que hace que valga la
+  // pena mirarlo.
+  //
+  // Sigue saliendo de un hash y no de un azar puro: tiene que ser ESTABLE. Si fuera aleatorio, el
+  // ranking se reordenaria solo con abrir la pantalla dos veces, sin jugar nada.
+  const paso = (hashName(`${name}_${week}`) % 9) - 4;
+  // Media temporada de inercia: se mezcla con la fecha anterior para que un jugador no salte del
+  // primer puesto al octavo de un partido al otro. Sube y baja, pero con una curva.
+  const anterior = (hashName(`${name}_${Math.max(0, week - 1)}`) % 9) - 4;
+  return Math.round((paso * 2 + anterior) / 3);
 }
 
 /**
@@ -88,7 +103,21 @@ function weeklyDrift(name: string, week: number): number {
  * Antes esto era `prestige*0.4 + contribución*60 + títulos*5` sin techo real: un jugador con buen
  * prestigio y pocos partidos ya arañaba los 90 sin haber demostrado nada a nivel de carrera.
  */
-function playerScore(profile: PlayerProfile): number {
+/**
+ * Cuanto pesa la vidriera donde jugas. Las cinco grandes de Europa valen el maximo; el resto de
+ * Europa y Brasil quedan cerca; las demas ligas sudamericanas y la MLS, mas abajo.
+ *
+ * Sale de `clubHistory` y no del club actual: el Balon de Oro mira la TEMPORADA, y si te fuiste a
+ * mitad de ano el escaparate del que venis todavia cuenta.
+ */
+function pesoDeLaLiga(liga: string): number {
+  if (/Inglesa|Española|Italiana|Alemana|Francesa/i.test(liga)) return 1.00;
+  if (/Holandesa|Portuguesa|Brasileña/i.test(liga)) return 0.92;
+  if (/Argentina|Colombiana|Mexicana|Chilena|Uruguaya|Estadounidense/i.test(liga)) return 0.85;
+  return 0.88;
+}
+
+function playerScore(profile: PlayerProfile, liga: string): number {
   const partidos = profile.careerStats.partidosHistoricos;
   if (partidos < 20) return 0; // sin muestra suficiente, no compite con el pool real todavía
 
@@ -106,12 +135,21 @@ function playerScore(profile: PlayerProfile): number {
   // arquero de elite real no mete goles pero sí sostiene una calificación altísima.
   const compuesto = nivelRendimiento * 0.55 + nivelContribucion * 0.25 + nivelTitulos * 0.20;
 
+  // EL ESCAPARATE IMPORTA. Es la parte incomoda del Balon de Oro y es real: el premio lo gana casi
+  // siempre quien se destaca en las cinco grandes ligas europeas, en la Champions o en el Mundial.
+  // Un delantero que hace 40 goles en Colombia no compite de igual a igual con uno que hace 25 en
+  // la Premier, y modelarlo al reves haria que el ranking se sienta falso.
+  //
+  // No es un tope: es un multiplicador. Se puede llegar arriba desde Sudamerica, pero hay que
+  // rendir bastante mas -- que es exactamente lo que le paso a los que lo lograron de verdad.
+  const compuestoConEscaparate = compuesto * pesoDeLaLiga(liga);
+
   // 65 es un jugador consolidado de primer nivel doméstico; 99 es inalcanzable salvo con una
   // carrera de elite sostenida en las tres dimensiones a la vez.
-  return Math.round(65 + compuesto * 34);
+  return Math.round(65 + compuestoConEscaparate * 34);
 }
 
-export function generateWorldRanking(profile: PlayerProfile, myClubName: string, currentWeek: number): WorldRankingEntry[] {
+export function generateWorldRanking(profile: PlayerProfile, myClubName: string, currentWeek: number, miLiga = ''): WorldRankingEntry[] {
   const pool: WorldRankingEntry[] = ELITE_WORLD_POOL.map(p => ({
     name: p.name,
     clubName: p.clubName,
@@ -119,7 +157,7 @@ export function generateWorldRanking(profile: PlayerProfile, myClubName: string,
     isPlayer: false,
   }));
 
-  pool.push({ name: profile.name, clubName: myClubName, score: playerScore(profile), isPlayer: true });
+  pool.push({ name: profile.name, clubName: myClubName, score: playerScore(profile, miLiga), isPlayer: true });
 
   return pool.sort((a, b) => b.score - a.score);
 }
