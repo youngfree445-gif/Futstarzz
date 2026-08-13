@@ -2954,6 +2954,337 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     icon: 'megaphone',
     image: marketingPrImg
   },
+
+  // ===============================================================================================
+  // TIENDA DE LUJOS -- CATALOGO AMPLIADO
+  // ===============================================================================================
+  //
+  // Lo de arriba son los seis items originales. De aca para abajo va el catalogo grande, pedido asi:
+  // "distintos tipos de casas, vehiculos, jets, mansiones, empresas de juegos, empresas de todo
+  // tipo, un carrito de comidas callejero hasta un restaurante", y "mas caras para que tambien sea
+  // mas dificil conseguirlo".
+  //
+  // COMO ESTA ORDENADO. De menor a mayor precio dentro de cada familia, y las familias de mas barata
+  // a mas cara: vehiculos, viviendas, aviacion y nautica, gastronomia, empresas. Asi la tienda se lee
+  // como una escalera y siempre hay un proximo objetivo a la vista.
+  //
+  // LAS DOS ECONOMIAS. Hay dos tipos de compra y conviene no mezclarlos:
+  //
+  //   . LUJO: cuesta y da imagen (fans, prestigio) o rendimiento (atributos, energia). No devuelve
+  //     plata. Un superdeportivo no te hace mas rico, te hace mas visible.
+  //   . NEGOCIO: cuesta MUCHO y devuelve `passiveIncome` cada vez que avanzas una fecha. Es lo que
+  //     convierte una carrera larga en un patrimonio, y lo que hace que valga la pena seguir despues
+  //     de comprarse la mansion.
+  //
+  // El retorno de los negocios esta calculado para amortizar en 30-40 fechas -- menos de una
+  // temporada --, que es lo que hace que la decision sea interesante: comprar temprano rinde,
+  // comprar en el ultimo ano no. Los mas caros amortizan mas lento a proposito: son simbolo de
+  // estatus ademas de inversion.
+  //
+  // Los `icon` salen del set que ya entiende la tienda (car, home, briefcase, dumbbells, apple,
+  // megaphone); sin `image` la tarjeta cae al icono, que es un camino ya soportado.
+
+  // --------------------------------------------------------------------------- VEHICULOS
+  {
+    id: 'city_hatchback',
+    name: 'Hatchback de Ciudad',
+    cost: 42000,
+    description: 'Discreto, confiable y con buen aire acondicionado. El primer auto que te compras con tu propio sueldo.',
+    perkText: '+5 Aficion y +2 Prestigio. Llegar puntual al entrenamiento tambien cuenta.',
+    effect: { fansBonus: 5, prestigeBonus: 2 },
+    purchased: false,
+    icon: 'car'
+  },
+  {
+    id: 'pickup_4x4',
+    name: 'Pickup 4x4 Full',
+    cost: 138000,
+    description: 'Doble cabina, traccion integral y caja para el barro. La que usa medio plantel para irse al campo el dia libre.',
+    perkText: '+8 Aficion, +4 Prestigio y +1 Fisico: los caminos malos tambien entrenan.',
+    effect: { fansBonus: 8, prestigeBonus: 4, attribute: 'fisico', value: 1 },
+    purchased: false,
+    icon: 'car'
+  },
+  {
+    id: 'luxury_sedan',
+    name: 'Sedan Aleman Blindado',
+    cost: 420000,
+    description: 'Blindaje nivel III, chofer incluido y vidrios que no dejan ver quien va atras. Seguridad antes que espectaculo.',
+    perkText: '+15 Prestigio y +6 Energia permanente: viajas descansando, no manejando.',
+    effect: { prestigeBonus: 15, permanentEnergyBonus: 6, fatigueReduction: 3 },
+    purchased: false,
+    icon: 'car'
+  },
+  {
+    id: 'classic_collection',
+    name: 'Coleccion de Clasicos',
+    cost: 1850000,
+    description: 'Tres autos de los anos sesenta restaurados a mano, en un garaje con humedad controlada.',
+    perkText: '+40 Aficion, +25 Prestigio y $3.200 por fecha: cada uno vale mas cada ano que pasa.',
+    effect: { fansBonus: 40, prestigeBonus: 25, passiveIncome: 3200 },
+    purchased: false,
+    icon: 'car'
+  },
+  {
+    id: 'hypercar',
+    name: 'Hypercar de Edicion Limitada',
+    cost: 5400000,
+    description: 'Uno de los cuarenta que se fabricaron. Motor hibrido de 1.500 caballos y lista de espera de tres anos que te saltaste.',
+    perkText: '+90 Aficion, +45 Prestigio y +2 Ritmo. Se te va a acercar gente que ni sabe de futbol.',
+    effect: { fansBonus: 90, prestigeBonus: 45, attribute: 'ritmo', value: 2 },
+    purchased: false,
+    icon: 'car'
+  },
+
+  // --------------------------------------------------------------------------- VIVIENDAS
+  {
+    id: 'city_apartment',
+    name: 'Departamento Centrico',
+    cost: 165000,
+    description: 'Dos ambientes a diez minutos del predio, con cochera y porteria 24 horas. Se acabo el viaje de una hora.',
+    perkText: '+8 Energia permanente y menos fatiga: dormir cerca del club cambia la semana.',
+    effect: { permanentEnergyBonus: 8, fatigueReduction: 4, prestigeBonus: 3 },
+    purchased: false,
+    icon: 'home'
+  },
+  {
+    id: 'family_house',
+    name: 'Casa Familiar con Patio',
+    cost: 480000,
+    description: 'Tres dormitorios, parrilla y un fondo donde caben un arco y tus sobrinos. Traes a los tuyos a vivir con vos.',
+    perkText: '+12 Energia permanente y +10 Aficion. La cabeza tambien descansa.',
+    effect: { permanentEnergyBonus: 12, fansBonus: 10, prestigeBonus: 5, fatigueReduction: 4 },
+    purchased: false,
+    icon: 'home'
+  },
+  {
+    id: 'penthouse',
+    name: 'Penthouse con Vista al Rio',
+    cost: 2300000,
+    description: 'Ultimo piso, terraza propia con pileta desbordante y ascensor privado que da al living.',
+    perkText: '+35 Aficion, +20 Prestigio y +10 Energia permanente.',
+    effect: { fansBonus: 35, prestigeBonus: 20, permanentEnergyBonus: 10 },
+    purchased: false,
+    icon: 'home'
+  },
+  {
+    id: 'beach_villa',
+    name: 'Villa Frente al Mar',
+    cost: 6800000,
+    description: 'Casa de playa con acceso privado a la arena. El lugar donde se recuperan las piernas entre torneo y torneo.',
+    perkText: '+50 Aficion, +30 Prestigio, +15 Energia permanente y $9.000 por fecha cuando la alquilas.',
+    effect: { fansBonus: 50, prestigeBonus: 30, permanentEnergyBonus: 15, fatigueReduction: 8, passiveIncome: 9000 },
+    purchased: false,
+    icon: 'home'
+  },
+  {
+    id: 'mountain_estate',
+    name: 'Estancia de Altura',
+    cost: 12500000,
+    description: 'Mil hectareas a 2.400 metros, con cancha propia y camara hipobarica. Entrenar en altura sin salir de casa.',
+    perkText: '+2 Fisico, +20 Energia permanente y mucha menos fatiga. La altura es la mejor pretemporada.',
+    effect: { attribute: 'fisico', value: 2, permanentEnergyBonus: 20, fatigueReduction: 12, prestigeBonus: 35, passiveIncome: 14000 },
+    purchased: false,
+    icon: 'home'
+  },
+  {
+    id: 'private_island',
+    name: 'Isla Privada',
+    cost: 68000000,
+    description: 'Catorce hectareas en el Caribe, muelle propio, pista para helicoptero y ni un vecino en el horizonte.',
+    perkText: '+150 Aficion, +90 Prestigio y +25 Energia permanente. Muy pocos futbolistas llegaron aca.',
+    effect: { fansBonus: 150, prestigeBonus: 90, permanentEnergyBonus: 25, fatigueReduction: 10, passiveIncome: 55000 },
+    purchased: false,
+    icon: 'home'
+  },
+
+  // --------------------------------------------------------------------------- AVIACION Y NAUTICA
+  {
+    id: 'helicopter',
+    name: 'Helicoptero Ejecutivo',
+    cost: 4200000,
+    description: 'Cinco plazas y piloto de guardia. Los 300 kilometros del clasico de visitante pasan a ser cuarenta minutos.',
+    perkText: '+18 Energia permanente y bastante menos fatiga. El viaje deja de costarte piernas.',
+    effect: { permanentEnergyBonus: 18, fatigueReduction: 10, prestigeBonus: 25, fansBonus: 20 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+  {
+    id: 'yacht',
+    name: 'Yate de 30 Metros',
+    cost: 15500000,
+    description: 'Cuatro camarotes, tripulacion de seis y fondeadero en el puerto deportivo. Las vacaciones ya no se planifican.',
+    perkText: '+80 Aficion, +45 Prestigio y $24.000 por fecha: se alquila cuando no lo usas.',
+    effect: { fansBonus: 80, prestigeBonus: 45, permanentEnergyBonus: 12, passiveIncome: 24000 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+  {
+    id: 'private_jet',
+    name: 'Jet Privado',
+    cost: 38000000,
+    description: 'Bimotor de doce plazas con alcance transatlantico. Jugas el sabado en Sudamerica y el miercoles en Europa sin escalas.',
+    perkText: '+30 Energia permanente y la mayor reduccion de fatiga del juego.',
+    effect: { permanentEnergyBonus: 30, fatigueReduction: 18, prestigeBonus: 70, fansBonus: 60 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+
+  // --------------------------------------------------------------------------- GASTRONOMIA
+  // De carrito a imperio. Es la escalera mas pedida y la mas honesta: el carrito cuesta menos que un
+  // par de botines y ya devuelve algo cada fecha.
+  {
+    id: 'food_cart',
+    name: 'Carrito de Comidas Callejero',
+    cost: 22000,
+    description: 'Una parrilla con ruedas afuera del estadio, atendida por tu tio. Arepas, choripanes y una fila que no baja.',
+    perkText: 'Devuelve $1.800 cada fecha. La primera plata que ganas sin patear una pelota.',
+    effect: { passiveIncome: 1800, fansBonus: 6 },
+    purchased: false,
+    icon: 'apple'
+  },
+  {
+    id: 'food_truck',
+    name: 'Food Truck de Autor',
+    cost: 145000,
+    description: 'Camion equipado con cocina completa y cola en cada festival. Tu cara esta pintada en el costado.',
+    perkText: 'Devuelve $6.500 cada fecha y suma +12 Aficion.',
+    effect: { passiveIncome: 6500, fansBonus: 12 },
+    purchased: false,
+    icon: 'apple'
+  },
+  {
+    id: 'sports_bar',
+    name: 'Bar Deportivo',
+    cost: 620000,
+    description: 'Veinte pantallas, cerveza tirada y tu camiseta enmarcada detras de la barra. Se llena los dias de clasico.',
+    perkText: 'Devuelve $21.000 cada fecha y +30 Aficion: el bar es de los hinchas.',
+    effect: { passiveIncome: 21000, fansBonus: 30, prestigeBonus: 8 },
+    purchased: false,
+    icon: 'apple'
+  },
+  {
+    id: 'restaurant',
+    name: 'Restaurante de Autor',
+    cost: 2650000,
+    description: 'Cocina de mercado, chef con nombre propio y reservas con dos meses de espera. Tu nombre en la puerta.',
+    perkText: 'Devuelve $78.000 cada fecha, +45 Aficion y +18 Prestigio.',
+    effect: { passiveIncome: 78000, fansBonus: 45, prestigeBonus: 18 },
+    purchased: false,
+    icon: 'apple'
+  },
+  {
+    id: 'restaurant_chain',
+    name: 'Cadena de Restaurantes',
+    cost: 18500000,
+    description: 'Catorce locales en seis ciudades, con central de compras propia y franquicias en camino.',
+    perkText: 'Devuelve $470.000 cada fecha, +90 Aficion y +40 Prestigio.',
+    effect: { passiveIncome: 470000, fansBonus: 90, prestigeBonus: 40 },
+    purchased: false,
+    icon: 'apple'
+  },
+
+  // --------------------------------------------------------------------------- EMPRESAS
+  {
+    id: 'esports_team',
+    name: 'Equipo de eSports',
+    cost: 1250000,
+    description: 'Cinco jugadores, una gaming house y un lugar en la liga regional. El otro deporte donde todos te conocen.',
+    perkText: 'Devuelve $38.000 cada fecha y +50 Aficion entre el publico joven.',
+    effect: { passiveIncome: 38000, fansBonus: 50, prestigeBonus: 10 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+  {
+    id: 'football_academy',
+    name: 'Academia de Futbol Infantil',
+    cost: 1900000,
+    description: 'Tres canchas, sesenta chicos del barrio y tu apellido en el frente. Devolves algo de donde saliste.',
+    perkText: 'Devuelve $52.000 cada fecha, +70 Aficion y +25 Prestigio. Nada suma mas imagen que esto.',
+    effect: { passiveIncome: 52000, fansBonus: 70, prestigeBonus: 25 },
+    purchased: false,
+    icon: 'dumbbells'
+  },
+  {
+    id: 'gym_chain',
+    name: 'Cadena de Gimnasios',
+    cost: 3400000,
+    description: 'Ocho sedes con tu metodo de entrenamiento y tu cara en cada afiche. Vos tambien entrenas ahi.',
+    perkText: 'Devuelve $95.000 cada fecha, +1 Fisico y +25 Aficion.',
+    effect: { passiveIncome: 95000, attribute: 'fisico', value: 1, fansBonus: 25, permanentEnergyBonus: 5 },
+    purchased: false,
+    icon: 'dumbbells'
+  },
+  {
+    id: 'clothing_brand',
+    name: 'Marca de Ropa Urbana',
+    cost: 4800000,
+    description: 'Diseno propio, dos tiendas insignia y colaboraciones que se agotan en horas.',
+    perkText: 'Devuelve $128.000 cada fecha, +85 Aficion y +20 Prestigio.',
+    effect: { passiveIncome: 128000, fansBonus: 85, prestigeBonus: 20 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+  {
+    id: 'game_studio',
+    name: 'Estudio de Videojuegos',
+    cost: 9600000,
+    description: 'Cuarenta personas desarrollando un juego de futbol arcade. Vos sos el jugador de la tapa y tambien el dueno.',
+    perkText: 'Devuelve $240.000 cada fecha, +110 Aficion y +35 Prestigio.',
+    effect: { passiveIncome: 240000, fansBonus: 110, prestigeBonus: 35 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+  {
+    id: 'real_estate_firm',
+    name: 'Desarrolladora Inmobiliaria',
+    cost: 16000000,
+    description: 'Dos torres en construccion y un banco de terrenos. El negocio aburrido que nunca falla.',
+    perkText: 'Devuelve $420.000 cada fecha y +30 Prestigio. Poca imagen, mucha renta.',
+    effect: { passiveIncome: 420000, prestigeBonus: 30 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+  {
+    id: 'media_network',
+    name: 'Productora de Contenido Deportivo',
+    cost: 24000000,
+    description: 'Documentales, un canal con ocho millones de suscriptores y derechos de archivo. Contas historias de futbol.',
+    perkText: 'Devuelve $610.000 cada fecha, +160 Aficion y +55 Prestigio.',
+    effect: { passiveIncome: 610000, fansBonus: 160, prestigeBonus: 55 },
+    purchased: false,
+    icon: 'megaphone'
+  },
+  {
+    id: 'tech_startup',
+    name: 'Startup de Tecnologia Deportiva',
+    cost: 35000000,
+    description: 'Sensores, analitica de rendimiento y contratos con seis clubes de primera. La ciencia detras del juego.',
+    perkText: 'Devuelve $880.000 cada fecha, +45 Prestigio y +1 Vision: entendes el juego distinto.',
+    effect: { passiveIncome: 880000, prestigeBonus: 45, attribute: 'pase', value: 1 },
+    purchased: false,
+    icon: 'briefcase'
+  },
+  {
+    id: 'stadium_naming',
+    name: 'Estadio con tu Nombre',
+    cost: 95000000,
+    description: 'Compras los derechos de nombre del estadio de tu ciudad por veinte anos. Tu apellido en letras de tres metros.',
+    perkText: 'Devuelve $1.900.000 cada fecha, +300 Aficion y +140 Prestigio. El techo del juego.',
+    effect: { passiveIncome: 1900000, fansBonus: 300, prestigeBonus: 140 },
+    purchased: false,
+    icon: 'megaphone'
+  },
+  {
+    id: 'club_ownership',
+    name: 'Paquete Accionario de un Club',
+    cost: 180000000,
+    description: 'Compras la mayoria de un club de ascenso y te sentas del otro lado de la mesa. Ahora las decisiones son tuyas.',
+    perkText: 'Devuelve $3.400.000 cada fecha, +400 Aficion y +200 Prestigio. De jugador a dueno.',
+    effect: { passiveIncome: 3400000, fansBonus: 400, prestigeBonus: 200 },
+    purchased: false,
+    icon: 'briefcase'
+  },
   {
     id: 'gaming_sponsorship',
     name: 'Patrocinio Oficial de Videojuegos',
