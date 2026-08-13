@@ -3861,7 +3861,18 @@ export default function Dashboard({
                         ) : (
                           <div className="w-full h-full bg-slate-900 flex items-center justify-center text-3xl">💎</div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
+                        {/* DOS capas, no una.
+                            La de abajo es el degradado de siempre, ahora mas denso: con 6 fotos
+                            elegidas a mano alcanzaba con via-slate-950/10, pero el catalogo pasó a
+                            50 fotos de banco con brillos que van de un estudio de TV iluminado a una
+                            cancha de noche, y sobre las claras el titulo blanco se lavaba.
+                            La de arriba es un velo parejo y debil sobre TODA la tarjeta: es lo que
+                            iguala el brillo entre una foto y la de al lado. El degradado solo
+                            oscurece abajo, asi que sin este velo la mitad superior seguia siendo un
+                            collage. Ver PENDIENTES_UI_UX.md, "Overlay uniforme sobre las imagenes de
+                            la Tienda". */}
+                        <div className="absolute inset-0 bg-slate-950/15" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
                         <span className="absolute bottom-2 left-3 text-sm font-black text-white drop-shadow-lg leading-tight pr-3">
                           {item.name}
                         </span>

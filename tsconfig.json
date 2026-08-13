@@ -24,5 +24,9 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  // src-tauri queda AFUERA del chequeo de tipos. `tauri build` deja en target/ los assets del
+  // frontend ya comprimidos, con extension .js pero contenido binario, y tsc los intenta parsear:
+  // "TS1127: Invalid character" por cada uno. No son codigo nuestro y no hay nada que chequear ahi.
+  "exclude": ["src-tauri", "dist", "dist-ghpages", "dist-mobile", "dist-desktop", "node_modules"]
 }
