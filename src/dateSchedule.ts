@@ -149,6 +149,8 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   const continentales: DatedCompetition[] = [];
   // Competiciones cuyas fechas hay que reubicar para que entren sin pisar nada.
   const aAcomodar: DatedCompetition[] = [];
+  /** Las ligas de la temporada, para reservarles despues sus fechas de cuadrangular. */
+  const deLiga: DatedCompetition[] = [];
 
   for (const original of DATED_CALENDARS) {
     // De la temporada 2 en adelante, las COPAS no salen del calendario: las arma el cuadro del
@@ -206,6 +208,7 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
     // Los playoffs se marcan ACÁ, al crear el fixture, y no en una pasada aparte: recorrer los
     // ~8000 partidos de las 32 temporadas una segunda vez armando la clave de cada uno llevó el
     // armado del calendario de 545 a 762 ms, por encima del tope. Lo agarró el validador.
+    if (comp.kind === 'league') deLiga.push(comp);
     const playoffs = original.kind === 'league' ? partidosDePlayoff(original) : null;
 
     for (let i = 0; i < comp.matches.length; i++) {
@@ -235,12 +238,107 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   // Libertadores, y las fechas reales del knockout no entraban ni una.
   for (const comp of continentales) reservarFechasDeCopa(comp, temporada, indice, agregar);
   for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
+  for (const comp of deLiga) reservarFechasDeCuadrangular(comp, temporada, indice, agregar);
   reservarFechasDeMundial(indice, temporada);
   reservarFechasFifa(indice, temporada);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
 
   indicePorTemporada.set(temporada, indice);
   return indice;
+}
+
+/** Cuartos, semis y final del cuadrangular, todo a ida y vuelta. */
+const FECHAS_DE_CUADRANGULAR = 6;
+
+/**
+ * Los cuadrangulares del semestre que no los trae scrapeados.
+ *
+ * En Colombia y Argentina cada semestre se define con un cuadro de ocho, no con la tabla. El
+ * calendario real trae los del Apertura -- se detectan solos, porque los que llegan lejos juegan más
+ * partidos que el resto (ver partidosDePlayoff) -- pero el Clausura se scrapeó cuando todavía no se
+ * habían jugado, así que sus 19 fechas son todas de fase regular y no hay de dónde deducir nada.
+ * Resultado: el Clausura coronaba campeón al primero de la tabla, que en Colombia no es campeón de
+ * nada. Encontrado jugando una temporada entera con el Junior.
+ *
+ * Los días se apartan igual que los de copa: el calendario pone el DÍA y el cuadro pone el RIVAL
+ * (ver prepararPlayoffDeLiga, que siembra con los ocho primeros de la tabla). Se le reservan a todos
+ * los clubes de la liga porque el calendario es una función pura del nombre del club y no puede
+ * saber quién va a clasificar; al que no entre al cuadro, esos días le quedan de descanso -- que es
+ * exactamente lo que le pasa a un club que no clasificó.
+ */
+function reservarFechasDeCuadrangular(
+  comp: DatedCompetition,
+  temporada: number,
+  indice: Map<string, DatedFixture[]>,
+  agregar: (club: string, fx: DatedFixture) => void,
+) {
+  if (!esCalendarioDeDosTorneos(comp)) return;
+
+  for (const club of clubesDelPais(comp)) {
+    const propios = indice.get(club) ?? [];
+    const suyosDeLiga = propios.filter(f => f.competition.id === comp.id);
+    if (!suyosDeLiga.length) continue;
+
+    // Los días ocupados y sus alrededores se calculan UNA vez por club, no por torneo.
+    const ocupados = new Set<number>();
+    const vetados = new Set<number>();
+    for (const f of propios) {
+      const dia = dayForDate(f.date);
+      ocupados.add(dia);
+      for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+    }
+
+    const porTorneo = new Map<string, DatedFixture[]>();
+    for (const f of suyosDeLiga) {
+      const t = torneoDeFecha(comp, f.date);
+      const lista = porTorneo.get(t);
+      if (lista) lista.push(f); else porTorneo.set(t, [f]);
+    }
+
+    for (const fs of porTorneo.values()) {
+      // Ya tiene cuadrangular de verdad (el Apertura): no se le inventa uno encima.
+      if (fs.some(f => f.esPlayoff)) continue;
+      // Un club con cuatro fechas sueltas del semestre no jugó ese torneo: no hay nada que definir.
+      if (fs.length < 8) continue;
+
+      const ultimo = dayForDate(fs[fs.length - 1].date);
+      // Arranca una semana después del cierre de la fase regular, como en la vida real, y tiene un
+      // mes y medio para las tres rondas. El techo no puede pisar el arranque del OTRO torneo: si
+      // lo hiciera, la primera fecha del Apertura siguiente caería en medio de la final anterior.
+      const siguiente = suyosDeLiga.find(f => dayForDate(f.date) > ultimo + 3);
+      const techo = siguiente ? dayForDate(siguiente.date) - 3 : ultimo + 48;
+      const desde = ultimo + 7;
+      const hasta = Math.min(techo, ultimo + 48);
+      if (hasta <= desde) continue;
+
+      // El cuadrangular se INVENTA -- no viene del calendario real -- así que sólo se agrega si hay
+      // lugar de verdad. La regla de "acomodar y nunca quitar" protege a los partidos que TIENEN que
+      // existir; meter a la fuerza un torneo que nadie jugó, encima de un hueco que ya está ocupado,
+      // es lo contrario de eso.
+      //
+      // El caso concreto: el hueco entre el Apertura y el Clausura es, justamente, el parón del
+      // Mundial -- nueve fechas de selección entre el 11 de junio y el 13 de julio. Forzando ahí las
+      // seis fechas del cuadrangular, los tramos de 4 partidos en 7 días de la Dimayor pasaban de 21
+      // a 95. Con este corte se agregan sólo donde el semestre deja aire, que es el Clausura.
+      // Lo que decide no es cuántos días quedan libres, sino cuántos partidos hay YA en el hueco:
+      // el parón del Mundial deja 36 días libres de 45, y sin embargo mete nueve partidos ahí. Seis
+      // fechas más encima dan un partido cada tres días. Se exige un hueco tranquilo.
+      let ocupadosEnLaVentana = 0;
+      for (let d = desde; d <= hasta; d++) if (ocupados.has(d)) ocupadosEnLaVentana++;
+      if (ocupadosEnLaVentana > 2) continue;
+
+      for (const dia of elegirDias(desde, hasta, vetados, FECHAS_DE_CUADRANGULAR, ocupados)) {
+        const date = dateForDay(dia);
+        agregar(club, {
+          competition: comp,
+          match: { date, home: club, away: RIVAL_POR_SORTEAR },
+          date, isHome: true, opponentName: RIVAL_POR_SORTEAR, temporada, esPlayoff: true,
+        });
+        ocupados.add(dia);
+        for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+      }
+    }
+  }
 }
 
 // --- RESERVAS DE COPA -------------------------------------------------------------------------

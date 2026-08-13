@@ -1263,6 +1263,36 @@ export function rondaDelPlayoff(bracket: TwoLegBracket | undefined): string {
   return roundLabelByMatchCount(ronda?.length ?? 0);
 }
 
+/**
+ * Termina un torneo que el jugador ya no juega, para que TENGA campeón.
+ *
+ * Los cuadros del motor sólo avanzan cuando el jugador disputa una llave, así que el día que lo
+ * eliminaban el torneo se congelaba en la ronda donde había quedado y no coronaba nunca a nadie. La
+ * Copa BetPlay terminaba la temporada "en Semifinal" para siempre. Encontrado jugando una temporada
+ * entera con el Junior (scripts/jugar_carrera.ts), que exige desenlace en todas las competiciones.
+ *
+ * Un torneo del que te eliminan sigue jugándose sin vos -- eso es lo normal, no una concesión --, y
+ * su campeón hace falta para la vitrina, para las noticias y para repartir los cupos continentales
+ * del año siguiente. Se resuelve de una vez y no de a un paso por fecha, porque una vez afuera el
+ * jugador no tiene días de esa copa donde el cuadro pudiera avanzar.
+ *
+ * El tope de vueltas no es decorativo: un cuadro corrupto (una ronda que nunca se marca jugada)
+ * colgaría el juego en un bucle infinito en medio del partido.
+ */
+export function terminarTorneoSinElJugador<T extends { championId: string | null }>(
+  estado: T,
+  unPaso: (e: T) => T,
+  maxRondas = 12,
+): T {
+  let actual = estado;
+  for (let i = 0; i < maxRondas && !actual.championId; i++) {
+    const siguiente = unPaso(actual);
+    if (siguiente === actual) break;   // dejó de avanzar: mejor sin campeón que colgado
+    actual = siguiente;
+  }
+  return actual;
+}
+
 export function resolverPasoCopaNacional(
   cup: DomesticCupState,
   allClubs: Club[],

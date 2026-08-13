@@ -21,6 +21,7 @@ import {
   getOrCreateCupState, getUpcomingCupMatch, isClubStillInCup, resolveCupWeek,
   getLibertadoresParticipants, getSudamericanaParticipants,
   prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff, resolverPasoCopaNacional,
+  terminarTorneoSinElJugador,
   CAREER_START_YEAR, roundLabelByMatchCount,
 } from '../src/leagueEngine';
 import { crearCopaNacional, cruceActual, rondaActual, sigueEnCopa } from '../src/copaNacional';
@@ -46,7 +47,9 @@ const jugador = {
 let season = getOrCreateSeasonForLeague(leagueClubs, undefined, 1);
 let copaNacional = crearCopaNacional(club.league, 1, CLUBS_DATABASE, c => (c.division === 2 ? 2 : 1));
 let continental = getOrCreateCupState('libertadores', 1, CLUBS_DATABASE as Club[], undefined, 0);
-let playoff: any = undefined;
+// Un cuadro POR SEMESTRE, igual que App.tsx (clave liga|temporada|torneo): el Apertura y el
+// Clausura son dos torneos distintos y cada uno corona su propio campeon.
+const playoffs: Record<string, any> = {};
 const cupIdMio = getLibertadoresParticipants(CLUBS_DATABASE as Club[], 1, undefined).includes(club.id)
   ? 'libertadores'
   : getSudamericanaParticipants(CLUBS_DATABASE as Club[], 1, undefined).includes(club.id) ? 'sudamericana' : null;
@@ -80,12 +83,14 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
   let etiqueta = fx.competition.name;
 
   if (esPlayoff) {
-    playoff = prepararPlayoffDeLiga(playoff, season.table);
-    const cruce = crucePlayoffDeLiga(playoff, club.id);
-    if (!cruce) { continue; }                       // eliminado del cuadrangular
+    const sem = torneoDelClubEnFecha(club.name, hoy.date) ?? 'Playoff';
+    playoffs[sem] = prepararPlayoffDeLiga(playoffs[sem], season.table);
+    const cruce = crucePlayoffDeLiga(playoffs[sem], club.id);
+    // Eliminado: el cuadrangular sigue sin vos hasta la final, igual que en App.tsx.
+    if (!cruce) { playoffs[sem] = terminarTorneoSinElJugador(playoffs[sem], (b: any) => resolverPasoPlayoffDeLiga(b, leagueClubs)); continue; }
     rivalId = cruce.clubAId === club.id ? cruce.clubBId : cruce.clubAId;
     local = cruce.firstLegGoalsA === null ? cruce.clubAId === club.id : cruce.clubBId === club.id;
-    etiqueta = `Playoff ${torneoDelClubEnFecha(club.name, hoy.date)} · ${rondaDelPlayoff(playoff)}`;
+    etiqueta = `Cuadrangular ${sem} · ${rondaDelPlayoff(playoffs[sem])}`;
   } else if (esContinental && cupIdMio) {
     // El cuadro avanza SIEMPRE que llega un dia de copa, haya partido tuyo o no: cuando terminan
     // los grupos hace falta un paso para sembrar el knockout, y si ese paso no se da la copa se
@@ -98,7 +103,10 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
     rivalId = prox.opponentId; local = prox.isHome;
     etiqueta = fx.competition.name;
   } else if (esNacional && !/Superliga/i.test(fx.competition.name)) {
-    if (!sigueEnCopa(copaNacional, club.id) || copaNacional.championId) { continue; }
+    if (!sigueEnCopa(copaNacional, club.id) || copaNacional.championId) {
+      copaNacional = terminarTorneoSinElJugador(copaNacional, c => resolverPasoCopaNacional(c, CLUBS_DATABASE));
+      continue;
+    }
     const cruce = cruceActual(copaNacional, club.id);
     if (!cruce) { continue; }
     rivalId = cruce.clubAId === club.id ? cruce.clubBId : cruce.clubAId;
@@ -126,8 +134,9 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
 
   // ---- se avanza el estado
   if (esPlayoff) {
-    playoff = resolverPasoPlayoffDeLiga(playoff, leagueClubs, { clubId: club.id, isHome: local, goals: misGoles, opponentGoals: susGoles });
-    if (playoff.championId === club.id) jugador.titulos.push(`${torneoDelClubEnFecha(club.name, hoy.date)} ${CAREER_START_YEAR}`);
+    const sem = torneoDelClubEnFecha(club.name, hoy.date) ?? 'Playoff';
+    playoffs[sem] = resolverPasoPlayoffDeLiga(playoffs[sem], leagueClubs, { clubId: club.id, isHome: local, goals: misGoles, opponentGoals: susGoles });
+    if (playoffs[sem].championId === club.id) jugador.titulos.push(`${sem} ${CAREER_START_YEAR}`);
   } else if (esLiga) {
     season = resolvePlayerWeekForLeague(season, leagueClubs, paso, club.id, local, misGoles, susGoles, undefined,
       { fecha: hoy.date, temporada: 1 });
@@ -149,6 +158,10 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
 }
 
 // ------------------------------------------------------------------ desenlaces
+// Fin de temporada: los torneos que el jugador dejo a mitad se terminan igual.
+copaNacional = terminarTorneoSinElJugador(copaNacional, c => resolverPasoCopaNacional(c, CLUBS_DATABASE));
+for (const k of Object.keys(playoffs)) playoffs[k] = terminarTorneoSinElJugador(playoffs[k], (b: any) => resolverPasoPlayoffDeLiga(b, leagueClubs));
+
 console.log('--- PARTIDOS JUGADOS POR COMPETICIÓN ---');
 for (const [k, v] of Object.entries(jugados)) console.log(`   ${String(v).padStart(3)}  ${k}`);
 
@@ -164,17 +177,16 @@ if (cupIdMio) {
   desenlace(`Copa ${cupIdMio}`, continental.knockout?.championId ?? null,
     isClubStillInCup(continental, club.id), ronda ? roundLabelByMatchCount(ronda.length) : (continental.stage ?? '?'));
 }
-if (playoff) {
-  desenlace('Cuadrangulares', playoff.championId,
-    !!crucePlayoffDeLiga(playoff, club.id), rondaDelPlayoff(playoff));
-} else {
-  raro('nunca se armó el cuadrangular final de la liga, aunque el calendario tiene fechas de playoff');
+for (const [sem, b] of Object.entries(playoffs)) {
+  desenlace(`Cuadrangular ${sem}`, b.championId, !!crucePlayoffDeLiga(b, club.id), rondaDelPlayoff(b));
 }
+if (!Object.keys(playoffs).length) raro('la liga no tuvo NINGUN cuadrangular en toda la temporada');
+for (const [sem, b] of Object.entries(playoffs)) if (!b.championId) raro(`el cuadrangular del ${sem} termino SIN campeon`);
 
 // ---- invariantes: lo que NO puede pasar
 if (!copaNacional.championId) raro(`la copa nacional terminó la temporada SIN campeón (quedó en ${rondaActual(copaNacional)})`);
 if (cupIdMio && !continental.knockout?.championId) raro(`la ${cupIdMio} terminó la temporada SIN campeón`);
-if (playoff && !playoff.championId) raro('los cuadrangulares terminaron SIN campeón');
+
 const jugadasDeLiga = jugados['Liga BetPlay Dimayor'] ?? jugados[Object.keys(jugados).find(k => /Liga|Primera|LaLiga|Serie|Premier/.test(k)) ?? ''] ?? 0;
 if (jugadasDeLiga < 30) raro(`sólo ${jugadasDeLiga} fechas de liga jugadas en toda la temporada`);
 

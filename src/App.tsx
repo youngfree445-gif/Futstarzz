@@ -33,7 +33,7 @@ import {
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
-  simulatePenaltyShootout, roundLabelByMatchCount
+  simulatePenaltyShootout, roundLabelByMatchCount, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
@@ -3578,7 +3578,14 @@ export default function App() {
         goals: results.golesMiEquipo,
         opponentGoals: results.golesRival,
       });
-      updatedDomesticCups = { ...(playerProfile.domesticCups ?? {}), [cupKey]: resuelta };
+      // Si este partido te dejó afuera, la copa NO se congela ahí: se juega sola hasta la final.
+      // Antes el cuadro sólo avanzaba cuando jugabas vos, así que el torneo del que te eliminaban
+      // se quedaba para siempre en la ronda donde quedaste y nunca coronaba campeón -- ni para la
+      // vitrina, ni para las noticias, ni para repartir los cupos continentales del año que viene.
+      const terminada = resuelta.championId || sigueEnCopa(resuelta, myClub.id)
+        ? resuelta
+        : terminarTorneoSinElJugador(resuelta, c => resolverPasoCopaNacional(c, CLUBS_DATABASE));
+      updatedDomesticCups = { ...(playerProfile.domesticCups ?? {}), [cupKey]: terminada };
 
       if (resuelta.championId === myClub.id) {
         salioCampeon = true;
@@ -3706,7 +3713,12 @@ export default function App() {
             clubId: myClub.id, isHome: soyLocalEnLaLlave,
             goals: results.golesMiEquipo, opponentGoals: results.golesRival,
           });
-          updatedPlayoffs = { ...(playerProfile.playoffsDeLiga ?? {}), [clave]: despues };
+          // Igual que la copa nacional: si te eliminaron, el cuadrangular sigue sin vos hasta la
+          // final. Sin esto el Apertura se quedaba sin campeón el día que perdías la semifinal.
+          const cerrado = despues.championId || crucePlayoffDeLiga(despues, myClub.id)
+            ? despues
+            : terminarTorneoSinElJugador(despues, b => resolverPasoPlayoffDeLiga(b, leagueClubs));
+          updatedPlayoffs = { ...(playerProfile.playoffsDeLiga ?? {}), [clave]: cerrado };
 
           const anioPlayoff = Number(pasoHoy.date.slice(0, 4));
           const semestreLabel = `${semestre || 'Playoff'} ${anioPlayoff}`;
