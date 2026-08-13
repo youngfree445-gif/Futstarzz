@@ -47,6 +47,50 @@ import sportsCarImg from './assets/shop/sports_car.jpg';
 import nutritionistImg from './assets/shop/nutritionist.jpg';
 import luxuryMansionImg from './assets/shop/luxury_mansion.jpg';
 import marketingPrImg from './assets/shop/marketing_pr.jpg';
+import proBootsImg from './assets/shop/pro_boots.jpg';
+import sneakerCollectionImg from './assets/shop/sneaker_collection.jpg';
+import smartphoneImg from './assets/shop/smartphone.jpg';
+import headphonesImg from './assets/shop/headphones.jpg';
+import luxuryWatchImg from './assets/shop/luxury_watch.jpg';
+import jewelrySetImg from './assets/shop/jewelry_set.jpg';
+import gamingSetupImg from './assets/shop/gaming_setup.jpg';
+import homeCinemaImg from './assets/shop/home_cinema.jpg';
+import cameraKitImg from './assets/shop/camera_kit.jpg';
+import mountainBikeImg from './assets/shop/mountain_bike.jpg';
+import motorcycleImg from './assets/shop/motorcycle.jpg';
+import recoveryPodImg from './assets/shop/recovery_pod.jpg';
+import personalChefImg from './assets/shop/personal_chef.jpg';
+import privateTrainerTeamImg from './assets/shop/private_trainer_team.jpg';
+import cityHatchbackImg from './assets/shop/city_hatchback.jpg';
+import pickup4x4Img from './assets/shop/pickup_4x4.jpg';
+import luxurySedanImg from './assets/shop/luxury_sedan.jpg';
+import classicCollectionImg from './assets/shop/classic_collection.jpg';
+import hypercarImg from './assets/shop/hypercar.jpg';
+import cityApartmentImg from './assets/shop/city_apartment.jpg';
+import familyHouseImg from './assets/shop/family_house.jpg';
+import penthouseImg from './assets/shop/penthouse.jpg';
+import beachVillaImg from './assets/shop/beach_villa.jpg';
+import mountainEstateImg from './assets/shop/mountain_estate.jpg';
+import privateIslandImg from './assets/shop/private_island.jpg';
+import helicopterImg from './assets/shop/helicopter.jpg';
+import yachtImg from './assets/shop/yacht.jpg';
+import privateJetImg from './assets/shop/private_jet.jpg';
+import foodCartImg from './assets/shop/food_cart.jpg';
+import foodTruckImg from './assets/shop/food_truck.jpg';
+import restaurantImg from './assets/shop/restaurant.jpg';
+import restaurantChainImg from './assets/shop/restaurant_chain.jpg';
+import esportsTeamImg from './assets/shop/esports_team.jpg';
+import footballAcademyImg from './assets/shop/football_academy.jpg';
+import gymChainImg from './assets/shop/gym_chain.jpg';
+import clothingBrandImg from './assets/shop/clothing_brand.jpg';
+import gameStudioImg from './assets/shop/game_studio.jpg';
+import realEstateFirmImg from './assets/shop/real_estate_firm.jpg';
+import mediaNetworkImg from './assets/shop/media_network.jpg';
+import techStartupImg from './assets/shop/tech_startup.jpg';
+import clubOwnershipImg from './assets/shop/club_ownership.jpg';
+import tabletAnalysisImg from './assets/shop/tablet_analysis.jpg';
+import stadiumNamingImg from './assets/shop/stadium_naming.jpg';
+import sportsBarImg from './assets/shop/sports_bar.jpg';
 
 export const CLUBS_DATABASE: Club[] = [
   // ==========================================
@@ -2984,6 +3028,176 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   // Los `icon` salen del set que ya entiende la tienda (car, home, briefcase, dumbbells, apple,
   // megaphone); sin `image` la tarjeta cae al icono, que es un camino ya soportado.
 
+
+  // --------------------------------------------------------------------------- EQUIPO PERSONAL
+  // Los objetos de todos los dias. Son los mas baratos de la tienda a proposito: es lo primero que
+  // se compra un pibe de 17 anos con su primer sueldo, y le da al catalogo un piso realista.
+  {
+    id: 'pro_boots',
+    name: 'Botines de Competicion',
+    cost: 3500,
+    description: 'Ultimo modelo, hechos a medida de tu pisada, con tapones intercambiables para cancha seca y pesada.',
+    perkText: '+1 Ritmo y +1 Regate. La diferencia se siente en el primer paso.',
+    effect: { attribute: 'ritmo', value: 1, fansBonus: 2 },
+    purchased: false,
+    icon: 'dumbbells',
+    image: proBootsImg
+  },
+  {
+    id: 'sneaker_collection',
+    name: 'Coleccion de Zapatillas',
+    cost: 28000,
+    description: 'Veinte pares de ediciones limitadas, algunos sin estrenar y con caja original. La vitrina del vestuario.',
+    perkText: '+18 Aficion y +5 Prestigio. En el vestuario se mira mas el calzado que el auto.',
+    effect: { fansBonus: 18, prestigeBonus: 5 },
+    purchased: false,
+    icon: 'briefcase',
+    image: sneakerCollectionImg
+  },
+  {
+    id: 'smartphone',
+    name: 'Smartphone de Ultima Generacion',
+    cost: 6800,
+    description: 'Camara de cine en el bolsillo y bateria para todo el dia de concentracion.',
+    perkText: '+8 Aficion: subis tu propio contenido y no dependes de la prensa.',
+    effect: { fansBonus: 8 },
+    purchased: false,
+    icon: 'briefcase',
+    image: smartphoneImg
+  },
+  {
+    id: 'tablet_analysis',
+    name: 'Tablet de Analisis Tactico',
+    cost: 15000,
+    description: 'Con el software que usan los analistas del club. Te llevas los videos del rival a casa.',
+    perkText: '+2 Vision permanente: ves la jugada un segundo antes que el resto.',
+    effect: { attribute: 'pase', value: 2 },
+    purchased: false,
+    icon: 'briefcase',
+    image: tabletAnalysisImg
+  },
+  {
+    id: 'headphones',
+    name: 'Audifonos con Cancelacion de Ruido',
+    cost: 4200,
+    description: 'Los que se ponen todos al bajar del micro. Silencio absoluto antes de salir a la cancha.',
+    perkText: '+5 Energia permanente: concentrarte en un estadio hostil tambien descansa.',
+    effect: { permanentEnergyBonus: 5, fansBonus: 3 },
+    purchased: false,
+    icon: 'briefcase',
+    image: headphonesImg
+  },
+  {
+    id: 'luxury_watch',
+    name: 'Reloj Suizo de Coleccion',
+    cost: 185000,
+    description: 'Movimiento automatico, caja de oro rosa y lista de espera de dos anos. Se hereda, no se usa.',
+    perkText: '+22 Prestigio y +15 Aficion. El detalle que mira la camara cuando saludas.',
+    effect: { prestigeBonus: 22, fansBonus: 15 },
+    purchased: false,
+    icon: 'briefcase',
+    image: luxuryWatchImg
+  },
+  {
+    id: 'jewelry_set',
+    name: 'Cadena y Anillos de Diamantes',
+    cost: 320000,
+    description: 'Piezas hechas por encargo, con tu numero y el escudo de tu primer club.',
+    perkText: '+35 Aficion y +12 Prestigio. Se te ve desde la tribuna.',
+    effect: { fansBonus: 35, prestigeBonus: 12 },
+    purchased: false,
+    icon: 'briefcase',
+    image: jewelrySetImg
+  },
+  {
+    id: 'gaming_setup',
+    name: 'Setup Gamer Completo',
+    cost: 12500,
+    description: 'Tres monitores, silla ergonomica y la consola de ultima generacion. Como pasa el plantel las concentraciones.',
+    perkText: '+10 Aficion y +4 Energia: desconectar la cabeza tambien es recuperarse.',
+    effect: { fansBonus: 10, permanentEnergyBonus: 4 },
+    purchased: false,
+    icon: 'briefcase',
+    image: gamingSetupImg
+  },
+  {
+    id: 'home_cinema',
+    name: 'Cine en Casa',
+    cost: 45000,
+    description: 'Pantalla de 120 pulgadas, sonido envolvente y butacas reclinables. Los partidos se miran en serio.',
+    perkText: '+8 Energia permanente y +6 Aficion.',
+    effect: { permanentEnergyBonus: 8, fansBonus: 6 },
+    purchased: false,
+    icon: 'home',
+    image: homeCinemaImg
+  },
+  {
+    id: 'camera_kit',
+    name: 'Equipo de Fotografia Profesional',
+    cost: 32000,
+    description: 'Cuerpo full frame y tres lentes. El hobby que te saca la cabeza del futbol cuando hace falta.',
+    perkText: '+14 Aficion: tus fotos del vestuario se vuelven virales.',
+    effect: { fansBonus: 14, prestigeBonus: 3 },
+    purchased: false,
+    icon: 'briefcase',
+    image: cameraKitImg
+  },
+  {
+    id: 'mountain_bike',
+    name: 'Bicicleta de Montana',
+    cost: 9500,
+    description: 'Cuadro de carbono y suspension regulable. El trabajo aerobico que no castiga las rodillas.',
+    perkText: '+1 Fisico permanente y +6 Energia. La recuperacion activa que recomiendan los preparadores.',
+    effect: { attribute: 'fisico', value: 1, permanentEnergyBonus: 6 },
+    purchased: false,
+    icon: 'dumbbells',
+    image: mountainBikeImg
+  },
+  {
+    id: 'motorcycle',
+    name: 'Motocicleta Deportiva',
+    cost: 78000,
+    description: 'Mil centimetros cubicos y cero paciencia en el trafico. Al club le da un poco de miedo que la uses.',
+    perkText: '+20 Aficion y +8 Prestigio. Nadie llega mas rapido al entrenamiento.',
+    effect: { fansBonus: 20, prestigeBonus: 8 },
+    purchased: false,
+    icon: 'car',
+    image: motorcycleImg
+  },
+  {
+    id: 'recovery_pod',
+    name: 'Camara Crioterapia Domiciliaria',
+    cost: 240000,
+    description: 'Menos 140 grados en tres minutos, instalada en tu casa. Lo que antes era ir a la clinica ahora es bajar al subsuelo.',
+    perkText: '+16 Energia permanente y mucha menos fatiga. Recuperarse deja de ser un viaje.',
+    effect: { permanentEnergyBonus: 16, fatigueReduction: 9 },
+    purchased: false,
+    icon: 'dumbbells',
+    image: recoveryPodImg
+  },
+  {
+    id: 'personal_chef',
+    name: 'Chef Personal a Domicilio',
+    cost: 96000,
+    description: 'Cocina cada comida segun el plan del nutricionista, pesada al gramo, sin que tengas que pensarlo.',
+    perkText: '+2 Fisico permanente, +10 Energia y menos fatiga.',
+    effect: { attribute: 'fisico', value: 2, permanentEnergyBonus: 10, fatigueReduction: 5 },
+    purchased: false,
+    icon: 'apple',
+    image: personalChefImg
+  },
+  {
+    id: 'private_trainer_team',
+    name: 'Cuerpo Tecnico Personal',
+    cost: 520000,
+    description: 'Un preparador fisico, un kinesiologo y un psicologo deportivo contratados solo para vos.',
+    perkText: '+2 Fisico, +1 Ritmo, +20 Energia permanente y bastante menos fatiga.',
+    effect: { attribute: 'fisico', value: 2, permanentEnergyBonus: 20, fatigueReduction: 12, prestigeBonus: 10 },
+    purchased: false,
+    icon: 'dumbbells',
+    image: privateTrainerTeamImg
+  },
+
   // --------------------------------------------------------------------------- VEHICULOS
   {
     id: 'city_hatchback',
@@ -2993,7 +3207,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+5 Aficion y +2 Prestigio. Llegar puntual al entrenamiento tambien cuenta.',
     effect: { fansBonus: 5, prestigeBonus: 2 },
     purchased: false,
-    icon: 'car'
+    icon: 'car',
+    image: cityHatchbackImg
   },
   {
     id: 'pickup_4x4',
@@ -3003,7 +3218,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+8 Aficion, +4 Prestigio y +1 Fisico: los caminos malos tambien entrenan.',
     effect: { fansBonus: 8, prestigeBonus: 4, attribute: 'fisico', value: 1 },
     purchased: false,
-    icon: 'car'
+    icon: 'car',
+    image: pickup4x4Img
   },
   {
     id: 'luxury_sedan',
@@ -3013,7 +3229,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+15 Prestigio y +6 Energia permanente: viajas descansando, no manejando.',
     effect: { prestigeBonus: 15, permanentEnergyBonus: 6, fatigueReduction: 3 },
     purchased: false,
-    icon: 'car'
+    icon: 'car',
+    image: luxurySedanImg
   },
   {
     id: 'classic_collection',
@@ -3023,7 +3240,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+40 Aficion, +25 Prestigio y $3.200 por fecha: cada uno vale mas cada ano que pasa.',
     effect: { fansBonus: 40, prestigeBonus: 25, passiveIncome: 3200 },
     purchased: false,
-    icon: 'car'
+    icon: 'car',
+    image: classicCollectionImg
   },
   {
     id: 'hypercar',
@@ -3033,7 +3251,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+90 Aficion, +45 Prestigio y +2 Ritmo. Se te va a acercar gente que ni sabe de futbol.',
     effect: { fansBonus: 90, prestigeBonus: 45, attribute: 'ritmo', value: 2 },
     purchased: false,
-    icon: 'car'
+    icon: 'car',
+    image: hypercarImg
   },
 
   // --------------------------------------------------------------------------- VIVIENDAS
@@ -3045,7 +3264,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+8 Energia permanente y menos fatiga: dormir cerca del club cambia la semana.',
     effect: { permanentEnergyBonus: 8, fatigueReduction: 4, prestigeBonus: 3 },
     purchased: false,
-    icon: 'home'
+    icon: 'home',
+    image: cityApartmentImg
   },
   {
     id: 'family_house',
@@ -3055,7 +3275,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+12 Energia permanente y +10 Aficion. La cabeza tambien descansa.',
     effect: { permanentEnergyBonus: 12, fansBonus: 10, prestigeBonus: 5, fatigueReduction: 4 },
     purchased: false,
-    icon: 'home'
+    icon: 'home',
+    image: familyHouseImg
   },
   {
     id: 'penthouse',
@@ -3065,7 +3286,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+35 Aficion, +20 Prestigio y +10 Energia permanente.',
     effect: { fansBonus: 35, prestigeBonus: 20, permanentEnergyBonus: 10 },
     purchased: false,
-    icon: 'home'
+    icon: 'home',
+    image: penthouseImg
   },
   {
     id: 'beach_villa',
@@ -3075,7 +3297,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+50 Aficion, +30 Prestigio, +15 Energia permanente y $9.000 por fecha cuando la alquilas.',
     effect: { fansBonus: 50, prestigeBonus: 30, permanentEnergyBonus: 15, fatigueReduction: 8, passiveIncome: 9000 },
     purchased: false,
-    icon: 'home'
+    icon: 'home',
+    image: beachVillaImg
   },
   {
     id: 'mountain_estate',
@@ -3085,7 +3308,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+2 Fisico, +20 Energia permanente y mucha menos fatiga. La altura es la mejor pretemporada.',
     effect: { attribute: 'fisico', value: 2, permanentEnergyBonus: 20, fatigueReduction: 12, prestigeBonus: 35, passiveIncome: 14000 },
     purchased: false,
-    icon: 'home'
+    icon: 'home',
+    image: mountainEstateImg
   },
   {
     id: 'private_island',
@@ -3095,7 +3319,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+150 Aficion, +90 Prestigio y +25 Energia permanente. Muy pocos futbolistas llegaron aca.',
     effect: { fansBonus: 150, prestigeBonus: 90, permanentEnergyBonus: 25, fatigueReduction: 10, passiveIncome: 55000 },
     purchased: false,
-    icon: 'home'
+    icon: 'home',
+    image: privateIslandImg
   },
 
   // --------------------------------------------------------------------------- AVIACION Y NAUTICA
@@ -3107,7 +3332,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+18 Energia permanente y bastante menos fatiga. El viaje deja de costarte piernas.',
     effect: { permanentEnergyBonus: 18, fatigueReduction: 10, prestigeBonus: 25, fansBonus: 20 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: helicopterImg
   },
   {
     id: 'yacht',
@@ -3117,7 +3343,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+80 Aficion, +45 Prestigio y $24.000 por fecha: se alquila cuando no lo usas.',
     effect: { fansBonus: 80, prestigeBonus: 45, permanentEnergyBonus: 12, passiveIncome: 24000 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: yachtImg
   },
   {
     id: 'private_jet',
@@ -3127,7 +3354,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: '+30 Energia permanente y la mayor reduccion de fatiga del juego.',
     effect: { permanentEnergyBonus: 30, fatigueReduction: 18, prestigeBonus: 70, fansBonus: 60 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: privateJetImg
   },
 
   // --------------------------------------------------------------------------- GASTRONOMIA
@@ -3141,7 +3369,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $1.800 cada fecha. La primera plata que ganas sin patear una pelota.',
     effect: { passiveIncome: 1800, fansBonus: 6 },
     purchased: false,
-    icon: 'apple'
+    icon: 'apple',
+    image: foodCartImg
   },
   {
     id: 'food_truck',
@@ -3151,7 +3380,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $6.500 cada fecha y suma +12 Aficion.',
     effect: { passiveIncome: 6500, fansBonus: 12 },
     purchased: false,
-    icon: 'apple'
+    icon: 'apple',
+    image: foodTruckImg
   },
   {
     id: 'sports_bar',
@@ -3161,7 +3391,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $21.000 cada fecha y +30 Aficion: el bar es de los hinchas.',
     effect: { passiveIncome: 21000, fansBonus: 30, prestigeBonus: 8 },
     purchased: false,
-    icon: 'apple'
+    icon: 'apple',
+    image: sportsBarImg
   },
   {
     id: 'restaurant',
@@ -3171,7 +3402,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $78.000 cada fecha, +45 Aficion y +18 Prestigio.',
     effect: { passiveIncome: 78000, fansBonus: 45, prestigeBonus: 18 },
     purchased: false,
-    icon: 'apple'
+    icon: 'apple',
+    image: restaurantImg
   },
   {
     id: 'restaurant_chain',
@@ -3181,7 +3413,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $470.000 cada fecha, +90 Aficion y +40 Prestigio.',
     effect: { passiveIncome: 470000, fansBonus: 90, prestigeBonus: 40 },
     purchased: false,
-    icon: 'apple'
+    icon: 'apple',
+    image: restaurantChainImg
   },
 
   // --------------------------------------------------------------------------- EMPRESAS
@@ -3193,7 +3426,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $38.000 cada fecha y +50 Aficion entre el publico joven.',
     effect: { passiveIncome: 38000, fansBonus: 50, prestigeBonus: 10 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: esportsTeamImg
   },
   {
     id: 'football_academy',
@@ -3203,7 +3437,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $52.000 cada fecha, +70 Aficion y +25 Prestigio. Nada suma mas imagen que esto.',
     effect: { passiveIncome: 52000, fansBonus: 70, prestigeBonus: 25 },
     purchased: false,
-    icon: 'dumbbells'
+    icon: 'dumbbells',
+    image: footballAcademyImg
   },
   {
     id: 'gym_chain',
@@ -3213,7 +3448,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $95.000 cada fecha, +1 Fisico y +25 Aficion.',
     effect: { passiveIncome: 95000, attribute: 'fisico', value: 1, fansBonus: 25, permanentEnergyBonus: 5 },
     purchased: false,
-    icon: 'dumbbells'
+    icon: 'dumbbells',
+    image: gymChainImg
   },
   {
     id: 'clothing_brand',
@@ -3223,7 +3459,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $128.000 cada fecha, +85 Aficion y +20 Prestigio.',
     effect: { passiveIncome: 128000, fansBonus: 85, prestigeBonus: 20 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: clothingBrandImg
   },
   {
     id: 'game_studio',
@@ -3233,7 +3470,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $240.000 cada fecha, +110 Aficion y +35 Prestigio.',
     effect: { passiveIncome: 240000, fansBonus: 110, prestigeBonus: 35 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: gameStudioImg
   },
   {
     id: 'real_estate_firm',
@@ -3243,7 +3481,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $420.000 cada fecha y +30 Prestigio. Poca imagen, mucha renta.',
     effect: { passiveIncome: 420000, prestigeBonus: 30 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: realEstateFirmImg
   },
   {
     id: 'media_network',
@@ -3253,7 +3492,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $610.000 cada fecha, +160 Aficion y +55 Prestigio.',
     effect: { passiveIncome: 610000, fansBonus: 160, prestigeBonus: 55 },
     purchased: false,
-    icon: 'megaphone'
+    icon: 'megaphone',
+    image: mediaNetworkImg
   },
   {
     id: 'tech_startup',
@@ -3263,7 +3503,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $880.000 cada fecha, +45 Prestigio y +1 Vision: entendes el juego distinto.',
     effect: { passiveIncome: 880000, prestigeBonus: 45, attribute: 'pase', value: 1 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: techStartupImg
   },
   {
     id: 'stadium_naming',
@@ -3273,7 +3514,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $1.900.000 cada fecha, +300 Aficion y +140 Prestigio. El techo del juego.',
     effect: { passiveIncome: 1900000, fansBonus: 300, prestigeBonus: 140 },
     purchased: false,
-    icon: 'megaphone'
+    icon: 'megaphone',
+    image: stadiumNamingImg
   },
   {
     id: 'club_ownership',
@@ -3283,7 +3525,8 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     perkText: 'Devuelve $3.400.000 cada fecha, +400 Aficion y +200 Prestigio. De jugador a dueno.',
     effect: { passiveIncome: 3400000, fansBonus: 400, prestigeBonus: 200 },
     purchased: false,
-    icon: 'briefcase'
+    icon: 'briefcase',
+    image: clubOwnershipImg
   },
   {
     id: 'gaming_sponsorship',
