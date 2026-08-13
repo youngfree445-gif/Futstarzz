@@ -3780,7 +3780,21 @@ export default function App() {
         const enKnockout = resolvedSeason.stage === 'knockout';
         const campeonDeLaLlave = resolvedSeason.twoLegKnockout?.championId ?? resolvedSeason.knockout?.championId ?? null;
         const lider = enKnockout ? null : tablaOrdenada[0];
-        const esCampeon = enKnockout
+        // DONDE HAY CUADRANGULAR, LA TABLA NO CORONA A NADIE.
+        //
+        // La última fecha del Apertura ES la final del cuadrangular -- el 8 de junio de 2026, para el
+        // Junior, las dos cosas caen el mismo día. Y las dos ramas corren: primero la del playoff,
+        // que corona a quien ganó la llave, y después ésta, que corona al primero de la tabla y pisa
+        // a la anterior. En Colombia y Argentina el campeón es el que gana el cuadrangular; salir
+        // primero en la fase regular no da título, da la mejor siembra.
+        //
+        // Encontrado jugando una temporada entera con el Junior (scripts/jugar_carrera.ts): terminó
+        // 1º de 20 en la tabla y ELIMINADO en cuadrangulares por Atlético Nacional, y el juego le
+        // daba igual el "Apertura 2026". Es la misma familia que el título prematuro de febrero: el
+        // torneo se corona por donde no se define.
+        const esCampeon = hoyFuePlayoff
+          ? false
+          : enKnockout
           ? campeonDeLaLlave === myClub.id
           : !!lider && (lider.clubId === myClub.id || lider.name === myClub.name);
         if (esCampeon && jugoElTorneo) {
@@ -3805,7 +3819,10 @@ export default function App() {
             torneo: formato ? semestre : undefined,
             tipo: 'liga',
           };
-        } else if (!enKnockout && !esCampeon) {
+        // `!hoyFuePlayoff`: en el día de la final del cuadrangular, el desenlace ya lo contó la rama
+        // del playoff -- con la ronda y todo. Sin esto se apilaba encima un "terminaste 1º en la
+        // tabla" de la fase regular, que a esa altura ya no es la noticia.
+        } else if (!enKnockout && !esCampeon && !hoyFuePlayoff) {
           // No saliste campeón de una liga de tabla directa (Brasil): antes el torneo se cerraba en
           // silencio y la carrera seguía sin que el jugador se enterara -- ni de que había
           // terminado, ni de en qué puesto quedó. Bug reportado: "el jugador jamás se da cuenta".
