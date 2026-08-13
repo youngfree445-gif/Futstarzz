@@ -362,7 +362,14 @@ export interface CupState {
   year: number;
   groups: CupGroup[];
   stage: 'groups' | 'knockout' | 'done';
-  knockout: PlayoffBracket | null;
+  /**
+   * Ida y vuelta desde octavos, con la FINAL a partido único (ver partidoUnico en TwoLegTie).
+   *
+   * Era PlayoffBracket -- una ronda, un partido -- y así un campeón de Libertadores jugaba 10
+   * partidos en vez de los 13 de verdad. La Conmebol juega octavos, cuartos y semis a dos piernas
+   * con global, y define el título en un partido en cancha neutral.
+   */
+  knockout: TwoLegBracket | null;
   championId: string | null;
   stepsConsumed: number;
 }
@@ -385,6 +392,14 @@ export interface TwoLegTie {
   played: boolean; // true cuando ya se jugaron ambas idas y vueltas
   winnerId: string | null;
   penaltyShootout?: PenaltyShootoutResult; // solo presente si el global terminó igualado
+  /**
+   * La llave se define en UN partido, no en dos: la final de la Libertadores y la de la
+   * Sudamericana se juegan a partido único en cancha neutral desde 2019.
+   *
+   * Se resuelve entero en un paso -- se anota en los campos de la ida y se marca played -- así que
+   * no hay "vuelta" que ofrecerle al jugador ni global que mostrar.
+   */
+  partidoUnico?: boolean;
 }
 
 // Tanda de penales real (no un coin-flip invisible): kicks en orden de ejecución real

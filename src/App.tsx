@@ -2481,8 +2481,8 @@ export default function App() {
       // invicto o colista (bug reportado: "ganar en Libertadores no se refleja en la tabla").
       let cupMyPos: number | null = null;
       let cupRivalPos: number | null = null;
-      // Libertadores/Sudamericana son partido único en TODO el knockout, sin global que mostrar; solo
-      // Champions/Europa (más abajo) lo recalculan si están en su fase de ida y vuelta.
+      // Se arranca en null y lo recalcula la rama que corresponda: desde octavos, tanto la Conmebol
+      // como la Champions van a ida y vuelta y la vuelta necesita mostrar cómo va el global.
       setActiveGlobalScoreLabel(null);
       // Semana de copa: no hay Apertura/Clausura que mostrar.
       setActiveTorneoLabel(null);
@@ -2517,6 +2517,27 @@ export default function App() {
               cupMyPos = myIdx >= 0 ? myIdx + 1 : null;
               cupRivalPos = rivalIdx >= 0 ? rivalIdx + 1 : null;
               cupTeamCount = sortedGroup.length || null;
+            }
+          } else if (cup.stage === 'knockout' && cup.knockout) {
+            // Desde octavos la Conmebol va a IDA Y VUELTA (la final, a partido único en cancha
+            // neutral). Hay que decir en qué ronda estás, qué pierna se juega y cómo va el global:
+            // sin esto el partido salía rotulado "Copa Libertadores" a secas, sin ninguna de las
+            // tres cosas, que en una eliminatoria es justo lo que se necesita saber.
+            const llaves = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1];
+            const miLlave = llaves?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+            const nombreCopa = qualifiedCupId === 'sudamericana' ? 'Copa Sudamericana' : 'Copa Libertadores';
+            const ronda = roundLabelByMatchCount(llaves?.length ?? 0);
+            if (miLlave?.partidoUnico) {
+              setActiveCompetitionName(`${nombreCopa} · ${ronda}`);
+            } else if (miLlave) {
+              const soyA = miLlave.clubAId === myClub.id;
+              const idaJugada = miLlave.firstLegGoalsA !== null && miLlave.firstLegGoalsB !== null;
+              setActiveCompetitionName(`${nombreCopa} · ${ronda} (${idaJugada ? 'Vuelta' : 'Ida'})`);
+              if (idaJugada) {
+                const misGoles = (soyA ? miLlave.firstLegGoalsA : miLlave.firstLegGoalsB) ?? 0;
+                const susGoles = (soyA ? miLlave.firstLegGoalsB : miLlave.firstLegGoalsA) ?? 0;
+                setActiveGlobalScoreLabel(`${misGoles}-${susGoles}`);
+              }
             }
           }
         }
@@ -2556,8 +2577,8 @@ export default function App() {
               cupTeamCount = sortedUefa.length || null;
             }
 
-            // Champions/Europa van a ida y vuelta desde octavos (a diferencia de Libertadores, que
-            // es partido único todo el knockout): mismo cálculo de global que la copa nacional.
+            // Champions/Europa van a ida y vuelta desde octavos, igual que la Conmebol de arriba:
+            // mismo cálculo de global que la copa nacional.
             if (uefaCup.stage === 'knockout') {
               const miLlaveUefa = uefaCup.knockout?.tiesByRound[uefaCup.knockout.tiesByRound.length - 1]
                 ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
@@ -3692,7 +3713,7 @@ export default function App() {
       // ronda que no es la suya.
       const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true), playerProfile.posicionesFinales, undefined, myClub.id);
       const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
-      const shootout = findShootoutInPlayoffBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
+      const shootout = findShootoutInTwoLegBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
       if (shootout) {
         foundShootout = shootout;
         foundShootoutMyId = myClub.id;
@@ -3704,7 +3725,7 @@ export default function App() {
         const seguiaAntes = isClubStillInCup(cupBeforeMatch, myClub.id);
         const sigueAhora = isClubStillInCup(resolvedCup, myClub.id);
         if (seguiaAntes && !sigueAhora && resolvedCup.championId !== myClub.id) {
-          const ultimaRonda = resolvedCup.knockout?.matchesByRound[resolvedCup.knockout.matchesByRound.length - 1];
+          const ultimaRonda = resolvedCup.knockout?.tiesByRound[resolvedCup.knockout.tiesByRound.length - 1];
           setSeasonEndInfo({
             competition: activeCupId === 'sudamericana' ? 'Copa Sudamericana' : 'Copa Libertadores',
             clubName: myClub.name,

@@ -781,7 +781,7 @@ export default function Dashboard({
           rivalTotal = sortedGroup.length || null;
         }
       } else if (conmebolCup) {
-        const round = conmebolCup.knockout?.matchesByRound[conmebolCup.knockout.matchesByRound.length - 1];
+        const round = conmebolCup.knockout?.tiesByRound[conmebolCup.knockout.tiesByRound.length - 1];
         jornada = round ? roundLabelByMatchCount(round.length) : 'Eliminatoria';
       } else if (uefaCup && uefaCup.stage === 'league_phase' && 'matchweek' in next) {
         jornada = `Fecha ${next.matchweek} · Fase de Liga`;
@@ -1024,19 +1024,9 @@ export default function Dashboard({
     );
   };
 
-  /** Un PlayoffBracket (partido único) llevado a la forma que dibuja CuadroEliminatoria. */
-  const rondasDePartidoUnico = (matchesByRound: PlayoffMatch[][] | undefined) =>
-    (matchesByRound ?? []).map(ronda => ({
-      nombre: roundLabelByMatchCount(ronda.length),
-      cruces: ronda.map(m => ({
-        aId: m.homeTeamId, bId: m.awayTeamId,
-        marcador: m.played ? `${m.homeGoals}-${m.awayGoals}` : null,
-        ganadorId: m.played
-          ? (m.penaltyShootout?.winnerId
-            ?? ((m.homeGoals ?? 0) > (m.awayGoals ?? 0) ? m.homeTeamId : m.awayTeamId))
-          : null,
-      })),
-    }));
+  // Acá vivía rondasDePartidoUnico, el adaptador para un PlayoffBracket. Lo usaba el cuadro de la
+  // Conmebol cuando su knockout era a partido único; desde que va a ida y vuelta como el de verdad,
+  // no lo llama nadie.
 
   /** Un TwoLegBracket (ida y vuelta) llevado a la misma forma. El marcador es el GLOBAL. */
   const rondasDeIdaYVuelta = (tiesByRound: TwoLegTie[][] | undefined) =>
@@ -4038,7 +4028,7 @@ export default function Dashboard({
                       <p className="text-2xs text-slate-300">🏆 Campeón: <strong className="text-white">{clubNameById(conmebolCup.championId)}</strong></p>
                     ) : (
                       <CuadroEliminatoria
-                        rondas={rondasDePartidoUnico(conmebolCup.knockout?.matchesByRound)}
+                        rondas={rondasDeIdaYVuelta(conmebolCup.knockout?.tiesByRound)}
                         miId={currentClub.id}
                         campeonId={conmebolCup.knockout?.championId ?? conmebolCup.championId ?? null}
                       />

@@ -794,7 +794,7 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
       // solo -- aparecía eliminado sin haber jugado. Los octavos se juegan en el paso siguiente,
       // que es cuando la pantalla le ofrece el partido.
       const seeded = seedFromCupGroups(cup.groups);
-      return { ...cup, stage: 'knockout', knockout: seedBracket(seeded) };
+      return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(seeded) };
     }
     return { ...cup, groups: resolveCupGroupsStep(cup.groups, allClubs, forced) };
   }
@@ -812,11 +812,11 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
     // lugar donde faltaba. No existían los cuartos, ni las semis, ni la final, ni el campeón: medido
     // con 200 pasos, el cuadro seguía teniendo una sola ronda de 8 llaves. De ahí salía el "sólo 7
     // partidos de Libertadores" -- 6 de grupos y 1 de octavos, y el torneo dejaba de existir.
-    const ultima = cup.knockout!.matchesByRound[cup.knockout!.matchesByRound.length - 1];
-    if (ultima.length && ultima.every(m => m.played)) {
-      return { ...cup, knockout: siguienteRondaBracket(cup.knockout!) };
+    const ultima = cup.knockout!.tiesByRound[cup.knockout!.tiesByRound.length - 1];
+    if (ultima.length && ultima.every(t => t.played)) {
+      return { ...cup, knockout: siguienteRondaTwoLeg(cup.knockout!, true) };
     }
-    return { ...cup, knockout: resolveBracketRound(cup.knockout!, allClubs, forced) };
+    return { ...cup, knockout: resolveTwoLegRound(cup.knockout!, allClubs, forced) };
   }
 
   return cup; // 'done': el torneo de este año ya terminó, no hay más pasos
@@ -928,10 +928,8 @@ export function getUpcomingCupMatch(cup: CupState, clubId: string): { opponentId
   }
 
   if (cup.stage === 'knockout' && cup.knockout && !cup.knockout.championId) {
-    const currentRound = cup.knockout.matchesByRound[cup.knockout.matchesByRound.length - 1];
-    const m = currentRound.find(mm => !mm.played && (mm.homeTeamId === clubId || mm.awayTeamId === clubId));
-    if (!m) return null;
-    return m.homeTeamId === clubId ? { opponentId: m.awayTeamId, isHome: true } : { opponentId: m.homeTeamId, isHome: false };
+    const currentRound = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1];
+    return findUpcomingTwoLegMatch(currentRound, clubId);
   }
 
   return null;
@@ -987,7 +985,7 @@ export function isClubStillInCup(cup: CupState, clubId: string): boolean {
   }
   if (cup.stage === 'knockout' && cup.knockout) {
     if (cup.knockout.championId) return cup.knockout.championId === clubId;
-    return sigueEnElCuadro(cup.knockout.matchesByRound, clubId);
+    return sigueEnElCuadroDeIdaYVuelta(cup.knockout.tiesByRound, clubId);
   }
   if (cup.stage === 'done') return cup.championId === clubId;
   return false;
@@ -1027,6 +1025,29 @@ export function getEuropaParticipants(
 
 function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs: Club[], forced?: ForcedResult): TwoLegTie {
   if (tie.played) return tie;
+
+  // FINAL A PARTIDO ÚNICO (Libertadores y Sudamericana desde 2019): se juega y se define en el
+  // mismo paso. El resultado se anota en los campos de la ida y no hay vuelta que ofrecer.
+  if (tie.partidoUnico) {
+    const local = clubs.find(c => c.id === tie.clubAId);
+    const visita = clubs.find(c => c.id === tie.clubBId);
+    if (!local || !visita) return tie;
+    const forzado = forced && (tie.clubAId === forced.clubId || tie.clubBId === forced.clubId) ? forced : undefined;
+    let golesA: number, golesB: number;
+    if (forzado) {
+      const yoSoyLocal = tie.clubAId === forzado.clubId;
+      golesA = yoSoyLocal ? forzado.goals : forzado.opponentGoals;
+      golesB = yoSoyLocal ? forzado.opponentGoals : forzado.goals;
+    } else {
+      ({ homeGoals: golesA, awayGoals: golesB } = simulateMatch(local, visita));
+    }
+    if (golesA !== golesB) {
+      return { ...tie, firstLegGoalsA: golesA, firstLegGoalsB: golesB, played: true, winnerId: golesA > golesB ? tie.clubAId : tie.clubBId };
+    }
+    const penaltyShootout = forzado?.shootoutOverride ?? simulatePenaltyShootout(local, visita);
+    return { ...tie, firstLegGoalsA: golesA, firstLegGoalsB: golesB, played: true, winnerId: penaltyShootout.winnerId, penaltyShootout };
+  }
+
   if (legToPlay === 'first' && tie.firstLegGoalsA !== null) return tie;
   if (legToPlay === 'second' && tie.firstLegGoalsA === null) return tie;
 
@@ -1135,17 +1156,21 @@ function resolveTwoLegRound(bracket: TwoLegBracket, clubs: Club[], forced?: Forc
 }
 
 /** Arma la ronda siguiente del knockout de liga a partir de los ganadores de la última ya jugada. */
-function siguienteRondaTwoLeg(bracket: TwoLegBracket): TwoLegBracket {
+function siguienteRondaTwoLeg(bracket: TwoLegBracket, finalAPartidoUnico = false): TwoLegBracket {
   const roundIdx = bracket.tiesByRound.length - 1;
   const currentRound = bracket.tiesByRound[roundIdx];
   if (bracket.championId || !currentRound.every(t => t.played)) return bracket;
   const winners = currentRound.map(t => t.winnerId!);
+  // Dos ganadores = la que viene es LA FINAL. Sólo la Conmebol la pide a partido único; la Champions
+  // y las copas nacionales siguen definiendo con global, que es como las modela el resto del motor.
+  const esLaFinal = winners.length === 2;
   const nextRound: TwoLegTie[] = [];
   for (let i = 0; i < winners.length; i += 2) {
     nextRound.push({
       clubAId: winners[i], clubBId: winners[i + 1],
       firstLegGoalsA: null, firstLegGoalsB: null, secondLegGoalsA: null, secondLegGoalsB: null,
       played: false, winnerId: null,
+      ...(finalAPartidoUnico && esLaFinal ? { partidoUnico: true } : {}),
     });
   }
   return { tiesByRound: [...bracket.tiesByRound, nextRound], championId: null };
