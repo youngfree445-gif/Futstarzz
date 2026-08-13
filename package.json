@@ -13,6 +13,9 @@
     "build:netlify": "cross-env GH_PAGES= CAPACITOR= vite build",
     "build:ghpages": "cross-env GH_PAGES=true vite build",
     "deploy": "npm run build:ghpages && gh-pages -d dist-ghpages",
+    "build:desktop": "cross-env DESKTOP=true vite build",
+    "desktop": "tauri dev",
+    "desktop:build": "tauri build",
     "build:capacitor": "cross-env CAPACITOR=true vite build",
     "cap:sync": "npm run build:capacitor && npx cap sync",
     "android": "npm run cap:sync && npx cap open android",
@@ -39,6 +42,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
+    "@tauri-apps/cli": "^2.11.4",
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

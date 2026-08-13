@@ -17,7 +17,11 @@ import { defineConfig } from 'vite';
 // sirvió los assets con el prefijo de carpeta de GitHub Pages, que en Netlify no existe -> 404
 // en todo -> pantalla en blanco), esto lo pisa igual sin depender de acordarse de sacarlo.
 export default defineConfig({
-  base: process.env.CAPACITOR
+  // DESKTOP: la app de Tauri sirve los archivos desde el disco, igual que Capacitor, asi que las
+  // rutas tienen que ser relativas o no encuentra nada.
+  base: process.env.DESKTOP
+    ? './'
+    : process.env.CAPACITOR
     ? './'
     : process.env.NETLIFY
     ? '/'
@@ -29,7 +33,9 @@ export default defineConfig({
   // un build que en Netlify da 404 en todo -> pantalla en blanco. Como a Netlify se sube
   // arrastrando la carpeta a mano, ese dist/ envenenado se subía sin que nada lo avisara.
   build: {
-    outDir: process.env.CAPACITOR
+    outDir: process.env.DESKTOP
+      ? 'dist-desktop'
+      : process.env.CAPACITOR
       ? 'dist-mobile'
       : process.env.GH_PAGES
       ? 'dist-ghpages'

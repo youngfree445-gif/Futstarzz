@@ -49,3 +49,7 @@ src/assets/badges/escudos latam/
 _import_clubs/
 
 _sim/
+
+# Tauri (app de escritorio): artefactos de compilacion, pesan cientos de MB
+src-tauri/target/
+dist-desktop/
