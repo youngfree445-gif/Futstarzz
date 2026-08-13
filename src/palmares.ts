@@ -12,6 +12,7 @@
 
 import { CupState, LeagueSeasonState, PlayerProfile, UefaCupState, WorldCupState } from './types';
 import { CAREER_START_YEAR, sortTable } from './leagueEngine';
+import { hasDatedLeagueSchedule } from './dateSchedule';
 
 // 'copa' son las copas NACIONALES (Copa BetPlay, Copa del Rey): se separan de las continentales
 // para que la vitrina no las muestre con el mismo ícono que una Libertadores.
@@ -76,6 +77,30 @@ export function getPalmares(
     //
     // Esas ligas no necesitan este bloque: su campeón lo anota App.tsx en cupTitles al ganarlo.
     // Acá sólo queda la deducción de respaldo para las ligas de fixture pregenerado.
+    // Quién sería el campeón, para poder preguntar si su liga tiene calendario real.
+    const clubCampeonPosible = clubs.find(c => {
+      const lider = sortTable([...season.table])[0];
+      return lider && (c.id === lider.clubId || c.name === lider.name);
+    });
+
+    // LAS LIGAS CON CALENDARIO REAL NO PASAN POR ACÁ. Y la guarda es por el CLUB, no por si el
+    // array de fixtures está vacío, que es donde estuvo el bug durante semanas.
+    //
+    // La guarda vieja asumía que un fixture vacío identificaba a esas ligas. Es cierto el primer
+    // día y deja de serlo en cuanto se juega: resolveLigaPorFecha va AGREGANDO a `fixtures` los
+    // partidos que resuelve, y sólo agrega los que ya se jugaron -- nunca los pendientes. Osea que
+    // a las ocho fechas el array tiene ocho partidos y los ocho están jugados, así que
+    // `some(f => !f.played)` da false y el torneo se lee como TERMINADO. En febrero.
+    //
+    // Resultado: la vitrina coronaba al primero de la tabla a mitad del Apertura. Reportado varias
+    // veces, y las dos correcciones anteriores fallaron porque arreglaron dónde se EMITE el título
+    // (App.tsx) sin ver que la vitrina lo DERIVA por su cuenta acá.
+    //
+    // Estas ligas no necesitan derivación: su campeón lo anota App.tsx en cupTitles al ganarlo, y
+    // ahora con doble llave -- sólo el último día del torneo y sólo habiendo jugado la mitad de las
+    // fechas (ver jugoElTorneo). Acá abajo queda únicamente el respaldo para las ligas de fixture
+    // pregenerado, que sí llevan los partidos pendientes en el array.
+    if (hasDatedLeagueSchedule(clubCampeonPosible?.name ?? '')) continue;
     if (!season.fixtures?.length) continue;
     if (season.fixtures.some(f => !f.played)) continue;
 
