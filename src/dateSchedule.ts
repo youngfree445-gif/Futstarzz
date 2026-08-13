@@ -817,7 +817,18 @@ function reservarFechasDeCopa(
     // Un club sin ningún partido esta temporada no está jugando: no hay dónde meterle la copa.
     if (!propios.length) continue;
 
-    const deEstaCopa = propios.filter(f => f.competition.id === comp.id);
+    // UN CLUB JUEGA UNA SOLA COPA CONTINENTAL, así que todas sus fechas continentales cuentan
+    // contra el mismo presupuesto, sin importar bajo qué competición estén guardadas.
+    //
+    // Las reservas se guardan bajo la copa que le tocó a la LIGA -- al Junior, la Sudamericana --
+    // pero sus partidos REALES son de Libertadores. Contando sólo los de comp.id, esos 6 no se
+    // descontaban de nada y el club terminaba con 6 reales + 14 reservadas = 20 días para un torneo
+    // de 14. Reportado: "me salen 19 partidos de Libertadores en el calendario".
+    //
+    // Con las copas nacionales no pasa: ahí comp.id es el de la copa que el club juega de verdad.
+    const deEstaCopa = comp.kind === 'continental_cup'
+      ? propios.filter(f => f.competition.kind === 'continental_cup')
+      : propios.filter(f => f.competition.id === comp.id);
     // Si el fragmento real ya lo llevó hasta la FINAL, la copa terminó para este club: reservarle
     // fechas después la haría empezar de nuevo y coronar un segundo campeón del mismo torneo en el
     // mismo año. Pasa en la temporada 1 con la Copa del Rey y la Coppa Italia, que en el calendario
