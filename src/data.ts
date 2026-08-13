@@ -870,7 +870,7 @@ export const CLUBS_DATABASE: Club[] = [
   // ==========================================
   { id: 'america_mex', themeColor: { primary: '#facc15', secondary: '#f5f0e8' }, name: 'América', league: 'Mexicana', dt: 'Guillermo Almada', reputation: 5, initialSalary: 4500, marketValue: 24000000, starPlayers: ['Raphael Veiga (CAM)', 'Alejandro Zendejas (RW)', 'Brian Rodríguez (LW)', 'Israel Reyes (CB)', 'Sebastián Cáceres (CB)', 'Luis Malagón (GK)', 'Rodrigo Dourado (CDM)', 'Víctor Dávila (ST)', 'Cristián Borja (LB)', 'Jonathan dos Santos (CDM)', 'Henry Martín (ST)'], description: 'Las Águilas del Estadio Azteca.', badgeColor: 'border-l-4 border-yellow-400 bg-blue-900 text-yellow-200', badgeLogoUrl: '🦅',
     badgeImageUrl: 'badges/clubs/america_mex.png', division: 1 },
-  { id: 'monterrey', themeColor: { primary: '#2563eb', secondary: '#f5f0e8' }, name: 'Monterrey', league: 'Mexicana', dt: 'Matías Almeyda', reputation: 5, initialSalary: 4200, marketValue: 22000000, starPlayers: ['Sergio Canales (RM)', 'Lucas Ocampos (LW)', 'Óliver Torres (CAM)', 'Anthony Martial (ST)', 'Luca Orellano (LM)', 'Uros Djurdjevic (ST)', 'Jesús Corona (RW)', 'Santiago Mele (GK)', 'Víctor Guzmán (CB)', 'Fidel Ambríz (CDM)', 'Stefan Medina (CB)'], description: 'Rayados.', badgeColor: 'border-l-4 border-blue-600 bg-white text-blue-900', badgeLogoUrl: '🔵',
+  { id: 'monterrey', themeColor: { primary: '#2563eb', secondary: '#f5f0e8' }, name: 'Monterrey', league: 'Mexicana', dt: 'Matías Almeyda', reputation: 5, initialSalary: 4200, marketValue: 22000000, starPlayers: ['Sergio Canales (RM)', 'Lucas Ocampos (LW)', 'Óliver Torres (CAM)', 'Anthony Martial (ST)', 'Luca Orellano (LM)', 'Uros Djurdjevic (ST)', 'Jesús Corona (RW)', 'Víctor Guzmán (CB)', 'Fidel Ambríz (CDM)', 'Stefan Medina (CB)'], description: 'Rayados.', badgeColor: 'border-l-4 border-blue-600 bg-white text-blue-900', badgeLogoUrl: '🔵',
     badgeImageUrl: 'badges/clubs/monterrey.png', division: 1 },
   { id: 'tigres', themeColor: { primary: '#eab308', secondary: '#f5f0e8' }, name: 'Tigres U.A.N.L.', league: 'Mexicana', dt: 'Guido Pizarro', reputation: 5, initialSalary: 4300, marketValue: 23000000, starPlayers: ['Ángel Correa (ST)', 'Nahuel Guzmán (GK)', 'Diego Lainez (RW)', 'Juan Brunetta (CAM)', 'Fernando Gorriarán (CDM)', 'Joaquim (CB)', 'Rodrigo Aguirre (ST)', 'André-Pierre Gignac (ST)', 'Jesús Angulo (CB)', 'Rômulo (CDM)', 'Jesús Garza (RB)'], description: 'Los Felinos.', badgeColor: 'border-l-4 border-yellow-500 bg-blue-900 text-yellow-300', badgeLogoUrl: '🐯',
     badgeImageUrl: 'badges/clubs/tigres.png', division: 1 },
@@ -5616,7 +5616,11 @@ export const REAL_LEAGUE_LEADERS: Record<string, LeagueLeaders> = {
   'Colombiana': {
     topScorer: { name: 'Luis Muriel', clubName: 'Junior', value: 13 },
     topAssist: { name: 'Omar Fernández', clubName: '', value: 8 },
-    topGoalkeeper: { name: 'Santiago Mele', clubName: 'Junior' },
+    // topGoalkeeper en null a proposito. Aca decia Santiago Mele en el Junior y ya no juega en
+    // Colombia: paso a Independiente de Argentina. No se reemplaza por otro arquero inventado --
+    // un nombre equivocado en la vitrina de la liga es peor que una tarjeta menos, y la UI ya
+    // maneja el null (la liga holandesa tambien lo tiene). Cuando haya el dato real, va aca.
+    topGoalkeeper: null,
     topYellow: { name: 'Fabián Sambueza', clubName: 'Atlético Bucaramanga', value: 8 },
     topRed: { name: 'Jermein Peña', clubName: 'Junior', value: 2 },
   },
