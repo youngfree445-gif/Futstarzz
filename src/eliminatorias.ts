@@ -254,6 +254,44 @@ export function resolverPasoEliminatoria(
 }
 
 /**
+ * Pone la eliminatoria al día con el calendario, SIN pasarle por encima al jugador.
+ *
+ * Es el mismo guardia que getOrCreateCupState: si la fecha que viene tiene partido de la selección
+ * del jugador, se frena ahí y no la consume, así cuando la pantalla se lo ofrezca el partido siga
+ * estando. Sin esto, la eliminatoria se jugaría sola de fondo y el jugador se enteraría del
+ * resultado sin haber jugado -- que es el bug que ya apareció con la Libertadores del Junior.
+ *
+ * `pasos` sale del calendario (pasosDeEliminatoriasTranscurridos): cada fecha FIFA es un paso.
+ */
+export function ponerAlDiaLaEliminatoria(
+  e: EliminatoriaState, todas: Club[], pasos: number, teamIdDelJugador?: string,
+): EliminatoriaState {
+  let out = e;
+  while (out.stepsConsumed < pasos && !eliminatoriaTerminada(out)) {
+    if (teamIdDelJugador && proximoPartidoDeEliminatoria(out, teamIdDelJugador)) break;
+    out = resolverPasoEliminatoria(out, todas);
+  }
+  return out;
+}
+
+/**
+ * Termina de jugar lo que falte, de una sola vez.
+ *
+ * Hace falta al llegar el Mundial: el calendario no siempre alcanza a darle al club las 18 fechas
+ * de Conmebol -- medido en el Junior, junta 16, porque su año está tan cargado que dos ventanas FIFA
+ * quedan sin día libre -- y una carrera que empieza a mitad de ciclo llega todavía más tarde. El
+ * torneo tiene que estar cerrado antes de sortear el Mundial, o los cupos saldrían de una tabla a
+ * medio jugar.
+ */
+export function terminarEliminatoria(e: EliminatoriaState, todas: Club[]): EliminatoriaState {
+  let out = e;
+  for (let i = 0; i < fechasDeLaEliminatoria(e) + 2 && !eliminatoriaTerminada(out); i++) {
+    out = resolverPasoEliminatoria(out, todas);
+  }
+  return out;
+}
+
+/**
  * Los que clasificaron por esta eliminatoria, en orden, y los que quedaron en la puerta.
  *
  * `enLaPuerta` son los mejores que NO entraron: de ahí salen los dos del repechaje intercontinental.

@@ -5101,43 +5101,32 @@ const EXTRA_NATIONAL_TEAMS_SEED: typeof WORLD_CUP_2026_TEAMS_SEED = [
 // Argentina en la simulación de partidos del Mundial. Rango real del dataset: ~1276 (Nueva
 // Zelanda) a ~1876 (Argentina).
 const WORLD_CUP_FIFA_POINTS: Record<string, number> = {
-  wc_alemania: 1735.8, wc_arabia_saudita: 1421.5, wc_argelia: 1571.0, wc_argentina: 1876.1,
-  wc_australia: 1579.3, wc_austria: 1597.4, wc_belgica: 1742.2, wc_bosnia: 1387.2,
-  wc_brasil: 1765.9, wc_cabo_verde: 1371.1, wc_canada: 1559.5, wc_catar: 1450.3,
-  wc_chequia: 1505.7, wc_colombia: 1698.4, wc_corea_sur: 1591.6, wc_costa_marfil: 1540.9,
-  wc_croacia: 1714.9, wc_curazao: 1294.8, wc_ecuador: 1598.5, wc_egipto: 1562.4,
-  wc_escocia: 1503.3, wc_espana: 1873.0, wc_francia: 1869.4, wc_ghana: 1346.9,
-  wc_haiti: 1293.1, wc_holanda: 1751.1, wc_inglaterra: 1827.0, wc_irak: 1451.2,
-  wc_iran: 1619.6, wc_japon: 1661.6, wc_jordania: 1387.7, wc_marruecos: 1755.1,
-  wc_mexico: 1687.5, wc_noruega: 1557.4, wc_nueva_zelanda: 1275.6, wc_panama: 1539.2,
-  wc_paraguay: 1505.3, wc_portugal: 1766.2, wc_rd_congo: 1479.7, wc_senegal: 1686.4,
-  wc_sudafrica: 1428.4, wc_suecia: 1509.8, wc_suiza: 1650.1, wc_tunez: 1476.4,
-  wc_turquia: 1605.7, wc_uruguay: 1673.1, wc_usa: 1671.2, wc_uzbekistan: 1461.2,
-
-  // --- Las que NO fueron al Mundial 2026 -------------------------------------------------------
-  //
-  // Sin estos puntos todas caían en el valor por defecto de abajo -- el punto medio de la escala --
-  // y salían con la MISMA fuerza: San Marino, Andorra y Gibraltar empataban con Italia, y les
-  // ganaban a Suecia y a Escocia, que sí habían clasificado. Con las eliminatorias jugándose eso
-  // dejó de ser un detalle: en 30 ediciones simuladas San Marino clasificaba al Mundial el 7% de
-  // las veces e Italia el 27%.
-  //
-  // Los que quedan por debajo de WC_FIFA_POINTS_MIN se aplastan todos contra el piso de la escala,
-  // y está bien: son las selecciones más flojas de Europa y entre ellas la diferencia no cambia
-  // nada. Lo que importaba era separarlas de Italia.
-  wc_italia: 1702.1, wc_dinamarca: 1637.2, wc_serbia: 1516.8, wc_polonia: 1517.4,
-  wc_ucrania: 1520.6, wc_hungria: 1502.9, wc_rumania: 1479.3, wc_eslovaquia: 1477.1,
-  wc_eslovenia: 1478.5, wc_albania: 1421.9, wc_georgia: 1425.7, wc_grecia: 1502.3,
-  wc_gales: 1546.1, wc_irlanda: 1442.6, wc_irlanda_norte: 1364.2, wc_islandia: 1385.4,
-  wc_finlandia: 1401.8, wc_macedonia: 1361.7, wc_montenegro: 1367.9, wc_kosovo: 1354.2,
-  wc_bulgaria: 1300.5, wc_bielorrusia: 1265.3, wc_israel: 1428.9, wc_kazajistan: 1264.7,
-  wc_azerbaiyan: 1180.4, wc_armenia: 1256.8, wc_moldavia: 1092.6, wc_letonia: 1152.3,
-  wc_lituania: 1130.9, wc_estonia: 1108.5, wc_chipre: 1201.7, wc_malta: 1035.2,
-  wc_luxemburgo: 1274.1, wc_islas_feroe: 1090.8, wc_andorra: 907.4, wc_san_marino: 748.6,
-  wc_liechtenstein: 843.2, wc_gibraltar: 826.5,
-  // Conmebol y Concacaf que no fueron a 2026.
-  wc_chile: 1476.3, wc_peru: 1409.1, wc_venezuela: 1454.7, wc_bolivia: 1352.8,
-  wc_costa_rica: 1500.4, wc_jamaica: 1439.6,
+  // GENERADO por scripts/sincronizar_ranking_fifa.mjs desde src/fifa_ranking_2026-06-08.json.
+  // No editar a mano: son los puntos FIFA reales, y de ellos salen la reputación, el valor de
+  // plantel y -- desde que las eliminatorias se juegan -- quién clasifica al Mundial siguiente.
+  wc_albania: 1376, wc_alemania: 1735.8, wc_andorra: 946.4, wc_arabia_saudita: 1421.5,
+  wc_argelia: 1571, wc_argentina: 1876.1, wc_armenia: 1191.3, wc_australia: 1579.3,
+  wc_austria: 1597.4, wc_azerbaiyan: 1130.3, wc_belgica: 1742.2, wc_bielorrusia: 1241.3,
+  wc_bolivia: 1326, wc_bosnia: 1387.2, wc_brasil: 1765.9, wc_bulgaria: 1271.7,
+  wc_cabo_verde: 1371.1, wc_canada: 1559.5, wc_catar: 1450.3, wc_chequia: 1505.7,
+  wc_chile: 1452.9, wc_chipre: 1133.2, wc_colombia: 1698.4, wc_corea_sur: 1591.6,
+  wc_costa_marfil: 1540.9, wc_costa_rica: 1457, wc_croacia: 1714.9, wc_curazao: 1294.8,
+  wc_dinamarca: 1619.5, wc_ecuador: 1598.5, wc_egipto: 1562.4, wc_escocia: 1503.3,
+  wc_eslovaquia: 1473.7, wc_eslovenia: 1441.1, wc_espana: 1873, wc_estonia: 1126.3,
+  wc_finlandia: 1341.9, wc_francia: 1869.4, wc_gales: 1516.9, wc_georgia: 1355.3,
+  wc_ghana: 1346.9, wc_gibraltar: 820.3, wc_grecia: 1473.2, wc_haiti: 1293.1,
+  wc_holanda: 1751.1, wc_hungria: 1504.1, wc_inglaterra: 1827, wc_irak: 1451.2,
+  wc_iran: 1619.6, wc_irlanda: 1441.1, wc_irlanda_norte: 1366.6, wc_islandia: 1343.9,
+  wc_islas_feroe: 1132, wc_israel: 1333.9, wc_italia: 1704.7, wc_jamaica: 1357.8,
+  wc_japon: 1661.6, wc_jordania: 1387.7, wc_kazajistan: 1183, wc_kosovo: 1319.1,
+  wc_letonia: 1090.3, wc_liechtenstein: 797.7, wc_lituania: 1061.2, wc_luxemburgo: 1232.8,
+  wc_macedonia: 1369.2, wc_malta: 992.8, wc_marruecos: 1755.1, wc_mexico: 1687.5,
+  wc_moldavia: 1006.5, wc_montenegro: 1302, wc_noruega: 1557.4, wc_nueva_zelanda: 1275.6,
+  wc_panama: 1539.2, wc_paraguay: 1505.3, wc_peru: 1459.4, wc_polonia: 1526.2,
+  wc_portugal: 1766.2, wc_rd_congo: 1479.7, wc_rumania: 1455.9, wc_san_marino: 722.9,
+  wc_senegal: 1686.4, wc_serbia: 1502.1, wc_sudafrica: 1428.4, wc_suecia: 1509.8,
+  wc_suiza: 1650.1, wc_tunez: 1476.4, wc_turquia: 1605.7, wc_ucrania: 1549.3,
+  wc_uruguay: 1673.1, wc_usa: 1671.2, wc_uzbekistan: 1461.2, wc_venezuela: 1464.3,
 };
 const WC_FIFA_POINTS_MIN = 1275;
 const WC_FIFA_POINTS_MAX = 1877;

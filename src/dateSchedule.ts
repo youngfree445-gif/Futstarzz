@@ -14,6 +14,7 @@
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
 import { CAREER_START_YEAR } from './leagueEngine';
 import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada, partidosDePlayoff } from './seasonCalendar';
+import { FECHAS_FIFA } from './fechasFifa';
 // copaNacional sólo importa ./types, así que no hay ciclo posible en esta dirección.
 import { nombreCopaNacional } from './copaNacional';
 
@@ -227,6 +228,7 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
   for (const comp of continentales) reservarFechasDeCopa(comp, temporada, indice, agregar);
   reservarFechasDeMundial(indice, temporada);
+  reservarFechasFifa(indice, temporada);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
 
   indicePorTemporada.set(temporada, indice);
@@ -935,9 +937,129 @@ function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada:
   }
 }
 
+// --- FECHAS FIFA (eliminatorias) ---------------------------------------------------------------
+//
+// En los años SIN Mundial estos días estaban completamente vacíos: el calendario no le reservaba ni
+// una fecha de selección a nadie entre 2027 y 2029, y por eso no había dónde jugar una eliminatoria.
+//
+// Las fechas son las REALES, sacadas de las eliminatorias pasadas que hay en el repo
+// (data/calendarios/eliminatorias, de Transfermarkt) por scripts/generar_fechas_fifa.mjs. Sólo las
+// fechas: el rival lo pone el cuadro del motor, igual que en las copas.
+//
+// Acá hubo primero cinco ventanas puestas a ojo -- marzo, junio, septiembre, octubre y noviembre,
+// dos partidos en cada una -- y se acercaban, pero no eran las de verdad. Con los datos reales a la
+// vista se ve por qué no alcanzaban: la eliminatoria de UEFA se juega ENTERA en el año previo al
+// Mundial (26 fechas en uno solo) y la de Conmebol se reparte en los tres (11 + 15 + 10). Eso, con
+// ventanas iguales para todos los años, no se puede representar.
+
+/** La competición de las eliminatorias. No sale de los datos: la arma el motor, como el Mundial. */
+const COMPETICION_ELIMINATORIAS: DatedCompetition = {
+  id: 'eliminatorias', name: 'Eliminatorias Mundial', kind: 'national_tournament',
+  firstDate: null, lastDate: null, matches: [],
+};
+
+/**
+ * Le reserva a cada club los días de fecha FIFA del año, en las FECHAS REALES.
+ *
+ * A diferencia del Mundial, acá NO se le sacan al club sus partidos de esos días: son fechas
+ * sueltas repartidas por todo el año y quitarle al club lo que caiga en cada una le rompería la
+ * cuenta de la liga. Se toma la fecha real si ese día está libre, y si no, se saltea.
+ *
+ * Saltearla no cuesta el torneo: esa jornada de la eliminatoria se resuelve de fondo (ver
+ * ponerAlDiaLaEliminatoria) y lo único que pasa es que el jugador se pierde ESE partido. Se probó
+ * lo contrario -- meterla igual, ignorando el descanso -- y los hallazgos de "4 partidos en 7 días"
+ * pasaron de 51 a 2356, porque la selección terminaba pegada al partido del club.
+ *
+ * Si al jugador no lo convocan, el día queda como descanso: exactamente lo que le pasa al que no
+ * lo llaman.
+ */
+function reservarFechasFifa(indice: Map<string, DatedFixture[]>, temporada: number) {
+  const anio = CAREER_START_YEAR + temporada - 1;
+  const ciclo = cicloDeEliminatorias(anio);
+  if (!ciclo) return;   // año de Mundial: la ventana grande es el Mundial
+
+  // Las fechas reales que le tocan a ESTE año del ciclo. Las de UEFA caen casi todas en el año
+  // previo al Mundial y las de Conmebol se reparten en los tres, así que el año importa.
+  const aniosAntes = ciclo.mundial - anio;
+  const delAnio = FECHAS_FIFA.filter(([a]) => a === aniosAntes).map(([, mesDia]) => `${anio}-${mesDia}`);
+  if (!delAnio.length) return;
+
+  for (const [club, propios] of indice) {
+    if (!propios.length) continue;
+
+    const vetados = new Set<number>();
+    const ocupados = new Set<number>();
+    for (const f of propios) {
+      const d = dayForDate(f.date);
+      ocupados.add(d);
+      for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(d + k);
+    }
+
+    for (const date of delAnio) {
+      const dia = dayForDate(date);
+      // Un día que YA tiene partido del club sirve igual, y es lo que pasa de verdad: la fecha FIFA
+      // le gana al partido del club (national_tournament es la prioridad más alta en pickPrimary),
+      // el jugador se va con su selección y el club juega sin él. No cuesta descanso porque no
+      // agrega un día nuevo al calendario -- es el MISMO día, con otro partido encima.
+      //
+      // Sin esto la cosa no cerraba: las fechas reales de Conmebol caen sobre los fines de semana
+      // del fútbol colombiano, y al Junior le entraban 9 de las 18 de la eliminatoria.
+      if (!ocupados.has(dia) && vetados.has(dia)) continue;
+      {
+        propios.push({
+          competition: COMPETICION_ELIMINATORIAS,
+          match: { date, home: club, away: RIVAL_POR_SORTEAR },
+          date, isHome: true, opponentName: RIVAL_POR_SORTEAR,
+          temporada, esReservaDeCuadro: true,
+        });
+        // La fecha tomada también veta, o dos fechas FIFA seguidas (las hay: 8 y 9 de septiembre)
+        // caerían pegadas.
+        for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+      }
+    }
+  }
+}
+
 /** Los Mundiales del juego: 2026, 2030, 2034... igual que los de verdad. */
 export function esAnioDeMundial(anio: number): boolean {
   return (anio - CAREER_START_YEAR) % 4 === 0;
+}
+
+/**
+ * El ciclo de eliminatorias al que pertenece un año: a qué Mundial clasifica y desde cuándo se juega.
+ *
+ * Las eliminatorias de 2030 son las de 2027, 2028 y 2029. Hace falta saberlo porque la tabla NO se
+ * reinicia cada temporada: son 18 fechas repartidas en tres años, y la fecha 14 de Colombia cae en
+ * 2029 aunque la 1 se haya jugado en 2027.
+ */
+export function cicloDeEliminatorias(anio: number): { mundial: number; desdeAnio: number } | null {
+  if (esAnioDeMundial(anio)) return null;
+  const desdeUltimoMundial = (anio - CAREER_START_YEAR) % 4;   // 1, 2 o 3
+  return { mundial: anio + (4 - desdeUltimoMundial), desdeAnio: anio - desdeUltimoMundial + 1 };
+}
+
+/** ¿La fecha de este paso es una fecha FIFA de eliminatorias? */
+export function esDiaDeEliminatorias(clubName: string, paso: number): boolean {
+  const s = fixturesAtStep(clubName, paso);
+  return !!s && s.fixtures.some(f => f.competition.id === COMPETICION_ELIMINATORIAS.id);
+}
+
+/**
+ * Cuántas fechas de eliminatorias ya pasaron en ESTE CICLO para el club del jugador.
+ *
+ * Es el paso del torneo, igual que fechasDeCopaTranscurridas para las copas. Se cuenta desde el
+ * arranque del ciclo y no desde el arranque de la temporada: si se reiniciara cada año, la tabla
+ * volvería a cero en enero y las 18 fechas no se jugarían nunca.
+ */
+export function pasosDeEliminatoriasTranscurridos(clubName: string, paso: number): number {
+  const hoy = fechaDelPaso(clubName, paso);
+  if (!hoy) return 0;
+  const ciclo = cicloDeEliminatorias(Number(hoy.slice(0, 4)));
+  if (!ciclo) return 0;
+  const desde = `${ciclo.desdeAnio}-01-01`;
+  return fixturesForClub(clubName)
+    .filter(f => f.competition.id === COMPETICION_ELIMINATORIAS.id && f.date >= desde && f.date < hoy)
+    .length;
 }
 
 /** ¿La fecha de este paso cae dentro del Mundial? Ahí no hay liga ni copa de clubes. */
