@@ -818,7 +818,28 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
     const puesto = ultima.length && ultima.every(t => t.played)
       ? siguienteRondaTwoLeg(cup.knockout!, true)
       : cup.knockout!;
-    return { ...cup, knockout: resolveTwoLegRound(puesto, allClubs, forced) };
+    const resuelto = resolveTwoLegRound(puesto, allClubs, forced);
+
+    // Y LA SIGUIENTE RONDA SE ARMA ACÁ MISMO, al cerrar la anterior.
+    //
+    // Armarla al principio del paso siguiente -- que es lo que hacía la línea de arriba -- llega
+    // tarde: getUpcomingCupMatch se consulta ANTES de resolver el paso, así que cuando el jugador
+    // completaba los octavos, en el paso siguiente le preguntaban por su partido mirando una ronda
+    // que todavía no existía. Respuesta: no hay partido. Recién en el paso posterior aparecían los
+    // cuartos, y ya con la ida resuelta de fondo: el jugador entraba directo a la vuelta.
+    //
+    // Se perdía UN PARTIDO POR RONDA. Medido paso a paso con Boca: 6 de grupos + 2 de octavos + 1 de
+    // cuartos + 1 de semis = 10, y encima la final la jugaba sin él. Reportado: "son 6 en la fase de
+    // grupos, 2 de octavos, 2 de cuartos, 2 de semis y uno en la final, de dónde carajos sacás 10".
+    // La cuenta correcta es 13 y ahora son 13.
+    //
+    // No cuesta un día de calendario: la ronda queda armada y SIN JUGAR, esperando el próximo día de
+    // copa. Es lo mismo que hace prepararPlayoffDeLiga con los cuadrangulares.
+    const cerrada = resuelto.tiesByRound[resuelto.tiesByRound.length - 1];
+    const conLaProxima = !resuelto.championId && cerrada.length > 1 && cerrada.every(t => t.played)
+      ? siguienteRondaTwoLeg(resuelto, true)
+      : resuelto;
+    return { ...cup, knockout: conLaProxima };
   }
 
   return cup; // 'done': el torneo de este año ya terminó, no hay más pasos
