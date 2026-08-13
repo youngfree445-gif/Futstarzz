@@ -5749,6 +5749,213 @@ export const ALL_NATIONAL_TEAMS_DATABASE: Club[] = [
 // profile.unlockedAchievements. Recompensas chicas y parejas a propósito: el premio real es la
 // notificación/colección, no la plata.
 export const ACHIEVEMENTS_DATABASE: Achievement[] = [
+
+  // ===============================================================================================
+  // RECORDS. Cada uno persigue una marca que existe DE VERDAD.
+  // ===============================================================================================
+  //
+  // La idea es que el numero no sea arbitrario. "Llega a 100 goles" es una meta redonda inventada;
+  // "igualar los 91 goles de Messi en un ano" es una marca que alguien puso y que se puede romper.
+  // Eso cambia como se siente el objetivo: no estas subiendo una barra, estas persiguiendo a alguien.
+  //
+  // Las marcas son las reconocidas hasta 2026 y estan escritas en la descripcion, para que el
+  // jugador sepa a quien esta alcanzando. Los montos siguen la escala del resto: chicos y parejos.
+  //
+  // Los `check` solo leen del perfil, como todos los demas (ver la nota de Achievement en types.ts).
+
+  {
+    id: 'record_goles_temporada', name: 'El Año de los 91',
+    description: 'Convertí 91 goles en una temporada. Messi puso esa marca en 2012 y sigue en pie.',
+    icon: '🐐', category: 'records', reward: 12000,
+    check: p => p.careerStats.goles >= 91
+  },
+  {
+    id: 'record_goles_liga', name: 'Los 50 de Una Liga',
+    description: 'Convertí 50 goles en una sola temporada de liga, como Messi en 2011-12.',
+    icon: '🎖️', category: 'records', reward: 8000,
+    check: p => p.careerStats.goles >= 50
+  },
+  {
+    id: 'record_goles_1000', name: 'El Club de los Mil',
+    description: 'Llegaste a 1000 goles oficiales. Solo Pelé y Bican discuten esa cifra.',
+    icon: '👑', category: 'records', reward: 40000,
+    check: p => p.careerStats.golesHistoricos >= 1000
+  },
+  {
+    id: 'record_goles_700', name: 'Setecientos',
+    description: 'Llegaste a 700 goles. El terreno donde solo estan Cristiano, Messi y Pelé.',
+    icon: '🏅', category: 'records', reward: 20000,
+    check: p => p.careerStats.golesHistoricos >= 700
+  },
+  {
+    id: 'record_goles_500', name: 'Quinientos',
+    description: 'Llegaste a 500 goles en tu carrera.',
+    icon: '🥇', category: 'records', reward: 10000,
+    check: p => p.careerStats.golesHistoricos >= 500
+  },
+  {
+    id: 'record_goles_200', name: 'Doscientos',
+    description: 'Llegaste a 200 goles en tu carrera.',
+    icon: '⚽', category: 'records', reward: 4000,
+    check: p => p.careerStats.golesHistoricos >= 200
+  },
+  {
+    id: 'record_asistencias_200', name: 'El Arquitecto',
+    description: 'Llegaste a 200 asistencias. El territorio de Messi y Özil.',
+    icon: '🧠', category: 'records', reward: 8000,
+    check: p => p.careerStats.asistenciasHistoricos >= 200
+  },
+  {
+    id: 'record_asistencias_100', name: 'Cien Pases Gol',
+    description: 'Llegaste a 100 asistencias en tu carrera.',
+    icon: '🎯', category: 'records', reward: 3000,
+    check: p => p.careerStats.asistenciasHistoricos >= 100
+  },
+  {
+    id: 'record_partidos_1000', name: 'Los Mil Partidos',
+    description: 'Jugaste 1000 partidos oficiales, como Cristiano y Buffon.',
+    icon: '🗿', category: 'records', reward: 25000,
+    check: p => p.careerStats.partidosHistoricos >= 1000
+  },
+  {
+    id: 'record_partidos_500', name: 'Medio Millar',
+    description: 'Jugaste 500 partidos oficiales.',
+    icon: '🛡️', category: 'records', reward: 6000,
+    check: p => p.careerStats.partidosHistoricos >= 500
+  },
+  {
+    id: 'record_titulos_43', name: 'El Más Ganador',
+    description: 'Ganaste 43 titulos. Es el record de Dani Alves, el jugador mas ganador de la historia.',
+    icon: '🏆', category: 'records', reward: 50000,
+    check: p => (p.cupTitles?.length ?? 0) >= 43
+  },
+  {
+    id: 'record_titulos_25', name: 'Vitrina Llena',
+    description: 'Ganaste 25 titulos oficiales.',
+    icon: '🥂', category: 'records', reward: 15000,
+    check: p => (p.cupTitles?.length ?? 0) >= 25
+  },
+  {
+    id: 'record_titulos_10', name: 'Serial',
+    description: 'Ganaste 10 titulos oficiales.',
+    icon: '🎊', category: 'records', reward: 5000,
+    check: p => (p.cupTitles?.length ?? 0) >= 10
+  },
+  {
+    id: 'record_libertadores', name: 'Rey de America',
+    description: 'Ganaste la Copa Libertadores. Independiente la tiene 7 veces, nadie mas.',
+    icon: '🌎', category: 'records', reward: 9000,
+    check: p => (p.cupTitles ?? []).some(t => /Libertadores/i.test(t.competition))
+  },
+  {
+    id: 'record_libertadores_3', name: 'Tricampeon de America',
+    description: 'Ganaste 3 Libertadores. Solo un punado de jugadores lo hizo.',
+    icon: '🌎', category: 'records', reward: 22000,
+    check: p => (p.cupTitles ?? []).filter(t => /Libertadores/i.test(t.competition)).length >= 3
+  },
+  {
+    id: 'record_champions_5', name: 'La Quinta Orejona',
+    description: 'Ganaste 5 Champions, como Cristiano. Paco Gento tiene 6 y sigue arriba.',
+    icon: '🏆', category: 'records', reward: 30000,
+    check: p => (p.cupTitles ?? []).filter(t => /Champions/i.test(t.competition)).length >= 5
+  },
+  {
+    id: 'record_champions_6', name: 'El Record de Gento',
+    description: 'Ganaste 6 Copas de Europa. Nadie en la historia tiene mas.',
+    icon: '👑', category: 'records', reward: 45000,
+    check: p => (p.cupTitles ?? []).filter(t => /Champions/i.test(t.competition)).length >= 6
+  },
+  {
+    id: 'record_mundial', name: 'Campeon del Mundo',
+    description: 'Ganaste la Copa del Mundo con tu seleccion.',
+    icon: '🌍', category: 'records', reward: 35000,
+    check: p => (p.cupTitles ?? []).some(t => /Mundial/i.test(t.competition))
+  },
+  {
+    id: 'record_mundial_3', name: 'El Record de Pelé',
+    description: 'Ganaste 3 Mundiales. Solo Pelé lo logro, en 1958, 1962 y 1970.',
+    icon: '👑', category: 'records', reward: 80000,
+    check: p => (p.cupTitles ?? []).filter(t => /Mundial/i.test(t.competition)).length >= 3
+  },
+  {
+    id: 'record_liga_13', name: 'Los 13 de Giggs',
+    description: 'Ganaste 13 ligas. Es el record de Ryan Giggs en Inglaterra.',
+    icon: '🎩', category: 'records', reward: 30000,
+    check: p => (p.cupTitles ?? []).filter(t => t.tipo === 'liga').length >= 13
+  },
+  {
+    id: 'record_balon_oro', name: 'El Mejor del Mundo',
+    description: 'Ganaste tu primer Balon de Oro.',
+    icon: '🏅', category: 'records', reward: 20000,
+    check: p => (p.ballonDorHistory ?? []).some(b => b.rank === 1)
+  },
+  {
+    id: 'record_balon_oro_5', name: 'La Era Cristiano',
+    description: 'Ganaste 5 Balones de Oro. Los que tiene Cristiano.',
+    icon: '🌟', category: 'records', reward: 45000,
+    check: p => (p.ballonDorHistory ?? []).filter(b => b.rank === 1).length >= 5
+  },
+  {
+    id: 'record_balon_oro_8', name: 'Los 8 de Messi',
+    description: 'Ganaste 8 Balones de Oro e igualaste el record absoluto de Messi.',
+    icon: '🐐', category: 'records', reward: 90000,
+    check: p => (p.ballonDorHistory ?? []).filter(b => b.rank === 1).length >= 8
+  },
+  {
+    id: 'record_valor_200m', name: 'La Ficha Mas Cara',
+    description: 'Tu ficha vale 200 millones. Neymar costo 222 en 2017 y sigue siendo el traspaso record.',
+    icon: '💎', category: 'records', reward: 25000,
+    check: p => p.marketValue >= 200000000
+  },
+  {
+    id: 'record_valor_100m', name: 'Los Cien Millones',
+    description: 'Tu ficha superó los 100 millones de dolares.',
+    icon: '💰', category: 'records', reward: 12000,
+    check: p => p.marketValue >= 100000000
+  },
+  {
+    id: 'record_poker', name: 'Póker',
+    description: 'Metiste 4 goles en un mismo partido.',
+    icon: '🎰', category: 'records', reward: 4000,
+    check: p => p.lastMatchGoals >= 4
+  },
+  {
+    id: 'record_manita', name: 'Manita',
+    description: 'Metiste 5 goles en un mismo partido. Messi se lo hizo al Leverkusen en 2012.',
+    icon: '🖐️', category: 'records', reward: 9000,
+    check: p => p.lastMatchGoals >= 5
+  },
+  {
+    id: 'record_veterano_40', name: 'Los 40 y Sigue',
+    description: 'Seguis jugando a los 40 anos. Kazuyoshi Miura llego a los 56.',
+    icon: '🕰️', category: 'records', reward: 15000,
+    check: p => p.age >= 40
+  },
+  {
+    id: 'record_veterano_45', name: 'El Eterno',
+    description: 'Seguis jugando a los 45 anos.',
+    icon: '🗿', category: 'records', reward: 30000,
+    check: p => p.age >= 45
+  },
+  {
+    id: 'record_un_club', name: 'Hombre de Un Solo Club',
+    description: 'Diez temporadas seguidas en el mismo club, como Totti en la Roma o Maldini en el Milan.',
+    icon: '❤️', category: 'records', reward: 18000,
+    check: p => p.yearsAtClub >= 10
+  },
+  {
+    id: 'record_limpio', name: 'Juego Limpio',
+    description: '200 partidos sin una sola tarjeta roja.',
+    icon: '🕊️', category: 'records', reward: 7000,
+    check: p => p.careerStats.partidosHistoricos >= 200 && p.careerStats.tarjetasRojasHistoricas === 0
+  },
+  {
+    id: 'record_doblete_continental', name: 'Doblete Continental',
+    description: 'Ganaste la liga y la copa continental en la misma carrera.',
+    icon: '🎯', category: 'records', reward: 14000,
+    check: p => (p.cupTitles ?? []).some(t => t.tipo === 'liga')
+      && (p.cupTitles ?? []).some(t => /Libertadores|Sudamericana|Champions|Europa/i.test(t.competition))
+  },
   // --- CARRERA ---
   {
     id: 'primer_gol', name: 'Estreno Goleador', description: 'Convertí tu primer gol como profesional.',

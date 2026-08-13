@@ -56,7 +56,7 @@ export interface CareerStats {
   tarjetasRojasHistoricas: number;
 }
 
-export type AchievementCategory = 'carrera' | 'partido' | 'personal';
+export type AchievementCategory = 'carrera' | 'partido' | 'personal' | 'records';
 
 // Catálogo estático de logros (ver ACHIEVEMENTS_DATABASE en data.ts) -- check() es puro y solo lee
 // del PlayerProfile, nunca lo muta; quien llama (checkAndUnlockAchievements en App.tsx) es quien
