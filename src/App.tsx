@@ -943,6 +943,20 @@ function fusionarTienda(guardada: ShopItem[]): ShopItem[] {
     .concat(guardada.filter(i => !INITIAL_LIFESTYLE_ITEMS.some(b => b.id === i.id)));
 }
 
+/**
+ * ¿Con este partido el club paso a la ronda siguiente?
+ *
+ * Se mide por la CANTIDAD de rondas del cuadro, no por el resultado del partido: una llave se gana
+ * por el global, y el motor recien arma la ronda siguiente cuando la anterior quedo cerrada. Si hay
+ * una ronda mas que antes y el club sigue vivo, avanzo. Preguntarle al marcador daria falsos
+ * positivos en la ida.
+ */
+function pasoDeRonda(antes: { knockout?: { tiesByRound: unknown[] } | null }, despues: { knockout?: { tiesByRound: unknown[] } | null }): boolean {
+  const a = antes.knockout?.tiesByRound.length ?? 0;
+  const d = despues.knockout?.tiesByRound.length ?? 0;
+  return d > a && a > 0;
+}
+
 export default function App() {
   const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event' | 'penalty_shootout' | 'career_summary'>('welcome');
 
@@ -3932,16 +3946,30 @@ export default function App() {
       if (!shootout || shootoutOverride) {
         const seguiaAntes = isClubStillInCup(cupBeforeMatch, myClub.id);
         const sigueAhora = isClubStillInCup(resolvedCup, myClub.id);
+        const nombreDeLaCopa = activeCupId === 'sudamericana' ? 'Copa Sudamericana'
+          : activeCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Libertadores';
         if (seguiaAntes && !sigueAhora && resolvedCup.championId !== myClub.id) {
           const ultimaRonda = resolvedCup.knockout?.tiesByRound[resolvedCup.knockout.tiesByRound.length - 1];
           setSeasonEndInfo({
-            competition: activeCupId === 'sudamericana' ? 'Copa Sudamericana'
-              : activeCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Libertadores',
+            competition: nombreDeLaCopa,
             clubName: myClub.name,
             season: String(year),
             badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
             eliminated: true,
             eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
+          });
+        } else if (seguiaAntes && sigueAhora && !resolvedCup.championId && pasoDeRonda(cupBeforeMatch, resolvedCup)) {
+          // PASASTE DE RONDA. El contrario exacto del caso de arriba, y hasta ahora no existia: la
+          // copa te despedia al perder pero nunca te felicitaba al ganar. Avanzar es la mitad buena
+          // del cuadro y pasaba en silencio.
+          const nueva = resolvedCup.knockout?.tiesByRound[resolvedCup.knockout.tiesByRound.length - 1];
+          setSeasonEndInfo({
+            competition: nombreDeLaCopa,
+            clubName: myClub.name,
+            season: String(year),
+            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+            avanzo: true,
+            rondaSiguiente: nueva ? roundLabelByMatchCount(nueva.length) : null,
           });
         }
       }

@@ -2233,9 +2233,18 @@ export default function MatchSimulator({
                     : mios < rival ? 'bg-burgundy-600 text-white'
                     : 'bg-slate-700 text-white'
                   }`}
-                  title="Suma de la ida y lo que va de este partido."
+                  title={isHome.current
+                    ? 'Suma de la ida y lo que va de este partido. Tu equipo va primero, como en el marcador.'
+                    : 'Suma de la ida y lo que va de este partido. Jugás de visitante: tu equipo va segundo, igual que en el marcador de arriba.'}
                 >
-                  Global {mios}-{rival}
+                  {/* MISMA ORIENTACION QUE EL MARCADOR DE ARRIBA: local primero, visitante segundo.
+                      Antes el global iba siempre "mis goles - los del rival" mientras el marcador
+                      grande respeta la localia, asi que de visitante la pantalla mostraba dos
+                      ordenes distintos a la vez: arriba "0 - 1" (rival - vos) y abajo "Global 7-2"
+                      (vos - rival). Reportado: "parece que estuviera perdiendo cuando es mi equipo
+                      ganando". El color ya decia la verdad, pero el numero se lee antes que el
+                      color. */}
+                  Global {isHome.current ? `${mios}-${rival}` : `${rival}-${mios}`}
                 </span>
               );
             })()}

@@ -21,6 +21,16 @@ export interface SeasonEndInfo {
   eliminated?: boolean;
   /** Ronda en la que quedaste eliminado ("Cuartos de Final"), solo si eliminated es true. */
   eliminatedRound?: string | null;
+  /**
+   * true si con este partido PASASTE de ronda. El contrario exacto de `eliminated`.
+   *
+   * Existe porque el aviso solo aparecia al perder: la copa te despedia pero nunca te felicitaba, y
+   * avanzar -- que es la mitad buena del cuadro -- pasaba en silencio. Pedido: "si pasas de ronda
+   * tambien que salga un aviso que diga: a siguiente ronda".
+   */
+  avanzo?: boolean;
+  /** La ronda que se viene ("Semifinal"), solo si avanzo es true. */
+  rondaSiguiente?: string | null;
 }
 
 interface SeasonEndOverlayProps {
@@ -42,7 +52,9 @@ export default function SeasonEndOverlay({ info, onClose }: SeasonEndOverlayProp
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  const headline = info.eliminated
+  const headline = info.avanzo
+    ? (info.rondaSiguiente ? `¡A ${info.rondaSiguiente}!` : '¡Pasaste de ronda!')
+    : info.eliminated
     ? `Eliminado en ${info.eliminatedRound ?? 'la eliminatoria'}`
     : info.finalPosition === 1
     ? 'Campeón' // no debería pasar (eso lo cubre ChampionOverlay), pero por las dudas no dice "sin título"
