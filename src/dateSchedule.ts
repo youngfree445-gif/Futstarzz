@@ -466,7 +466,7 @@ const VENTANA_DE_DESCANSO_DIAS = 3;
  * Los clubes de esos países que NO clasifican ese año no pierden nada: sus fechas sobrantes son
  * días de descanso, que es exactamente lo que le pasa a un club sin copa internacional.
  */
-const FECHAS_DE_COPA_CONTINENTAL = 14;
+const FECHAS_DE_COPA_CONTINENTAL = 13;
 
 /**
  * Los clubes que pueden llegar a jugar una copa continental, y por eso necesitan la bolsa grande.

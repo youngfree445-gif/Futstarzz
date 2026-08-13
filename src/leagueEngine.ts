@@ -788,16 +788,25 @@ function seedFromCupGroups(groups: CupGroup[]): string[] {
 
 function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult): CupState {
   if (cup.stage === 'groups') {
-    const allPlayed = cup.groups.every(g => g.fixtures.every(f => f.played));
-    if (allPlayed) {
-      // Se ARMA el cuadro y se corta acá: la recursión resolvía los octavos enteros en el mismo
-      // paso en que se creaban, así que el jugador clasificaba a octavos y su partido se jugaba
-      // solo -- aparecía eliminado sin haber jugado. Los octavos se juegan en el paso siguiente,
-      // que es cuando la pantalla le ofrece el partido.
-      const seeded = seedFromCupGroups(cup.groups);
-      return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(seeded) };
+    // ARMAR EL CUADRO NO GASTA UNA FECHA. Se resuelve la fecha de grupos y, si con ésa se
+    // completaron, los octavos quedan sembrados en la MISMA llamada, sin jugar.
+    //
+    // Antes el sorteo se comía un paso entero: el club tenía 14 días de copa continental y jugaba
+    // 13 partidos, porque uno se iba en armar el cuadro. Reportado: "son máximo 13 partidos en
+    // Libertadores, quita ese partido extra del calendario".
+    //
+    // El corte que hacía falta se conserva: los octavos quedan SIN jugar y se disputan en el paso
+    // siguiente, que es cuando la pantalla te ofrece el partido. Sin ese corte, el jugador
+    // clasificaba a octavos y su partido se resolvía solo -- aparecía eliminado sin haber jugado.
+    // Es el mismo patrón que ya usan resolverPasoCopaNacional y el encadenado de rondas de abajo.
+    const gruposResueltos = resolveCupGroupsStep(cup.groups, allClubs, forced);
+    if (gruposResueltos.every(g => g.fixtures.every(f => f.played))) {
+      return {
+        ...cup, groups: gruposResueltos, stage: 'knockout',
+        knockout: seedTwoLegBracket(seedFromCupGroups(gruposResueltos)),
+      };
     }
-    return { ...cup, groups: resolveCupGroupsStep(cup.groups, allClubs, forced) };
+    return { ...cup, groups: gruposResueltos };
   }
 
   if (cup.stage === 'knockout') {
