@@ -1863,6 +1863,10 @@ export default function Dashboard({
   // --- Calendario en grilla mensual real: un evento con fecha real de calendario por partido,
   // en vez de la vieja lista plana de "Fecha N" sin ubicar en el tiempo real.
   const myLeagueSeason = playerProfile.leagueSeasons[myLeagueKey];
+  // Temporada que el jugador está cursando. Todo lo que muestra el calendario se recorta a ésta.
+  const temporadaEnCurso = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
+    ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
+
   const calendarEvents: CalendarEvent[] = [];
 
   // ¿Ya cerraron TODAS tus competencias reales de este año calendario (liga, copa nacional, copa
@@ -1938,7 +1942,12 @@ export default function Dashboard({
       anotar(isHome ? f.awayTeamId : f.homeTeamId, (isHome ? f.homeGoals : f.awayGoals)!, (isHome ? f.awayGoals : f.homeGoals)!);
     }
 
+    // Sólo la temporada en curso: fixturesForClub concatena las 32, y sin este recorte los
+    // partidos de años siguientes entraban al mismo mapa. La grilla filtra por mes y año, así que
+    // bastaba con avanzar de mes para ver el fixture del año que viene -- o peor, el de esta
+    // temporada repetido con otro año encima. Reportado: "te muestra el mismo 2026 en el 2027".
     for (const f of fixturesForClub(currentClub.name)) {
+      if (f.temporada !== temporadaEnCurso) continue;
       const paso = pasoDeFecha(currentClub.name, f.date);
       const yaJugado = paso !== null && paso < pasoActual;
       const rival = resolverClubDeCalendario(
@@ -2011,7 +2020,27 @@ export default function Dashboard({
     const fecha = fechaDelPaso(currentClub.name, playerProfile.currentWeek);
     return fecha ? new Date(`${fecha}T00:00:00`) : new Date();
   })();
-  const calendarGridDate = new Date(calendarBaseDate.getFullYear(), calendarBaseDate.getMonth() + calendarMonthOffset, 1);
+  // EL CALENDARIO NO SALE DE LA TEMPORADA EN CURSO.
+  //
+  // Las flechas movían el mes sin tope, y más allá del último partido del año la grilla volvía a
+  // mostrar el fixture de 2026 fechado en 2027: fixturesForClub concatena las 32 temporadas y el
+  // filtro de la grilla es por mes y año, así que un partido de la temporada 2 con la misma fecha
+  // de calendario se colaba como si fuera de ésta. Reportado: "se bugea y te muestra el mismo 2026
+  // en el 2027".
+  //
+  // El jugador ve el año que está jugando y nada más -- que además es lo correcto: el fixture de la
+  // temporada que viene todavía no está sorteado.
+  const mesesEntre = (a: Date, b: Date) =>
+    (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth());
+  const fechasDeLaTemporada = fixturesForClub(currentClub.name).filter(f => f.temporada === temporadaEnCurso);
+  const limiteDeMeses = (() => {
+    if (!fechasDeLaTemporada.length) return { min: 0, max: 0 };
+    const primera = new Date(`${fechasDeLaTemporada[0].date}T00:00:00`);
+    const ultima = new Date(`${fechasDeLaTemporada[fechasDeLaTemporada.length - 1].date}T00:00:00`);
+    return { min: mesesEntre(calendarBaseDate, primera), max: mesesEntre(calendarBaseDate, ultima) };
+  })();
+  const mesVisible = Math.min(limiteDeMeses.max, Math.max(limiteDeMeses.min, calendarMonthOffset));
+  const calendarGridDate = new Date(calendarBaseDate.getFullYear(), calendarBaseDate.getMonth() + mesVisible, 1);
   const calendarGridYear = calendarGridDate.getFullYear();
   const calendarGridMonth = calendarGridDate.getMonth();
   const calendarWeeks = buildMonthGrid(calendarGridYear, calendarGridMonth);
@@ -4231,9 +4260,10 @@ export default function Dashboard({
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
                 <div className="flex items-center justify-between mb-4">
                   <button
-                    onClick={() => setCalendarMonthOffset(m => m - 1)}
-                    className="btn-fx-subtle w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 flex items-center justify-center cursor-pointer"
-                    title="Mes anterior"
+                    onClick={() => setCalendarMonthOffset(m => Math.max(limiteDeMeses.min, m - 1))}
+                    disabled={mesVisible <= limiteDeMeses.min}
+                    className="btn-fx-subtle w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-slate-300 disabled:hover:border-slate-800"
+                    title={mesVisible <= limiteDeMeses.min ? 'Es el primer mes de la temporada' : 'Mes anterior'}
                   >
                     ‹
                   </button>
@@ -4241,9 +4271,10 @@ export default function Dashboard({
                     {CALENDAR_MONTH_NAMES[calendarGridMonth]} <span className="text-slate-500 font-normal">{calendarGridYear}</span>
                   </h3>
                   <button
-                    onClick={() => setCalendarMonthOffset(m => m + 1)}
-                    className="btn-fx-subtle w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 flex items-center justify-center cursor-pointer"
-                    title="Mes siguiente"
+                    onClick={() => setCalendarMonthOffset(m => Math.min(limiteDeMeses.max, m + 1))}
+                    disabled={mesVisible >= limiteDeMeses.max}
+                    className="btn-fx-subtle w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-slate-300 disabled:hover:border-slate-800"
+                    title={mesVisible >= limiteDeMeses.max ? 'La temporada termina acá; el fixture del año que viene todavía no está sorteado' : 'Mes siguiente'}
                   >
                     ›
                   </button>
