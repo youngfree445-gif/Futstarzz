@@ -15,7 +15,7 @@ const ALL_PLAYERS = rawPlayers as unknown as {
   team_name: string;
   team_id: number;
 }[];
-import { Club, PressQuestion, ShopItem, Achievement, InjuryType, Agent, Investment } from './types';
+import { Club, PressQuestion, ShopItem, Achievement, InjuryType, Agent, Investment, PlayerProfile } from './types';
 import { CLUB_EXTRAS } from './clubExtras';
 import mauSportsAvatar from './assets/mau_sports.jpg';
 import fabrizioRomanoAvatar from './assets/press/FABRIZZIO ROMANO.jpg';
@@ -5748,7 +5748,314 @@ export const ALL_NATIONAL_TEAMS_DATABASE: Club[] = [
 // relevante (fin de partido, traspaso, patrocinio, novia, etc.) y compara contra
 // profile.unlockedAchievements. Recompensas chicas y parejas a propósito: el premio real es la
 // notificación/colección, no la plata.
+
+// --- Ayudantes de los logros de RECORD POR COMPETICION -----------------------------------------
+//
+// Leen `lideresPorCompeticion`, la tabla que se llena partido a partido (ver
+// lideresPorCompeticion.ts). Es la unica parte del perfil que sabe cuantos goles metio el jugador
+// en CADA torneo: careerStats solo lleva el total de la carrera.
+//
+// Todos toleran que el campo no exista: una carrera empezada antes de que la tabla existiera no
+// tiene nada ahi, y un check que reviente correria despues de CADA partido.
+
+/** Las lineas del jugador en los torneos cuyo nombre coincide, una por temporada. */
+function misLineas(p: PlayerProfile, torneo: RegExp) {
+  const salida: { goles: number; asistencias: number }[] = [];
+  for (const [clave, tabla] of Object.entries(p.lideresPorCompeticion ?? {})) {
+    if (!torneo.test(clave.split('|')[0])) continue;
+    const mia = Object.values(tabla).find(l => l.esVos);
+    if (mia) salida.push(mia);
+  }
+  return salida;
+}
+
+/** Goles del jugador en ese torneo, sumando TODAS las temporadas (record historico). */
+function golesEnTorneo(p: PlayerProfile, torneo: RegExp): number {
+  return misLineas(p, torneo).reduce((n, l) => n + l.goles, 0);
+}
+
+/** Su mejor temporada en ese torneo. Un record de "goles en una edicion" no se acumula. */
+function golesEnTorneoUnaTemporada(p: PlayerProfile, torneo: RegExp): number {
+  return misLineas(p, torneo).reduce((max, l) => Math.max(max, l.goles), 0);
+}
+
+/** Goles en la liga donde mas convirtio, sumando temporadas. Sirve para los records de liga. */
+function maxGolesEnUnaLiga(p: PlayerProfile): number {
+  const porLiga = new Map<string, number>();
+  for (const [clave, tabla] of Object.entries(p.lideresPorCompeticion ?? {})) {
+    const nombre = clave.split('|')[0];
+    if (/Copa|Libertadores|Sudamericana|Champions|Europa|Mundial|Eliminatorias|Superliga/i.test(nombre)) continue;
+    const mia = Object.values(tabla).find(l => l.esVos);
+    if (mia) porLiga.set(nombre, (porLiga.get(nombre) ?? 0) + mia.goles);
+  }
+  return Math.max(0, ...porLiga.values());
+}
+
+/** ¿Termino primero en la tabla de goleadores de alguna competicion? */
+function esGoleadorDeAlgunTorneo(p: PlayerProfile): boolean {
+  for (const tabla of Object.values(p.lideresPorCompeticion ?? {})) {
+    const todos = Object.values(tabla).filter(l => l.goles > 0);
+    if (!todos.length) continue;
+    const mejor = todos.reduce((a, b) => (b.goles > a.goles ? b : a));
+    if (mejor.esVos && mejor.goles >= 5) return true;   // 5 para que no cuente una tabla de un gol
+  }
+  return false;
+}
+
+
+/** ¿Alguna vez jugo con la seleccion? Basta con tener una linea en un torneo de seleccion. */
+function jugoConLaSeleccion(p: PlayerProfile): boolean {
+  return misLineas(p, /Mundial|Eliminatorias/i).length > 0;
+}
+
+/** Goles con la seleccion: Mundial y eliminatorias, que son los dos torneos de seleccion del juego. */
+function golesConLaSeleccion(p: PlayerProfile): number {
+  return golesEnTorneo(p, /Mundial|Eliminatorias/i);
+}
+
+/** ¿Jugo el Mundial? Se distingue de "clasifico": hace falta una linea suya en esa competicion. */
+function jugoElMundial(p: PlayerProfile): boolean {
+  return misLineas(p, /Mundial/i).length > 0;
+}
+
+/** Cuantas ediciones DISTINTAS del Mundial jugo. La clave lleva la temporada, asi que se cuentan. */
+function mundialesJugados(p: PlayerProfile): number {
+  return misLineas(p, /Mundial/i).length;
+}
+
 export const ACHIEVEMENTS_DATABASE: Achievement[] = [
+
+  // ===============================================================================================
+  // SELECCION
+  // ===============================================================================================
+  //
+  // La otra carrera, la que corre en paralelo a la del club. Empieza con la primera convocatoria --
+  // que en el juego no es automatica: hay que llegar a cierto prestigio Y a cierta cantidad de
+  // partidos (ver ELIMINATORIAS_CALLUP_* y WORLD_CUP_CALLUP_* en leagueEngine.ts) -- y termina, si
+  // sale bien, levantando la Copa.
+  //
+  // Los goles con la seleccion salen de `lideresPorCompeticion`, igual que los demas records por
+  // torneo: las eliminatorias y el Mundial son competiciones como cualquier otra en esa tabla.
+
+  {
+    id: 'sel_convocado', name: 'La Primera Convocatoria',
+    description: 'Te llamaron a la seleccion por primera vez.',
+    icon: '📣', category: 'records', reward: 6000,
+    check: p => jugoConLaSeleccion(p)
+  },
+  {
+    id: 'sel_primer_gol', name: 'Gol con la Camiseta',
+    description: 'Convertiste tu primer gol con la seleccion.',
+    icon: '🎽', category: 'records', reward: 8000,
+    check: p => golesConLaSeleccion(p) >= 1
+  },
+  {
+    id: 'sel_goles_10', name: 'Goleador Nacional',
+    description: 'Llegaste a 10 goles con la seleccion.',
+    icon: '🎽', category: 'records', reward: 12000,
+    check: p => golesConLaSeleccion(p) >= 10
+  },
+  {
+    id: 'sel_goles_50', name: 'Historico de tu Pais',
+    description: 'Llegaste a 50 goles con la seleccion.',
+    icon: '🏵️', category: 'records', reward: 30000,
+    check: p => golesConLaSeleccion(p) >= 50
+  },
+  {
+    id: 'sel_goles_138', name: 'El Récord de Cristiano',
+    description: 'Llegaste a 138 goles con tu seleccion. Es el record mundial de Cristiano Ronaldo.',
+    icon: '👑', category: 'records', reward: 90000,
+    check: p => golesConLaSeleccion(p) >= 138
+  },
+  {
+    id: 'sel_elim_primer_gol', name: 'Camino al Mundial',
+    description: 'Convertiste tu primer gol en unas eliminatorias.',
+    icon: '🛫', category: 'records', reward: 7000,
+    check: p => golesEnTorneo(p, /Eliminatorias/i) >= 1
+  },
+  {
+    id: 'sel_elim_goles_25', name: 'El Récord de Messi en Eliminatorias',
+    description: 'Llegaste a 25 goles en eliminatorias sudamericanas, la marca historica de Messi.',
+    icon: '🛫', category: 'records', reward: 40000,
+    check: p => golesEnTorneo(p, /Eliminatorias/i) >= 25
+  },
+  {
+    id: 'sel_mundial_jugado', name: 'Jugar un Mundial',
+    description: 'Disputaste un partido de la Copa del Mundo.',
+    icon: '🌍', category: 'records', reward: 15000,
+    check: p => jugoElMundial(p)
+  },
+  {
+    id: 'sel_mundial_gol', name: 'Gol en el Mundial',
+    description: 'Convertiste un gol en la Copa del Mundo. Muy pocos futbolistas pueden decirlo.',
+    icon: '🌍', category: 'records', reward: 25000,
+    check: p => golesEnTorneo(p, /Mundial/i) >= 1
+  },
+  {
+    id: 'sel_mundial_goles_5', name: 'Figura del Mundial',
+    description: 'Metiste 5 goles en un solo Mundial.',
+    icon: '🌟', category: 'records', reward: 35000,
+    check: p => golesEnTorneoUnaTemporada(p, /Mundial/i) >= 5
+  },
+  {
+    id: 'sel_dos_mundiales', name: 'Dos Mundiales',
+    description: 'Disputaste dos Copas del Mundo distintas.',
+    icon: '🗓️', category: 'records', reward: 28000,
+    check: p => mundialesJugados(p) >= 2
+  },
+  {
+    id: 'sel_cuatro_mundiales', name: 'Cuatro Mundiales',
+    description: 'Disputaste cuatro Copas del Mundo. El territorio de Messi, Maradona y Matthaus.',
+    icon: '🗿', category: 'records', reward: 55000,
+    check: p => mundialesJugados(p) >= 4
+  },
+
+  // ===============================================================================================
+  // RECORDS POR COMPETICION
+  // ===============================================================================================
+  //
+  // Los de arriba miran la carrera entera. Estos miran UN torneo, que es como se cuentan los records
+  // de verdad: nadie dice "150 goles"; dice "maximo goleador historico de la Champions".
+  //
+  // El dato sale de `lideresPorCompeticion`, la tabla que se llena partido a partido (ver
+  // lideresPorCompeticion.ts). Es la unica parte del perfil que sabe CUANTOS goles metiste en CADA
+  // torneo -- careerStats solo lleva el total. Por eso estos logros no existian antes: no habia con
+  // que medirlos.
+  //
+  // golesEnTorneo() suma todas las temporadas, porque un record historico de la Champions se
+  // construye a lo largo de una carrera, no en un ano.
+
+  {
+    id: 'rec_liberta_goles_54', name: 'El Récord de Spencer',
+    description: 'Llegaste a 54 goles en la Libertadores. Alberto Spencer es el maximo goleador historico del torneo.',
+    icon: '🌎', category: 'records', reward: 35000,
+    check: p => golesEnTorneo(p, /Libertadores/i) >= 54
+  },
+  {
+    id: 'rec_liberta_goles_20', name: 'Especialista de América',
+    description: 'Llegaste a 20 goles en la Copa Libertadores.',
+    icon: '🌎', category: 'records', reward: 9000,
+    check: p => golesEnTorneo(p, /Libertadores/i) >= 20
+  },
+  {
+    id: 'rec_champions_goles_140', name: 'El Récord de Cristiano',
+    description: 'Llegaste a 140 goles en Champions. Es el record historico de Cristiano Ronaldo.',
+    icon: '🏆', category: 'records', reward: 60000,
+    check: p => golesEnTorneo(p, /Champions/i) >= 140
+  },
+  {
+    id: 'rec_champions_goles_50', name: 'Noches Europeas',
+    description: 'Llegaste a 50 goles en la Champions League.',
+    icon: '🏆', category: 'records', reward: 14000,
+    check: p => golesEnTorneo(p, /Champions/i) >= 50
+  },
+  {
+    id: 'rec_champions_goles_17', name: 'Los 17 de una Temporada',
+    description: 'Metiste 17 goles en Champions en una sola temporada, como Cristiano en 2013-14.',
+    icon: '⚡', category: 'records', reward: 20000,
+    check: p => golesEnTorneoUnaTemporada(p, /Champions/i) >= 17
+  },
+  {
+    id: 'rec_europa_goles_30', name: 'Rey de la Europa League',
+    description: 'Llegaste a 30 goles en la Europa League.',
+    icon: '🥈', category: 'records', reward: 10000,
+    check: p => golesEnTorneo(p, /Europa/i) >= 30
+  },
+  {
+    id: 'rec_europa_titulo', name: 'La Copa del Sevilla',
+    description: 'Ganaste la Europa League. El Sevilla la tiene 7 veces, un record que nadie se acerca.',
+    icon: '🥈', category: 'records', reward: 8000,
+    check: p => (p.cupTitles ?? []).some(t => /Europa/i.test(t.competition))
+  },
+  {
+    id: 'rec_sudamericana_titulo', name: 'Campeón de la Sudamericana',
+    description: 'Ganaste la Copa Sudamericana.',
+    icon: '🏵️', category: 'records', reward: 7000,
+    check: p => (p.cupTitles ?? []).some(t => /Sudamericana/i.test(t.competition))
+  },
+  {
+    id: 'rec_sudamericana_goles_15', name: 'Goleador de la Sudamericana',
+    description: 'Llegaste a 15 goles en la Copa Sudamericana.',
+    icon: '🏵️', category: 'records', reward: 7000,
+    check: p => golesEnTorneo(p, /Sudamericana/i) >= 15
+  },
+  {
+    id: 'rec_mundial_goles_16', name: 'El Récord de Klose',
+    description: 'Llegaste a 16 goles en Mundiales. Miroslav Klose tiene el record historico.',
+    icon: '🌍', category: 'records', reward: 50000,
+    check: p => golesEnTorneo(p, /Mundial/i) >= 16
+  },
+  {
+    id: 'rec_mundial_goles_13', name: 'Los 13 de Fontaine',
+    description: 'Metiste 13 goles en un solo Mundial. Just Fontaine lo hizo en 1958 y nadie lo alcanzo.',
+    icon: '🌍', category: 'records', reward: 55000,
+    check: p => golesEnTorneoUnaTemporada(p, /Mundial/i) >= 13
+  },
+  {
+    id: 'rec_eliminatorias_10', name: 'Motor de la Eliminatoria',
+    description: 'Metiste 10 goles en unas eliminatorias.',
+    icon: '🛫', category: 'records', reward: 9000,
+    check: p => golesEnTorneo(p, /Eliminatorias/i) >= 10
+  },
+  {
+    id: 'rec_liga_goles_474', name: 'El Récord de Messi en Liga',
+    description: 'Llegaste a 474 goles en tu liga. Es el record de Messi en LaLiga.',
+    icon: '🐐', category: 'records', reward: 70000,
+    check: p => maxGolesEnUnaLiga(p) >= 474
+  },
+  {
+    id: 'rec_liga_goles_260', name: 'El Récord de Shearer',
+    description: 'Llegaste a 260 goles en tu liga. Es el record de Alan Shearer en la Premier.',
+    icon: '🎯', category: 'records', reward: 40000,
+    check: p => maxGolesEnUnaLiga(p) >= 260
+  },
+  {
+    id: 'rec_liga_goles_41', name: 'Los 41 de Lewandowski',
+    description: 'Metiste 41 goles de liga en una temporada. Lewandowski le rompio el record a Gerd Muller en 2021.',
+    icon: '🔥', category: 'records', reward: 25000,
+    check: p => golesEnTorneoUnaTemporada(p, /Liga|Premier|LaLiga|Serie|Bundesliga|Ligue|Eredivisie|Primeira|Brasileir/i) >= 41
+  },
+  {
+    id: 'rec_copa_nacional_titulo_5', name: 'Dueño de la Copa',
+    description: 'Ganaste 5 veces la copa nacional de tu pais.',
+    icon: '🏺', category: 'records', reward: 16000,
+    check: p => (p.cupTitles ?? []).filter(t => t.tipo === 'copa'
+      && !/Libertadores|Sudamericana|Champions|Europa|Mundial|Superliga/i.test(t.competition)).length >= 5
+  },
+  {
+    id: 'rec_triplete', name: 'El Triplete',
+    description: 'Liga, copa nacional y copa continental en la misma temporada. Lo hicieron el Barsa 2009 y el Bayern 2013.',
+    icon: '👑', category: 'records', reward: 45000,
+    check: p => {
+      const porAnio = new Map<number, Set<string>>();
+      for (const t of p.cupTitles ?? []) {
+        const k = t.year;
+        const s = porAnio.get(k) ?? new Set<string>();
+        if (t.tipo === 'liga') s.add('liga');
+        else if (/Libertadores|Sudamericana|Champions|Europa/i.test(t.competition)) s.add('continental');
+        else if (!/Mundial/i.test(t.competition)) s.add('copa');
+        porAnio.set(k, s);
+      }
+      for (const s of porAnio.values()) if (s.size >= 3) return true;
+      return false;
+    }
+  },
+  {
+    id: 'rec_continental_y_mundial', name: 'El Año Perfecto',
+    description: 'Ganaste una copa continental y el Mundial en el mismo ano.',
+    icon: '🌟', category: 'records', reward: 60000,
+    check: p => {
+      const anios = new Set((p.cupTitles ?? [])
+        .filter(t => /Libertadores|Champions/i.test(t.competition)).map(t => t.year));
+      return (p.cupTitles ?? []).some(t => /Mundial/i.test(t.competition) && anios.has(t.year));
+    }
+  },
+  {
+    id: 'rec_goleador_de_torneo', name: 'Bota de Oro',
+    description: 'Terminaste como maximo goleador de una competicion.',
+    icon: '👟', category: 'records', reward: 12000,
+    check: p => esGoleadorDeAlgunTorneo(p)
+  },
 
   // ===============================================================================================
   // RECORDS. Cada uno persigue una marca que existe DE VERDAD.
