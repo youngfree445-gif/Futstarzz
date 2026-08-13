@@ -97,6 +97,8 @@ export interface RetirementNews {
   replacementName: string;
 }
 
+import type { LideresPorCompeticion } from './lideresPorCompeticion';
+
 export interface PlayerProfile {
   name: string;
   position: Position;
@@ -170,6 +172,11 @@ export interface PlayerProfile {
   // que no hay un championId que consultar y el título se anota acá al ganar la final.
   // Opcional: las partidas guardadas antes de que existiera este campo no lo traen.
   cupTitles?: CupTitle[];
+  /**
+   * Goleadores y asistidores de CADA competición, por temporada (ver lideresPorCompeticion.ts).
+   * El jugador entra en estas tablas: sus goles cuentan para ser goleador del torneo.
+   */
+  lideresPorCompeticion?: LideresPorCompeticion;
   // Resultados de los partidos del calendario real, por fecha. Ver DatedResult: sin esto los
   // partidos de copa quedaban sin marcador en el calendario. Opcional por las partidas viejas.
   datedResults?: DatedResult[];

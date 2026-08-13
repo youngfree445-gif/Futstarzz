@@ -35,6 +35,7 @@ import {
   resolverPasoCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
   simulatePenaltyShootout, roundLabelByMatchCount, terminarTorneoSinElJugador,
 } from './leagueEngine';
+import { anotarEnLideres, claveDeCompeticion, repartirGoles } from './lideresPorCompeticion';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -4174,6 +4175,38 @@ export default function App() {
       playoffsDeLiga: updatedPlayoffs,
       // Copas y ligas van a la misma lista: todo campeonato ganado queda anotado en la vitrina.
       // El filtro por id evita duplicar si se rejuega el mismo paso.
+      // LÍDERES DE LA COMPETICIÓN QUE SE JUGÓ HOY. Ver lideresPorCompeticion.ts.
+      //
+      // Se anota acá, en el mismo lugar donde ya se resuelve todo lo del partido, porque acá se sabe
+      // con certeza QUÉ competición fue -- el mismo dato que usa el rótulo de la pantalla de partido
+      // y el marcador del calendario. Antes el panel de estadísticas mostraba siempre los líderes de
+      // la liga, sacados de una tabla fija, y el jugador no figuraba en ninguna.
+      lideresPorCompeticion: (() => {
+        const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+        if (!myClub) return playerProfile.lideresPorCompeticion;
+        const nombreComp = activeCompetitionName
+          ?? (activeDomesticCup ? nombreCopaNacional(myClub.league) : getLeagueDisplay(myClub.league, myClub.division).name);
+        const temporadaHoy = temporadaDelPaso(myClub.name, playerProfile.currentWeek)?.temporada
+          ?? temporadaDe(playerProfile, playerProfile.currentWeek);
+        const clave = claveDeCompeticion(nombreComp, temporadaHoy);
+
+        const rivalClub = CLUBS_DATABASE.find(c => c.id === activeOppositionClubId);
+        // Los goles del rival se reparten entre sus figuras: el motor simula marcadores, no
+        // goleadores, y sin este reparto la tabla sería un ranking de un solo nombre -- el tuyo.
+        const delRival = rivalClub
+          ? repartirGoles(rivalClub.starPlayers ?? [], rivalClub.name, results.golesRival)
+          : [];
+        // Los goles de tu equipo que NO metiste vos también se reparten entre tus compañeros.
+        const deLosMios = repartirGoles(
+          (myClub.starPlayers ?? []).filter(f => !f.startsWith(playerProfile.name)),
+          myClub.name,
+          Math.max(0, results.golesMiEquipo - results.goles));
+
+        return anotarEnLideres(playerProfile.lideresPorCompeticion, clave, [
+          { nombre: playerProfile.name, clubName: myClub.name, goles: results.goles, asistencias: results.asistencias, esVos: true },
+          ...delRival, ...deLosMios,
+        ]);
+      })(),
       cupTitles: (() => {
         const nuevos = [cupTitleWon, leagueTitleWon].filter(Boolean) as CupTitle[];
         if (!nuevos.length) return playerProfile.cupTitles;

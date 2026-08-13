@@ -12,6 +12,7 @@ import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
+import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelPartido } from '../chutSocialVoces';
@@ -553,6 +554,35 @@ export default function Dashboard({
   const isFirstSeason = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek) === 1;
   const selectedLeagueLeaders = (isFirstSeason ? REAL_LEAGUE_LEADERS[selectedLeagueName] : undefined)
     ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable, playerProfile.retiredWorldPlayers);
+
+  // LA TABLA DE LÍDERES SIGUE AL TORNEO QUE JUGÁS HOY.
+  //
+  // Si hoy es día de Libertadores, el panel muestra los goleadores de la Libertadores; al día
+  // siguiente, si toca liga, vuelve a los de la liga. Cada competición lleva la suya y el jugador
+  // entra en todas -- sus goles cuentan para ser goleador del torneo, que antes era imposible
+  // porque el panel salía de una tabla fija. Ver lideresPorCompeticion.ts.
+  //
+  // La tabla es POR TEMPORADA: la clave lleva el año de carrera, así que cada temporada arranca en
+  // blanco y se llena con los partidos que se vayan jugando.
+  const compDeHoy = (() => {
+    const paso = hasDatedLeagueSchedule(currentClub.name)
+      ? fixturesAtStep(currentClub.name, playerProfile.currentWeek) : null;
+    const fx = paso ? pickDatedPrimary(paso.fixtures) : null;
+    if (!fx) return null;
+    if (fx.esReservaDeCuadro && fx.competition.kind === 'continental_cup' && conmebolCupId) {
+      return conmebolCupId === 'libertadores' ? 'Copa Libertadores' : 'Copa Sudamericana';
+    }
+    return fx.competition.name;
+  })();
+  const claveLideresHoy = compDeHoy
+    ? claveDeCompeticion(compDeHoy, temporadaDeCarrera(currentClub.name, playerProfile.currentWeek))
+    : null;
+  const lideresDeHoy = claveLideresHoy ? lideresDe(playerProfile.lideresPorCompeticion, claveLideresHoy) : null;
+  // Sólo se reemplaza el panel cuando el torneo del día YA tiene goles anotados. Al principio de una
+  // copa la tabla está vacía, y mostrar "sin datos" donde antes había información sería un paso
+  // atrás: en ese caso se sigue viendo la de la liga.
+  const hayLideresDeHoy = !!lideresDeHoy && lideresDeHoy.goleadores.length > 0;
+  const tituloDeLideres = hayLideresDeHoy && compDeHoy ? compDeHoy : selectedLeagueName;
 
   // Copa continental real que le corresponde al club actual (si clasifica a alguna).
   const cupYear = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
@@ -4121,12 +4151,18 @@ export default function Dashboard({
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
                 <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
-                  <Award size={13} /> ESTADÍSTICAS DE JUGADORES · {selectedLeagueName.toUpperCase()}
+                  <Award size={13} /> ESTADÍSTICAS DE JUGADORES · {tituloDeLideres.toUpperCase()}
                 </h3>
                 {(() => {
+                  const goleador = hayLideresDeHoy ? lideresDeHoy!.goleadores[0] : null;
+                  const asistidor = hayLideresDeHoy ? lideresDeHoy!.asistidores[0] : null;
                   const stats: { icon: string; label: string; entry: { name: string; clubName: string } | null; value: string | null }[] = [
-                    { icon: '⚽', label: 'Máximo Goleador', entry: selectedLeagueLeaders.topScorer, value: selectedLeagueLeaders.topScorer ? `${selectedLeagueLeaders.topScorer.value} goles` : null },
-                    { icon: '🎯', label: 'Máximo Asistidor', entry: selectedLeagueLeaders.topAssist, value: selectedLeagueLeaders.topAssist ? `${selectedLeagueLeaders.topAssist.value} asistencias` : null },
+                    { icon: '⚽', label: 'Máximo Goleador',
+                      entry: goleador ? { name: goleador.esVos ? `${goleador.nombre} (vos)` : goleador.nombre, clubName: goleador.clubName } : selectedLeagueLeaders.topScorer,
+                      value: goleador ? `${goleador.goles} goles` : selectedLeagueLeaders.topScorer ? `${selectedLeagueLeaders.topScorer.value} goles` : null },
+                    { icon: '🎯', label: 'Máximo Asistidor',
+                      entry: asistidor ? { name: asistidor.esVos ? `${asistidor.nombre} (vos)` : asistidor.nombre, clubName: asistidor.clubName } : selectedLeagueLeaders.topAssist,
+                      value: asistidor ? `${asistidor.asistencias} asistencias` : selectedLeagueLeaders.topAssist ? `${selectedLeagueLeaders.topAssist.value} asistencias` : null },
                     { icon: '🧤', label: 'Portería Menos Vencida', entry: selectedLeagueLeaders.topGoalkeeper, value: null },
                     { icon: '🟨', label: 'Más Amarillas', entry: selectedLeagueLeaders.topYellow, value: selectedLeagueLeaders.topYellow ? `${selectedLeagueLeaders.topYellow.value} amarillas` : null },
                     { icon: '🟥', label: 'Más Rojas', entry: selectedLeagueLeaders.topRed, value: selectedLeagueLeaders.topRed ? `${selectedLeagueLeaders.topRed.value} rojas` : null },
