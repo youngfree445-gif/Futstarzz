@@ -369,3 +369,27 @@ console.log('\n--- Fase de grupos: no debe haber global ---');
 
   if (fallas) { console.log(`\n${fallas} FALLAS en el global de fase de grupos`); process.exit(1); }
 }
+
+// ---------------------------------------------------------------------------------------------
+// PISO DURO: una copa que no llega a su final es una copa que desapareció.
+//
+// Antes acá sólo se IMPRIMÍA el porcentaje de ediciones coronadas y el validador salía con 0 pase
+// lo que pasara, así que una caída se leía como un número más en la pantalla. Y cayó: el reparto de
+// días le daba la bolsa entera al primer torneo que la pedía, la copa nacional se quedaba con cero
+// días y el cuadro se congelaba después de la vuelta real. Reportado: "en el calendario la copa
+// Colombia desaparece". Ahora eso rompe el validador, que es lo único que impide que vuelva.
+//
+// El piso es 90% y no 100% a propósito: quedan ligas cuyo fragmento real termina tan tarde que el
+// cuadro no entra en la ventana del torneo. Lo que no puede pasar es que se DERRUMBE.
+const PISO_DE_CORONACION = 0.90;
+const logrado = nCoronadas / nTotal;
+if (logrado < PISO_DE_CORONACION) {
+  console.log(`\nFALLA: sólo el ${Math.round(logrado * 100)}% de las ediciones corona campeón (piso ${PISO_DE_CORONACION * 100}%).`);
+  console.log('Alguna copa se está quedando sin días de calendario donde jugarse.');
+  process.exit(1);
+}
+if (nSinCopa > 0) {
+  console.log(`\nFALLA: ${nSinCopa} club-temporadas sin NI UN partido de copa.`);
+  process.exit(1);
+}
+console.log(`\nPiso de coronación OK: ${Math.round(logrado * 100)}% (mínimo ${PISO_DE_CORONACION * 100}%).`);

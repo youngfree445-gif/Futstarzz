@@ -280,6 +280,9 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
  */
 const FECHAS_DE_COPA_BASE = 12;
 
+/** Radio en días para medir si una fecha nueva queda apretada contra las que ya hay. */
+const VENTANA_DE_DESCANSO_DIAS = 3;
+
 /**
  * Las de más para los clubes cuyo país juega copas continentales.
  *
@@ -290,7 +293,7 @@ const FECHAS_DE_COPA_BASE = 12;
  * Los clubes de esos países que NO clasifican ese año no pierden nada: sus fechas sobrantes son
  * días de descanso, que es exactamente lo que le pasa a un club sin copa internacional.
  */
-const FECHAS_DE_COPA_CONTINENTAL = 10;
+const FECHAS_DE_COPA_CONTINENTAL = 14;
 
 /**
  * Los clubes que pueden llegar a jugar una copa continental, y por eso necesitan la bolsa grande.
@@ -385,6 +388,21 @@ function clubesConBonoContinental(): Set<string> {
 function fechasDeCopaReservadas(club: string): number {
   return FECHAS_DE_COPA_BASE
     + (clubesConBonoContinental().has(club) ? FECHAS_DE_COPA_CONTINENTAL : 0);
+}
+
+/**
+ * Cuántos días necesita ESTA competición para llegar hasta su final.
+ *
+ * Un cuadro de eliminación directa no admite negociación: 32 clubes son 5 rondas, y a ida y vuelta
+ * eso son 10 días. Si se le dan 8, el torneo se congela en semifinales y desaparece del calendario
+ * con el jugador adentro -- que es exactamente lo que pasaba (ver el comentario de `faltan`).
+ *
+ * Se pide el número entero del torneo, no "lo que sobre": los días que ya trae el fragmento real se
+ * descuentan en el llamador, y de los que se reservan de más no se pierde nada -- un día de copa sin
+ * partido es un día de descanso, que es lo que le pasa a cualquier club eliminado.
+ */
+function fechasQueNecesita(comp: DatedCompetition): number {
+  return comp.kind === 'continental_cup' ? FECHAS_DE_COPA_CONTINENTAL : FECHAS_DE_COPA_BASE;
 }
 
 /**
@@ -634,11 +652,16 @@ function reservarFechasDeCopa(
     if (deEstaCopa.some(f => esRondaFinal(f.match.round))) continue;
 
     const fechasDeEstaCopa = deEstaCopa.map(f => f.date).sort();
-    // La bolsa es UNA SOLA para todas las copas del club, así que se descuenta lo que ya reservó
-    // otra pasada. Sin esto, la nacional pediría su bolsa entera y la continental otra vez la suya:
-    // el doble de días de copa, y un club jugando cada tres días todo el año.
-    const yaReservadas = propios.reduce((n, f) => n + (f.esReservaDeCuadro ? 1 : 0), 0);
-    const faltan = fechasDeCopaReservadas(club) - fechasDeEstaCopa.length - yaReservadas;
+    // CADA COPA PIDE LO SUYO. Antes había una bolsa única y cada torneo pedía "la bolsa entera menos
+    // lo que ya reservó otro": el primero que preguntaba se la llevaba completa y el segundo se
+    // quedaba en cero. Medido en el Junior: la Sudamericana pedía 22 de 22 y la Copa BetPlay
+    // terminaba con faltan = -2, o sea que su cuadro no tenía UN SOLO día donde jugarse después de
+    // la vuelta real. Por eso la copa desaparecía del calendario a mitad de torneo.
+    //
+    // El reparto por orden de llegada nunca tuvo sentido: no son dos torneos peleando por el mismo
+    // día, son dos torneos que necesitan días distintos. Lo que cada uno necesita se sabe -- sale
+    // del tamaño de su cuadro -- así que se pide eso y no un número global.
+    const faltan = fechasQueNecesita(comp) - fechasDeEstaCopa.length;
     if (faltan <= 0) continue;
 
     // De acá para abajo se trabaja con NÚMEROS DE DÍA, no con strings de fecha. El bucle recorre
@@ -713,7 +736,7 @@ function reservarFechasDeCopa(
       }
     }
     // Lo que falte se completa como siempre, repartido dentro de la ventana.
-    diasElegidos.push(...elegirDias(desde, hasta, vetados, Math.max(0, faltan - diasElegidos.length)));
+    diasElegidos.push(...elegirDias(desde, hasta, vetados, Math.max(0, faltan - diasElegidos.length), ocupadosDelClub));
 
     for (const dia of diasElegidos) {
       const date = dateForDay(dia);
@@ -727,18 +750,38 @@ function reservarFechasDeCopa(
 }
 
 /**
- * Hasta `cuantas` fechas libres entre `desde` y `hasta`, lo más espaciadas que se pueda.
+ * `cuantas` fechas entre `desde` y `hasta`, lo más espaciadas que se pueda. NUNCA menos.
  *
- * Se prueba primero con la separación cómoda y se va apretando sólo si no entran todas. Devolver de
- * menos no rompe nada -- la copa simplemente no llega a la final ese año -- pero es lo que hay que
- * evitar, así que conviene apretar antes que quedarse corto.
+ * Se prueba primero con la separación cómoda y se va apretando. Si ni la más apretada entra, se
+ * COLOCAN IGUAL en los días libres que queden, aceptando menos descanso del ideal.
+ *
+ * POR QUÉ NO PUEDE DEVOLVER DE MENOS. Antes devolvía lo que entrara y seguía de largo; el
+ * comentario decía "no rompe nada, la copa simplemente no llega a la final ese año". Sí rompe: es
+ * un torneo entero desapareciendo del calendario a mitad de camino. Medido en el Junior, la Copa
+ * BetPlay pedía 11 días, tenía 11 de cupo y recibía CERO -- el veto de descanso vetaba toda la
+ * ventana, porque para agosto ya estaban tomados los días por la fase de grupos de la Libertadores
+ * y por la liga. Reportado: "en el calendario la copa Colombia desaparece, le gané la ida y nunca
+ * se jugó la vuelta".
+ *
+ * La distinción que faltaba: el descanso mínimo es una PREFERENCIA, no una pared. Un año tiene 365
+ * días y un club juega 72 partidos -- nunca se está sin día, a lo sumo se está sin día cómodo.
+ * Entre "jugar con dos días de descanso" y "que el torneo no exista", se juega. Lo único que sigue
+ * siendo intocable es `ocupados`: dos partidos el mismo día no es incomodidad, es un partido que se
+ * pierde, porque el paso del calendario elige uno solo (ver pickPrimary).
  *
  * SALTA en vez de recorrer día por día. Con 49 competiciones y 32 temporadas, caminar los ~300 días
  * de la ventana de cada copa para cada club llevó el armado del calendario a 703 ms, por encima del
  * tope de 600 que vigila el validador. Ahora se va directo al día ideal de cada slot y sólo se
- * avanza si está vetado: unas pocas comprobaciones en vez de trescientas.
+ * avanza si está vetado: unas pocas comprobaciones en vez de trescientas. El relleno de abajo sí
+ * recorre la ventana, pero corre SÓLO cuando el camino rápido se quedó corto, que es la excepción.
  */
-function elegirDias(desde: number, hasta: number, vetados: Set<number>, cuantas: number): number[] {
+function elegirDias(
+  desde: number,
+  hasta: number,
+  vetados: Set<number>,
+  cuantas: number,
+  ocupados: ReadonlySet<number>,
+): number[] {
   let mejor: number[] = [];
   for (const espaciado of ESPACIADOS_DE_COPA_DIAS) {
     const elegidos: number[] = [];
@@ -753,7 +796,33 @@ function elegirDias(desde: number, hasta: number, vetados: Set<number>, cuantas:
     if (elegidos.length > mejor.length) mejor = elegidos;
     if (mejor.length >= cuantas) break;
   }
-  return mejor;
+  if (mejor.length >= cuantas) return mejor;
+
+  // Relleno: quedan días por colocar y el veto ya no alcanza para decidir, porque vetó todo. La
+  // pregunta deja de ser "¿este día está libre?" y pasa a ser "¿cuál de los días que quedan molesta
+  // menos?" -- se elige el que tenga menos partidos cerca. Repartir a ciegas metía las fechas
+  // pegadas a las que ya había y multiplicaba por cinco los tramos de 4 partidos en 7 días.
+  const elegidos = new Set(mejor);
+  const libres: number[] = [];
+  for (let d = desde; d <= hasta; d++) {
+    if (elegidos.has(d) || ocupados.has(d)) continue;
+    let vecinos = 0;
+    for (let k = -VENTANA_DE_DESCANSO_DIAS; k <= VENTANA_DE_DESCANSO_DIAS; k++) {
+      if (k && (ocupados.has(d + k) || elegidos.has(d + k))) vecinos++;
+    }
+    libres.push(d * 100 + vecinos);   // día y vecinos en un solo número: ordenar objetos acá cuesta
+  }
+  // Menos vecinos primero; a igualdad, el más temprano, para no amontonar el final del torneo.
+  libres.sort((a, b) => (a % 100) - (b % 100) || a - b);
+  for (let i = 0; i < libres.length && mejor.length < cuantas; i++) {
+    const dia = Math.floor(libres[i] / 100);
+    // Se re-chequea contra lo ya elegido en ESTA pasada: el conteo de vecinos se hizo antes de
+    // empezar a colocar, y sin esto las dos mejores opciones podían terminar siendo días seguidos.
+    if (elegidos.has(dia) || elegidos.has(dia - 1) || elegidos.has(dia + 1)) continue;
+    elegidos.add(dia);
+    mejor.push(dia);
+  }
+  return mejor.sort((a, b) => a - b);
 }
 
 
@@ -973,7 +1042,7 @@ function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada:
       for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(d + k);
     }
 
-    const elegidos = elegirDias(desde, hasta, vetados, FECHAS_DE_MUNDIAL);
+    const elegidos = elegirDias(desde, hasta, vetados, FECHAS_DE_MUNDIAL, new Set(sobreviven.map(f => dayForDate(f.date))));
     // Si el veto dejó menos de las que hace falta, se cae al reparto parejo: es preferible un
     // Mundial apretado contra el calendario del club a un Mundial que no llega a la final.
     const dias = elegidos.length >= FECHAS_DE_MUNDIAL
