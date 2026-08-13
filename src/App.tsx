@@ -35,7 +35,7 @@ import {
   resolverPasoCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
   simulatePenaltyShootout, roundLabelByMatchCount, terminarTorneoSinElJugador,
 } from './leagueEngine';
-import { anotarEnLideres, claveDeCompeticion, repartirGoles } from './lideresPorCompeticion';
+import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -4202,9 +4202,30 @@ export default function App() {
           myClub.name,
           Math.max(0, results.golesMiEquipo - results.goles));
 
+        // Tarjetas: las tuyas son reales (salen de tus decisiones en el partido); las de los demás
+        // se simulan, porque el motor no las genera y si no "más amarillas" del torneo serías
+        // siempre vos con una sola.
+        const tarjeta: 'none' | 'yellow' | 'red' = results.cardReceived || 'none';
+        const tarjetasAjenas = [
+          ...(rivalClub ? repartirTarjetas(rivalClub.starPlayers ?? [], rivalClub.name) : []),
+          ...repartirTarjetas((myClub.starPlayers ?? []).filter(f => !f.startsWith(playerProfile.name)), myClub.name),
+        ];
+        // Portería menos vencida: cada arquero suma un partido y los goles que le hicieron.
+        const miArquero = arqueroDe(myClub.starPlayers ?? []);
+        const suArquero = rivalClub ? arqueroDe(rivalClub.starPlayers ?? []) : null;
+        const arqueros = [
+          ...(miArquero ? [{ nombre: miArquero, clubName: myClub.name, partidosDeArquero: 1, golesRecibidos: results.golesRival }] : []),
+          ...(suArquero && rivalClub ? [{ nombre: suArquero, clubName: rivalClub.name, partidosDeArquero: 1, golesRecibidos: results.golesMiEquipo }] : []),
+        ];
+
         return anotarEnLideres(playerProfile.lideresPorCompeticion, clave, [
-          { nombre: playerProfile.name, clubName: myClub.name, goles: results.goles, asistencias: results.asistencias, esVos: true },
-          ...delRival, ...deLosMios,
+          {
+            nombre: playerProfile.name, clubName: myClub.name,
+            goles: results.goles, asistencias: results.asistencias,
+            amarillas: tarjeta === 'yellow' ? 1 : 0, rojas: tarjeta === 'red' ? 1 : 0,
+            esVos: true,
+          },
+          ...delRival, ...deLosMios, ...tarjetasAjenas, ...arqueros,
         ]);
       })(),
       cupTitles: (() => {

@@ -30,6 +30,11 @@ export interface LineaDeLider {
   clubName: string;
   goles: number;
   asistencias: number;
+  amarillas: number;
+  rojas: number;
+  /** Sólo para arqueros: partidos jugados y goles recibidos, para la portería menos vencida. */
+  partidosDeArquero?: number;
+  golesRecibidos?: number;
   /** true si es el jugador de la carrera. Sirve para resaltarlo en la tabla. */
   esVos?: boolean;
 }
@@ -64,7 +69,11 @@ export function nombreDeLaClave(clave: string): string {
 export function anotarEnLideres(
   tablas: LideresPorCompeticion | undefined,
   clave: string,
-  lineas: readonly { nombre: string; clubName: string; goles?: number; asistencias?: number; esVos?: boolean }[],
+  lineas: readonly {
+    nombre: string; clubName: string;
+    goles?: number; asistencias?: number; amarillas?: number; rojas?: number;
+    partidosDeArquero?: number; golesRecibidos?: number; esVos?: boolean;
+  }[],
 ): LideresPorCompeticion {
   if (!lineas.length) return tablas ?? {};
   const previas = tablas?.[clave] ?? {};
@@ -77,6 +86,10 @@ export function anotarEnLideres(
       clubName: l.clubName || antes?.clubName || '',
       goles: (antes?.goles ?? 0) + (l.goles ?? 0),
       asistencias: (antes?.asistencias ?? 0) + (l.asistencias ?? 0),
+      amarillas: (antes?.amarillas ?? 0) + (l.amarillas ?? 0),
+      rojas: (antes?.rojas ?? 0) + (l.rojas ?? 0),
+      partidosDeArquero: (antes?.partidosDeArquero ?? 0) + (l.partidosDeArquero ?? 0),
+      golesRecibidos: (antes?.golesRecibidos ?? 0) + (l.golesRecibidos ?? 0),
       esVos: l.esVos || antes?.esVos,
     };
   }
@@ -87,9 +100,13 @@ export function anotarEnLideres(
 export function lideresDe(
   tablas: LideresPorCompeticion | undefined,
   clave: string,
-): { goleadores: LineaDeLider[]; asistidores: LineaDeLider[] } {
+): {
+  goleadores: LineaDeLider[]; asistidores: LineaDeLider[];
+  amonestados: LineaDeLider[]; expulsados: LineaDeLider[]; arqueros: LineaDeLider[];
+} {
+  const vacio = { goleadores: [], asistidores: [], amonestados: [], expulsados: [], arqueros: [] };
   const tabla = tablas?.[clave];
-  if (!tabla) return { goleadores: [], asistidores: [] };
+  if (!tabla) return vacio;
   const todos = Object.values(tabla);
   // Desempate por nombre para que el orden sea estable entre renders: sin esto, dos jugadores con
   // los mismos goles se turnaban el primer puesto cada vez que la pantalla se volvía a dibujar.
@@ -97,7 +114,21 @@ export function lideresDe(
     .sort((a, b) => b.goles - a.goles || b.asistencias - a.asistencias || a.nombre.localeCompare(b.nombre));
   const asistidores = todos.filter(l => l.asistencias > 0)
     .sort((a, b) => b.asistencias - a.asistencias || b.goles - a.goles || a.nombre.localeCompare(b.nombre));
-  return { goleadores, asistidores };
+  const amonestados = todos.filter(l => l.amarillas > 0)
+    .sort((a, b) => b.amarillas - a.amarillas || a.nombre.localeCompare(b.nombre));
+  const expulsados = todos.filter(l => l.rojas > 0)
+    .sort((a, b) => b.rojas - a.rojas || a.nombre.localeCompare(b.nombre));
+  // PORTERÍA MENOS VENCIDA: promedio de goles recibidos, no total. Con el total ganaba siempre el
+  // arquero que menos jugó -- uno con dos partidos y un gol le pasaba por delante a uno con veinte
+  // partidos y diez. Se pide un mínimo de partidos por lo mismo.
+  const MINIMO_DE_PARTIDOS = 3;
+  const arqueros = todos
+    .filter(l => (l.partidosDeArquero ?? 0) >= MINIMO_DE_PARTIDOS)
+    .sort((a, b) =>
+      (a.golesRecibidos! / a.partidosDeArquero!) - (b.golesRecibidos! / b.partidosDeArquero!)
+      || b.partidosDeArquero! - a.partidosDeArquero!
+      || a.nombre.localeCompare(b.nombre));
+  return { goleadores, asistidores, amonestados, expulsados, arqueros };
 }
 
 /**
@@ -136,4 +167,41 @@ export function repartirGoles(
 /** "Luis Muriel (ST)" -> "Luis Muriel". */
 function limpiarNombre(figura: string): string {
   return figura.replace(/\s*\([^)]*\)\s*$/, '').trim();
+}
+
+/**
+ * Reparte tarjetas simuladas de un club.
+ *
+ * El motor tampoco simula tarjetas de los rivales -- sólo las tuyas, que salen de tus decisiones en
+ * el partido. Sin este reparto, "más amarillas" del torneo serías siempre vos con una sola, o
+ * quedaría vacío. Las amarillas caen sobre todo en defensores y volantes, que es donde caen de
+ * verdad, y las rojas son raras a propósito: una cada tantos partidos, no una por fecha.
+ */
+export function repartirTarjetas(
+  figuras: readonly string[],
+  clubName: string,
+  aleatorio: () => number = Math.random,
+): { nombre: string; clubName: string; amarillas: number; rojas: number }[] {
+  if (!figuras.length) return [];
+  const propensos = figuras.filter(f => /\((CB|LB|RB|CDM|CM|LM|RM)\)/.test(f));
+  const candidatos = (propensos.length ? propensos : figuras).map(limpiarNombre);
+  const salida: { nombre: string; clubName: string; amarillas: number; rojas: number }[] = [];
+  // Un partido de fútbol reparte dos o tres amarillas por equipo. Se modela así y no con una
+  // probabilidad por jugador, que daba equipos con nueve amonestados.
+  const cuantas = aleatorio() < 0.35 ? 1 : aleatorio() < 0.85 ? 2 : 3;
+  for (let i = 0; i < cuantas; i++) {
+    const quien = candidatos[Math.floor(aleatorio() * candidatos.length)];
+    salida.push({ nombre: quien, clubName, amarillas: 1, rojas: 0 });
+  }
+  if (aleatorio() < 0.06) {
+    const quien = candidatos[Math.floor(aleatorio() * candidatos.length)];
+    salida.push({ nombre: quien, clubName, amarillas: 0, rojas: 1 });
+  }
+  return salida;
+}
+
+/** El arquero de un plantel, o null si la lista no trae ninguno. */
+export function arqueroDe(figuras: readonly string[]): string | null {
+  const gk = figuras.find(f => /\(GK\)/.test(f));
+  return gk ? limpiarNombre(gk) : null;
 }

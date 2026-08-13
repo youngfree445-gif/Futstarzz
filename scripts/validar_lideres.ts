@@ -1,5 +1,5 @@
 // Casos de la tabla de lideres por competicion (ver src/lideresPorCompeticion.ts).
-import { anotarEnLideres, claveDeCompeticion, lideresDe, repartirGoles } from '../src/lideresPorCompeticion';
+import { anotarEnLideres, arqueroDe, claveDeCompeticion, lideresDe, repartirGoles, repartirTarjetas } from '../src/lideresPorCompeticion';
 
 let fallas = 0;
 const ok = (nombre: string, cond: boolean, detalle = '') => {
@@ -38,5 +38,30 @@ const reparto = repartirGoles(['Pepe (GK)', 'Juan (CB)', 'Luis (ST)', 'Ana (CAM)
 ok('reparte exactamente los goles del marcador', reparto.reduce((n, x) => n + x.goles, 0) === 5);
 ok('no le da goles al arquero', !reparto.some(x => x.nombre === 'Pepe'));
 
-console.log(fallas === 0 ? '\nLos 7 casos pasan.' : `\n${fallas} FALLAS`);
+
+// Tarjetas y porteria menos vencida.
+let d = anotarEnLideres(undefined, 'X|1', [
+  { nombre: 'Duro', clubName: 'A', amarillas: 7 },
+  { nombre: 'Cani', clubName: 'Junior', amarillas: 2, rojas: 1, esVos: true },
+]);
+let rd = lideresDe(d, 'X|1');
+ok('mas amarillas sale de la tabla del torneo', rd.amonestados[0]?.nombre === 'Duro' && rd.amonestados[0]?.amarillas === 7);
+ok('el jugador puede liderar en rojas', rd.expulsados[0]?.nombre === 'Cani' && rd.expulsados[0]?.esVos === true);
+
+// Porteria menos vencida: gana el de MENOR promedio y hace falta un minimo de partidos.
+d = anotarEnLideres(d, 'X|1', [
+  { nombre: 'Mele', clubName: 'A', partidosDeArquero: 20, golesRecibidos: 10 },
+  { nombre: 'Suplente', clubName: 'B', partidosDeArquero: 2, golesRecibidos: 0 },
+  { nombre: 'Rey', clubName: 'C', partidosDeArquero: 10, golesRecibidos: 3 },
+]);
+rd = lideresDe(d, 'X|1');
+ok('porteria menos vencida por PROMEDIO, no por total', rd.arqueros[0]?.nombre === 'Rey', `(${rd.arqueros[0]?.nombre})`);
+ok('el arquero con 2 partidos no llega al minimo', !rd.arqueros.some(a => a.nombre === 'Suplente'));
+
+const tj = repartirTarjetas(['Pepe (GK)', 'Juan (CB)', 'Luis (ST)'], 'X', () => 0.5);
+ok('reparte amarillas sin pasarse de tres', tj.filter(t => t.amarillas).length <= 3 && tj.length > 0);
+ok('las amarillas no caen en el arquero', !tj.some(t => t.nombre === 'Pepe'));
+ok('arqueroDe encuentra al arquero', arqueroDe(['Luis (ST)', 'Pepe (GK)']) === 'Pepe');
+
+console.log(fallas === 0 ? '\nLos 14 casos pasan.' : `\n${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

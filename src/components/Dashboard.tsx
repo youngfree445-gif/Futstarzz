@@ -4156,6 +4156,9 @@ export default function Dashboard({
                 {(() => {
                   const goleador = hayLideresDeHoy ? lideresDeHoy!.goleadores[0] : null;
                   const asistidor = hayLideresDeHoy ? lideresDeHoy!.asistidores[0] : null;
+                  const amonestado = hayLideresDeHoy ? lideresDeHoy!.amonestados[0] : null;
+                  const expulsado = hayLideresDeHoy ? lideresDeHoy!.expulsados[0] : null;
+                  const arquero = hayLideresDeHoy ? lideresDeHoy!.arqueros[0] : null;
                   const stats: { icon: string; label: string; entry: { name: string; clubName: string } | null; value: string | null }[] = [
                     { icon: '⚽', label: 'Máximo Goleador',
                       entry: goleador ? { name: goleador.esVos ? `${goleador.nombre} (vos)` : goleador.nombre, clubName: goleador.clubName } : selectedLeagueLeaders.topScorer,
@@ -4163,9 +4166,18 @@ export default function Dashboard({
                     { icon: '🎯', label: 'Máximo Asistidor',
                       entry: asistidor ? { name: asistidor.esVos ? `${asistidor.nombre} (vos)` : asistidor.nombre, clubName: asistidor.clubName } : selectedLeagueLeaders.topAssist,
                       value: asistidor ? `${asistidor.asistencias} asistencias` : selectedLeagueLeaders.topAssist ? `${selectedLeagueLeaders.topAssist.value} asistencias` : null },
-                    { icon: '🧤', label: 'Portería Menos Vencida', entry: selectedLeagueLeaders.topGoalkeeper, value: null },
-                    { icon: '🟨', label: 'Más Amarillas', entry: selectedLeagueLeaders.topYellow, value: selectedLeagueLeaders.topYellow ? `${selectedLeagueLeaders.topYellow.value} amarillas` : null },
-                    { icon: '🟥', label: 'Más Rojas', entry: selectedLeagueLeaders.topRed, value: selectedLeagueLeaders.topRed ? `${selectedLeagueLeaders.topRed.value} rojas` : null },
+                    // Las tres de abajo también salen de la tabla del torneo del día cuando la hay.
+                    // El arquero muestra el PROMEDIO de goles recibidos, que es como se mide la
+                    // portería menos vencida: el total premiaba al que menos jugó.
+                    { icon: '🧤', label: 'Portería Menos Vencida',
+                      entry: arquero ? { name: arquero.nombre, clubName: arquero.clubName } : selectedLeagueLeaders.topGoalkeeper,
+                      value: arquero ? `${(arquero.golesRecibidos! / arquero.partidosDeArquero!).toFixed(2)} goles por partido` : null },
+                    { icon: '🟨', label: 'Más Amarillas',
+                      entry: amonestado ? { name: amonestado.esVos ? `${amonestado.nombre} (vos)` : amonestado.nombre, clubName: amonestado.clubName } : selectedLeagueLeaders.topYellow,
+                      value: amonestado ? `${amonestado.amarillas} amarillas` : selectedLeagueLeaders.topYellow ? `${selectedLeagueLeaders.topYellow.value} amarillas` : null },
+                    { icon: '🟥', label: 'Más Rojas',
+                      entry: expulsado ? { name: expulsado.esVos ? `${expulsado.nombre} (vos)` : expulsado.nombre, clubName: expulsado.clubName } : selectedLeagueLeaders.topRed,
+                      value: expulsado ? `${expulsado.rojas} rojas` : selectedLeagueLeaders.topRed ? `${selectedLeagueLeaders.topRed.value} rojas` : null },
                   ];
                   return (
                     <div className="grid sm:grid-cols-2 gap-3">
