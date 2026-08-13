@@ -1370,6 +1370,46 @@ export function fechasDeLigaTranscurridas(clubName: string, currentWeek: number)
 }
 
 /**
+ * Cuántas fechas de liga tiene el torneo al que pertenece `date`, y de cuántas hay constancia de
+ * haberse jugado. Sirve para no coronar campeón a quien no jugó el torneo.
+ *
+ * POR QUÉ EXISTE: un título de liga se anota cuando "cerró el torneo y quedaste primero", y ese
+ * cierre se venía deduciendo del calendario. Cuando la deducción falla -- y falló, ver el comentario
+ * de cerroElTorneo en App.tsx -- el título sale igual, con la tabla del motor, después de un puñado
+ * de fechas. Reportado: "aun me dio el título de liga con Junior en tan solo unas fechas", en pleno
+ * Apertura, allá por febrero.
+ *
+ * Contra eso no alcanza con arreglar la deducción: hay que hacer imposible el resultado absurdo.
+ * Ganar el Apertura son 19 fechas; si el perfil tiene dos, no hay torneo que cerrar, venga de donde
+ * venga la señal.
+ *
+ * `jugadas` sale de los días con resultado guardado, no de un contador: datedResults anota TODA
+ * fecha jugada, incluidas las que el club resolvió sin el jugador (lesión, fatiga), que para esto
+ * cuentan igual -- el torneo se jugó.
+ */
+export function fechasDeLigaDelTorneo(
+  clubName: string,
+  date: string,
+  diasConResultado: ReadonlySet<string>,
+): { jugadas: number; total: number } {
+  const deLiga = fixturesForClub(clubName).filter(f => f.competition.kind === 'league');
+  const esteFixture = deLiga.find(f => f.date === date);
+  if (!esteFixture) return { jugadas: 0, total: 0 };
+
+  // Mismo recorte que esUltimaFechaDelTorneo: temporada de carrera + torneo (Apertura/Clausura), o
+  // el torneo entero donde el año trae uno solo. Sin el recorte por temporada, el total serían las
+  // ~1200 fechas de las 32 temporadas generadas y ningún campeón pasaría el filtro nunca.
+  const torneo = torneoDeFecha(esteFixture.competition, date);
+  const mismos = deLiga.filter(f =>
+    f.temporada === esteFixture.temporada && torneoDeFecha(f.competition, f.date) === torneo);
+
+  // El día de hoy todavía no está en datedResults (se guarda después de resolver el partido), así
+  // que se cuenta a mano: si no, el campeón legítimo de la última fecha quedaba uno corto.
+  const jugadas = mismos.filter(f => f.date === date || diasConResultado.has(f.date)).length;
+  return { jugadas, total: mismos.length };
+}
+
+/**
  * En Colombia y Argentina el año tiene DOS torneos de liga, no uno: el Apertura (enero a junio) y
  * el Clausura (julio a noviembre), cada uno con su campeón. Decir solo "Primera División" deja al
  * jugador sin saber cuál está jugando ni cuál puede ganar.

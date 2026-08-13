@@ -1,5 +1,6 @@
 // Casos de prueba de la limpieza: lo que TIENE que sacar y lo que NO puede tocar.
 import { limpiarTitulosFantasma } from '../src/limpiarTitulos';
+import { fechasDeLigaDelTorneo, fixturesForClub } from '../src/dateSchedule';
 import type { PlayerProfile } from '../src/types';
 
 const base = (cupTitles: any[], datedResults: any[]) =>
@@ -42,5 +43,43 @@ for (const [nombre, perfil, esperado] of casos) {
   if (!ok) fallas++;
   console.log(`${ok ? 'OK  ' : 'FALLA'} ${nombre}  (quitó ${quitados.length}, esperado ${esperado})`);
 }
-console.log(fallas === 0 ? '\nLos 7 casos pasan.' : `\n${fallas} FALLAS`);
+
+// ---------------------------------------------------------------------------------------------
+// LA OTRA MITAD: que el título no llegue a escribirse.
+//
+// La limpieza de arriba es el segundo filtro; el primero es no coronar campeón a quien no jugó el
+// torneo. Reportado: "aun me dio el título de liga con Junior en tan solo unas fechas", en febrero,
+// con el Apertura recién empezado. Acá se fija la regla que lo impide, contra el calendario real.
+// ---------------------------------------------------------------------------------------------
+console.log('\n--- fechasDeLigaDelTorneo (umbral para coronar) ---');
+
+const JUNIOR = 'Junior de Barranquilla';
+const jugoElTorneo = (date: string, dias: string[]) => {
+  const { jugadas, total } = fechasDeLigaDelTorneo(JUNIOR, date, new Set(dias));
+  return { ok: total === 0 || jugadas * 2 >= total, jugadas, total };
+};
+
+const fechasDeLiga = fixturesForClub(JUNIOR)
+  .filter(f => f.temporada === 1 && f.competition.kind === 'league')
+  .map(f => f.date);
+const apertura = fechasDeLiga.filter(d => Number(d.slice(5, 7)) <= 6);
+
+const casosDeUmbral: [string, boolean, ReturnType<typeof jugoElTorneo>][] = [
+  ['febrero con 3 fechas jugadas -> NO puede coronar',
+   false, jugoElTorneo(apertura[3], apertura.slice(0, 3))],
+  ['última fecha del Apertura habiéndolo jugado entero -> SÍ corona',
+   true, jugoElTorneo(apertura[apertura.length - 1], apertura.slice(0, -1))],
+  ['última fecha salteándose un tercio de las fechas -> SÍ corona igual',
+   true, jugoElTorneo(apertura[apertura.length - 1],
+                     apertura.slice(0, -1).filter((_, i) => i % 3 !== 0))],
+];
+
+for (const [nombre, esperado, r] of casosDeUmbral) {
+  const ok = r.ok === esperado;
+  if (!ok) fallas++;
+  console.log(`${ok ? 'OK  ' : 'FALLA'} ${nombre}  (${r.jugadas}/${r.total} fechas -> ${r.ok ? 'corona' : 'no corona'})`);
+}
+
+const totalCasos = casos.length + casosDeUmbral.length;
+console.log(fallas === 0 ? `\nLos ${totalCasos} casos pasan.` : `\n${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

@@ -19,7 +19,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -3657,6 +3657,36 @@ export default function App() {
       const pasoHoy = usaFechasRealesParaMiClub ? fixturesAtStep(myClub.name, playerProfile.currentWeek) : null;
       const hoyJuegoLigaPorCalendario = !!pasoHoy && pasoHoy.fixtures.some(f => f.competition.kind === 'league');
 
+      // RED DE SEGURIDAD DEL TÍTULO DE LIGA. No reemplaza a los cierres de torneo de más abajo: los
+      // respalda. Los dos caminos que coronan campeón de liga (el playoff y cerroElTorneo) deducen
+      // del calendario que el torneo terminó, y esa deducción ya falló antes de maneras distintas
+      // -- por eso el título salía en febrero, con el Apertura empezado. Acá se pregunta otra cosa,
+      // que no depende de ninguna deducción: ¿jugaste este torneo? Un Apertura son 19 fechas; con
+      // tres jugadas no hay nada que coronar, no importa qué diga el resto del código.
+      //
+      // El umbral es la mitad y no todas a propósito: un club puede tener fechas que el jugador se
+      // saltea, y exigir el 100% dejaría sin título a un campeón legítimo. La mitad separa "jugué
+      // el torneo" de "recién empieza" sin quedar al filo de ningún caso real.
+      const fechasDelTorneo = hoyJuegoLigaPorCalendario && pasoHoy
+        ? fechasDeLigaDelTorneo(myClub.name, pasoHoy.date,
+            new Set((playerProfile.datedResults ?? []).map(r => r.date)))
+        : null;
+      const jugoElTorneo = !fechasDelTorneo
+        || fechasDelTorneo.total === 0
+        || fechasDelTorneo.jugadas * 2 >= fechasDelTorneo.total;
+
+      // El título de liga se guarda con el nombre que usa el CALENDARIO ("Liga BetPlay Dimayor"),
+      // no con el de leagueDisplay ("Primera División Dimayor").
+      //
+      // No es cosmético: limpiarTitulosFantasma decide si un título es real buscando resultados de
+      // esa misma competición, y compara por nombre. Con dos nombres distintos para la misma liga
+      // no coincidía NUNCA, así que el Apertura ganado en cancha se borraba de la vitrina al
+      // cargar la partida -- exactamente lo contrario de lo que esa limpieza tiene que hacer.
+      // El nombre del calendario además es el real y ya es el que muestra el palmarés.
+      const nombreDeLaLigaHoy = (hoyJuegoLigaPorCalendario && pasoHoy
+        ? pasoHoy.fixtures.find(f => f.competition.kind === 'league')?.competition.name
+        : null) ?? getLeagueDisplay(myClub.league, myClub.division).name;
+
       // PLAYOFF DE LIGA: el partido de hoy avanza el cuadro sembrado por tabla (ver
       // prepararPlayoffDeLiga). El resultado del jugador entra por `forced` y el resto de las
       // llaves las simula el motor en la misma llamada.
@@ -3681,7 +3711,7 @@ export default function App() {
           const anioPlayoff = Number(pasoHoy.date.slice(0, 4));
           const semestreLabel = `${semestre || 'Playoff'} ${anioPlayoff}`;
 
-          if (despues.championId === myClub.id) {
+          if (despues.championId === myClub.id && jugoElTorneo) {
             salioCampeon = true;
             setChampionInfo({
               competition: getLeagueDisplay(myClub.league, myClub.division).name,
@@ -3690,7 +3720,7 @@ export default function App() {
               badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
             });
             leagueTitleWon = {
-              competition: getLeagueDisplay(myClub.league, myClub.division).name,
+              competition: nombreDeLaLigaHoy,
               year: anioPlayoff, clubId: myClub.id, torneo: semestre || undefined, tipo: 'liga',
             };
           } else if ((!shootout || shootoutOverride) && !crucePlayoffDeLiga(despues, myClub.id)) {
@@ -3753,7 +3783,7 @@ export default function App() {
         const esCampeon = enKnockout
           ? campeonDeLaLlave === myClub.id
           : !!lider && (lider.clubId === myClub.id || lider.name === myClub.name);
-        if (esCampeon) {
+        if (esCampeon && jugoElTorneo) {
           salioCampeon = true;
           setChampionInfo({
             competition: getLeagueDisplay(myClub.league, myClub.division).name,
@@ -3769,13 +3799,13 @@ export default function App() {
           // (Segunda) se anunciaba y se guardaba como "Primera División Dimayor" -- el nombre de la
           // liga a la que ni siquiera pertenece. Bug reportado: "dice primera division".
           leagueTitleWon = {
-            competition: getLeagueDisplay(myClub.league, myClub.division).name,
+            competition: nombreDeLaLigaHoy,
             year: anio,
             clubId: myClub.id,
             torneo: formato ? semestre : undefined,
             tipo: 'liga',
           };
-        } else if (!enKnockout) {
+        } else if (!enKnockout && !esCampeon) {
           // No saliste campeón de una liga de tabla directa (Brasil): antes el torneo se cerraba en
           // silencio y la carrera seguía sin que el jugador se enterara -- ni de que había
           // terminado, ni de en qué puesto quedó. Bug reportado: "el jugador jamás se da cuenta".
