@@ -1447,10 +1447,21 @@ export default function Dashboard({
     // terminaron su fixture.
     for (const [key, season] of Object.entries(playerProfile.leagueSeasons)) {
       if (!season?.table?.length) continue;
-      // Sin fixtures NO se corona a nadie. Las ligas con calendario real nacen con `fixtures: []`
-      // a propósito, y preguntar por partidos pendientes sobre un array vacío devuelve false: la
-      // liga se leía como terminada y la prensa anunciaba un campeón inventado --el primero de una
-      // tabla en cero-- en cada liga del mundo. Misma trampa que el trofeo fantasma de la vitrina.
+      // LAS LIGAS CON CALENDARIO REAL NO CORONAN ACÁ, y la guarda es por el CLUB.
+      //
+      // Esta era la TERCERA copia del mismo error, después de la vitrina y del festejo de fin de
+      // torneo. La guarda vieja usaba un fixture vacío para identificar a esas ligas: cierto el
+      // primer día, falso en cuanto se juega, porque resolveLigaPorFecha va AGREGANDO a `fixtures`
+      // los partidos que resuelve y sólo agrega los ya jugados -- nunca los pendientes. A las dos
+      // fechas el array tiene dos y los dos están jugados, así que `some(f => !f.played)` da false
+      // y la liga se lee como TERMINADA.
+      //
+      // Reportado con captura: "¡Deportes Tolima campeón de Apertura 2026! 4 puntos en 2 fechas".
+      //
+      // Estas ligas ya tienen quien anuncie a su campeón: App.tsx lo publica al ganarlo. Acá abajo
+      // queda sólo el respaldo para las ligas de fixture pregenerado, que sí llevan los pendientes.
+      const clubDeLaLiga = ULTIMATE_CLUBS_DATABASE.find(c => leagueKeyFor(c) === key);
+      if (clubDeLaLiga && hasDatedLeagueSchedule(clubDeLaLiga.name)) continue;
       if (!season.fixtures?.length) continue;
       if (season.fixtures.some(f => !f.played)) continue;
       // Y aunque haya fixtures, una tabla sin un solo partido jugado no tiene campeón.
