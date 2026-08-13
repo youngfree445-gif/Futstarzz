@@ -608,10 +608,17 @@ export default function Dashboard({
     ? claveDeCompeticion(compDeHoy, temporadaDeCarrera(currentClub.name, playerProfile.currentWeek))
     : null;
   const lideresDeHoy = claveLideresHoy ? lideresDe(playerProfile.lideresPorCompeticion, claveLideresHoy) : null;
-  // Sólo se reemplaza el panel cuando el torneo del día YA tiene goles anotados. Al principio de una
-  // copa la tabla está vacía, y mostrar "sin datos" donde antes había información sería un paso
-  // atrás: en ese caso se sigue viendo la de la liga.
-  const hayLideresDeHoy = !!lideresDeHoy && lideresDeHoy.goleadores.length > 0;
+  // SIEMPRE la tabla de TU carrera, aunque esté vacía. Nunca más la fija.
+  //
+  // Antes, si la tabla real no tenía goles todavía, el panel caía a REAL_LEAGUE_LEADERS -- datos
+  // reales de 2026 con Muriel goleador. La intención era no mostrar un panel vacío, y el efecto fue
+  // el contrario del buscado: en una carrera recién creada se veía EXACTAMENTE igual que cuando el
+  // bug de las claves tenía la tabla rota, y no habia forma de distinguir "todavía no jugaste" de
+  // "esto no funciona". Reportado dos veces, la segunda con una carrera nueva.
+  //
+  // Ahora lo que se ve es siempre la verdad de tu carrera: vacío al empezar, y poblado desde el
+  // primer partido -- con los goleadores de los diez partidos de la fecha, no solo del tuyo.
+  const hayLideresDeHoy = !!lideresDeHoy;
   const tituloDeLideres = hayLideresDeHoy && compDeHoy ? compDeHoy : selectedLeagueName;
 
   const cupCampeonesUefa = {
@@ -4214,7 +4221,7 @@ export default function Dashboard({
                           ) : (
                             <div className="min-w-0">
                               <p className="text-3xs uppercase font-mono text-slate-500 font-bold">{s.label}</p>
-                              <p className="text-3xs text-slate-600 italic">Sin datos disponibles.</p>
+                              <p className="text-3xs text-slate-600 italic">Todavía no se jugó esta competición.</p>
                             </div>
                           )}
                         </div>
