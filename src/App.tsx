@@ -3535,7 +3535,25 @@ export default function App() {
         .filter(r => r.competition === fx.competition.name && idasDeLaLlave.includes(r.date));
       const globalMio = results.golesMiEquipo + previos.reduce((n, r) => n + r.myGoals, 0);
       const globalRival = results.golesRival + previos.reduce((n, r) => n + r.rivalGoals, 0);
-      if (globalMio < globalRival) return;
+      if (globalMio < globalRival) {
+        // PERDISTE EL ULTIMO PARTIDO DE LA COPA: quedaste afuera, y hasta ahora eso pasaba en
+        // silencio absoluto. Estas copas no tienen cuadro en el motor -- sus cruces salen del
+        // calendario -- asi que la deteccion de eliminacion que existe para los brackets nunca las
+        // miraba. Reportado: "me eliminaron de la Superliga pero en ningun lado dice eso".
+        //
+        // No hace falta saber en que ronda: si este era tu ultimo partido de la copa y lo perdiste
+        // en el global, la copa termino para vos. Es la misma condicion que corona al ganador, leida
+        // al reves.
+        setSeasonEndInfo({
+          competition: fx.competition.name,
+          clubName: myClub.name,
+          season: String(Number(paso.date.slice(0, 4))),
+          badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+          eliminated: true,
+          eliminatedRound: rotuloDeRonda('', fx.match.round) || null,
+        });
+        return;
+      }
 
       // Empate en el global (ida y vuelta ambas igualadas, o compensadas entre sí): se define por
       // penales, igual que cualquier otra llave del juego. Antes acá simplemente no coronaba a
@@ -4726,6 +4744,14 @@ export default function App() {
           matchResults={matchResults}
           opponentName={activeOpposition}
           representingTeamId={activeWorldCupTeamId}
+          // El diario cuenta el DESENLACE, no solo el partido. seasonEndInfo ya lo calcula para el
+          // overlay -- eliminado en tal ronda, o paso a la siguiente -- asi que se reusa en vez de
+          // deducirlo por segunda vez y arriesgar que las dos cuentas digan cosas distintas.
+          desenlaceDeCopa={seasonEndInfo?.eliminated
+            ? { tipo: 'eliminado' as const, competicion: seasonEndInfo.competition, ronda: seasonEndInfo.eliminatedRound }
+            : seasonEndInfo?.avanzo
+            ? { tipo: 'avanza' as const, competicion: seasonEndInfo.competition, ronda: seasonEndInfo.rondaSiguiente }
+            : null}
           onContinue={handleContinuePostMatch}
         />
       )}

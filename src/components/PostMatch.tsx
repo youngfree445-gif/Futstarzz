@@ -22,10 +22,18 @@ interface PostMatchProps {
   };
   opponentName: string;
   representingTeamId?: string | null; // si el partido fue del Mundial, el id de tu selección en vez de tu club
+  /**
+   * Desenlace de copa que dejó este partido, si dejó alguno.
+   *
+   * El diario contaba el partido pero no lo que SIGNIFICABA: te eliminaban de la Superliga y la tapa
+   * hablaba de la actuación individual como cualquier otro domingo. Reportado: "me eliminaron y en
+   * ningún lado dice eso". Ahora la tapa lo grita, que es lo que haría un diario de verdad.
+   */
+  desenlaceDeCopa?: { tipo: 'eliminado' | 'avanza'; competicion: string; ronda?: string | null } | null;
   onContinue: () => void;
 }
 
-export default function PostMatch({ playerProfile, matchResults, opponentName, representingTeamId, onContinue }: PostMatchProps) {
+export default function PostMatch({ playerProfile, matchResults, opponentName, representingTeamId, desenlaceDeCopa, onContinue }: PostMatchProps) {
   const currentClub = representingTeamId
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
@@ -145,7 +153,15 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
     return options[Math.floor(Math.random() * options.length)];
   };
 
-  const { headline, body } = generateNewspaperLayout();
+  const { headline: titularNormal, body } = generateNewspaperLayout();
+
+  // El desenlace de copa MANDA sobre el titular del partido. Que te eliminen es la noticia del día;
+  // tu calificación individual, al lado de eso, es una nota interior.
+  const headline = desenlaceDeCopa
+    ? desenlaceDeCopa.tipo === 'eliminado'
+      ? `ELIMINADOS DE LA ${desenlaceDeCopa.competicion.toUpperCase()}`
+      : `¡A ${(desenlaceDeCopa.ronda ?? 'LA SIGUIENTE RONDA').toUpperCase()}!`
+    : titularNormal;
 
   // Semilla fija por partido: sin esto, cada re-render sortearía otra foto y la tapa parpadearía.
   // Se arma con datos del propio partido, así el mismo resultado siempre muestra la misma imagen.
