@@ -51,6 +51,103 @@ export const SUPERSTITIONS_DATABASE: { id: Superstition; label: string; breakMes
   { id: 'ultimo_vestuario', label: 'Ser el último en salir del vestuario', breakMessage: 'El cuerpo técnico te sacó antes de tiempo para el calentamiento' }
 ];
 
+/**
+ * Arma el perfil de una carrera nueva.
+ *
+ * Estaba dentro de SetupScreen, y por eso el validador de pantallas no podia usarlo: tenia que
+ * copiar los campos a mano, se le escapaban varios, y el Dashboard reventaba por culpa del andamio y
+ * no del juego. Un validador que falla por si mismo entrena a ignorarlo, que es peor que no tenerlo.
+ *
+ * Extraida para que HAYA UNA SOLA definicion de "perfil nuevo". Cualquier campo que se agregue al
+ * juego aparece solo en el validador, sin que nadie tenga que acordarse de sincronizarlo.
+ */
+export function crearPerfilInicial(datos: {
+  name: string;
+  position: Position;
+  age: number;
+  nationality: string;
+  dorsal: number;
+  heightCm: number;
+  selectedClubId: string;
+  currentClub?: { initialSalary: number; marketValue: number } | null;
+  defaultAttributes: PlayerStats;
+  superstition: Superstition;
+  injuriesEnabled: boolean;
+  difficultyMode: 'normal' | 'realista';
+  startedAsVeteran: boolean;
+  starModeEnabled: boolean;
+}): PlayerProfile {
+  const { name, position, age, nationality, dorsal, heightCm, selectedClubId, currentClub,
+    defaultAttributes, superstition, injuriesEnabled, difficultyMode, startedAsVeteran,
+    starModeEnabled } = datos;
+  const finalDorsal = dorsal;
+  const finalHeight = heightCm;
+  return {
+      name: name.trim(),
+      position,
+      age,
+      nationality,
+      dorsal: finalDorsal,
+      heightCm: finalHeight,
+      energy: 100,
+      capital: 0, // starts with no capital, relies on weekly wage
+      // Modo Superestrella: prestige/relación con el DT alta de entrada, es la pieza central del
+      // modo (titular garantizado, ver decideLineupStatus en App.tsx que ya lee prestige para eso).
+      prestige: starModeEnabled ? 78 : 50,
+      prestigeCompaneros: starModeEnabled ? 65 : 50,
+      fans: starModeEnabled ? 55 : 35,
+      mentalHealth: 70, // arrancás con la cabeza fresca
+      lastMatchRating: 0,
+      lastMatchGoals: 0,
+      lastMatchWonShootout: false,
+      unlockedAchievements: {},
+      sponsorsSignedCount: 0,
+      yellowCards: 0,
+      suspendedMatches: 0,
+      seasonHistory: [],
+      lastPressAnsweredWeek: 0,
+      superstition,
+      matchesWithoutRest: 0,
+      hadBreakoutSeason: false,
+      attrSumAtSeasonStart: Object.values(defaultAttributes).reduce((sum, v) => sum + v, 0),
+      yearsAtClub: 0,
+      appearanceBonus: currentClub ? Math.round(currentClub.initialSalary * 0.15) : 0,
+      mentorshipPlayerName: null,
+      missedClubMatchesForCountry: 0,
+      hasSteppedDownRetirement: false,
+      girlfriend: null,
+      attributes: defaultAttributes,
+      careerStats: {
+        goles: 0,
+        asistencias: 0,
+        partidos: 0,
+        campeonatos: 0,
+        golesHistoricos: 0,
+        asistenciasHistoricos: 0,
+        partidosHistoricos: 0,
+        sumaCalificacionesHistoricas: 0,
+        tarjetasAmarillasHistoricas: 0,
+        tarjetasRojasHistoricas: 0
+      },
+      currentClubId: selectedClubId,
+      currentWeek: 1,
+      marketValue: currentClub ? Math.round(currentClub.marketValue * 0.05) : 300000, // initial value based on club status
+      leagueSeasons: {}, // App.tsx (handleFinishSetup) genera la temporada real antes de guardar
+      continentalCups: {}, // se generan de forma perezosa la primera vez que clasificás a alguna
+      uefaCups: {}, // idem, Champions/Europa League
+      worldCups: {}, // idem, cada 4 años, si tu selección clasificó
+      injuriesEnabled,
+      difficultyMode,
+      startedAsVeteran,
+      starModeEnabled,
+      activeInjury: null,
+      injuryHistory: [],
+      agent: null,
+      activeLoan: null,
+      investments: []
+  };
+}
+
 export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupScreenProps) {
   const [name, setName] = useState('');
   const [position, setPosition] = useState<Position>('Delantero');
@@ -186,70 +283,13 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
     const finalDorsal = Math.max(1, Math.min(99, Number(dorsalText) || 10));
     const finalHeight = Math.max(160, Math.min(210, Number(heightText) || 180));
 
-    const newProfile: PlayerProfile = {
-      name: name.trim(),
-      position,
-      age,
-      nationality,
-      dorsal: finalDorsal,
-      heightCm: finalHeight,
-      energy: 100,
-      capital: 0, // starts with no capital, relies on weekly wage
-      // Modo Superestrella: prestige/relación con el DT alta de entrada, es la pieza central del
-      // modo (titular garantizado, ver decideLineupStatus en App.tsx que ya lee prestige para eso).
-      prestige: starModeEnabled ? 78 : 50,
-      prestigeCompaneros: starModeEnabled ? 65 : 50,
-      fans: starModeEnabled ? 55 : 35,
-      mentalHealth: 70, // arrancás con la cabeza fresca
-      lastMatchRating: 0,
-      lastMatchGoals: 0,
-      lastMatchWonShootout: false,
-      unlockedAchievements: {},
-      sponsorsSignedCount: 0,
-      yellowCards: 0,
-      suspendedMatches: 0,
-      seasonHistory: [],
-      lastPressAnsweredWeek: 0,
-      superstition,
-      matchesWithoutRest: 0,
-      hadBreakoutSeason: false,
-      attrSumAtSeasonStart: Object.values(defaultAttributes).reduce((sum, v) => sum + v, 0),
-      yearsAtClub: 0,
-      appearanceBonus: currentClub ? Math.round(currentClub.initialSalary * 0.15) : 0,
-      mentorshipPlayerName: null,
-      missedClubMatchesForCountry: 0,
-      hasSteppedDownRetirement: false,
-      girlfriend: null,
-      attributes: defaultAttributes,
-      careerStats: {
-        goles: 0,
-        asistencias: 0,
-        partidos: 0,
-        campeonatos: 0,
-        golesHistoricos: 0,
-        asistenciasHistoricos: 0,
-        partidosHistoricos: 0,
-        sumaCalificacionesHistoricas: 0,
-        tarjetasAmarillasHistoricas: 0,
-        tarjetasRojasHistoricas: 0
-      },
-      currentClubId: selectedClubId,
-      currentWeek: 1,
-      marketValue: currentClub ? Math.round(currentClub.marketValue * 0.05) : 300000, // initial value based on club status
-      leagueSeasons: {}, // App.tsx (handleFinishSetup) genera la temporada real antes de guardar
-      continentalCups: {}, // se generan de forma perezosa la primera vez que clasificás a alguna
-      uefaCups: {}, // idem, Champions/Europa League
-      worldCups: {}, // idem, cada 4 años, si tu selección clasificó
-      injuriesEnabled,
-      difficultyMode,
-      startedAsVeteran,
-      starModeEnabled,
-      activeInjury: null,
-      injuryHistory: [],
-      agent: null,
-      activeLoan: null,
-      investments: []
-    };
+    const newProfile = crearPerfilInicial({
+      name, position, age, nationality,
+      dorsal: finalDorsal, heightCm: finalHeight,
+      selectedClubId, currentClub,
+      defaultAttributes, superstition,
+      injuriesEnabled, difficultyMode, startedAsVeteran, starModeEnabled,
+    });
 
     onFinishSetup(newProfile);
   };

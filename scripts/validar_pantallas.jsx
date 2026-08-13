@@ -20,17 +20,13 @@
  * Osea que la unica forma de encontrarla era jugar cuatro partidos a mano. Este script cierra ese
  * agujero: monta el Dashboard con un perfil ya empezado y falla si tira cualquier error.
  *
- * ESTADO: SIN TERMINAR. El perfil sintetico de abajo esta incompleto -- le faltan campos que el
- * Dashboard da por sentados -- y por eso las 20 combinaciones fallan con "Cannot read properties of
- * undefined". El fallo es del ANDAMIO, no del juego: es el mismo Dashboard que anda en pantalla.
+ * COMPROBADO QUE SIRVE, que es lo unico que hace util a un validador. Se reintrodujo el bug exacto
+ * de hoy -- leer `conmebolCupId` antes de su declaracion -- y las 20 combinaciones fallan con
+ * "Cannot access 'conmebolCupId' before initialization"; al sacarlo, pasan.
  *
- * Para terminarlo: el perfil de verdad se arma en SetupScreen.tsx (~linea 189) y tiene bastantes mas
- * campos que estos. Lo que corresponde no es copiarlos a mano -- se desincronizan al primer campo
- * nuevo -- sino EXTRAER esa construccion a una funcion exportada (crearPerfilInicial) y llamarla
- * desde aca y desde SetupScreen. Asi el validador usa siempre el perfil real.
- *
- * Por eso todavia no esta en package.json: un validador que falla por su propio andamio entrena a
- * ignorarlo, que es peor que no tenerlo.
+ * Una trampa al comprobarlo, por si alguien repite la prueba: si la variable que se inyecta NO SE
+ * USA, el minificador la borra entera y el validador pasa igual. La prueba tiene que tener un efecto
+ * real (un console.log alcanza), o se comprueba nada y se cree lo contrario.
  *
  * NO reemplaza jugar. Comprueba una cosa sola, la mas barata y la que mas duele: que la pantalla
  * principal SE PUEDE DIBUJAR. Un error ahi desmonta el arbol entero de React y deja la pantalla en
@@ -40,6 +36,7 @@ import { renderToString } from 'react-dom/server';
 import React from 'react';
 import Dashboard from '../src/components/Dashboard';
 import { ULTIMATE_CLUBS_DATABASE, INITIAL_LIFESTYLE_ITEMS } from '../src/data';
+import { crearPerfilInicial } from '../src/components/SetupScreen';
 
 globalThis.localStorage = { getItem: () => null, setItem: () => {}, removeItem: () => {} };
 globalThis.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });
@@ -60,21 +57,27 @@ for (const nombre of CLUBES) {
   if (!club) { console.log(`FALLA  no existe el club ${nombre}`); fallas++; continue; }
 
   for (const paso of PASOS) {
+    // El perfil sale de la FABRICA REAL del juego, no de una copia a mano. Copiar los campos fue
+    // exactamente lo que dejo este validador sin terminar la primera vez: se escapaban varios y el
+    // Dashboard reventaba por culpa del andamio, no del juego.
     const perfil = {
-      name: 'Camilo Restrepo', age: 25, position: 'Mediocampista', height: 191, dorsal: 30,
-      nationality: 'Colombia', currentClubId: club.id, currentWeek: paso,
-      attributes: { ritmo: 55, regate: 60, tiro: 63, defensa: 45, pase: 65, fisico: 50 },
-      energy: 70, capital: 200000, prestige: 60, fans: 50, coachRelation: 70, teammates: 55,
-      morale: 70, yearsAtClub: 1,
-      careerStats: { goles: 5, asistencias: 3, partidosHistoricos: paso, campeonatos: 0,
-                     tarjetasAmarillasHistoricas: 1, tarjetasRojasHistoricas: 0 },
-      seasonStats: { goles: 5, asistencias: 3, partidos: paso, rating: 7.2 },
-      clubHistory: [{ clubId: club.id, seasonStart: 1 }],
-      seasonHistory: [{ seasonNum: 1 }],
-      leagueSeasons: {}, continentalCups: {}, uefaCups: {}, domesticCups: {},
-      playoffsDeLiga: {}, eliminatorias: {}, lideresPorCompeticion: {},
-      cupTitles: [], datedResults: [], retiredWorldPlayers: {},
-      sponsorships: [], investments: [], achievements: [], socialPosts: [],
+      ...crearPerfilInicial({
+        name: 'Camilo Restrepo', position: 'Mediocampista', age: 25, nationality: 'Colombia',
+        dorsal: 30, heightCm: 191, selectedClubId: club.id, currentClub: club,
+        defaultAttributes: { ritmo: 55, regate: 60, tiro: 63, defensa: 45, pase: 65, fisico: 50 },
+        superstition: 'botin_derecho', injuriesEnabled: true,
+        difficultyMode: 'normal', startedAsVeteran: false, starModeEnabled: false,
+      }),
+      // Y se lo adelanta al paso que toca: el crash aparecia recien al tercer o cuarto partido,
+      // porque hasta ahi varias estructuras estaban vacias y sus ramas ni se ejecutaban.
+      currentWeek: paso,
+      careerStats: {
+        goles: 5, asistencias: 3, partidos: paso, campeonatos: 0,
+        golesHistoricos: 5 * paso, asistenciasHistoricos: 3 * paso, partidosHistoricos: paso,
+        sumaCalificacionesHistoricas: 7.2 * paso,
+        tarjetasAmarillasHistoricas: 1, tarjetasRojasHistoricas: 0,
+      },
+      lastMatchRating: 7.2,
     };
 
     try {
