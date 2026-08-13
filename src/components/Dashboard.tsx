@@ -2682,24 +2682,6 @@ export default function Dashboard({
                 </p>
               </div>
 
-              {playerProfile.energy < 20 ? (
-                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
-                  <ShieldAlert size={18} /> Tu estado físico es de fatiga crítica. Entrena en la Clínica o descansa.
-                </div>
-              ) : null}
-
-              {playerProfile.capital < trainingCost && (
-                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
-                  <ShieldAlert size={18} /> No tienes los ${trainingCost.toLocaleString()} que cuesta entrenar en las instalaciones de {currentClub.name}.
-                </div>
-              )}
-
-              {playerProfile.yearsAtClub >= 5 && (
-                <div className="p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
-                  <ShieldAlert size={18} /> Zona de confort: llevas {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde menos (+1 en vez de +3). Un traspaso te devuelve la ambición fresca.
-                </div>
-              )}
-
               {/* Tarjetas COMPACTAS, en fila.
 
                   Antes cada atributo era una tarjeta vertical con una foto de 112 px, padding de
@@ -2712,9 +2694,12 @@ export default function Dashboard({
                   barra de progreso, que dice de un vistazo lo que antes había que leer -- y que era
                   el mismo texto todas las semanas. */}
               {/* Dos columnas: los atributos a la izquierda, clínica y especialización a la
-                  derecha. items-start para que cada columna mida lo suyo y no se estiren entre sí. */}
-              <div className="grid lg:grid-cols-3 gap-4 items-start">
-              <div className="lg:col-span-2 grid sm:grid-cols-2 gap-2.5">
+                  derecha. items-stretch (el defecto) y no items-start: con items-start cada columna
+                  medía lo suyo y las dos terminaban a alturas distintas, que es lo que se veía como
+                  desprolijo. Pedido: "que no sobrepasen la línea verde para que se vea más
+                  simétrico". */}
+              <div className="grid lg:grid-cols-3 gap-4">
+              <div className="lg:col-span-2 grid sm:grid-cols-2 gap-2.5 content-start auto-rows-min">
                 {[
                   { key: 'ritmo', label: 'Velocidad / Ritmo', img: trainingRitmoImg, desc: 'Mejora la aceleración explosiva y los desmarques por las bandas.' },
                   { key: 'regate', label: 'Dribbling / Regate', img: trainingRegateImg, desc: 'Aumenta el control de balón en conducción y el mano a mano.' },
@@ -2769,8 +2754,10 @@ export default function Dashboard({
                 })}
               </div>
 
-              {/* Columna derecha: clínica y especialización, que antes vivían abajo de todo. */}
-              <div className="space-y-4">
+              {/* Columna derecha: clínica y especialización, que antes vivían abajo de todo.
+                  flex-col y no space-y a secas: así el último panel crece y las dos columnas cierran
+                  a la misma altura en vez de quedar uno más largo que el otro. */}
+              <div className="flex flex-col gap-4">
 
               {/* SECCIÓN ROL FAVORITO */}
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
@@ -2809,8 +2796,9 @@ export default function Dashboard({
                 )}
               </div>
 
-              {/* SECCIÓN CLÍNICA DE FISIOTERAPIA */}
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+              {/* SECCIÓN CLÍNICA DE FISIOTERAPIA -- flex-1: es el panel que absorbe el alto sobrante,
+                  así la columna derecha termina a la misma altura que la grilla de atributos. */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg flex-1">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   <Heart size={15} className="text-rose-500" /> Clínica de Fisioterapia
                 </h3>
@@ -2856,6 +2844,30 @@ export default function Dashboard({
 
               </div>{/* fin columna derecha */}
               </div>{/* fin de las dos columnas */}
+
+              {/* LOS AVISOS VAN ABAJO, no arriba.
+                  Arriba empujaban toda la grilla hacia abajo y obligaban a scrollear justo cuando
+                  el aviso decía que no podías entrenar -- o sea, cuando menos falta hacía verlos
+                  primero. Debajo de los paneles ocupan el hueco que quedaba vacío y no mueven nada
+                  de lugar cuando aparecen o desaparecen. Pedido: "el anuncio de fatiga crítica
+                  ponlo debajo de los paneles". */}
+              {playerProfile.energy < 20 ? (
+                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
+                  <ShieldAlert size={18} /> Tu estado físico es de fatiga crítica. Entrena en la Clínica o descansa.
+                </div>
+              ) : null}
+
+              {playerProfile.capital < trainingCost && (
+                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
+                  <ShieldAlert size={18} /> No tienes los ${trainingCost.toLocaleString()} que cuesta entrenar en las instalaciones de {currentClub.name}.
+                </div>
+              )}
+
+              {playerProfile.yearsAtClub >= 5 && (
+                <div className="p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
+                  <ShieldAlert size={18} /> Zona de confort: llevas {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde menos (+1 en vez de +3). Un traspaso te devuelve la ambición fresca.
+                </div>
+              )}
             </div>
           )}
 
