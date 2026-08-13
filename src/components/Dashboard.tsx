@@ -709,7 +709,23 @@ export default function Dashboard({
     // (reportado: "con Junior por alguna razón me sale un partido de Sudamericana"). Sus partidos
     // REALES siempre estuvieron bien: los seis de grupos contra Palmeiras, Cerro Porteño y
     // Sporting Cristal. Era sólo el cartel de los días apartados.
-    if (esReserva && comp.kind === 'continental_cup') return 'Copa Continental';
+    if (esReserva && comp.kind === 'continental_cup') {
+      // El día apartado se guarda bajo la copa que le tocó a la LIGA del club, que no tiene por qué
+      // ser la tuya -- en Colombia hay clubes en Libertadores y clubes en Sudamericana. Por eso
+      // antes decía "Copa Continental" a secas: era preferible un cartel vago a uno equivocado.
+      //
+      // Pero vago tampoco sirve: con el Junior, que juega la Libertadores, el 1 de abril salía
+      // "Copa Continental" mientras el 9, el 14 y el 29 decían "Libertadores" -- tres días del
+      // mismo torneo con dos nombres distintos. Reportado con captura: "¿por qué sale eso?".
+      //
+      // Acá sí se sabe cuál es tu copa (conmebolCupId sale de los clasificados de TU carrera), así
+      // que se dice. Sólo se vuelve al cartel genérico si ya quedaste afuera: ese día la bolsa
+      // compartida se la lleva la copa nacional y no hay forma de saber de antemano cuál es.
+      if (conmebolCupId && conmebolCup && isClubStillInCup(conmebolCup, currentClub.id)) {
+        return conmebolCupId === 'libertadores' ? 'Libertadores' : 'Sudamericana';
+      }
+      return 'Copa';
+    }
     // Las fechas FIFA: el nombre completo no entra en la celda del calendario.
     if (/Eliminatorias/i.test(comp.name)) return 'Eliminatorias';
     if (/Mundial/i.test(comp.name)) return 'Mundial';
