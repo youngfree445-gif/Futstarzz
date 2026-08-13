@@ -130,7 +130,12 @@ export interface PlayerProfile {
    * La ultima vez que te eliminaron de una copa, para que ChutSocial pueda reaccionar.
    * Sin esto el feed solo miraba tu calificacion: jugabas un 7, quedabas afuera, y te felicitaban.
    */
-  ultimaEliminacion?: { competicion: string; semana: number }; // semana en que respondiste la última conferencia de prensa -- una sola por semana, evita farmear prestigio infinito ciclando preguntas
+  ultimaEliminacion?: { competicion: string; semana: number };
+  /**
+   * Lo que publicaste vos en ChutSocial esta fecha. Una por fecha.
+   * El feed lo muestra como tu post y responde segun el saldo (ver respuestasAMiPublicacion).
+   */
+  miPublicacion?: { texto: string; saldo: number; semana: number }; // semana en que respondiste la última conferencia de prensa -- una sola por semana, evita farmear prestigio infinito ciclando preguntas
   superstition: Superstition; // Fase 2.5: ritual elegido en la creación del personaje -- romperlo tiene una chance chica cada partido de golpear mentalHealth, ver SUPERSTITIONS_DATABASE y handleFinishMatch
   matchesWithoutRest: number; // Fase 2.5: partidos jugados seguidos sin una semana de descanso -- pasado el umbral, MatchSimulator aplica una penalización temporal a los atributos efectivos (no muta attributes real). Se resetea a 0 cualquier semana que no juegues.
   hadBreakoutSeason: boolean; // Fase 2.5: la temporada que acaba de cerrar tuvo aporte ofensivo alto (ver applyBreakoutSeasonIfNewSeason) -- si la siguiente temporada no muestra crecimiento real de atributos, dispara el "síndrome del segundo año" (golpe chico a prestige/fans)

@@ -741,3 +741,99 @@ export function postsDeEliminacion(
     .slice(0, 3)
     .map(x => x.v);
 }
+
+/**
+ * Lo que PODÉS publicar vos después de un partido.
+ *
+ * Hasta ahora el feed era de una sola vía: te hablaba y no había forma de contestar. Esto lo cierra.
+ *
+ * Son opciones escritas y no un campo de texto libre, y es a propósito: un texto libre no se puede
+ * evaluar -- no hay forma de saber si lo que escribiste fue humilde, soberbio o provocador -- así que
+ * no podría tener consecuencias, y una publicación sin consecuencias es un adorno.
+ *
+ * NINGUNA ES GRATIS, que es lo que hace que la decisión valga: picantear da hinchada y enfría al
+ * técnico; hacerte cargo da respeto y baja el ánimo; callarte no cuesta nada y tampoco suma.
+ */
+export interface OpcionDePublicacion {
+  id: string;
+  texto: string;
+  /** Lo que mueve: hinchada, prestigio, relación con el DT y ánimo. */
+  fans: number;
+  prestigio: number;
+  dt: number;
+  animo: number;
+}
+
+export function publicacionesDisponibles(gano: boolean, rival: string): OpcionDePublicacion[] {
+  if (gano) {
+    return [
+      { id: 'hinchada', texto: `Esto es de ustedes. Se siente distinto cuando la gente empuja así. 🔴⚪`,
+        fans: 8, prestigio: 1, dt: 1, animo: 3 },
+      { id: 'humilde', texto: `Tres puntos y a seguir. Queda mucho y no ganamos nada todavía.`,
+        fans: 2, prestigio: 4, dt: 4, animo: 1 },
+      { id: 'rival', texto: `Partido durísimo. Respeto para ${rival}, que lo hizo muy difícil.`,
+        fans: 1, prestigio: 6, dt: 3, animo: 1 },
+      { id: 'picante', texto: `Hablaban mucho durante la semana. En la cancha se vio otra cosa. 😏`,
+        fans: 12, prestigio: -2, dt: -5, animo: 4 },
+    ];
+  }
+  return [
+    { id: 'cargo', texto: `Me hago cargo. Hoy no estuve a la altura y lo sé.`,
+      fans: 5, prestigio: 5, dt: 5, animo: -4 },
+    { id: 'equipo', texto: `Nos faltó a todos. Esto se corrige entre todos, no señalando a uno.`,
+      fans: 2, prestigio: 2, dt: 3, animo: 0 },
+    { id: 'excusa', texto: `Hay cosas que no dependen de nosotros. Prefiero no hablar del arbitraje.`,
+      fans: -4, prestigio: -6, dt: -3, animo: 2 },
+    { id: 'silencio', texto: `Sin declaraciones. A trabajar.`,
+      fans: 0, prestigio: 0, dt: 1, animo: 0 },
+  ];
+}
+
+/**
+ * Cómo le responde el feed a lo que publicaste.
+ *
+ * Mismo mecanismo que la rueda de prensa: el tono sale del SALDO de la opción elegida, así que no hay
+ * una segunda regla que pueda contradecir a la primera.
+ */
+export function respuestasAMiPublicacion(
+  nombre: string,
+  saldo: number,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 13) * 41.3 + i * 27.1) * 43758.5453;
+    return x - Math.floor(x);
+  };
+
+  const buenas = [
+    { author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
+      content: `Por esto lo queremos a ${nombre}. Habla de frente y le pone el pecho a todo 💪` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `Buen mensaje el de ${nombre}. Cuesta encontrar jugadores que digan algo así después de un partido.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `${nombre} entendió de qué se trata esto. La hinchada no olvida a los que dan la cara.` },
+  ];
+
+  const polemicas = [
+    { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+      content: `A ${nombre} le encanta el micrófono. Ojalá le guste igual la marca en el segundo tiempo.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `${nombre} calentando la previa 🔥 Ahora banca lo que dijiste el domingo, eh.` },
+    { author: 'David Faitelson', role: 'Comentarista', avatar: '🎯',
+      content: `Innecesario lo de ${nombre}. Le acaba de dar al rival justo lo que le hacía falta.` },
+  ];
+
+  const tibias = [
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${nombre} publicó y no dijo nada. Cero riesgo, cero rédito.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Palabras justas de ${nombre}. Ahora que hable la cancha.` },
+  ];
+
+  const grupo = saldo >= 6 ? buenas : saldo <= -4 ? polemicas : tibias;
+  return grupo
+    .map((c, i) => ({ c, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.c);
+}

@@ -15,7 +15,7 @@ import { getPalmares } from '../palmares';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -277,6 +277,8 @@ interface DashboardProps {
   onCancelSponsor: (itemId: string) => void;
   onLaunchPRCampaign: (cost: number, fansBonus: number, prestigeBonus: number, salaryBonus?: number) => void;
   onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number) => void;
+  /** Publicar en ChutSocial. Una por fecha; las opciones salen de publicacionesDisponibles. */
+  onPublicar: (opcion: OpcionDePublicacion) => void;
   onAcceptTransfer: (clubId: string, signOnBonus: number, newDorsal: number) => void;
   onAdvanceWeek: () => void;
   /** Última fecha real del año jugada, con todo cerrado: dispara el periódico de nueva temporada. */
@@ -340,6 +342,7 @@ export default function Dashboard({
   onCancelSponsor,
   onLaunchPRCampaign,
   onAnswerPress,
+  onPublicar,
   onAcceptTransfer,
   onAdvanceWeek,
   onFinalizeSeason,
@@ -1887,6 +1890,27 @@ export default function Dashboard({
     // La ELIMINACION pisa a todo lo demas: si el equipo quedo afuera, esa es la noticia. El resto
     // del feed sigue mirando tu calificacion individual, y una buena nota no salva a nadie cuando
     // se acabo el torneo.
+    // TU PUBLICACION y lo que le respondieron. Va primero de todo: lo dijiste vos.
+    const miPost: SocialPost[] = playerProfile.miPublicacion?.semana === week
+      ? [
+          {
+            id: `mio_${week}`,
+            author: pName, role: 'Vos', content: playerProfile.miPublicacion.texto,
+            likes: 5000 + Math.floor(Math.random() * 40000),
+            commentsCount: 800 + Math.floor(Math.random() * 5000),
+            timestamp: 'Hace instantes', avatar: '⭐',
+          },
+          ...respuestasAMiPublicacion(pName, playerProfile.miPublicacion.saldo, week)
+            .map((c, i) => ({
+              id: `respuesta_${week}_${i}`,
+              author: c.author, role: c.role, content: c.content,
+              likes: 900 + Math.floor(Math.random() * 7000),
+              commentsCount: 100 + Math.floor(Math.random() * 1200),
+              timestamp: 'Hace instantes', avatar: c.avatar,
+            })),
+        ]
+      : [];
+
     const golpeDeEliminacion: SocialPost[] = playerProfile.ultimaEliminacion?.semana === week
       ? postsDeEliminacion(pName, playerProfile.ultimaEliminacion.competicion, currentClub.name, week)
           .map((c, i) => ({
@@ -1914,6 +1938,7 @@ export default function Dashboard({
       : [];
 
     return [
+      ...miPost,
       ...golpeDeEliminacion,
       ...ecoDePrensa,
       ...reacciones,
@@ -3042,6 +3067,38 @@ export default function Dashboard({
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
                     <Send size={15} className="text-gold-400" /> Red de Opinión Pública - Prensa y Afición
                   </h3>
+
+                  {/* PUBLICAR. UNA por fecha: si ya publicaste, el bloque no aparece.
+                      Son opciones escritas y no un campo libre a propósito -- un texto libre no se
+                      puede evaluar, así que no podría tener consecuencias, y una publicación sin
+                      consecuencias es un adorno. Ver publicacionesDisponibles. */}
+                  {playerProfile.lastMatchRating > 0 && playerProfile.miPublicacion?.semana !== playerProfile.currentWeek && (
+                    <div className="mb-4 p-3 bg-slate-950 border border-slate-800 rounded-2xl">
+                      <p className="text-3xs uppercase font-mono text-slate-500 font-bold mb-2">
+                        Publicá algo sobre el partido
+                      </p>
+                      <div className="space-y-1.5">
+                        {publicacionesDisponibles(
+                          playerProfile.lastMatchRating >= 6.5 && (playerProfile.lastMatchGoals > 0 || playerProfile.lastMatchRating >= 7),
+                          nextMatchOpponent?.name ?? 'el rival',
+                        ).map(op => (
+                          <button
+                            key={op.id}
+                            onClick={() => onPublicar(op)}
+                            className="btn-fx-subtle w-full text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900 hover:border-gold-500/30 hover:bg-slate-850 transition-all cursor-pointer"
+                          >
+                            <span className="text-xs text-slate-200 leading-snug block">{op.texto}</span>
+                            <span className="text-3xs font-mono text-slate-500 mt-1 block">
+                              {op.fans !== 0 && `${op.fans > 0 ? '+' : ''}${op.fans} afición · `}
+                              {op.prestigio !== 0 && `${op.prestigio > 0 ? '+' : ''}${op.prestigio} prestigio · `}
+                              {op.dt !== 0 && `${op.dt > 0 ? '+' : ''}${op.dt} DT · `}
+                              {op.animo !== 0 && `${op.animo > 0 ? '+' : ''}${op.animo} ánimo`}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="space-y-4">
                     {socialFeed.map(post => {

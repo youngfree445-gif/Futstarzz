@@ -1976,6 +1976,29 @@ export default function App() {
     return change >= 0 ? Math.round(change * 0.8) : Math.round(change * 1.25);
   };
 
+  /**
+   * Publicas algo en ChutSocial. Una por fecha, y con consecuencias.
+   *
+   * Cierra el circulo del feed, que hasta ahora era de una sola via: te hablaba y no habia forma de
+   * contestar. Los efectos son los de la opcion elegida (ver publicacionesDisponibles) y ninguna es
+   * gratis -- picantear da hinchada y enfria al DT, hacerte cargo da respeto y baja el animo.
+   */
+  const handlePublicar = (opcion: { id: string; texto: string; fans: number; prestigio: number; dt: number; animo: number }) => {
+    if (!playerProfile) return;
+    const acotado = (v: number) => Math.max(0, Math.min(100, v));
+    setPlayerProfile(p => ({
+      ...p,
+      fans: acotado(p.fans + opcion.fans),
+      // "Relacion DT" en pantalla ES el prestigio: no hay un campo aparte. Por eso el efecto sobre
+      // el tecnico se suma ahi mismo, y no en un campo inventado que nadie leeria.
+      prestige: acotado(p.prestige + opcion.prestigio + opcion.dt),
+      mentalHealth: acotado(p.mentalHealth + opcion.animo),
+      // El saldo que decide el tono de las respuestas: la misma cuenta que ya usa la rueda de
+      // prensa, para que no haya dos reglas que puedan contradecirse.
+      miPublicacion: { texto: opcion.texto, saldo: opcion.fans + opcion.prestigio, semana: p.currentWeek },
+    }));
+  };
+
   const handleAnswerPress = (prestigeChange: number, fansChange: number, energyChange: number) => {
     if (!playerProfile) return;
     prestigeChange = pressDifficultyAdjust(prestigeChange);
@@ -4689,6 +4712,7 @@ export default function App() {
           onCancelSponsor={handleCancelSponsor}
           onLaunchPRCampaign={handleLaunchPRCampaign}
           onAnswerPress={handleAnswerPress}
+          onPublicar={handlePublicar}
           onAcceptTransfer={handleAcceptTransfer}
           onAdvanceWeek={handleAdvanceWeek}
           onFinalizeSeason={handleFinalizeSeason}
