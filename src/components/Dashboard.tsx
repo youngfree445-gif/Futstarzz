@@ -2628,7 +2628,18 @@ export default function Dashboard({
                 </div>
               )}
 
-              <div className="grid md:grid-cols-3 gap-4">
+              {/* Tarjetas COMPACTAS, en fila.
+
+                  Antes cada atributo era una tarjeta vertical con una foto de 112 px, padding de
+                  20 px y el párrafo de descripción entero: seis de ésas no entraban en pantalla y
+                  había que subir y bajar para entrenar y después para comprar. Reportado tal cual:
+                  "tener que subir y bajar siempre, no es cómodo, y es hasta molesto".
+
+                  Ahora cada una ocupa ~85 px en vez de ~300. La foto queda de miniatura, la
+                  descripción pasa al title (sigue estando, al pasar el mouse) y en su lugar va una
+                  barra de progreso, que dice de un vistazo lo que antes había que leer -- y que era
+                  el mismo texto todas las semanas. */}
+              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2.5">
                 {[
                   { key: 'ritmo', label: 'Velocidad / Ritmo', img: trainingRitmoImg, desc: 'Mejora la aceleración explosiva y los desmarques por las bandas.' },
                   { key: 'regate', label: 'Dribbling / Regate', img: trainingRegateImg, desc: 'Aumenta el control de balón en conducción y el mano a mano.' },
@@ -2636,55 +2647,51 @@ export default function Dashboard({
                   { key: 'defensa', label: 'Robo / Defensa', img: trainingDefensaImg, desc: 'Optimiza la capacidad de anticipación e intercepción táctica.' },
                   { key: 'pase', label: 'Visión / Pase', img: trainingPaseImg, desc: 'Clave para habilitaciones precisas entre líneas y asistencias.' },
                   { key: 'fisico', label: 'Potencia / Físico', img: trainingFisicoImg, desc: 'Incrementa la resistencia en disputas aéreas y choques hombro con hombro.' }
-                ].map(item => (
-                  <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-gold-500/20 transition-all flex flex-col justify-between">
-                    <div className="relative h-28 shrink-0 overflow-hidden">
-                      <img src={item.img} alt={item.label} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-                      <span className={`absolute top-2 right-2 text-3xs font-mono font-black uppercase bg-slate-950/80 px-2 py-0.5 rounded border ${
-                        playerProfile.attributes[item.key as keyof PlayerStats] >= ATTRIBUTE_MAX
-                          ? 'text-gold-400 border-gold-500/40'
-                          : 'text-burgundy-500 border-slate-800'
-                      }`}>
-                        {playerProfile.attributes[item.key as keyof PlayerStats]}/{ATTRIBUTE_MAX}
-                      </span>
-                      <h4 className="absolute bottom-2 left-3 font-bold text-sm text-white drop-shadow-lg pr-3">{item.label}</h4>
+                ].map(item => {
+                  const valor = playerProfile.attributes[item.key as keyof PlayerStats];
+                  const alMaximo = valor >= ATTRIBUTE_MAX;
+                  const puede = !alMaximo && playerProfile.energy >= 20 && playerProfile.capital >= trainingCost;
+                  return (
+                    <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-xl hover:border-gold-500/20 transition-all flex items-center gap-2.5 p-2.5">
+                      <img src={item.img} alt="" title={item.desc} loading="lazy" decoding="async"
+                           className="w-12 h-12 rounded-lg object-cover shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-baseline justify-between gap-2">
+                          <h4 className="font-bold text-xs text-white truncate" title={item.desc}>{item.label}</h4>
+                          <span className={`text-3xs font-mono font-black shrink-0 ${alMaximo ? 'text-gold-400' : 'text-burgundy-500'}`}>
+                            {valor}/{ATTRIBUTE_MAX}
+                          </span>
+                        </div>
+                        <div className="h-1 rounded-full bg-slate-950 my-1.5 overflow-hidden">
+                          <div className={`h-full rounded-full ${alMaximo ? 'bg-gold-400' : 'bg-burgundy-500'}`}
+                               style={{ width: `${Math.round((valor / ATTRIBUTE_MAX) * 100)}%` }} />
+                        </div>
+                        {/* Al máximo el botón se apaga y lo dice. Antes cobraba la sesión igual y el
+                            atributo no se movía, así que el jugador pagaba por enterarse. */}
+                        <button
+                          onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
+                          disabled={!puede}
+                          title={alMaximo
+                            ? `Ya está en ${ATTRIBUTE_MAX}, el máximo.`
+                            : playerProfile.energy < 20
+                            ? 'Te falta energía para entrenar.'
+                            : playerProfile.capital < trainingCost
+                            ? `Te faltan $${(trainingCost - playerProfile.capital).toLocaleString()}.`
+                            : item.desc}
+                          className={`btn-fx-subtle w-full min-h-[36px] py-1.5 px-2 rounded-lg font-bold text-3xs uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
+                            puede
+                              ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 border border-slate-800 hover:border-gold-400 cursor-pointer'
+                              : alMaximo
+                              ? 'bg-gold-950/20 text-gold-500/70 cursor-not-allowed border border-gold-500/25'
+                              : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
+                          }`}
+                        >
+                          {alMaximo ? `Al máximo · ${ATTRIBUTE_MAX}` : `Entrenar · -20E · -$${trainingCost.toLocaleString()}`}
+                        </button>
+                      </div>
                     </div>
-
-                    <div className="p-5 flex flex-col justify-between flex-1">
-                      <p className="text-3xs text-slate-400 leading-relaxed">{item.desc}</p>
-
-                      {/* Al máximo el botón se apaga y lo dice. Antes cobraba la sesión igual y el
-                          atributo no se movía, así que el jugador pagaba por enterarse. */}
-                      {(() => {
-                        const alMaximo = playerProfile.attributes[item.key as keyof PlayerStats] >= ATTRIBUTE_MAX;
-                        const puede = !alMaximo && playerProfile.energy >= 20 && playerProfile.capital >= trainingCost;
-                        return (
-                          <button
-                            onClick={() => onTrainAttribute(item.key as keyof PlayerStats)}
-                            disabled={!puede}
-                            title={alMaximo
-                              ? `Ya está en ${ATTRIBUTE_MAX}, el máximo.`
-                              : playerProfile.energy < 20
-                              ? 'Te falta energía para entrenar.'
-                              : playerProfile.capital < trainingCost
-                              ? `Te faltan $${(trainingCost - playerProfile.capital).toLocaleString()}.`
-                              : 'Una sesión de entrenamiento.'}
-                            className={`btn-fx-subtle w-full mt-4 min-h-[44px] py-2 px-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
-                              puede
-                                ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 border border-slate-800 hover:border-gold-400 cursor-pointer'
-                                : alMaximo
-                                ? 'bg-gold-950/20 text-gold-500/70 cursor-not-allowed border border-gold-500/25'
-                                : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
-                            }`}
-                          >
-                            {alMaximo ? `Al máximo · ${ATTRIBUTE_MAX}` : `Ejercitar (-20 E · -$${trainingCost.toLocaleString()})`}
-                          </button>
-                        );
-                      })()}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* SECCIÓN ROL FAVORITO */}
@@ -3638,7 +3645,11 @@ export default function Dashboard({
                 </p>
               </div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {/* Compactada por el mismo motivo que el entrenamiento: cada tarjeta medía ~330 px
+                  (foto de 144 + descripción + ventaja + precio) y comprar obligaba a scrollear toda
+                  la pantalla. Se conservan las fotos -- en la tienda son parte de la gracia -- pero
+                  más chicas, con menos aire y la descripción recortada a dos renglones. */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {lifestyleItems.map(item => {
                   const isAffordable = playerProfile.capital >= item.cost;
                   return (
@@ -3650,7 +3661,7 @@ export default function Dashboard({
                           : 'border-slate-800 bg-slate-950/40 hover:border-gold-500/30'
                       }`}
                     >
-                      <div className="relative h-36 shrink-0 overflow-hidden">
+                      <div className="relative h-24 shrink-0 overflow-hidden">
                         {/* Filtro parejo para todas: son fotos de stock de origen distinto y venían
                             con brillos y saturaciones que no pegaban entre sí -- una tarjeta clara
                             al lado de una oscura hacía ver la grilla como un collage. Bajando un
@@ -3682,15 +3693,15 @@ export default function Dashboard({
                         )}
                       </div>
 
-                      <div className="p-4 flex flex-col flex-1 gap-2.5">
-                        <p className="text-3xs text-slate-400 leading-relaxed">
+                      <div className="p-3 flex flex-col flex-1 gap-1.5">
+                        <p className="text-3xs text-slate-400 leading-snug line-clamp-2" title={item.description}>
                           {item.description}
                         </p>
-                        <p className="text-3xs text-gold-400 font-mono font-bold uppercase leading-relaxed">
-                          ✨ Ventaja: {item.perkText}
+                        <p className="text-3xs text-gold-400 font-mono font-bold uppercase leading-snug">
+                          ✨ {item.perkText}
                         </p>
 
-                        <div className="mt-auto pt-3 flex items-center justify-between gap-2">
+                        <div className="mt-auto pt-2 flex items-center justify-between gap-2">
                           <span className="text-sm font-black font-mono text-white">
                             ${item.cost.toLocaleString()}
                           </span>
