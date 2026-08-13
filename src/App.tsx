@@ -22,6 +22,7 @@ import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENT
 import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
+  sigueEnElCuadro, sigueEnElCuadroDeIdaYVuelta,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
@@ -93,19 +94,17 @@ function findShootoutInTwoLegTies(ties: TwoLegTie[] | null | undefined, myId: st
  * ¿El club sigue vivo en el playoff de liga (cuadrangulares/final de Colombia o Argentina)?
  *
  * Colombia va a ida y vuelta (twoLegKnockout); Argentina a partido único (knockout). Mismo criterio
- * que isClubStillInCup: aparece en la última ronda armada, o es el campeón.
+ * que isClubStillInCup: está en la última ronda armada Y no la perdió, o es el campeón.
  */
 function estaEnPlayoffDeLiga(season: { stage?: string; twoLegKnockout?: TwoLegBracket; knockout?: PlayoffBracket }, clubId: string): boolean {
   if (season.stage !== 'knockout') return false;
   if (season.twoLegKnockout) {
     if (season.twoLegKnockout.championId) return season.twoLegKnockout.championId === clubId;
-    const ultima = season.twoLegKnockout.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1];
-    return !!ultima?.some(t => t.clubAId === clubId || t.clubBId === clubId);
+    return sigueEnElCuadroDeIdaYVuelta(season.twoLegKnockout.tiesByRound, clubId);
   }
   if (season.knockout) {
     if (season.knockout.championId) return season.knockout.championId === clubId;
-    const ultima = season.knockout.matchesByRound[season.knockout.matchesByRound.length - 1];
-    return !!ultima?.some(m => m.homeTeamId === clubId || m.awayTeamId === clubId);
+    return sigueEnElCuadro(season.knockout.matchesByRound, clubId);
   }
   return false;
 }

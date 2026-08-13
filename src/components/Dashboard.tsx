@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
+import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -547,7 +547,10 @@ export default function Dashboard({
   // (arrancás viendo a Muriel goleador, como en la vida real). De la segunda en adelante manda
   // lo que pasó en TU carrera, o el panel se quedaría congelado en 2026 para siempre mostrando
   // goleadores que ya se retiraron.
-  const isFirstSeason = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek) === CAREER_START_YEAR;
+  // temporadaDeCarrera devuelve el NÚMERO de temporada (1, 2, 3...), no el año. Comparado contra
+  // CAREER_START_YEAR (2026) daba false SIEMPRE, así que la foto real de goleadores no se usaba
+  // nunca -- ni siquiera en la primera temporada, que es justo para lo que está.
+  const isFirstSeason = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek) === 1;
   const selectedLeagueLeaders = (isFirstSeason ? REAL_LEAGUE_LEADERS[selectedLeagueName] : undefined)
     ?? generateLeagueLeadersFromTable(selectedLeagueClubs, selectedLeagueTable, playerProfile.retiredWorldPlayers);
 
@@ -3302,7 +3305,7 @@ export default function Dashboard({
                   Oficina de Contratos y Representaciones
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Revisa las propuestas de los clubes interesados en tu perfil deportivo para la temporada {anioDelPaso(currentClub.name, playerProfile.currentWeek) ?? calendarBaseDate.getFullYear()}. Tu margen de negociación salarial y los bonos de fichaje se expanden a la par de tu Prestigio general.
+                  Revisa las propuestas de los clubes interesados en tu perfil deportivo para la temporada {rotuloDeTemporada(currentClub.name, playerProfile.currentWeek)}. Tu margen de negociación salarial y los bonos de fichaje se expanden a la par de tu Prestigio general.
                 </p>
               </div>
 

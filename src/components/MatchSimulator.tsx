@@ -5,7 +5,7 @@ import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
-import { anioDeCarrera } from '../dateSchedule';
+import { anioDeCarrera, rotuloDeTemporada } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -1467,6 +1467,14 @@ export default function MatchSimulator({
   // hardcodeado "2026" en el encabezado y en el relato del partido, así que en la temporada 20 de
   // una carrera larga el partido seguía anunciándose como 2026.
   const seasonYear = anioDeCarrera(currentClub.name, playerProfile.currentWeek);
+  /**
+   * Cómo se llama la temporada en pantalla: "2025/26" en Europa, "2026" en Sudamérica.
+   *
+   * El año a secas partía la temporada europea al medio -- en agosto decía 2025 y en enero 2026,
+   * siendo el mismo campeonato -- y el rótulo de acá abajo lo empeoraba armando "26/27" a mano a
+   * partir de ese año, así que en enero el Barcelona jugaba la 25/26 y la pantalla decía 26/27.
+   */
+  const rotuloTemporada = rotuloDeTemporada(currentClub.name, playerProfile.currentWeek);
 
   // En Colombia y Argentina el año tiene DOS ligas -- Apertura y Clausura -- cada una con su propio
   // campeón. El rótulo decía solo "Primera División Dimayor", así que en pantalla no había forma de
@@ -1638,7 +1646,7 @@ export default function MatchSimulator({
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${seasonYear} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league, currentClub.division).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${seasonYear} 🟢`;
+    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${rotuloTemporada} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league, currentClub.division).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${rotuloTemporada} 🟢`;
     
     // El aviso del banco es del minuto 0, así que va pegado al silbatazo y ANTES del ambiente, que
     // es del 4. Cuando se empujaba al final del array, la transmisión mostraba un 0' publicado
@@ -2204,8 +2212,8 @@ export default function MatchSimulator({
               {isWorldCup
                 ? `🌎 Copa Mundial FIFA ${seasonYear}`
                 : isLibertadores
-                ? `🏆 ${activeCupLabel} ${seasonYear}`
-                : `${getLeagueDisplay(currentClub.league, currentClub.division).flag} ${getLeagueDisplay(currentClub.league, currentClub.division).name}${torneoDelPartido ? ` · ${torneoDelPartido} ${seasonYear}` : ''}`}
+                ? `🏆 ${activeCupLabel} ${rotuloTemporada}`
+                : `${getLeagueDisplay(currentClub.league, currentClub.division).flag} ${getLeagueDisplay(currentClub.league, currentClub.division).name}${torneoDelPartido ? ` · ${torneoDelPartido} ${rotuloTemporada}` : ''}`}
             </span>
             {/* El global se mueve EN VIVO: globalScoreLabel trae sólo lo que venía de la ida, y acá
                 se le suman los goles de este partido. Mostrar el global congelado mientras el
@@ -2573,7 +2581,7 @@ export default function MatchSimulator({
                 </span>
                 <h4 className="text-sm sm:text-base font-black text-white mt-1.5 truncate">{playerProfile.name}</h4>
                 <p className="text-4xs sm:text-3xs text-slate-500 font-mono uppercase tracking-wide flex items-center gap-1 mt-0.5">
-                  <Award size={10} className="text-slate-600 shrink-0" /> <span className="truncate">Temporada {String(seasonYear).slice(-2)}/{String(seasonYear + 1).slice(-2)}</span>
+                  <Award size={10} className="text-slate-600 shrink-0" /> <span className="truncate">Temporada {rotuloTemporada}</span>
                 </p>
               </div>
             </div>

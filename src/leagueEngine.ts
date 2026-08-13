@@ -803,6 +803,19 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
     if (cup.knockout?.championId) {
       return { ...cup, stage: 'done', championId: cup.knockout.championId };
     }
+    // Ronda completa: este paso ARMA la siguiente y corta, igual que la Champions (resolveUefaCupStep
+    // unas líneas más abajo) y que la copa nacional.
+    //
+    // Sin esto el cuadro se congelaba en OCTAVOS PARA SIEMPRE. resolveBracketRound resuelve la ronda
+    // y corta a propósito -- así la pantalla alcanza a mostrar el partido que se acaba de jugar --
+    // pero nadie llamaba después a siguienteRondaBracket para las copas Conmebol, que era el único
+    // lugar donde faltaba. No existían los cuartos, ni las semis, ni la final, ni el campeón: medido
+    // con 200 pasos, el cuadro seguía teniendo una sola ronda de 8 llaves. De ahí salía el "sólo 7
+    // partidos de Libertadores" -- 6 de grupos y 1 de octavos, y el torneo dejaba de existir.
+    const ultima = cup.knockout!.matchesByRound[cup.knockout!.matchesByRound.length - 1];
+    if (ultima.length && ultima.every(m => m.played)) {
+      return { ...cup, knockout: siguienteRondaBracket(cup.knockout!) };
+    }
     return { ...cup, knockout: resolveBracketRound(cup.knockout!, allClubs, forced) };
   }
 
@@ -930,13 +943,51 @@ export function getUpcomingCupMatch(cup: CupState, clubId: string): { opponentId
 // de relleno bajo el cartel de una copa de la que ya quedaste afuera (bug reportado: "si te
 // eliminan de Libertadores, en julio vuelve a aparecer la fase de grupos" -- ver
 // cupWeeksElapsedInYear más arriba para el bug hermano del contador anual).
+/** Quién ganó una llave a partido único: el que hizo más goles, o el que ganó los penales. */
+export function ganadorDelPartido(m: { homeTeamId: string; awayTeamId: string; homeGoals: number | null; awayGoals: number | null; penaltyShootout?: PenaltyShootoutResult }): string | null {
+  if (m.penaltyShootout) return m.penaltyShootout.winnerId;
+  if (m.homeGoals === null || m.awayGoals === null) return null;
+  return m.homeGoals > m.awayGoals ? m.homeTeamId : m.awayTeamId;
+}
+
+/**
+ * ¿El club sigue vivo en un cuadro de eliminación directa?
+ *
+ * Se mira SÓLO LA ÚLTIMA RONDA ARMADA, y dentro de ella si el club perdió su partido. Las dos
+ * condiciones hacen falta:
+ *
+ *   - Rondas viejas: un club eliminado en octavos sigue apareciendo para siempre en el octavos que
+ *     jugó. Preguntar "¿está en alguna ronda?" da que sí eternamente, y por eso el juego te decía
+ *     que seguías en carrera después de haberte eliminado.
+ *   - Última ronda ya jugada: el cuadro resuelve la ronda y CORTA sin armar la siguiente (ver la
+ *     nota en resolveBracketRound), así que entre un paso y el otro la última ronda tiene adentro a
+ *     los ganadores Y a los perdedores. Mirar sólo "¿estás en la última?" te da vivo hasta que se
+ *     arme la ronda que viene.
+ */
+export function sigueEnElCuadro(rondas: { homeTeamId: string; awayTeamId: string; played: boolean; homeGoals: number | null; awayGoals: number | null; penaltyShootout?: PenaltyShootoutResult }[][], clubId: string): boolean {
+  const ultima = rondas[rondas.length - 1];
+  const mio = ultima?.find(m => m.homeTeamId === clubId || m.awayTeamId === clubId);
+  if (!mio) return false;                       // quedó en una ronda anterior
+  if (!mio.played) return true;                 // lo tiene por jugar
+  return ganadorDelPartido(mio) === clubId;     // lo jugó: sigue sólo si lo ganó
+}
+
+/** Igual que sigueEnElCuadro, para llaves de ida y vuelta (copas nacionales, cuadrangulares, UEFA). */
+export function sigueEnElCuadroDeIdaYVuelta(rondas: TwoLegTie[][], clubId: string): boolean {
+  const ultima = rondas[rondas.length - 1];
+  const mia = ultima?.find(t => t.clubAId === clubId || t.clubBId === clubId);
+  if (!mia) return false;
+  if (!mia.played) return true;
+  return mia.winnerId === clubId;
+}
+
 export function isClubStillInCup(cup: CupState, clubId: string): boolean {
   if (cup.stage === 'groups') {
     return cup.groups.some(g => g.clubIds.includes(clubId));
   }
   if (cup.stage === 'knockout' && cup.knockout) {
     if (cup.knockout.championId) return cup.knockout.championId === clubId;
-    return cup.knockout.matchesByRound.some(round => round.some(m => m.homeTeamId === clubId || m.awayTeamId === clubId));
+    return sigueEnElCuadro(cup.knockout.matchesByRound, clubId);
   }
   if (cup.stage === 'done') return cup.championId === clubId;
   return false;

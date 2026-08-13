@@ -137,6 +137,13 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   // Las copas que corren por cuadro se juntan acá y se resuelven en una SEGUNDA pasada: para
   // reservarle fechas a un club hay que saber primero qué días tiene ya ocupados.
   const conCuadro: DatedCompetition[] = [];
+  // Las copas CONTINENTALES también reservan, en una pasada aparte y después de las nacionales.
+  //
+  // Antes no reservaban ninguna y por eso la Libertadores se quedaba sin fechas: lo único que tenía
+  // era el fragmento scrapeado -- la fase de grupos -- y el cuadro no tenía dónde jugar octavos en
+  // adelante. Peor todavía en los países SIN copa nacional modelada (Perú, Paraguay): ahí no corría
+  // ninguna pasada de reservas, así que sus clubes tenían CERO días de copa en todo el año.
+  const continentales: DatedCompetition[] = [];
   // Competiciones cuyas fechas hay que reubicar para que entren sin pisar nada.
   const aAcomodar: DatedCompetition[] = [];
 
@@ -170,6 +177,10 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
     // copa corran por el mismo reloj y pickPrimary elija entre las dos cuando caen el mismo día
     // (que es exactamente como funciona la temporada 1). Es lo que hace la segunda pasada de abajo.
     const comp = competicionEnTemporada(original, temporada);
+
+    // Su fragmento real se emite igual (los partidos de grupos son de Transfermarkt); lo que se
+    // agrega en la segunda pasada son las fechas para CONTINUAR el torneo cuando se acaba.
+    if (original.kind === 'continental_cup') continentales.push(comp);
 
     if (usaCuadroDelMotor(original)) {
       conCuadro.push(comp);
@@ -214,6 +225,7 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   // entero dos veces por temporada, con 32 temporadas, se nota al abrir el juego.
   acomodarFechas(aAcomodar, temporada, indice, agregar);
   for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
+  for (const comp of continentales) reservarFechasDeCopa(comp, temporada, indice, agregar);
   reservarFechasDeMundial(indice, temporada);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
 
@@ -283,35 +295,88 @@ const FECHAS_DE_COPA_CONTINENTAL = 10;
  * club de Primera puede terminar jugándola. Los que no clasifican ese año usan esas fechas para la
  * copa nacional, y lo que sobre queda como descanso.
  */
+let cacheVentanaContinental: Map<string, { id: string; desde: string; hasta: string }> | null = null;
+
+/**
+ * Para cada club que puede jugar una copa continental, la VENTANA de esa copa.
+ *
+ * No alcanza con saber que el club tiene bono: hay que saber entre qué fechas se juega su copa, y
+ * no es la misma para todos. La Libertadores va de febrero a noviembre y la Champions de septiembre
+ * a mayo, así que un piso o un techo únicos le quedan mal a la mitad del mundo.
+ *
+ * La copa se le asigna a la LIGA, no al club: quién clasifica depende de la tabla del año anterior,
+ * y el calendario tiene que ser una función pura del nombre del club. Si algún club de esa liga
+ * aparece en una copa continental, toda la liga usa esa ventana. Los que no clasifican ese año no
+ * pierden nada: sus fechas sobrantes quedan como días de descanso.
+ */
+function ventanaContinentalPorClub(): Map<string, { id: string; desde: string; hasta: string }> {
+  if (cacheVentanaContinental) return cacheVentanaContinental;
+
+  const copaDelClub = new Map<string, DatedCompetition>();
+  for (const c of DATED_CALENDARS) {
+    if (c.kind !== 'continental_cup' || !c.firstDate || !c.lastDate) continue;
+    for (const m of c.matches) { copaDelClub.set(m.home, c); copaDelClub.set(m.away, c); }
+  }
+
+  const out = new Map<string, { id: string; desde: string; hasta: string }>();
+  for (const c of DATED_CALENDARS) {
+    if (c.kind !== 'league') continue;
+    const suyos: string[] = [];
+    let copa: DatedCompetition | undefined;
+    for (const m of c.matches) {
+      suyos.push(m.home, m.away);
+      copa = copa ?? copaDelClub.get(m.home) ?? copaDelClub.get(m.away);
+    }
+    if (!copa) continue;
+    // El fragmento de la Conmebol se corta en agosto (era lo que había sorteado el día del scrapeo)
+    // pero el torneo se define en noviembre: el techo es el más lejano de los dos.
+    const finReal = `${copa.lastDate!.slice(0, 4)}-${FIN_REAL_DE_COPA_CONTINENTAL}`;
+    const ventana = { id: copa.id, desde: copa.firstDate!, hasta: copa.lastDate! > finReal ? copa.lastDate! : finReal };
+    for (const n of suyos) out.set(n, ventana);
+  }
+  cacheVentanaContinental = out;
+  return out;
+}
+
+// Cacheado y no `new Set(...keys())` en cada llamada: fechasDeCopaReservadas pregunta una vez por
+// club por temporada, y rearmar el set ahí adentro se lleva puesto el tope de armado del calendario.
 let cacheClubesConBono: Set<string> | null = null;
 
 function clubesConBonoContinental(): Set<string> {
-  if (cacheClubesConBono) return cacheClubesConBono;
-
-  const enCopa = new Set<string>();
-  for (const c of DATED_CALENDARS) {
-    if (c.kind !== 'continental_cup') continue;
-    for (const m of c.matches) { enCopa.add(m.home); enCopa.add(m.away); }
-  }
-
-  const conBono = new Set<string>();
-  for (const c of DATED_CALENDARS) {
-    if (c.kind !== 'league') continue;
-    const suyos = new Set<string>();
-    let alguno = false;
-    for (const m of c.matches) {
-      suyos.add(m.home); suyos.add(m.away);
-      if (enCopa.has(m.home) || enCopa.has(m.away)) alguno = true;
-    }
-    if (alguno) for (const n of suyos) conBono.add(n);
-  }
-  cacheClubesConBono = conBono;
-  return conBono;
+  cacheClubesConBono ??= new Set(ventanaContinentalPorClub().keys());
+  return cacheClubesConBono;
 }
 
 function fechasDeCopaReservadas(club: string): number {
   return FECHAS_DE_COPA_BASE
     + (clubesConBonoContinental().has(club) ? FECHAS_DE_COPA_CONTINENTAL : 0);
+}
+
+/**
+ * Cuándo termina DE VERDAD una copa continental, más allá de lo que llegó a scrapearse.
+ *
+ * El calendario trae la Libertadores hasta el 19 de agosto y la Sudamericana hasta el 20: eso es la
+ * fase de grupos y poco más, porque el día que se bajaron los datos el sorteo de octavos todavía no
+ * existía. El torneo de verdad se define a fines de noviembre.
+ *
+ * Importa porque la bolsa de días de copa es UNA SOLA para las dos copas del club, y su techo era la
+ * ventana de la copa NACIONAL -- la Copa BetPlay termina el 18 de agosto. Resultado medido en el
+ * Junior: 3 días libres después de la fase de grupos, cuando el cuadro necesita 8 para llegar a la
+ * final. La Libertadores se quedaba literalmente sin fechas donde jugarse.
+ *
+ * Es el mismo caso que las copas nacionales ("el calendario real no es un torneo: es un FRAGMENTO")
+ * y se resuelve igual: mientras el fragmento tiene partidos, mandan sus fechas y sus rivales; de ahí
+ * en adelante manda la ventana real del torneo.
+ */
+const FIN_REAL_DE_COPA_CONTINENTAL = '11-28';
+
+/** La misma fecha, `anios` años después. El 29/2 cae en 28/2 los años no bisiestos. */
+function sumarAniosADia(date: string, anios: number): string {
+  if (!anios) return date;
+  const [a, m, d] = date.split('-').map(Number);
+  const anio = a + anios;
+  const ultimo = new Date(Date.UTC(anio, m, 0)).getUTCDate();
+  return `${anio}-${String(m).padStart(2, '0')}-${String(Math.min(d, ultimo)).padStart(2, '0')}`;
 }
 
 /** Días mínimos entre una fecha de copa y cualquier otro partido del club. */
@@ -382,6 +447,17 @@ const cacheClubesDelPais = new Map<string, string[]>();
 function clubesDelPais(comp: DatedCompetition): string[] {
   const cacheado = cacheClubesDelPais.get(comp.id);
   if (cacheado) return cacheado;
+
+  // Una copa continental no tiene país: sus candidatos son los clubes de las LIGAS que la
+  // alimentan, no los que aparecen en el fragmento scrapeado. Quién clasifica cada año lo decide la
+  // tabla del año anterior, así que reservar sólo para los 32 del fragmento dejaría sin fechas a
+  // cualquiera que se clasifique de la temporada 2 en adelante.
+  if (comp.kind === 'continental_cup') {
+    const suyos: string[] = [];
+    for (const [club, v] of ventanaContinentalPorClub()) if (v.id === comp.id) suyos.push(club);
+    cacheClubesDelPais.set(comp.id, suyos);
+    return suyos;
+  }
 
   const set = new Set<string>();
   for (const otra of DATED_CALENDARS) {
@@ -523,7 +599,11 @@ function reservarFechasDeCopa(
     if (deEstaCopa.some(f => esRondaFinal(f.match.round))) continue;
 
     const fechasDeEstaCopa = deEstaCopa.map(f => f.date).sort();
-    const faltan = fechasDeCopaReservadas(club) - fechasDeEstaCopa.length;
+    // La bolsa es UNA SOLA para todas las copas del club, así que se descuenta lo que ya reservó
+    // otra pasada. Sin esto, la nacional pediría su bolsa entera y la continental otra vez la suya:
+    // el doble de días de copa, y un club jugando cada tres días todo el año.
+    const yaReservadas = propios.reduce((n, f) => n + (f.esReservaDeCuadro ? 1 : 0), 0);
+    const faltan = fechasDeCopaReservadas(club) - fechasDeEstaCopa.length - yaReservadas;
     if (faltan <= 0) continue;
 
     // De acá para abajo se trabaja con NÚMEROS DE DÍA, no con strings de fecha. El bucle recorre
@@ -545,19 +625,37 @@ function reservarFechasDeCopa(
     // Se arranca DESPUÉS del último partido real de esta copa: primero lo que sorteó la vida, y
     // recién cuando se acaba, lo generado.
     const ultimaReal = fechasDeEstaCopa[fechasDeEstaCopa.length - 1];
-    const desde = ultimaReal
+    let desde = ultimaReal
       ? dayForDate(ultimaReal) + ESPACIADOS_DE_COPA_DIAS[0]
       : (comp.firstDate ? dayForDate(comp.firstDate) : primerDia);
 
-    // El techo es el final de la temporada del club. Se deja llegar hasta ahí -- y no sólo hasta la
-    // última fecha real de la copa -- porque si no, un fragmento que termina en agosto no deja
-    // espacio para las rondas que faltan. Pasado ese punto ya empieza la temporada siguiente y las
-    // fechas se cruzarían entre sí.
     // Techo: el final de la temporada del club, pero sin salirse de la VENTANA del torneo. Una
     // Copa BetPlay que se juega de mayo a agosto no puede tener su final en noviembre sólo porque
     // el club siga jugando la liga. Las ventanas están en docs/VENTANAS_DE_COMPETICIONES.md.
     const finDelTorneo = comp.lastDate ? dayForDate(comp.lastDate) : Infinity;
-    const hasta = Math.max(Math.min(ultimoDia, finDelTorneo), desde);
+    let techo = finDelTorneo;
+
+    // La bolsa de días de copa es UNA SOLA para las dos copas del club: cuando llega el día, el
+    // juego pregunta primero por la continental y después por la nacional. Entonces la ventana de
+    // la bolsa tiene que ser la UNIÓN de las dos, no sólo la de la copa nacional.
+    //
+    // Antes era sólo la nacional y por eso la Libertadores se quedaba sin dónde jugarse: la Copa
+    // BetPlay va de mayo a agosto, así que al Junior le quedaban 3 días libres después de la fase
+    // de grupos para un cuadro que necesita 8. Y a Peñarol, cuya Copa Uruguay arranca en
+    // septiembre, no le quedaba NINGUNO para una fase de grupos que empieza en febrero.
+    const ventana = ventanaContinentalPorClub().get(club);
+    if (ventana) {
+      const inicioContinental = dayForDate(sumarAniosADia(ventana.desde, temporada - 1));
+      const finContinental = dayForDate(sumarAniosADia(ventana.hasta, temporada - 1));
+      // El piso baja hasta el arranque de la copa continental, pero nunca antes de que el club
+      // empiece a jugar: si no, se le reservan fechas en una temporada que para él no arrancó.
+      if (!ultimaReal) desde = Math.max(primerDia, Math.min(desde, inicioContinental));
+      techo = Math.max(techo, finContinental);
+    }
+
+    // El `min` con `ultimoDia` es lo que protege a Europa: un club inglés termina su temporada en
+    // mayo, así que su techo sigue siendo mayo y no se le inventan fechas en noviembre.
+    const hasta = Math.max(Math.min(ultimoDia, techo), desde);
 
     for (const dia of elegirDias(desde, hasta, vetados, faltan)) {
       const date = dateForDay(dia);
@@ -623,6 +721,46 @@ export function temporadaDeCarrera(clubName: string, paso: number): number {
 /** El AÑO calendario de ese paso (2026, 2027...), sacado de la fecha del partido. */
 export function anioDeCarrera(clubName: string, paso: number): number {
   return anioDelPaso(clubName, paso) ?? CAREER_START_YEAR + temporadaDeCarrera(clubName, paso) - 1;
+}
+
+const cacheRotuloTemporada = new Map<string, string>();
+
+/**
+ * Cómo se LLAMA la temporada que está jugando el club: "2025/26" en Europa, "2026" en Sudamérica.
+ *
+ * No alcanza con el año calendario. La temporada del Barcelona va de agosto de 2025 a mayo de 2026,
+ * así que mostrar el año a secas la partía al medio: hasta diciembre el juego decía 2025 y a partir
+ * de enero decía 2026, siendo la MISMA temporada y el mismo campeonato. Reportado tal cual --
+ * "hice una carrera con el Barcelona y me aparecían partidos en enero 2026 (...) eso hace que se
+ * bugee un poco" -- y es exactamente cómo se ve desde adentro: el año cambia solo a mitad de camino.
+ *
+ * En Sudamérica no se nota porque la temporada es el año calendario, y por eso ahí sigue saliendo un
+ * año solo: "Liga BetPlay 2026" es como se dice de verdad, "2026/26" no lo dice nadie.
+ *
+ * Se saca de las fechas de la LIGA del club, no de una lista de países: el dato ya está en el
+ * calendario y así no hay que mantener a mano quién juega a caballo de dos años.
+ */
+export function rotuloDeTemporada(clubName: string, paso: number): string {
+  const temporada = temporadaDeCarrera(clubName, paso);
+  const clave = `${clubName}|${temporada}`;
+  const cacheado = cacheRotuloTemporada.get(clave);
+  if (cacheado !== undefined) return cacheado;
+
+  const deLiga = fixturesForClub(clubName)
+    .filter(f => f.temporada === temporada && f.competition.kind === 'league')
+    .map(f => f.date)
+    .sort();
+
+  let rotulo: string;
+  const primerAnio = Number(deLiga[0]?.slice(0, 4));
+  const ultimoAnio = Number(deLiga[deLiga.length - 1]?.slice(0, 4));
+  if (!deLiga.length || !primerAnio || primerAnio === ultimoAnio) {
+    rotulo = String(primerAnio || anioDeCarrera(clubName, paso));
+  } else {
+    rotulo = `${primerAnio}/${String(ultimoAnio).slice(2)}`;
+  }
+  cacheRotuloTemporada.set(clave, rotulo);
+  return rotulo;
 }
 
 /**
