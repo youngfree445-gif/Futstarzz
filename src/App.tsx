@@ -4224,7 +4224,27 @@ export default function App() {
       lideresPorCompeticion: (() => {
         const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
         if (!myClub) return playerProfile.lideresPorCompeticion;
-        const nombreComp = activeCompetitionName
+        // LA CLAVE SALE DEL CALENDARIO, igual que del lado del panel. Es la unica forma de que las
+        // dos mitades se encuentren.
+        //
+        // Antes se usaba activeCompetitionName, o getLeagueDisplay como respaldo, y eso guardaba la
+        // fecha de liga bajo "Primera Division Dimayor" mientras el panel la buscaba como "Liga
+        // BetPlay Dimayor" -- el nombre que trae el calendario. Las claves no coincidian NUNCA, asi
+        // que la tabla se veia vacia por mas partidos que jugaras y el panel caia siempre a los
+        // datos fijos. Reportado: "la tabla de goleadores sigue vacia despues de mas de 10
+        // partidos". Misma familia que el bug de los titulos: dos nombres para la misma liga.
+        const pasoDeHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
+        const fixtureDeHoy = pasoDeHoy ? pickDatedPrimary(pasoDeHoy.fixtures) : null;
+        // Y en un dia RESERVADO de copa continental manda TU copa, no la que le tocó a tu liga: la
+        // reserva se guarda bajo la copa de la liga (al Junior, Sudamericana) aunque el club juegue
+        // la Libertadores. El panel ya hace esta misma correccion, y si acá no se hiciera la misma,
+        // las dos volverian a apuntar a claves distintas.
+        const nombreDeMiCopa = activeCupId === 'libertadores' ? 'Copa Libertadores'
+          : activeCupId === 'sudamericana' ? 'Copa Sudamericana' : null;
+        const nombreComp = (fixtureDeHoy?.esReservaDeCuadro && nombreDeMiCopa)
+          ? nombreDeMiCopa
+          : fixtureDeHoy?.competition.name
+          ?? activeCompetitionName
           ?? (activeDomesticCup ? nombreCopaNacional(myClub.league) : getLeagueDisplay(myClub.league, myClub.division).name);
         const temporadaHoy = temporadaDelPaso(myClub.name, playerProfile.currentWeek)?.temporada
           ?? temporadaDe(playerProfile, playerProfile.currentWeek);
