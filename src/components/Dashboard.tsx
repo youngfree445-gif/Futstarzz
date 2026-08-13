@@ -2411,7 +2411,13 @@ export default function Dashboard({
                   </div>
                 </div>
 
-                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-4 shadow-xl flex flex-col relative overflow-hidden">
+                {/* self-start: que la tarjeta mida lo que ocupa su contenido y NADA MÁS.
+
+                    Es hija directa de un grid, y los items de grid se estiran por defecto hasta la
+                    altura del más alto de la fila -- acá, la tarjeta de atributos. Resultado: debajo
+                    del botón "Disputar Partido" quedaba un vacío enorme del alto de media pantalla,
+                    y encima empujaba todo lo de abajo fuera de la vista. */}
+                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-4 shadow-xl flex flex-col self-start relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
@@ -2578,20 +2584,24 @@ export default function Dashboard({
                 <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
                   🌎 Ranking mundial
                 </h3>
-                <div className="max-h-64 overflow-y-auto space-y-1">
+                {/* Filas finas: el ranking es una lista para recorrer con la vista, no tarjetas.
+                    Con py-1.5 y separación entre filas entraban 8 y había que scrollear dentro del
+                    panel para ver el resto; así entran 12 en menos alto del que ocupaban 8. Se
+                    cambió la separación por una línea divisoria, que ordena sin gastar píxeles. */}
+                <div className="max-h-56 overflow-y-auto divide-y divide-slate-800/60">
                   {generateWorldRanking(playerProfile, currentClub.name, playerProfile.currentWeek).map((entry, i) => (
                     <div
                       key={`${entry.name}_${i}`}
-                      className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs ${
-                        entry.isPlayer ? 'bg-gold-950/30 border border-gold-500/30' : 'bg-slate-950/60'
+                      className={`flex items-center justify-between gap-2 px-2.5 py-1 text-2xs ${
+                        entry.isPlayer ? 'bg-gold-950/30' : ''
                       }`}
                     >
-                      <span className="flex items-center gap-2 min-w-0">
-                        <span className="text-3xs font-mono text-slate-500 w-5 shrink-0">{i + 1}°</span>
+                      <span className="flex items-baseline gap-2 min-w-0">
+                        <span className="text-3xs font-mono text-slate-500 w-5 shrink-0 text-right">{i + 1}°</span>
                         <span className={`truncate font-bold ${entry.isPlayer ? 'text-gold-400' : 'text-white'}`}>{entry.name}</span>
                         <span className="text-3xs text-slate-500 truncate">{entry.clubName}</span>
                       </span>
-                      <span className="text-3xs font-mono text-slate-400 shrink-0">{Math.round(entry.score)}</span>
+                      <span className="text-3xs font-mono text-slate-400 shrink-0 tabular-nums">{Math.round(entry.score)}</span>
                     </div>
                   ))}
                 </div>
@@ -2600,7 +2610,10 @@ export default function Dashboard({
           )}
 
           {activeTab === 'entrenamiento' && (
-            <div className="space-y-6 animate-fade-in max-w-4xl">
+            /* Sin max-w-4xl: la pestaña usa el ancho que haya. Con el tope de 4xl, en una pantalla
+               normal sobraba media pantalla vacía a la derecha mientras la clínica y la
+               especialización quedaban abajo de todo, fuera de la vista. Ahora van AL LADO. */
+            <div className="space-y-4 animate-fade-in">
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
                   Complejo de Preparación Física y Técnica
@@ -2639,7 +2652,10 @@ export default function Dashboard({
                   descripción pasa al title (sigue estando, al pasar el mouse) y en su lugar va una
                   barra de progreso, que dice de un vistazo lo que antes había que leer -- y que era
                   el mismo texto todas las semanas. */}
-              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2.5">
+              {/* Dos columnas: los atributos a la izquierda, clínica y especialización a la
+                  derecha. items-start para que cada columna mida lo suyo y no se estiren entre sí. */}
+              <div className="grid lg:grid-cols-3 gap-4 items-start">
+              <div className="lg:col-span-2 grid sm:grid-cols-2 gap-2.5">
                 {[
                   { key: 'ritmo', label: 'Velocidad / Ritmo', img: trainingRitmoImg, desc: 'Mejora la aceleración explosiva y los desmarques por las bandas.' },
                   { key: 'regate', label: 'Dribbling / Regate', img: trainingRegateImg, desc: 'Aumenta el control de balón en conducción y el mano a mano.' },
@@ -2694,8 +2710,11 @@ export default function Dashboard({
                 })}
               </div>
 
+              {/* Columna derecha: clínica y especialización, que antes vivían abajo de todo. */}
+              <div className="space-y-4">
+
               {/* SECCIÓN ROL FAVORITO */}
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg mt-6">
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   <Sparkles size={15} className="text-gold-400" /> Especialización
                 </h3>
@@ -2732,16 +2751,18 @@ export default function Dashboard({
               </div>
 
               {/* SECCIÓN CLÍNICA DE FISIOTERAPIA */}
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg mt-6">
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
-                  <Heart size={15} className="text-rose-500" /> Clínica de Fisioterapia y Recuperación
+                  <Heart size={15} className="text-rose-500" /> Clínica de Fisioterapia
                 </h3>
-                <p className="text-3xs text-slate-400 leading-relaxed mb-4">
-                  ¿Fatiga acumulada? Invierte parte de tu capital bancario en sesiones de crioterapia y masajes para recuperar estamina rápidamente sin perder semanas de juego.
+                <p className="text-3xs text-slate-400 leading-snug mb-3">
+                  Recuperá estamina al instante, sin perder fechas.
                 </p>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl flex justify-between items-center">
+                {/* Una sola columna: ahora esto vive en la barra lateral, y dos al lado quedaban
+                    apretadas contra el precio. */}
+                <div className="grid gap-2">
+                  <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl flex justify-between items-center gap-2">
                     <div>
                       <div className="flex justify-between text-xs font-bold mb-1">
                         <span className="text-white">Masaje Deportivo</span>
@@ -2756,7 +2777,7 @@ export default function Dashboard({
                       -$1,500
                     </button>
                   </div>
-                  <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl flex justify-between items-center">
+                  <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl flex justify-between items-center gap-2">
                     <div>
                       <div className="flex justify-between text-xs font-bold mb-1">
                         <span className="text-white">Cámara Hiperbárica</span>
@@ -2773,6 +2794,9 @@ export default function Dashboard({
                   </div>
                 </div>
               </div>
+
+              </div>{/* fin columna derecha */}
+              </div>{/* fin de las dos columnas */}
             </div>
           )}
 
