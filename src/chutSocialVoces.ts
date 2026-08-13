@@ -427,3 +427,62 @@ export function postsDelPartido(
     };
   }).filter(p => p.content);
 }
+
+/**
+ * La carrera por el Balón de Oro, contada en el feed.
+ *
+ * El ranking mundial ya se mueve cada fecha (ver worldRanking.ts), pero un ranking que cambia y del
+ * que nadie habla es una tabla más. Lo que hace que el premio se sienta como una carrera es que la
+ * prensa lo discuta MIENTRAS pasa: quién subió, quién se cayó, quién es favorito.
+ *
+ * El texto depende del puesto del jugador, y ahí está la gracia: fuera del top 20 la prensa ni te
+ * nombra -- habla del favorito y de la pelea de arriba, como en la vida real. Recién cuando entrás
+ * al top 10 empiezan a mencionarte, y en el podio se vuelve el tema central.
+ */
+export function postsDelBalonDeOro(
+  nombreJugador: string,
+  puesto: number | null,
+  lider: string,
+  clubLider: string,
+  segundo: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  // Mismo barajado estable que el resto del archivo: el feed no puede cambiar solo con mirarlo dos
+  // veces, pero sí tiene que ser distinto la semana siguiente.
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 7) * 51.29 + i * 17.3) * 43758.5453;
+    return x - Math.floor(x);
+  };
+
+  const generales = [
+    { author: 'Balón de Oro', role: 'Cuenta oficial', avatar: '🏅',
+      content: `Actualización de la carrera: ${lider} (${clubLider}) sigue al frente, con ${segundo} pisándole los talones. Faltan fechas y esto se define en la recta final.` },
+    { author: 'Marcos Beltrán', role: 'Periodista internacional', avatar: '🎙️',
+      content: `Si la votación fuera hoy, ${lider} se lo lleva. Pero el premio lo definen las noches grandes: Champions y Mundial pesan más que veinte goles en una liga menor.` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `La pelea por el Balón de Oro está en tres puntos entre ${lider} y ${segundo}. Un partido cambia el orden.` },
+  ];
+
+  const conJugador = puesto === null || puesto > 20 ? [] : puesto <= 3 ? [
+    { author: 'Balón de Oro', role: 'Cuenta oficial', avatar: '🏅',
+      content: `${nombreJugador} está ${puesto}º en la carrera por el Balón de Oro. Ya no es una sorpresa: es un candidato.` },
+    { author: 'Marcos Beltrán', role: 'Periodista internacional', avatar: '🎙️',
+      content: `Lo digo sin vueltas: si ${nombreJugador} sostiene este nivel hasta fin de año, se lo tienen que dar. ${puesto}º y subiendo.` },
+    { author: 'La Tribuna', role: 'Hinchada', avatar: '📣',
+      content: `¡${puesto}º DEL MUNDO! Que se preparen los europeos, que este año el premio se viene para acá 🔥` },
+  ] : puesto <= 10 ? [
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${nombreJugador} escaló al ${puesto}º puesto del ranking mundial. A este ritmo entra en la conversación del Balón de Oro.` },
+    { author: 'Marcos Beltrán', role: 'Periodista internacional', avatar: '🎙️',
+      content: `${nombreJugador} ${puesto}º. Todavía lejos de ${lider}, pero ya nadie puede decir que no está entre los mejores del mundo.` },
+  ] : [
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${nombreJugador} aparece ${puesto}º en el ranking mundial. El top 10 está a tiro si sostiene el semestre.` },
+  ];
+
+  return [...conJugador, ...generales]
+    .map((p, i) => ({ p, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .map(x => x.p)
+    .slice(0, 2);
+}

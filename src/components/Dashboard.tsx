@@ -15,7 +15,7 @@ import { getPalmares } from '../palmares';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -1831,6 +1831,29 @@ export default function Dashboard({
     // Reacciones al partido que ACABÁS de jugar (ver chutSocialVoces.ts). Van primero porque son
     // lo único del feed que responde a lo que hiciste: si te fue mal te destrozan y si te fue bien
     // te levantan. El resto del feed es contexto; esto es la reacción.
+    // LA CARRERA POR EL BALON DE ORO, en el feed. Ver postsDelBalonDeOro.
+    //
+    // El ranking ya se mueve cada fecha, pero un ranking que cambia y del que nadie habla es una
+    // tabla mas. Lo que lo vuelve una carrera es que la prensa lo discuta MIENTRAS pasa. El texto
+    // depende de tu puesto: fuera del top 20 ni te nombran -- hablan del favorito y de la pelea de
+    // arriba, como en la vida real.
+    const carreraBalonDeOro: SocialPost[] = (() => {
+      const r = generateWorldRanking(playerProfile, currentClub.name, week, currentClub.league);
+      if (r.length < 2) return [];
+      const idx = r.findIndex(e => e.isPlayer);
+      const otros = r.filter(e => !e.isPlayer);
+      return postsDelBalonDeOro(pName, idx >= 0 ? idx + 1 : null,
+        r[0].name, r[0].clubName, otros[0]?.name ?? r[1].name, week)
+        .map((p, i) => ({
+          id: `balon_${week}_${i}`,
+          author: p.author, role: p.role, content: p.content,
+          likes: 1200 + Math.floor(Math.random() * 9000),
+          commentsCount: 150 + Math.floor(Math.random() * 1800),
+          timestamp: 'Hace un rato',
+          avatar: p.avatar,
+        }));
+    })();
+
     const reacciones: SocialPost[] = playerProfile.lastMatchRating > 0
       ? postsDelPartido(pName, playerProfile.lastMatchRating, playerProfile.lastMatchGoals, week)
           .map((p, i) => ({
@@ -1847,6 +1870,10 @@ export default function Dashboard({
 
     return [
       ...reacciones,
+      // Despues de las reacciones al partido y antes del resto: la carrera del Balon de Oro es
+      // contexto de la temporada, no la noticia del dia. Si fuera primero taparia lo que acabas de
+      // hacer en la cancha, que es lo unico del feed que responde a vos.
+      ...carreraBalonDeOro,
       ...generateRetirementPosts(),
       ...generateJournalistPosts(),
       ...generateCelebrityShoutoutPost(),
