@@ -3629,6 +3629,10 @@ export default function App() {
     })();
 
     let updatedLeagueSeasons = playerProfile.leagueSeasons;
+    // Los OTROS partidos de la fecha, los que el motor simula de fondo. Se guardan acá para poder
+    // atribuirles goleadores más abajo: sin esto, la tabla de goleadores de la liga sólo contaba los
+    // partidos del jugador -- era "el goleador de tus partidos", no el de la liga.
+    let otrosPartidosDeLaFecha: { homeTeamId: string; awayTeamId: string; homeGoals: number; awayGoals: number }[] = [];
     if (!isCopaLibertadores && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
       const usaFechasRealesParaMiClub = hasDatedLeagueSchedule(myClub.name);
@@ -3663,6 +3667,22 @@ export default function App() {
         isHomeParaElMotor, results.golesMiEquipo, results.golesRival, shootoutOverride,
         contextoRealDelPaso(myClub.name, playerProfile.currentWeek)
       );
+
+      // Qué partidos pasaron de pendientes a jugados en ESTA llamada. Se compara antes contra
+      // después en vez de filtrar por fecha: el motor decide solo qué resuelve en cada paso, y
+      // preguntarle al calendario por la fecha daría una lista parecida pero no la misma -- y la que
+      // vale es la que de verdad quedó registrada en la tabla.
+      const jugadosAntes = new Set(
+        existingSeason.fixtures.filter(f => f.played).map(f => `${f.matchweek}|${f.homeTeamId}|${f.awayTeamId}`));
+      otrosPartidosDeLaFecha = resolvedSeason.fixtures
+        .filter(f => f.played
+          && !jugadosAntes.has(`${f.matchweek}|${f.homeTeamId}|${f.awayTeamId}`)
+          // El del jugador se anota aparte, con sus goles REALES en vez de un reparto simulado.
+          && f.homeTeamId !== myClub.id && f.awayTeamId !== myClub.id)
+        .map(f => ({
+          homeTeamId: f.homeTeamId, awayTeamId: f.awayTeamId,
+          homeGoals: f.homeGoals ?? 0, awayGoals: f.awayGoals ?? 0,
+        }));
 
       const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId)
         || findShootoutInTwoLegBracket(resolvedSeason.twoLegKnockout, myClub.id, activeOppositionClubId);
@@ -4238,7 +4258,34 @@ export default function App() {
           ...(suArquero && rivalClub ? [{ nombre: suArquero, clubName: rivalClub.name, partidosDeArquero: 1, golesRecibidos: results.golesMiEquipo }] : []),
         ];
 
+        // LOS OTROS PARTIDOS DE LA FECHA. Es lo que convierte la tabla en la de la LIGA y no en la
+        // de tus partidos: hasta acá, los nueve partidos que el motor simula de fondo no aportaban
+        // ni un goleador, así que el jugador se veía a sí mismo primero a las pocas fechas.
+        //
+        // Sólo para la liga: en las copas el motor resuelve el cuadro entero de una y atribuirle
+        // goleadores a rondas que el jugador todavía no vio adelantaría el torneo en la pantalla.
+        // Es liga si hoy no jugaste copa: activeCupId/uefa/domesticCup cubren los tres casos, y son
+        // los mismos flags con los que se armó el partido.
+        const esDiaDeLiga = !activeCupId && !activeUefaCupId && !activeDomesticCup && !activeWorldCupTeamId;
+        const deLaFecha = esDiaDeLiga
+          ? otrosPartidosDeLaFecha.flatMap(p => {
+              const local = CLUBS_DATABASE.find(c => c.id === p.homeTeamId);
+              const visita = CLUBS_DATABASE.find(c => c.id === p.awayTeamId);
+              return [
+                ...(local ? repartirGoles(local.starPlayers ?? [], local.name, p.homeGoals) : []),
+                ...(visita ? repartirGoles(visita.starPlayers ?? [], visita.name, p.awayGoals) : []),
+                ...(local ? repartirTarjetas(local.starPlayers ?? [], local.name) : []),
+                ...(visita ? repartirTarjetas(visita.starPlayers ?? [], visita.name) : []),
+                ...(local && arqueroDe(local.starPlayers ?? [])
+                  ? [{ nombre: arqueroDe(local.starPlayers ?? [])!, clubName: local.name, partidosDeArquero: 1, golesRecibidos: p.awayGoals }] : []),
+                ...(visita && arqueroDe(visita.starPlayers ?? [])
+                  ? [{ nombre: arqueroDe(visita.starPlayers ?? [])!, clubName: visita.name, partidosDeArquero: 1, golesRecibidos: p.homeGoals }] : []),
+              ];
+            })
+          : [];
+
         return anotarEnLideres(playerProfile.lideresPorCompeticion, clave, [
+          ...deLaFecha,
           {
             nombre: playerProfile.name, clubName: myClub.name,
             goles: results.goles, asistencias: results.asistencias,

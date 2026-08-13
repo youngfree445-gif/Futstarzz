@@ -63,5 +63,33 @@ ok('reparte amarillas sin pasarse de tres', tj.filter(t => t.amarillas).length <
 ok('las amarillas no caen en el arquero', !tj.some(t => t.nombre === 'Pepe'));
 ok('arqueroDe encuentra al arquero', arqueroDe(['Luis (ST)', 'Pepe (GK)']) === 'Pepe');
 
-console.log(fallas === 0 ? '\nLos 14 casos pasan.' : `\n${fallas} FALLAS`);
+
+// ---------------------------------------------------------------------------------------------
+// COMPATIBILIDAD CON CARRERAS VIEJAS.
+//
+// La tabla de lideres es un campo NUEVO del perfil. Una carrera empezada antes no lo tiene, y lo
+// unico inaceptable de este cambio seria que esas partidas dejaran de abrir. Se prueba explicito.
+// ---------------------------------------------------------------------------------------------
+ok('un perfil SIN la tabla no rompe al leerla',
+   lideresDe(undefined, claveDeCompeticion('Liga BetPlay Dimayor', 1)).goleadores.length === 0);
+ok('un perfil SIN la tabla puede anotar y la crea',
+   Object.keys(anotarEnLideres(undefined, 'X|1', [{ nombre: 'A', clubName: 'B', goles: 1 }])).length === 1);
+ok('anotar una lista VACIA devuelve lo que habia, sin crear claves basura',
+   Object.keys(anotarEnLideres(undefined, 'X|1', [])).length === 0);
+
+// La tabla de la LIGA se llena con los otros partidos de la fecha, no solo con el del jugador: es
+// el motivo entero de este cambio. Se simula una fecha completa de 10 partidos.
+let liga = undefined as any;
+for (let p = 0; p < 10; p++) {
+  liga = anotarEnLideres(liga, 'Liga|1', repartirGoles(
+    [`Nueve${p} (ST)`, `Diez${p} (CAM)`], `Club${p}`, 2, () => 0.1));
+}
+const tablaLiga = lideresDe(liga, 'Liga|1');
+ok('una fecha entera aporta goleadores de TODOS los clubes, no solo del tuyo',
+   new Set(tablaLiga.goleadores.map(g => g.clubName)).size === 10,
+   `(${new Set(tablaLiga.goleadores.map(g => g.clubName)).size} clubes)`);
+ok('y el total de goles coincide con los marcadores',
+   tablaLiga.goleadores.reduce((n, g) => n + g.goles, 0) === 20);
+
+console.log(fallas === 0 ? '\nLos 19 casos pasan.' : `\n${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);
