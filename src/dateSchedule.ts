@@ -445,9 +445,13 @@ function reservarFechasDeCuadrangular(
  * quién juega la Libertadores depende de cómo terminó la tabla del año anterior, y el calendario es
  * una función pura del nombre del club.
  *
- * Base 12: alcanza para un cuadro nacional de 32 (5 rondas de ida y vuelta = 10) más holgura.
+ * Base 14: la copa nacional más grande es la Copa Argentina, con un cuadro de 64 que pide 12 días
+ * (6 rondas de ida y vuelta). Los otros dos de holgura no son decorativos: el reparto pierde alguno
+ * por el camino cuando el día elegido choca con un partido ya puesto, y sin margen eso deja al club
+ * exactamente uno corto -- medido, 10 clubes argentinos y chilenos en 11/12 y 9/10. Un día de copa
+ * que sobra no cuesta nada: es un día de descanso, que es lo que le pasa a cualquier club eliminado.
  */
-const FECHAS_DE_COPA_BASE = 12;
+const FECHAS_DE_COPA_BASE = 14;
 
 /** Radio en días para medir si una fecha nueva queda apretada contra las que ya hay. */
 const VENTANA_DE_DESCANSO_DIAS = 3;
