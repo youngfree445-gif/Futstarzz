@@ -362,7 +362,7 @@ export interface CupGroup {
 }
 
 export interface CupState {
-  cupId: 'libertadores' | 'sudamericana';
+  cupId: 'libertadores' | 'sudamericana' | 'concacaf';
   year: number;
   groups: CupGroup[];
   stage: 'groups' | 'knockout' | 'done';

@@ -4,6 +4,7 @@ import { participantesConmebol, type CampeonesConmebol, type PosicionesFinales }
 import { participantesUefa, type CampeonesUefa } from './copasUefa';
 import { GRUPOS_MUNDIAL_2026 } from './mundialReal';
 import { competicionEnTemporada, ligaDeClubes, partidosDePlayoff } from './seasonCalendar';
+import { participantesConcacaf } from './copaConcacaf';
 import { ALIAS_CALENDARIO } from './clubAliases';
 import { displayName } from './worldRetirements';
 
@@ -822,10 +823,24 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
   return cup; // 'done': el torneo de este año ya terminó, no hay más pasos
 }
 
+export function getConcacafParticipants(allClubs: Club[], year = 1, posiciones?: PosicionesFinales): string[] {
+  return participantesConcacaf(year, posiciones, allClubs);
+}
+
 function freshCupState(
-  cupId: 'libertadores' | 'sudamericana', year: number, allClubs: Club[],
+  cupId: 'libertadores' | 'sudamericana' | 'concacaf', year: number, allClubs: Club[],
   posiciones?: PosicionesFinales, campeones?: CampeonesConmebol,
 ): CupState {
+  // La Concacaf NO tiene fase de grupos: son cinco rondas de eliminación directa seguidas. Se
+  // arranca ya en el cuadro, y de ahí en adelante corre por el mismo camino que las otras dos --
+  // resolveCupStep, getUpcomingCupMatch y el cuadro de la pantalla no distinguen de qué copa es.
+  if (cupId === 'concacaf') {
+    const ids = participantesConcacaf(year, posiciones, allClubs);
+    return {
+      cupId, year, groups: [], stage: 'knockout',
+      knockout: seedTwoLegBracket(ids), championId: null, stepsConsumed: 0,
+    };
+  }
   // El año importa: la 1 es la edición real 2026 y las siguientes se arman con lo que dejó la
   // simulación. Antes acá no se pasaba nada y todas las ediciones salían idénticas.
   const participants = participantesConmebol(cupId, year, posiciones, campeones, allClubs);
@@ -857,7 +872,7 @@ function freshCupState(
 // módulo: al revés sería un ciclo.
 
 export function getOrCreateCupState(
-  cupId: 'libertadores' | 'sudamericana',
+  cupId: 'libertadores' | 'sudamericana' | 'concacaf',
   year: number,
   allClubs: Club[],
   existing: CupState | undefined,
@@ -1503,6 +1518,23 @@ export function isWorldCupYear(year: number): boolean {
 // previsualizar el próximo rival durante la ventana del Mundial.
 export const WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD = 82;
 export const WORLD_CUP_CALLUP_MIN_MATCHES = 40;
+
+/**
+ * Para las ELIMINATORIAS el listón es más bajo que para el Mundial.
+ *
+ * Es como funciona de verdad: a la selección se entra por eliminatorias, jugando los partidos que
+ * a nadie le importan de visitante en la altura, y recién después -- si respondiste -- vas al
+ * Mundial. Pedir el mismo prestigio 82 para las dos cosas dejaba la eliminatoria fuera de alcance
+ * justo cuando se juega: la primera fecha del ciclo cae en septiembre del año 2 de la carrera, con
+ * temporada y media encima, y llegar a 82 de prestigio en ese lapso es de un jugador ya consagrado.
+ * El que llega a 82 iba a ir al Mundial igual; el que está entre 60 y 82 es exactamente el que en
+ * la vida real se gana el puesto en la eliminatoria.
+ *
+ * Los partidos jugados también bajan, por la misma razón: 40 es casi una temporada entera y la
+ * eliminatoria arranca antes de que termine la segunda.
+ */
+export const ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD = 62;
+export const ELIMINATORIAS_CALLUP_MIN_MATCHES = 25;
 
 // El Mundial necesita 9 pasos para resolverse por completo y quedar en stage 'done' (3 fechas de
 // fase de grupos + 5 rondas de eliminación directa -- R32, R16, cuartos, semis, final -- + 1 paso

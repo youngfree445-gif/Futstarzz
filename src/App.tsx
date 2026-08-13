@@ -26,11 +26,12 @@ import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEn
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
 import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
-  getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
+  getLibertadoresParticipants, getSudamericanaParticipants, getConcacafParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   sigueEnElCuadro, sigueEnElCuadroDeIdaYVuelta,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
-  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
+  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
+  ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
   simulatePenaltyShootout, roundLabelByMatchCount
 } from './leagueEngine';
@@ -970,7 +971,7 @@ export default function App() {
     }
     lastBallonDorCount.current = history.length;
   }, [playerProfile?.ballonDorHistory]);
-  const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | null>(null);
+  const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | 'concacaf' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
   // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
   // nacional (Copa del Rey, FA Cup, etc.) en vez de caer al cartel de Libertadores.
@@ -2355,9 +2356,11 @@ export default function App() {
       const ciclo = cicloDeEliminatorias(anio);
       // Solo se juegan las tres confederaciones modeladas partido a partido; las demas clasifican
       // por fuerza y no tienen tabla que disputar (ver la nota larga en eliminatorias.ts).
+      // Umbral de ELIMINATORIAS, mas bajo que el del Mundial a proposito: a la seleccion se entra
+      // por eliminatorias y despues vas al Mundial, no al reves.
       const convocado = !!teamId && !!conf && esJugable(conf) && !!ciclo
-        && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
-        && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
+        && playerProfile.prestige >= ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD
+        && playerProfile.careerStats.partidosHistoricos >= ELIMINATORIAS_CALLUP_MIN_MATCHES;
 
       if (convocado && ciclo) {
         const clave = `${conf}-${ciclo.mundial}`;
@@ -2560,10 +2563,15 @@ export default function App() {
       // de 12 días la continental se comía los de la nacional y ésta se quedaba sin terminar. Ya no
       // hace falta: los clubes que juegan copa internacional tienen bolsa de 22 (ver
       // FECHAS_DE_COPA_CONTINENTAL), que alcanza para las dos.
-      const qualifiedCupId: 'libertadores' | 'sudamericana' | null = libertadoresIds.has(myClub.id)
+      // La Concacaf entra por el mismo camino que las dos de Conmebol: comparte CupState, cuadro y
+      // pantalla. Lo unico distinto es que arranca directo en eliminacion directa, sin grupos.
+      const concacafIds = new Set(getConcacafParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales));
+      const qualifiedCupId: 'libertadores' | 'sudamericana' | 'concacaf' | null = libertadoresIds.has(myClub.id)
         ? 'libertadores'
         : sudamericanaIds.has(myClub.id)
         ? 'sudamericana'
+        : concacafIds.has(myClub.id)
+        ? 'concacaf'
         : null;
 
       // Posición en la tabla de grupo/fase de liga de la copa continental (si aplica): antes esto
@@ -2617,7 +2625,9 @@ export default function App() {
             // tres cosas, que en una eliminatoria es justo lo que se necesita saber.
             const llaves = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1];
             const miLlave = llaves?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
-            const nombreCopa = qualifiedCupId === 'sudamericana' ? 'Copa Sudamericana' : 'Copa Libertadores';
+            const nombreCopa = qualifiedCupId === 'sudamericana' ? 'Copa Sudamericana'
+              : qualifiedCupId === 'concacaf' ? 'Concacaf Champions Cup'
+              : 'Copa Libertadores';
             const ronda = roundLabelByMatchCount(llaves?.length ?? 0);
             if (miLlave?.partidoUnico) {
               setActiveCompetitionName(`${nombreCopa} · ${ronda}`);
@@ -3820,7 +3830,8 @@ export default function App() {
         if (seguiaAntes && !sigueAhora && resolvedCup.championId !== myClub.id) {
           const ultimaRonda = resolvedCup.knockout?.tiesByRound[resolvedCup.knockout.tiesByRound.length - 1];
           setSeasonEndInfo({
-            competition: activeCupId === 'sudamericana' ? 'Copa Sudamericana' : 'Copa Libertadores',
+            competition: activeCupId === 'sudamericana' ? 'Copa Sudamericana'
+              : activeCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Libertadores',
             clubName: myClub.name,
             season: String(year),
             badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,

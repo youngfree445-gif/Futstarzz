@@ -1357,7 +1357,7 @@ interface MatchSimulatorProps {
    *  (ver getRivalSample); sin él la narración cae a "el defensor rival", como antes. */
   opponentClubId?: string | null;
   isLibertadores: boolean;
-  cupId?: 'libertadores' | 'sudamericana' | null;
+  cupId?: 'libertadores' | 'sudamericana' | 'concacaf' | null;
   uefaCupId?: 'champions' | 'europa' | null;
   /** Semana de copa sin copa continental: se juega la copa nacional del país del club. */
   isDomesticCup?: boolean;
@@ -1456,6 +1456,8 @@ export default function MatchSimulator({
     ? 'Copa Sudamericana'
     : cupId === 'libertadores'
     ? 'Copa Libertadores'
+    : cupId === 'concacaf'
+    ? 'Concacaf Champions Cup'
     : uefaCupId === 'champions'
     ? 'Champions League'
     : uefaCupId === 'europa'

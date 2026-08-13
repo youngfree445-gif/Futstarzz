@@ -15,6 +15,7 @@ import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realC
 import { CAREER_START_YEAR } from './leagueEngine';
 import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada, partidosDePlayoff } from './seasonCalendar';
 import { FECHAS_FIFA } from './fechasFifa';
+import { CUPOS_CONCACAF, VENTANA_CONCACAF } from './copaConcacaf';
 // copaNacional sólo importa ./types, así que no hay ciclo posible en esta dirección.
 import { nombreCopaNacional } from './copaNacional';
 
@@ -336,6 +337,31 @@ function ventanaContinentalPorClub(): Map<string, { id: string; desde: string; h
     const ventana = { id: copa.id, desde: copa.firstDate!, hasta: copa.lastDate! > finReal ? copa.lastDate! : finReal };
     for (const n of suyos) out.set(n, ventana);
   }
+  // --- Concacaf ---------------------------------------------------------------------------------
+  //
+  // México y Estados Unidos no aparecen en ninguna copa continental scrapeada -- el calendario de la
+  // Concacaf Champions Cup no está en el repo -- así que por el camino de arriba se quedaban sin
+  // ventana y, por lo tanto, sin un solo día de copa continental en todo el año. Eran los dos únicos
+  // países con liga y copa nacional completas que figuraban como incompletos.
+  //
+  // La ventana es la real del torneo (4 de febrero a 1 de junio) y está declarada en copaConcacaf.ts
+  // junto al resto de su formato.
+  const anioBase = CAREER_START_DATE.slice(0, 4);
+  for (const c of DATED_CALENDARS) {
+    if (c.kind !== 'league' || !CUPOS_CONCACAF[c.league ?? '']) continue;
+    for (const m of c.matches) {
+      for (const club of [m.home, m.away]) {
+        if (!out.has(club)) {
+          out.set(club, {
+            id: 'concacaf',
+            desde: `${anioBase}-${VENTANA_CONCACAF.desde}`,
+            hasta: `${anioBase}-${VENTANA_CONCACAF.hasta}`,
+          });
+        }
+      }
+    }
+  }
+
   cacheVentanaContinental = out;
   return out;
 }
