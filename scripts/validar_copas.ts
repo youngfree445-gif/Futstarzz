@@ -11,7 +11,7 @@
 // campeones coronados. Si una copa no se puede jugar, acá sale en cero.
 
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
-import { fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
+import { fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
 import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
 import type { Club } from '../src/types';
@@ -328,3 +328,44 @@ ${sinJugarContinental === 0
 
 const anio = (t: number) => CAREER_START_YEAR + t - 1;
 console.log(`\n(temporada 1 = ${anio(1)}, calendario real; ${anio(2)}+ generadas)`);
+
+// ---------------------------------------------------------------------------------------------
+// FASE DE GRUPOS: no hay global.
+//
+// En un grupo también se juega dos veces contra cada rival, uno de local y otro de visitante, pero
+// esos partidos no forman una llave: valen tres puntos cada uno. La pantalla del partido anunciaba
+// "Global 7-2" en la segunda vuelta del grupo, porque el global se armaba con "mismo rival, misma
+// temporada". Reportado: "en fase de grupos no hay global".
+//
+// Lo que distingue una llave de un grupo es que las dos piernas de la llave son CONSECUTIVAS.
+// ---------------------------------------------------------------------------------------------
+console.log('\n--- Fase de grupos: no debe haber global ---');
+{
+  const JUNIOR = 'Junior de Barranquilla';
+  const suyos = fixturesForClub(JUNIOR).filter(f => f.temporada === 1);
+  const grupos = suyos.filter(f => /Libertadores/.test(f.competition.name));
+  let fallas = 0;
+
+  // Segundo cruce con un rival ya enfrentado en el grupo: entre medio se jugó contra otros.
+  const vistos = new Set<string>();
+  for (const f of grupos) {
+    const repetido = vistos.has(f.opponentName);
+    vistos.add(f.opponentName);
+    if (!repetido) continue;
+    const previos = partidosDeLaMismaLlave(JUNIOR, f.competition.id, f.date);
+    const ok = previos.length === 0;
+    if (!ok) fallas++;
+    console.log(`${ok ? 'OK  ' : 'FALLA'} ${f.date} 2do partido de grupo vs ${f.opponentName}: ${previos.length === 0 ? 'sin global' : `global con ${previos.join(', ')}`}`);
+  }
+
+  // Contraprueba: una llave de verdad (ida y vuelta consecutivas) SÍ tiene que sumar global.
+  const copa = suyos.filter(f => f.competition.name === 'Copa BetPlay');
+  if (copa.length >= 2) {
+    const previos = partidosDeLaMismaLlave(JUNIOR, copa[1].competition.id, copa[1].date);
+    const ok = previos.length === 1 && previos[0] === copa[0].date;
+    if (!ok) fallas++;
+    console.log(`${ok ? 'OK  ' : 'FALLA'} ${copa[1].date} vuelta de Copa BetPlay: ${ok ? 'suma la ida ' + copa[0].date : 'NO suma la ida'}`);
+  }
+
+  if (fallas) { console.log(`\n${fallas} FALLAS en el global de fase de grupos`); process.exit(1); }
+}

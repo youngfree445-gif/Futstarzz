@@ -1593,6 +1593,18 @@ function todasLasFechas(competitionId: string): DatedMatch[] {
  * hacia atrás desde la vuelta.
  *
  * Devuelve solo fechas pasadas, nunca la propia `date`.
+ *
+ * NO alcanza con "el mismo rival en la misma temporada": en una FASE DE GRUPOS también se juega dos
+ * veces contra cada rival, uno de local y otro de visitante, y esos dos partidos no forman una
+ * llave -- valen tres puntos cada uno y no hay ningún global. Junior jugaba con Cerro Porteño el 14
+ * de abril y otra vez el 8 de mayo, y la pantalla del partido anunciaba "Global 7-2" en plena fase
+ * de grupos. Reportado: "en fase de grupos no hay global".
+ *
+ * Lo que sí distingue una llave de un grupo es que las dos piernas de una llave son CONSECUTIVAS:
+ * entre la ida y la vuelta no se juega ningún otro partido de esa copa. En el grupo, en cambio,
+ * entre los dos cruces con el mismo rival se juega contra los otros dos equipos (Junior metió a
+ * Sporting Cristal el 29 de abril justo en el medio). Por eso se mira sólo el partido
+ * INMEDIATAMENTE anterior de la copa, y cuenta únicamente si es contra este mismo rival.
  */
 export function partidosDeLaMismaLlave(clubName: string, competitionId: string, date: string): string[] {
   const delTorneo = fixturesForClub(clubName).filter(f => f.competition.id === competitionId);
@@ -1601,9 +1613,10 @@ export function partidosDeLaMismaLlave(clubName: string, competitionId: string, 
   // Acotado a la MISMA temporada: fixturesForClub concatena las 32, y como la Superliga vuelve a
   // jugarse cada enero contra un rival que puede repetirse, sin este filtro la ida de 2026 entraba
   // en el global de la final de 2027 y el marcador global salía inflado.
-  return delTorneo
-    .filter(f => f.temporada === vuelta.temporada && f.date < date && f.opponentName === vuelta.opponentName)
-    .map(f => f.date);
+  const previos = delTorneo.filter(f => f.temporada === vuelta.temporada && f.date < date);
+  const anterior = previos[previos.length - 1];
+  if (!anterior || anterior.opponentName !== vuelta.opponentName) return [];
+  return [anterior.date];
 }
 
 /** Todas las competiciones en las que participa el club, sumando todas las temporadas. */

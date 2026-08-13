@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha } from '../dateSchedule';
+import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -22,7 +22,7 @@ import {
   isClubStillInCup, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isApeturaClausuraLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
-  CAREER_START_YEAR, roundLabelByMatchCount
+  CAREER_START_YEAR, roundLabelByMatchCount, crucePlayoffDeLiga, rondaDelPlayoff
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -909,16 +909,49 @@ export default function Dashboard({
       return { rivalId, ronda: rondaActual(cupNow), soyLocal };
     })() : null;
 
+    // PLAYOFF DE LIGA: el rival lo pone el CUADRO, no el calendario.
+    //
+    // En los cuadrangulares de Colombia y Argentina el calendario real aporta los DÍAS, pero los
+    // cruces salen del cuadro sembrado por la tabla de tu carrera (ver prepararPlayoffDeLiga) -- que
+    // casi nunca coincide con quién los jugó en la vida real. El calendario de Junior dice "vs Once
+    // Caldas" el 10 de mayo y el partido que arma App.tsx es contra Deportes Tolima. Es la misma
+    // distinción que ya se hacía con las fechas reservadas de copa, sólo que acá el día SÍ trae un
+    // rival escrito, y por eso pasaba desapercibido: la tarjeta lo mostraba como si fuera el bueno.
+    // Reportado: "el calendario muestra otro equipo y partido".
+    const playoffDeLaSemana = realDeLaSemana?.esPlayoff ? (() => {
+      // Misma clave que App.tsx al resolver el paso, o se leería el cuadro de otro semestre.
+      const semestre = torneoDelClubEnFecha(currentClub.name, realDeLaSemana.date) ?? '';
+      const temporada = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
+        ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
+      const cuadro = playerProfile.playoffsDeLiga?.[`${myLeagueKey}|${temporada}|${semestre}`];
+      const cruce = crucePlayoffDeLiga(cuadro, currentClub.id);
+      if (!cruce) return null;
+      const rivalId = cruce.clubAId === currentClub.id ? cruce.clubBId : cruce.clubAId;
+      // La localía sale de la LLAVE (en la ida es local el clubA, en la vuelta se invierte), igual
+      // que en la copa nacional: la del calendario es la del cruce real, que no es este.
+      const esIda = cruce.firstLegGoalsA === null;
+      const soyLocal = esIda ? cruce.clubAId === currentClub.id : cruce.clubBId === currentClub.id;
+      return { rivalId, ronda: rondaDelPlayoff(cuadro), soyLocal };
+    })() : null;
+
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
     // calendario real, así que todos los accesos van con ?.
-    const opponentId = cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId;
-    const opponentName = cupBracketDeLaSemana
+    const opponentId = playoffDeLaSemana?.rivalId ?? cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId;
+    const opponentName = playoffDeLaSemana
+      ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === playoffDeLaSemana.rivalId)?.name ?? '')
+      : cupBracketDeLaSemana
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === cupBracketDeLaSemana.rivalId)?.name ?? '')
       : esReservaDeCopa
       // Fecha de copa sin cruce todavía: se dice la verdad en vez de anunciar un rival de liga.
       ? 'Rival por definir'
+      // Día de playoff cuyo cuadro todavía no está sembrado (se siembra al llegar la primera fecha):
+      // el rival del calendario es el del cuadrangular real, que no es el que vas a jugar.
+      : realDeLaSemana?.esPlayoff
+      ? 'Rival por definir'
       : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
-    const isHome = cupBracketDeLaSemana
+    const isHome = playoffDeLaSemana
+      ? playoffDeLaSemana.soyLocal
+      : cupBracketDeLaSemana
       ? cupBracketDeLaSemana.soyLocal
       : realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
@@ -1913,13 +1946,19 @@ export default function Dashboard({
         // las rondas anteriores. Decirlo es más honesto que mostrar el cartel de relleno.
         // En una copa se dice la RONDA además del rival: no es lo mismo unos octavos que una final,
         // y el dato ya venía en el calendario sin usarse.
-        sublabel: f.esReservaDeCuadro
+        // Un día de PLAYOFF trae rival escrito, pero no es el que vas a jugar: los cuadrangulares se
+        // siembran con la tabla de TU carrera (ver prepararPlayoffDeLiga) y el cruce casi nunca
+        // coincide con el que hubo en la realidad. El calendario anunciaba "vs Once Caldas" y salías
+        // contra Deportes Tolima. Reportado: "el calendario muestra otro equipo y partido".
+        sublabel: f.esReservaDeCuadro || f.esPlayoff
           ? 'Rival por definir'
           : `${f.competition.kind !== 'league' && f.match.round ? rondaCorta(f.match.round) + ' · ' : ''}${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
         colorClass: yaJugado
           ? 'bg-slate-700 text-slate-300'
           : f.competition.kind === 'league' ? 'bg-gold-600 text-white' : 'bg-burgundy-500 text-slate-950',
-        opponentClub: rival ?? undefined,
+        // Sin escudo tampoco: mostrar el del rival del calendario al lado de "Rival por definir" es
+        // decir dos cosas distintas en la misma celda, y el escudo es la que se mira primero.
+        opponentClub: f.esReservaDeCuadro || f.esPlayoff ? undefined : (rival ?? undefined),
         played: !!marcador,
         result: marcador ? resultFromScore(marcador.myGoals, marcador.rivalGoals) : undefined,
         score: marcador ? `${marcador.myGoals}-${marcador.rivalGoals}` : undefined,
