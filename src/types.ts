@@ -120,7 +120,12 @@ export interface PlayerProfile {
   lastMatchWonShootout: boolean; // Fase 4: true si el último partido se definió por penales y tu equipo ganó -- usado para el logro de la tanda
   yellowCards: number; // amarillas acumuladas en la temporada (fuera de un partido puntual); al llegar a un umbral, sanción automática -- ver handleFinishMatch
   suspendedMatches: number; // partidos de liga que te quedan por cumplir de sanción; startMatchflow los resuelve solo, sin pantalla de partido
-  lastPressAnsweredWeek: number; // semana en que respondiste la última conferencia de prensa -- una sola por semana, evita farmear prestigio infinito ciclando preguntas
+  lastPressAnsweredWeek: number;
+  /**
+   * Saldo de la ultima respuesta en rueda de prensa (prestigio + aficion) y en que fecha fue.
+   * Lo usa ChutSocial para reaccionar a lo que dijiste: ver comentariosDeRuedaDePrensa.
+   */
+  ultimaPrensa?: { saldo: number; semana: number }; // semana en que respondiste la última conferencia de prensa -- una sola por semana, evita farmear prestigio infinito ciclando preguntas
   superstition: Superstition; // Fase 2.5: ritual elegido en la creación del personaje -- romperlo tiene una chance chica cada partido de golpear mentalHealth, ver SUPERSTITIONS_DATABASE y handleFinishMatch
   matchesWithoutRest: number; // Fase 2.5: partidos jugados seguidos sin una semana de descanso -- pasado el umbral, MatchSimulator aplica una penalización temporal a los atributos efectivos (no muta attributes real). Se resetea a 0 cualquier semana que no juegues.
   hadBreakoutSeason: boolean; // Fase 2.5: la temporada que acaba de cerrar tuvo aporte ofensivo alto (ver applyBreakoutSeasonIfNewSeason) -- si la siguiente temporada no muestra crecimiento real de atributos, dispara el "síndrome del segundo año" (golpe chico a prestige/fans)

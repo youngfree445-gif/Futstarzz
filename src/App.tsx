@@ -1972,6 +1972,9 @@ export default function App() {
       fans: Math.max(0, Math.min(100, playerProfile.fans + fansChange)),
       energy: Math.max(0, Math.min(100, playerProfile.energy + energyChange)),
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(prestigeChange + fansChange))),
+      // El saldo queda guardado para que ChutSocial reaccione a lo que dijiste. Antes la
+      // conferencia era un tramite silencioso: movia numeros y el mundo no se enteraba.
+      ultimaPrensa: { saldo: prestigeChange + fansChange, semana: playerProfile.currentWeek },
       lastPressAnsweredWeek: playerProfile.currentWeek
     };
 

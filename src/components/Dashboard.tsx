@@ -15,7 +15,7 @@ import { getPalmares } from '../palmares';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -1854,6 +1854,20 @@ export default function Dashboard({
         }));
     })();
 
+    // Reacciones a lo que dijiste en la rueda de prensa, si respondiste esta fecha.
+    // Van arriba de todo cuando existen: hablaste vos, es la noticia mas fresca.
+    const ecoDePrensa: SocialPost[] = playerProfile.ultimaPrensa?.semana === week
+      ? comentariosDeRuedaDePrensa(pName, playerProfile.ultimaPrensa.saldo, week)
+          .map((c, i) => ({
+            id: `prensa_${week}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 600 + Math.floor(Math.random() * 8000),
+            commentsCount: 80 + Math.floor(Math.random() * 1500),
+            timestamp: 'Hace instantes',
+            avatar: c.avatar,
+          }))
+      : [];
+
     const reacciones: SocialPost[] = playerProfile.lastMatchRating > 0
       ? postsDelPartido(pName, playerProfile.lastMatchRating, playerProfile.lastMatchGoals, week)
           .map((p, i) => ({
@@ -1869,6 +1883,7 @@ export default function Dashboard({
       : [];
 
     return [
+      ...ecoDePrensa,
       ...reacciones,
       // Despues de las reacciones al partido y antes del resto: la carrera del Balon de Oro es
       // contexto de la temporada, no la noticia del dia. Si fuera primero taparia lo que acabas de

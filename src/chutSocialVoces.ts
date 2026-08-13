@@ -386,6 +386,143 @@ export const VOCES: Voz[] = [
       ],
     },
   },
+
+  // --- Tanda ampliada de voces -----------------------------------------------------------------
+  //
+  // El feed se sentia chico: con pocas voces, a las tres o cuatro fechas ya habias leido a todos y
+  // el efecto de "esto esta vivo" se apagaba. Estas suman periodismo de Espana, Mexico, Argentina y
+  // Colombia, mas cuentas de hinchada, que son las que le dan temperatura.
+  //
+  // Cada voz tiene un REGISTRO propio y sostenido: el analista habla de datos, el polemista busca la
+  // pelea, el relator exagera, el hincha insulta o idolatra. Si todas hablaran igual, sumar nombres
+  // no serviria de nada -- se notaria que es la misma frase con distinta foto.
+  {
+    author: 'Josep Pedrerol', role: 'Presentador', avatar: '🎤',
+    frases: {
+      brillante: [(n: string, r: string) => `¡${n}! Sencillamente ${n}. ${r} de nota y una actuación para verla otra vez. Hoy no se discute.`],
+      bueno: [(n: string, r: string) => `${n} cumplió. ${r}. Ni excelente ni malo: el partido serio que se le pide.`],
+      normal: [(n: string) => `Vamos a hablar de ${n}, porque hay opiniones para todos los gustos y aquí se dicen todas.`],
+      malo: [(n: string, r: string) => `${r} de ${n}. Y lo digo claro: así no. Al jugador se le exige por lo que puede dar, no por lo que dio hoy.`],
+    },
+  },
+  {
+    author: 'Manolo Lama', role: 'Narrador', avatar: '📻',
+    frases: {
+      brillante: [(n: string, _r: string, g: number) => `¡QUÉ BARBARIDAD LO DE ${n.toUpperCase()}! ${g > 0 ? `${g} goles` : 'Un partidazo'} y el estadio de pie. ¡Qué manera de jugar al fútbol!`],
+      bueno: [(n: string) => `Buen partido de ${n}. Discreto en el arranque, creciendo con los minutos. Me gustó.`],
+      normal: [(n: string) => `${n} entró en zona de decisiones. Ahí se ven los jugadores.`],
+      malo: [(n: string) => `Flojo ${n} hoy. Le faltó chispa y se le notó desde el primer balón.`],
+    },
+  },
+  {
+    author: 'Axel Torres', role: 'Analista táctico', avatar: '🧩',
+    frases: {
+      brillante: [(n: string) => `Más allá de los números: ${n} entendió el partido antes que nadie. Se movió donde el rival no llegaba y ahí se rompió el equilibrio.`],
+      bueno: [(n: string) => `${n} sostuvo la estructura del equipo. No sale en el resumen, pero sin eso el partido es otro.`],
+      normal: [(n: string) => `Interesante el rol que le están dando a ${n}. Más cerca del balón que hace unos meses.`],
+      malo: [(n: string) => `${n} quedó desconectado de las líneas. Cuando el balón le llegó, ya era tarde.`],
+    },
+  },
+  {
+    author: 'David Faitelson', role: 'Comentarista', avatar: '🎯',
+    frases: {
+      brillante: [(n: string, r: string) => `Hay que decirlo: ${n} fue el mejor del campo con ${r}. Y no lo digo por simpatía, lo digo porque los números están ahí.`],
+      bueno: [(n: string) => `${n} hizo lo suyo. Correcto. Pero de un jugador de su nivel se espera que decida partidos, no que los acompañe.`],
+      normal: [(n: string) => `La pregunta con ${n} no es si tiene talento. Es si tiene la cabeza para sostenerlo una temporada entera.`],
+      malo: [(n: string, r: string) => `${r}. Insisto en lo que vengo diciendo: a ${n} le está quedando grande el escenario. Ojalá me equivoque.`],
+    },
+  },
+  {
+    author: 'Christian Martinoli', role: 'Narrador', avatar: '🗣️',
+    frases: {
+      brillante: [(n: string, _r: string, g: number) => `¡${n.toUpperCase()}, HERMANO! ${g > 0 ? `¡${g}!` : '¡Qué partido!'} Los que dudaban que se acomoden, que hoy no hay discusión.`],
+      bueno: [(n: string) => `Bien ${n}. Sin fuegos artificiales, pero bien. Y a veces eso es exactamente lo que hace falta.`],
+      normal: [(n: string) => `A ${n} lo miran todos. El que juega bien tiene ese problema: ya no lo dejan esconderse.`],
+      malo: [(n: string) => `Mal día de ${n}. Le pasó por encima el partido. Se levanta y ya, tampoco es el fin del mundo.`],
+    },
+  },
+  {
+    author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+    frases: {
+      brillante: [(n: string, r: string) => `${r} de ${n}. Con ese partido, en el vestuario se acomodan solos los liderazgos.`],
+      bueno: [(n: string) => `${n} suma. Y en una temporada larga, sumar todas las semanas vale más que un partidazo suelto.`],
+      normal: [(n: string) => `Ojo con ${n}, que viene con ritmo. En el mercado ya preguntaron.`],
+      malo: [(n: string) => `A ${n} le tocó una noche fea. Lo que importa es qué hace el sábado que viene.`],
+    },
+  },
+  {
+    author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+    frases: {
+      brillante: [(n: string) => `Lo de ${n} no fue solo la nota alta: fue cómo se hizo cargo del partido cuando el equipo no encontraba salida.`],
+      bueno: [(n: string) => `Buen rendimiento de ${n}. Sostenido, que es lo difícil.`],
+      normal: [(n: string) => `${n} viene mejorando en un detalle que casi nadie mira: el primer control de cara al arco.`],
+      malo: [(n: string) => `No fue el partido de ${n}. Le costó entrar en juego y el equipo lo sintió.`],
+    },
+  },
+  {
+    author: 'Juan Pablo Varsky', role: 'Periodista', avatar: '🖋️',
+    frases: {
+      brillante: [(n: string, r: string) => `${n}, ${r}. Uno de esos partidos que se recuerdan sin necesidad de mirar la estadística.`],
+      bueno: [(n: string) => `Correcto ${n}. La regularidad también es una virtud, aunque no genere titulares.`],
+      normal: [(n: string) => `${n} está en ese momento donde cada partido puede cambiarle la carrera. Interesante de seguir.`],
+      malo: [(n: string) => `Partido para el olvido de ${n}. Pasa. Lo que no puede pasar es que se repita.`],
+    },
+  },
+  {
+    author: 'César Augusto Londoño', role: 'Periodista', avatar: '📡',
+    frases: {
+      brillante: [(n: string, r: string) => `${r} para ${n}. Actuación de las que no se ven todos los domingos en nuestro fútbol.`],
+      bueno: [(n: string) => `${n} cumplió con lo que se le pidió. Ni más ni menos.`],
+      normal: [(n: string) => `El tema con ${n} es la continuidad. El talento nunca estuvo en discusión.`],
+      malo: [(n: string) => `Muy flojo ${n}. Y cuando un jugador de sus condiciones juega así, la pregunta es qué está pasando afuera de la cancha.`],
+    },
+  },
+  {
+    author: 'Faustino Asprilla', role: 'Ex jugador', avatar: '⚡',
+    frases: {
+      brillante: [(n: string) => `¡Eso es fútbol, mijo! ${n} jugó como se juega: sin miedo. Así me gusta.`],
+      bueno: [(n: string) => `Bien ${n}, pero le falta atrevimiento. Cuando se suelte, van a ver otra cosa.`],
+      normal: [(n: string) => `A ${n} hay que dejarlo jugar tranquilo. Encima le exigen como si tuviera treinta años.`],
+      malo: [(n: string) => `Uy no, ${n} hoy no apareció. Pero tranquilo que esto es fútbol, la semana que viene se arregla.`],
+    },
+  },
+  {
+    author: 'Fernando Palomo', role: 'Narrador', avatar: '🌎',
+    frases: {
+      brillante: [(n: string, _r: string, g: number) => `${n} firmó una noche enorme${g > 0 ? ` con ${g} en el marcador` : ''}. De esas que cruzan fronteras.`],
+      bueno: [(n: string) => `Sólido ${n}. En un continente que mira, eso cuenta.`],
+      normal: [(n: string) => `${n} empieza a aparecer en conversaciones que hace un año no lo incluían.`],
+      malo: [(n: string) => `Noche difícil para ${n}. El fútbol da revanchas rápido.`],
+    },
+  },
+  {
+    author: 'Gastón Recondo', role: 'Periodista', avatar: '🎧',
+    frases: {
+      brillante: [(n: string, r: string) => `${r} de ${n}. Y ojo, que esto no es de un día: viene sosteniéndolo.`],
+      bueno: [(n: string) => `${n} está para más, pero está. Eso ya es bastante.`],
+      normal: [(n: string) => `Con ${n} pasa algo curioso: rinde mejor cuando el equipo la pasa mal.`],
+      malo: [(n: string) => `${n} no estuvo. Y el equipo lo pagó.`],
+    },
+  },
+  {
+    author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
+    frases: {
+      brillante: [(n: string, _r: string, g: number) => `${n} ${g > 0 ? `METIÓ ${g} Y` : ''} SE CARGÓ EL EQUIPO AL HOMBRO. NO SE DISCUTE MÁS 🔥🔥🔥`],
+      bueno: [(n: string) => `${n} cumplió. Ahora que lo sostenga, que acá se olvidan rápido.`],
+      normal: [(n: string) => `¿${n} titular indiscutido? Los comentarios están divididos y eso ya dice algo.`],
+      malo: [(n: string) => `${n} otra vez desaparecido. Así no, hermano. ASÍ NO 😤`],
+    },
+  },
+  {
+    author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+    frases: {
+      brillante: [(n: string) => `Hoy salimos del estadio hablando de una sola cosa: ${n}. Qué manera de jugar.`],
+      bueno: [(n: string) => `${n} correcto. Pero venimos de tres partidos correctos y necesitamos uno brillante.`],
+      normal: [(n: string) => `Debate en la tribuna: ¿${n} es el jugador que necesitamos o el que nos conformó?`],
+      malo: [(n: string) => `Con todo respeto: ${n} no puede jugar así con esta camiseta. Se exige mucho más.`],
+    },
+  },
+
 ];
 
 /**
@@ -485,4 +622,76 @@ export function postsDelBalonDeOro(
     .sort((a, b) => a.orden - b.orden)
     .map(x => x.p)
     .slice(0, 2);
+}
+
+/**
+ * Reacciones a lo que respondiste en la rueda de prensa.
+ *
+ * Antes la conferencia era un trámite silencioso: elegías una respuesta, se movían prestigio y
+ * afición, y no pasaba nada más. Los números cambiaban pero el mundo no se enteraba.
+ *
+ * Esto la convierte en un hecho público. La respuesta se publica como si fuera un recorte de la
+ * conferencia, y abajo aparecen los comentarios: te bancan, te exigen, o te destrozan. Es la parte
+ * del juego donde una decisión de una línea se siente como algo que dijiste de verdad.
+ *
+ * El tono lo decide el saldo de la respuesta -- lo mismo que ya movía prestigio y afición --, así
+ * que no hay que inventar una segunda regla: si la respuesta fue valiente y gustó, los comentarios
+ * lo reflejan; si fue tibia o desafortunada, también.
+ */
+export function comentariosDeRuedaDePrensa(
+  nombre: string,
+  saldo: number,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 3) * 71.7 + i * 23.9) * 43758.5453;
+    return x - Math.floor(x);
+  };
+
+  const buenos = [
+    { author: 'Eduardo Luis', role: 'Narrador', avatar: '🎙️',
+      content: `Así se habla. ${nombre} dijo lo que muchos piensan y pocos se animan a decir frente a un micrófono.` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎤',
+      content: `Me gustó la respuesta de ${nombre}. Clara, sin escaparle a la pregunta. Eso también es jugar bien.` },
+    { author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
+      content: `¡ESE ES NUESTRO JUGADOR! ${nombre} habla como capitán aunque no tenga la cinta 💪` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Lo de ${nombre} en conferencia estuvo a la altura. La hinchada quiere jugadores que den la cara.` },
+    { author: 'Juan Pablo Varsky', role: 'Periodista', avatar: '🖋️',
+      content: `Buena respuesta de ${nombre}. Sin frases hechas, que en este ambiente ya es una rareza.` },
+  ];
+
+  const tibios = [
+    { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+      content: `Respuesta de manual la de ${nombre}. No dijo nada. Pero bueno, tampoco se metió en problemas.` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${nombre} eligió el camino seguro en conferencia. Correcto, aunque no mueve la aguja.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `¿Y eso qué fue? ${nombre} habló tres minutos para no decir nada. En la cancha te queremos ver.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Palabras lindas de ${nombre}, ahora hay que respaldarlas el domingo. Acá se cobra rápido.` },
+  ];
+
+  const malos = [
+    { author: 'David Faitelson', role: 'Comentarista', avatar: '🎯',
+      content: `Desafortunado ${nombre}. Cuando no se sabe qué decir, lo mejor es no decir nada. Esto le va a rebotar.` },
+    { author: 'Josep Pedrerol', role: 'Presentador', avatar: '🎤',
+      content: `¿Ustedes escucharon lo de ${nombre}? Porque yo sí, y no me gustó nada. Nada.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `${nombre} hablando de más otra vez. Primero rendí, después opiná. ASÍ DE SIMPLE 🤬` },
+    { author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
+      content: `Muy mal ${nombre}. Con esta camiseta se responde en la cancha, no en una sala de prensa.` },
+    { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+      content: `Lo de ${nombre} fue un error. Y los errores fuera de la cancha se pagan igual que los de adentro.` },
+  ];
+
+  // El umbral es +-3 y no 0: una respuesta que mueve un punto para arriba o para abajo no merece ni
+  // una ovacion ni una condena. La mayoria de las respuestas del juego caen en esa franja tibia, que
+  // es justamente donde el feed tiene que sonar exigente y no complaciente.
+  const grupo = saldo >= 3 ? buenos : saldo <= -3 ? malos : tibios;
+  return grupo
+    .map((c, i) => ({ c, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 3)
+    .map(x => x.c);
 }
