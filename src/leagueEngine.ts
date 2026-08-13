@@ -813,11 +813,12 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
     // lugar donde faltaba. No existían los cuartos, ni las semis, ni la final, ni el campeón: medido
     // con 200 pasos, el cuadro seguía teniendo una sola ronda de 8 llaves. De ahí salía el "sólo 7
     // partidos de Libertadores" -- 6 de grupos y 1 de octavos, y el torneo dejaba de existir.
+    // Ver la nota de resolverPasoCopaNacional: armar la ronda no gasta una fecha del calendario.
     const ultima = cup.knockout!.tiesByRound[cup.knockout!.tiesByRound.length - 1];
-    if (ultima.length && ultima.every(t => t.played)) {
-      return { ...cup, knockout: siguienteRondaTwoLeg(cup.knockout!, true) };
-    }
-    return { ...cup, knockout: resolveTwoLegRound(cup.knockout!, allClubs, forced) };
+    const puesto = ultima.length && ultima.every(t => t.played)
+      ? siguienteRondaTwoLeg(cup.knockout!, true)
+      : cup.knockout!;
+    return { ...cup, knockout: resolveTwoLegRound(puesto, allClubs, forced) };
   }
 
   return cup; // 'done': el torneo de este año ya terminó, no hay más pasos
@@ -1268,13 +1269,20 @@ export function resolverPasoCopaNacional(
   forced?: ForcedResult,
 ): DomesticCupState {
   if (cup.championId) return cup;
-  // Mismo corte que en el playoff de liga: si la ronda actual ya está completa, se arma la
-  // siguiente y se corta, sin resolverla en el mismo paso.
-  const rondaActualCompleta = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1].every(t => t.played);
-  if (rondaActualCompleta) {
-    return { ...cup, bracket: siguienteRondaTwoLeg(cup.bracket) };
-  }
-  const bracket = resolveTwoLegRound(cup.bracket, allClubs, forced);
+  // ARMAR la ronda siguiente NO gasta una fecha del calendario.
+  //
+  // Antes la armaba y cortaba, asi que cada cambio de ronda se comia un dia: un campeon de
+  // Libertadores necesitaba 11 fechas de copa despues de los grupos -- 7 partidos mas 4 dias
+  // dedicados a sortear la ronda que viene -- y el calendario real de la Conmebol tiene 7. Por eso
+  // las fechas reales del knockout no entraban y habia que repartir dias genericos.
+  //
+  // Ahora se arma al PRINCIPIO del paso siguiente y se juega en ese mismo paso. El corte que hacia
+  // falta se conserva igual: cuando el jugador completa una ronda, esa llamada termina con la ronda
+  // JUGADA como ultima, asi que la pantalla la muestra. La ronda nueva recien aparece cuando el
+  // jugador avanza, que es cuando corresponde.
+  const listaCompleta = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1].every(t => t.played);
+  const puesta = listaCompleta ? siguienteRondaTwoLeg(cup.bracket) : cup.bracket;
+  const bracket = resolveTwoLegRound(puesta, allClubs, forced);
   return { ...cup, bracket, championId: bracket.championId };
 }
 
@@ -1343,12 +1351,10 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
     if (cup.knockout.championId) {
       return { ...cup, stage: 'done', championId: cup.knockout.championId };
     }
-    // Mismo corte que en el playoff de liga y la copa nacional.
-    const rondaActualCompleta = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1].every(t => t.played);
-    if (rondaActualCompleta) {
-      return { ...cup, knockout: siguienteRondaTwoLeg(cup.knockout) };
-    }
-    const knockout = resolveTwoLegRound(cup.knockout, allClubs, forced);
+    // Ver la nota de resolverPasoCopaNacional: armar la ronda no gasta una fecha.
+    const completa = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1].every(t => t.played);
+    const puesto = completa ? siguienteRondaTwoLeg(cup.knockout) : cup.knockout;
+    const knockout = resolveTwoLegRound(puesto, allClubs, forced);
     return { ...cup, knockout };
   }
 

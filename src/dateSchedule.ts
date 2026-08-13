@@ -16,6 +16,7 @@ import { CAREER_START_YEAR } from './leagueEngine';
 import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada, partidosDePlayoff } from './seasonCalendar';
 import { FECHAS_FIFA } from './fechasFifa';
 import { CUPOS_CONCACAF, VENTANA_CONCACAF } from './copaConcacaf';
+import { FECHAS_KNOCKOUT_POR_COPA } from './fechasConmebol';
 // copaNacional sólo importa ./types, así que no hay ciclo posible en esta dirección.
 import { nombreCopaNacional } from './copaNacional';
 
@@ -226,8 +227,14 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   // Las reservas se calculan ANTES de ordenar y se ordena una sola vez al final: ordenar el índice
   // entero dos veces por temporada, con 32 temporadas, se nota al abrir el juego.
   acomodarFechas(aAcomodar, temporada, indice, agregar);
-  for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
+  // La CONTINENTAL va primero, y el orden importa.
+  //
+  // Sus fechas son FIJAS -- octavos el 13 de agosto, la final el 29 de noviembre -- mientras que las
+  // de la copa nacional se pueden acomodar en cualquier hueco. Con la nacional primero, la bolsa
+  // compartida se agotaba antes de llegar acá: al Junior le quedaban 2 dias para toda la
+  // Libertadores, y las fechas reales del knockout no entraban ni una.
   for (const comp of continentales) reservarFechasDeCopa(comp, temporada, indice, agregar);
+  for (const comp of conCuadro) reservarFechasDeCopa(comp, temporada, indice, agregar);
   reservarFechasDeMundial(indice, temporada);
   reservarFechasFifa(indice, temporada);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
@@ -641,10 +648,12 @@ function reservarFechasDeCopa(
     // El índice todavía no está ordenado en este punto (se ordena una sola vez, después), así que
     // el primer y el último día se sacan a mano en la misma pasada que arma los vetados.
     const vetados = new Set<number>();
+    const ocupadosDelClub = new Set<number>();
     let primerDia = Infinity;
     let ultimoDia = -Infinity;
     for (const f of propios) {
       const dia = dayForDate(f.date);
+      ocupadosDelClub.add(dia);
       if (dia < primerDia) primerDia = dia;
       if (dia > ultimoDia) ultimoDia = dia;
       for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
@@ -685,7 +694,28 @@ function reservarFechasDeCopa(
     // mayo, así que su techo sigue siendo mayo y no se le inventan fechas en noviembre.
     const hasta = Math.max(Math.min(ultimoDia, techo), desde);
 
-    for (const dia of elegirDias(desde, hasta, vetados, faltan)) {
+    // Las copas Conmebol tienen las fechas REALES de su knockout (ver fechasConmebol.ts, sacadas de
+    // los calendarios completos de 2025 que estaban en el repo). Se usan esas y no dias repartidos
+    // a ojo: octavos a mediados de agosto, cuartos a mediados de septiembre, semis a fines de
+    // octubre y la final a fines de noviembre, que es cuando se juegan de verdad.
+    //
+    // Entran aunque el club tenga partido ese dia: la copa continental le gana al torneo domestico,
+    // igual que una fecha FIFA, y no cuesta descanso porque no agrega un dia nuevo al calendario.
+    const reales = FECHAS_KNOCKOUT_POR_COPA[comp.id];
+    const diasElegidos: number[] = [];
+    if (reales) {
+      for (const mesDia of reales.dias) {
+        const dia = dayForDate(sumarAniosADia(`${CAREER_START_YEAR}-${mesDia}`, temporada - 1));
+        if (dia < primerDia || dia > ultimoDia) continue;
+        if (!ocupadosDelClub.has(dia) && vetados.has(dia)) continue;
+        diasElegidos.push(dia);
+        for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
+      }
+    }
+    // Lo que falte se completa como siempre, repartido dentro de la ventana.
+    diasElegidos.push(...elegirDias(desde, hasta, vetados, Math.max(0, faltan - diasElegidos.length)));
+
+    for (const dia of diasElegidos) {
       const date = dateForDay(dia);
       const match: DatedMatch = { date, home: club, away: RIVAL_POR_SORTEAR };
       agregar(club, {
