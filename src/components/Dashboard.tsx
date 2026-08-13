@@ -2523,7 +2523,6 @@ export default function Dashboard({
                   </button>
                 </div>
 
-              </div>
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
                 <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
                   🌎 Ranking mundial
@@ -2549,6 +2548,7 @@ export default function Dashboard({
                     </div>
                   ))}
                 </div>
+              </div>
               </div>
               </div>{/* fin tercera columna */}
 
