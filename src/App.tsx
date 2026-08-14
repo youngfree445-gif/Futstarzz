@@ -38,6 +38,7 @@ import {
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO } from './lesion';
+import { evaluarConvocatoria } from './convocatoria';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -2484,13 +2485,15 @@ export default function App() {
       const conf = teamId ? CONFEDERACION_POR_SELECCION[teamId] : undefined;
       const anio = anioDeCarrera(myClubForSchedule!.name, playerProfile.currentWeek);
       const ciclo = cicloDeEliminatorias(anio);
-      // Solo se juegan las tres confederaciones modeladas partido a partido; las demas clasifican
-      // por fuerza y no tienen tabla que disputar (ver la nota larga en eliminatorias.ts).
-      // Umbral de ELIMINATORIAS, mas bajo que el del Mundial a proposito: a la seleccion se entra
-      // por eliminatorias y despues vas al Mundial, no al reves.
-      const convocado = !!teamId && !!conf && esJugable(conf) && !!ciclo
-        && playerProfile.prestige >= ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD
-        && playerProfile.careerStats.partidosHistoricos >= ELIMINATORIAS_CALLUP_MIN_MATCHES;
+      // La regla vive en src/convocatoria.ts y NO se repite acá. Antes estaba escrita inline en
+      // este mismo punto, pero ahora hay un segundo lugar que necesita la misma respuesta: el feed,
+      // que anuncia la lista ANTES de la fecha. Con dos copias se desincronizarían tarde o temprano
+      // y el diario te pondría en una nómina a la que el juego después no te lleva -- un anuncio que
+      // miente rompe más confianza que un anuncio que falta.
+      //
+      // (El umbral de ELIMINATORIAS es más bajo que el del Mundial a propósito: a la selección se
+      // entra por eliminatorias y después vas al Mundial, no al revés.)
+      const convocado = evaluarConvocatoria(playerProfile, anio).convocado;
 
       if (convocado && ciclo) {
         const clave = `${conf}-${ciclo.mundial}`;

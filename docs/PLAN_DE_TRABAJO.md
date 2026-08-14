@@ -119,10 +119,40 @@ re-descubrirlo:
 (toca el estado guardado y necesita migración, como se hizo con `activeInjury`) o si sólo se mejora
 la mesa dejando el contrato indefinido (mucho más barato, pero la renovación sigue sin urgencia).
 
-### 4. La lista de convocados
+### 4. La lista de convocados ✅ HECHA
 
 Que antes de la fecha FIFA salga la nómina en el feed y veas si estás o no, con la prensa
 discutiendo tu ausencia. Hoy te convocan en silencio.
+
+**Lo que se encontró:** la convocatoria ya funcionaba y era **completamente muda**. La regla vivía
+suelta dentro de `startMatchflow` y se evaluaba en el instante de arrancar el partido: si dabas el
+corte aparecía un partido de eliminatorias sin aviso, y si no lo dabas **no pasaba nada** — ni te
+enterabas de que había habido lista. El mayor premio de una carrera entraba y salía en silencio.
+
+**Cómo quedó** (`src/convocatoria.ts`):
+
+- La regla se mudó a un solo lugar y la consumen **los dos lados**: el feed que la anuncia y
+  `startMatchflow` que la ejecuta. Con dos copias se desincronizarían y el diario te pondría en una
+  nómina a la que el juego después no te lleva — un anuncio que miente rompe más que uno que falta.
+- **La nómina sale con nombres reales de la base** (Colombia: Luis Díaz, James Rodríguez, Jhon
+  Arias, Richard Ríos, Davinson Sánchez) y el DT real. No se rellena hasta 23 con nombres
+  inventados: lista corta y verdadera antes que larga y falsa.
+- **La ausencia se explica con números**: *"Te falta 7 de prestigio y 3 partidos"*. Los dos cortes
+  son cosas que podés mover, así que decirlo convierte la ausencia en un objetivo y no en un muro.
+- Dos repertorios de voces distintos, porque estar en la lista es una noticia y quedar afuera es una
+  discusión.
+
+**Y destapó dos agujeros del validador de pantallas**, que ahora están cerrados:
+
+1. **Sólo dibujaba UNA pestaña.** El Dashboard abre en `carrera` y las otras diez —el feed, la
+   prensa, los traspasos, las tablas, el calendario— no las dibujaba nadie, mientras el validador
+   decía "todo OK". Ahora recorre las once (`initialTab`, que sólo usa el script).
+2. **Sólo comprobaba que no reventara.** Un bloque que devuelve vacío no revienta: simplemente no
+   sale, y el caso pasa igual. Así se coló la lista de convocados — pasaba en verde sin dibujarse.
+   Ahora los casos con contenido verifican que el TEXTO esté en el HTML.
+
+De 24 a **37 combinaciones**, y las pestañas pesan de verdad (mi_club 124 KB, tienda 101 KB,
+chutsocial 73 KB) donde antes todo daba 47 KB.
 
 ### 5. Momento de forma visible
 

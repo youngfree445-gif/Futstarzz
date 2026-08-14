@@ -16,8 +16,9 @@ import { esClasico } from '../clasicos';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
+import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -289,6 +290,15 @@ interface DashboardProps {
   onSocialInteraction: () => void;
   onLogout: () => void;
   onResetGame: () => void;
+  /**
+   * Pestaña con la que abre el Dashboard. Sólo la usa scripts/validar_pantallas.jsx; en el juego
+   * nadie la pasa y abre en 'carrera' como siempre.
+   *
+   * Existe porque el validador dibujaba SOLO la pestaña inicial, así que las otras diez -- el feed,
+   * la prensa, los traspasos, las tablas -- no las comprobaba nadie. Se descubrió al agregar la
+   * lista de convocados: el caso pasaba en verde y la lista no se estaba dibujando.
+   */
+  initialTab?: SeccionKey;
 }
 
 type SeccionKey =
@@ -351,9 +361,10 @@ export default function Dashboard({
   onRecoverEnergy,
   onSocialInteraction,
   onLogout,
-  onResetGame
+  onResetGame,
+  initialTab
 }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<SeccionKey>('carrera');
+  const [activeTab, setActiveTab] = useState<SeccionKey>(initialTab ?? 'carrera');
   // En móvil el menú arranca cerrado. La barra lateral es `w-full` en pantallas chicas, así que las
   // once pestañas se desplegaban enteras ARRIBA del contenido: había que hacer scroll por todas
   // antes de ver los atributos o el botón de jugar. En md+ no aplica -- la barra es una columna al
@@ -1944,6 +1955,56 @@ export default function Dashboard({
         ]
       : [];
 
+    // LA LISTA DE CONVOCADOS, el dia que hay fecha FIFA.
+    //
+    // Se declara ACA, junto al resto del feed y no arriba del archivo, porque las constantes de este
+    // componente se leen en orden: una lectura antes de su declaracion desmonta el arbol de React
+    // entero y deja la pantalla en negro (ya paso una vez con conmebolCupId).
+    //
+    // La regla de si estas convocado NO se decide aca: sale de evaluarConvocatoria, la misma que usa
+    // App.tsx el dia del partido. Si el feed tuviera su propia copia, tarde o temprano anunciaria una
+    // lista a la que el juego despues no te lleva.
+    const hoyEsFechaFifa = (() => {
+      if (!hasDatedLeagueSchedule(currentClub.name)) return false;
+      const paso = fixturesAtStep(currentClub.name, playerProfile.currentWeek);
+      const fx = paso ? pickDatedPrimary(paso.fixtures) : null;
+      return fx?.competition.id === 'eliminatorias';
+    })();
+
+    const laConvocatoria: SocialPost[] = (() => {
+      if (!hoyEsFechaFifa) return [];
+      const estado = evaluarConvocatoria(playerProfile, anioDeCarrera(currentClub.name, playerProfile.currentWeek));
+      if (!estado.seleccion || !estado.hayEliminatorias) return [];
+
+      const dt = estado.seleccion.dt || 'El cuerpo técnico';
+      const nomina = laNomina(estado, pName);
+      // La nomina va como publicacion propia y arriba de las opiniones: primero el hecho, despues lo
+      // que se dice del hecho. Los nombres son los REALES de la base, no un relleno hasta 23.
+      const listado: SocialPost[] = nomina.length > 0 ? [{
+        id: `nomina_${week}`,
+        author: estado.seleccion.name,
+        role: 'Selección nacional',
+        content: `📋 LISTA DE CONVOCADOS · ${dt}\n\n${nomina.map(j => (j.esVos ? `⭐ ${j.nombre}` : `· ${j.nombre}`)).join('\n')}`
+          + (estado.convocado ? '' : `\n\n${motivoDeAusencia(estado) ?? ''}`),
+        likes: 12000 + Math.floor(Math.random() * 60000),
+        commentsCount: 2000 + Math.floor(Math.random() * 9000),
+        timestamp: 'Fecha FIFA',
+        avatar: estado.seleccion.badgeLogoUrl || '🌍',
+      }] : [];
+
+      return [
+        ...listado,
+        ...postsDeConvocatoria(pName, estado.seleccion.name, dt, estado.convocado, motivoDeAusencia(estado), week)
+          .map((c, i) => ({
+            id: `convocatoria_${week}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 4000 + Math.floor(Math.random() * 22000),
+            commentsCount: 600 + Math.floor(Math.random() * 4000),
+            timestamp: 'Fecha FIFA', avatar: c.avatar,
+          })),
+      ];
+    })();
+
     // LA REHABILITACION. Mientras dure la lesion el feed la sigue: sin esto el tramo de baja es una
     // pantalla muda con un numero bajando, que es exactamente lo que hacia que la lesion se sintiera
     // un castigo y no una parte de la carrera.
@@ -1989,6 +2050,8 @@ export default function Dashboard({
       ...previaDeClasico,
       ...miPost,
       ...llegadaDelRefuerzo,
+      // La lista de convocados va arriba de casi todo: el dia que sale, es LA noticia.
+      ...laConvocatoria,
       ...parteMedico,
       ...golpeDeEliminacion,
       ...ecoDePrensa,

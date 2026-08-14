@@ -933,6 +933,65 @@ export function postsDeLesion(
 }
 
 /**
+ * LA LISTA DE CONVOCADOS: el dia que sale la nomina de la seleccion.
+ *
+ * Hasta ahora la convocatoria entraba y salia en silencio -- el mayor premio de una carrera pasaba
+ * sin que nadie lo dijera. Y quedar AFUERA era todavia peor: no habia forma de enterarse de que
+ * habia habido lista.
+ *
+ * Los dos repertorios son distintos a proposito. Estar en la lista es una noticia; quedar afuera es
+ * una discusion, y son voces distintas las que la tienen. `motivo` es lo que te falta para el corte
+ * y se pasa entero: una ausencia explicada es un objetivo, una ausencia muda se lee como un bug.
+ */
+export function postsDeConvocatoria(
+  nombre: string,
+  seleccion: string,
+  dt: string,
+  convocado: boolean,
+  motivo: string | null,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 41) * 59.1 + i * 23.9) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = convocado
+    ? [
+        { author: 'Liga Oficial', role: 'Organismo Rector', avatar: '🏆',
+          content: `📋 ${dt} dio la lista de ${seleccion}. ${nombre}, convocado.` },
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `${nombre} entra en la nómina de ${seleccion}. Se lo ganó en la cancha, no en los pasillos.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `¡¡VAMOS ${nombre.toUpperCase()}!! 🇦🇷 De la nada a la selección. Que no lo saquen más 🔥` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `Lo de ${nombre} no es sorpresa para el que venía mirando. Era cuestión de tiempo que ${dt} lo llamara.` },
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `Primera lista de ${seleccion} con ${nombre} adentro. Ahora empieza lo difícil: sostenerse.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `Ponerse la de ${seleccion} no se lo regalan a nadie. Bien ahí, ${nombre}.` },
+      ]
+    : [
+        { author: 'Liga Oficial', role: 'Organismo Rector', avatar: '🏆',
+          content: `📋 ${dt} dio la lista de ${seleccion}. ${nombre} no está entre los convocados.` },
+        { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+          content: `Otra lista de ${seleccion} sin ${nombre}. ${motivo ?? 'El técnico sabrá por qué.'} Digo lo que veo.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `¿Y ${nombre} dónde está? 🤬 Todos los fines de semana rompiéndola y ${dt} mirando para otro lado.` },
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `${nombre} queda afuera de ${seleccion}. ${motivo ?? ''}`.trim() },
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `Le preguntaron a ${dt} por ${nombre}. Respuesta corta: "está en carpeta". Traducción: todavía no.` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `No entrar en la lista no es el final de nada. Pero hay que decirlo: ${seleccion} hoy lo mira de lejos a ${nombre}.` },
+      ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 3)
+    .map(x => x.v);
+}
+
+/**
  * La previa del CLÁSICO.
  *
  * Un clásico que no se anticipa no es un clásico: la mitad de lo que lo hace especial es la semana
