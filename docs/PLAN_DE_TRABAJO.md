@@ -154,10 +154,34 @@ enterabas de que había habido lista. El mayor premio de una carrera entraba y s
 De 24 a **37 combinaciones**, y las pestañas pesan de verdad (mi_club 124 KB, tienda 101 KB,
 chutsocial 73 KB) donde antes todo daba 47 KB.
 
-### 5. Momento de forma visible
+### 5. Momento de forma visible ✅ HECHA
 
 Una racha que el juego reconozca: tres partidos seguidos con buena nota da un plus, una mala racha lo
 quita. Da continuidad entre partidos, que hoy son bastante independientes entre sí.
+
+**Lo que había:** `lastMatchRating` (sólo el último partido) y `sumaCalificacionesHistoricas` (toda
+la carrera). Entre esos dos extremos, nada — no existía forma de saber si venías en racha. Fue la
+primera de estas features que necesitó un **campo nuevo** en el estado guardado.
+
+**Cómo quedó** (`src/forma.ts`):
+
+- Ventana de **5 partidos**; **3 seguidos** con nota ≥ 7.0 es racha, ≤ 5.5 es bajón.
+- **La regla que separa forma de promedio: los parates la cortan.** Cada nota se guarda con el paso
+  en que se jugó, y si entre dos partidos pasaron más de 6 fechas la racha se corta ahí. Sin esto,
+  volvías de dos meses lesionado todavía "en racha" por partidos de antes de romperte — eso es
+  memoria, no forma. La mitad de los casos del validador son sobre huecos en el calendario.
+- **Efecto chico y simétrico: ±5** en todos los atributos, tercer eslabón de la misma cadena donde
+  ya viven la fatiga (6) y jugar lesionado (9). El más chico de los tres a propósito: si la mala
+  racha pesara más que jugar roto sería una espiral sin salida. Simétrico porque premiar la buena
+  tanto como castigar la mala es lo que la hace un momento y no un impuesto.
+- **Se ve:** panel con las últimas 5 notas en crudo, coloreadas, para que la racha no aparezca como
+  un número de la nada.
+- **Se comenta**, pero sólo cuando hay racha definida — comentar todas las fechas sería ruido.
+- Las partidas viejas arrancan **sin historial**, no con notas inventadas desde el promedio: una
+  racha que no jugaste no es tuya.
+
+**Comprobado:** `npm run validar:forma` (20 casos) y 3 estados nuevos en `validar:pantallas`
+(**40 combinaciones**). Se vio fallar con la regla del parate desactivada.
 
 ### 6. El retiro como documental
 

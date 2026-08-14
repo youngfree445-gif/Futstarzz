@@ -87,6 +87,16 @@ const CONVOCATORIAS = [
   { etiqueta: 'fuera de la lista', prestige: 30, partidos: 8, esperado: 'Te falta' },
 ];
 
+// EL MOMENTO DE FORMA. El panel tiene tres caras (racha, bajon, sin definir) y ninguna se dibuja
+// con un perfil recien creado, que no tiene ni una nota. Las notas se anclan al paso del perfil
+// para que el parate no corte la racha (ver PASOS_QUE_CORTAN_LA_RACHA en src/forma.ts).
+const notasEn = (paso, ratings) => ratings.map((rating, i) => ({ rating, paso: paso - (ratings.length - 1 - i) }));
+const FORMAS = [
+  { etiqueta: 'en racha', notas: [7.5, 8.0, 8.2], esperado: 'En racha' },
+  { etiqueta: 'en baja', notas: [5.0, 4.8, 5.4], esperado: 'En baja' },
+  { etiqueta: 'sin racha definida', notas: [6.2, 7.4, 5.9], esperado: 'Sin racha definida' },
+];
+
 /** El perfil sale de la FABRICA REAL del juego, no de una copia a mano. */
 const perfilDe = (club, extra = {}) => {
   const base = crearPerfilInicial({
@@ -172,6 +182,13 @@ for (const lesion of LESIONES) {
     dibujar(perfilDe(junior, { activeInjury: lesion.valor }), 'carrera', lesion.esperado));
 }
 
+// --- El momento de forma, con sus tres caras ------------------------------------------------
+
+for (const f of FORMAS) {
+  caso(`forma: ${f.etiqueta}`, () =>
+    dibujar(perfilDe(junior, { currentWeek: 40, formaReciente: notasEn(40, f.notas) }), 'carrera', f.esperado));
+}
+
 // --- La lista de convocados, en el feed -----------------------------------------------------
 
 const pasoDeFechaFifa = (() => {
@@ -193,8 +210,8 @@ if (pasoDeFechaFifa == null) {
   }
 }
 
-const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + CONVOCATORIAS.length;
+const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
-  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion y convocatoria.`
+  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma y convocatoria.`
   : `\n${fallas} FALLAS -- la pantalla principal no se puede dibujar`);
 process.exit(fallas === 0 ? 0 : 1);

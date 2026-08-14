@@ -992,6 +992,63 @@ export function postsDeConvocatoria(
 }
 
 /**
+ * EL MOMENTO DE FORMA: cuando el feed nota que venis en racha, o que hace rato no la ves.
+ *
+ * La racha ya pesa en la cancha (ver src/forma.ts), pero un efecto que no se comenta se siente como
+ * un numero raro. Y al reves: la parte mas divertida de estar en racha es que TE LO DIGAN.
+ *
+ * `seguidos` va en el texto porque el numero concreto es lo que lo hace creible -- "hace tres
+ * partidos" es una observacion, "esta en un momento espectacular" es relleno.
+ */
+export function postsDeForma(
+  nombre: string,
+  club: string,
+  enRacha: boolean,
+  seguidos: number,
+  promedio: number,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 53) * 43.1 + i * 19.7) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = enRacha
+    ? [
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `${seguidos} partidos consecutivos por encima de 7 para ${nombre}. Promedio en la ventana: ${promedio.toFixed(1)}. Los números no discuten.` },
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `${nombre} está en uno de esos momentos en que la pelota siempre le llega bien. ${seguidos} partidos seguidos jugando así.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `${seguidos} partidos SEGUIDOS siendo el mejor de la cancha 🔥🔥 QUE NO SE LE OCURRA A NADIE SACARLO` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `Lo de ${nombre} en ${club} ya no es una buena tarde suelta: son ${seguidos} partidos. Eso se llama momento.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `Cuando un jugador entra en racha, el equipo entero juega distinto. Se nota con ${nombre} adentro.` },
+        { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+          content: `Voy a ser justo, que también hay que serlo para lo bueno: ${nombre} está jugando a un nivel altísimo.` },
+      ]
+    : [
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `${seguidos} partidos seguidos por debajo de 5.5 para ${nombre}. Promedio en la ventana: ${promedio.toFixed(1)}.` },
+        { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+          content: `Hace ${seguidos} partidos que ${nombre} no aparece. No es mala suerte: es una racha, y las rachas se cortan jugando.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `¿Qué le pasa a ${nombre}? 😔 ${seguidos} partidos desaparecido. Que se despierte, lo necesitamos.` },
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `En ${club} empiezan a mirar de reojo el bajón de ${nombre}. ${seguidos} partidos es demasiado para hablar de casualidad.` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `A ${nombre} le está costando, y pasa. La pregunta no es por qué: es cuánto tarda en salir.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `Bancamos a ${nombre} igual. De estos pozos se sale con la gente al lado, no con la gente encima.` },
+      ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}
+
+/**
  * La previa del CLÁSICO.
  *
  * Un clásico que no se anticipa no es un clásico: la mitad de lo que lo hace especial es la semana

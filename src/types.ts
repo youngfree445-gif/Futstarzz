@@ -98,6 +98,7 @@ export interface RetirementNews {
 }
 
 import type { LideresPorCompeticion } from './lideresPorCompeticion';
+import type { NotaDePartido } from './forma';
 
 export interface PlayerProfile {
   name: string;
@@ -116,6 +117,11 @@ export interface PlayerProfile {
   prestigeCompaneros?: number;
   mentalHealth: number; // 0-100 (Fase 3): baja con derrotas/prensa hostil/rachas negativas, sube con victorias/descanso/buena prensa; afecta el % de éxito de las decisiones del partido igual que el resto de los multiplicadores
   lastMatchRating: number; // Fase 3: calificación del último partido jugado (0 si todavía no jugaste ninguno) -- dispara el post de "saludo de famoso" en ChutSocial si es muy alta
+  // MOMENTO DE FORMA (ver src/forma.ts): las últimas notas con el paso en que se jugaron. Entre
+  // lastMatchRating (sólo el último) y sumaCalificacionesHistoricas (toda la carrera) no había nada,
+  // así que no existía forma de saber si venías en racha. La lista NUNCA crece más allá de
+  // VENTANA_DE_FORMA. Opcional: las partidas viejas no lo tienen, se migra en handleLoadGame.
+  formaReciente?: NotaDePartido[];
   lastMatchGoals: number; // Fase 4: goles del último partido jugado -- usado para logros puntuales (ej. hat-trick), no se acumula, se pisa cada partido
   lastMatchWonShootout: boolean; // Fase 4: true si el último partido se definió por penales y tu equipo ganó -- usado para el logro de la tanda
   yellowCards: number; // amarillas acumuladas en la temporada (fuera de un partido puntual); al llegar a un umbral, sanción automática -- ver handleFinishMatch

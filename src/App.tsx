@@ -39,6 +39,7 @@ import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartir
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO } from './lesion';
 import { evaluarConvocatoria } from './convocatoria';
+import { anotarNota } from './forma';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -1202,6 +1203,12 @@ export default function App() {
     }
     if (profile.lastMatchRating === undefined) {
       profile = { ...profile, lastMatchRating: 0 };
+    }
+    // Momento de forma (ver src/forma.ts). Las partidas viejas arrancan SIN historial, no con las
+    // notas inventadas a partir del promedio: una racha que no jugaste no es tuya. Con la lista
+    // vacía el jugador queda 'normal' y la forma se construye desde el próximo partido.
+    if (profile.formaReciente === undefined) {
+      profile = { ...profile, formaReciente: [] };
     }
     // Compatibilidad con saves de antes del sistema de logros (Fase 4).
     if (profile.lastMatchGoals === undefined) {
@@ -4542,6 +4549,10 @@ export default function App() {
       mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange - superstitionBreakPenalty)),
       matchesWithoutRest: playerProfile.matchesWithoutRest + 1,
       lastMatchRating: results.rating,
+      // La nota entra al historial de forma junto con el paso en que se jugó (ver src/forma.ts). El
+      // paso hace falta para que una lesión larga corte la racha: sin él, volverías de dos meses
+      // afuera todavía "en racha" por partidos de antes de romperte, y eso es memoria, no forma.
+      formaReciente: anotarNota(playerProfile.formaReciente, results.rating, playerProfile.currentWeek),
       lastMatchGoals: results.goles,
       lastMatchWonShootout: !!shootoutOverride && shootoutOverride.winnerId === (activeWorldCupTeamId || playerProfile.currentClubId),
       currentWeek: playerProfile.currentWeek + 1,

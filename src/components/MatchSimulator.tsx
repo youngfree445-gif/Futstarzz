@@ -10,6 +10,7 @@ import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { forzandoLaVuelta, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
+import { evaluarForma, ajusteDeForma } from '../forma';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
 // de lo que sumaba. El resto de los efectos del partido (gol, tarjeta, etc.) no se tocan.
@@ -1607,17 +1608,36 @@ export default function MatchSimulator({
       }
     : attributesAfterFatigue;
 
+  // MOMENTO DE FORMA (ver src/forma.ts): tercer eslabón de la misma cadena. Es el ajuste más CHICO
+  // de los tres (5, contra 6 de fatiga y 9 de jugar roto) y el único que puede ser positivo.
+  //
+  // Chico a propósito: si la mala racha pesara más que jugar lesionado, sería una espiral sin
+  // salida -- jugás peor porque venís mal y venís peor porque jugaste mal. Y simétrico, porque la
+  // racha buena tiene que premiar tanto como castiga la mala; si sólo restara sería un impuesto.
+  const formaDelJugador = evaluarForma(playerProfile.formaReciente, playerProfile.currentWeek);
+  const ajusteForma = ajusteDeForma(formaDelJugador.estado);
+  const attributesAfterForma: PlayerStats = ajusteForma === 0
+    ? attributesAfterInjury
+    : {
+        ritmo: Math.max(10, attributesAfterInjury.ritmo + ajusteForma),
+        regate: Math.max(10, attributesAfterInjury.regate + ajusteForma),
+        tiro: Math.max(10, attributesAfterInjury.tiro + ajusteForma),
+        defensa: Math.max(10, attributesAfterInjury.defensa + ajusteForma),
+        pase: Math.max(10, attributesAfterInjury.pase + ajusteForma),
+        fisico: Math.max(10, attributesAfterInjury.fisico + ajusteForma),
+      };
+
   const activeRole = ROLES_DATABASE.find(r => r.id === playerProfile.favoriteRole);
   const effectiveAttributes: PlayerStats = activeRole
     ? {
-        ritmo: Math.round(attributesAfterInjury.ritmo * (activeRole.weights.ritmo ?? 1)),
-        regate: Math.round(attributesAfterInjury.regate * (activeRole.weights.regate ?? 1)),
-        tiro: Math.round(attributesAfterInjury.tiro * (activeRole.weights.tiro ?? 1)),
-        defensa: Math.round(attributesAfterInjury.defensa * (activeRole.weights.defensa ?? 1)),
-        pase: Math.round(attributesAfterInjury.pase * (activeRole.weights.pase ?? 1)),
-        fisico: Math.round(attributesAfterInjury.fisico * (activeRole.weights.fisico ?? 1)),
+        ritmo: Math.round(attributesAfterForma.ritmo * (activeRole.weights.ritmo ?? 1)),
+        regate: Math.round(attributesAfterForma.regate * (activeRole.weights.regate ?? 1)),
+        tiro: Math.round(attributesAfterForma.tiro * (activeRole.weights.tiro ?? 1)),
+        defensa: Math.round(attributesAfterForma.defensa * (activeRole.weights.defensa ?? 1)),
+        pase: Math.round(attributesAfterForma.pase * (activeRole.weights.pase ?? 1)),
+        fisico: Math.round(attributesAfterForma.fisico * (activeRole.weights.fisico ?? 1)),
       }
-    : attributesAfterInjury;
+    : attributesAfterForma;
 
   // Probabilidad por minuto de que ocurra CUALQUIER gol ambiental (Poisson thinning de totalLambda
   // repartido en 90') y, dado que ocurre, qué proporción le toca a cada lado según sus lambdas --

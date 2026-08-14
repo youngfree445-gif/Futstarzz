@@ -16,9 +16,10 @@ import { esClasico } from '../clasicos';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
+import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -2005,6 +2006,21 @@ export default function Dashboard({
       ];
     })();
 
+    // EL MOMENTO DE FORMA. Solo habla cuando HAY racha: si comentara todas las fechas seria ruido, y
+    // el feed ya tiene bastante. Con racha definida, en cambio, es lo mas comentable que hay.
+    const laForma: SocialPost[] = (() => {
+      const f = evaluarForma(playerProfile.formaReciente, playerProfile.currentWeek);
+      if (f.estado === 'normal' || f.promedio == null) return [];
+      return postsDeForma(pName, currentClub.name, f.estado === 'en_racha', f.seguidos, f.promedio, week)
+        .map((c, i) => ({
+          id: `forma_${week}_${i}`,
+          author: c.author, role: c.role, content: c.content,
+          likes: 2500 + Math.floor(Math.random() * 16000),
+          commentsCount: 400 + Math.floor(Math.random() * 3000),
+          timestamp: 'Hace instantes', avatar: c.avatar,
+        }));
+    })();
+
     // LA REHABILITACION. Mientras dure la lesion el feed la sigue: sin esto el tramo de baja es una
     // pantalla muda con un numero bajando, que es exactamente lo que hacia que la lesion se sintiera
     // un castigo y no una parte de la carrera.
@@ -2053,6 +2069,7 @@ export default function Dashboard({
       // La lista de convocados va arriba de casi todo: el dia que sale, es LA noticia.
       ...laConvocatoria,
       ...parteMedico,
+      ...laForma,
       ...golpeDeEliminacion,
       ...ecoDePrensa,
       ...reacciones,
@@ -2910,6 +2927,58 @@ export default function Dashboard({
               </div>
               </div>
               </div>{/* fin tercera columna */}
+
+              {/* MOMENTO DE FORMA. Se muestra siempre que haya al menos un partido jugado, no sólo
+                  cuando hay racha: media pantalla del juego son números que suben, y la forma tiene
+                  que poder LEERSE antes de que sea noticia -- si sólo apareciera al llegar a la
+                  tercera buena, el jugador no vería venir ni la racha ni el pozo. */}
+              {(() => {
+                const forma = evaluarForma(playerProfile.formaReciente, playerProfile.currentWeek);
+                const notas = (playerProfile.formaReciente ?? []).slice(-VENTANA_DE_FORMA);
+                if (notas.length === 0) return null;
+                const color = forma.estado === 'en_racha' ? 'text-emerald-400'
+                  : forma.estado === 'en_baja' ? 'text-red-400' : 'text-slate-400';
+                const borde = forma.estado === 'en_racha' ? 'border-emerald-900/40'
+                  : forma.estado === 'en_baja' ? 'border-red-900/40' : 'border-slate-800';
+                return (
+                  <div className={`bg-slate-900 border ${borde} rounded-3xl p-5 shadow-lg`}>
+                    <h3 className={`text-xs font-black uppercase tracking-widest ${color} mb-2 flex items-center gap-2`}>
+                      {forma.estado === 'en_racha' ? '🔥' : forma.estado === 'en_baja' ? '🥶' : '📈'} Momento de forma
+                    </h3>
+                    <p className="text-2xs text-slate-400 leading-relaxed">
+                      {rotuloDeForma(forma)}
+                      {forma.promedio != null && (
+                        <> · promedio <span className="text-white font-bold">{forma.promedio.toFixed(1)}</span></>
+                      )}
+                    </p>
+                    {/* Las notas en crudo, de la más vieja a la más nueva. Ver la racha es una cosa;
+                        ver POR QUE el juego la llama racha es otra, y evita que se lea como un
+                        número que aparece de la nada. */}
+                    <div className="flex items-end gap-1.5 mt-3">
+                      {notas.map((n, i) => (
+                        <div
+                          key={`${n.paso}_${i}`}
+                          className={`flex-1 rounded-lg text-center py-1.5 text-2xs font-black tabular-nums ${
+                            n.rating >= NOTA_BUENA ? 'bg-emerald-950/60 text-emerald-300'
+                              : n.rating <= NOTA_MALA ? 'bg-red-950/60 text-red-300'
+                              : 'bg-slate-950 text-slate-400'
+                          }`}
+                          title={`Fecha ${n.paso}`}
+                        >
+                          {n.rating.toFixed(1)}
+                        </div>
+                      ))}
+                    </div>
+                    {forma.estado !== 'normal' && (
+                      <p className={`text-3xs font-mono uppercase mt-3 ${color}`}>
+                        {forma.estado === 'en_racha'
+                          ? `+${AJUSTE_DE_FORMA} en todos los atributos mientras dure.`
+                          : `−${AJUSTE_DE_FORMA} en todos los atributos hasta que cortes la mala racha.`}
+                      </p>
+                    )}
+                  </div>
+                );
+              })()}
 
               {playerProfile.activeInjury && (
                 <div className="bg-slate-900 border border-red-900/40 rounded-3xl p-5 shadow-lg">
