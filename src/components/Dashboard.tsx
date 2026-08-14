@@ -12,10 +12,11 @@ import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
+import { esClasico } from '../clasicos';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -1890,6 +1891,21 @@ export default function Dashboard({
     // La ELIMINACION pisa a todo lo demas: si el equipo quedo afuera, esa es la noticia. El resto
     // del feed sigue mirando tu calificacion individual, y una buena nota no salva a nadie cuando
     // se acabo el torneo.
+    // LA PREVIA DEL CLASICO. Un clasico que no se anticipa no es un clasico: la mitad de lo que lo
+    // hace especial es la semana previa. Si el partido pesa mas pero nadie lo dice, el jugador solo
+    // ve un numero raro al final.
+    const previaDeClasico: SocialPost[] = nextMatchOpponent?.club
+      && esClasico(currentClub.id, nextMatchOpponent.club.id)
+      ? postsDePreviaDeClasico(currentClub.name, nextMatchOpponent.club.name, week)
+          .map((c, i) => ({
+            id: `clasico_${week}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 8000 + Math.floor(Math.random() * 30000),
+            commentsCount: 1500 + Math.floor(Math.random() * 6000),
+            timestamp: 'Semana de clásico', avatar: c.avatar,
+          }))
+      : [];
+
     // EL REFUERZO QUE TE TAPA, en las fechas siguientes a su llegada. Sin este aviso el fichaje
     // seria un numero invisible que te manda al banco sin explicacion, y eso se lee como un bug.
     const llegadaDelRefuerzo: SocialPost[] = playerProfile.fichajeRival
@@ -1954,6 +1970,7 @@ export default function Dashboard({
       : [];
 
     return [
+      ...previaDeClasico,
       ...miPost,
       ...llegadaDelRefuerzo,
       ...golpeDeEliminacion,
@@ -2686,7 +2703,19 @@ export default function Dashboard({
 
                   <div>
                     {nextMatchOpponent ? (
-                      <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl relative">
+                      <div className={`p-4 rounded-2xl relative border ${
+                        nextMatchOpponent.club && esClasico(currentClub.id, nextMatchOpponent.club.id)
+                          ? 'bg-burgundy-950/40 border-burgundy-500/50'
+                          : 'bg-slate-950/60 border-slate-800'
+                      }`}>
+                        {/* El clasico se ve ANTES de jugarlo, no despues en un numero raro. El borde
+                            y el cartel son todo el aviso que hace falta: si el partido pesa mas,
+                            tiene que verse distinto desde que lo abris. */}
+                        {nextMatchOpponent.club && esClasico(currentClub.id, nextMatchOpponent.club.id) && (
+                          <span className="inline-block mb-2 text-3xs font-mono font-black uppercase bg-burgundy-500 text-slate-950 px-2 py-0.5 rounded tracking-wider">
+                            🔥 Clásico
+                          </span>
+                        )}
                         <span className="absolute top-3 right-3 text-3xs font-mono font-black uppercase bg-slate-900/80 px-2 py-1 rounded text-gold-400 border border-slate-800">
                           {nextMatchOpponent.jornada}
                         </span>

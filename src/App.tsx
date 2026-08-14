@@ -36,6 +36,7 @@ import {
   simulatePenaltyShootout, roundLabelByMatchCount, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
+import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -4210,7 +4211,18 @@ export default function App() {
     const netPrestigeChange = decisionPrestigeChange
       - (cardReceived === 'red' ? RED_CARD_PRESTIGE_PENALTY : 0)
       - (isViralNegativePerformance ? VIRAL_NEGATIVE_PRESTIGE_PENALTY : 0);
-    const netFansChange = decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0);
+    // EL CLÁSICO MULTIPLICA LO QUE ESTÁ EN JUEGO, y sólo la afición: un clásico no vale seis puntos,
+    // pero en la calle vale por diez. Perder duele MÁS de lo que ganar suma (1.6 contra 2.2), que es
+    // como se siente de verdad -- al clásico se lo recuerda por las derrotas.
+    const hoyEsClasico = !!activeOppositionClubId
+      && esClasico(playerProfile.currentClubId, activeOppositionClubId);
+    const multiplicadorClasico = !hoyEsClasico ? 1
+      : results.resultado === 'W' ? CLASICO_MULTIPLICADOR_GANAR
+      : results.resultado === 'L' ? CLASICO_MULTIPLICADOR_PERDER
+      : 1;
+    const netFansChange = Math.round(
+      (decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0))
+      * multiplicadorClasico);
 
     let newYellowCards = playerProfile.yellowCards;
     let newSuspendedMatches = playerProfile.suspendedMatches;

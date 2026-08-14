@@ -873,3 +873,39 @@ export function postsDeRefuerzo(
     .slice(0, 2)
     .map(x => x.v);
 }
+
+/**
+ * La previa del CLÁSICO.
+ *
+ * Un clásico que no se anticipa no es un clásico: la mitad de lo que lo hace especial es la semana
+ * previa. Si el partido pesa más pero nadie lo dice, el jugador sólo ve un número raro al final.
+ */
+export function postsDePreviaDeClasico(
+  club: string,
+  rival: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 23) * 47.3 + i * 31.1) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = [
+    { author: 'Liga Oficial', role: 'Organismo Rector', avatar: '🏆',
+      content: `🔥 CLÁSICO. ${club} vs ${rival}. El partido que para la ciudad.` },
+    { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+      content: `Se juega el clásico y hay que decirlo: acá no importa cómo se llegue. Importa cómo se sale.` },
+    { author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
+      content: `SEMANA DE CLÁSICO 🔥🔥 No se duerme, no se come, no se piensa en otra cosa. ¡VAMOS ${club.toUpperCase()}!` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Un año entero se aguanta si se gana el clásico. Y un año entero se sufre si se pierde.` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `Los clásicos no los gana el que mejor juega: los gana el que menos se equivoca. Atención a eso frente a ${rival}.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `Contra ${rival} se deja todo. TODO. El que no lo entienda que se quede en el banco 🤬` },
+  ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 3)
+    .map(x => x.v);
+}
