@@ -63,6 +63,14 @@ la tentación de volver antes con riesgo de recaída, el DT presionando.
 
 **Por qué:** convierte un castigo pasivo en algo que jugás.
 
+**Verificado contra el código -- es más chica de lo que parecía.** `ActiveInjury` (types.ts ~302) ya
+lleva `treatmentChoice: 'fast' | 'natural'`, y `handleTreatInjury` en App.tsx ya funciona. O sea que
+NO hay que construir un sistema: hay que extender uno.
+
+Lo que falta es la tercera opción -- **volver antes de tiempo** -- con su riesgo de recaída real, y
+que el tramo tenga voz: el DT presionando, el feed preguntando cuándo vuelve. El comentario del tipo
+ya menciona la recaída pero conviene comprobar si está implementada o sólo escrita.
+
 ### 3. Renovación de contrato con negociación
 
 Pedís sueldo, cláusula, o que traigan refuerzos. El club acepta, contraoferta o se ofende. Encaja
