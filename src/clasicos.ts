@@ -43,7 +43,7 @@ const PARES: readonly (readonly [string, string])[] = [
   ['real_madrid', 'atletico_de_madrid'],       // El derbi madrileño
   ['fc_barcelona', 'rcd_espanyol'],
   ['sevilla_fc', 'real_betis'],                // El gran derbi
-  ['gen_899', 'real_sociedad'],     // El derbi vasco
+  ['athletic_club_esp', 'real_sociedad'],   // El derbi vasco
 
   // --- Inglaterra ---
   ['manchester_united', 'manchester_city'],
@@ -77,6 +77,92 @@ const PARES: readonly (readonly [string, string])[] = [
   // --- Otros ---
   ['ajax', 'feyenoord'],                    // De Klassieker
   ['boca', 'independiente'],
+
+  // --- Colombia (mas) ---
+  ['millonarios', 'nacional'],
+  ['america_cali', 'nacional'],
+  ['cali', 'nacional'],
+
+  // --- Argentina (mas) ---
+  ['talleres', 'belgrano'],                 // El clásico cordobés
+  ['banfield', 'lanus'],                    // El clásico del sur
+  ['gimnasia_mza', 'indep_rivadavia'],      // El clásico mendocino
+  ['river', 'racing'],
+  ['boca', 'san_lorenzo'],
+
+  // --- España (mas) ---
+  ['valencia_cf', 'levante_ud'],            // El derbi valenciano
+  ['sevilla_fc', 'atletico_de_madrid'],
+  ['real_madrid', 'sevilla_fc'],
+
+  // --- Inglaterra (mas) ---
+  ['newcastle_united', 'sunderland'],       // El derbi del Tyne-Wear
+  ['aston_villa', 'wolverhampton_wanderers'], // El derbi de las Midlands
+  ['crystal_palace', 'brighton_hove_albion'], // El derbi M23
+  ['manchester_city', 'liverpool_eng'],
+  ['west_ham_united', 'tottenham_hotspur'],
+  ['chelsea', 'tottenham_hotspur'],
+
+  // --- Italia (mas) ---
+  ['torino', 'juventus'],                   // El derby della Mole
+  ['fiorentina', 'juventus'],
+  ['roma', 'napoli'],
+  ['inter', 'napoli'],
+
+  // --- Alemania (mas) ---
+  ['1_fc_koln', 'borussia_monchengladbach'], // El derbi renano
+  ['hamburg', 'sv_werder_bremen'],           // El Nordderby
+  ['bayer_leverkusen', '1_fc_koln'],
+  ['fc_bayern_munchen', 'rb_leipzig'],
+
+  // --- Brasil (mas) ---
+  ['sao_paulo', 'corinthians'],             // El Majestoso
+  ['sao_paulo', 'palmeiras'],               // El Choque-Rei
+  ['santos', 'sao_paulo'],
+  ['santos', 'palmeiras'],
+  ['flamengo', 'botafogo'],
+  ['botafogo', 'fluminense'],
+  ['atletico_mineiro', 'cruzeiro'],         // El clássico mineiro
+  ['bahia', 'vitoria'],                     // El Ba-Vi
+
+  // --- México (mas) ---
+  ['cruz_azul', 'america_mex'],             // El Clásico Joven
+  ['atlas', 'chivas'],                      // El Clásico Tapatío
+  ['cruz_azul', 'pumas'],
+
+  // --- Francia ---
+  ['paris_saint_germain', 'olympique_de_marseille'],  // Le Classique
+  ['lens', 'lille_osc'],                    // El derbi del Norte
+  ['nice', 'olympique_de_marseille'],       // El derbi de la Costa Azul
+  ['olympique_lyonnais', 'olympique_de_marseille'],
+
+  // --- Holanda (mas) ---
+  ['ajax', 'psv'],                          // De Topper
+  ['feyenoord', 'sparta_rotterdam'],        // El derbi de Rotterdam
+  ['psv', 'feyenoord'],
+
+  // --- Portugal ---
+  ['sl_benfica', 'sporting_cp'],            // El derbi de Lisboa
+  ['fc_porto', 'sl_benfica'],               // O Clássico
+  ['fc_porto', 'sporting_cp'],
+  ['boavista_fc', 'fc_porto'],              // El derbi de Oporto
+
+  // --- Chile ---
+  ['colocolo', 'u_chile'],                  // El Superclásico chileno
+  ['u_chile', 'u_catolica'],                // El clásico universitario
+  ['colocolo', 'u_catolica'],
+
+  // --- Uruguay ---
+  ['penarol', 'nacional_uru'],              // El Clásico uruguayo
+
+  // --- Ecuador ---
+  ['barcelona_sc', 'emelec'],               // El Clásico del Astillero
+  ['ldu_quito', 'aucas'],
+  ['ldu_quito', 'universidad_católica_ecu'],
+
+  // --- Bolivia ---
+  ['bolívar', 'the_strongest'],             // El clásico paceño
+  ['oriente_petrolero', 'blooming'],        // El clásico cruceño
 ];
 
 /** Índice de búsqueda, armado una sola vez. La clave junta los dos ids ordenados. */
