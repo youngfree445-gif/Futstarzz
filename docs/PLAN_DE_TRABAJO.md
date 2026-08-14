@@ -96,10 +96,28 @@ estaba escrito.
 **Comprobado:** `npm run validar:lesiones` (14 casos) y el panel agregado a `validar:pantallas`
 (24 combinaciones). Los dos se vieron FALLAR con un bug inyectado antes de darlos por buenos.
 
-### 3. Renovación de contrato con negociación
+### 3. Renovación de contrato con negociación ⏸️ OMITIDA POR AHORA
 
-Pedís sueldo, cláusula, o que traigan refuerzos. El club acepta, contraoferta o se ofende. Encaja
-con el agente que ya existe.
+Decisión del autor (14 de agosto de 2026): se omite. **No está descartada** — se pospone.
+
+Se deja acá lo que se averiguó abriendo el código, para que la próxima vez no haya que
+re-descubrirlo:
+
+- **Hoy la renovación no renueva nada.** `handleRequestRenewal` (App.tsx ~1769) es un botón con un
+  dado: ~50% y sale bono + suba de prima, o prestigio −6. No hay mesa, no hay contraoferta.
+- **No existen contratos con fecha de vencimiento.** El propio comentario del código lo dice. Y ése
+  es el problema de fondo: sin vencimiento no hay urgencia, y sin urgencia no hay negociación —
+  podés pedir renovación en la fecha 3 o en la 300 y es exactamente igual.
+- **El agente ya existe** (`Agent` en types.ts, con `reputation` 1-5) pero sólo cobra comisión en
+  traspasos. En una negociación real sería la palanca obvia.
+- **`appearanceBonus` ya existe** y ya tiene tensión propia (cobrarla te empuja a jugar exhausto y
+  eso enfría al DT), así que sería palanca gratis.
+- La cláusula de rescisión que mencionaba la idea original **ya estaba descartada** por el autor (ver
+  la tabla de abajo), así que habría que reemplazarla por otra palanca.
+
+**Si se retoma, la decisión estructural es una sola:** si los contratos pasan a tener vencimiento
+(toca el estado guardado y necesita migración, como se hizo con `activeInjury`) o si sólo se mejora
+la mesa dejando el contrato indefinido (mucho más barato, pero la renovación sigue sin urgencia).
 
 ### 4. La lista de convocados
 

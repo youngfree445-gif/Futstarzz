@@ -143,6 +143,15 @@ no un defecto.
    ¿Se mide contra la carrera más avanzada, contra una elegida, o se muestra sólo dentro de la
    partida?
 3. **Campo 2D con micro-animaciones** durante la simulación, en vez de círculos estáticos.
+5. **El botón de renovación le pone nombre a un dato que es otro.** Dice *"Necesitás 55 de Relación
+   DT para pedir la renovación (tenés N)"* (Dashboard.tsx ~4036) pero el número que lee y compara es
+   `playerProfile.prestige`. **Verificado: no existe ningún campo de relación con el DT en el juego**
+   — se buscó `coachRelation`/`relacionDT`/`dtRelation` y no hay nada.
+
+   No rompe nada: el gate funciona, es la etiqueta la que miente. Pero le enseña al jugador un
+   concepto que no existe, y después no lo encuentra en ninguna pantalla. Arreglo chico: o se llama
+   Prestigio (que es lo que es), o se crea de verdad la relación con el DT — que es justo lo que
+   pedían la renovación negociada y "el técnico te habla en el entretiempo" en el plan de trabajo.
 4. **Overlay uniforme sobre las imágenes de la Tienda**, que varían en brillo y recorte. Ya tienen un
    degradado; falta emparejar el brillo.
 
