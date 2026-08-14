@@ -875,6 +875,64 @@ export function postsDeRefuerzo(
 }
 
 /**
+ * LA REHABILITACION: la prensa mientras estas afuera, y cuando volves roto.
+ *
+ * Una lesion sin voz es una pantalla gris con un numero que baja. Lo que la vuelve un tramo de la
+ * carrera es que AFUERA sigan hablando: el club te espera, el DT no dice cuando volves, y si forzas
+ * la vuelta hay quien lo aplaude y quien te trata de irresponsable. Las dos cosas a la vez, que es
+ * lo que de verdad pasa.
+ *
+ * `forzando` cambia el tono entero, no una frase: no es lo mismo estar de baja que estar jugando
+ * roto. Si fuera el mismo bloque con una linea distinta se notaria que es el mismo texto reciclado.
+ */
+export function postsDeLesion(
+  nombre: string,
+  club: string,
+  semanasRestantes: number,
+  forzando: boolean,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 31) * 53.7 + i * 37.3) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = forzando
+    ? [
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `${nombre} se pone la camiseta de ${club} sin estar al 100%. Valiente, sí. Prudente, no.` },
+        { author: 'Dr. Fútbol', role: 'Médico deportivo', avatar: '🩺',
+          content: `Lo digo con todo respeto: volver con ${semanasRestantes} semana(s) de recuperación pendientes es como jugar a la ruleta rusa con tu propia carrera.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `ESO ES HUEVOS 🔥 ${nombre} sale a la cancha roto porque el club lo necesita. ¡ASÍ SE QUIERE LA CAMISETA!` },
+        { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+          content: `Me van a odiar por esto: que ${nombre} juegue lesionado no es heroísmo, es mala gestión. Si se rompe de nuevo, ¿quién responde?` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `${nombre} apura los tiempos. Se le va a notar en el ritmo, y hay que ser justos cuando eso pase.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `Adentro del vestuario esto se ve de una sola forma: el tipo se está jugando el físico por el equipo.` },
+      ]
+    : [
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `${club} pierde a ${nombre} por ${semanasRestantes} semana(s). No es un detalle: el rendimiento del equipo cambia sin él.` },
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `Parte médico de ${club}: ${nombre} sigue en recuperación. No hay fecha confirmada de regreso.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `Otra vez la enfermería 😩 Justo ahora que lo necesitábamos. Recuperate rápido ${nombre}.` },
+        { author: 'Dr. Fútbol', role: 'Médico deportivo', avatar: '🩺',
+          content: `Consejo gratis para ${nombre}: la recuperación no se negocia. El que vuelve antes, vuelve dos veces.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `Se extraña a ${nombre}. No por lo que hace con la pelota: por lo que ordena sin ella.` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `La pregunta que nadie en ${club} quiere contestar: ¿van a esperar a ${nombre} o van a apurarlo?` },
+      ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}
+
+/**
  * La previa del CLÁSICO.
  *
  * Un clásico que no se anticipa no es un clásico: la mitad de lo que lo hace especial es la semana

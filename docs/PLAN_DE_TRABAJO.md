@@ -56,20 +56,45 @@ semana, ganarlo da fans desproporcionados y perderlo duele el doble.
 **Por qué primero:** ya existen las rivalidades y el feed. Es casi todo reutilización, y se siente
 enseguida — un partido que pesa distinto cambia cómo lo encarás.
 
-### 2. Lesión con rehabilitación jugable
+### 2. Lesión con rehabilitación jugable ✅ HECHA
 
 Hoy la lesión es un número que baja. Podría ser un tramo con decisiones: sesiones de recuperación,
 la tentación de volver antes con riesgo de recaída, el DT presionando.
 
 **Por qué:** convierte un castigo pasivo en algo que jugás.
 
-**Verificado contra el código -- es más chica de lo que parecía.** `ActiveInjury` (types.ts ~302) ya
-lleva `treatmentChoice: 'fast' | 'natural'`, y `handleTreatInjury` en App.tsx ya funciona. O sea que
-NO hay que construir un sistema: hay que extender uno.
+**Lo que se encontró al abrirla, y que cambió la tarea.** `ActiveInjury` ya llevaba
+`treatmentChoice: 'fast' | 'natural'` y `handleTreatInjury` ya funcionaba, así que no había que
+construir un sistema sino extender uno. Pero además apareció algo que no se veía desde afuera:
 
-Lo que falta es la tercera opción -- **volver antes de tiempo** -- con su riesgo de recaída real, y
-que el tramo tenga voz: el DT presionando, el feed preguntando cuándo vuelve. El comentario del tipo
-ya menciona la recaída pero conviene comprobar si está implementada o sólo escrita.
+> **El roll de recaída ya existía y era CÓDIGO MUERTO.** Las dos puertas al partido
+> (`handleAdvanceWeek` y `startMatchflow`) cortaban con `weeksRemaining > 0`, así que era imposible
+> llegar a jugar con lesión activa — y por lo tanto imposible recaer. El aviso del tratamiento
+> rápido, *"hay riesgo de recaída si volvés a jugar"*, era literalmente un farol: ese riesgo no se
+> ejecutaba nunca.
+
+Osea que **volver antes de tiempo** no agregó un sistema: abrió la puerta que dejaba muerto al que ya
+estaba escrito.
+
+**Cómo quedó** (`src/lesion.ts`, con la regla en un solo lugar):
+
+- Tercera opción **"Volver antes de tiempo"**, ofrecida durante TODA la lesión y no sólo al
+  principio — la decisión interesante no aparece el día que te lesionás, aparece a mitad de camino
+  cuando ves la final en el calendario.
+- **El riesgo escala con lo que te salteás**, no es plano: 23% con una semana pendiente, 45% con
+  tres, 72% de tope. Un porcentaje fijo volvería la decisión trivial (forzás siempre o nunca); así
+  la pregunta pasa a ser *"¿fuerzo ahora o espero dos fechas más?"*.
+- **Cuesta en la cancha**, no sólo en el aviso: −9 a todos los atributos mientras jugás roto,
+  encadenado donde ya vivía el descuento por fatiga. Es más alto que el de fatiga (6) a propósito —
+  jugar roto tiene que pesar más que jugar cansado.
+- **El tramo siempre termina.** Cada partido aguantado descuenta una fecha, así que aunque nunca
+  recaigas llegás al alta jugando. Sin eso quedabas en un bucle de riesgo eterno.
+- **Tiene voz:** `postsDeLesion` en ChutSocial, con dos repertorios distintos según estés de baja o
+  jugando roto — el médico advirtiéndote, la hinchada aplaudiendo el huevo, Vélez llamándolo mala
+  gestión.
+
+**Comprobado:** `npm run validar:lesiones` (14 casos) y el panel agregado a `validar:pantallas`
+(24 combinaciones). Los dos se vieron FALLAR con un bug inyectado antes de darlos por buenos.
 
 ### 3. Renovación de contrato con negociación
 

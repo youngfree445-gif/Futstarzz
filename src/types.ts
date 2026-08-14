@@ -303,10 +303,15 @@ export interface ActiveInjury {
   type: InjuryType;
   weeksRemaining: number;
   startedWeek: number;
-  // 'fast' acorta la recuperación pagando capital pero deja riesgo de recaída si volvés a jugar
-  // antes de que termine igual; 'natural' no cuesta nada pero no acelera nada. Ver handleTreatInjury
-  // en App.tsx. undefined = todavía no elegiste tratamiento para esta lesión.
-  treatmentChoice?: 'fast' | 'natural';
+  // Cómo estás llevando la recuperación:
+  //   'fast'    acorta la recuperación pagando capital.
+  //   'natural' no cuesta nada y no acelera nada.
+  //   'forzar'  volvés a la cancha YA, con la lesión encima: jugás con los atributos bajos y cada
+  //             partido tira un dado de recaída (ver src/lesion.ts). Es la única de las tres que se
+  //             puede elegir DESPUÉS de haber elegido otra -- empezás recuperándote tranquilo y a
+  //             mitad de camino aparece una final.
+  // Ver handleTreatInjury en App.tsx. undefined = todavía no elegiste tratamiento para esta lesión.
+  treatmentChoice?: 'fast' | 'natural' | 'forzar';
 }
 
 /** Una oferta de mercado, generada por semana -- ver refreshTransferOffersIfNeeded en transferMarket.ts. */

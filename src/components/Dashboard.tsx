@@ -16,7 +16,8 @@ import { esClasico } from '../clasicos';
 import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -263,7 +264,7 @@ interface DashboardProps {
   onGirlfriendMoveIn: (accept: boolean) => void;
   onPropose: () => void;
   onHaveChild: () => void;
-  onTreatInjury: (choice: 'fast' | 'natural') => void;
+  onTreatInjury: (choice: 'fast' | 'natural' | 'forzar') => void;
   onSelectRole: (roleId: string | null) => void;
   onRefreshTransferOffers: () => void;
   onHireAgent: (agentId: string | 'familia') => void;
@@ -1943,6 +1944,21 @@ export default function Dashboard({
         ]
       : [];
 
+    // LA REHABILITACION. Mientras dure la lesion el feed la sigue: sin esto el tramo de baja es una
+    // pantalla muda con un numero bajando, que es exactamente lo que hacia que la lesion se sintiera
+    // un castigo y no una parte de la carrera.
+    const parteMedico: SocialPost[] = playerProfile.activeInjury && playerProfile.activeInjury.weeksRemaining > 0
+      ? postsDeLesion(pName, currentClub.name, playerProfile.activeInjury.weeksRemaining,
+          playerProfile.activeInjury.treatmentChoice === 'forzar', week)
+          .map((c, i) => ({
+            id: `lesion_${week}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 1500 + Math.floor(Math.random() * 11000),
+            commentsCount: 250 + Math.floor(Math.random() * 2500),
+            timestamp: 'Parte médico', avatar: c.avatar,
+          }))
+      : [];
+
     const golpeDeEliminacion: SocialPost[] = playerProfile.ultimaEliminacion?.semana === week
       ? postsDeEliminacion(pName, playerProfile.ultimaEliminacion.competicion, currentClub.name, week)
           .map((c, i) => ({
@@ -1973,6 +1989,7 @@ export default function Dashboard({
       ...previaDeClasico,
       ...miPost,
       ...llegadaDelRefuerzo,
+      ...parteMedico,
       ...golpeDeEliminacion,
       ...ecoDePrensa,
       ...reacciones,
@@ -2789,7 +2806,12 @@ export default function Dashboard({
                         : 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950'
                     }`}
                   >
-                    {playerProfile.activeInjury
+                    {/* Con la lesión encima el botón sigue en rojo -- estás roto -- pero el rótulo
+                        tiene que decir la verdad: si forzaste la vuelta, este botón te mete a la
+                        cancha. Dejarlo en "Recuperándose" haría creer que el partido se salta solo. */}
+                    {forzandoLaVuelta(playerProfile)
+                      ? 'Jugar lesionado'
+                      : playerProfile.activeInjury
                       ? `Recuperándose (${playerProfile.activeInjury.weeksRemaining} sem.)`
                       : temporadaRealTerminada
                       ? 'Finalizar Temporada'
@@ -2855,13 +2877,37 @@ export default function Dashboard({
                   )}
                   {playerProfile.activeInjury.treatmentChoice === 'fast' && (
                     <p className="text-3xs text-gold-400 font-mono uppercase mt-3">
-                      Tratamiento rápido en curso: menos tiempo afuera, pero riesgo de recaída si volvés a jugar apenas termine.
+                      Tratamiento rápido en curso: menos tiempo afuera.
                     </p>
                   )}
                   {playerProfile.activeInjury.treatmentChoice === 'natural' && (
                     <p className="text-3xs text-slate-500 font-mono uppercase mt-3">
-                      Recuperación natural en curso, sin costo ni riesgo de recaída.
+                      Recuperación natural en curso, sin costo ni riesgo.
                     </p>
+                  )}
+
+                  {/* VOLVER ANTES DE TIEMPO. Va aparte de las otras dos y se ofrece SIEMPRE mientras
+                      dure la lesión, no sólo al principio: la decisión interesante casi nunca aparece
+                      el día que te lesionás, aparece a mitad de la recuperación cuando ves la final
+                      en el calendario. El riesgo se muestra en número, no en adjetivos -- que sea una
+                      apuesta está bien, que sea una apuesta a ciegas no. */}
+                  {playerProfile.activeInjury.treatmentChoice !== 'forzar' ? (
+                    <button
+                      onClick={() => onTreatInjury('forzar')}
+                      className="btn-fx-subtle w-full mt-3 py-2 px-3 rounded-xl bg-red-950/50 border border-red-900/60 hover:border-red-500/70 text-2xs font-bold text-red-200 cursor-pointer"
+                    >
+                      🔥 Volver antes de tiempo · {Math.round(riesgoDeRecaida(playerProfile.activeInjury.weeksRemaining) * 100)}% de recaída por partido
+                    </button>
+                  ) : (
+                    <div className="mt-3 rounded-xl bg-red-950/40 border border-red-900/50 p-3">
+                      <p className="text-3xs text-red-300 font-mono uppercase leading-relaxed">
+                        Jugando lesionado. Rendís por debajo (−{PENALIDAD_ATRIBUTOS_LESIONADO} en todos los atributos)
+                        y cada partido tiene {Math.round(riesgoDeRecaida(playerProfile.activeInjury.weeksRemaining) * 100)}% de recaída.
+                      </p>
+                      <p className="text-3xs text-slate-500 font-mono uppercase mt-1.5">
+                        Si aguantás {playerProfile.activeInjury.weeksRemaining} fecha(s) más, llegás al alta jugando.
+                      </p>
+                    </div>
                   )}
                 </div>
               )}

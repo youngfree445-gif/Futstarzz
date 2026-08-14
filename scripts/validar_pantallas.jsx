@@ -52,6 +52,20 @@ const CLUBES = ['Junior de Barranquilla', 'FC Barcelona', 'Santos', 'América'];
 // partido, porque hasta ahi las estructuras estaban vacias y varias ramas ni se ejecutaban.
 const PASOS = [1, 4, 9, 20, 40];
 
+// ESTADOS DE LESION. El panel de lesion tiene ramas propias -- los dos botones de tratamiento, el
+// aviso de cada eleccion y el bloque de "jugando lesionado" -- y NINGUNA se dibuja con un perfil
+// sano, que es lo unico que probaba este validador. O sea que todo ese JSX no lo comprobaba nadie.
+//
+// Van con el paso 9 (temporada empezada) para no multiplicar por cinco todas las combinaciones: lo
+// que se prueba aca es la forma del panel, no el momento de la temporada.
+const LESIONES = [
+  { etiqueta: 'sano', valor: null },
+  { etiqueta: 'lesionado sin elegir', valor: { type: 'muscular', weeksRemaining: 4, startedWeek: 5 } },
+  { etiqueta: 'tratamiento rapido', valor: { type: 'ligamentos', weeksRemaining: 3, startedWeek: 5, treatmentChoice: 'fast' } },
+  { etiqueta: 'recuperacion natural', valor: { type: 'golpe', weeksRemaining: 2, startedWeek: 5, treatmentChoice: 'natural' } },
+  { etiqueta: 'forzando la vuelta', valor: { type: 'fractura', weeksRemaining: 6, startedWeek: 5, treatmentChoice: 'forzar' } },
+];
+
 for (const nombre of CLUBES) {
   const club = ULTIMATE_CLUBS_DATABASE.find(c => c.name === nombre);
   if (!club) { console.log(`FALLA  no existe el club ${nombre}`); fallas++; continue; }
@@ -103,7 +117,53 @@ for (const nombre of CLUBES) {
   }
 }
 
+// El panel de lesion, con sus cuatro estados. Se dibuja sobre un solo club y un solo paso porque lo
+// que cambia de forma es el panel, no el calendario: multiplicarlo por los 4 clubes y los 5 pasos
+// daria 100 combinaciones para probar lo mismo cuatro veces.
+const clubLesion = ULTIMATE_CLUBS_DATABASE.find(c => c.name === 'Junior de Barranquilla');
+for (const lesion of LESIONES.slice(1)) {
+  const perfil = {
+    ...crearPerfilInicial({
+      name: 'Camilo Restrepo', position: 'Mediocampista', age: 25, nationality: 'Colombia',
+      dorsal: 30, heightCm: 191, selectedClubId: clubLesion.id, currentClub: clubLesion,
+      defaultAttributes: { ritmo: 55, regate: 60, tiro: 63, defensa: 45, pase: 65, fisico: 50 },
+      superstition: 'botin_derecho', injuriesEnabled: true,
+      difficultyMode: 'normal', startedAsVeteran: false, starModeEnabled: false,
+    }),
+    currentWeek: 9,
+    activeInjury: lesion.valor,
+    careerStats: {
+      goles: 5, asistencias: 3, partidos: 9, campeonatos: 0,
+      golesHistoricos: 45, asistenciasHistoricos: 27, partidosHistoricos: 9,
+      sumaCalificacionesHistoricas: 64.8,
+      tarjetasAmarillasHistoricas: 1, tarjetasRojasHistoricas: 0,
+    },
+    lastMatchRating: 7.2,
+  };
+  try {
+    const html = renderToString(React.createElement(Dashboard, {
+      playerProfile: perfil, shopItems: INITIAL_LIFESTYLE_ITEMS,
+      onTrainAttribute: nada, onSelectMentee: nada, onSelectMentor: nada, onVisitarEntorno: nada,
+      onFindGirlfriend: nada, onGirlfriendFlowers: nada, onGirlfriendPhoto: nada,
+      onGirlfriendFaithful: nada, onGirlfriendCheat: nada, onGirlfriendDenyRumors: nada,
+      onGirlfriendMoveIn: nada, onPropose: nada, onHaveChild: nada, onTreatInjury: nada,
+      onSelectRole: nada, onRefreshTransferOffers: nada, onHireAgent: nada, onFireAgent: nada,
+      onRequestRenewal: nada, onLoanOut: nada, onResolveLoan: nada, onBuyInvestment: nada,
+      onReconvertPosition: nada, onBuyItem: nada, onAcceptSponsor: nada, onCancelSponsor: nada,
+      onLaunchPRCampaign: nada, onAnswerPress: nada, onAcceptTransfer: nada, onAdvanceWeek: nada,
+      onFinalizeSeason: nada, onRecoverEnergy: nada, onSocialInteraction: nada,
+      onLogout: nada, onResetGame: nada,
+    }));
+    if (html.length < 500) throw new Error(`dibujo casi vacio (${html.length} caracteres)`);
+    console.log(`OK    lesion: ${lesion.etiqueta.padEnd(24)}   ${(html.length / 1024).toFixed(0)} KB`);
+  } catch (e) {
+    fallas++;
+    console.log(`FALLA lesion: ${lesion.etiqueta.padEnd(24)}   ${e.message}`);
+  }
+}
+
+const combinaciones = CLUBES.length * PASOS.length + (LESIONES.length - 1);
 console.log(fallas === 0
-  ? `\nEl Dashboard se dibuja en ${CLUBES.length * PASOS.length} combinaciones de club y paso.`
+  ? `\nEl Dashboard se dibuja en ${combinaciones} combinaciones de club, paso y estado de lesion.`
   : `\n${fallas} FALLAS -- la pantalla principal no se puede dibujar`);
 process.exit(fallas === 0 ? 0 : 1);

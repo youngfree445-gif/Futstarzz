@@ -9,6 +9,7 @@ import { anioDeCarrera, rotuloDeTemporada } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
+import { forzandoLaVuelta, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
 // de lo que sumaba. El resto de los efectos del partido (gol, tarjeta, etc.) no se tocan.
@@ -1588,17 +1589,35 @@ export default function MatchSimulator({
   // Rol favorito (ver ROLES_DATABASE en data.ts): redistribuye el peso de los 6 atributos que ya
   // existen, no agrega ninguno nuevo. Encadenado después de la fatiga -- el rol pesa sobre lo que
   // te queda de rendimiento esa semana, no sobre el atributo base.
+  // JUGANDO ROTO (ver src/lesion.ts): si forzaste la vuelta, la lesión se siente en la cancha y no
+  // sólo en el aviso. Encadenado justo después de la fatiga y con la misma forma -- descuento local
+  // que NO toca playerProfile.attributes, así que desaparece solo apenas te dan el alta.
+  //
+  // La penalidad es más alta que la de fatiga a propósito: jugar roto tiene que pesar más que jugar
+  // cansado. Si no, forzar la vuelta saldría casi gratis y la decisión no tendría filo.
+  const jugandoLesionado = forzandoLaVuelta(playerProfile);
+  const attributesAfterInjury: PlayerStats = jugandoLesionado
+    ? {
+        ritmo: Math.max(10, attributesAfterFatigue.ritmo - PENALIDAD_ATRIBUTOS_LESIONADO),
+        regate: Math.max(10, attributesAfterFatigue.regate - PENALIDAD_ATRIBUTOS_LESIONADO),
+        tiro: Math.max(10, attributesAfterFatigue.tiro - PENALIDAD_ATRIBUTOS_LESIONADO),
+        defensa: Math.max(10, attributesAfterFatigue.defensa - PENALIDAD_ATRIBUTOS_LESIONADO),
+        pase: Math.max(10, attributesAfterFatigue.pase - PENALIDAD_ATRIBUTOS_LESIONADO),
+        fisico: Math.max(10, attributesAfterFatigue.fisico - PENALIDAD_ATRIBUTOS_LESIONADO),
+      }
+    : attributesAfterFatigue;
+
   const activeRole = ROLES_DATABASE.find(r => r.id === playerProfile.favoriteRole);
   const effectiveAttributes: PlayerStats = activeRole
     ? {
-        ritmo: Math.round(attributesAfterFatigue.ritmo * (activeRole.weights.ritmo ?? 1)),
-        regate: Math.round(attributesAfterFatigue.regate * (activeRole.weights.regate ?? 1)),
-        tiro: Math.round(attributesAfterFatigue.tiro * (activeRole.weights.tiro ?? 1)),
-        defensa: Math.round(attributesAfterFatigue.defensa * (activeRole.weights.defensa ?? 1)),
-        pase: Math.round(attributesAfterFatigue.pase * (activeRole.weights.pase ?? 1)),
-        fisico: Math.round(attributesAfterFatigue.fisico * (activeRole.weights.fisico ?? 1)),
+        ritmo: Math.round(attributesAfterInjury.ritmo * (activeRole.weights.ritmo ?? 1)),
+        regate: Math.round(attributesAfterInjury.regate * (activeRole.weights.regate ?? 1)),
+        tiro: Math.round(attributesAfterInjury.tiro * (activeRole.weights.tiro ?? 1)),
+        defensa: Math.round(attributesAfterInjury.defensa * (activeRole.weights.defensa ?? 1)),
+        pase: Math.round(attributesAfterInjury.pase * (activeRole.weights.pase ?? 1)),
+        fisico: Math.round(attributesAfterInjury.fisico * (activeRole.weights.fisico ?? 1)),
       }
-    : attributesAfterFatigue;
+    : attributesAfterInjury;
 
   // Probabilidad por minuto de que ocurra CUALQUIER gol ambiental (Poisson thinning de totalLambda
   // repartido en 90') y, dado que ocurre, qué proporción le toca a cada lado según sus lambdas --

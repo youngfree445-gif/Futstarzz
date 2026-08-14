@@ -37,6 +37,7 @@ import {
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
+import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO } from './lesion';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -306,7 +307,8 @@ const INJURY_TYPES: { id: InjuryType; label: string; minWeeks: number; maxWeeks:
 ];
 const INJURY_BASE_CHANCE_PER_MATCH = 0.02;
 const INJURY_FATIGUE_CHANCE_BONUS = 0.015; // por cada partido seguido sin descanso (matchesWithoutRest)
-const INJURY_RELAPSE_CHANCE = 0.35; // chance de recaída si el tratamiento rápido te devuelve antes de tiempo
+// El riesgo de recaída vive en src/lesion.ts, no acá: escala con las semanas que te salteás, así que
+// es una función y no una constante. (Antes era un 0.35 fijo que además nunca se ejecutaba.)
 const INJURY_FAST_TREATMENT_COST = 2000;
 const INJURY_FAST_TREATMENT_WEEKS_SAVED = 0.4; // recorta ~40% del tiempo de recuperación restante
 
@@ -2183,13 +2185,25 @@ export default function App() {
     if (!playerProfile) return;
 
     // Lesión activa: no hay decisión de jugar/descansar que tomar, la semana se resuelve sola.
-    if (playerProfile.activeInjury && playerProfile.activeInjury.weeksRemaining > 0) {
+    // SALVO que hayas elegido forzar la vuelta (ver src/lesion.ts), que es justamente decidir que
+    // sí jugás con la lesión encima. Las dos puertas al partido -- ésta y startMatchflow -- tienen
+    // que consultar el MISMO criterio: si una dejara pasar y la otra no, quedarías encerrado sin
+    // poder jugar ni avanzar la fecha.
+    if (lesionTeDejaAfuera(playerProfile)) {
       resolveInjuredWeek();
       return;
     }
 
     if (playerProfile.energy < 20) {
       if (!confirm('Tu nivel de fatiga física es alarmante (Energía < 20). ¿Deseas arriesgarte a saltar al campo?')) {
+        // Forzaste la vuelta pero al final no saltaste al campo: eso NO es un descanso cualquiera,
+        // es una fecha de recuperación. Sin esto weeksRemaining no bajaría nunca por este camino y
+        // la lesión quedaría congelada para siempre -- jugando siempre con el riesgo encima y sin
+        // llegar jamás al alta. resolveInjuredWeek ya hace exactamente lo que corresponde acá.
+        if (playerProfile.activeInjury && playerProfile.activeInjury.weeksRemaining > 0) {
+          resolveInjuredWeek();
+          return;
+        }
         const miClubHoy = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
         const inWorldCupBreak = !!miClubHoy && enVentanaDelMundial(miClubHoy.name, playerProfile.currentWeek);
         const isCup = !inWorldCupBreak && !!miClubHoy
@@ -2312,8 +2326,9 @@ export default function App() {
     if (!playerProfile) return;
 
     // Lesión activa (ver activeInjury/injuriesEnabled): corta acá, antes de ramificar por tipo de
-    // partido -- una lesión no distingue si esta semana tocaba liga, copa o Mundial.
-    if (playerProfile.activeInjury && playerProfile.activeInjury.weeksRemaining > 0) {
+    // partido -- una lesión no distingue si esta semana tocaba liga, copa o Mundial. La excepción
+    // es forzar la vuelta (ver src/lesion.ts), que es exactamente la decisión de jugar lesionado.
+    if (lesionTeDejaAfuera(playerProfile)) {
       resolveInjuredWeek();
       return;
     }
@@ -3344,12 +3359,34 @@ export default function App() {
   // efectos {prestige, fans, energy, capital}). 'fast' acorta la recuperación pagando capital, pero
   // deja riesgo de recaída si volvés a jugar apenas termina (ver el roll en handleFinishMatch).
   // 'natural' no cuesta nada y no tiene riesgo, solo no acelera nada.
-  const handleTreatInjury = (choice: 'fast' | 'natural') => {
-    if (!playerProfile?.activeInjury || playerProfile.activeInjury.treatmentChoice) return;
+  // 'forzar' es distinta de las otras dos y por eso rompe la regla de "una sola elección": se puede
+  // decidir EN CUALQUIER MOMENTO de la recuperación, incluso si ya elegiste tratamiento. Ésa es la
+  // situación que la hace interesante -- venías recuperándote tranquilo y de golpe aparece una final
+  // en el calendario. Lo que no se puede es volver atrás: una vez que saltaste a la cancha roto, la
+  // decisión ya está tomada.
+  const handleTreatInjury = (choice: 'fast' | 'natural' | 'forzar') => {
+    if (!playerProfile?.activeInjury) return;
+    if (choice !== 'forzar' && playerProfile.activeInjury.treatmentChoice) return;
+    if (choice === 'forzar' && playerProfile.activeInjury.treatmentChoice === 'forzar') return;
     if (choice === 'fast' && playerProfile.capital < INJURY_FAST_TREATMENT_COST) {
       notify('No tenés fondos suficientes para el tratamiento rápido.');
       return;
     }
+
+    // Forzar no acorta ni encarece nada: lo único que cambia es que a partir de ahora podés jugar.
+    // El precio no se paga acá, se paga en la cancha (atributos bajos) y en el dado de cada partido.
+    if (choice === 'forzar') {
+      const riesgo = Math.round(riesgoDeRecaida(playerProfile.activeInjury.weeksRemaining) * 100);
+      const forzado: PlayerProfile = {
+        ...playerProfile,
+        activeInjury: { ...playerProfile.activeInjury, treatmentChoice: 'forzar' },
+      };
+      setPlayerProfile(forzado);
+      saveGameState(forzado, shopItems);
+      notify(`🔥 Volvés antes de tiempo. Jugás con la lesión encima: rendís por debajo y cada partido tiene ${riesgo}% de recaída.`);
+      return;
+    }
+
     const weeksRemaining = choice === 'fast'
       ? Math.max(1, Math.round(playerProfile.activeInjury.weeksRemaining * (1 - INJURY_FAST_TREATMENT_WEEKS_SAVED)))
       : playerProfile.activeInjury.weeksRemaining;
@@ -3361,7 +3398,7 @@ export default function App() {
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
     notify(choice === 'fast'
-      ? `💊 Empezaste el tratamiento rápido: tu recuperación se acorta, pero hay riesgo de recaída si volvés a jugar apenas termine.`
+      ? `💊 Empezaste el tratamiento rápido: tu recuperación se acorta ${Math.round(INJURY_FAST_TREATMENT_WEEKS_SAVED * 100)}%.`
       : `🛌 Vas a recuperarte de forma natural, sin apuros ni riesgos.`);
   };
 
@@ -4272,14 +4309,41 @@ export default function App() {
     let newInjuryHistory = playerProfile.injuryHistory ?? [];
     let injuryMessage: string | null = null;
     if (playerProfile.injuriesEnabled) {
-      // Si volviste a jugar con tratamiento rápido antes de que terminara la recuperación (ver
-      // handleTreatInjury), hay riesgo de recaída: la lesión se reinicia con una duración nueva.
-      if (newActiveInjury && newActiveInjury.weeksRemaining > 0 && newActiveInjury.treatmentChoice === 'fast') {
-        if (Math.random() < INJURY_RELAPSE_CHANCE) {
+      // FORZASTE LA VUELTA Y JUGASTE ROTO. Acá se cobra -- o se zafa.
+      //
+      // Este roll existía desde antes y era CÓDIGO MUERTO: las dos puertas al partido cortaban con
+      // weeksRemaining > 0, así que era imposible llegar hasta acá con una lesión activa y el
+      // "riesgo de recaída" que anunciaba el tratamiento rápido no se ejecutaba nunca. Forzar la
+      // vuelta (ver src/lesion.ts) es lo que lo vuelve alcanzable.
+      //
+      // El riesgo ESCALA con lo que falta: adelantar una fecha es una apuesta, adelantar seis es una
+      // imprudencia, y un porcentaje plano volvería la decisión trivial.
+      if (forzandoLaVuelta(playerProfile)) {
+        const restantes = newActiveInjury!.weeksRemaining;
+        if (Math.random() < riesgoDeRecaida(restantes)) {
           const tipo = INJURY_TYPES.find(t => t.id === newActiveInjury!.type)!;
           const weeks = tipo.minWeeks + Math.floor(Math.random() * (tipo.maxWeeks - tipo.minWeeks + 1));
+          // La recaída BORRA la elección de forzar: volvés a foja cero y tenés que decidir de nuevo.
+          // Si se heredara 'forzar', seguirías jugando roto sin haberlo vuelto a elegir.
           newActiveInjury = { type: tipo.id, weeksRemaining: weeks, startedWeek: playerProfile.currentWeek, treatmentChoice: undefined };
-          injuryMessage = `⚠️ Recaída: volviste antes de tiempo y la lesión (${tipo.label}) se reactivó. ${weeks} semana(s) más afuera.`;
+          injuryMessage = `⚠️ RECAÍDA: forzaste la vuelta y la lesión (${tipo.label}) se reactivó. ${weeks} semana(s) más afuera.`;
+        } else {
+          // Aguantaste. El tiempo corre igual -- el partido cuenta como una fecha menos de
+          // recuperación, así que forzar no te deja atrapado en un riesgo eterno: en algún momento
+          // llegás al alta, jugando.
+          const quedan = restantes - 1;
+          if (quedan <= 0) {
+            newInjuryHistory = [...newInjuryHistory, {
+              type: newActiveInjury!.type,
+              weeksOut: playerProfile.currentWeek - newActiveInjury!.startedWeek + 1,
+              week: playerProfile.currentWeek + 1,
+            }];
+            newActiveInjury = null;
+            injuryMessage = `💪 Aguantaste jugando lesionado hasta el final de la recuperación. Estás entero.`;
+          } else {
+            newActiveInjury = { ...newActiveInjury!, weeksRemaining: quedan };
+            injuryMessage = `😬 Aguantaste el partido con la lesión encima. Te quedan ${quedan} fecha(s) de riesgo.`;
+          }
         }
       } else if (!newActiveInjury) {
         const difficultyMultiplier = playerProfile.difficultyMode === 'realista' ? 1.6 : 1;
@@ -4339,7 +4403,12 @@ export default function App() {
       ...playerProfile,
       missedClubMatchesForCountry:
         playerProfile.missedClubMatchesForCountry + (countryDuty?.important ? 1 : 0),
-      energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover)),
+      // Jugar roto cansa distinto. Se descuenta ACÁ, después del partido, así que el costo real no
+      // es sólo este número: entrás a la fecha siguiente con menos energía, y la fatiga acumulada ya
+      // sube por su cuenta el riesgo de lesionarte de nuevo. Forzar dos o tres fechas seguidas se
+      // paga solo, sin necesidad de una regla aparte que lo castigue.
+      energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover
+        - (forzandoLaVuelta(playerProfile) ? PENALIDAD_ENERGIA_LESIONADO : 0))),
       capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange + (countryDuty?.prestige ?? 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
