@@ -13,9 +13,30 @@ al lado — los que dicen "verificado" se comprobaron contra el código, no de m
 
 ### Datos que faltan
 
-- **Copa de Perú y Copa de Paraguay.** Son los únicos **2 de 19** países con liga cargada y sin copa
-  nacional (verificado). Cierran el mapa de Sudamérica. Es scraping, y la red funciona desde los
-  scripts — ver `scripts/bajar_fotos_tienda.mjs` como referencia de cómo se hizo con las fotos.
+- **Copa de Paraguay y copa de Perú.** Son los únicos **2 de 19** países con liga cargada y sin copa
+  nacional. Verificado el 15 de agosto de 2026: en `data/calendarios/copas/` hay 22 archivos y
+  ninguno es de estos dos países, así que el dato hay que traerlo. Es scraping, y la red funciona
+  desde los scripts — ver `scripts/bajar_fotos_tienda.mjs` como referencia de cómo se hizo con las
+  fotos.
+
+  **Paraguay: Copa Paraguay.** Creada en 2018 por la APF, vigente, con clubes de todas las
+  divisiones. Encaja tal cual en el molde de `DomesticCupState`.
+
+  **Perú: el nombre del pendiente estaba mal, y la corrección obvia también.** No es la *"Copa
+  Perú"* — ése es el torneo de ascenso amateur regional que promueve a Liga 2, no una copa al estilo
+  Copa Argentina. Pero tampoco es la **Copa Bicentenario**: se jugó hasta 2021 (último campeón
+  Sporting Cristal) y la FPF confirmó en 2023 que no se disputaría más. La copa nacional peruana
+  vigente en 2026 es la **Copa de la Liga Peruana (Copa LFP)**, que vuelve tras cuatro años de
+  ausencia y se juega en el parate de Liga 1 y Liga 2 por el Mundial.
+
+  Eso último importa para el calendario, no sólo para el nombre: si la Copa LFP ocupa la ventana del
+  Mundial, sus fechas caen justo donde el motor hoy congela todo (ver `enVentanaDelMundial` en
+  App.tsx, que deja sin partido tanto a la liga como a las continentales). Hay que mirar si la copa
+  entra ahí o si choca con esa regla **antes** de cargarle fechas.
+
+  **La trampa ya documentada en `copaNacional.ts`:** el nombre en `NOMBRES` tiene que coincidir
+  exacto con el `name` de la competición en `realCalendarDates.ts`. Con otro nombre, el país se
+  queda sin copa en silencio.
 - **El arquero de la liga colombiana.** La tarjeta de "portería menos vencida" quedó vacía a
   propósito al sacar a Santiago Mele, que pasó a Independiente de Argentina. Hace falta el dato real;
   va en `REAL_LEAGUE_LEADERS` (`src/data.ts`).
