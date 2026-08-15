@@ -1,0 +1,24 @@
+{
+  "_nota": "Copa Paraguay. Cerraba el mapa de copas nacionales de Sudamerica: era 1 de los 2 paises con liga cargada y sin copa. NO es un scrape: Transfermarkt y Sofascore bloquean al agente, y el sitio de la APF (apf.org.py) es un feed de noticias sin calendario estructurado. Las SEIS fechas de abajo son las unicas verificables en fuentes publicas (Wikipedia ES/EN de la edicion 2025): arranque y cierre de Fase 1 (28 may - 26 jun), arranque y cierre de Fase 2 (8 jul - 8 ago), semifinales (5 nov) y final (16 nov). Octavos y cuartos caen entre agosto y noviembre pero ninguna fuente publica su fecha exacta, asi que NO se inventaron: la copa entra con seis dias de calendario y el cuadro del motor la completa hasta la final. Es exactamente el caso que contempla importar_copas_nacionales.mjs, que entra la Copa Uruguay con 8 partidos y la Copa Chile con 69. Los emparejamientos son indicativos salvo la final, que es la real (General Caballero JLM 1-0 a 2 de Mayo): el motor sortea el cuadro con los 12 clubes paraguayos de la base, asi que de este archivo el calendario solo toma LAS FECHAS.",
+  "competition": {
+    "id": "PYCO",
+    "name": "Copa Paraguay",
+    "league": "Paraguaya",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2025
+  },
+  "aliases": {
+    "General Caballero JLM": "General Caballero",
+    "Nacional": "Nacional de Asunción",
+    "San Lorenzo": "Sportivo San Lorenzo"
+  },
+  "matches": [
+    { "date": "2025-05-28", "round": "First Round", "home": "Sportivo Luqueño", "away": "Rubio Ñu" },
+    { "date": "2025-06-26", "round": "First Round", "home": "Recoleta", "away": "Sportivo San Lorenzo" },
+    { "date": "2025-07-08", "round": "Second Round", "home": "Sportivo Trinidense", "away": "Nacional de Asunción" },
+    { "date": "2025-08-08", "round": "Second Round", "home": "Sportivo Ameliano", "away": "Sportivo Luqueño" },
+    { "date": "2025-11-05", "round": "Semi-Finals", "home": "Cerro Porteño", "away": "2 de Mayo" },
+    { "date": "2025-11-16", "round": "Final", "home": "2 de Mayo", "away": "Sportivo Ameliano" }
+  ]
+}

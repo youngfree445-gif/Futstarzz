@@ -47,6 +47,11 @@ const FUENTES = [
   // lo que sirve.
   { archivo: 'FRC.json',  id: 'frc',  name: 'Coupe de France',   league: 'Francesa' },
   { archivo: 'POPO.json', id: 'popo', name: 'Taça de Portugal',  league: 'Portuguesa' },
+  // Copa Paraguay, 15 de agosto de 2026. Cierra el mapa de copas de Sudamerica junto con Peru.
+  // No salio del scraper: Transfermarkt y Sofascore bloquean al agente y la APF no publica
+  // calendario estructurado. Entra con las seis fechas verificables de la edicion 2025 -- ver la
+  // nota adentro del JSON -- y el cuadro del motor la completa, que es para lo que sirve.
+  { archivo: 'PYCO.json', id: 'pyco', name: 'Copa Paraguay',    league: 'Paraguaya' },
 ];
 
 const ANIO_CARRERA = 2026;

@@ -176,6 +176,7 @@ const NOMBRES: Record<string, string> = {
   Venezolana: 'Copa Venezuela',
   Mexicana: 'Copa MX',
   Estadounidense: 'US Open Cup',
+  Paraguaya: 'Copa Paraguay',
 };
 
 export function nombreCopaNacional(league: string): string {
