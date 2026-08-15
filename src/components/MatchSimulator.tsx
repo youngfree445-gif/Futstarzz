@@ -1381,6 +1381,15 @@ interface MatchSimulatorProps {
   leagueTeamCount?: number | null;
   lineupStatus?: 'starter' | 'substitute'; // convocatoria de la semana -- ver decideLineupStatus en App.tsx
   subEntryMinute?: number | null; // minuto en el que entrás desde el banco si lineupStatus es 'substitute'
+  /**
+   * Sólo para el validador de pantallas: arranca con la charla del entretiempo ya abierta.
+   *
+   * Mismo precedente que el `initialTab` del Dashboard. El modal del entretiempo aparece recién
+   * al minuto 45, y un render de SSR se queda en el minuto 0, así que sin esto NADIE lo dibuja en
+   * el build -- que es exactamente el agujero por el que ya se colaron dos pantallas negras. El
+   * juego no pasa nunca esta prop.
+   */
+  charlaInicial?: string | null;
   onFinishMatch: (results: {
     goles: number;
     asistencias: number;
@@ -1399,7 +1408,7 @@ interface MatchSimulatorProps {
 
 export default function MatchSimulator({
   playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, globalScoreLabel, torneoLabel, isWorldCup, representingTeamId, isHome: isHomeProp,
-  myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, onFinishMatch
+  myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, charlaInicial, onFinishMatch
 }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -1442,7 +1451,7 @@ export default function MatchSimulator({
   // LA CHARLA DEL ENTRETIEMPO (ver tecnico.ts). El texto en estado pausa el reloj igual que una
   // decision; la respuesta va a un ref y no a estado porque se lee al minuto 90 dentro de un
   // setTimeout, donde una variable de estado llegaria con el valor viejo de la clausura.
-  const [charlaDelDT, setCharlaDelDT] = useState<string | null>(null);
+  const [charlaDelDT, setCharlaDelDT] = useState<string | null>(charlaInicial ?? null);
   const charlaCumplidaRef = useRef<boolean | null>(null);
   const marcadorAlDescansoRef = useRef<{ mios: number; rival: number } | null>(null);
 

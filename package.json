@@ -41,7 +41,8 @@
     "validar:animo": "esbuild scripts/validar_animo.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_animo.cjs --log-level=error && node node_modules/.cache/validar_animo.cjs",
     "validar:rachas": "esbuild scripts/validar_rachas.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_rachas.cjs --log-level=error && node node_modules/.cache/validar_rachas.cjs",
     "validar:tecnico": "esbuild scripts/validar_tecnico.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_tecnico.cjs --log-level=error && node node_modules/.cache/validar_tecnico.cjs",
-    "validar:rival": "esbuild scripts/validar_rival.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_rival.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_rival.cjs"
+    "validar:rival": "esbuild scripts/validar_rival.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_rival.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_rival.cjs",
+    "validar:simulador": "vite build --ssr scripts/validar_simulador.jsx --outDir node_modules/.cache/simulador --logLevel error && node node_modules/.cache/simulador/validar_simulador.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",

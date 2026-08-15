@@ -22,6 +22,30 @@ al lado — los que dicen "verificado" se comprobaron contra el código, no de m
 
 ### Deuda técnica que ya costó bugs
 
+- **El simulador de partido ✅ CUBIERTO.** `npm run validar:simulador` lo dibuja en **16 estados**:
+  titular, visitante, suplente, las cinco competiciones, el global de una vuelta, el bajón anímico,
+  jugando lesionado y la charla del entretiempo con sus dos opciones.
+
+  **Por qué faltaba:** `validar:pantallas` cubre el Dashboard, pero el simulador — la otra mitad del
+  juego, la que se abre en cada fecha — no lo dibujaba nadie en el build. Un error de render ahí
+  desmonta el árbol igual que en el Dashboard, con el agravante de que se descubre con el partido ya
+  empezado. El agujero se hizo evidente al agregar la charla del entretiempo: un modal entero, con
+  dos botones, y cero cobertura de render.
+
+  **La trampa del SSR con un componente que corre un reloj:** `renderToString` no ejecuta efectos,
+  así que el partido queda congelado en el minuto 0 y todo lo que aparece después — la charla del 45,
+  la entrada desde el banco, el final — es inalcanzable. Por eso `MatchSimulator` acepta
+  `charlaInicial`, igual que el Dashboard acepta `initialTab`: una prop que **sólo** usa el validador
+  y que el juego no pasa nunca.
+
+  **Comprobado que sirve**, que es lo único que hace útil a un validador: con una variable inexistente
+  inyectada en el modal, los tres casos del entretiempo se ponen en rojo; al sacarla, pasan los 16.
+
+  **Lo que destapó de paso:** `globalScoreLabel` viaja como marcador pelado (`'2-1'`), no como frase.
+  El bloque lo parte por el guion y descarta cualquier cosa que no sean dos números, así que pasarle
+  prosa lo deja mudo sin fallar. Hay un caso que fija ese contrato.
+
+
 - **`scripts/validar_pantallas.jsx` ✅ TERMINADO.** Ya está conectado y corre con
   `npm run validar:pantallas`: dibuja el Dashboard en **44 combinaciones** de club, paso, pestaña, ánimo, rachas,
   lesión, forma y convocatoria.
