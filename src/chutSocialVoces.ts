@@ -250,7 +250,7 @@ export const VOCES: Voz[] = [
         (n) => `QUÉ HACE ${n.toUpperCase()} EN PRIMERA DIVISIÓN. alguien que me explique porque yo no entiendo nada`,
       ],
       catastrofe: [
-        (n) => `andate a la mierda ${n}, en serio. jugás como si nos estuvieras haciendo un favor 🤬 UNA VERGÜENZA`,
+        (n) => `vete a la mierda ${n}, en serio. juegas como si nos estuvieras haciendo un favor 🤬 UNA VERGÜENZA`,
       ],
     },
   },
@@ -724,7 +724,7 @@ export function postsDeEliminacion(
     { author: 'David Faitelson', role: 'Comentarista', avatar: '🎯',
       content: `${club} eliminado. A ${nombre} le van a preguntar por esto en cada rueda de prensa hasta que gane algo.` },
     { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
-      content: `ELIMINADOS OTRA VEZ 🤬 ${nombre}, la camiseta pesa. Si no podés con eso, andate.` },
+      content: `ELIMINADOS OTRA VEZ 🤬 ${nombre}, la camiseta pesa. Si no puedes con eso, vete.` },
     { author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
       content: `Se acabó la ${competicion} para ${club}. Un año más sin nada. La paciencia se terminó.` },
     { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
@@ -1081,5 +1081,100 @@ export function postsDePreviaDeClasico(
     .map((v, i) => ({ v, orden: mezcla(i) }))
     .sort((a, b) => a.orden - b.orden)
     .slice(0, 3)
+    .map(x => x.v);
+}
+
+/**
+ * EL BAJÓN ANÍMICO (ver animo.ts).
+ *
+ * Que la cabeza esté mal es lo único de esta lista que el jugador no eligió ni provocó jugando, así
+ * que el feed no lo trata como un rendimiento flojo: nadie lo insulta. Se habla del tema con
+ * cuidado, que es lo que pasa de verdad cuando un futbolista lo hace público.
+ *
+ * EL TONO DE CADA VOZ SIGUE SU PASAPORTE: los argentinos vosean, el resto habla de tú. Antes esto no
+ * estaba dicho en ningún lado y el archivo entero sonaba rioplatense, incluidos los colombianos y
+ * los españoles.
+ */
+export function postsDelBajon(
+  nombre: string,
+  club: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 71) * 39.7 + i * 23.3) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = [
+    // Colombiano -> tuteo.
+    { author: 'César Augusto Londoño', role: 'Periodista', avatar: '📡',
+      content: `Se habla poco de esto y hay que hablarlo: ${nombre} no está bien de la cabeza y eso también es parte del oficio. Ojalá en ${club} lo acompañen.` },
+    // Argentina -> voseo.
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `Lo de ${nombre} no se arregla entrenando más. Si estás mal, estás mal, y el fútbol no para de correr por eso.` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `Los números de ${nombre} vienen cayendo, pero acá el dato no explica nada. Hay cosas que no salen en la planilla.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Apoyamos a ${nombre}. De estos pozos se sale con la gente al lado, no con la gente encima.` },
+    // Colombiano -> tuteo.
+    { author: 'Faustino Asprilla', role: 'Ex jugador', avatar: '⚡',
+      content: `A mí me pasó y nadie te enseña a manejarlo. Tranquilo ${nombre}, eso se pasa, pero hay que dejarse ayudar.` },
+    { author: 'PasiónPorElFutbol', role: 'Cuenta de aficionados', avatar: '🔥',
+      content: `${nombre} lleva varias fechas apagado y no es por ganas. Démosle tiempo, que el hincha también sirve para eso.` },
+  ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}
+
+/**
+ * EL RIVAL DE CARRERA (ver rivalDeCarrera.ts).
+ *
+ * La comparación es el sentido entero de la feature, así que el feed la hace explícita: son los
+ * demás los que te comparan, no vos con vos mismo. `vasGanando` decide de qué lado cae el comentario.
+ *
+ * Mismo criterio de tono que postsDelBajon: cada voz habla como su país.
+ */
+export function postsDelRivalDeCarrera(
+  nombre: string,
+  rival: string,
+  clubDelRival: string,
+  vasGanando: boolean,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 89) * 47.3 + i * 17.1) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = vasGanando
+    ? [
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `Arrancaron el mismo año y hoy ${nombre} está por delante de ${rival} en números. La comparación ya no está tan pareja.` },
+        // Argentina -> voseo.
+        { author: 'Juan Pablo Varsky', role: 'Periodista', avatar: '🖋️',
+          content: `Si querés medir a ${nombre}, no lo mires solo: miralo al lado de ${rival}. Esa carrera la viene ganando él.` },
+        // Colombiano -> tuteo.
+        { author: 'Eduardo Luis', role: 'Narrador', avatar: '🗣️',
+          content: `¡Y que lo diga quien quiera! ${nombre} se le adelantó a ${rival}, y eso no se lo regaló nadie.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `En ${clubDelRival} deben estar mirando lo que hace ${nombre}. Esa comparación ya cambió de dueño.` },
+      ]
+    : [
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `${rival} lleva ventaja sobre ${nombre} desde que empezaron. Los dos tienen carrera por delante, pero hoy el número está de un lado.` },
+        // Colombiano -> tuteo.
+        { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+          content: `Cada vez que alguien me nombra a ${nombre}, yo respondo con ${rival}. Y con los números en la mano, no con simpatías.` },
+        // Argentina -> voseo.
+        { author: 'Gastón Recondo', role: 'Periodista', avatar: '🎧',
+          content: `Mientras discutimos a ${nombre}, ${rival} sigue sumando en ${clubDelRival}. Cuando te querés acordar, la diferencia se hizo grande.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `me tienen cansado comparando a ${nombre} con ${rival} 😤 que juegue y listo, después hablamos` },
+      ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
     .map(x => x.v);
 }

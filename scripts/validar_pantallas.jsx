@@ -194,6 +194,9 @@ for (const f of FORMAS) {
 // dibuja nunca en el build -- que es justo el agujero por el que ya se colaron dos pantallas
 // negras. Se prueban las dos caras: hundido (aparece) y sano (no aparece).
 
+caso('feed: el bajon tiene voz en ChutSocial', () =>
+  dibujar(perfilDe(junior, { currentWeek: 40, mentalHealth: 12 }), 'chutsocial', null));
+
 caso('animo: en bajon', () =>
   dibujar(perfilDe(junior, { currentWeek: 40, mentalHealth: 12 }), 'carrera', 'Bajón anímico'));
 caso('animo: sano (el panel no esta)', () => {

@@ -17,7 +17,7 @@ import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCom
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
@@ -1668,7 +1668,7 @@ export default function Dashboard({
       const persona = personas[idx % personas.length];
       const options = [
         `🎙️ SE RETIRA: ${n.playerName} deja el fútbol profesional a los ${n.age} años. Última camiseta: ${n.clubName}. En su lugar sube ${n.replacementName} desde las inferiores.`,
-        `FIN DE UNA ERA: ${n.playerName} (${n.age}) anunció su retiro. ${n.clubName} le da la camiseta a ${n.replacementName}, un pibe de la cantera.`,
+        `FIN DE UNA ERA: ${n.playerName} (${n.age}) anunció su retiro. ${n.clubName} le da la camiseta a ${n.replacementName}, un juvenil de la cantera.`,
         `${n.playerName} colgó los botines a los ${n.age}. Aplausos de pie en ${n.clubName}. El que hereda el puesto es ${n.replacementName}.`,
         `Se va un grande: ${n.playerName} se retira a los ${n.age} años. ${n.clubName} apuesta por ${n.replacementName} para reemplazarlo.`,
       ];
@@ -1698,10 +1698,10 @@ export default function Dashboard({
     type Journalist = { author: string; role: string; avatarImg?: string; avatar?: string; lines: (star: string, club: string, rivalClub: string) => string[] };
     const journalists: Journalist[] = [
       {
-        author: 'Mau', role: 'mausportstv', avatarImg: mauSportsAvatar,
+        author: 'Mau', role: 'Mau Sports · Periodista', avatarImg: mauSportsAvatar,
         lines: (star, club) => [
           `¡EPA! Me cuentan que ${star} no la está pasando bien en ${club} últimamente... ustedes qué opinan, ¿se le acabó la magia? 👀`,
-          `LIVE ahora mismo hablando de ${star}: la gente en el chat está dividida, unos lo defienden y otros ya lo quieren ver afuera de ${club}.`
+          `Hablamos de ${star} en el programa de hoy: la gente está dividida, unos lo defienden y otros ya lo quieren ver afuera de ${club}.`
         ]
       },
       {
@@ -1859,7 +1859,7 @@ export default function Dashboard({
         id: 'tweet_5',
         author: 'HinchaFurioso_Trib',
         role: 'Hincha Crítico',
-        content: `${pName}, explicame por qué seguís siendo titular. El equipo necesita más que promesas, necesita resultados YA.`,
+        content: `${pName}, explícame por qué sigues siendo titular. El equipo necesita más que promesas, necesita resultados YA.`,
         likes: 410,
         commentsCount: 260,
         timestamp: 'Hace 3 horas',
@@ -1889,7 +1889,7 @@ export default function Dashboard({
         id: 'tweet_8',
         author: 'VozDeLaTribuna',
         role: 'Hincha de Base',
-        content: `Vamos ${pName}, la tribuna te banca, pero vos sabés que hay que subir el nivel de a poco. El hincha exige porque quiere.`,
+        content: `Vamos ${pName}, la tribuna te apoya, pero tú sabes que hay que subir el nivel de a poco. El hincha exige porque quiere.`,
         likes: 510,
         commentsCount: 71,
         timestamp: 'Ayer',
@@ -2021,7 +2021,7 @@ export default function Dashboard({
       ? [
           {
             id: `mio_${week}`,
-            author: pName, role: 'Vos', content: playerProfile.miPublicacion.texto,
+            author: pName, role: 'Tú', content: playerProfile.miPublicacion.texto,
             likes: 5000 + Math.floor(Math.random() * 40000),
             commentsCount: 800 + Math.floor(Math.random() * 5000),
             timestamp: 'Hace instantes', avatar: '⭐',
@@ -2102,6 +2102,30 @@ export default function Dashboard({
         }));
     })();
 
+    // EL BAJON ANIMICO (ver animo.ts). Es lo unico del feed que el jugador no provoco jugando, asi
+    // que las voces lo tratan distinto: nadie lo insulta por esto.
+    const elBajon: SocialPost[] = estaEnBajon(playerProfile)
+      ? postsDelBajon(pName, currentClub.name, week).map((c, i) => ({
+          id: `bajon_${week}_${i}`,
+          author: c.author, role: c.role, content: c.content,
+          likes: 3000 + Math.floor(Math.random() * 14000),
+          commentsCount: 500 + Math.floor(Math.random() * 2500),
+          timestamp: 'Hace instantes', avatar: c.avatar,
+        }))
+      : [];
+
+    // EL RIVAL DE CARRERA (ver rivalDeCarrera.ts). Son los DEMAS los que te comparan, que es de lo
+    // que se trata: la comparacion no vale si te la haces vos solo mirando un panel.
+    const laComparacion: SocialPost[] = miRival && playerProfile.careerStats.partidosHistoricos >= 20
+      ? postsDelRivalDeCarrera(pName, miRival.rival.nombre, miRival.rival.clubName, miRival.quien === 'vos', week)
+          .map((c, i) => ({
+            id: `rival_${week}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 2000 + Math.floor(Math.random() * 15000),
+            commentsCount: 400 + Math.floor(Math.random() * 2800),
+            timestamp: 'Hace instantes', avatar: c.avatar,
+          }))
+      : [];
     // LA REHABILITACION. Mientras dure la lesion el feed la sigue: sin esto el tramo de baja es una
     // pantalla muda con un numero bajando, que es exactamente lo que hacia que la lesion se sintiera
     // un castigo y no una parte de la carrera.
@@ -2151,6 +2175,8 @@ export default function Dashboard({
       ...laConvocatoria,
       ...parteMedico,
       ...laForma,
+      ...elBajon,
+      ...laComparacion,
       ...golpeDeEliminacion,
       ...ecoDePrensa,
       ...reacciones,
