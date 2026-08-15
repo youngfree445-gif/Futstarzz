@@ -1,5 +1,5 @@
 {
-  "_nota": "Copa Paraguay. Cerraba el mapa de copas nacionales de Sudamerica: era 1 de los 2 paises con liga cargada y sin copa. NO es un scrape: Transfermarkt y Sofascore bloquean al agente, y el sitio de la APF (apf.org.py) es un feed de noticias sin calendario estructurado. Las SEIS fechas de abajo son las unicas verificables en fuentes publicas (Wikipedia ES/EN de la edicion 2025): arranque y cierre de Fase 1 (28 may - 26 jun), arranque y cierre de Fase 2 (8 jul - 8 ago), semifinales (5 nov) y final (16 nov). Octavos y cuartos caen entre agosto y noviembre pero ninguna fuente publica su fecha exacta, asi que NO se inventaron: la copa entra con seis dias de calendario y el cuadro del motor la completa hasta la final. Es exactamente el caso que contempla importar_copas_nacionales.mjs, que entra la Copa Uruguay con 8 partidos y la Copa Chile con 69. Los emparejamientos son indicativos salvo la final, que es la real (General Caballero JLM 1-0 a 2 de Mayo): el motor sortea el cuadro con los 12 clubes paraguayos de la base, asi que de este archivo el calendario solo toma LAS FECHAS.",
+  "_nota": "Copa Paraguay (existe: creada en 2018 por la APF, vigente). ATENCION A QUE ES Y QUE NO ES ESTE ARCHIVO. Lo REAL son las SEIS FECHAS de la edicion 2025, unicas verificables en fuentes publicas (Wikipedia ES/EN): arranque y cierre de Fase 1 (28 may - 26 jun), arranque y cierre de Fase 2 (8 jul - 8 ago), semifinales (5 nov) y final (16 nov). Cuatro de esas seis son extremos de ventana de fase, no jornadas comprobadas una por una. LOS EMPAREJAMIENTOS SON TODOS INVENTADOS, la final incluida: la final real fue General Caballero (JLM) 1-0 a 2 de Mayo, y General Caballero no esta entre los 12 clubes paraguayos de la base, asi que aca figuran clubes de la base para que el importador los reconozca. NO LEER ESTE ARCHIVO COMO UN FIXTURE. Da igual para el juego: desde que el calendario RESERVA fechas de copa y el cuadro del motor pone el rival (ver copaNacional.ts e importar_copas_nacionales.mjs), de aca el calendario toma UNICAMENTE las fechas y sortea el cuadro con los 12 clubes de la base. OCTAVOS Y CUARTOS SI ESTAN, y sus fechas son UBICADAS, no verificadas: ninguna fuente publica la fecha exacta, pero caen entre el cierre de Fase 2 (8 ago) y las semis (5 nov), las dos verificadas, y se pusieron en miercoles como el resto de la copa (la semifinal real fue miercoles 5 de noviembre). Se ubican y no se omiten porque la regla del proyecto es acomodar el calendario, nunca recortar el torneo: una copa a la que le faltan dos rondas no es la copa. Cada partido lleva _fecha: verificada|ubicada para que se sepa cual es cual de un vistazo. Por que no salio del scraper: Transfermarkt y Sofascore bloquean al agente, y apf.org.py publica un feed de noticias sin calendario estructurado.",
   "competition": {
     "id": "PYCO",
     "name": "Copa Paraguay",
@@ -8,17 +8,86 @@
     "format": "knockout",
     "season": 2025
   },
-  "aliases": {
-    "General Caballero JLM": "General Caballero",
-    "Nacional": "Nacional de Asunción",
-    "San Lorenzo": "Sportivo San Lorenzo"
-  },
   "matches": [
-    { "date": "2025-05-28", "round": "First Round", "home": "Sportivo Luqueño", "away": "Rubio Ñu" },
-    { "date": "2025-06-26", "round": "First Round", "home": "Recoleta", "away": "Sportivo San Lorenzo" },
-    { "date": "2025-07-08", "round": "Second Round", "home": "Sportivo Trinidense", "away": "Nacional de Asunción" },
-    { "date": "2025-08-08", "round": "Second Round", "home": "Sportivo Ameliano", "away": "Sportivo Luqueño" },
-    { "date": "2025-11-05", "round": "Semi-Finals", "home": "Cerro Porteño", "away": "2 de Mayo" },
-    { "date": "2025-11-16", "round": "Final", "home": "2 de Mayo", "away": "Sportivo Ameliano" }
+    {
+      "date": "2025-05-28",
+      "round": "First Round",
+      "home": "Sportivo Luqueño",
+      "away": "Rubio Ñu",
+      "_pareja": "inventada",
+      "_fecha": "verificada"
+    },
+    {
+      "date": "2025-06-26",
+      "round": "First Round",
+      "home": "Recoleta",
+      "away": "Sportivo San Lorenzo",
+      "_pareja": "inventada",
+      "_fecha": "verificada"
+    },
+    {
+      "date": "2025-07-08",
+      "round": "Second Round",
+      "home": "Sportivo Trinidense",
+      "away": "Nacional de Asunción",
+      "_pareja": "inventada",
+      "_fecha": "verificada"
+    },
+    {
+      "date": "2025-08-08",
+      "round": "Second Round",
+      "home": "Sportivo Ameliano",
+      "away": "Sportivo Luqueño",
+      "_pareja": "inventada",
+      "_fecha": "verificada"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "Round of 16",
+      "home": "Libertad",
+      "away": "Guaraní",
+      "_fecha": "ubicada",
+      "_pareja": "real (Wikipedia 2025)"
+    },
+    {
+      "date": "2025-09-17",
+      "round": "Round of 16",
+      "home": "Olimpia",
+      "away": "Sportivo Trinidense",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2025-10-15",
+      "round": "Quarter-Finals",
+      "home": "Cerro Porteño",
+      "away": "Sportivo Ameliano",
+      "_fecha": "ubicada",
+      "_pareja": "real parcial (Wikipedia 2025)"
+    },
+    {
+      "date": "2025-10-15",
+      "round": "Quarter-Finals",
+      "home": "2 de Mayo",
+      "away": "Nacional de Asunción",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2025-11-05",
+      "round": "Semi-Finals",
+      "home": "Cerro Porteño",
+      "away": "2 de Mayo",
+      "_pareja": "inventada",
+      "_fecha": "verificada"
+    },
+    {
+      "date": "2025-11-16",
+      "round": "Final",
+      "home": "2 de Mayo",
+      "away": "Sportivo Ameliano",
+      "_pareja": "inventada",
+      "_fecha": "verificada"
+    }
   ]
 }
