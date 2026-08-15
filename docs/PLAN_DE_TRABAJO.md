@@ -545,3 +545,30 @@ cero arqueros en 125 partidos. La atribución usa `CLUBS_DATABASE`, que cubre lo
 Libertadores, los 32 de la Sudamericana y los 36 de la Champions.
 
 Validador: `npm run validar:goleadorescopa` (32 casos, con una Libertadores real de 125 partidos).
+
+---
+
+## PRIMERO DE LA PROXIMA SESION: el Mundial no debe congelar el calendario
+
+**Regla del autor (15 de agosto de 2026):** el Mundial SIEMPRE se juega y puede chocar con una liga
+o una copa. Si **no** te convocan, juegas tu partido con tu club con normalidad. Si te convocan,
+juegas el Mundial.
+
+**Lo que hace hoy el motor, verificado:** `enVentanaDelMundial` (`dateSchedule.ts`, ventana
+`06-11` a `07-19`) congela **todo** en esa franja — ni liga doméstica ni continentales. Si no te
+convocan, el Dashboard muestra *"Fecha FIFA · No fuiste convocado esta ventana"* y esa semana no
+juegas nada. O sea: nueve semanas de carrera en blanco por no haber sido citado, que es justo el
+castigo al revés.
+
+**Lo que hay que cambiar:** que la ventana deje de ser un corte global y pase a ser una condición
+por jugador. Convocado → Mundial. No convocado → su partido de club, normal. Los consumidores a
+revisar son los de `enVentanaDelMundial` en `App.tsx` (`handleAdvanceWeek`, `startMatchflow`) y en
+`Dashboard.tsx` (`nextWeekInWorldCupBreak`), más `syncBackgroundCups`, que hoy asume que en esa
+franja no hay fechas que resolver.
+
+**Y recién después, las fechas de la Copa de la Liga peruana.** Sus seis rondas se ubicaron
+esquivando la ventana (32avos el 3 de junio, el resto desde el 22 de julio) **por el comportamiento
+actual, no por la regla**: con el motor congelando, una fecha dentro de la franja no se jugaría
+nunca y entraría muda al calendario. Arreglado el motor, esas rondas se pueden llevar a su reparto
+natural de junio a noviembre, que es como se juega de verdad. El orden no es negociable: si se
+mueven las fechas antes del cambio, quedan peor que ahora.
