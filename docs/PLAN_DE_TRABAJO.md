@@ -187,11 +187,58 @@ Los datos ya están todos — palmarés, logros, Balón de Oro, tablas por compe
 
 ---
 
-### 7. El técnico te habla en el entretiempo
+### 7. El técnico te habla en el entretiempo ✅ HECHA
 
 Si vas perdiendo te pide algo concreto ("andá a buscarla al medio"). Cumplirlo sube la relación con
 él; ignorarlo y ganar igual sube tu ego pero lo enfría. Usa las decisiones que ya existen en el
 partido.
+
+
+**Lo que se encontró al abrirla.** El DT existía como un nombre en la ficha y como una barra que
+subía y bajaba por cosas que pasaban **fuera** de la cancha: la prensa, los patrocinios, llegar tarde
+a una charla. Dentro del partido no aparecía nunca, ni siquiera yendo perdiendo. O sea que la única
+relación que el juego mide en términos futbolísticos no se jugaba en el fútbol.
+
+**No hay campo nuevo, y eso resuelve de paso el punto 5 de PENDIENTES_UI_UX.** La tentación era crear
+`relacionDT`. Pero el juego ya la tiene: `prestige` se muestra como *"Relación DT"* en las **tres**
+pantallas donde aparece — la barra de la ficha, el botón de renovación y el comparador de temporadas.
+Agregar un campo paralelo dejaría dos números peleando por el mismo rótulo, y el jugador vería subir
+uno mientras el otro no se mueve. Así que esto no inventa una relación: le da por fin una manera de
+ganarse o perderse **dentro del partido**, que es donde debería jugarse. El rótulo deja de ser una
+etiqueta prestada.
+
+**Cómo quedó** (`src/tecnico.ts`):
+
+- Al **minuto 45**, si estás en la cancha y no expulsado, el técnico te pide **una cosa concreta**
+  según cómo va el partido. Concreto es el punto: *"juega mejor"* no es una instrucción, es un
+  reproche. Hay tres instrucciones por situación (perdiendo, empatando, ganando).
+- El reloj se frena, igual que con una decisión: si el partido siguiera corriendo por detrás, el
+  técnico te estaría hablando mientras se juega.
+- **Se mide con el segundo tiempo, no con el resultado final.** Ir 0-2 al descanso y perder 2-3 es un
+  segundo tiempo ganado 2-1, y él lo ve así. Medirlo por el marcador final castigaría al que remontó
+  a medias, que es justo el que hizo caso. Y yendo ganando, sostener el 1-0 sin conceder **ya es**
+  cumplir: lo que te pidió fue eso.
+
+Las cuatro esquinas, que son el diseño entero:
+
+| | Prestigio | Hinchada |
+|---|---|---|
+| Cumpliste y el equipo levantó | **+6** | +2 |
+| Cumpliste y no alcanzó | **+2** | 0 |
+| Lo ignoraste y ganaste igual | **−4** | **+6** |
+| Lo ignoraste y encima no ganaste | **−7** | −2 |
+
+- **Cumplir y que salga mal no castiga.** Si castigara, obedecer sería una apuesta y la próxima vez
+  nadie obedecería: lo que se premia es haber ido, no el resultado.
+- **Ignorarlo y ganar te da la hinchada.** Si no diera nada bueno no sería una decisión, sería un
+  botón de "pórtate bien".
+- Los números son chicos a propósito (nada pasa de ±7 en un partido): la relación se construye a lo
+  largo de una temporada, y un salto grande convertiría el entretiempo en la palanca principal de la
+  carrera.
+
+Validador: `npm run validar:tecnico` (23 casos). **Queda un hueco honesto:** `validar:pantallas`
+dibuja el Dashboard, no el simulador, así que el modal del entretiempo no lo dibuja nadie en el
+build. La lógica está cubierta; el render, no.
 
 ### 8. Rival de carrera
 

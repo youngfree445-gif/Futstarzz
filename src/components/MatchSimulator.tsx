@@ -11,6 +11,7 @@ import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { forzandoLaVuelta, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { factorDeAnimo, estaEnBajon } from '../animo';
+import { instruccionDelEntretiempo, mejoroEnElSegundo, resultadoDeLaCharla } from '../tecnico';
 import { evaluarForma, ajusteDeForma } from '../forma';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
@@ -1438,6 +1439,13 @@ export default function MatchSimulator({
   const [wasSubbedOff, setWasSubbedOff] = useState(false);
   const hasEnteredAsSubRef = useRef(false);
 
+  // LA CHARLA DEL ENTRETIEMPO (ver tecnico.ts). El texto en estado pausa el reloj igual que una
+  // decision; la respuesta va a un ref y no a estado porque se lee al minuto 90 dentro de un
+  // setTimeout, donde una variable de estado llegaria con el valor viejo de la clausura.
+  const [charlaDelDT, setCharlaDelDT] = useState<string | null>(null);
+  const charlaCumplidaRef = useRef<boolean | null>(null);
+  const marcadorAlDescansoRef = useRef<{ mios: number; rival: number } | null>(null);
+
   const currentClub = representingTeamId
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
@@ -1710,7 +1718,9 @@ export default function MatchSimulator({
   // El reloj del partido. `speedMultiplier` está en las dependencias, así que tocar x2/x4/Saltar
   // cancela el timer en curso y agenda uno nuevo con el intervalo nuevo.
   useEffect(() => {
-    if (!isPlaying || minute >= 90 || activeDecision !== null) return;
+    // La charla del entretiempo frena el reloj igual que una decision: si el partido siguiera
+    // corriendo por detras, el tecnico te hablaria mientras se juega.
+    if (!isPlaying || minute >= 90 || activeDecision !== null || charlaDelDT !== null) return;
 
     const timer = setTimeout(() => {
       const nextMin = minute + 1;
@@ -1719,7 +1729,7 @@ export default function MatchSimulator({
     }, speedMultiplier);
 
     return () => clearTimeout(timer);
-  }, [isPlaying, minute, activeDecision, speedMultiplier]);
+  }, [isPlaying, minute, activeDecision, charlaDelDT, speedMultiplier]);
 
   const triggerRandomMatchEvent = (currentMin: number) => {
     // Entrada del suplente: recién ahora empezás a jugar de verdad, el técnico te manda a la cancha.
@@ -1739,6 +1749,14 @@ export default function MatchSimulator({
     // te queda alguna de las 4 decisiones del partido por delante (la última cae ~min 83): el piso
     // de "4 decisiones por partido, incluso yendo perdiendo" ya prometido al jugador no puede
     // perforarse por esta sustitución (bug reportado: te sacaban al 70' y te quedabas con 3).
+    // ENTRETIEMPO. Solo si estas en la cancha: desde el banco el tecnico no te da una instruccion
+    // personal, y expulsado tampoco tiene sentido.
+    if (currentMin === 45 && onField && !isSentOff && charlaCumplidaRef.current === null) {
+      const mios = isHome.current ? scoreHome : scoreAway;
+      const suyos = isHome.current ? scoreAway : scoreHome;
+      marcadorAlDescansoRef.current = { mios, rival: suyos };
+      setCharlaDelDT(instruccionDelEntretiempo(mios, suyos).texto);
+    }
     const hasPendingDecision = decisionMinutes.current.some(m => m >= currentMin);
     if (currentMin === 70 && onField && !wasSubbedOff && lineupStatus !== 'substitute' && !isSentOff && !hasPendingDecision) {
       const RATING_SUB_THRESHOLD = 5.2;
@@ -1791,6 +1809,18 @@ export default function MatchSimulator({
       const golesMiEquipo = isHome.current ? finalScoreHome : finalScoreAway;
       const golesRival = isHome.current ? finalScoreAway : finalScoreHome;
 
+      // LO QUE DEJO LA CHARLA DEL ENTRETIEMPO (ver tecnico.ts). Se resuelve recien aca porque su
+      // efecto depende de como termino el segundo tiempo, no de lo que contestaste en el momento.
+      const charla = (() => {
+        const cumplida = charlaCumplidaRef.current;
+        const alDescanso = marcadorAlDescansoRef.current;
+        if (cumplida === null || !alDescanso) return { prestigio: 0, fans: 0, mensaje: null as string | null };
+        const mejoro = mejoroEnElSegundo(alDescanso.mios, alDescanso.rival, golesMiEquipo, golesRival);
+        return resultadoDeLaCharla(cumplida, mejoro, finalResult === 'W');
+      })();
+      if (charla.mensaje) {
+        setMatchLog(prev => [...prev, { minute: 90, text: charla.mensaje!, type: charla.prestigio >= 0 ? 'highlight' : 'bad' }]);
+      }
       setTimeout(() => {
         onFinishMatch({
           goles: playerGoals,
@@ -1803,8 +1833,8 @@ export default function MatchSimulator({
           rating: Number(rating.toFixed(1)),
           log: matchLog.map(item => `[${item.minute}'] ${item.text}`),
           cardReceived: playerCards,
-          prestigeChange: prestigeAccum,
-          fansChange: fansAccum
+          prestigeChange: prestigeAccum + charla.prestigio,
+          fansChange: fansAccum + charla.fans
         });
       }, 1500);
 
@@ -2520,6 +2550,36 @@ export default function MatchSimulator({
               </div>
             ))}
           </div>
+
+          {/* LA CHARLA DEL ENTRETIEMPO (ver tecnico.ts). Se dibuja antes que la decisión y con el
+              mismo z-50: nunca coinciden, porque el minuto 45 no es minuto de decisión y el reloj
+              está frenado por cualquiera de las dos. */}
+          {charlaDelDT && (
+            <div className="absolute inset-0 bg-slate-950/95 flex flex-col justify-center p-4 text-center z-50 backdrop-blur">
+              <span className="text-3xs font-mono font-black uppercase tracking-widest text-gold-400 mb-2">
+                Entretiempo · el técnico te habla
+              </span>
+              <p className="text-white font-bold text-sm leading-relaxed mb-1 px-2">"{charlaDelDT}"</p>
+              <p className="text-3xs text-slate-500 font-mono mb-4">{currentClub.dt}</p>
+              <div className="space-y-2 px-2">
+                <button
+                  onClick={() => { charlaCumplidaRef.current = true; setCharlaDelDT(null); }}
+                  className="btn-fx-subtle w-full min-h-[44px] py-2.5 px-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 hover:border-emerald-400 text-2xs font-bold text-white cursor-pointer"
+                >
+                  Salir a hacer lo que pide
+                </button>
+                <button
+                  onClick={() => { charlaCumplidaRef.current = false; setCharlaDelDT(null); }}
+                  className="btn-fx-subtle w-full min-h-[44px] py-2.5 px-3 rounded-xl bg-burgundy-950/40 border border-burgundy-500/40 hover:border-burgundy-400 text-2xs font-bold text-white cursor-pointer"
+                >
+                  Jugar a tu manera
+                </button>
+              </div>
+              <p className="text-3xs text-slate-500 leading-relaxed mt-4 px-4">
+                Lo que decidas se mide con el segundo tiempo, no con el resultado final.
+              </p>
+            </div>
+          )}
 
           {activeDecision && (
             <div className="absolute inset-0 bg-slate-950/95 flex flex-col justify-center p-4 text-center z-50 backdrop-blur">
