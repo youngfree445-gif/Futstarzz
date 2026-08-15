@@ -23,7 +23,7 @@ al lado — los que dicen "verificado" se comprobaron contra el código, no de m
 ### Deuda técnica que ya costó bugs
 
 - **`scripts/validar_pantallas.jsx` ✅ TERMINADO.** Ya está conectado y corre con
-  `npm run validar:pantallas`: dibuja el Dashboard en **40 combinaciones** de club, paso, pestaña,
+  `npm run validar:pantallas`: dibuja el Dashboard en **42 combinaciones** de club, paso, pestaña, ánimo,
   lesión, forma y convocatoria.
 
   **Por qué importaba:** dos bugs le llegaron al jugador porque nada dibujaba el Dashboard en el
@@ -198,7 +198,7 @@ partido.
 Un jugador de otro club que sube contigo y al que te comparan toda la carrera. El feed los enfrenta;
 superarlo vale más que superar a cualquiera.
 
-### 9. El bajón anímico
+### 9. El bajón anímico ✅ HECHA
 
 `mentalHealth` ya existe pero hoy es un número sin consecuencia. Se convierte en un ESTADO con
 salida:
@@ -212,6 +212,47 @@ salida:
   hundirte más).
 
 Reutiliza decisiones, feed y "Visitar a los tuyos", que ya está en Entorno.
+
+
+**Lo que se encontró al abrirla, y que corrige el enunciado:** `mentalHealth` no era del todo un
+número sin consecuencia. Por debajo de 35 ya aplicaba un 0.94 a las decisiones del partido y ya se
+avisaba en la pantalla previa. Lo que no tenía era **fondo**: no se nombraba, no se explicaba, y no
+había nada que hacer al respecto — se salía sola ganando partidos, que es justo lo que cuesta cuando
+estás mal.
+
+**No guarda nada nuevo en la partida.** La tentación era agregar `bajonAnimico: { desdePaso, motivo }`
+al perfil. No hace falta: **el acumulador ya es `mentalHealth`**. Cada derrota con nota baja, cada
+semana de lesión y cada escándalo ya lo empujan para abajo, así que "estar en bajón" es simplemente
+haber acumulado suficiente — medido: **11 golpes** desde un ánimo sano, así que un mal partido suelto
+no alcanza, que era el requisito. Mismo criterio que `lideresDeCopa.ts`: sin migración y sin riesgo
+para una carrera en curso.
+
+**Cómo quedó** (`src/animo.ts`):
+
+- **Se entra** por debajo de 30. Entre 30 y 35 queda el escalón de "cabeza floja" que ya existía, así
+  que el bajón es un lugar del que se sale y no un interruptor que se prende y se apaga con ±1.
+- **Se nota jugando:** −12 de energía al arrancar el partido (menos que jugar lesionado, que son 14 —
+  una rotura pesa más que dormir mal) y un 0.88 en el multiplicador de decisiones, contra el 0.94 de
+  cabeza floja. Sigue por encima del piso de 0.82: tiene que notarse, no volver el partido injugable.
+  Una espiral de la que no se sale ya fue un problema en este mismo cálculo y no se reintrodujo.
+- **Se dice POR QUÉ**, con lo que de verdad pasó: la lesión larga tapa a todo lo demás, después la
+  racha de partidos flojos, después la hinchada. Sin un motivo claro se dice eso mismo, en vez de
+  inventar uno — un "estás anímicamente mal" a secas se lee como un castigo arbitrario.
+- **Se sale decidiendo**, y cada salida cobra en una moneda distinta: **psicólogo del club** (dinero e
+  imagen: −5 de prestigio porque el cuerpo técnico se entera), **unos días en casa** (la que más
+  levanta, pero −30 de energía: llegas corto al próximo partido) y **apretar los dientes** (gratis,
+  45% de que salga bien; si no, te hundes un poco más). Ninguna es la correcta, que era el pedido.
+
+**Diferencia con el enunciado original:** "volver al barrio" decía *perder una fecha*. El camino de
+descanso vive dentro de `handleAdvanceWeek`, detrás de la confirmación de energía baja, y extraerlo
+habría sido un refactor del archivo donde vivieron casi todos los bugs. Se cobra en energía, que es
+la moneda con la que el juego ya modela llegar corto a un partido.
+
+El panel vive en la pestaña **Carrera**, al lado del de lesión — no en la columna de Entorno, que
+está dentro de ChutSocial. Es donde el jugador va a buscar qué le pasa y qué puede hacer.
+
+Validadores: `npm run validar:animo` (33 casos) y dos combinaciones nuevas en `validar:pantallas` —
+el panel dibujado en bajón, y comprobado que NO aparece con el ánimo sano.
 
 ### 10. Rachas de TU historia
 

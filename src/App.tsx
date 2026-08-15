@@ -38,6 +38,7 @@ import {
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO } from './lesion';
+import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota } from './forma';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -1471,6 +1472,40 @@ export default function App() {
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
     notify('🏠 Te tomaste unos días con los tuyos. Vuelves con la cabeza en otro lado — en el bueno.');
+  };
+
+  /**
+   * Salir del bajón anímico (ver animo.ts).
+   *
+   * Vive acá al lado de la visita al entorno porque es la misma familia: acciones sueltas que
+   * tocan campos propios del perfil y no entran en el shape fijo de LOBBY_RANDOM_EVENTS.
+   *
+   * Las tres opciones cobran en monedas distintas a propósito -- dinero e imagen, energía del
+   * próximo partido, o riesgo -- así que ninguna es "la correcta" y la elección depende de en qué
+   * momento de la temporada estés.
+   */
+  const handleSalirDelBajon = (id: SalidaDelBajon) => {
+    if (!playerProfile) return;
+    const salida = salidaPorId(id);
+    // Se vuelve a comprobar acá y no sólo en el botón: la pantalla puede haber quedado con datos
+    // viejos entre el render y el clic, y una opción que no se puede pagar no puede cobrarse igual.
+    const falta = faltaParaSalida(salida, playerProfile);
+    if (falta) {
+      notify(falta);
+      return;
+    }
+    const resultado = resultadoDeSalida(salida);
+    const updatedProfile: PlayerProfile = {
+      ...playerProfile,
+      capital: Math.max(0, playerProfile.capital - resultado.capital),
+      energy: Math.max(0, playerProfile.energy - resultado.energia),
+      prestige: Math.max(0, Math.min(100, playerProfile.prestige + resultado.prestigio)),
+      entorno: Math.min(100, (playerProfile.entorno ?? ENTORNO_INICIAL) + resultado.entorno),
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + resultado.animo)),
+    };
+    setPlayerProfile(updatedProfile);
+    saveGameState(updatedProfile, shopItems);
+    notify(resultado.mensaje);
   };
 
   // Fase 2.5 -- Vida amorosa: relación de pareja opcional con su propia barra (loveMeter) y sus
@@ -4417,8 +4452,12 @@ export default function App() {
       // es sólo este número: entrás a la fecha siguiente con menos energía, y la fatiga acumulada ya
       // sube por su cuenta el riesgo de lesionarte de nuevo. Forzar dos o tres fechas seguidas se
       // paga solo, sin necesidad de una regla aparte que lo castigue.
+      // Y el bajón anímico se cobra en el mismo lugar: dormir mal también se paga en piernas. Pesa
+      // menos que jugar roto (12 contra 14) y los dos se suman si te toca lo peor de los dos --
+      // que es exactamente cuando debería doler.
       energy: Math.max(5, Math.min(100, playerProfile.energy - finalEnergySpent + totalExtraRecover
-        - (forzandoLaVuelta(playerProfile) ? PENALIDAD_ENERGIA_LESIONADO : 0))),
+        - (forzandoLaVuelta(playerProfile) ? PENALIDAD_ENERGIA_LESIONADO : 0)
+        - (estaEnBajon(playerProfile) ? PENALIDAD_ENERGIA_BAJON : 0))),
       capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange + (countryDuty?.prestige ?? 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
@@ -4834,6 +4873,7 @@ export default function App() {
           onSelectMentee={handleSelectMentee}
           onSelectMentor={handleSelectMentor}
           onVisitarEntorno={handleVisitarEntorno}
+          onSalirDelBajon={handleSalirDelBajon}
           onFindGirlfriend={handleFindGirlfriend}
           onGirlfriendFlowers={handleGirlfriendFlowers}
           onGirlfriendPhoto={handleGirlfriendPhoto}

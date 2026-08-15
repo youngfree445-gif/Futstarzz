@@ -21,6 +21,7 @@ import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsD
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
+import { estaEnBajon, faltaParaSalida, motivoDelBajon, SALIDAS, SalidaDelBajon } from '../animo';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -258,6 +259,7 @@ interface DashboardProps {
   onSelectMentee: (playerName: string | null) => void;
   onSelectMentor: (playerName: string | null) => void;
   onVisitarEntorno: () => void;
+  onSalirDelBajon: (id: SalidaDelBajon) => void;
   onFindGirlfriend: () => void;
   onGirlfriendFlowers: () => void;
   onGirlfriendPhoto: () => void;
@@ -332,6 +334,7 @@ export default function Dashboard({
   onSelectMentee,
   onSelectMentor,
   onVisitarEntorno,
+  onSalirDelBajon,
   onFindGirlfriend,
   onGirlfriendFlowers,
   onGirlfriendPhoto,
@@ -3033,6 +3036,49 @@ export default function Dashboard({
                   </div>
                 );
               })()}
+
+              {/* EL BAJÓN ANÍMICO (ver animo.ts).
+                  Sólo aparece cuando estás adentro: un panel que está siempre se vuelve otra
+                  barra más para ignorar, y esto tiene que leerse como algo que pasó y hay que
+                  resolver. Va pegado al de Entorno porque son la misma familia -- lo de afuera
+                  de la cancha -- y porque visitar a los tuyos es la prevención de esto mismo. */}
+              {estaEnBajon(playerProfile) && (
+                <div className="bg-burgundy-950/30 border border-burgundy-500/40 rounded-3xl p-5 shadow-lg space-y-3">
+                  <h3 className="font-black text-xs text-burgundy-300 uppercase tracking-wider flex items-center gap-2">
+                    <Brain size={14} /> Bajón anímico
+                  </h3>
+                  <p className="text-2xs text-slate-300 leading-relaxed">
+                    {motivoDelBajon({
+                      activeInjury: playerProfile.activeInjury,
+                      fans: playerProfile.fans,
+                      prestige: playerProfile.prestige,
+                      forma: evaluarForma(playerProfile.formaReciente, playerProfile.currentWeek).estado,
+                    })}
+                  </p>
+                  <p className="text-3xs text-burgundy-400 font-mono font-bold leading-relaxed">
+                    Mientras dure: llegas a los partidos con menos energía y tus decisiones tienen
+                    bastante menos margen de éxito.
+                  </p>
+                  <div className="space-y-2">
+                    {SALIDAS.map(salida => {
+                      const falta = faltaParaSalida(salida, playerProfile);
+                      return (
+                        <button
+                          key={salida.id}
+                          onClick={() => onSalirDelBajon(salida.id)}
+                          disabled={!!falta}
+                          title={falta ?? salida.detalle}
+                          className="btn-fx-subtle w-full min-h-[44px] py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-burgundy-500/50 text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          <span className="block text-2xs font-bold text-white">{salida.titulo}</span>
+                          <span className="block text-3xs text-slate-400 font-mono">{salida.costoTexto}</span>
+                          <span className="block text-3xs text-slate-500 leading-relaxed mt-0.5">{salida.detalle}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {playerProfile.activeInjury && (
                 <div className="bg-slate-900 border border-red-900/40 rounded-3xl p-5 shadow-lg">

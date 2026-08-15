@@ -10,6 +10,7 @@ import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { forzandoLaVuelta, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
+import { factorDeAnimo, estaEnBajon } from '../animo';
 import { evaluarForma, ajusteDeForma } from '../forma';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
@@ -1502,7 +1503,8 @@ export default function MatchSimulator({
     return Math.max(0.8, Math.min(1.2, 1 - positionDiff * 0.01));
   })();
   const fanSupportFactor = playerProfile.fans < 20 ? 0.95 : playerProfile.fans > 80 ? 1.05 : 1;
-  const mentalHealthFactor = playerProfile.mentalHealth < 35 ? 0.94 : playerProfile.mentalHealth > 85 ? 1.08 : 1;
+  // El escalon del bajon hondo (ver animo.ts) se suma al de "cabeza floja" que ya estaba aca.
+  const mentalHealthFactor = factorDeAnimo(playerProfile.mentalHealth);
   // Los castigos se multiplican entre sí, así que un mal momento se componía: último en la tabla +
   // hinchada en contra + cabeza floja daba 0.8*0.9*0.88 = 0.63, un 37% menos de éxito en TODAS las
   // jugadas. Y como fallar baja la moral, era una espiral de la que no se salía.
@@ -2449,10 +2451,17 @@ export default function MatchSimulator({
           )}
           {playerProfile.fans > 80 && (
             <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
-              <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te banca a muerte: tus decisiones tienen algo más de margen hoy.</span>
+              <Megaphone size={13} className="shrink-0 mt-0.5" /> <span>La hinchada te apoya a muerte: tus decisiones tienen algo más de margen hoy.</span>
             </p>
           )}
-          {playerProfile.mentalHealth < 35 && (
+          {/* El bajón hondo se nombra distinto de la cabeza floja: si el estado del que hay que
+              salir se anuncia igual que un mal día cualquiera, no se entiende que hay algo que
+              hacer al respecto. El aviso apunta a dónde está la salida. */}
+          {estaEnBajon(playerProfile) ? (
+            <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
+              <Brain size={13} className="shrink-0 mt-0.5" /> <span>Estás en un bajón anímico: llegas con menos energía y tus decisiones tienen bastante menos margen. Se trabaja desde Mi Club.</span>
+            </p>
+          ) : playerProfile.mentalHealth < 35 && (
             <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
               <Brain size={13} className="shrink-0 mt-0.5" /> <span>Traes la cabeza floja: tus decisiones tienen menos margen de éxito hoy.</span>
             </p>

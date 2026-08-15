@@ -129,7 +129,7 @@ const perfilDe = (club, extra = {}) => {
 const dibujar = (perfil, initialTab, esperado) => {
   const html = renderToString(React.createElement(Dashboard, {
     playerProfile: perfil, shopItems: INITIAL_LIFESTYLE_ITEMS, initialTab,
-    onTrainAttribute: nada, onSelectMentee: nada, onSelectMentor: nada, onVisitarEntorno: nada,
+    onTrainAttribute: nada, onSelectMentee: nada, onSelectMentor: nada, onVisitarEntorno: nada, onSalirDelBajon: nada,
     onFindGirlfriend: nada, onGirlfriendFlowers: nada, onGirlfriendPhoto: nada,
     onGirlfriendFaithful: nada, onGirlfriendCheat: nada, onGirlfriendDenyRumors: nada,
     onGirlfriendMoveIn: nada, onPropose: nada, onHaveChild: nada, onTreatInjury: nada,
@@ -189,6 +189,19 @@ for (const f of FORMAS) {
     dibujar(perfilDe(junior, { currentWeek: 40, formaReciente: notasEn(40, f.notas) }), 'carrera', f.esperado));
 }
 
+// --- El bajón anímico -----------------------------------------------------------------------
+// El panel sólo existe cuando estás adentro, así que sin un caso con la barra baja nadie lo
+// dibuja nunca en el build -- que es justo el agujero por el que ya se colaron dos pantallas
+// negras. Se prueban las dos caras: hundido (aparece) y sano (no aparece).
+
+caso('animo: en bajon', () =>
+  dibujar(perfilDe(junior, { currentWeek: 40, mentalHealth: 12 }), 'carrera', 'Bajón anímico'));
+caso('animo: sano (el panel no esta)', () => {
+  const html = dibujar(perfilDe(junior, { currentWeek: 40, mentalHealth: 80 }), 'carrera', null);
+  if (html.includes('Bajón anímico')) throw new Error('el panel del bajon aparece con el animo sano');
+  return html;
+});
+
 // --- La lista de convocados, en el feed -----------------------------------------------------
 
 const pasoDeFechaFifa = (() => {
@@ -212,6 +225,6 @@ if (pasoDeFechaFifa == null) {
 
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
-  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma y convocatoria.`
+  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo y convocatoria.`
   : `\n${fallas} FALLAS -- la pantalla principal no se puede dibujar`);
 process.exit(fallas === 0 ? 0 : 1);
