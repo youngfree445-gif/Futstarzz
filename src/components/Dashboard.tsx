@@ -23,6 +23,7 @@ import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, SALIDAS, SalidaDelBajon } from '../animo';
 import { rachasDelProximoPartido } from '../rachas';
+import { numerosDelRival, quienVaGanando, rivalDeCarrera, rotuloDeLaComparacion } from '../rivalDeCarrera';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -34,7 +35,7 @@ import {
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
-  Table, Zap, DollarSign, Star, Heart, Flame, LogOut, ArrowRight, CheckCircle,
+  Table, Zap, DollarSign, Star, Heart, Flame, Swords, LogOut, ArrowRight, CheckCircle,
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users,
   Menu, X, Home
 } from 'lucide-react';
@@ -1116,6 +1117,19 @@ export default function Dashboard({
     };
   }
 
+  // EL RIVAL DE CARRERA (ver rivalDeCarrera.ts). Se deduce, no se guarda.
+  //
+  // La semilla lleva el club de ORIGEN y no el actual: el sentido de la vara es que sea la misma
+  // toda la vida, asi que un traspaso no puede cambiarte de rival. El origen sale del primer tramo
+  // de seasonHistory, y si todavia no hay ninguno (carrera recien creada) es tu club actual, que en
+  // ese momento es lo mismo.
+  const miRival = React.useMemo(() => {
+    const origen = playerProfile.seasonHistory?.[0]?.clubId ?? playerProfile.currentClubId;
+    const base = rivalDeCarrera(playerProfile.name, origen, playerProfile.position, CLUBS_DATABASE);
+    if (!base) return null;
+    const rival = numerosDelRival(base, playerProfile.careerStats.partidosHistoricos, playerProfile.position);
+    return { rival, quien: quienVaGanando(playerProfile.careerStats, rival, playerProfile.position) };
+  }, [playerProfile.name, playerProfile.position, playerProfile.currentClubId, playerProfile.seasonHistory, playerProfile.careerStats]);
   // Las rachas que se cuentan antes de ESTE partido (ver rachas.ts). Salen de datedResults, que ya
   // guarda toda tu historia con rival, competición y marcador -- no hace falta ningún dato nuevo.
   const rachasDeHoy = nextMatchOpponent
@@ -3061,6 +3075,39 @@ export default function Dashboard({
                   </div>
                 );
               })()}
+
+              {/* EL RIVAL DE CARRERA (ver rivalDeCarrera.ts). Va pegado al momento de forma
+                  porque son la misma pregunta a dos escalas: la forma dice cómo venís estas
+                  cinco fechas, y esto dice cómo vas contra el que arrancó cuando vos. */}
+              {miRival && (
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-3">
+                  <h3 className="font-black text-xs text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                    <Swords size={14} /> Rival de carrera
+                  </h3>
+                  <p className={`text-2xs font-bold leading-relaxed ${
+                    miRival.quien === 'vos' ? 'text-emerald-400'
+                    : miRival.quien === 'el' ? 'text-burgundy-400' : 'text-gold-400'
+                  }`}>
+                    {rotuloDeLaComparacion(miRival.quien, miRival.rival)}
+                  </p>
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    {[
+                      { label: 'Partidos', mio: playerProfile.careerStats.partidosHistoricos, suyo: miRival.rival.partidos },
+                      { label: 'Goles', mio: playerProfile.careerStats.golesHistoricos, suyo: miRival.rival.goles },
+                      { label: 'Asistencias', mio: playerProfile.careerStats.asistenciasHistoricos, suyo: miRival.rival.asistencias },
+                    ].map(f => (
+                      <div key={f.label} className="p-2 bg-slate-950 border border-slate-850 rounded-xl">
+                        <p className="text-3xs uppercase font-mono text-slate-500 font-bold truncate">{f.label}</p>
+                        <p className="text-sm font-black text-white">{f.mio}</p>
+                        <p className="text-3xs font-mono text-slate-500">él: {f.suyo}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-3xs text-slate-500 font-mono leading-relaxed">
+                    {miRival.rival.nombre} · {miRival.rival.clubName} · promedio {miRival.rival.promedio}
+                  </p>
+                </div>
+              )}
 
               {/* EL BAJÓN ANÍMICO (ver animo.ts).
                   Sólo aparece cuando estás adentro: un panel que está siempre se vuelve otra

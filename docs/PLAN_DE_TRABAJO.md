@@ -240,10 +240,44 @@ Validador: `npm run validar:tecnico` (23 casos). **Queda un hueco honesto:** `va
 dibuja el Dashboard, no el simulador, así que el modal del entretiempo no lo dibuja nadie en el
 build. La lógica está cubierta; el render, no.
 
-### 8. Rival de carrera
+### 8. Rival de carrera ✅ HECHA
 
 Un jugador de otro club que sube contigo y al que te comparan toda la carrera. El feed los enfrenta;
 superarlo vale más que superar a cualquiera.
+
+
+**No guarda nada**, igual que las tres anteriores. Quién es sale de un sorteo sembrado con tu nombre
+y tu **club de origen** — no el actual: el sentido de la vara es que sea la misma toda la vida, así
+que un traspaso no puede cambiarte de rival. El origen sale del primer tramo de `seasonHistory`, y si
+todavía no hay ninguno es tu club actual, que en ese momento es lo mismo.
+
+**Sale de los planteles reales y de tu puesto.** Un arquero no compite en goles con un nueve;
+compararlos sería una tabla sin sentido. Se usa `CLUBS_DATABASE` porque es la lista que conserva las
+etiquetas de posición — la misma trampa de `ULTIMATE_CLUBS_DATABASE` que ya había aparecido con los
+goleadores de copa.
+
+**Sus números son suyos, no un reflejo de los tuyos.** Era la decisión importante: si su rendimiento
+derivara del tuyo, siempre irían empatados y el panel no diría nada. Cada rival sortea **su propio
+techo** una vez y lo mantiene toda la carrera, así que a veces le vas ganando y a veces te sacó
+cincuenta goles. Medido con seis carreras distintas: 89, 81, 76, 72 y 71 goles a los 200 partidos —
+techos claramente distintos. Se pierde alguna fecha por lesión o descanso, como tú (juega ~93 de cada
+100), y promedia entre 6.4 y 7.9: un rival que promedia 5 no sería una vara, y uno que promedia 9
+sería una burla.
+
+**Quién va ganando usa la vara del puesto:** los de arriba se miden por goles + asistencias, y
+arqueros y defensores por promedio de calificación. El margen de *"van parejos"* **crece con la
+carrera** (5% del total, mínimo 2): dos goles de diferencia son mucho en la fecha 10 y nada en la
+300, y sin eso el cartel se pasaría de un lado al otro cada partido y dejaría de significar algo.
+
+El panel va pegado al momento de forma, porque son la misma pregunta a dos escalas: la forma dice
+cómo vienes estas cinco fechas, y esto dice cómo vas contra el que arrancó cuando tú.
+
+**Lo que no tiene: voz en el feed.** El enunciado decía "el feed los enfrenta", y eso significa
+escribir en `chutSocialVoces.ts`, que es el archivo que pediste no tocar. Queda pendiente de tu
+decisión, junto con las voces del bajón anímico.
+
+Validadores: `npm run validar:rival` (26 casos) y dos combinaciones nuevas en `validar:pantallas` —
+el panel con la comparación a favor y en contra.
 
 ### 9. El bajón anímico ✅ HECHA
 

@@ -202,6 +202,15 @@ caso('animo: sano (el panel no esta)', () => {
   return html;
 });
 
+// --- El rival de carrera --------------------------------------------------------------------
+// El panel se dibuja siempre que haya rival, pero la comparacion tiene tres caras y ninguna sale
+// con un perfil recien creado, que arranca en cero contra un rival tambien en cero.
+
+caso('rival: le vas ganando', () =>
+  dibujar(perfilDe(junior, { currentWeek: 40, careerStats: { goles: 40, asistencias: 20, partidos: 100, campeonatos: 1, golesHistoricos: 400, asistenciasHistoricos: 200, partidosHistoricos: 300, sumaCalificacionesHistoricas: 2400, tarjetasAmarillasHistoricas: 5, tarjetasRojasHistoricas: 0 } }), 'carrera', 'Rival de carrera'));
+caso('rival: te sacan ventaja', () =>
+  dibujar(perfilDe(junior, { currentWeek: 40, careerStats: { goles: 1, asistencias: 0, partidos: 100, campeonatos: 0, golesHistoricos: 2, asistenciasHistoricos: 1, partidosHistoricos: 300, sumaCalificacionesHistoricas: 1800, tarjetasAmarillasHistoricas: 5, tarjetasRojasHistoricas: 0 } }), 'carrera', 'te viene sacando ventaja'));
+
 // --- Las rachas de tu historia, en la tarjeta del proximo partido ---------------------------
 // Las lineas solo salen con historial cargado, asi que con un perfil recien creado no las dibuja
 // nadie. Se arma una historia perdida contra el rival que el calendario ponga ese dia.
@@ -260,6 +269,6 @@ if (pasoDeFechaFifa == null) {
 
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
-  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas y convocatoria.`
+  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`
   : `\n${fallas} FALLAS -- la pantalla principal no se puede dibujar`);
 process.exit(fallas === 0 ? 0 : 1);
