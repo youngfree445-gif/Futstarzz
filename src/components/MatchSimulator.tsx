@@ -139,7 +139,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "Recibes de espaldas al área en el círculo central, con TODA la línea defensiva rival plantada entre vos y el arco, nadie se anima a meterte presión...",
+    prompt: "Recibes de espaldas al área en el círculo central, con TODA la línea defensiva rival plantada entre tú y el arco, nadie se anima a meterte presión...",
     choices: [
       {
         text: 'Encarar y regatear a todo el equipo rival, uno por uno',
@@ -177,7 +177,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "Notás que tu compañero de ataque quedó desconectado del bloque y el equipo pierde el orden en la presión tras perder la pelota...",
+    prompt: "Notas que tu compañero de ataque quedó desconectado del bloque y el equipo pierde el orden en la presión tras perder la pelota...",
     choices: [
       {
         text: 'Gritar para reordenar el pressing y cerrar líneas de pase',
@@ -213,7 +213,7 @@ const DELANTERO_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "¡PENAL A FAVOR! El árbitro no duda tras la falta clarísima dentro del área. El capitán te entrega el balón: te toca a vos ejecutar.",
+    prompt: "¡PENAL A FAVOR! El árbitro no duda tras la falta clarísima dentro del área. El capitán te entrega el balón: te toca a ti ejecutar.",
     kickMode: 'penalty',
     choices: []
   }
@@ -298,7 +298,7 @@ const DELANTERO_LATE: MatchDecision[] = [
     ]
   },
   {
-    prompt: "¡Centro bombeado que te queda picando de espaldas al arco, dentro del área! No hay tiempo de acomodarte, o la tocás de otra forma o se pierde la ocasión...",
+    prompt: "¡Centro bombeado que te queda picando de espaldas al arco, dentro del área! No hay tiempo de acomodarte, o la tocas de otra forma o se pierde la ocasión...",
     choices: [
       {
         text: 'Intentar una chilena acrobática de espaldas al arco',
@@ -610,7 +610,7 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
     ]
   },
   {
-    prompt: "El armador rival controla el balón de espaldas a vos en el círculo central, confiado, sin saber que le venís pisando los talones...",
+    prompt: "El armador rival controla el balón de espaldas a ti en el círculo central, confiado, sin saber que le vienes pisando los talones...",
     choices: [
       {
         text: 'Robarle el balón por detrás y lanzar el contragolpe con un pase gol inmediato',
@@ -800,7 +800,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
     ]
   },
   {
-    prompt: "Córner a favor. Subís al área rival como sueles hacer en jugadas de pelota parada, el centro viene cargado y venenoso directo a tu zona...",
+    prompt: "Córner a favor. Subes al área rival como sueles hacer en jugadas de pelota parada, el centro viene cargado y venenoso directo a tu zona...",
     choices: [
       {
         text: 'Cabecear con toda la fuerza buscando el ángulo',
@@ -829,7 +829,7 @@ const DEFENSOR_EARLY: MatchDecision[] = [
         requiredAttr: 'defensa',
         minVal: 45,
         successChance: 0.7,
-        successBonus: 'Decisión conservadora: te quedaste atrás y cuando el córner se despejó, cortaste vos mismo el intento de contra rival.',
+        successBonus: 'Decisión conservadora: te quedaste atrás y cuando el córner se despejó, cortaste tú mismo el intento de contra rival.',
         failPenalty: 'Al quedarte atrás sin necesidad, el córner se perdió sin peligro y no aportaste nada a la jugada.',
         effectOnSuccess: { goals: 0, assists: 0, prestige: 2, fans: 1 },
         effectOnFail: { prestige: -1, fans: 0, energy: 0 }
@@ -956,7 +956,7 @@ const DEFENSOR_LATE: MatchDecision[] = [
     ]
   },
   {
-    prompt: "¡DESASTRE DEFENSIVO! El delantero rival quedó completamente solo, mano a mano con tu arquero ya vencido, el gol es prácticamente un hecho. Solo llegás vos, desesperado, por detrás...",
+    prompt: "¡DESASTRE DEFENSIVO! El delantero rival quedó completamente solo, mano a mano con tu arquero ya vencido, el gol es prácticamente un hecho. Solo llegas tú, desesperado, por detrás...",
     choices: [
       {
         text: 'Meter una entrada rompedora por detrás para evitar el gol como sea',
@@ -1726,7 +1726,7 @@ export default function MatchSimulator({
       setOnField(true);
       setMatchLog(prev => [...prev, {
         minute: currentMin,
-        text: `🔄 ¡Entrás vos! El técnico te manda a la cancha desde el banco de suplentes.`,
+        text: `🔄 ¡Entras tú! El técnico te manda a la cancha desde el banco de suplentes.`,
         type: 'highlight'
       }]);
     }
@@ -1747,7 +1747,7 @@ export default function MatchSimulator({
           setOnField(false);
           setMatchLog(prev => [...prev, {
             minute: currentMin,
-            text: `🔄 El técnico no está conforme con tu partido y decide sacarte de la cancha. Terminás el resto del encuentro en el banco.`,
+            text: `🔄 El técnico no está conforme con tu partido y decide sacarte de la cancha. Terminas el resto del encuentro en el banco.`,
             type: 'bad'
           }]);
         }
@@ -1906,7 +1906,7 @@ export default function MatchSimulator({
           `${rival} te gana la espalda y obliga a tu defensa a cerrar de urgencia.`,
           `Duelo áspero con ${rival} en la mitad de la cancha. Los dos se miran, ninguno baja la pierna.`,
           `${rival} pide la pelota entre líneas y desordena el bloque. Hay que salir a taparlo.`,
-          `Le robás un balón limpio a ${rival} y la tribuna se levanta a aplaudirte.`,
+          `Le robas un balón limpio a ${rival} y la tribuna se levanta a aplaudirte.`,
           `¡Aviso! Remate cruzado de ${getRivalAttacker() ?? rival} que se va apenas desviado del segundo palo.`
         ] : [])
       ];
@@ -2274,7 +2274,7 @@ export default function MatchSimulator({
                   }`}
                   title={isHome.current
                     ? 'Suma de la ida y lo que va de este partido. Tu equipo va primero, como en el marcador.'
-                    : 'Suma de la ida y lo que va de este partido. Jugás de visitante: tu equipo va segundo, igual que en el marcador de arriba.'}
+                    : 'Suma de la ida y lo que va de este partido. Juegas de visitante: tu equipo va segundo, igual que en el marcador de arriba.'}
                 >
                   {/* MISMA ORIENTACION QUE EL MARCADOR DE ARRIBA: local primero, visitante segundo.
                       Antes el global iba siempre "mis goles - los del rival" mientras el marcador
@@ -2640,13 +2640,13 @@ export default function MatchSimulator({
               {!onField && !wasSubbedOff && (
                 <div className="p-3 rounded-xl border border-burgundy-500/30 bg-burgundy-500/10 text-2xs text-burgundy-300 font-bold text-center flex items-center justify-center gap-2">
                   <Armchair size={14} className="shrink-0" />
-                  <span>Arrancás en el banco de suplentes{subEntryMinute != null ? ` · Entrás cerca del minuto ${subEntryMinute}'` : ''}</span>
+                  <span>Arrancas en el banco de suplentes{subEntryMinute != null ? ` · Entras cerca del minuto ${subEntryMinute}'` : ''}</span>
                 </div>
               )}
               {wasSubbedOff && (
                 <div className="p-3 rounded-xl border border-slate-700 bg-slate-950/60 text-2xs text-slate-400 font-bold text-center flex items-center justify-center gap-2">
                   <Armchair size={14} className="shrink-0" />
-                  <span>El técnico te sacó de la cancha. Mirás el resto del partido desde el banco.</span>
+                  <span>El técnico te sacó de la cancha. Miras el resto del partido desde el banco.</span>
                 </div>
               )}
 

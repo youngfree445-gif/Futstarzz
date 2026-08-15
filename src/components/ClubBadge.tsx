@@ -29,7 +29,17 @@ export default function ClubBadge({ club, size = 32, colorFallback = true, class
   const px = `${size}px`;
 
   if (club.badgeImageUrl && !failed) {
-    const src = /^https?:\/\//.test(club.badgeImageUrl) ? club.badgeImageUrl : `${import.meta.env.BASE_URL}${club.badgeImageUrl}`;
+    // Hay dos clases de escudo local y NO se resuelven igual:
+    //   - 'badges/clubs/x.png'  -> archivo suelto en public/, ruta relativa: le falta la base del
+    //     sitio (Netlify '/', GitHub Pages '/Futstarzz/', Capacitor/Tauri './').
+    //   - un import de Vite     -> ya viene resuelto y absoluto ('/assets/alaves-xxx.png'), o
+    //     relativo con './' en los builds de disco. Ponerle la base delante lo rompe: con base '/'
+    //     quedaba '//assets/alaves-xxx.png', que el navegador lee como URL protocol-relative
+    //     (https://assets/...) y nunca carga -> el club caía al fallback de iniciales ("DA" en vez
+    //     del escudo del Alavés; lo mismo le pasaba a Operário y Strasbourg).
+    const url = club.badgeImageUrl;
+    const yaResuelta = /^(https?:)?\/\//.test(url) || url.startsWith('/') || url.startsWith('.') || url.startsWith('data:');
+    const src = yaResuelta ? url : `${import.meta.env.BASE_URL}${url}`;
     return (
       <img
         src={src}

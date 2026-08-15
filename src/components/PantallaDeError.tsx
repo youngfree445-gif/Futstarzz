@@ -42,7 +42,7 @@ export default class PantallaDeError extends React.Component<Props, State> {
             guardado ocurre antes. Volvé al menú y entrá de nuevo a tu carrera.
           </p>
           <p className="text-xs text-slate-400">
-            Si podés, copiá el detalle de abajo y pasámelo: con eso el bug se encuentra en minutos.
+            Si puedes, copia el detalle de abajo y pásamelo: con eso el bug se encuentra en minutos.
           </p>
           <pre className="text-3xs bg-slate-950 border border-slate-800 rounded-xl p-3 overflow-auto max-h-64 whitespace-pre-wrap text-slate-400">
             {this.state.detalle || this.state.error.message}

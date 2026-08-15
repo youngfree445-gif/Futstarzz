@@ -67,7 +67,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
     }
     const restaurado = res.perfil;
     setSlots(prev => prev.map(s => s.id === slotId ? { ...s, profile: restaurado } : s));
-    alert(`Partida restaurada: ${restaurado.name}. Ya podés continuarla desde esta ranura.`);
+    alert(`Partida restaurada: ${restaurado.name}. Ya puedes continuarla desde esta ranura.`);
   };
 
   const handleDeleteSave = (slotId: string, e: React.MouseEvent) => {

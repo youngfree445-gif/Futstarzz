@@ -216,7 +216,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
   const handleSave = () => {
     const parsed = parsePlaylistUrl(draftUrl);
     if (!parsed) {
-      setError('No reconocí ese link. Pegá una playlist de YouTube Music, YouTube o Spotify.');
+      setError('No reconocí ese link. Pega una playlist de YouTube Music, YouTube o Spotify.');
       return;
     }
     setError(null);
@@ -295,7 +295,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
   if (hidden) return null;
 
   // El iframe de YouTube se renderiza SIEMPRE que haya playlist de YouTube, incluso con el widget
-  // cerrado y en cualquier pantalla: es lo que permite que la música siga sonando mientras jugás.
+  // cerrado y en cualquier pantalla: es lo que permite que la música siga sonando mientras juegas.
   // Colapsado se deja de 1x1px con opacidad 0 en vez de display:none ni width:0 -- un iframe
   // realmente oculto es pausado por varios navegadores como ahorro de recursos.
   const collapsedPlayer = isYouTube && !open;
@@ -402,9 +402,9 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
               {!playlist && (
                 <div className="space-y-2">
                   <p className="text-3xs text-slate-400 leading-relaxed">
-                    Pegá el link de tu playlist de{' '}
+                    Pega el link de tu playlist de{' '}
                     <span className="text-gold-400 font-bold">YouTube Music</span> y suena completa
-                    mientras jugás.
+                    mientras juegas.
                   </p>
                   <div className="flex gap-1.5">
                     <input
@@ -427,7 +427,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                   </div>
                   {error && <p className="text-4xs text-burgundy-400 font-bold leading-snug">{error}</p>}
                   <p className="text-4xs text-slate-600 leading-relaxed">
-                    Con YouTube suenan completas y tenés play, siguiente y aleatorio. Spotify también
+                    Con YouTube suenan completas y tienes play, siguiente y aleatorio. Spotify también
                     entra, con play y pausa desde acá, pero solo deja escuchar 30 segundos por canción
                     salvo que tengas Premium, y no permite aleatorio — son límites suyos, no del juego.
                   </p>
@@ -496,7 +496,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                     {shuffle
                       ? 'Aleatorio activado: la lista suena en orden salteado.'
                       : musicPlaying
-                        ? 'Suena mientras jugás, incluso con esto cerrado.'
+                        ? 'Suena mientras juegas, incluso con esto cerrado.'
                         : 'Dale play una vez y sigue sonando en todo el juego.'}
                   </p>
                 </>
@@ -523,7 +523,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                     </button>
                     <p className="text-4xs text-slate-500 leading-relaxed flex-1">
                       {spotifyReady
-                        ? 'Podés controlarlo desde acá o desde el reproductor.'
+                        ? 'Puedes controlarlo desde aquí o desde el reproductor.'
                         : 'Cargando el reproductor de Spotify…'}
                     </p>
                   </div>

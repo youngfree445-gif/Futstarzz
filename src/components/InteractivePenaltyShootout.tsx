@@ -209,8 +209,8 @@ export default function InteractivePenaltyShootout({ playerProfile, myClubName, 
               >
                 <span>
                   Tiro {i + 1} · {kick.side === 'mine' ? myClubName : rivalClubName}
-                  {kick.isPlayerKick && ' (¡pateaste vos!)'}
-                  {kick.isPlayerSave && ' (¡atajaste vos!)'}
+                  {kick.isPlayerKick && ' (¡pateaste tú!)'}
+                  {kick.isPlayerSave && ' (¡atajaste tú!)'}
                 </span>
                 <span className="font-mono uppercase text-3xs">{kick.scored ? '⚽ GOL' : '🧤 ATAJADO/AFUERA'}</span>
               </div>

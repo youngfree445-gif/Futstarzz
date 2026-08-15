@@ -591,7 +591,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   <div className="p-2.5 rounded-xl border border-slate-800 bg-slate-950/40">
                     <p className="text-2xs font-bold text-white mb-1">Lesiones</p>
                     <p className="text-3xs text-slate-500 mb-2 leading-snug">
-                      Si las activás, vas a poder lesionarte de verdad y perderte partidos mientras te recuperás.
+                      Si las activas, vas a poder lesionarte de verdad y perderte partidos mientras te recuperas.
                     </p>
                     <div className="grid grid-cols-2 gap-1">
                       <button
@@ -807,7 +807,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   ))}
                 </div>
                 <p className="text-4xs text-slate-500 leading-relaxed mt-1.5">
-                  Define a qué selección te pueden convocar. Podés jugar en una liga y tener otra
+                  Define a qué selección te pueden convocar. Puedes jugar en una liga y tener otra
                   nacionalidad{nationality !== leagueOrigin ? ' — como ahora' : ''}.
                 </p>
               </div>

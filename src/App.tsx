@@ -1379,7 +1379,7 @@ export default function App() {
     // El tope se aplicaba con Math.min(99, ...) DESPUÉS de cobrar, así que con el atributo en 99
     // seguías pagando la sesión y gastando energía a cambio de nada. Se corta antes de tocar nada.
     if (playerProfile.attributes[attr] >= ATTRIBUTE_MAX) {
-      notify(`Ya tenés ${attr} en ${ATTRIBUTE_MAX}, el máximo. Entrenarlo de nuevo sería tirar la plata: metele a otra cosa.`);
+      notify(`Ya tienes ${attr} en ${ATTRIBUTE_MAX}, el máximo. Entrenarlo de nuevo sería tirar la plata: dedícalo a otra cosa.`);
       return;
     }
     if (playerProfile.energy < TRAINING_ENERGY_COST) {
@@ -1433,7 +1433,7 @@ export default function App() {
   const handleSelectMentor = (playerName: string | null) => {
     if (!playerProfile) return;
     if (playerName && !puedeTenerMentor(playerProfile.age)) {
-      notify(`Ya pasaste los ${MENTEE_SELF_MAX_AGE}: a esta altura de la carrera el que apadrina sos vos.`);
+      notify(`Ya pasaste los ${MENTEE_SELF_MAX_AGE}: a esta altura de la carrera el que apadrina eres tú.`);
       return;
     }
     if (playerName && getSquadPlayerAge(playerProfile.currentClubId, playerName, temporadaDe(playerProfile, playerProfile.currentWeek) - CAREER_START_YEAR) < MENTOR_MIN_AGE) {
@@ -1457,7 +1457,7 @@ export default function App() {
       return;
     }
     if (playerProfile.energy < ENTORNO_VISITA_ENERGIA) {
-      notify('Estás fundido. Descansá antes de subirte a un avión.');
+      notify('Estás fundido. Descansa antes de subirte a un avión.');
       return;
     }
     const actual = playerProfile.entorno ?? ENTORNO_INICIAL;
@@ -1470,7 +1470,7 @@ export default function App() {
     };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    notify('🏠 Te tomaste unos días con los tuyos. Volvés con la cabeza en otro lado — en el bueno.');
+    notify('🏠 Te tomaste unos días con los tuyos. Vuelves con la cabeza en otro lado — en el bueno.');
   };
 
   // Fase 2.5 -- Vida amorosa: relación de pareja opcional con su propia barra (loveMeter) y sus
@@ -1615,11 +1615,11 @@ export default function App() {
     if (!playerProfile?.girlfriend) return;
     if (playerProfile.girlfriend.marriedAt !== undefined) return;
     if (!playerProfile.girlfriend.livingTogether || playerProfile.girlfriend.loveMeter < PROPOSE_MIN_LOVE) {
-      notify('Todavía no es el momento: necesitás vivir juntos y una relación más sólida antes de proponerle matrimonio.');
+      notify('Todavía no es el momento: necesitas vivir juntos y una relación más sólida antes de proponerle matrimonio.');
       return;
     }
     if (playerProfile.capital < PROPOSE_COST) {
-      notify(`No te alcanza para el anillo. Necesitás al menos $${PROPOSE_COST.toLocaleString()}.`);
+      notify(`No te alcanza para el anillo. Necesitas al menos $${PROPOSE_COST.toLocaleString()}.`);
       return;
     }
     const gfName = playerProfile.girlfriend.name;
@@ -1640,11 +1640,11 @@ export default function App() {
   const handleHaveChild = () => {
     if (!playerProfile?.girlfriend) return;
     if (playerProfile.girlfriend.marriedAt === undefined) {
-      notify('Solo podés formar una familia con alguien con quien ya te casaste.');
+      notify('Solo puedes formar una familia con alguien con quien ya te casaste.');
       return;
     }
     if (playerProfile.energy < CHILD_ENERGY_COST + 10) {
-      notify('Estás demasiado exhausto para esta noticia ahora mismo. Descansá primero.');
+      notify('Estás demasiado exhausto para esta noticia ahora mismo. Descansa primero.');
       return;
     }
     const childName = ['Mateo', 'Sofía', 'Thiago', 'Emma', 'Santiago', 'Valentina'][Math.floor(Math.random() * 6)];
@@ -1664,7 +1664,7 @@ export default function App() {
     if (newlyUnlocked.length > 0) setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
     setPlayerProfile(withAchievements);
     saveGameState(withAchievements, shopItems);
-    notify(`👶 ¡${gfName} y vos tuvieron a ${childName}! La familia crece, pero esta semana llegaste al partido más cansado de lo habitual.`);
+    notify(`👶 ¡${gfName} y tú tuvieron a ${childName}! La familia crece, pero esta semana llegaste al partido más cansado de lo habitual.`);
   };
 
   // Fase 3 -- Modo Veterano: reconversión de posición. Solo tiene sentido ofrecerla desde el
@@ -1698,7 +1698,7 @@ export default function App() {
   const handleSelectRole = (roleId: string | null) => {
     if (!playerProfile) return;
     if (roleId && playerProfile.careerStats.partidosHistoricos < ROLE_UNLOCK_MATCHES) {
-      notify(`Todavía no tenés trayectoria suficiente para especializarte (necesitás ${ROLE_UNLOCK_MATCHES} partidos jugados).`);
+      notify(`Todavía no tienes trayectoria suficiente para especializarte (necesitas ${ROLE_UNLOCK_MATCHES} partidos jugados).`);
       return;
     }
     const role = roleId ? ROLES_DATABASE.find(r => r.id === roleId) : null;
@@ -1763,7 +1763,7 @@ export default function App() {
     };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    notify('Terminaste tu relación con tu representante. Volvés a negociar directo.');
+    notify('Terminaste tu relación con tu representante. Vuelves a negociar directo.');
   };
 
   const RENEWAL_MIN_PRESTIGE = 55;
@@ -1779,7 +1779,7 @@ export default function App() {
     const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
     if (!myClub) return;
     if (playerProfile.prestige < RENEWAL_MIN_PRESTIGE) {
-      notify('Todavía no tenés la relación suficiente con el DT como para pedir una renovación.');
+      notify('Todavía no tienes la relación suficiente con el DT como para pedir una renovación.');
       return;
     }
     const accepted = Math.random() < RENEWAL_ACCEPT_CHANCE_BASE + (playerProfile.prestige - RENEWAL_MIN_PRESTIGE) / 200;
@@ -1835,7 +1835,7 @@ export default function App() {
     };
     setPlayerProfile(updatedProfile);
     saveGameState(updatedProfile, shopItems);
-    notify(`📄 Salís a préstamo a ${targetClub.name}. Volvés a ${originClub.name} en ${returnWeek - playerProfile.currentWeek} semanas, salvo que se ejerza la opción de compra.`);
+    notify(`📄 Sales a préstamo a ${targetClub.name}. Vuelves a ${originClub.name} en ${returnWeek - playerProfile.currentWeek} semanas, salvo que se ejerza la opción de compra.`);
   };
 
   // Al llegar returnWeek con un préstamo activo, el jugador decide: ejercer la opción de compra
@@ -1846,7 +1846,7 @@ export default function App() {
     const loan = playerProfile.activeLoan;
     if (buyOption) {
       if (playerProfile.capital < (loan.optionToBuyAmount ?? 0)) {
-        notify('No tenés fondos suficientes para ejercer la opción de compra.');
+        notify('No tienes fondos suficientes para ejercer la opción de compra.');
         return;
       }
       const updatedProfile: PlayerProfile = {
@@ -1888,7 +1888,7 @@ export default function App() {
     const investment = INVESTMENTS_DATABASE.find(i => i.id === investmentId);
     if (!investment) return;
     if (playerProfile.capital < investment.cost) {
-      notify('No tenés fondos suficientes para esta inversión.');
+      notify('No tienes fondos suficientes para esta inversión.');
       return;
     }
     if ((playerProfile.investments ?? []).some(i => i.id === investmentId)) return;
@@ -3289,7 +3289,7 @@ export default function App() {
         }
         setPlayerProfile(aged);
         saveGameState(aged, shopItems);
-        notify(`📋 NO FUISTE CONVOCADO esta fecha: el DT decidió dejarte fuera de la lista de ${myClub.name}. Resultado sin vos: ${myGoals}-${rivalGoals} vs. ${opName}.`);
+        notify(`📋 NO FUISTE CONVOCADO esta fecha: el DT decidió dejarte fuera de la lista de ${myClub.name}. Resultado sin ti: ${myGoals}-${rivalGoals} vs. ${opName}.`);
         return;
       }
 
@@ -3379,7 +3379,7 @@ export default function App() {
     if (choice !== 'forzar' && playerProfile.activeInjury.treatmentChoice) return;
     if (choice === 'forzar' && playerProfile.activeInjury.treatmentChoice === 'forzar') return;
     if (choice === 'fast' && playerProfile.capital < INJURY_FAST_TREATMENT_COST) {
-      notify('No tenés fondos suficientes para el tratamiento rápido.');
+      notify('No tienes fondos suficientes para el tratamiento rápido.');
       return;
     }
 
@@ -3393,7 +3393,7 @@ export default function App() {
       };
       setPlayerProfile(forzado);
       saveGameState(forzado, shopItems);
-      notify(`🔥 Volvés antes de tiempo. Jugás con la lesión encima: rendís por debajo y cada partido tiene ${riesgo}% de recaída.`);
+      notify(`🔥 Vuelves antes de tiempo. Juegas con la lesión encima: rindes por debajo y cada partido tiene ${riesgo}% de recaída.`);
       return;
     }
 
@@ -3464,8 +3464,8 @@ export default function App() {
     setPlayerProfile(aged);
     saveGameState(aged, shopItems);
     notify(injuryDone
-      ? `✅ Te recuperaste de tu lesión. Ya podés volver a jugar con ${myClub.name}.`
-      : `🩹 Seguís de baja. Te quedan ${weeksRemaining} semana(s) de recuperación.`);
+      ? `✅ Te recuperaste de tu lesión. Ya puedes volver a jugar con ${myClub.name}.`
+      : `🩹 Sigues de baja. Te quedan ${weeksRemaining} semana(s) de recuperación.`);
   };
 
   // Semana de sanción en la que tu club NO tiene partido de liga (fecha libre por zona impar, o el
@@ -3511,7 +3511,7 @@ export default function App() {
 
     setPlayerProfile(aged);
     saveGameState(aged, shopItems);
-    notify(`🚫 Fecha libre de ${myClub.name}: cumpliste una fecha de sanción sin jugar.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s).` : ' Ya podés volver a jugar.'}`);
+    notify(`🚫 Fecha libre de ${myClub.name}: cumpliste una fecha de sanción sin jugar.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s).` : ' Ya puedes volver a jugar.'}`);
   };
 
   const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number; companeros?: number }) => {
@@ -4662,7 +4662,7 @@ export default function App() {
 
     // Seguir en el mismo club es la opción por defecto; el jugador tiene que elegir retirarse.
     const quiereRetirarse = confirm(
-      `Tenés ${profile.age} años y el cuerpo ya te pasa factura. Podés colgar los botines ahora, con la carrera todavía fresca en la memoria de la gente, o aguantar ${anosRestantes} ${anosRestantes === 1 ? 'año más' : 'años más'} hasta el retiro definitivo a los ${RETIREMENT_MAX_AGE}.\n\n¿Te retirás ahora?\n\nAceptar = me retiro    ·    Cancelar = sigo jugando`
+      `Tienes ${profile.age} años y el cuerpo ya te pasa factura. Puedes colgar los botines ahora, con la carrera todavía fresca en la memoria de la gente, o aguantar ${anosRestantes} ${anosRestantes === 1 ? 'año más' : 'años más'} hasta el retiro definitivo a los ${RETIREMENT_MAX_AGE}.\n\n¿Te retirás ahora?\n\nAceptar = me retiro    ·    Cancelar = sigo jugando`
     );
 
     if (quiereRetirarse) {
@@ -4675,7 +4675,7 @@ export default function App() {
     if (!profile.hasSteppedDownRetirement) {
       const stepDownClub = findStepDownClub(profile);
       if (stepDownClub && confirm(
-        `Seguís. Pero a los ${profile.age} en ${clubName} vas a pelear cada minuto.\n\n¿Querés bajar a ${stepDownClub.name}, donde vas a jugar seguido aunque haya menos luces?\n\nAceptar = bajo de categoría    ·    Cancelar = me quedo`
+        `Sigues. Pero a los ${profile.age} en ${clubName} vas a pelear cada minuto.\n\n¿Quieres bajar a ${stepDownClub.name}, donde vas a jugar seguido aunque haya menos luces?\n\nAceptar = bajo de categoría    ·    Cancelar = me quedo`
       )) {
         const prestigeCompanerosAlBajar = profile.prestigeCompaneros ?? profile.prestige;
         const steppedDown: PlayerProfile = {
@@ -4690,7 +4690,7 @@ export default function App() {
         setShopItems(updatedShopItems);
         saveGameState(steppedDown, updatedShopItems);
         setScreen('dashboard');
-        notify(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo. Menos luces, pero seguís en la cancha.`);
+        notify(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo. Menos luces, pero sigues en la cancha.`);
         return;
       }
     }
@@ -4700,7 +4700,7 @@ export default function App() {
     setShopItems(updatedShopItems);
     saveGameState(profile, updatedShopItems);
     setScreen('dashboard');
-    notify(`💪 Seguís en ${clubName}. A los ${profile.age} años, cada partido es un regalo.`);
+    notify(`💪 Sigues en ${clubName}. A los ${profile.age} años, cada partido es un regalo.`);
   };
 
   const handleFinishCareerSummary = () => {

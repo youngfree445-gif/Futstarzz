@@ -3080,7 +3080,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'headphones',
     name: 'Audifonos con Cancelacion de Ruido',
     cost: 4200,
-    description: 'Los que se ponen todos al bajar del micro. Silencio absoluto antes de salir a la cancha.',
+    description: 'Los que se ponen todos al bajar del bus. Silencio absoluto antes de salir a la cancha.',
     perkText: '+5 Energia permanente: concentrarte en un estadio hostil tambien descansa.',
     effect: { permanentEnergyBonus: 5, fansBonus: 3 },
     purchased: false,
@@ -3190,7 +3190,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'private_trainer_team',
     name: 'Cuerpo Tecnico Personal',
     cost: 520000,
-    description: 'Un preparador fisico, un kinesiologo y un psicologo deportivo contratados solo para vos.',
+    description: 'Un preparador fisico, un kinesiologo y un psicologo deportivo contratados solo para ti.',
     perkText: '+2 Fisico, +1 Ritmo, +20 Energia permanente y bastante menos fatiga.',
     effect: { attribute: 'fisico', value: 2, permanentEnergyBonus: 20, fatigueReduction: 12, prestigeBonus: 10 },
     purchased: false,
@@ -3258,9 +3258,9 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
   // --------------------------------------------------------------------------- VIVIENDAS
   {
     id: 'city_apartment',
-    name: 'Departamento Centrico',
+    name: 'Apartamento Centrico',
     cost: 165000,
-    description: 'Dos ambientes a diez minutos del predio, con cochera y porteria 24 horas. Se acabo el viaje de una hora.',
+    description: 'Dos habitaciones a diez minutos del complejo, con garaje y porteria 24 horas. Se acabo el viaje de una hora.',
     perkText: '+8 Energia permanente y menos fatiga: dormir cerca del club cambia la semana.',
     effect: { permanentEnergyBonus: 8, fatigueReduction: 4, prestigeBonus: 3 },
     purchased: false,
@@ -3271,7 +3271,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'family_house',
     name: 'Casa Familiar con Patio',
     cost: 480000,
-    description: 'Tres dormitorios, parrilla y un fondo donde caben un arco y tus sobrinos. Traes a los tuyos a vivir con vos.',
+    description: 'Tres dormitorios, parrilla y un fondo donde caben un arco y tus sobrinos. Traes a los tuyos a vivir contigo.',
     perkText: '+12 Energia permanente y +10 Aficion. La cabeza tambien descansa.',
     effect: { permanentEnergyBonus: 12, fansBonus: 10, prestigeBonus: 5, fatigueReduction: 4 },
     purchased: false,
@@ -3282,7 +3282,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'penthouse',
     name: 'Penthouse con Vista al Rio',
     cost: 2300000,
-    description: 'Ultimo piso, terraza propia con pileta desbordante y ascensor privado que da al living.',
+    description: 'Ultimo piso, terraza propia con piscina desbordante y ascensor privado que da a la sala.',
     perkText: '+35 Aficion, +20 Prestigio y +10 Energia permanente.',
     effect: { fansBonus: 35, prestigeBonus: 20, permanentEnergyBonus: 10 },
     purchased: false,
@@ -3365,7 +3365,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'food_cart',
     name: 'Carrito de Comidas Callejero',
     cost: 22000,
-    description: 'Una parrilla con ruedas afuera del estadio, atendida por tu tio. Arepas, choripanes y una fila que no baja.',
+    description: 'Una parrilla con ruedas afuera del estadio, atendida por tu tio. Arepas, empanadas y una fila que no baja.',
     perkText: 'Devuelve $1.800 cada fecha. La primera plata que ganas sin patear una pelota.',
     effect: { passiveIncome: 1800, fansBonus: 6 },
     purchased: false,
@@ -3444,7 +3444,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'gym_chain',
     name: 'Cadena de Gimnasios',
     cost: 3400000,
-    description: 'Ocho sedes con tu metodo de entrenamiento y tu cara en cada afiche. Vos tambien entrenas ahi.',
+    description: 'Ocho sedes con tu metodo de entrenamiento y tu cara en cada afiche. Tambien entrenas ahi.',
     perkText: 'Devuelve $95.000 cada fecha, +1 Fisico y +25 Aficion.',
     effect: { passiveIncome: 95000, attribute: 'fisico', value: 1, fansBonus: 25, permanentEnergyBonus: 5 },
     purchased: false,
@@ -3466,7 +3466,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'game_studio',
     name: 'Estudio de Videojuegos',
     cost: 9600000,
-    description: 'Cuarenta personas desarrollando un juego de futbol arcade. Vos sos el jugador de la tapa y tambien el dueno.',
+    description: 'Cuarenta personas desarrollando un juego de futbol arcade. Eres el jugador de la tapa y tambien el dueno.',
     perkText: 'Devuelve $240.000 cada fecha, +110 Aficion y +35 Prestigio.',
     effect: { passiveIncome: 240000, fansBonus: 110, prestigeBonus: 35 },
     purchased: false,
@@ -3544,7 +3544,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'streaming_deal',
     name: 'Contrato de Streaming Exclusivo',
     cost: 95000,
-    description: 'Transmitís tus entrenamientos y momentos de vestuario en vivo para una plataforma internacional.',
+    description: 'Transmites tus entrenamientos y momentos de vestuario en vivo para una plataforma internacional.',
     perkText: '+20 Fans, ganas de forma pasiva $1,800 cada vez que avanzas la semana.',
     effect: { fansBonus: 20, passiveIncome: 1800 },
     category: 'tecnologia',
@@ -3568,7 +3568,7 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
     id: 'fashion_line',
     name: 'Línea de Ropa Urbana Propia',
     cost: 70000,
-    description: 'Lanzás tu propia colección de streetwear con una marca reconocida de la industria.',
+    description: 'Lanzas tu propia colección de streetwear con una marca reconocida de la industria.',
     perkText: '+35 Fans, +5 Prestigio.',
     effect: { fansBonus: 35, prestigeBonus: 2 },
     category: 'moda',
@@ -3695,105 +3695,105 @@ export const INITIAL_LIFESTYLE_ITEMS: ShopItem[] = [
 export const PRESS_QUESTIONS_POOL: PressQuestion[] = [
   {
     id: "press_mau_debut",
-    context: "Debut en Primera División",
-    mediaName: "mausportstv (Live TikTok/Instagram)",
+    context: "Entrevista de Debut",
+    mediaName: "Mau Sports · Periodista",
     reporter: "Mau",
     reporterAvatar: "🎙️⚽",
     reporterAvatarImg: mauSportsAvatar,
     mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
-    question: "¡Family, estamos EN VIVO para tu primerísima rueda de prensa como profesional! Todo el chat quiere saber: ¿qué se siente debutar en Primera División?",
+    question: "Arrancamos la entrevista con el debutante de la fecha. La pregunta que todos quieren hacerte: ¿qué se siente debutar en Primera División?",
     options: [
       {
         text: "Es un sueño cumplido, pero esto recién empieza. Con los pies bien puestos en la tierra.",
         prestigeChange: 2,
         fansChange: 6,
         energyChange: -2,
-        reaction: "Mau (@mausportstv): 'Declaración madura para ser su primera rueda de prensa. El chat lo ama.'"
+        reaction: "Mau Sports: 'Declaración madura para ser su primera entrevista. Le cayó muy bien a la gente.'"
       },
       {
-        text: "Vine a ser titular indiscutido desde el día uno, no a calentar banca de suplentes.",
+        text: "Vine a ser titular indiscutido desde el día uno, no a calentar el banquillo.",
         prestigeChange: 4,
         fansChange: -6,
         energyChange: 0,
-        reaction: "Mau (@mausportstv): '¡Family, esto se puso picante! El debutante ya está pidiendo la titularidad.'"
+        reaction: "Mau Sports: 'Y esto se puso picante: el debutante ya está pidiendo la titularidad.'"
       }
     ]
   },
   {
     id: "q1",
-    context: "Post-Partido de Primera División",
-    mediaName: "mausportstv (Live TikTok/Instagram)",
+    context: "Podcast Post-Partido",
+    mediaName: "Mau Sports · Periodista",
     reporter: "Mau",
     reporterAvatar: "🎙️⚽",
     reporterAvatarImg: mauSportsAvatar,
     mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
-    question: "¡Estamos en vivo con la sensación del torneo! Has tenido un despliegue táctico brutal hoy en la cancha. ¿Sientes que estás listo para dar el salto definitivo a Europa en el próximo mercado de fichajes de verano?",
+    question: "Tenemos en el podcast a la sensación del torneo. Has tenido un despliegue táctico brutal hoy en la cancha. ¿Sientes que estás listo para dar el salto definitivo a Europa en el próximo mercado de fichajes de verano?",
     options: [
       {
         text: "Mi cabeza está 100% enfocada en este club, el resto lo maneja mi representante.",
         prestigeChange: 2,
         fansChange: 5,
         energyChange: -2,
-        reaction: "Mau (@mausportstv): 'Declaración madura del juvenil. Mantiene los pies sobre la tierra.'"
+        reaction: "Mau Sports: 'Declaración madura del juvenil. Mantiene los pies sobre la tierra.'"
       },
       {
         text: "Totalmente. El fútbol sudamericano ya me queda chico, aspiro a ganar la Champions League pronto.",
         prestigeChange: 4,
         fansChange: -10,
         energyChange: 0,
-        reaction: "Mau (@mausportstv): '¡Boom! El jugador exige su salida inmediata a Europa.'"
+        reaction: "Mau Sports: 'Titular de la entrevista: el jugador exige su salida inmediata a Europa.'"
       }
     ]
   },
   {
     id: "press_mau_viral",
-    context: "Repercusión en Redes Sociales",
-    mediaName: "mausportstv (Live TikTok/Instagram)",
+    context: "Entrevista · Redes Sociales",
+    mediaName: "Mau Sports · Periodista",
     reporter: "Mau",
     reporterAvatar: "🎙️⚽",
     reporterAvatarImg: mauSportsAvatar,
     mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
-    question: "¡Family, tu última jugada se volvió tendencia! Más de 2 millones de vistas en TikTok y ya te hicieron hasta memes. ¿Ya los viste?",
+    question: "Tu última jugada se volvió tendencia: más de dos millones de vistas y ya te hicieron hasta memes. ¿Ya los viste?",
     options: [
       {
         text: "Sí, me río muchísimo con los memes, se los mando a mis compañeros del plantel.",
         prestigeChange: 2,
         fansChange: 10,
         energyChange: -1,
-        reaction: "Mau (@mausportstv): 'Se lo toma con humor, el chat explota de comentarios positivos.'"
+        reaction: "Mau Sports: 'Se lo toma con humor y las redes se llenan de comentarios positivos.'"
       },
       {
         text: "No tengo tiempo para andar viendo redes, estoy enfocado en el próximo rival.",
         prestigeChange: 3,
         fansChange: -3,
         energyChange: 0,
-        reaction: "Mau (@mausportstv): 'Respuesta seria de profesional. Algunos en el chat dicen que es medio soberbio.'"
+        reaction: "Mau Sports: 'Respuesta seria de profesional. Algunos oyentes dicen que sonó medio soberbio.'"
       }
     ]
   },
   {
     id: "press_mau_rumor",
-    context: "Filtración en Vivo",
-    mediaName: "mausportstv (Live TikTok/Instagram)",
+    context: "Entrevista a Fondo",
+    mediaName: "Mau Sports · Periodista",
     reporter: "Mau",
     reporterAvatar: "🎙️⚽",
     reporterAvatarImg: mauSportsAvatar,
     mediaColor: "border-purple-500 text-purple-400 bg-purple-950/20",
-    question: "Nos llegó un dato calentito al chat en vivo: dicen que ya firmaste en secreto con otro club. ¿Confirmas o desmientes ahora mismo, family?",
+    question: "Nos llegó un dato antes de sentarnos: dicen que ya firmaste en secreto con otro club. ¿Lo confirmas o lo desmientes acá mismo?",
     options: [
       {
         text: "Total invento. Sigo 100% enfocado acá, cuando haya algo real lo van a saber de primera mano.",
         prestigeChange: 2,
         fansChange: 8,
         energyChange: -2,
-        reaction: "Mau (@mausportstv): 'Desmentido en vivo. El chat respira tranquilo, por ahora.'"
+        reaction: "Mau Sports: 'Desmentido en la entrevista. La hinchada respira tranquila, por ahora.'"
       },
       {
         text: "No puedo confirmar ni desmentir nada, eso lo maneja mi representante.",
         prestigeChange: -2,
         fansChange: -4,
         energyChange: 0,
-        reaction: "Mau (@mausportstv): '¡Family, no lo desmintió! El rumor se dispara en los trending topics.'"
+        reaction: "Mau Sports: 'No lo desmintió, y el rumor se dispara en todos los medios.'"
       }
     ]
   },
@@ -4371,7 +4371,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Pedir disculpas e irte por la puerta trasera',
         cost: 0,
-        outcome: 'Pudiste descansar y dormir tus 8 horas, pero algunos fans te tildan de agrandado en Twitter.',
+        outcome: 'Pudiste descansar y dormir tus 8 horas, pero algunos fans te tildan de creído en Twitter.',
         effects: { prestige: -5, fans: -15, energy: 15, capital: 0 }
       }
     ]
@@ -4384,7 +4384,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Aceptar uno para relajar los nervios',
         cost: 0,
-        outcome: 'Te ve el utillero y el rumor llega al cuerpo técnico. Te bajan puntos de confianza física.',
+        outcome: 'Te ve el utilero y el rumor llega al cuerpo técnico. Te bajan puntos de confianza física.',
         effects: { prestige: -8, fans: 0, energy: -20, capital: 0 }
       },
       {
@@ -4415,7 +4415,7 @@ export const LOBBY_RANDOM_EVENTS = [
   },
   {
     title: 'Apuestas en la Concentración',
-    description: 'En el micro rumbo al hotel, un grupo de compañeros arma una timba de cartas con plata de por medio para matar el aburrimiento del viaje.',
+    description: 'En el bus rumbo al hotel, un grupo de compañeros arma una partida de cartas con plata de por medio para matar el aburrimiento del viaje.',
     choices: [
       {
         text: 'Sumarte a la partida ($4,000 COP/USD en juego)',
@@ -4439,7 +4439,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Responder que tú juegas para ganar, no para quedar bien con nadie',
         cost: 0,
-        outcome: 'El vestuario se divide: unos te bancan, otros creen que te faltó el respeto al técnico.',
+        outcome: 'El vestuario se divide: unos te apoyan, otros creen que te faltó el respeto al técnico.',
         effects: { prestige: -12, fans: 8, energy: -5, capital: 0 }
       },
       {
@@ -4452,7 +4452,7 @@ export const LOBBY_RANDOM_EVENTS = [
   },
   {
     title: 'La Hinchada Pide Explicaciones',
-    description: 'Tras una racha floja de resultados, un grupo de la barra brava se planta en la puerta del predio de entrenamiento pidiendo hablar con los jugadores.',
+    description: 'Tras una racha floja de resultados, un grupo de la barra brava se planta en la puerta de la sede de entrenamiento pidiendo hablar con los jugadores.',
     choices: [
       {
         text: 'Salir a dar la cara y escuchar sus reclamos',
@@ -4500,7 +4500,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Salir corriendo antes de que noten tu ausencia',
         cost: 0,
-        outcome: 'Llegás justo antes del pase de lista. Nadie se entera.',
+        outcome: 'Llegas justo antes del pase de lista. Nadie se entera.',
         effects: { prestige: 2, fans: 0, energy: -10, capital: 0 }
       }
     ]
@@ -4543,7 +4543,7 @@ export const LOBBY_RANDOM_EVENTS = [
   },
   {
     title: 'Multa por Impuntualidad',
-    description: 'Llegás 40 minutos tarde a la charla técnica prepartido por quedarte dormido tras una sesión larga de videojuegos.',
+    description: 'Llegas 40 minutos tarde a la charla técnica prepartido por quedarte dormido tras una sesión larga de videojuegos.',
     choices: [
       {
         text: 'Inventar una excusa poco creíble',
@@ -4591,13 +4591,13 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Pedir permiso al club y viajar a estar con ellos',
         cost: 0,
-        outcome: 'El DT entiende la situación personal y te da el permiso, pero llegás al partido con la cabeza dividida.',
+        outcome: 'El DT entiende la situación personal y te da el permiso, pero llegas al partido con la cabeza dividida.',
         effects: { prestige: 2, fans: 5, energy: -25, capital: 0 }
       },
       {
         text: 'Quedarte concentrado en el equipo y llamarlos por teléfono',
         cost: 0,
-        outcome: 'Resolvés lo que podés a la distancia. Rendís bien en el entrenamiento, pero te queda la espina de no haber estado presente.',
+        outcome: 'Resuelves lo que puedes a la distancia. Rindes bien en el entrenamiento, pero te queda la espina de no haber estado presente.',
         effects: { prestige: 2, fans: 0, energy: -10, capital: 0 }
       }
     ]
@@ -4615,7 +4615,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Pasar solo un par de horas y volver temprano a descansar para el partido',
         cost: 200,
-        outcome: 'Cumplís con la familia sin descuidar la preparación física de la semana.',
+        outcome: 'Cumples con la familia sin descuidar la preparación física de la semana.',
         effects: { prestige: 2, fans: 1, energy: 10, capital: -200 }
       }
     ]
@@ -4636,7 +4636,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'No meterte, no es tu problema',
         cost: 0,
-        outcome: 'Evitás el conflicto, pero el joven del plantel nota que nadie salió a defenderlo.',
+        outcome: 'Evitas el conflicto, pero el joven del plantel nota que nadie salió a defenderlo.',
         effects: { prestige: 0, fans: 0, energy: 0, capital: 0, companeros: -4 }
       }
     ]
@@ -4654,7 +4654,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Sumarte a las críticas',
         cost: 0,
-        outcome: 'Ganás algo de eco entre los más críticos, pero se nota la fractura en el vestuario.',
+        outcome: 'Ganas algo de eco entre los más críticos, pero se nota la fractura en el vestuario.',
         effects: { prestige: 0, fans: 0, energy: 0, capital: 0, companeros: -6 }
       }
     ]
@@ -4672,7 +4672,7 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Responder con la misma dureza',
         cost: 0,
-        outcome: 'Quedás mal parado frente al resto del plantel, aunque tenías parte de razón.',
+        outcome: 'Quedas mal parado frente al resto del plantel, aunque tenías parte de razón.',
         effects: { prestige: 0, fans: 0, energy: -10, capital: 0, companeros: -7 }
       }
     ]
@@ -4684,13 +4684,13 @@ export const LOBBY_RANDOM_EVENTS = [
       {
         text: 'Ir y pagar tu parte ($1,500)',
         cost: 1500,
-        outcome: 'Pasás un buen rato con el plantel. La confianza del grupo mejora notablemente.',
+        outcome: 'Pasas un buen rato con el plantel. La confianza del grupo mejora notablemente.',
         effects: { prestige: 0, fans: 0, energy: -10, capital: -1500, companeros: 10 }
       },
       {
         text: 'Quedarte a descansar en casa',
         cost: 0,
-        outcome: 'Recuperás energía, pero te perdés un momento que el resto del plantel sí compartió.',
+        outcome: 'Recuperas energía, pero te pierdes un momento que el resto del plantel sí compartió.',
         effects: { prestige: 0, fans: 0, energy: 20, capital: 0, companeros: -3 }
       }
     ]

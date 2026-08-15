@@ -74,7 +74,7 @@ export default function SeasonComparisonChart({ seasonHistory }: SeasonCompariso
         {/* Sin uppercase: es una oración entera, no una etiqueta. En mayúsculas sostenidas se lee
             mucho peor, que es justo lo contrario de lo que necesita un texto explicativo. */}
         <p className="text-2xs text-slate-400 font-mono leading-relaxed">
-          El comparador de temporadas se completa a medida que cerrás años de carrera. Todavía no hay
+          El comparador de temporadas se completa a medida que cierras años de carrera. Todavía no hay
           suficientes temporadas cerradas con datos para graficar.
         </p>
       </div>

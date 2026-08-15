@@ -2125,7 +2125,7 @@ export default function Dashboard({
   // pudiera ciclear para reintentar) -- cada semana nueva trae una conferencia distinta. Se usa un
   // hash de la semana en vez de currentWeek % length para que el orden se sienta random en vez de
   // repetir siempre el mismo ciclo 1,2,3... Tu primerísima rueda de prensa de la carrera
-  // (lastPressAnsweredWeek === 0, nunca respondiste ninguna) siempre es la de Mau Sports TV.
+  // (lastPressAnsweredWeek === 0, nunca respondiste ninguna) siempre es la entrevista de Mau Sports.
   const pseudoRandomPressIndex = (week: number) => {
     const hashed = Math.sin(week * 12.9898) * 43758.5453;
     return Math.floor((hashed - Math.floor(hashed)) * PRESS_QUESTIONS_POOL.length);
@@ -3033,11 +3033,11 @@ export default function Dashboard({
                   ) : (
                     <div className="mt-3 rounded-xl bg-red-950/40 border border-red-900/50 p-3">
                       <p className="text-3xs text-red-300 font-mono uppercase leading-relaxed">
-                        Jugando lesionado. Rendís por debajo (−{PENALIDAD_ATRIBUTOS_LESIONADO} en todos los atributos)
+                        Jugando lesionado. Rindes por debajo (−{PENALIDAD_ATRIBUTOS_LESIONADO} en todos los atributos)
                         y cada partido tiene {Math.round(riesgoDeRecaida(playerProfile.activeInjury.weeksRemaining) * 100)}% de recaída.
                       </p>
                       <p className="text-3xs text-slate-500 font-mono uppercase mt-1.5">
-                        Si aguantás {playerProfile.activeInjury.weeksRemaining} fecha(s) más, llegás al alta jugando.
+                        Si aguantas {playerProfile.activeInjury.weeksRemaining} fecha(s) más, llegas al alta jugando.
                       </p>
                     </div>
                   )}
@@ -3187,7 +3187,7 @@ export default function Dashboard({
                     <p className="text-3xs text-slate-400 leading-relaxed mb-3">
                       Elegí un estilo de juego para tu posición ({playerProfile.position}). Cada rol le
                       da más peso a ciertos atributos y menos a otros en el resultado del partido -- no
-                      suma ni resta puntos, solo cambia cómo rinden los que ya tenés.
+                      suma ni resta puntos, solo cambia cómo rinden los que ya tienes.
                     </p>
                     <div className="grid sm:grid-cols-2 gap-2">
                       {ROLES_DATABASE.filter(r => r.position === playerProfile.position).map(role => (
@@ -3521,18 +3521,18 @@ export default function Dashboard({
                         </div>
                         <p className="text-3xs text-slate-400 leading-relaxed mb-3">
                           {entorno >= 70
-                            ? 'Los tuyos están cerca. Cuando el fútbol sale mal, tenés dónde apoyarte.'
+                            ? 'Los tuyos están cerca. Cuando el fútbol sale mal, tienes dónde apoyarte.'
                             : entorno <= 30
-                            ? 'Hace mucho que no aparecés. Las derrotas te pegan más fuerte cuando volvés a una casa vacía.'
-                            : 'Los tuyos siguen ahí, pero las semanas pasan y vos no. El entorno se enfría solo al cerrar cada temporada.'}
+                            ? 'Hace mucho que no apareces. Las derrotas te pegan más fuerte cuando vuelves a una casa vacía.'
+                            : 'Los tuyos siguen ahí, pero las semanas pasan y tú no. El entorno se enfría solo al cerrar cada temporada.'}
                         </p>
                         <button
                           onClick={onVisitarEntorno}
                           disabled={playerProfile.capital < 900 || playerProfile.energy < 12}
                           title={playerProfile.capital < 900
-                            ? 'Necesitás $900 para el viaje.'
+                            ? 'Necesitas $900 para el viaje.'
                             : playerProfile.energy < 12
-                            ? 'Necesitás 12 de energía: estás fundido.'
+                            ? 'Necesitas 12 de energía: estás fundido.'
                             : 'Unos días con los tuyos.'}
                           className="btn-fx-subtle w-full min-h-[44px] py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                         >
@@ -3855,14 +3855,14 @@ export default function Dashboard({
                   <strong className="block text-white mb-1">📄 Cedido por {playerProfile.activeLoan.originClubName}</strong>
                   {playerProfile.currentWeek >= playerProfile.activeLoan.returnWeek ? (
                     <>
-                      <p className="mb-2">El préstamo terminó. ¿Ejercés la opción de compra por ${(playerProfile.activeLoan.optionToBuyAmount ?? 0).toLocaleString()} o volvés a {playerProfile.activeLoan.originClubName}?</p>
+                      <p className="mb-2">El préstamo terminó. ¿Ejerces la opción de compra por ${(playerProfile.activeLoan.optionToBuyAmount ?? 0).toLocaleString()} o vuelves a {playerProfile.activeLoan.originClubName}?</p>
                       <div className="grid grid-cols-2 gap-2">
                         <button onClick={() => onResolveLoan(true)} disabled={playerProfile.capital < (playerProfile.activeLoan.optionToBuyAmount ?? 0)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs uppercase cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Comprar</button>
                         <button onClick={() => onResolveLoan(false)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 font-bold text-2xs uppercase cursor-pointer">Volver</button>
                       </div>
                     </>
                   ) : (
-                    <p>Volvés en {playerProfile.activeLoan.returnWeek - playerProfile.currentWeek} semana(s), salvo que el club ejerza tu opción de compra.</p>
+                    <p>Vuelves en {playerProfile.activeLoan.returnWeek - playerProfile.currentWeek} semana(s), salvo que el club ejerza tu opción de compra.</p>
                   )}
                 </div>
               )}
@@ -3872,7 +3872,7 @@ export default function Dashboard({
               {miClubDescendio && (
                 <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/5 text-xs text-red-200 leading-relaxed">
                   <strong className="block text-red-300 mb-1">📉 {currentClub.name} descendió a la B</strong>
-                  Los clubes de primera preguntan por vos. Podés irte a seguir en la máxima categoría,
+                  Los clubes de primera preguntan por ti. Puedes irte a seguir en la máxima categoría,
                   o quedarte a devolver al club donde estaba — la hinchada no olvida al que se queda.
                 </div>
               )}
@@ -3891,7 +3891,7 @@ export default function Dashboard({
                 const diasQueFaltan = diasHastaElMercado(currentClub.name, playerProfile.currentWeek);
                 return (
                   <div className="px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-xs font-bold flex items-center gap-2">
-                    <RefreshCw size={13} /> Mercado de fichajes CERRADO — vuelve a abrir en {diasQueFaltan} día{diasQueFaltan !== 1 ? 's' : ''}. Podés revisar ofertas, pero no concretarlas hasta entonces.
+                    <RefreshCw size={13} /> Mercado de fichajes CERRADO — vuelve a abrir en {diasQueFaltan} día{diasQueFaltan !== 1 ? 's' : ''}. Puedes revisar ofertas, pero no concretarlas hasta entonces.
                   </div>
                 );
               })()}
@@ -4025,7 +4025,7 @@ export default function Dashboard({
                               {!playerProfile.activeLoan && (
                                 <button
                                   onClick={() => {
-                                    if (confirm(`¿Salir a préstamo a ${offer.club.name}? Volvés a ${currentClub.name} en unas semanas, salvo que se ejerza la opción de compra.`)) {
+                                    if (confirm(`¿Salir a préstamo a ${offer.club.name}? Vuelves a ${currentClub.name} en unas semanas, salvo que se ejerza la opción de compra.`)) {
                                       onLoanOut(offer.club.id);
                                     }
                                   }}
@@ -4094,7 +4094,7 @@ export default function Dashboard({
                               ? `Te faltan ${p.faltaRendimiento} de Rendimiento y ${p.faltanPartidos} ${p.faltanPartidos === 1 ? 'partido' : 'partidos'}.`
                               : p.faltaRendimiento > 0
                               ? `Rendimiento: te faltan ${p.faltaRendimiento} para llegar a ${p.reqPrestige}.`
-                              : `Ya tenés el nivel: te faltan ${p.faltanPartidos} ${p.faltanPartidos === 1 ? 'partido' : 'partidos'} de rodaje.`}
+                              : `Ya tienes el nivel: te faltan ${p.faltanPartidos} ${p.faltanPartidos === 1 ? 'partido' : 'partidos'} de rodaje.`}
                           </p>
                         </div>
                       ))}
@@ -4127,7 +4127,7 @@ export default function Dashboard({
                     <div className="space-y-2">
                       <p className="text-3xs text-slate-400 leading-relaxed mb-2">
                         Un agente profesional negocia mejores ofertas y te abre más clubes, a cambio de
-                        una comisión. También podés dejar que un familiar o amigo cumpla ese rol: no
+                        una comisión. También puedes dejar que un familiar o amigo cumpla ese rol: no
                         cuesta nada contratarlo, pero negocia evidentemente peor.
                       </p>
                       <div className="grid grid-cols-2 gap-1.5">
@@ -4158,14 +4158,14 @@ export default function Dashboard({
                     ✍️ Renovación con {currentClub.name}
                   </h3>
                   <p className="text-3xs text-slate-400 leading-relaxed mb-3">
-                    Pedile al club que reafirme su apuesta por vos antes de que el vínculo se enfríe.
-                    Necesitás buena relación con el DT -- el club puede decir que no.
+                    Pídele al club que reafirme su apuesta por ti antes de que el vínculo se enfríe.
+                    Necesitas buena relación con el DT -- el club puede decir que no.
                   </p>
                   <button
                     onClick={onRequestRenewal}
                     disabled={playerProfile.prestige < 55}
                     title={playerProfile.prestige < 55
-                      ? `Necesitás 55 de Relación DT para pedir la renovación (tenés ${playerProfile.prestige}).`
+                      ? `Necesitas 55 de Relación DT para pedir la renovación (tienes ${playerProfile.prestige}).`
                       : 'Pedile al club que renueve tu contrato.'}
                     className="btn-fx-subtle w-full min-h-[44px] py-2 px-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                   >
@@ -4553,10 +4553,10 @@ export default function Dashboard({
                     // Sin dato todavia, la tarjeta lo dice. Que es la verdad: nadie dio una
                     // asistencia todavia en esta carrera.
                     { icon: '⚽', label: 'Máximo Goleador',
-                      entry: goleador ? { name: goleador.esVos ? `${goleador.nombre} (vos)` : goleador.nombre, clubName: goleador.clubName } : null,
+                      entry: goleador ? { name: goleador.esVos ? `${goleador.nombre} (tú)` : goleador.nombre, clubName: goleador.clubName } : null,
                       value: goleador ? `${goleador.goles} goles` : null },
                     { icon: '🎯', label: 'Máximo Asistidor',
-                      entry: asistidor ? { name: asistidor.esVos ? `${asistidor.nombre} (vos)` : asistidor.nombre, clubName: asistidor.clubName } : null,
+                      entry: asistidor ? { name: asistidor.esVos ? `${asistidor.nombre} (tú)` : asistidor.nombre, clubName: asistidor.clubName } : null,
                       value: asistidor ? `${asistidor.asistencias} asistencias` : null },
                     // El arquero muestra el PROMEDIO de goles recibidos, que es como se mide la
                     // portería menos vencida: el total premiaba al que menos jugó.
@@ -4564,10 +4564,10 @@ export default function Dashboard({
                       entry: arquero ? { name: arquero.nombre, clubName: arquero.clubName } : null,
                       value: arquero ? `${(arquero.golesRecibidos! / arquero.partidosDeArquero!).toFixed(2)} goles por partido` : null },
                     { icon: '🟨', label: 'Más Amarillas',
-                      entry: amonestado ? { name: amonestado.esVos ? `${amonestado.nombre} (vos)` : amonestado.nombre, clubName: amonestado.clubName } : null,
+                      entry: amonestado ? { name: amonestado.esVos ? `${amonestado.nombre} (tú)` : amonestado.nombre, clubName: amonestado.clubName } : null,
                       value: amonestado ? `${amonestado.amarillas} amarillas` : null },
                     { icon: '🟥', label: 'Más Rojas',
-                      entry: expulsado ? { name: expulsado.esVos ? `${expulsado.nombre} (vos)` : expulsado.nombre, clubName: expulsado.clubName } : null,
+                      entry: expulsado ? { name: expulsado.esVos ? `${expulsado.nombre} (tú)` : expulsado.nombre, clubName: expulsado.clubName } : null,
                       value: expulsado ? `${expulsado.rojas} rojas` : null },
                   ];
                   return (
@@ -5038,10 +5038,10 @@ export default function Dashboard({
                           </div>
                           <p className="text-2xs text-slate-400 mt-2 leading-relaxed">
                             {posiblesMentores.length === 0
-                              ? `No hay veteranos de ${MENTOR_MIN_AGE} años o más en el plantel: por ahora te la bancás solo.`
+                              ? `No hay veteranos de ${MENTOR_MIN_AGE} años o más en el plantel: por ahora te las arreglas solo.`
                               : playerProfile.mentorName
                               ? `${displayName(playerProfile.mentorName)} te tiene bajo su ala: te sostiene el ánimo en las derrotas y te suma en el vestuario al cerrar la temporada.`
-                              : 'Elegí a un veterano del plantel como referente: las derrotas te van a pegar menos y vas a ganar lugar en el vestuario.'}
+                              : 'Elige a un veterano del plantel como referente: las derrotas te van a pegar menos y vas a ganar lugar en el vestuario.'}
                           </p>
                         </>
                       );
