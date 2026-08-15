@@ -22,17 +22,14 @@ al lado — los que dicen "verificado" se comprobaron contra el código, no de m
 
 ### Deuda técnica que ya costó bugs
 
-- **Terminar `scripts/validar_pantallas.jsx`.** Dibuja el Dashboard con un perfil a mitad de
-  temporada. Está escrito pero NO conectado: su perfil sintético está incompleto y falla por el
-  andamio, no por el juego.
+- **`scripts/validar_pantallas.jsx` ✅ TERMINADO.** Ya está conectado y corre con
+  `npm run validar:pantallas`: dibuja el Dashboard en **40 combinaciones** de club, paso, pestaña,
+  lesión, forma y convocatoria.
 
-  **Por qué importa:** dos bugs le llegaron al jugador porque nada dibuja el Dashboard en el build.
-  `tsc` no ve el orden de ejecución (por eso pasó la pantalla negra por zona muerta temporal) y el
-  chequeo de SSR entra por la pantalla de bienvenida, no por el Dashboard.
-
-  **Cómo terminarlo:** extraer la construcción del perfil de `SetupScreen.tsx` (~línea 189) a una
-  función exportada y usarla desde el validador. Copiar los campos a mano se desincroniza al primer
-  campo nuevo.
+  **Por qué importaba:** dos bugs le llegaron al jugador porque nada dibujaba el Dashboard en el
+  build. `tsc` no ve el orden de ejecución (por eso pasó la pantalla negra por zona muerta temporal)
+  y el chequeo de SSR entra por la pantalla de bienvenida, no por el Dashboard. Correrlo antes de
+  cada commit que toque `Dashboard.tsx` sigue siendo la red que atrapa esa familia de errores.
 
 ### Interfaz
 
@@ -48,7 +45,7 @@ El orden no es por tamaño: es por **cuánto aprovechan lo que ya está construi
 reutilizan sistemas existentes y no tocan el motor ni el calendario, que es donde vivieron casi
 todos los bugs.
 
-### 1. El clásico
+### 1. El clásico ✅ HECHA
 
 Marcar ciertos partidos como derbi: más presión en las decisiones, el feed lo anticipa toda la
 semana, ganarlo da fans desproporcionados y perderlo duele el doble.
@@ -243,7 +240,7 @@ medida que rendís. No toca calendario ni motor -- los dos lugares donde viviero
 **Tope obligatorio:** nunca puede dejarte en `not_called`, sólo en `substitute`. Así el peor caso es
 banco de más, nunca una temporada sin jugar.
 
-### 12. Publicar vos en ChutSocial
+### 12. Publicar en ChutSocial ✅ HECHA
 
 Un botón en el feed, UNA publicación por fecha. Se abre con tres o cuatro opciones escritas según tu
 último partido -- no texto libre, que no hay forma de evaluar.
@@ -283,8 +280,40 @@ Anotadas para no volver a proponerlas.
 
 ## Lo grande que quedó a medias
 
-- **Goleadores reales en las copas.** Hoy el motor atribuye goleadores en los partidos de LIGA de
-  cada fecha, pero en las copas resuelve el cuadro entero de una sola vez, y atribuir ahí adelantaría
-  el torneo en pantalla. Ver [goleadores_reales_plan](../../.claude/…) en memoria.
 - **Conference League.** No se puede importar de `UCOL.json` (alias rotos y clubes de ligas que no
   tenemos). Necesita un reparto de cupos sobre las 7 ligas europeas cargadas.
+
+### Goleadores reales en las copas ✅ HECHA
+
+La tabla de una copa contaba **sólo los partidos del jugador**: los otros cruces de la ronda los
+resolvía el motor de fondo sin atribuir un gol, así que el goleador de la Libertadores eras vos con
+dos goles y no figuraba nadie más. En la liga ya estaba resuelto (los otros nueve partidos de la
+fecha se reparten en `handleMatchComplete`), pero una copa no tiene un "momento de la fecha" donde
+anotarla: avanza en semanas donde no jugás (`syncBackgroundCups`) y se termina de golpe cuando
+quedás eliminado (`terminarTorneoSinElJugador`).
+
+**El cambio de enfoque que lo hizo viable:** no anotarla, **deducirla**. El estado de una copa ya
+guarda el historial completo — las seis fechas de cada grupo con su marcador y todas las llaves de
+todas las rondas con ida y vuelta — así que la tabla se calcula del cuadro cada vez que se mira
+(`src/lideresDeCopa.ts`). Tres consecuencias:
+
+- **No cambia el formato de la partida.** Era el riesgo grande anotado en el plan original: un
+  cambio de formato a medias corrompe carreras en curso. Al no guardar nada nuevo, una carrera vieja
+  abre igual y muestra los goleadores de su copa en curso desde el primer vistazo.
+- **No puede contar doble** — no hay acumulador, se recalcula — ni quedarse corta por un punto de
+  enganche olvidado.
+- **No adelanta el torneo**, que era la objeción que lo tenía frenado: sólo se leen partidos que el
+  cuadro ya tiene jugados, y el cuadro nunca corre más allá de un partido pendiente tuyo.
+
+El reparto se siembra con el lugar del partido en el cuadro en vez de `Math.random`, así el goleador
+no cambia de nombre en cada render. Tus partidos quedan afuera de la deducción: ésos ya se anotan con
+los datos reales.
+
+**Lo que destapó al correrlo contra la base real:** `ULTIMATE_CLUBS_DATABASE` le saca la posición al
+plantel (`'Rodrigo Rey (GK)'` → `'Rodrigo Rey'`; 453 de 697 clubes con posición en `CLUBS_DATABASE`,
+10 de 1107 en ULTIMATE), y de esa etiqueta viven las dos reglas del reparto. Con ULTIMATE el arquero
+de Independiente salió goleador de la Libertadores con 7 y la portería menos vencida quedó vacía:
+cero arqueros en 125 partidos. La atribución usa `CLUBS_DATABASE`, que cubre los 32 clubes de la
+Libertadores, los 32 de la Sudamericana y los 36 de la Champions.
+
+Validador: `npm run validar:goleadorescopa` (32 casos, con una Libertadores real de 125 partidos).

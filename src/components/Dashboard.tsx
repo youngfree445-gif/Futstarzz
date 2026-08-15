@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
-import { ULTIMATE_CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS, ROLES_DATABASE, AGENTS_DATABASE, INVESTMENTS_DATABASE } from '../data';
+import { ULTIMATE_CLUBS_DATABASE, CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS, ROLES_DATABASE, AGENTS_DATABASE, INVESTMENTS_DATABASE } from '../data';
 import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
@@ -13,7 +13,8 @@ import { getLeagueDisplay } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
 import { esClasico } from '../clasicos';
-import { claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
+import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
+import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -624,7 +625,6 @@ export default function Dashboard({
   const claveLideresHoy = compDeHoy
     ? claveDeCompeticion(compDeHoy, temporadaDeCarrera(currentClub.name, playerProfile.currentWeek))
     : null;
-  const lideresDeHoy = claveLideresHoy ? lideresDe(playerProfile.lideresPorCompeticion, claveLideresHoy) : null;
   // SIEMPRE la tabla de TU carrera, aunque esté vacía. Nunca más la fija.
   //
   // Antes, si la tabla real no tenía goles todavía, el panel caía a REAL_LEAGUE_LEADERS -- datos
@@ -635,7 +635,9 @@ export default function Dashboard({
   //
   // Ahora lo que se ve es siempre la verdad de tu carrera: vacío al empezar, y poblado desde el
   // primer partido -- con los goleadores de los diez partidos de la fecha, no solo del tuyo.
-  const hayLideresDeHoy = !!lideresDeHoy;
+  // La tabla en sí se arma más abajo (lideresDeHoy), después de los estados de copa: los
+  // goleadores de copa salen del cuadro y hasta acá el cuadro todavía no existe.
+  const hayLideresDeHoy = !!claveLideresHoy;
   const tituloDeLideres = hayLideresDeHoy && compDeHoy ? compDeHoy : selectedLeagueName;
 
   const cupCampeonesUefa = {
@@ -649,6 +651,58 @@ export default function Dashboard({
     : null;
   const uefaCup = uefaCupId
     ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false), cupPosiciones, cupCampeonesUefa, currentClub.id)
+    : null;
+
+  // LOS GOLEADORES DE LA COPA SALEN DEL CUADRO, no de un acumulador (ver lideresDeCopa.ts).
+  //
+  // Hasta acá, la tabla de una copa contaba SOLO los partidos del jugador: los demás cruces de la
+  // ronda los resuelve el motor de fondo y no aportaban un gol, así que el goleador de la
+  // Libertadores eras vos con dos goles y nadie más figuraba. En la liga eso ya estaba resuelto
+  // (los otros nueve partidos de la fecha se reparten en handleMatchComplete), pero una copa avanza
+  // en semanas donde no jugás y se termina de golpe cuando quedás eliminado, así que no hay un
+  // "momento de la fecha" donde anotarla.
+  //
+  // Va acá abajo y no junto a claveLideresHoy porque necesita los estados de copa, que se arman
+  // unas líneas más arriba. El orden de este archivo no es cosmético: leer algo por encima de su
+  // declaración ya costó una pantalla en negro (ver la nota de conmebolCup).
+  const lineasDeCopaDeHoy = React.useMemo(() => {
+    if (!claveLideresHoy) return [];
+    const temporadaHoy = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
+    const esLaDeHoy = (nombre: string) => claveDeCompeticion(nombre, temporadaHoy) === claveLideresHoy;
+    const copaNacionalDeHoy = playerProfile.domesticCups?.[`${currentClub.league}-${temporadaHoy}`];
+    const partidos =
+      conmebolCup && esLaDeHoy(conmebolCupId === 'libertadores' ? 'Copa Libertadores' : 'Copa Sudamericana')
+        ? partidosDeCopaConmebol(conmebolCup)
+      : uefaCup && esLaDeHoy(uefaCupId === 'champions' ? 'UEFA Champions League' : 'UEFA Europa League')
+        ? partidosDeCopaUefa(uefaCup)
+      : copaNacionalDeHoy && esLaDeHoy(nombreCopaNacional(currentClub.league))
+        ? partidosDeCopaNacional(copaNacionalDeHoy)
+      : [];
+    // CLUBS_DATABASE y no ULTIMATE_CLUBS_DATABASE, y la diferencia se ve en la tabla.
+    //
+    // ULTIMATE le saca la posición al plantel: donde la base dice 'Rodrigo Rey (GK)', ULTIMATE
+    // dice 'Rodrigo Rey' a secas (medido: 453 de 697 clubes con posición en CLUBS_DATABASE, 10 de
+    // 1107 en ULTIMATE). Y de esa etiqueta viven las dos reglas del reparto: repartirGoles se queda
+    // con los ofensivos, y arqueroDe busca al (GK). Sin ella, el reparto cae al plantel entero y el
+    // arquero sale goleador de la Libertadores -- pasó, con Rodrigo Rey y 7 goles -- mientras la
+    // portería menos vencida queda para siempre vacía porque no hay ni un arquero que reconocer.
+    //
+    // Los 32 clubes de la Libertadores, los 32 de la Sudamericana y los 36 de la Champions están
+    // todos en CLUBS_DATABASE, así que no se pierde ningún partido por cambiar de lista. Es la
+    // misma que ya usa handleMatchComplete para repartir los goles de la fecha de liga.
+    //
+    // TU club queda afuera del reparto: tus partidos de copa ya están anotados con los datos
+    // reales (tus goles, tu tarjeta, el reparto de tus compañeros y del rival). Deducirlos otra
+    // vez acá te pondría el doble de goles de los que metiste.
+    return partidos.length ? lineasDeCopa(partidos, CLUBS_DATABASE, currentClub.id) : [];
+  }, [claveLideresHoy, conmebolCup, conmebolCupId, uefaCup, uefaCupId, currentClub.id, currentClub.league, currentClub.name, playerProfile.currentWeek, playerProfile.domesticCups]);
+
+  const lideresDeHoy = claveLideresHoy
+    ? lideresDe(
+        lineasDeCopaDeHoy.length
+          ? anotarEnLideres(playerProfile.lideresPorCompeticion, claveLideresHoy, lineasDeCopaDeHoy)
+          : playerProfile.lideresPorCompeticion,
+        claveLideresHoy)
     : null;
 
   // Distingue "no clasificaste a ninguna copa" de "clasificaste pero quedaste afuera": las dos
