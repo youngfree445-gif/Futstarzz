@@ -52,6 +52,7 @@ const FUENTES = [
   // calendario estructurado. Entra con las seis fechas verificables de la edicion 2025 -- ver la
   // nota adentro del JSON -- y el cuadro del motor la completa, que es para lo que sirve.
   { archivo: 'PYCO.json', id: 'pyco', name: 'Copa Paraguay',    league: 'Paraguaya' },
+  { archivo: 'PECL.json', id: 'pecl', name: 'Copa de la Liga', league: 'Peruana' },
 ];
 
 const ANIO_CARRERA = 2026;

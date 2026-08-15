@@ -1,0 +1,109 @@
+{
+  "_nota": "Copa de la Liga (Peru). Primera edicion oficial: 34 equipos, 18 de Liga 1 y 16 de Liga 2, entre junio y noviembre de 2026. Reemplaza a la Copa Bicentenario, que se jugo hasta 2021 y la FPF discontinuo en 2023; NO es la Copa Peru, que es el torneo de ascenso amateur regional. LO REAL de este archivo es la competicion, su formato y su VENTANA (junio a noviembre de 2026). LAS FECHAS DE CADA RONDA SON UBICADAS, no verificadas: transfermarkt.co no resuelve desde el entorno, Flashscore arma el cuadro en el cliente y la FPF no publica calendario estructurado. LOS EMPAREJAMIENTOS SON TODOS INVENTADOS: el motor sortea el cuadro con los 19 clubes peruanos de la base, asi que de aca el calendario toma UNICAMENTE las fechas. NO LEER COMO FIXTURE. Las seis rondas ESTAN TODAS -- la regla del proyecto es acomodar el calendario, nunca recortar el torneo -- y estan ubicadas esquivando la ventana del Mundial (11 jun a 19 jul, ver MUNDIAL_DESDE/MUNDIAL_HASTA en dateSchedule.ts), que es donde el motor congela liga y continentales: una fecha de copa ahi adentro no se jugaria nunca. Por eso 32avos cae el 3 de junio, antes del Mundial, y el resto arranca el 22 de julio, despues. Todas en miercoles, que es cuando se juega una copa de mitad de semana.",
+  "competition": {
+    "id": "PECL",
+    "name": "Copa de la Liga",
+    "league": "Peruana",
+    "type": "domestic_cup",
+    "format": "knockout",
+    "season": 2026
+  },
+  "matches": [
+    {
+      "date": "2026-06-03",
+      "round": "Round of 32",
+      "home": "Universitario",
+      "away": "Alianza Lima",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-06-03",
+      "round": "Round of 32",
+      "home": "Sporting Cristal",
+      "away": "Melgar",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-07-22",
+      "round": "Round of 16",
+      "home": "Deportivo Garcilaso",
+      "away": "ADT",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-07-22",
+      "round": "Round of 16",
+      "home": "Sport Huancayo",
+      "away": "Sport Boys",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-08-19",
+      "round": "Round of 16",
+      "home": "UTC",
+      "away": "Atlético Grau",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-08-19",
+      "round": "Round of 16",
+      "home": "Cusco FC",
+      "away": "Cienciano",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-09-16",
+      "round": "Quarter-Finals",
+      "home": "Los Chankas",
+      "away": "Comerciantes Unidos",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-09-16",
+      "round": "Quarter-Finals",
+      "home": "Atlético Sullana",
+      "away": "Juan Pablo II",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-10-21",
+      "round": "Semi-Finals",
+      "home": "FC Cajamarca",
+      "away": "Alianza Universidad",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-10-21",
+      "round": "Semi-Finals",
+      "home": "Universitario",
+      "away": "Alianza Lima",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-11-18",
+      "round": "Final",
+      "home": "Sporting Cristal",
+      "away": "Melgar",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    },
+    {
+      "date": "2026-11-18",
+      "round": "Final",
+      "home": "Deportivo Garcilaso",
+      "away": "ADT",
+      "_fecha": "ubicada",
+      "_pareja": "inventada"
+    }
+  ]
+}
