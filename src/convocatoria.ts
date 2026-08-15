@@ -75,13 +75,36 @@ export function evaluarConvocatoria(perfil: PlayerProfile, anio: number): Estado
 
   const hayEliminatorias = !!teamId && !!conf && esJugable(conf) && !!ciclo;
 
-  const faltaPrestigio = Math.max(0, ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD - perfil.prestige);
-  const faltaPartidos = Math.max(0, ELIMINATORIAS_CALLUP_MIN_MATCHES - perfil.careerStats.partidosHistoricos);
+  // EL CORTE NO ES EL MISMO PARA LOS TRES MODOS, y no por generosidad: es que la promesa de cada
+  // modo es distinta desde que lo elegis.
+  //
+  //   - SUPERESTRELLA: sos la figura. Que tu propia seleccion te ignore contradice el modo entero,
+  //     asi que el corte no existe -- si hay eliminatorias jugables, estas.
+  //   - VETERANO: arrancas consagrado pero con la carrera corriendo. El corte baja, no desaparece,
+  //     y ademas pide que ESTES RINDIENDO: un veterano vuelve a la seleccion por lo que hace ahora,
+  //     no por lo que hizo. Por eso mira la forma reciente y no solo el prestigio acumulado.
+  //   - NORMAL: los dos cortes de siempre, sin cambios.
+  const modoEstrella = perfil.starModeEnabled === true;
+  const modoVeterano = perfil.startedAsVeteran === true && !modoEstrella;
+  // Rendir de verdad, medido con lo que ya existe: el promedio historico de calificacion. Un
+  // veterano con 7 de media esta destacando; con 6 esta terminando.
+  const promedio = perfil.careerStats.partidosHistoricos > 0
+    ? perfil.careerStats.sumaCalificacionesHistoricas / perfil.careerStats.partidosHistoricos
+    : 0;
+  const VETERANO_PRESTIGIO = ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD - 12;
+  const VETERANO_PROMEDIO = 6.8;
+  const cortePrestigio = modoEstrella ? 0 : modoVeterano ? VETERANO_PRESTIGIO : ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD;
+  const cortePartidos = modoEstrella ? 0 : ELIMINATORIAS_CALLUP_MIN_MATCHES;
+  const faltaPrestigio = Math.max(0, cortePrestigio - perfil.prestige);
+  const faltaPartidos = Math.max(0, cortePartidos - perfil.careerStats.partidosHistoricos);
+  // El veterano suma una condicion mas, no una menos: le alcanza con menos prestigio PERO tiene
+  // que estar destacandose. Sin esto, bajar el corte seria un regalo y no un camino distinto.
+  const rindeLoSuficiente = !modoVeterano || promedio >= VETERANO_PROMEDIO;
 
   return {
     seleccion,
     hayEliminatorias,
-    convocado: hayEliminatorias && faltaPrestigio === 0 && faltaPartidos === 0,
+    convocado: hayEliminatorias && faltaPrestigio === 0 && faltaPartidos === 0 && rindeLoSuficiente,
     faltaPrestigio,
     faltaPartidos,
   };

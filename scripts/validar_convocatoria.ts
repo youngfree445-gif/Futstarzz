@@ -136,6 +136,37 @@ chequear('hay nacionalidades con camino a la seleccion',
   conCamino.length > 0,
   `${conCamino.length} de ${nacionalidades.length} nacionalidades juegan eliminatorias modeladas`);
 
+// =============================================================================================
+// EL CORTE CAMBIA SEGUN EL MODO (regla del autor, 15 de agosto de 2026)
+// =============================================================================================
+//
+// Superestrella: te llaman si o si. Veterano: corte mas bajo PERO tiene que estar rindiendo.
+// Normal: los dos cortes de siempre. Lo que se prueba es que veterano sea un CAMINO DISTINTO y no
+// un descuento: con poco prestigio y promedio flojo NO entra, aunque el corte sea mas bajo.
+
+const perfilBase = (extra: any = {}) => ({
+  nationality: 'Colombiana', prestige: 40,
+  careerStats: { partidosHistoricos: 120, sumaCalificacionesHistoricas: 7.2 * 120 },
+  ...extra,
+} as any);
+
+const anio = 2027;
+{
+  const estrella = evaluarConvocatoria(perfilBase({ prestige: 5, starModeEnabled: true, careerStats: { partidosHistoricos: 1, sumaCalificacionesHistoricas: 5 } }), anio);
+  chequear('superestrella: te llaman aunque no tengas ni prestigio ni partidos', estrella.convocado === estrella.hayEliminatorias);
+
+  const vetBueno = evaluarConvocatoria(perfilBase({ prestige: 52, startedAsVeteran: true }), anio);
+  chequear('veterano rindiendo: entra con menos prestigio que el corte normal (62)', vetBueno.convocado === vetBueno.hayEliminatorias);
+
+  const vetFlojo = evaluarConvocatoria(perfilBase({ prestige: 52, startedAsVeteran: true, careerStats: { partidosHistoricos: 120, sumaCalificacionesHistoricas: 6.0 * 120 } }), anio);
+  chequear('veterano que NO se destaca: no entra, aunque el corte sea mas bajo', !vetFlojo.convocado);
+
+  const normal = evaluarConvocatoria(perfilBase({ prestige: 52 }), anio);
+  chequear('modo normal: 52 de prestigio sigue sin alcanzar', !normal.convocado);
+  chequear('y se le sigue diciendo cuanto le falta', normal.faltaPrestigio === 10);
+}
+
+
 console.log(fallas === 0
   ? `\nLa lista de convocados cumple: los cortes valen, la ausencia se explica y la nomina sale con nombres reales.`
   : `\n${fallas} FALLAS`);
