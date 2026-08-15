@@ -142,7 +142,32 @@ no un defecto.
    la galería se ve **antes** de cargar una carrera, así que "progreso" no tiene un dueño obvio.
    ¿Se mide contra la carrera más avanzada, contra una elegida, o se muestra sólo dentro de la
    partida?
-3. **Campo 2D con micro-animaciones** durante la simulación, en vez de círculos estáticos.
+3. **Campo 2D con micro-animaciones** — **EL ENUNCIADO ESTÁ DESACTUALIZADO. Verificado contra el
+   código.** Ya no hay círculos estáticos: `src/components/PlayHighlightCanvas.tsx` (525 líneas) es
+   un campo 2D animado en Canvas, con **6 tipos de jugada** (`gol`, `pase`, `gambeta`, `defensa`,
+   `duelo_fisico`, `arquero`) repartidos en las opciones de las 35 decisiones del partido. Y no es un
+   borrador: su cabecera documenta una reescritura posterior a una auditoría geométrica que encontró
+   remates terminando fuera de la cancha y goles que no tocaban el arco. Hoy deriva el terreno y los
+   arcos de tres constantes, calcula la velocidad de cada tramo por la distancia real a recorrer, y
+   pasa toda posición por un clamp antes de dibujarla.
+
+   **Lo que de verdad falta es otra cosa, y es una decisión antes que un trabajo:** un campo
+   **continuo** durante la simulación minuto a minuto. Hoy el canvas aparece en las jugadas
+   decisivas; el resto del partido se sigue por el relato.
+
+   El problema no es dibujar: es que **el motor no produce posiciones**. Simula marcadores y eventos
+   (ver `triggerRandomMatchEvent` y el modelo tipo Poisson de `MatchSimulator`), no dónde está cada
+   jugador en cada minuto. Un campo continuo obliga a elegir entre dos caminos con costos muy
+   distintos:
+
+   - **Coreografía ambiental:** los 22 se mueven de forma plausible pero **decorativa**, sin relación
+     con lo que el motor calculó. Barato, y con el riesgo de mentir — mostrar tu equipo atacando en
+     el minuto en que el rival marcó.
+   - **Posiciones reales:** el motor pasa a simular ubicaciones. Es un cambio de fondo en el único
+     lugar donde vivieron casi todos los bugs, y para un juego que se mira en el relato y no en la
+     cancha.
+
+   Sin esa decisión tomada, no se empieza.
 5. **El botón de renovación le pone nombre a un dato que es otro.** Dice *"Necesitás 55 de Relación
    DT para pedir la renovación (tenés N)"* (Dashboard.tsx ~4036) pero el número que lee y compara es
    `playerProfile.prestige`. **Verificado: no existe ningún campo de relación con el DT en el juego**
