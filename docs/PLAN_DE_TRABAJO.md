@@ -23,7 +23,7 @@ al lado — los que dicen "verificado" se comprobaron contra el código, no de m
 ### Deuda técnica que ya costó bugs
 
 - **`scripts/validar_pantallas.jsx` ✅ TERMINADO.** Ya está conectado y corre con
-  `npm run validar:pantallas`: dibuja el Dashboard en **42 combinaciones** de club, paso, pestaña, ánimo,
+  `npm run validar:pantallas`: dibuja el Dashboard en **44 combinaciones** de club, paso, pestaña, ánimo, rachas,
   lesión, forma y convocatoria.
 
   **Por qué importaba:** dos bugs le llegaron al jugador porque nada dibujaba el Dashboard en el
@@ -254,7 +254,7 @@ está dentro de ChutSocial. Es donde el jugador va a buscar qué le pasa y qué 
 Validadores: `npm run validar:animo` (33 casos) y dos combinaciones nuevas en `validar:pantallas` —
 el panel dibujado en bajón, y comprobado que NO aparece con el ánimo sano.
 
-### 10. Rachas de TU historia
+### 10. Rachas de TU historia ✅ HECHA
 
 **La fuente cambia respecto de la idea original, y eso la vuelve viable.** Buscar rachas reales de
 600 clubes no lo es: no existe esa base, habría que scrapear décadas y quedaría vieja al día
@@ -266,6 +266,43 @@ partidos"*, *"cuarta final consecutiva que perdés"*. Cero datos externos, cero 
 más: es una racha que viviste, no una que leíste.
 
 Costo real: escribir las consultas sobre `datedResults` y elegir cuáles son interesantes.
+
+
+**Lo que hace viable el cambio de fuente, medido:** `datedResults` anota TODAS las fechas jugadas con
+su marcador, su rival y su competición — incluidas las que el club resolvió sin ti, cuando no jugaste
+por fatiga o sanción. Y lo hace para los **549 clubes jugables**: ninguno se quedó sin calendario con
+fechas. O sea que no hizo falta ningún dato nuevo ni ningún campo guardado.
+
+**Dónde se ven:** en la tarjeta del próximo partido, debajo de la posición del rival en la tabla. Es
+el único momento en que un dato así sirve — *"no le ganas a este desde hace cuatro"* cambia cómo lo
+encaras, y leído una semana después es trivia.
+
+**La regla de qué es interesante.** Una racha de dos partidos no es una racha, es el azar. Si se
+muestra cualquier cosa, la tarjeta se llena de ruido y se deja de leer, que es peor que no tener
+rachas. Por eso cada tipo tiene su propio mínimo, y son distintos a propósito:
+
+| Racha | Mínimo | Por qué ese |
+|---|---|---|
+| Victorias / derrotas seguidas | 3 | Tres derrotas pesan más que tres victorias: al ganar ya se cuenta con eso |
+| Sin perder / sin ganar | 4 | Son las de segundo orden: sólo salen cuando un empate cortó la racha pura |
+| **Contra un rival concreto** | **2** | Ese rival tiene nombre y cara. "No le ganas a Nacional desde hace dos" ya se siente |
+| Sin marcar | 3 | Que el equipo no la meta es noticia enseguida |
+| Marcando | 4 | Marcar es lo normal, así que pesa menos |
+| Dentro de una competición | 4 | Le da peso propio a las copas |
+
+- **La del rival va siempre primero** cuando existe: es la que habla del partido que estás por jugar,
+  las otras hablan del momento en general. Después manda el largo.
+- **Se muestran dos como mucho.** Con cuatro deja de ser un dato y pasa a ser una pared de texto.
+- **La competición se mira aparte** de la liga: puedes estar irregular en el torneo local y ser
+  intratable en la Libertadores, y contadas juntas las dos cosas se anulan. Se compara por el nombre
+  limpio (`"Copa Libertadores · Octavos"` → `"Copa Libertadores"`) o la racha se parte en una por
+  ronda y nunca llega al mínimo — la misma trampa que ya había aparecido en la tabla de goleadores.
+- **El orden cronológico no se da por sentado:** `datedResults` se guarda reemplazando la entrada del
+  día, no siempre agregando al final, así que una copa de mitad de semana puede quedar detrás de una
+  fecha de liga posterior. Se ordena por fecha antes de leer nada.
+
+Validadores: `npm run validar:rachas` (30 casos) y dos combinaciones nuevas en `validar:pantallas` —
+la línea dibujada contra el rival de hoy, y comprobado que una carrera nueva no muestra ninguna.
 
 ### 11. El fichaje que te tapa
 

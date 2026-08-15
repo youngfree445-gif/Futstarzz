@@ -22,6 +22,7 @@ import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, SALIDAS, SalidaDelBajon } from '../animo';
+import { rachasDelProximoPartido } from '../rachas';
 import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
@@ -1114,6 +1115,15 @@ export default function Dashboard({
       rivalTotal: realDeLiga ? (myLeagueTable.length || null) : null
     };
   }
+
+  // Las rachas que se cuentan antes de ESTE partido (ver rachas.ts). Salen de datedResults, que ya
+  // guarda toda tu historia con rival, competición y marcador -- no hace falta ningún dato nuevo.
+  const rachasDeHoy = nextMatchOpponent
+    ? rachasDelProximoPartido(
+        playerProfile.datedResults,
+        nextMatchOpponent.name,
+        nextMatchOpponent.competition)
+    : [];
   // Fecha de copa sin cruce puntual todavía definido (club no clasificado, o copa "de relleno"
   // con rival sorpresa que App.tsx recién sortea al arrancar el partido -- ver startMatchflow):
   // no hay datos reales para mostrar escudo/rival, pero la semana de todos modos tiene actividad.
@@ -2902,6 +2912,21 @@ export default function Dashboard({
                             )}
                           </div>
                         </div>
+                        {/* LAS RACHAS DE TU HISTORIA (ver rachas.ts). Van acá y no en un panel
+                            aparte porque el único momento en que un dato así sirve es JUSTO antes
+                            de jugar ese partido: "no le ganas a este desde hace cuatro" cambia
+                            cómo lo encaras, y leído una semana después es trivia. */}
+                        {rachasDeHoy.length > 0 && (
+                          <div className="mt-3 pt-3 border-t border-slate-800/80 space-y-1">
+                            {rachasDeHoy.map(r => (
+                              <p key={r.texto} className={`text-3xs font-mono font-bold leading-relaxed flex items-start gap-1.5 ${
+                                r.tono === 'buena' ? 'text-emerald-400' : r.tono === 'mala' ? 'text-burgundy-400' : 'text-slate-400'
+                              }`}>
+                                <Flame size={11} className="shrink-0 mt-0.5" /> <span>{r.texto}</span>
+                              </p>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ) : nextWeekInWorldCupBreak ? (
                       <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl flex items-center gap-3">

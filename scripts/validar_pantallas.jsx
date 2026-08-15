@@ -49,7 +49,7 @@ import React from 'react';
 import Dashboard from '../src/components/Dashboard';
 import { ULTIMATE_CLUBS_DATABASE, INITIAL_LIFESTYLE_ITEMS } from '../src/data';
 import { crearPerfilInicial } from '../src/components/SetupScreen';
-import { esDiaDeEliminatorias } from '../src/dateSchedule';
+import { esDiaDeEliminatorias, fixturesAtStep, pickPrimary as pickDatedPrimary } from '../src/dateSchedule';
 
 globalThis.localStorage = { getItem: () => null, setItem: () => {}, removeItem: () => {} };
 globalThis.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });
@@ -202,6 +202,41 @@ caso('animo: sano (el panel no esta)', () => {
   return html;
 });
 
+// --- Las rachas de tu historia, en la tarjeta del proximo partido ---------------------------
+// Las lineas solo salen con historial cargado, asi que con un perfil recien creado no las dibuja
+// nadie. Se arma una historia perdida contra el rival que el calendario ponga ese dia.
+
+// El paso NO se adivina: un dia de copa reservado todavia no tiene cruce y el rival sale como
+// "Por definir", contra el que no hay racha posible. Se BUSCA el primer paso con rival concreto.
+const pasoConRival = (() => {
+  for (let p = 5; p <= 120; p++) {
+    const paso = fixturesAtStep(junior.name, p);
+    const fx = paso ? pickDatedPrimary(paso.fixtures) : null;
+    const rival = fx?.opponentName;
+    if (rival && !/definir/i.test(rival) && !fx.esReservaDeCuadro) return { paso: p, rival };
+  }
+  return null;
+})();
+
+if (pasoConRival) {
+  const historia = [1, 2, 3, 4].map(i => ({
+    date: `2026-0${i}-1${i}`, competition: 'Liga BetPlay Dimayor',
+    opponentName: pasoConRival.rival, myGoals: 0, rivalGoals: i,
+  }));
+  caso(`rachas: no le ganas al rival de hoy (paso ${pasoConRival.paso})`, () =>
+    dibujar(perfilDe(junior, { currentWeek: pasoConRival.paso, datedResults: historia }), 'carrera',
+      `No le ganas a ${pasoConRival.rival}`));
+} else {
+  console.log('FALLA no se encontro ningun paso con rival concreto -- las rachas no se pueden probar');
+  fallas++;
+}
+
+caso('rachas: carrera nueva no muestra ninguna', () => {
+  const html = dibujar(perfilDe(junior, { currentWeek: 40, datedResults: [] }), 'carrera', null);
+  if (html.includes('No le ganas a')) throw new Error('sale una racha sin historial');
+  return html;
+});
+
 // --- La lista de convocados, en el feed -----------------------------------------------------
 
 const pasoDeFechaFifa = (() => {
@@ -225,6 +260,6 @@ if (pasoDeFechaFifa == null) {
 
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
-  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo y convocatoria.`
+  ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas y convocatoria.`
   : `\n${fallas} FALLAS -- la pantalla principal no se puede dibujar`);
 process.exit(fallas === 0 ? 0 : 1);
