@@ -2705,11 +2705,15 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
+            {/* "DT" y no "Relación DT": son los dos rótulos largos de la tira y los que la
+                empujaban a un segundo renglón. El `title` deja el nombre completo a un hover de
+                distancia, y los textos que EXPLICAN la métrica -- el de la renovación, por
+                ejemplo -- la siguen nombrando entera, que es donde el espacio no falta. */}
+            <div title="Relación con el DT" className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Star size={14} className="text-yellow-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>Relación DT</span>
+                  <span>DT</span>
                   <span className="text-white">{playerProfile.prestige}/100</span>
                 </div>
                 <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
@@ -2721,11 +2725,11 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
+            <div title="Relación con tus compañeros de plantel" className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
               <Users size={14} className="text-sky-400" />
               <div>
                 <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>Compañeros</span>
+                  <span>Plantel</span>
                   <span className="text-white">{playerProfile.prestigeCompaneros ?? playerProfile.prestige}/100</span>
                 </div>
                 <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
