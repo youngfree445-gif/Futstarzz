@@ -12,6 +12,7 @@ import { resolverClubDeCalendario } from '../clubAliases';
 import { forzandoLaVuelta, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { factorDeAnimo, estaEnBajon } from '../animo';
 import { hablaEnElEntretiempo, instruccionDelEntretiempo, mejoroEnElSegundo, resultadoDeLaCharla } from '../tecnico';
+import ReportarBug from './ReportarBug';
 import { evaluarForma, ajusteDeForma } from '../forma';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
@@ -2299,6 +2300,29 @@ export default function MatchSimulator({
   return (
     <div id="match-simulator" className="min-h-screen bg-slate-950 text-white flex flex-col justify-between py-6 px-4">
       
+      {/* El boton de reportar bug, tambien ACA. El reporte es una foto del paso actual, asi que
+          apenas el partido termina el estado avanza y lo que habia que fotografiar ya no esta.
+          Pedido: "a veces te reporto un bug despues de que haya sucedido". Y desde aca el reporte
+          puede contar ademas lo que se ve en ESTA pantalla -- torneo, ronda, rival, localia,
+          global --, que es el conjunto de datos que mas veces salio mal. */}
+      <div className="w-full max-w-4xl mx-auto flex justify-end -mb-2">
+        <ReportarBug
+          perfil={playerProfile}
+          clubes={CLUBS_DATABASE}
+          variante="compacto"
+          partido={{
+            competicion: isWorldCup ? 'Copa Mundial FIFA' : isLibertadores ? activeCupLabel
+              : getLeagueDisplay(currentClub.league, currentClub.division).name,
+            rival: opponentName,
+            soyLocal: isHome.current,
+            minuto: minute,
+            marcador: `${scoreHome}-${scoreAway} (local-visitante)`,
+            global: globalScoreLabel,
+            torneo: torneoDelPartido,
+          }}
+        />
+      </div>
+
       <div className="w-full max-w-4xl mx-auto flex flex-col gap-3 border-b border-slate-800 pb-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center justify-between gap-3 lg:block lg:shrink-0">
           <div>

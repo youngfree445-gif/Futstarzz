@@ -62,11 +62,36 @@ function describirLlave(tie: TwoLegTie | null | undefined, miId: string, nombre:
   return `vs ${nombre(rival)} · ${pierna} · ${global(tie, miId)}${tie.played ? ` · jugada, gana ${nombre(tie.winnerId ?? '')}` : ''}`;
 }
 
+/**
+ * Lo que la pantalla del partido esta mostrando en este momento.
+ *
+ * Va aparte del perfil porque NO esta en el perfil: el torneo, la ronda, el rival y la localia del
+ * partido en curso viven en el estado de App mientras se juega, y se pierden apenas termina. Y son
+ * justo el conjunto de datos que mas veces salio mal -- el cartel que decia una copa y jugaba otra,
+ * la ronda equivocada, la localia invertida, el global que no aparecia.
+ *
+ * Pedido del jugador: "hace falta el boton de reportar bug durante un partido, porque a veces te
+ * reporto un bug despues de que haya sucedido".
+ */
+export interface PartidoEnCurso {
+  competicion: string;
+  rival: string;
+  soyLocal: boolean;
+  minuto: number;
+  marcador: string;
+  /** El acumulado de la llave, si la pantalla lo esta mostrando. */
+  global?: string | null;
+  /** "Apertura"/"Clausura" en las ligas de dos torneos. */
+  torneo?: string | null;
+}
+
 export interface OpcionesDeReporte {
   /** Lo que el jugador esperaba que pasara. Es la mitad del reporte que el código no puede saber. */
   nota?: string;
   /** Stack trace, cuando el reporte lo pide PantallaDeError. */
   detalleTecnico?: string;
+  /** Lo que se ve en la pantalla del partido, cuando el reporte se pide desde ahi. */
+  partidoEnCurso?: PartidoEnCurso;
 }
 
 /**
@@ -77,7 +102,7 @@ export interface OpcionesDeReporte {
  */
 export function armarReporteDeBug(
   perfil: PlayerProfile,
-  clubs: Club[],
+  clubs: readonly Club[],
   opciones: OpcionesDeReporte = {},
 ): string {
   const nombre = (id: string) => clubs.find(c => c.id === id)?.name ?? (id || '¿?');
@@ -88,6 +113,14 @@ export function armarReporteDeBug(
   l.push('=== REPORTE DE BUG · Fut Starzz ===');
   if (opciones.nota) l.push(`Lo que esperaba: ${opciones.nota}`);
   l.push(`Generado: ${new Date().toISOString()}`);
+
+  if (opciones.partidoEnCurso) {
+    const p = opciones.partidoEnCurso;
+    seccion('PARTIDO EN CURSO (lo que se ve en pantalla)');
+    l.push(`Competicion: ${p.competicion}${p.torneo ? ` · ${p.torneo}` : ''}`);
+    l.push(`Rival: ${p.rival} · jugas de ${p.soyLocal ? 'LOCAL' : 'VISITANTE'}`);
+    l.push(`Minuto ${p.minuto} · marcador ${p.marcador}${p.global ? ` · global ${p.global}` : ''}`);
+  }
 
   seccion('CARRERA');
   l.push(`Jugador: ${perfil.name} · ${perfil.position} · ${perfil.age} años · prestigio ${perfil.prestige}`);

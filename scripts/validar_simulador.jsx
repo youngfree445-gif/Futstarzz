@@ -139,7 +139,15 @@ caso('jugando lesionado', () => {
   return html;
 });
 
+// El boton de reportar bug tiene que estar EN el partido: el reporte es una foto del paso actual,
+// asi que apenas termina el estado avanza y lo que habia que fotografiar ya no esta. Pedido del
+// jugador: "a veces te reporto un bug despues de que haya sucedido".
+//
+// Se busca el title y no el emoji: el icono puede cambiar, lo que no puede faltar es el boton.
+caso('el boton de reportar bug esta en el partido',
+  () => dibujar({}, 'title="Reportar un bug"'));
+
 console.log(fallas === 0
-  ? `\nEl simulador se dibuja en 16 estados, con la charla del entretiempo incluida.`
+  ? `\nEl simulador se dibuja en 17 estados, con la charla del entretiempo incluida.`
   : `\n${fallas} FALLAS -- el simulador no se puede dibujar`);
 process.exit(fallas === 0 ? 0 : 1);
