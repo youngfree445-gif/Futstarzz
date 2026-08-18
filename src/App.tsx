@@ -19,7 +19,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -3814,10 +3814,15 @@ export default function App() {
       datedResultToday = {
         date: paso.date,
         competition: fx.competition.name,
-        // En una fecha reservada el calendario no sabe contra quién jugaste -- el rival lo puso el
-        // cuadro. Guardar el cartel de relleno dejaría el historial (y las rivalidades, que se
+        // Cuando el calendario no sabe contra quién jugaste -- el rival lo puso el cuadro -- se
+        // guarda el de verdad. Guardar el cartel de relleno deja el historial (y las rachas, que se
         // arman con este nombre) apuntando a un club que no existe.
-        opponentName: fx.esReservaDeCuadro ? activeOpposition : fx.opponentName,
+        //
+        // Se compara contra el CARTEL y no contra `esReservaDeCuadro`, que era lo que había: las
+        // fechas de cuadrangular no llevan esa marca -- llevan `esPlayoff` -- así que todas las
+        // llaves del Clausura y del Apertura quedaban anotadas como "4-1 vs Por definir".
+        // Encontrado en un reporte de bug del propio juego, con Tigres.
+        opponentName: fx.opponentName === RIVAL_POR_SORTEAR ? activeOpposition : fx.opponentName,
         myGoals: results.golesMiEquipo,
         rivalGoals: results.golesRival,
       };
