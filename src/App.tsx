@@ -3611,6 +3611,20 @@ export default function App() {
 
     setMatchResults(results);
 
+    // EL DESENLACE DE COPA ES DE ESTE PARTIDO, NO DE UNO VIEJO.
+    //
+    // seasonEndInfo lo lee PostMatch para el titular a toda página ("ELIMINADOS DE LA COPA
+    // LIBERTADORES"), y hasta acá era un estado que sólo se limpiaba al cerrar el overlay del
+    // dashboard -- que no siempre llega a mostrarse, porque cede el paso al festejo de campeón
+    // (`!championInfo` en su condición de render). Cuando no se mostraba, el dato quedaba pegado
+    // para siempre y TODOS los partidos siguientes abrían con el titular de una eliminación vieja,
+    // incluidos los que ganabas y los que te clasificaban. Reportado: "aunque clasificara, siempre
+    // me salía el anuncio de que fui eliminado del torneo, cuando no fue así".
+    //
+    // Se limpia acá, al empezar a resolver el partido: si hoy hay desenlace, lo vuelve a poner
+    // alguna de las ramas de abajo; si no hay, el diario no tiene nada que anunciar.
+    setSeasonEndInfo(null);
+
     // Modo difícil (ver DIFFICULTY_ENERGY_MULTIPLIER): en 'realista' la energía baja más rápido
     // por partido -- el resto del multiplicador de dificultad (lesiones más frecuentes) ya vive en
     // el bloque de roll de lesión más abajo.
@@ -3990,7 +4004,14 @@ export default function App() {
               competition: nombreDeLaLigaHoy,
               year: anioPlayoff, clubId: myClub.id, torneo: semestre || undefined, tipo: 'liga',
             };
-          } else if ((!shootout || shootoutOverride) && !crucePlayoffDeLiga(despues, myClub.id)) {
+          } else if ((!shootout || shootoutOverride)
+            // Campeón del cuadrangular NO es eliminado, y hay que decirlo aparte: crucePlayoffDeLiga
+            // devuelve null en cuanto el cuadro tiene campeón, sea quien sea. Con el `jugoElTorneo`
+            // de la rama de arriba en false -- un semestre al que llegaste a mitad de camino, o con
+            // muchos partidos jugados sin vos -- ganar la final caía acá y anunciaba "Eliminado en
+            // Final" al que se acababa de coronar.
+            && despues.championId !== myClub.id
+            && !crucePlayoffDeLiga(despues, myClub.id)) {
             // Recién eliminado con este partido. Antes esto pasaba en silencio.
             const ronda = despues.tiesByRound[despues.tiesByRound.length - 1];
             setSeasonEndInfo({
