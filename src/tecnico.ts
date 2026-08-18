@@ -65,6 +65,35 @@ export const CHARLAS: Readonly<Record<SituacionAlDescanso, readonly string[]>> =
   ],
 };
 
+/**
+ * ¿HOY TE HABLA?
+ *
+ * No en todos los partidos. Un técnico que te frena el entretiempo con una instrucción personal
+ * las 38 fechas no es un técnico, es un trámite: la charla deja de leerse, se contesta de memoria y
+ * pierde justo lo que la hacía valer -- que sea una decisión. Pedido: "lo del DT a mitad de tiempo,
+ * que no sea siempre, sólo uno que otro partido".
+ *
+ * La probabilidad sale de la SITUACIÓN, no de un dado plano, porque un técnico habla cuando tiene
+ * motivo. Yendo perdiendo es el momento natural de decir algo; ganando cómodo, lo raro sería que
+ * frenara a un jugador para darle una instrucción personal. En una temporada normal te habla unas
+ * ocho o diez veces, que es cuando se nota.
+ *
+ * `aleatorio` entra por parámetro para poder probarlo.
+ */
+const CHANCE_DE_CHARLA: Readonly<Record<SituacionAlDescanso, number>> = {
+  perdiendo: 0.45,
+  empatando: 0.25,
+  ganando: 0.12,
+};
+
+export function hablaEnElEntretiempo(
+  golesMios: number,
+  golesRival: number,
+  aleatorio: () => number = Math.random,
+): boolean {
+  return aleatorio() < CHANCE_DE_CHARLA[situacionAlDescanso(golesMios, golesRival)];
+}
+
 /** Una instrucción para esa situación. `aleatorio` entra por parámetro para poder probarlo. */
 export function instruccionDelEntretiempo(
   golesMios: number,

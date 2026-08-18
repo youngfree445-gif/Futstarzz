@@ -4,7 +4,8 @@
 // castigara, obedecer seria una apuesta y nadie obedeceria nunca; y si ignorar y ganar no diera
 // nada bueno, no seria una decision sino un boton de "portate bien".
 import {
-  CHARLAS, instruccionDelEntretiempo, mejoroEnElSegundo, resultadoDeLaCharla, situacionAlDescanso,
+  CHARLAS, hablaEnElEntretiempo, instruccionDelEntretiempo, mejoroEnElSegundo, resultadoDeLaCharla,
+  situacionAlDescanso,
 } from '../src/tecnico';
 
 let fallas = 0;
@@ -81,6 +82,30 @@ ok('ningún cambio de prestigio pasa de 10 en un solo partido',
 ok('ni ningún cambio de hinchada',
    todos.every(r => Math.abs(r.fans) <= 10));
 ok('y todas dejan un mensaje para el relato', todos.every(r => r.mensaje.length > 20));
+
+// =============================================================================================
+// 5. NO TE HABLA TODOS LOS PARTIDOS
+// =============================================================================================
+//
+// Pedido: "lo del DT a mitad de tiempo, que no sea siempre, solo uno que otro partido".
+
+const veces = (mios: number, suyos: number) => {
+  let n = 0;
+  for (let i = 0; i < 20000; i++) if (hablaEnElEntretiempo(mios, suyos)) n++;
+  return n / 20000;
+};
+const chPerdiendo = veces(0, 1);
+const chEmpatando = veces(1, 1);
+const chGanando = veces(2, 0);
+
+ok('yendo perdiendo habla seguido, pero ni de cerca siempre',
+   chPerdiendo > 0.3 && chPerdiendo < 0.6, `(${Math.round(chPerdiendo * 100)}%)`);
+ok('empatando habla menos que perdiendo', chEmpatando < chPerdiendo, `(${Math.round(chEmpatando * 100)}%)`);
+ok('ganando comodo casi no frena a nadie',
+   chGanando < chEmpatando && chGanando < 0.2, `(${Math.round(chGanando * 100)}%)`);
+ok('en una temporada de 38 fechas te habla unas pocas veces, no las 38',
+   ((chPerdiendo + chEmpatando + chGanando) / 3) * 38 < 15,
+   `(~${Math.round(((chPerdiendo + chEmpatando + chGanando) / 3) * 38)} de 38)`);
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

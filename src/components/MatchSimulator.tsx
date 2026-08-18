@@ -11,7 +11,7 @@ import { applySquadRetirements, displayName } from '../worldRetirements';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { forzandoLaVuelta, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { factorDeAnimo, estaEnBajon } from '../animo';
-import { instruccionDelEntretiempo, mejoroEnElSegundo, resultadoDeLaCharla } from '../tecnico';
+import { hablaEnElEntretiempo, instruccionDelEntretiempo, mejoroEnElSegundo, resultadoDeLaCharla } from '../tecnico';
 import { evaluarForma, ajusteDeForma } from '../forma';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
@@ -1453,6 +1453,11 @@ export default function MatchSimulator({
   // setTimeout, donde una variable de estado llegaria con el valor viejo de la clausura.
   const [charlaDelDT, setCharlaDelDT] = useState<string | null>(charlaInicial ?? null);
   const charlaCumplidaRef = useRef<boolean | null>(null);
+  // ¿Ya se resolvió si el técnico habla hoy? Va aparte de charlaCumplidaRef, que sigue en null
+  // cuando NO habla -- que es lo que el minuto 90 lee para no tocar nada.
+  // Arranca en true cuando el validador de pantallas fuerza la charla (charlaInicial): ese modal ya
+  // está abierto y el minuto 45 no tiene que volver a tirar el dado encima.
+  const charlaDecididaRef = useRef(!!charlaInicial);
   const marcadorAlDescansoRef = useRef<{ mios: number; rival: number } | null>(null);
 
   const currentClub = representingTeamId
@@ -1760,11 +1765,18 @@ export default function MatchSimulator({
     // perforarse por esta sustitución (bug reportado: te sacaban al 70' y te quedabas con 3).
     // ENTRETIEMPO. Solo si estas en la cancha: desde el banco el tecnico no te da una instruccion
     // personal, y expulsado tampoco tiene sentido.
-    if (currentMin === 45 && onField && !isSentOff && charlaCumplidaRef.current === null) {
+    if (currentMin === 45 && onField && !isSentOff && !charlaDecididaRef.current) {
+      // Se decide UNA vez y se anota, aunque la respuesta sea que no habla: sin la marca, el mismo
+      // minuto 45 volvería a tirar el dado en el siguiente tick.
+      charlaDecididaRef.current = true;
       const mios = isHome.current ? scoreHome : scoreAway;
       const suyos = isHome.current ? scoreAway : scoreHome;
-      marcadorAlDescansoRef.current = { mios, rival: suyos };
-      setCharlaDelDT(instruccionDelEntretiempo(mios, suyos).texto);
+      // El técnico no habla todos los partidos (ver hablaEnElEntretiempo). Cuando no habla,
+      // charlaCumplidaRef queda en null y el minuto 90 no toca ni prestigio ni hinchada.
+      if (hablaEnElEntretiempo(mios, suyos)) {
+        marcadorAlDescansoRef.current = { mios, rival: suyos };
+        setCharlaDelDT(instruccionDelEntretiempo(mios, suyos).texto);
+      }
     }
     const hasPendingDecision = decisionMinutes.current.some(m => m >= currentMin);
     if (currentMin === 70 && onField && !wasSubbedOff && lineupStatus !== 'substitute' && !isSentOff && !hasPendingDecision) {
