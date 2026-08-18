@@ -59,11 +59,15 @@ let fallas = 0;
 
 // Clubes de calendarios distintos: uno de Apertura/Clausura con dos copas, uno de liga europea de
 // temporada corrida, uno brasileno y uno mexicano. Si algo depende de la forma del calendario, sale.
-const CLUBES = ['Junior de Barranquilla', 'FC Barcelona', 'Santos', 'América'];
+const CLUBES = ['Junior de Barranquilla', 'FC Barcelona', 'Santos', 'América', 'Tigres U.A.N.L.'];
 
 // Varios PASOS de la temporada, no solo el primero: el crash aparecia recien al tercer o cuarto
 // partido, porque hasta ahi las estructuras estaban vacias y varias ramas ni se ejecutaban.
-const PASOS = [1, 4, 9, 20, 40];
+// El 5 entro despues: es el dia de Copa MX de Tigres, y ninguno de los otros pasos caia en el
+// estado "el cruce todavia no esta sorteado". Por eso se escapo un cartel roto -- "vs Rival po..."
+// truncado a mitad de palabra, con una localia inventada al lado -- que el jugador vio jugando y el
+// validador no. Reportado con captura.
+const PASOS = [1, 4, 5, 9, 20, 40];
 
 const PESTAÑAS = ['carrera', 'mi_club', 'entrenamiento', 'chutsocial', 'prensa', 'traspasos',
   'tienda', 'patrocinios', 'tablas', 'calendario', 'logros'];
@@ -126,7 +130,7 @@ const perfilDe = (club, extra = {}) => {
  * Dibuja una vez y devuelve el HTML, o tira. `esperado` es texto que TIENE que aparecer: sin eso un
  * bloque que devuelve vacio pasa el caso igual, que es como se colo la lista de convocados.
  */
-const dibujar = (perfil, initialTab, esperado) => {
+const dibujar = (perfil, initialTab, esperado, prohibido) => {
   const html = renderToString(React.createElement(Dashboard, {
     playerProfile: perfil, shopItems: INITIAL_LIFESTYLE_ITEMS, initialTab,
     onTrainAttribute: nada, onSelectMentee: nada, onSelectMentor: nada, onVisitarEntorno: nada, onSalirDelBajon: nada,
@@ -142,6 +146,11 @@ const dibujar = (perfil, initialTab, esperado) => {
   }));
   if (html.length < 500) throw new Error(`dibujo casi vacio (${html.length} caracteres)`);
   if (esperado && !html.includes(esperado)) throw new Error(`se dibujo pero falta "${esperado}"`);
+  // `prohibido` es texto que NO puede aparecer. Hasta aca el validador solo probaba que la pantalla
+  // no se CAYERA, no que dijera la verdad, y por eso se colo un cartel roto que el jugador vio
+  // jugando: "vs Rival po..." -- el marcador de posicion metido en el hueco del nombre del club,
+  // truncado a mitad de palabra y con una localia inventada al lado.
+  if (prohibido && html.includes(prohibido)) throw new Error(`dice "${prohibido}", que no puede`);
   return html;
 };
 
@@ -161,7 +170,10 @@ for (const nombre of CLUBES) {
   const club = ULTIMATE_CLUBS_DATABASE.find(c => c.name === nombre);
   if (!club) { console.log(`FALLA  no existe el club ${nombre}`); fallas++; continue; }
   for (const paso of PASOS) {
-    caso(`${nombre} · paso ${paso}`, () => dibujar(perfilDe(club, { currentWeek: paso }), undefined, null));
+    // "vs Rival por definir" no puede aparecer NUNCA: cuando el cruce todavia no esta sorteado la
+    // tarjeta tiene que decirlo como estado, no colar el cartel en el hueco del nombre del rival.
+    caso(`${nombre} · paso ${paso}`,
+      () => dibujar(perfilDe(club, { currentWeek: paso }), undefined, null, 'vs Rival por definir'));
   }
 }
 

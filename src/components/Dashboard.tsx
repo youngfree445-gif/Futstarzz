@@ -919,9 +919,24 @@ export default function Dashboard({
 
   // Libertadores/Sudamericana, o fase de liga de Champions/Europa) -- null en fases sin tabla
   // (eliminación directa, Mundial). jornada es el rótulo corto para la esquina de la card.
+  /** El cartel de "todavía no hay rival". Uno solo, para poder reconocerlo después. */
+  const RIVAL_SIN_SORTEAR = 'Rival por definir';
+
   let nextMatchOpponent: {
     club: Club | undefined; name: string; isHome: boolean; competition: string;
     jornada: string; rivalPos: number | null; rivalTotal: number | null;
+    /**
+     * El cruce todavía no está sorteado: hoy es un día que el calendario apartó para copa o para
+     * cuadrangular, y el cuadro se siembra recién al llegar (a propósito: sortear acá daría uno
+     * distinto del que va a guardar App.tsx).
+     *
+     * Hace falta como BANDERA y no como un nombre de relleno: metido en el hueco del nombre del
+     * club, "Rival por definir" salía como "vs Rival po..." -- el truncado lo dejaba a mitad de
+     * palabra y parecía un club de verdad con el nombre roto. Y la localia que se mostraba al lado
+     * era mentira: una fecha reservada viene siempre marcada como local porque no tiene rival
+     * todavía, así que la tarjeta anunciaba "LOCAL" sin tener idea.
+     */
+    rivalPorDefinir: boolean;
   } | null = null;
   if (nextWeekInWorldCupBreak) {
     const wcYear = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
@@ -937,6 +952,7 @@ export default function Dashboard({
           club: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId),
           name: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId)?.name || '',
           isHome: upcoming.isHome,
+          rivalPorDefinir: false,   // el cuadro del Mundial ya esta sorteado cuando hay partido
           competition: 'Copa Mundial FIFA',
           jornada: 'Fecha FIFA',
           rivalPos: null,
@@ -995,6 +1011,7 @@ export default function Dashboard({
         club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === next.opponentId),
         name: next.opponentName,
         isHome: next.isHome,
+        rivalPorDefinir: false,   // sale del cuadro de la copa, que ya tiene el cruce armado
         competition,
         jornada,
         rivalPos,
@@ -1127,11 +1144,11 @@ export default function Dashboard({
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === cupBracketDeLaSemana.rivalId)?.name ?? '')
       : esReservaDeCopa
       // Fecha de copa sin cruce todavía: se dice la verdad en vez de anunciar un rival de liga.
-      ? 'Rival por definir'
+      ? RIVAL_SIN_SORTEAR
       // Día de playoff cuyo cuadro todavía no está sembrado (se siembra al llegar la primera fecha):
       // el rival del calendario es el del cuadrangular real, que no es el que vas a jugar.
       : realDeLaSemana?.esPlayoff
-      ? 'Rival por definir'
+      ? RIVAL_SIN_SORTEAR
       : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
     const isHome = playoffDeLaSemana
       ? playoffDeLaSemana.soyLocal
@@ -1146,6 +1163,8 @@ export default function Dashboard({
       club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
       name: opponentName,
       isHome,
+      // Sin club resuelto no hay rival: el nombre es un cartel, no un equipo.
+      rivalPorDefinir: opponentName === RIVAL_SIN_SORTEAR,
       // Si el partido del día no es de liga, la tarjeta tiene que decir de qué torneo es: anunciaba
       // "Colombiana" cuando lo que se jugaba era la Superliga.
       competition: continentalDeLaSemana
@@ -3028,10 +3047,23 @@ export default function Dashboard({
                             <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl shrink-0">⚽</div>
                           )}
                           <div className="min-w-0">
+                            {/* Con el cruce sin sortear no se anuncia localia: una fecha reservada
+                                viene siempre marcada como local porque no tiene rival todavia, asi
+                                que decir "LOCAL" seria inventar la mitad del dato. */}
                             <span className="text-3xs text-slate-500 uppercase font-mono block truncate">
-                              {nextMatchOpponent.isHome ? 'Local' : 'Visitante'}
+                              {nextMatchOpponent.rivalPorDefinir
+                                ? 'Sede por definir'
+                                : nextMatchOpponent.isHome ? 'Local' : 'Visitante'}
                             </span>
-                            <span className="text-white font-bold text-base truncate block">vs {nextMatchOpponent.name}</span>
+                            {/* Y el nombre va SIN "vs" y sin truncar: "vs Rival po..." se leia como
+                                un club de verdad con el nombre roto. Reportado con captura. */}
+                            {nextMatchOpponent.rivalPorDefinir ? (
+                              <span className="text-slate-400 font-bold text-sm block leading-tight">
+                                Rival aún sin sortear
+                              </span>
+                            ) : (
+                              <span className="text-white font-bold text-base truncate block">vs {nextMatchOpponent.name}</span>
+                            )}
                             {nextMatchOpponent.rivalPos != null && (
                               <span className="text-2xs text-gold-400 font-mono font-bold block mt-0.5">
                                 {nextMatchOpponent.rivalPos}° {nextMatchOpponent.rivalTotal ? `de ${nextMatchOpponent.rivalTotal}` : ''} en la tabla
