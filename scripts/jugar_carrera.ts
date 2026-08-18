@@ -184,7 +184,12 @@ if (cupIdMio) {
 for (const [sem, b] of Object.entries(playoffs)) {
   desenlace(`Cuadrangular ${sem}`, b.championId, !!crucePlayoffDeLiga(b, club.id), rondaDelPlayoff(b));
 }
-if (!Object.keys(playoffs).length) raro('la liga no tuvo NINGUN cuadrangular en toda la temporada');
+// Solo es raro donde el semestre SE DEFINE con un cuadro. LaLiga y el Brasileirao coronan por
+// tabla, y avisar ahi convertia la lista de rarezas en algo que hay que aprender a ignorar --
+// que es justo lo que le saca valor a una lista de rarezas.
+if (fechas.some(f => f.esPlayoff) && !Object.keys(playoffs).length) {
+  raro('la liga tiene fechas de cuadrangular pero no se jugo ninguno');
+}
 for (const [sem, b] of Object.entries(playoffs)) if (!b.championId) raro(`el cuadrangular del ${sem} termino SIN campeon`);
 
 // ---- invariantes: lo que NO puede pasar

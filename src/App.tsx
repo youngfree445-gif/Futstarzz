@@ -3226,6 +3226,11 @@ export default function App() {
       const esFechaDePlayoff = !!realPrimary?.esPlayoff;
       let brackedDelPlayoff: TwoLegBracket | undefined;
       let clavePlayoff = '';
+      // La llave que se juega HOY. Se guarda afuera del bloque porque más abajo hacen falta dos
+      // cosas suyas -- la localía y el global -- y hasta ahora las dos se buscaban en el cuadro
+      // EQUIVOCADO: el del motor (season.twoLegKnockout), que se siembra por su cuenta y no es el
+      // que puso el rival de la pantalla.
+      let cruceDelPlayoffHoy: TwoLegTie | null = null;
       if (esFechaDePlayoff && datedStep) {
         const semestre = torneoDelClubEnFecha(myClub.name, datedStep.date) ?? '';
         clavePlayoff = `${leagueKey}|${temporadaDe(playerProfile, playerProfile.currentWeek)}|${semestre}`;
@@ -3238,6 +3243,7 @@ export default function App() {
         }
 
         const cruce = crucePlayoffDeLiga(brackedDelPlayoff, myClub.id);
+        cruceDelPlayoffHoy = cruce;
         if (cruce) {
           const rivalId = cruce.clubAId === myClub.id ? cruce.clubBId : cruce.clubAId;
           const rival = leagueClubs.find(c => c.id === rivalId);
@@ -3280,7 +3286,14 @@ export default function App() {
         if (rivalDeCalendarioReal) {
           opName = rivalDeCalendarioReal.name;
           opClubId = rivalDeCalendarioReal.id;
-          isHomeThisMatch = realPrimary!.isHome;
+          // En un día de cuadrangular la localía la manda la LLAVE, no el calendario, y ya se
+          // calculó arriba: en la ida es local el clubA y en la vuelta se invierte. Los días
+          // reservados vienen todos marcados `isHome: true` -- no tienen rival todavía, mal podrían
+          // saber dónde se juega --, así que pisar la localía de la llave con la del calendario te
+          // ponía de local en las dos piernas de todas las llaves. El motor sí la anotaba bien (ver
+          // soyLocalEnLaLlave en handleFinishMatch), o sea que la pantalla decía una cosa y la tabla
+          // guardaba otra.
+          if (!cruceDelPlayoffHoy) isHomeThisMatch = realPrimary!.isHome;
         } else {
           const opponentClub = leagueClubs.find(c => c.id === upcoming!.opponentId);
           opName = opponentClub?.name || OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
@@ -3314,8 +3327,15 @@ export default function App() {
 
         // Playoff de liga a ida y vuelta (Colombia/Argentina, cuadrangulares y final): el global se
         // arma igual que en la copa nacional, buscando el TwoLegTie del club en la ronda en curso.
-        const miLlaveLiga = season.twoLegKnockout?.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1]
-          ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+        //
+        // Primero el cuadro que de verdad se está jugando (playoffsDeLiga, el que puso al rival en
+        // pantalla) y sólo después el del motor. Mirando únicamente el del motor, el global de los
+        // cuadrangulares salía de OTRO cuadro -- sembrado aparte, con otras llaves -- así que o no
+        // aparecía o mostraba el acumulado de una serie contra un rival distinto. El del motor sigue
+        // de respaldo para los clubes sin calendario real, donde el playoff lo lleva él.
+        const miLlaveLiga = cruceDelPlayoffHoy
+          ?? season.twoLegKnockout?.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1]
+            ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
         if (miLlaveLiga) {
           const soyA = miLlaveLiga.clubAId === myClub.id;
           const idaJugada = miLlaveLiga.firstLegGoalsA !== null && miLlaveLiga.firstLegGoalsB !== null;
