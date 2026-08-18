@@ -2483,8 +2483,18 @@ export default function App() {
     // depende de la tabla del año anterior y el calendario es una función pura del club.
     //
     // Ver RESERVAS DE COPA en dateSchedule.ts.
+    //
+    // Vale para las DOS clases de reserva. Antes sólo contaba la nacional, y por eso los días que el
+    // calendario apartaba para la continental no entraban en la rama de copa: caían en la de LIGA
+    // con isCopaLibertadores en true. Ahí el partido salía contra un rival que ponía el motor
+    // sintético bajo el cartel de "Copa Sudamericana", handleFinishMatch se saltaba el bloque de
+    // liga (que empieza con `!isCopaLibertadores`) y el resultado terminaba aplicándosele a la copa
+    // que hubiera quedado activa de un día anterior. Medidos: 7 días así por temporada en el Junior
+    // y en el Millonarios, 12 en el Atlético Nacional, 11 en el Flamengo. Reportado: "te decía
+    // siguiente partido de Copa Libertadores y me metía a uno de Copa Colombia".
     const esReservaDeCopa = !!realPrimary?.esReservaDeCuadro
-      && realPrimary.competition.kind === 'domestic_cup';
+      && (realPrimary.competition.kind === 'domestic_cup'
+        || realPrimary.competition.kind === 'continental_cup');
 
     // Si hoy es día de copa lo dice el CALENDARIO, y nadie más. Antes acá había un ternario con
     // isCupWeek de respaldo -- un reparto aritmético que decidía "2 de cada 5 semanas son de copa"
@@ -3109,6 +3119,13 @@ export default function App() {
       // semana de copa anterior y rotule mal el partido de liga.
       setActiveDomesticCup(false);
       setActiveCompetitionName(null);
+      // Y los de copa CONTINENTAL también, por la misma razón y con peores consecuencias: no es un
+      // rótulo, es a qué torneo va el resultado. handleFinishMatch le aplica el marcador a
+      // activeCupId/activeUefaCupId, así que un id que quedó pegado de un día de copa anterior le
+      // mete un partido de liga a la Libertadores. Las otras cinco ramas de este if los setean
+      // siempre; ésta era la única que los dejaba como estaban.
+      setActiveCupId(null);
+      setActiveUefaCupId(null);
       // El global se recalcula más abajo SOLO si el partido de hoy resulta ser un playoff a ida y
       // vuelta (Colombia/Argentina); si es fase regular se queda en null.
       setActiveGlobalScoreLabel(null);

@@ -601,6 +601,55 @@ export default function Dashboard({
     ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true), cupPosiciones, cupCampeones, currentClub.id)
     : null;
 
+  const cupCampeonesUefa = {
+    champions: playerProfile.campeonesContinentales?.[`champions-${cupYear - 1}`] ?? null,
+    europa: playerProfile.campeonesContinentales?.[`europa-${cupYear - 1}`] ?? null,
+  };
+  const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeonesUefa).includes(currentClub.id)
+    ? 'champions'
+    : getEuropaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeonesUefa).includes(currentClub.id)
+    ? 'europa'
+    : null;
+  const uefaCup = uefaCupId
+    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false), cupPosiciones, cupCampeonesUefa, currentClub.id)
+    : null;
+
+  // QUÉ COPA SE JUEGA HOY, cuando el día que trae el calendario es una RESERVA.
+  //
+  // La bolsa de días de copa es UNA SOLA (ver RESERVAS DE COPA en dateSchedule.ts): el día queda
+  // guardado bajo la competición que se lo pidió a la LIGA del club, que no tiene por qué ser la
+  // tuya, y quién lo usa se decide recién al llegar. App.tsx lo decide en un orden fijo -- primero
+  // la continental, y si esa no tiene cruce para vos, la nacional.
+  //
+  // Esta pantalla preguntaba otra cosa: el nombre que traía el día. Por eso anunciaba "Copa
+  // Libertadores" para un día que después se jugaba como Copa Colombia -- la continental estaba
+  // entre rondas y el turno se lo llevaba la nacional. Reportado: "te decía siguiente partido de
+  // Copa Libertadores y me metía a uno de Copa Colombia".
+  //
+  // Se contesta con el MISMO orden y los MISMOS estados de copa que usa App.tsx. Es la única forma
+  // de que el cartel y el partido no se contradigan: una sola pregunta, una sola respuesta.
+  const copaContinentalDeHoy = (() => {
+    if (conmebolCup) {
+      const upcoming = getUpcomingCupMatch(conmebolCup, currentClub.id);
+      if (upcoming) {
+        return {
+          nombre: conmebolCupId === 'sudamericana' ? 'Copa Sudamericana' : 'Copa Libertadores',
+          rivalId: upcoming.opponentId, soyLocal: upcoming.isHome,
+        };
+      }
+    }
+    if (uefaCup) {
+      const upcoming = getUpcomingUefaCupMatch(uefaCup, currentClub.id);
+      if (upcoming) {
+        return {
+          nombre: uefaCupId === 'europa' ? 'UEFA Europa League' : 'UEFA Champions League',
+          rivalId: upcoming.opponentId, soyLocal: upcoming.isHome,
+        };
+      }
+    }
+    return null;
+  })();
+
   // Va DESPUES de conmebolCup a proposito, y esto no es cosmetico.
   //
   // Estaba arriba, antes de que conmebolCupId se declarara, y compDeHoy lo usa adentro de una
@@ -622,8 +671,11 @@ export default function Dashboard({
       ? fixturesAtStep(currentClub.name, playerProfile.currentWeek) : null;
     const fx = paso ? pickDatedPrimary(paso.fixtures) : null;
     if (!fx) return null;
-    if (fx.esReservaDeCuadro && fx.competition.kind === 'continental_cup' && conmebolCupId) {
-      return conmebolCupId === 'libertadores' ? 'Copa Libertadores' : 'Copa Sudamericana';
+    // Día RESERVADO: el nombre que trae el día no dice nada (ver copaContinentalDeHoy). La tabla
+    // de goleadores tiene que ser la del torneo que de verdad se juega hoy, o los goles del día se
+    // van a contar en la tabla de otra copa.
+    if (fx.esReservaDeCuadro && (fx.competition.kind === 'continental_cup' || fx.competition.kind === 'domestic_cup')) {
+      return copaContinentalDeHoy?.nombre ?? nombreCopaNacional(currentClub.league);
     }
     return fx.competition.name;
   })();
@@ -645,18 +697,6 @@ export default function Dashboard({
   const hayLideresDeHoy = !!claveLideresHoy;
   const tituloDeLideres = hayLideresDeHoy && compDeHoy ? compDeHoy : selectedLeagueName;
 
-  const cupCampeonesUefa = {
-    champions: playerProfile.campeonesContinentales?.[`champions-${cupYear - 1}`] ?? null,
-    europa: playerProfile.campeonesContinentales?.[`europa-${cupYear - 1}`] ?? null,
-  };
-  const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeonesUefa).includes(currentClub.id)
-    ? 'champions'
-    : getEuropaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeonesUefa).includes(currentClub.id)
-    ? 'europa'
-    : null;
-  const uefaCup = uefaCupId
-    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false), cupPosiciones, cupCampeonesUefa, currentClub.id)
-    : null;
 
   // LOS GOLEADORES DE LA COPA SALEN DEL CUADRO, no de un acumulador (ver lideresDeCopa.ts).
   //
@@ -1020,9 +1060,16 @@ export default function Dashboard({
     // Y también cuando el día de hoy es una fecha RESERVADA para la copa (ver dateSchedule.ts): el
     // calendario apartó el día pero no trae rival, así que sin esto la tarjeta caía al fixture
     // generado de liga y anunciaba un rival de liga para un día que en realidad es de copa.
+    // Un día apartado lo puede haber pedido cualquiera de las dos copas -- la bolsa es una sola --,
+    // así que las DOS clases de reserva se tratan igual y el turno se decide como lo decide App.tsx:
+    // continental primero (copaContinentalDeHoy), nacional si aquélla no tiene cruce para vos.
     const esReservaDeCopa = !!realDeLaSemana?.esReservaDeCuadro
-      && realDeLaSemana.competition.kind === 'domestic_cup';
-    const cupBracketDeLaSemana = ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa) ? (() => {
+      && (realDeLaSemana.competition.kind === 'domestic_cup'
+        || realDeLaSemana.competition.kind === 'continental_cup');
+    // La continental se lleva el día: la nacional no se consulta siquiera, igual que en App.tsx.
+    const continentalDeLaSemana = esReservaDeCopa ? copaContinentalDeHoy : null;
+    const cupBracketDeLaSemana = (!continentalDeLaSemana
+      && ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa)) ? (() => {
       // La temporada la manda el calendario cuando lo hay -- misma clave que usa App.tsx, o la
       // tarjeta leería la edición del año equivocado.
       const cupYearNow = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
@@ -1073,9 +1120,12 @@ export default function Dashboard({
 
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
     // calendario real, así que todos los accesos van con ?.
-    const opponentId = playoffDeLaSemana?.rivalId ?? cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId;
+    const opponentId = playoffDeLaSemana?.rivalId ?? continentalDeLaSemana?.rivalId
+      ?? cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId;
     const opponentName = playoffDeLaSemana
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === playoffDeLaSemana.rivalId)?.name ?? '')
+      : continentalDeLaSemana
+      ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === continentalDeLaSemana.rivalId)?.name ?? '')
       : cupBracketDeLaSemana
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === cupBracketDeLaSemana.rivalId)?.name ?? '')
       : esReservaDeCopa
@@ -1088,6 +1138,8 @@ export default function Dashboard({
       : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
     const isHome = playoffDeLaSemana
       ? playoffDeLaSemana.soyLocal
+      : continentalDeLaSemana
+      ? continentalDeLaSemana.soyLocal
       : cupBracketDeLaSemana
       ? cupBracketDeLaSemana.soyLocal
       : realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
@@ -1099,8 +1151,14 @@ export default function Dashboard({
       isHome,
       // Si el partido del día no es de liga, la tarjeta tiene que decir de qué torneo es: anunciaba
       // "Colombiana" cuando lo que se jugaba era la Superliga.
-      competition: cupBracketDeLaSemana
+      competition: continentalDeLaSemana
+        ? continentalDeLaSemana.nombre
+        : cupBracketDeLaSemana
         ? nombreCopaNacional(currentClub.league)
+        // Reserva sin cruce en NINGUNA copa: hoy no se juega nada de copa, y decir el nombre del
+        // torneo que pidió el día sería inventar. App.tsx en ese caso da la semana por libre.
+        : esReservaDeCopa
+        ? 'Sin partido de copa'
         : realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
         ? realDeLaSemana.competition.name
         : currentClub.league,
