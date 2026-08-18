@@ -3793,6 +3793,29 @@ export default function App() {
     let leagueTitleWon: CupTitle | null = null;
     // Resultado del partido de hoy anclado a su fecha real (ver DatedResult): es la única forma de
     // recuperar después el marcador de un partido de copa, que no queda en ninguna tabla del motor.
+    // LA COMPETICION QUE DE VERDAD SE JUGO HOY.
+    //
+    // No siempre es la que trae el calendario. Los dias de copa son UNA SOLA BOLSA: el dia queda
+    // apartado bajo la copa que se lo pidio a tu liga, y quien lo USA se decide al llegar. Un dia
+    // reservado por la Copa MX lo puede terminar jugando la Concacaf.
+    //
+    // Reportado con un reporte de bug del propio juego: "2026-05-06 Copa MX 3-2 vs FC Cincinnati --
+    // tienes la copa mx entrelazada con la concacaf". Cincinnati es rival de Concacaf; el resultado
+    // quedo anotado bajo Copa MX porque ese dia lo habia reservado ella.
+    //
+    // Importa mas que el rotulo: con el nombre equivocado, el historial, la tabla de goleadores de
+    // cada torneo y el global de las llaves quedan mirando la competicion que no es.
+    const nombreDeLaCopaDeHoy = (): string | null => {
+      const mio = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+      if (activeCupId === 'libertadores') return 'Copa Libertadores';
+      if (activeCupId === 'sudamericana') return 'Copa Sudamericana';
+      if (activeCupId === 'concacaf') return 'Concacaf Champions Cup';
+      if (activeUefaCupId === 'champions') return 'UEFA Champions League';
+      if (activeUefaCupId === 'europa') return 'UEFA Europa League';
+      if (activeDomesticCup && mio) return nombreCopaNacional(mio.league);
+      return null;
+    };
+
     let datedResultToday: DatedResult | null = null;
 
     // Campeón de una copa del calendario real (Superliga, Copa Colombia, Libertadores...).
@@ -3811,9 +3834,12 @@ export default function App() {
 
       // El marcador se anota para TODO partido del calendario real, gane o pierda: es lo que el
       // calendario lee después para mostrar el resultado.
+      // En un dia RESERVADO el nombre del calendario es el de la copa que PIDIO el dia, no el de la
+      // que lo jugo. Ver nombreDeLaCopaDeHoy.
+      const copaDeVerdad = fx.esReservaDeCuadro ? nombreDeLaCopaDeHoy() : null;
       datedResultToday = {
         date: paso.date,
-        competition: fx.competition.name,
+        competition: copaDeVerdad ?? fx.competition.name,
         // Cuando el calendario no sabe contra quién jugaste -- el rival lo puso el cuadro -- se
         // guarda el de verdad. Guardar el cartel de relleno deja el historial (y las rachas, que se
         // arman con este nombre) apuntando a un club que no existe.
@@ -4671,8 +4697,10 @@ export default function App() {
         // reserva se guarda bajo la copa de la liga (al Junior, Sudamericana) aunque el club juegue
         // la Libertadores. El panel ya hace esta misma correccion, y si acá no se hiciera la misma,
         // las dos volverian a apuntar a claves distintas.
-        const nombreDeMiCopa = activeCupId === 'libertadores' ? 'Copa Libertadores'
-          : activeCupId === 'sudamericana' ? 'Copa Sudamericana' : null;
+        // La correccion ya existia, pero solo cubria Libertadores y Sudamericana: la Concacaf, la
+        // Champions y la Europa caian igual bajo el nombre de la copa que reservo el dia. Ahora sale
+        // de nombreDeLaCopaDeHoy, que es la misma respuesta que usa el historial.
+        const nombreDeMiCopa = nombreDeLaCopaDeHoy();
         const nombreComp = (fixtureDeHoy?.esReservaDeCuadro && nombreDeMiCopa)
           ? nombreDeMiCopa
           : fixtureDeHoy?.competition.name

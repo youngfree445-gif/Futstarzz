@@ -28,7 +28,7 @@ import { rachasDelProximoPartido } from '../rachas';
 import { numerosDelRival, quienVaGanando, rivalDeCarrera, rotuloDeLaComparacion } from '../rivalDeCarrera';
 import {
   leagueKeyFor, sortTable,
-  getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch,
+  getLibertadoresParticipants, getSudamericanaParticipants, getConcacafParticipants, getOrCreateCupState, getUpcomingCupMatch,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
   isClubStillInCup, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
@@ -585,10 +585,16 @@ export default function Dashboard({
     libertadores: playerProfile.campeonesContinentales?.[`libertadores-${cupYear - 1}`] ?? null,
     sudamericana: playerProfile.campeonesContinentales?.[`sudamericana-${cupYear - 1}`] ?? null,
   };
-  const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
+  // La CONCACAF entra por la misma puerta que las dos de Conmebol: comparte CupState, cuadro y
+  // pantalla. Faltaba, y por eso un club mexicano no tenia copa continental para esta pantalla: la
+  // tarjeta del proximo partido le anunciaba Copa MX en dias que el partido jugaba Concacaf, y el
+  // panel de la copa no mostraba su cuadro. Encontrado con Tigres.
+  const conmebolCupId: 'libertadores' | 'sudamericana' | 'concacaf' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
     ? 'libertadores'
     : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
     ? 'sudamericana'
+    : getConcacafParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones).includes(currentClub.id)
+    ? 'concacaf'
     : null;
   const conmebolCup = conmebolCupId
     // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
@@ -629,7 +635,8 @@ export default function Dashboard({
       const upcoming = getUpcomingCupMatch(conmebolCup, currentClub.id);
       if (upcoming) {
         return {
-          nombre: conmebolCupId === 'sudamericana' ? 'Copa Sudamericana' : 'Copa Libertadores',
+          nombre: conmebolCupId === 'sudamericana' ? 'Copa Sudamericana'
+            : conmebolCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Libertadores',
           rivalId: upcoming.opponentId, soyLocal: upcoming.isHome,
         };
       }
@@ -712,7 +719,8 @@ export default function Dashboard({
     const esLaDeHoy = (nombre: string) => claveDeCompeticion(nombre, temporadaHoy) === claveLideresHoy;
     const copaNacionalDeHoy = playerProfile.domesticCups?.[`${currentClub.league}-${temporadaHoy}`];
     const partidos =
-      conmebolCup && esLaDeHoy(conmebolCupId === 'libertadores' ? 'Copa Libertadores' : 'Copa Sudamericana')
+      conmebolCup && esLaDeHoy(conmebolCupId === 'libertadores' ? 'Copa Libertadores'
+        : conmebolCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Sudamericana')
         ? partidosDeCopaConmebol(conmebolCup)
       : uefaCup && esLaDeHoy(uefaCupId === 'champions' ? 'UEFA Champions League' : 'UEFA Europa League')
         ? partidosDeCopaUefa(uefaCup)
@@ -879,7 +887,8 @@ export default function Dashboard({
       // que se dice. Sólo se vuelve al cartel genérico si ya quedaste afuera: ese día la bolsa
       // compartida se la lleva la copa nacional y no hay forma de saber de antemano cuál es.
       if (conmebolCupId && conmebolCup && isClubStillInCup(conmebolCup, currentClub.id)) {
-        return conmebolCupId === 'libertadores' ? 'Libertadores' : 'Sudamericana';
+        return conmebolCupId === 'libertadores' ? 'Libertadores'
+          : conmebolCupId === 'concacaf' ? 'Concacaf' : 'Sudamericana';
       }
       return 'Copa';
     }
