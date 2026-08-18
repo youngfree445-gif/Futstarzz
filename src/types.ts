@@ -300,7 +300,18 @@ export interface PlayerProfile {
   fixedExpensesWeekly?: number;
   // Historial de resultados del Balón de Oro, uno por año cerrado -- ver applyBallonDorIfNewSeason
   // en App.tsx. Opcional: las partidas viejas no lo tienen.
-  ballonDorHistory?: { year: number; rank: number | null; winnerName: string }[];
+  //
+  // `candidatos` se guarda junto con el ganador y no se recalcula al mostrar la gala. El ranking
+  // mundial se mueve fecha a fecha a propósito (ver weeklyDrift en worldRanking.ts), así que
+  // recalcularlo al abrir la pantalla daba un podio distinto cada vez -- con un nombre arriba que
+  // ni siquiera era el ganador que la misma gala anunciaba abajo. Un resultado ya entregado no se
+  // vuelve a votar.
+  ballonDorHistory?: {
+    year: number;
+    rank: number | null;
+    winnerName: string;
+    candidatos?: { name: string; clubName: string }[];
+  }[];
 }
 
 export type InjuryType = 'muscular' | 'ligamentos' | 'fractura' | 'golpe';

@@ -904,7 +904,19 @@ function applyBallonDorIfNewSeason(profile: PlayerProfile, previousWeek: number,
   const winner = ranking.find(e => !e.isPlayer) ?? ranking[0];
 
   const anioCerrado = anioDe(profile, previousWeek);
-  const entry = { year: anioCerrado, rank, winnerName: rank === 1 ? profile.name : winner.name };
+  // Un año se vota UNA vez. applySeasonTransitions se llama desde siete puntos distintos y basta
+  // con que dos coincidan en el mismo cruce de temporada para que la gala se anote dos veces --
+  // dos entradas del mismo año, y el overlay disparándose dos veces seguidas.
+  if ((profile.ballonDorHistory ?? []).some(b => b.year === anioCerrado)) return profile;
+
+  // Los candidatos se CONGELAN acá, con el mismo ranking que decidió el ganador. Ver el comentario
+  // de ballonDorHistory en types.ts: recalcularlos al abrir la gala daba otro podio cada vez.
+  const entry = {
+    year: anioCerrado,
+    rank,
+    winnerName: rank === 1 ? profile.name : winner.name,
+    candidatos: ranking.slice(0, 5).map(e => ({ name: e.name, clubName: e.clubName })),
+  };
   return { ...profile, ballonDorHistory: [...(profile.ballonDorHistory ?? []), entry] };
 }
 
@@ -1029,24 +1041,36 @@ export default function App() {
   // El resultado del Balón de Oro se calcula dentro de applySeasonTransitions (7 puntos de llamada
   // distintos en App.tsx), no en un solo lugar -- en vez de repetir el disparo del overlay en cada
   // uno, se observa acá si ballonDorHistory creció desde el último render.
-  const lastBallonDorCount = useRef(0);
+  // Arranca en null y NO en 0: con 0, una partida guardada con tres galas ya celebradas entraba
+  // como "creció de 0 a 3" y la ceremonia se abría sola cada vez que se cargaba el juego. Como el
+  // podio además se recalculaba en ese momento -- y el ranking mundial se mueve fecha a fecha --,
+  // cada carga mostraba otro nombre arriba. Reportado: "cada que me meto me sale un ganador
+  // distinto".
+  const lastBallonDorCount = useRef<number | null>(null);
   useEffect(() => {
-    const history = playerProfile?.ballonDorHistory ?? [];
+    if (!playerProfile) return;
+    const history = playerProfile.ballonDorHistory ?? [];
+    // Primera pasada con perfil cargado, o carrera nueva (el historial se acortó): se sincroniza en
+    // silencio. La gala se abre sólo cuando el historial CRECE jugando.
+    if (lastBallonDorCount.current === null || history.length < lastBallonDorCount.current) {
+      lastBallonDorCount.current = history.length;
+      return;
+    }
     if (history.length > lastBallonDorCount.current) {
       const last = history[history.length - 1];
-      const myClubName = playerProfile ? (CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.name ?? '') : '';
-      const ranking = playerProfile ? generateWorldRanking(playerProfile, myClubName, playerProfile.currentWeek,
-        CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.league ?? '') : [];
       setBallonDorInfo({
         year: last.year,
-        playerName: playerProfile?.name ?? '',
+        playerName: playerProfile.name,
         rank: last.rank,
+        // El podio es el que se guardó con el resultado, no uno nuevo. Las partidas viejas no lo
+        // tienen: ahí se muestra al ganador solo, que es el dato que sí quedó anotado, en vez de un
+        // podio inventado que contradiga el nombre que la gala acaba de anunciar.
         winnerName: last.winnerName,
-        candidates: ranking.slice(0, 5).map(e => ({ name: e.name, clubName: e.clubName })),
+        candidates: last.candidatos ?? [{ name: last.winnerName, clubName: '' }],
       });
     }
     lastBallonDorCount.current = history.length;
-  }, [playerProfile?.ballonDorHistory]);
+  }, [playerProfile]);
   const [activeCupId, setActiveCupId] = useState<'libertadores' | 'sudamericana' | 'concacaf' | null>(null);
   const [activeUefaCupId, setActiveUefaCupId] = useState<'champions' | 'europa' | null>(null);
   // Semana de copa en la que el club no juega ninguna copa continental: se rotula como copa
