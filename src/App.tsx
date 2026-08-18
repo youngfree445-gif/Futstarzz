@@ -4104,7 +4104,34 @@ export default function App() {
           const despues = resolverPasoPlayoffDeLiga(antes, leagueClubs, {
             clubId: myClub.id, isHome: soyLocalEnLaLlave,
             goals: results.golesMiEquipo, opponentGoals: results.golesRival,
+            // En la segunda pasada llega la tanda que el jugador pateó de verdad, y ésa manda sobre
+            // el dado del motor (ver shootoutOverride en resolveOneLegOfTie). Sin pasarlo, la
+            // pantalla de penales decidía una cosa y la llave se resolvía con otra.
+            shootoutOverride,
           });
+
+          // ¿LA LLAVE SE FUE A PENALES? Entonces se patean, no se simulan.
+          //
+          // Esto no existía: la búsqueda de tanda miraba los cuadros internos del motor, que nunca
+          // se llenaban (ver la nota de LeagueSeasonState en types.ts), así que un cuadrangular
+          // empatado en el global resolvía los penales solo, por dentro, y el jugador se enteraba
+          // del resultado sin haber pateado. En las copas continentales sí se ofrecía desde
+          // siempre; era la única eliminatoria del juego que se definía a espaldas del jugador.
+          //
+          // El mecanismo es el mismo que usa la Libertadores: en la primera pasada se detecta la
+          // tanda, se pausa el partido ANTES de guardar nada (ver `if (foundShootout &&
+          // !shootoutOverride)` más abajo, que corta y vuelve), y en la segunda se resuelve la
+          // llave otra vez desde `antes` -- que quedó intacto -- con el resultado real.
+          const tandaDelCuadrangular = findShootoutInTwoLegBracket(despues, myClub.id, activeOppositionClubId);
+          if (tandaDelCuadrangular) {
+            foundShootout = tandaDelCuadrangular;
+            foundShootoutMyId = myClub.id;
+            foundShootoutMyName = myClub.name;
+          }
+          // Mientras la tanda esté pendiente no se anuncia nada: el campeón y la eliminación los
+          // decide ella. Mismo cuidado que el bloque de la copa continental.
+          const tandaResuelta = !tandaDelCuadrangular || !!shootoutOverride;
+
           // Igual que la copa nacional: si te eliminaron, el cuadrangular sigue sin vos hasta la
           // final. Sin esto el Apertura se quedaba sin campeón el día que perdías la semifinal.
           const cerrado = despues.championId || crucePlayoffDeLiga(despues, myClub.id)
@@ -4115,7 +4142,7 @@ export default function App() {
           const anioPlayoff = Number(pasoHoy.date.slice(0, 4));
           const semestreLabel = `${semestre || 'Playoff'} ${anioPlayoff}`;
 
-          if (despues.championId === myClub.id && jugoElTorneo) {
+          if (despues.championId === myClub.id && jugoElTorneo && tandaResuelta) {
             salioCampeon = true;
             setChampionInfo({
               competition: getLeagueDisplay(myClub.league, myClub.division).name,
@@ -4128,12 +4155,13 @@ export default function App() {
               year: anioPlayoff, clubId: myClub.id, torneo: semestre || undefined, tipo: 'liga',
             };
           } else if (
+            tandaResuelta
             // Campeón del cuadrangular NO es eliminado, y hay que decirlo aparte: crucePlayoffDeLiga
             // devuelve null en cuanto el cuadro tiene campeón, sea quien sea. Con el `jugoElTorneo`
             // de la rama de arriba en false -- un semestre al que llegaste a mitad de camino, o con
             // muchos partidos jugados sin vos -- ganar la final caía acá y anunciaba "Eliminado en
             // Final" al que se acababa de coronar.
-            despues.championId !== myClub.id
+            && despues.championId !== myClub.id
             && !crucePlayoffDeLiga(despues, myClub.id)) {
             // Recién eliminado con este partido. Antes esto pasaba en silencio.
             const ronda = despues.tiesByRound[despues.tiesByRound.length - 1];

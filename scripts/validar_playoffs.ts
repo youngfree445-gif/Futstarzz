@@ -54,5 +54,59 @@ for (const key of ['Colombiana-1', 'Argentina-1']) {
   const intrusos = clubes.filter(c => !ocho.some(t => t.clubId === c.id) && crucePlayoffDeLiga(bracket, c.id));
   if (intrusos.length) { console.log(`   FALLA: ${intrusos.length} clubes fuera del top 8 con cruce`); fallas++; }
 }
+// =============================================================================================
+// LA TANDA DE PENALES DEL CUADRANGULAR
+// =============================================================================================
+//
+// Una llave empatada en el global se define por penales, y esos penales los tiene que PATEAR el
+// jugador. Hasta ahora no: la busqueda de tanda en App.tsx miraba los cuadros internos del motor,
+// que nunca se llenaban, asi que el cuadrangular era la unica eliminatoria del juego que se definia
+// a espaldas del jugador -- las copas continentales si la ofrecian desde siempre.
+
+console.log("");
+console.log("=== La tanda del cuadrangular ===");
+
+const okTanda = (n: string, c: boolean, d = "") => {
+  if (!c) { fallas++; console.log(`   FALLA ${n}${d ? "  " + d : ""}`); }
+  else console.log(`   OK   ${n}${d ? "  " + d : ""}`);
+};
+
+const clubesTanda = clubesDeLiga("Colombiana-1");
+const yo = clubesTanda[0], rivalT = clubesTanda[1];
+const tablaTanda = sortTable(buildInitialTable([yo, rivalT]));
+
+// Un cuadro de dos: ida 1-0 y vuelta 0-1 dejan el global 1-1.
+const arranque = prepararPlayoffDeLiga(undefined, tablaTanda, 2);
+const soyA = arranque.tiesByRound[0][0].clubAId === yo.id;
+const trasIda = resolverPasoPlayoffDeLiga(arranque, clubesTanda, {
+  clubId: yo.id, isHome: soyA, goals: 1, opponentGoals: 0,
+});
+const trasVuelta = resolverPasoPlayoffDeLiga(trasIda, clubesTanda, {
+  clubId: yo.id, isHome: !soyA, goals: 0, opponentGoals: 1,
+});
+const llave = trasVuelta.tiesByRound[trasVuelta.tiesByRound.length - 1][0];
+const globalA = (llave.firstLegGoalsA ?? 0) + (llave.secondLegGoalsA ?? 0);
+const globalB = (llave.firstLegGoalsB ?? 0) + (llave.secondLegGoalsB ?? 0);
+
+okTanda("el global queda empatado", globalA === globalB, `${globalA}-${globalB}`);
+okTanda("la llave anota una tanda de penales", !!llave.penaltyShootout);
+okTanda("y esa tanda es la que App.tsx detecta para abrir la pantalla",
+  !!llave.penaltyShootout && (llave.clubAId === yo.id || llave.clubBId === yo.id));
+
+// Segunda pasada: el resultado REAL del jugador manda sobre el dado del motor.
+const miTanda = { winnerId: yo.id, shots: [], scoreA: 5, scoreB: 4 } as never;
+const conMiTanda = resolverPasoPlayoffDeLiga(trasIda, clubesTanda, {
+  clubId: yo.id, isHome: !soyA, goals: 0, opponentGoals: 1, shootoutOverride: miTanda,
+});
+const llaveMia = conMiTanda.tiesByRound[conMiTanda.tiesByRound.length - 1][0];
+okTanda("con la tanda pateada, pasa quien gano en la pantalla", llaveMia.winnerId === yo.id);
+
+const perdida = { winnerId: rivalT.id, shots: [], scoreA: 3, scoreB: 4 } as never;
+const conDerrota = resolverPasoPlayoffDeLiga(trasIda, clubesTanda, {
+  clubId: yo.id, isHome: !soyA, goals: 0, opponentGoals: 1, shootoutOverride: perdida,
+});
+const llavePerdida = conDerrota.tiesByRound[conDerrota.tiesByRound.length - 1][0];
+okTanda("y si la perdes, pasa el rival", llavePerdida.winnerId === rivalT.id);
+
 console.log(`\n${fallas === 0 ? 'El cuadro lo juegan los que terminaron arriba.' : `${fallas} FALLAS`}`);
 process.exit(fallas === 0 ? 0 : 1);
