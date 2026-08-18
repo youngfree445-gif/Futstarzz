@@ -63,6 +63,7 @@ import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOver
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
+import { claveDeCopaNacional, duenoDelDiaDeCopa } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -2872,22 +2873,10 @@ export default function App() {
       // otra lo hereda igual cuando aquélla no tiene nada ese día (el orden de abajo sigue intacto),
       // así que ninguna se queda a medio camino. Es el mismo reparto que usa
       // scripts/jugar_carrera.ts, que por eso jugaba las diez fechas de Copa BetPlay del Junior.
-      const laNacionalTieneCruceHoy = !!realPrimary?.esReservaDeCuadro
-        && realPrimary.competition.kind === 'domestic_cup'
-        && (() => {
-          const mio = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-          if (!mio) return false;
-          const temp = usaFechasReales
-            ? (temporadaDelPaso(mio.name, playerProfile.currentWeek)?.temporada ?? year)
-            : year;
-          const guardada = playerProfile.domesticCups?.[`${mio.league}-${temp}`];
-          // Edición todavía sin sortear: el cuadro se arma más abajo y tu club siempre entra, así
-          // que hoy tenés cruce. Se contesta sin sortear nada -- un sorteo acá daría un cuadro
-          // distinto del que se guarda después.
-          if (!guardada) return true;
-          if (guardada.championId) return false;
-          return sigueEnCopa(guardada, mio.id) && !!cruceActual(guardada, mio.id);
-        })();
+      const laNacionalTieneCruceHoy = duenoDelDiaDeCopa(
+        playerProfile, myClub, playerProfile.currentWeek,
+        !!realPrimary?.esReservaDeCuadro && realPrimary.competition.kind === 'domestic_cup',
+      ) === 'nacional';
 
       let foundOpponentId: string | null = null;
       let eliminatedFromQualifiedCup = false;
@@ -3058,10 +3047,14 @@ export default function App() {
         // en 2026: pasada la número 52, el contador ya decía "temporada 2" y la clave de la copa
         // cambiaba EN MEDIO de la edición -- el cuadro se reiniciaba solo y el jugador volvía a
         // dieciseisavos con la copa a mitad de camino.
-        const temporadaDeCopa = myClubForCup && usaFechasReales
+        // La clave sale de claveDeCopaNacional y no se arma acá: se construía en cinco lugares con
+        // tres fórmulas distintas, y es la clave que decide a qué EDICIÓN se le escribe tu
+        // resultado. Si dos de esos lugares no coinciden, el partido se juega en una edición y se
+        // guarda en otra, y el cuadro no avanza nunca.
+        const temporadaDeCopa = myClubForCup
           ? (temporadaDelPaso(myClubForCup.name, playerProfile.currentWeek)?.temporada ?? year)
           : year;
-        const cupKey = myClubForCup ? `${myClubForCup.league}-${temporadaDeCopa}` : null;
+        const cupKey = myClubForCup ? claveDeCopaNacional(myClubForCup, playerProfile.currentWeek) : null;
         let cupCruce: ReturnType<typeof cruceActual> = null;
         // Se guarda afuera para poder seguir avanzando el cuadro en las fechas en las que el
         // jugador ya no juega (ver el día de descanso más abajo).
@@ -3935,9 +3928,10 @@ export default function App() {
       // MISMA clave que al armar el partido (ver temporadaDeCopa allá): con calendario real manda
       // la temporada del calendario, no el contador de 52 semanas. Si las dos no coinciden, el
       // resultado se guarda en una edición distinta de la que se jugó y el cuadro no avanza nunca.
-      const temporadaDeCopa = temporadaDelPaso(myClub.name, playerProfile.currentWeek)?.temporada
-        ?? temporadaDe(playerProfile, playerProfile.currentWeek);
-      const cupKey = `${myClub.league}-${temporadaDeCopa}`;
+      const cupKey = claveDeCopaNacional(myClub, playerProfile.currentWeek);
+      // El año del título sale de la MISMA temporada con la que se armó la clave, para que el
+      // trofeo no quede fechado en una edición distinta de la que se jugó.
+      const temporadaDeCopa = Number(cupKey.slice(cupKey.lastIndexOf('-') + 1));
       const cup = playerProfile.domesticCups?.[cupKey];
       if (!cup || cup.championId) return;
       const tie = cruceActual(cup, myClub.id);

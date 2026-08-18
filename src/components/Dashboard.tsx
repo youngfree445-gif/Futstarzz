@@ -16,6 +16,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import { armarReporteDeBug } from '../reporteDeBug';
+import { claveDeCopaNacional, duenoDelDiaDeCopa } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -1067,16 +1068,10 @@ export default function Dashboard({
     // De quién es el día: lo estrena la copa que lo PIDIÓ, y la otra lo hereda si aquélla no tiene
     // cruce. Mismo criterio y mismos datos que App.tsx (ver laNacionalTieneCruceHoy allá); si acá
     // se contestara distinto, el cartel volvería a prometer un torneo y el partido sería de otro.
-    const laNacionalTieneCruceHoy = esReservaDeCopa
-      && realDeLaSemana?.competition.kind === 'domestic_cup'
-      && (() => {
-        const t = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
-          ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
-        const guardada = playerProfile.domesticCups?.[`${currentClub.league}-${t}`];
-        if (!guardada) return true;   // edición sin sortear: tu club siempre entra al cuadro
-        if (guardada.championId) return false;
-        return sigueEnCopa(guardada, currentClub.id) && !!cruceActual(guardada, currentClub.id);
-      })();
+    const laNacionalTieneCruceHoy = esReservaDeCopa && duenoDelDiaDeCopa(
+      playerProfile, currentClub, playerProfile.currentWeek,
+      realDeLaSemana?.competition.kind === 'domestic_cup',
+    ) === 'nacional';
     const continentalDeLaSemana = esReservaDeCopa && !laNacionalTieneCruceHoy ? copaContinentalDeHoy : null;
     const cupBracketDeLaSemana = (!continentalDeLaSemana
       && ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa)) ? (() => {
@@ -1084,7 +1079,9 @@ export default function Dashboard({
       // tarjeta leería la edición del año equivocado.
       const cupYearNow = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
         ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
-      const cupKeyNow = `${currentClub.league}-${cupYearNow}`;
+      // Misma clave que App.tsx porque es LA MISMA función, no una copia que hay que mantener a la
+      // par: leer otra edición acá anunciaría un cruce que el partido no va a jugar.
+      const cupKeyNow = claveDeCopaNacional(currentClub, playerProfile.currentWeek);
       // En una fecha reservada NO se inventa un cuadro de muestra: si la edición todavía no está
       // guardada, el rival que se anunciaría acá saldría de un sorteo distinto del que va a armar
       // App.tsx, y la tarjeta prometería un rival que después no es. Mejor no decir nada.
