@@ -1149,8 +1149,20 @@ function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs
   return { ...tie, secondLegGoalsA, secondLegGoalsB, played: true, winnerId, penaltyShootout };
 }
 
+// Siembra 1-N, 2-(N-1)... para un cuadro de cualquier tamaño potencia de dos. Las tablas fijas
+// (SEED_PAIRS_8/16) sólo cubren 8 y 16 clubes; un cuadrangular recortado a 4 o a 2 -- ver el `cupo`
+// de prepararPlayoffDeLiga -- caía en la de 8 y leía índices que no existen, dejando llaves con
+// clubId undefined que nunca se podían resolver.
+function paresSembrados(n: number): number[][] {
+  if (n === 16) return SEED_PAIRS_16;
+  if (n === 8) return SEED_PAIRS_8;
+  const pares: number[][] = [];
+  for (let i = 0; i < n / 2; i++) pares.push([i, n - 1 - i]);
+  return pares;
+}
+
 function seedSingleTwoLegRound(rankedClubIds: string[]): TwoLegTie[] {
-  const pairs = rankedClubIds.length === 16 ? SEED_PAIRS_16 : SEED_PAIRS_8;
+  const pairs = paresSembrados(rankedClubIds.length);
   return pairs.map(([a, b]) => ({
     clubAId: rankedClubIds[a],
     clubBId: rankedClubIds[b],
@@ -1250,12 +1262,30 @@ function siguienteRondaTwoLeg(bracket: TwoLegBracket, finalAPartidoUnico = false
 export function prepararPlayoffDeLiga(
   bracket: TwoLegBracket | undefined,
   tabla: TableTeam[],
+  fechasDisponibles?: number,
 ): TwoLegBracket {
   if (!bracket) {
-    // Arranque: los 8 mejores de la fase regular, en orden. seedSingleTwoLegRound cruza 1-8, 2-7...
-    const ocho = sortTable(tabla).slice(0, 8).map(t => t.clubId);
+    // EL CUADRO SE DIMENSIONA A LAS FECHAS QUE HAY, igual que la copa nacional (ver
+    // clubesParaContinuar en App.tsx). Cada ronda son dos partidos, así que con N fechas entran
+    // floor(N/2) rondas y 2^rondas clubes; el techo son los ocho de siempre.
+    //
+    // Casi todos los semestres tienen las seis fechas que pide un cuadro de ocho, pero no todos: en
+    // año de Mundial el parón se come el hueco entre el fin de la fase regular y el arranque del
+    // otro torneo, y a la Primera Nacional argentina le quedan cuatro días entre el final del
+    // Mundial y la primera fecha del Clausura. Con un cuadro de ocho clavado, esos semestres
+    // llegaban hasta la semifinal y no coronaban a nadie -- la vuelta no se llegaba a jugar nunca.
+    // Achicar el cuadro es lo que hace una liga cuando le queda poco aire; dejarlo sin definir, no.
+    const rondas = fechasDisponibles === undefined
+      ? 3
+      : Math.max(1, Math.min(3, Math.floor(fechasDisponibles / 2)));
+    const cupo = 2 ** rondas;
+    // Arranque: los mejores de la fase regular, en orden. seedSingleTwoLegRound cruza 1-8, 2-7...
+    const ocho = sortTable(tabla).slice(0, cupo).map(t => t.clubId);
     if (ocho.length < 2) return { tiesByRound: [[]], championId: null };
-    return seedTwoLegBracket(ocho);
+    // Con la tabla corta (una liga chica) el cupo puede no llenarse: se baja a la potencia de dos
+    // de abajo para que el cuadro siga siendo un cuadro y no quede una llave impar sin rival.
+    const potencia = 2 ** Math.floor(Math.log2(ocho.length));
+    return seedTwoLegBracket(ocho.slice(0, potencia));
   }
   if (bracket.championId) return bracket;
 

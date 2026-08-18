@@ -19,7 +19,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -3188,7 +3188,9 @@ export default function App() {
       if (esFechaDePlayoff && datedStep) {
         const semestre = torneoDelClubEnFecha(myClub.name, datedStep.date) ?? '';
         clavePlayoff = `${leagueKey}|${temporadaDe(playerProfile, playerProfile.currentWeek)}|${semestre}`;
-        brackedDelPlayoff = prepararPlayoffDeLiga(playerProfile.playoffsDeLiga?.[clavePlayoff], season.table);
+        brackedDelPlayoff = prepararPlayoffDeLiga(
+          playerProfile.playoffsDeLiga?.[clavePlayoff], season.table,
+          fechasDePlayoffDelTorneo(myClub.name, datedStep.date));
         if (playerProfile.playoffsDeLiga?.[clavePlayoff] !== brackedDelPlayoff) {
           const guardar = brackedDelPlayoff;
           setPlayerProfile(prev => prev && ({ ...prev, playoffsDeLiga: { ...(prev.playoffsDeLiga ?? {}), [clavePlayoff]: guardar } }));

@@ -50,6 +50,21 @@ export interface DatedFixture {
    * quedaba arriba por haber jugado más, no por andar mejor.
    */
   esPlayoff?: boolean;
+  /**
+   * A qué torneo del año pertenece la fecha ('Apertura' / 'Clausura'), cuando NO se puede deducir
+   * del mes.
+   *
+   * torneoDeFecha parte el año por junio, y para la fase regular alcanza. Para el cuadrangular no:
+   * es lo ÚLTIMO del semestre y se juega justo contra el borde. La Primera Nacional argentina cierra
+   * su fase regular el 21 de junio y arranca el Clausura el 4 de julio -- las seis fechas del cuadro
+   * entran en ese hueco, pero tres caen en julio y el corte por mes las contaba como Clausura. El
+   * Apertura quedaba con tres fechas (la vuelta de la semifinal no se jugaba nunca) y el Clausura
+   * con nueve. Lo mismo en año de Mundial, donde el hueco libre queda del otro lado del parón.
+   *
+   * Con el torneo escrito en la fecha, el cuadro se puede acomodar donde haya lugar sin cambiar de
+   * semestre -- que es la regla de siempre: se aprieta el calendario, no se recorta el torneo.
+   */
+  torneo?: string;
 }
 
 // Se re-exporta para no romper a los módulos que ya la importaban de acá; la definición vive en
@@ -315,9 +330,30 @@ function reservarFechasDeCuadrangular(
       for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
     }
 
+    // EL PARÓN DEL MUNDIAL NO ES UN DÍA LIBRE. Se bloquea acá, ANTES de elegir, y no se arregla
+    // después moviendo lo que cayó adentro: un día de cuadrangular no se puede "correr para
+    // después del parón" como uno de copa, porque después del parón ya empezó el OTRO semestre y
+    // el cuadro del Apertura terminaría repartido entre mayo y diciembre.
+    //
+    // Es exactamente lo que pasaba. Al Millonarios se le apartaban seis días de Apertura (11 may,
+    // 3 jun, 9 jun, 16 jun, 23 jun, 30 jun) y los tres de junio caían dentro de la ventana del
+    // Mundial: reservarFechasDeMundial se los llevaba a noviembre y diciembre, donde el calendario
+    // ya los lee como Clausura. Resultado: Apertura con TRES fechas -- cuartos ida, cuartos vuelta
+    // y semifinal ida, la vuelta de la semi no se jugaba nunca y el torneo se quedaba sin campeón --
+    // y Clausura con nueve. Medido: 214 de los 900 semestres con cuadrangular quedaban con una
+    // cantidad de fechas distinta de las seis que pide el cuadro. Reportado: "no se jugaban los
+    // partidos de vuelta en los playoffs".
+    //
+    // Va en `ocupados` además de en `vetados` porque elegirDias tiene un relleno que, cuando el veto
+    // dejó todo bloqueado, deja de mirar `vetados` y sólo respeta `ocupados`.
+    const mundial = ventanaDeMundialDelAnio(CAREER_START_YEAR + temporada - 1);
+    if (mundial) {
+      for (let d = mundial.desde; d <= mundial.hasta; d++) { ocupados.add(d); vetados.add(d); }
+    }
+
     const porTorneo = new Map<string, DatedFixture[]>();
     for (const f of suyosDeLiga) {
-      const t = torneoDeFecha(comp, f.date);
+      const t = torneoDelFixture(f);
       const lista = porTorneo.get(t);
       if (lista) lista.push(f); else porTorneo.set(t, [f]);
     }
@@ -332,16 +368,45 @@ function reservarFechasDeCuadrangular(
       // Un club con cuatro fechas sueltas del semestre no jugó ese torneo: no hay nada que definir.
       if (fs.length < 8) continue;
 
+      // Hasta dónde puede estirarse el cuadro sin pisar el semestre siguiente: el día anterior a la
+      // primera fecha del OTRO torneo, con el descanso mínimo de por medio. Si no hay otro torneo
+      // después (el Clausura cierra el año), se corta en el fin de año.
+      //
+      // El límite ya NO es el 30 de junio. Ese corte por mes era el que rompía la Primera Nacional
+      // argentina, que termina su fase regular el 21 de junio y empieza el Clausura el 4 de julio:
+      // de los seis días que el cuadro necesita, sólo entraban los tres que caían en junio. El
+      // torneo pertenece al semestre porque lo dice la fecha (ver `torneo` en DatedFixture), no
+      // porque caiga antes del 1 de julio.
+      //
+      // Las fechas que caen DENTRO del parón del Mundial no cuentan para nada de esto:
+      // reservarFechasDeMundial corre después y se las lleva puestas, así que tomarlas como el
+      // cierre de la fase regular dejaba el cuadro apuntando a un tramo que iba a desaparecer. La
+      // Primera Nacional argentina cierra su Apertura el 21 de junio en el calendario scrapeado,
+      // pero en año de Mundial esas fechas no se juegan y el semestre termina de verdad el 7.
+      const fuera = (f: DatedFixture) => {
+        const d = dayForDate(f.date);
+        return !mundial || d < mundial.desde || d > mundial.hasta;
+      };
+      const fsReales = fs.filter(fuera);
+      if (!fsReales.length) continue;
+      const ultimaDelSemestre = dayForDate(fsReales[fsReales.length - 1].date);
+      const primeraDelOtro = suyosDeLiga.find(f => torneoDelFixture(f) !== torneoDelSemestre
+        && fuera(f) && dayForDate(f.date) > ultimaDelSemestre);
+      const anioDelSemestre = Number(fs[0].date.slice(0, 4));
+      const topeDelSemestre = primeraDelOtro
+        ? dayForDate(primeraDelOtro.date) - DESCANSO_MINIMO_DIAS
+        : dayForDate(`${anioDelSemestre}-12-31`);
+
       const ponerEn = (dia: number) => {
+        // Un día pasado el tope es del semestre siguiente y ahí no puede ir: la primera fecha del
+        // torneo que viene caería en medio de esta final.
+        if (dia > topeDelSemestre) return;
         const date = dateForDay(dia);
-        // El cuadrangular del Apertura no puede caer en julio. torneoDeFecha parte el año por mes, y
-        // un día pasado el corte queda contado como del OTRO torneo: al Millonarios le apareció una
-        // fecha de "cuadrangular del Clausura" el 21 de julio, antes de que el Clausura empezara.
-        if (torneoDeFecha(comp, date) !== torneoDelSemestre) return;
         agregar(club, {
           competition: comp,
           match: { date, home: club, away: RIVAL_POR_SORTEAR },
           date, isHome: true, opponentName: RIVAL_POR_SORTEAR, temporada, esPlayoff: true,
+          torneo: torneoDelSemestre,
         });
         ocupados.add(dia);
         for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(dia + k);
@@ -373,24 +438,27 @@ function reservarFechasDeCuadrangular(
           // Ventana ancha a propósito: apretados en el tramo real salían seis partidos en trece días
           // (al Millonarios le tocaba uno cada dos). El techo es el arranque del OTRO torneo, que es
           // el límite de verdad -- más allá, el cuadrangular pisaría el semestre siguiente.
-          // El techo se CLAVA en el fin del semestre, no se filtra al colocar: elegirDias devuelve
+          // El techo se CLAVA en el tope del semestre, no se filtra al colocar: elegirDias devuelve
           // exactamente lo que se le pide, así que si después se descartaban los días que se pasaban
-          // de junio, el club terminaba con dos fechas de cuadrangular en vez de seis.
-          const anio = Number(reales[0].slice(0, 4));
-          const finDelSemestre = dayForDate(`${anio}-${torneoDelSemestre === 'Apertura' ? '06-30' : '12-31'}`);
-          for (const dia of elegirDias(primero, Math.min(finDelSemestre, ultimoReal + 45), vetados, faltan, ocupados)) ponerEn(dia);
+          // del borde, el club terminaba con dos fechas de cuadrangular en vez de seis.
+          for (const dia of elegirDias(primero, Math.min(topeDelSemestre, ultimoReal + 45), vetados, faltan, ocupados)) ponerEn(dia);
         }
         continue;
       }
 
-      const ultimo = dayForDate(fs[fs.length - 1].date);
+      const ultimo = ultimaDelSemestre;
       // Arranca una semana después del cierre de la fase regular, como en la vida real, y tiene un
       // mes y medio para las tres rondas. El techo no puede pisar el arranque del OTRO torneo: si
       // lo hiciera, la primera fecha del Apertura siguiente caería en medio de la final anterior.
-      const siguiente = suyosDeLiga.find(f => dayForDate(f.date) > ultimo + 3);
-      const techo = siguiente ? dayForDate(siguiente.date) - 3 : ultimo + 48;
-      const desde = ultimo + 7;
-      const hasta = Math.min(techo, ultimo + 48);
+      const hasta = Math.min(topeDelSemestre, ultimo + 48);
+      // Hueco corto: el semestre cierra encima de la fase regular (la Primera Nacional argentina
+      // deja trece días entre el final del Apertura y el arranque del Clausura) o el parón del
+      // Mundial se comió el medio. Se ARRANCA ANTES en vez de renunciar -- apenas termina la fase
+      // regular, con el descanso mínimo --, que es lo que hace una liga de verdad cuando le queda
+      // poco aire. Renunciar dejaba al club sin cuadrangular NINGUNA temporada.
+      const desde = hasta - (ultimo + 7) < objetivo * DESCANSO_MINIMO_DIAS
+        ? ultimo + DESCANSO_MINIMO_DIAS
+        : ultimo + 7;
       if (hasta <= desde) continue;
 
       // El cuadrangular se INVENTA -- no viene del calendario real -- así que sólo se agrega si hay
@@ -407,9 +475,44 @@ function reservarFechasDeCuadrangular(
       // generan SIEMPRE: el torneo tiene que definirse en cancha aunque el hueco venga apretado.
       // No es el caso del Mundial -- ese hueco cae entre semestres, no después del último --, así
       // que acá no hay nada con qué chocar: el Clausura cierra el 8 de noviembre y el año sigue.
-      for (const dia of elegirDias(desde, hasta, vetados, objetivo, ocupados)) ponerEn(dia);
+      // Y se piden SÓLO las que entran con descanso decente. elegirDias, cuando no llega a la
+      // cantidad pedida, tiene un relleno que deja de mirar el descanso y mete los días donde sea:
+      // pidiéndole seis a un hueco de nueve días salían seis partidos en nueve días. El cuadro se
+      // achica solo a lo que el hueco aguanta (ver el `cupo` de prepararPlayoffDeLiga, que lee esta
+      // misma cantidad de fechas), y como cada ronda son dos piernas, se pide un número par.
+      const capacidad = Math.floor((hasta - desde) / DESCANSO_MINIMO_DIAS) + 1;
+      const cuantas = Math.min(objetivo, capacidad - (capacidad % 2));
+      if (cuantas < 2) continue;
+      for (const dia of elegirDias(desde, hasta, vetados, cuantas, ocupados)) ponerEn(dia);
     }
   }
+}
+
+/**
+ * Cuántas fechas de CUADRANGULAR tiene el club en el torneo al que pertenece `date`.
+ *
+ * El cuadro se dimensiona con esto (ver prepararPlayoffDeLiga): tres rondas necesitan seis fechas y
+ * casi todos los semestres las tienen, pero en año de Mundial el parón deja algunos con cuatro. Un
+ * cuadro de ocho en cuatro fechas se queda en la semifinal y no corona a nadie.
+ */
+export function fechasDePlayoffDelTorneo(clubName: string, date: string): number {
+  const deLiga = fixturesForClub(clubName).filter(f => f.competition.kind === 'league');
+  const hoy = deLiga.find(f => f.date === date);
+  if (!hoy) return 0;
+  const torneo = torneoDelFixture(hoy);
+  return deLiga.filter(f =>
+    f.temporada === hoy.temporada && f.esPlayoff && torneoDelFixture(f) === torneo).length;
+}
+
+/**
+ * A qué torneo del año pertenece una fecha de este club.
+ *
+ * Manda lo que la fecha traiga escrito (`torneo`, que sólo llevan los días de cuadrangular
+ * reservados) y recién después el corte por mes. Ver el comentario de `torneo` en DatedFixture: el
+ * cuadro se juega contra el borde del semestre y el mes miente justo ahí.
+ */
+function torneoDelFixture(f: DatedFixture): string {
+  return f.torneo ?? torneoDeFecha(f.competition, f.date);
 }
 
 // --- RESERVAS DE COPA -------------------------------------------------------------------------
@@ -1233,6 +1336,18 @@ const MUNDIAL_DESDE = '06-11';
 const MUNDIAL_HASTA = '07-19';
 
 /**
+ * Los días que ocupa el Mundial ese año, o null si no es año de Mundial.
+ *
+ * Lo consulta reservarFechasDeCuadrangular para no apartar días de cuadro adentro del parón: ver
+ * el comentario largo de allá. Está acá, junto a las fechas del Mundial, para que la ventana tenga
+ * una sola definición -- la misma que usan reservarFechasDeMundial y enVentanaDelMundial.
+ */
+function ventanaDeMundialDelAnio(anio: number): { desde: number; hasta: number } | null {
+  if (!esAnioDeMundial(anio)) return null;
+  return { desde: dayForDate(`${anio}-${MUNDIAL_DESDE}`), hasta: dayForDate(`${anio}-${MUNDIAL_HASTA}`) };
+}
+
+/**
  * Fechas que el Mundial ocupa. Son los pasos que necesita para resolverse entero: 3 de fase de
  * grupos, 5 de eliminación (32avos, octavos, cuartos, semis, final) y uno más donde el motor recién
  * detecta al campeón.
@@ -1315,21 +1430,38 @@ function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada:
       });
     }
 
-    // Y ahora se reubican los días de cuadro que el parón se llevó por delante. Van DESPUÉS del
-    // Mundial, en los primeros huecos libres, respetando el descanso mientras se pueda.
+    // Y ahora se reubican los días de cuadro que el parón se llevó por delante.
+    //
+    // Los de COPA van después del Mundial, en los primeros huecos libres: una copa nacional cruza el
+    // año entero y le da igual de qué lado del parón se juegue su ronda.
+    //
+    // Los de CUADRANGULAR, no: pertenecen a un semestre y ahí se tienen que quedar. Mandarlos
+    // después del parón partía el cuadro del Apertura entre mayo y diciembre -- y diciembre, para el
+    // calendario, ya es Clausura. Por eso se buscan hacia ATRÁS, en los días previos al parón, que
+    // es cuando se juegan de verdad: el Apertura se define antes de que empiece el Mundial.
+    // (reservarFechasDeCuadrangular ya evita apartar días adentro de la ventana; acá quedan sólo los
+    // partidos de cuadrangular REALES del calendario scrapeado que caigan adentro.)
     if (aReubicar.length) {
       const ocupados = new Set(sobreviven.map(f => dayForDate(f.date)));
       const vetadosAhora = new Set<number>();
       for (const d of ocupados) {
         for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetadosAhora.add(d + k);
       }
-      const nuevos = elegirDias(hasta + 4, hasta + 150, vetadosAhora, aReubicar.length, ocupados);
-      aReubicar.forEach((f, i) => {
-        const dia = nuevos[i];
-        if (dia === undefined) return;
-        const date = dateForDay(dia);
-        sobreviven.push({ ...f, date, match: { ...f.match, date } });
-      });
+      const reubicar = (fs: DatedFixture[], desdeDia: number, hastaDia: number) => {
+        if (!fs.length) return;
+        const nuevos = elegirDias(desdeDia, hastaDia, vetadosAhora, fs.length, ocupados);
+        fs.forEach((f, i) => {
+          const dia = nuevos[i];
+          if (dia === undefined) return;
+          const date = dateForDay(dia);
+          ocupados.add(dia);
+          for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetadosAhora.add(dia + k);
+          sobreviven.push({ ...f, date, match: { ...f.match, date } });
+        });
+      };
+      // Los del cuadrangular primero y hacia atrás: son los que no pueden cambiar de semestre.
+      reubicar(aReubicar.filter(f => f.esPlayoff), desde - 40, desde - 1);
+      reubicar(aReubicar.filter(f => !f.esPlayoff), hasta + 4, hasta + 150);
     }
 
     sobreviven.sort((a, b) => a.date.localeCompare(b.date));
@@ -1743,9 +1875,9 @@ export function fechasDeLigaDelTorneo(
   // Mismo recorte que esUltimaFechaDelTorneo: temporada de carrera + torneo (Apertura/Clausura), o
   // el torneo entero donde el año trae uno solo. Sin el recorte por temporada, el total serían las
   // ~1200 fechas de las 32 temporadas generadas y ningún campeón pasaría el filtro nunca.
-  const torneo = torneoDeFecha(esteFixture.competition, date);
+  const torneo = torneoDelFixture(esteFixture);
   const mismos = deLiga.filter(f =>
-    f.temporada === esteFixture.temporada && torneoDeFecha(f.competition, f.date) === torneo);
+    f.temporada === esteFixture.temporada && torneoDelFixture(f) === torneo);
 
   // El día de hoy todavía no está en datedResults (se guarda después de resolver el partido), así
   // que se cuenta a mano: si no, el campeón legítimo de la última fecha quedaba uno corto.
@@ -1820,9 +1952,9 @@ export function esUltimaFechaDelTorneo(clubName: string, date: string): boolean 
 
   // Misma razón que en esUltimoPartidoDeLaCopa: hay que quedarse dentro de la temporada en curso,
   // o el "último partido del torneo" cae siempre en la última temporada generada.
-  const torneo = torneoDeFecha(esteFixture.competition, date);
+  const torneo = torneoDelFixture(esteFixture);
   const mismos = deLiga.filter(f =>
-    f.temporada === esteFixture.temporada && torneoDeFecha(f.competition, f.date) === torneo);
+    f.temporada === esteFixture.temporada && torneoDelFixture(f) === torneo);
   return mismos[mismos.length - 1]?.date === date;
 }
 
@@ -1861,7 +1993,7 @@ export function calendarioDeLigaAgotado(clubName: string, currentWeek: number): 
 /** El torneo de liga que el club juega en esa fecha ('Apertura', 'Clausura' o el nombre de la liga). */
 export function torneoDelClubEnFecha(clubName: string, date: string): string | null {
   const f = fixturesForClub(clubName).find(x => x.date === date && x.competition.kind === 'league');
-  return f ? torneoDeFecha(f.competition, date) : null;
+  return f ? torneoDelFixture(f) : null;
 }
 
 /**

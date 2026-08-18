@@ -14,7 +14,7 @@
 import { CLUBS_DATABASE } from '../src/data';
 import {
   fixturesForClub, fixturesAtStep, pickPrimary, esUltimaFechaDelTorneo,
-  esUltimoPartidoDeLaCopa, torneoDelClubEnFecha, partidosDeLaMismaLlave,
+  esUltimoPartidoDeLaCopa, torneoDelClubEnFecha, partidosDeLaMismaLlave, fechasDePlayoffDelTorneo,
 } from '../src/dateSchedule';
 import {
   simulateMatch, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, leagueKeyFor, sortTable,
@@ -84,7 +84,11 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
 
   if (esPlayoff) {
     const sem = torneoDelClubEnFecha(club.name, hoy.date) ?? 'Playoff';
-    playoffs[sem] = prepararPlayoffDeLiga(playoffs[sem], season.table);
+    // El cuadro se dimensiona a las fechas que el semestre tenga apartadas, igual que en App.tsx:
+    // sin eso, un semestre corto (la Primera Nacional en año de Mundial) arma un cuadro de ocho que
+    // no le entra y se queda sin campeon.
+    playoffs[sem] = prepararPlayoffDeLiga(
+      playoffs[sem], season.table, fechasDePlayoffDelTorneo(club.name, hoy.date));
     const cruce = crucePlayoffDeLiga(playoffs[sem], club.id);
     // Eliminado: el cuadrangular sigue sin vos hasta la final, igual que en App.tsx.
     if (!cruce) { playoffs[sem] = terminarTorneoSinElJugador(playoffs[sem], (b: any) => resolverPasoPlayoffDeLiga(b, leagueClubs)); continue; }
