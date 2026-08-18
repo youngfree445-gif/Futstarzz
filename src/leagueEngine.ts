@@ -1353,6 +1353,25 @@ export function terminarTorneoSinElJugador<T extends { championId: string | null
   return actual;
 }
 
+/**
+ * Arma la ronda siguiente de la copa nacional, sin jugar nada.
+ *
+ * Existe porque resolverPasoCopaNacional hace DOS cosas -- arma la ronda que viene y resuelve una
+ * pierna -- y quien prepara la pantalla necesita sólo la primera. App.tsx lo llamaba para "adelantar
+ * el cuadro" antes de preguntar por el cruce, y de paso le jugaba al jugador la IDA de cada ronda
+ * nueva: de octavos en adelante el partido salía siempre rotulado "(Vuelta)" con un global que venía
+ * de una ida que nadie disputó. Un partido perdido por ronda, en todas las copas nacionales.
+ *
+ * Es el mismo reparto que ya tienen los cuadrangulares: prepararPlayoffDeLiga arma y
+ * resolverPasoPlayoffDeLiga juega.
+ */
+export function prepararRondaCopaNacional(cup: DomesticCupState): DomesticCupState {
+  if (cup.championId) return cup;
+  const ultima = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1];
+  if (!ultima?.length || !ultima.every(t => t.played)) return cup;
+  return { ...cup, bracket: siguienteRondaTwoLeg(cup.bracket) };
+}
+
 export function resolverPasoCopaNacional(
   cup: DomesticCupState,
   allClubs: Club[],

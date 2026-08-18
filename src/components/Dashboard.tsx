@@ -1066,8 +1066,20 @@ export default function Dashboard({
     const esReservaDeCopa = !!realDeLaSemana?.esReservaDeCuadro
       && (realDeLaSemana.competition.kind === 'domestic_cup'
         || realDeLaSemana.competition.kind === 'continental_cup');
-    // La continental se lleva el día: la nacional no se consulta siquiera, igual que en App.tsx.
-    const continentalDeLaSemana = esReservaDeCopa ? copaContinentalDeHoy : null;
+    // De quién es el día: lo estrena la copa que lo PIDIÓ, y la otra lo hereda si aquélla no tiene
+    // cruce. Mismo criterio y mismos datos que App.tsx (ver laNacionalTieneCruceHoy allá); si acá
+    // se contestara distinto, el cartel volvería a prometer un torneo y el partido sería de otro.
+    const laNacionalTieneCruceHoy = esReservaDeCopa
+      && realDeLaSemana?.competition.kind === 'domestic_cup'
+      && (() => {
+        const t = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
+          ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
+        const guardada = playerProfile.domesticCups?.[`${currentClub.league}-${t}`];
+        if (!guardada) return true;   // edición sin sortear: tu club siempre entra al cuadro
+        if (guardada.championId) return false;
+        return sigueEnCopa(guardada, currentClub.id) && !!cruceActual(guardada, currentClub.id);
+      })();
+    const continentalDeLaSemana = esReservaDeCopa && !laNacionalTieneCruceHoy ? copaContinentalDeHoy : null;
     const cupBracketDeLaSemana = (!continentalDeLaSemana
       && ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa)) ? (() => {
       // La temporada la manda el calendario cuando lo hay -- misma clave que usa App.tsx, o la
@@ -1153,7 +1165,9 @@ export default function Dashboard({
       // "Colombiana" cuando lo que se jugaba era la Superliga.
       competition: continentalDeLaSemana
         ? continentalDeLaSemana.nombre
-        : cupBracketDeLaSemana
+        // `laNacionalTieneCruceHoy` sin cuadro guardado es la primera fecha de la edición: el cruce
+        // todavía no está sorteado (a propósito, ver arriba) pero la copa del día ya se sabe.
+        : cupBracketDeLaSemana || laNacionalTieneCruceHoy
         ? nombreCopaNacional(currentClub.league)
         // Reserva sin cruce en NINGUNA copa: hoy no se juega nada de copa, y decir el nombre del
         // torneo que pidió el día sería inventar. App.tsx en ese caso da la semana por libre.

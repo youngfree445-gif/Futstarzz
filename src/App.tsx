@@ -32,7 +32,7 @@ import {
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
-  resolverPasoCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
+  resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
   simulatePenaltyShootout, roundLabelByMatchCount, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
@@ -2797,9 +2797,40 @@ export default function App() {
       setActiveTorneoLabel(null);
       let cupTeamCount: number | null = null;
 
+      // DE QUIÉN ES EL DÍA.
+      //
+      // El calendario le reserva días a CADA copa por separado: al Millonarios, 10 para la Copa
+      // BetPlay y 7 para la Sudamericana. Hasta acá la continental preguntaba primero y se los
+      // quedaba TODOS -- entre fecha y fecha siempre tiene un cruce pendiente esperando --, así que
+      // el cuadro nacional no arrancaba hasta que sobraran días al final del año, y para entonces
+      // se dimensionaba a lo que quedaba. Medido con el Junior y con el Millonarios: la Copa BetPlay
+      // se reducía a una FINAL suelta de dos partidos. De ahí venía que el cartel del global no
+      // apareciera nunca en las copas domésticas -- casi no llegabas a jugar una vuelta.
+      //
+      // Ahora el día lo estrena la copa que lo PIDIÓ, que es como lo repartió el calendario. La
+      // otra lo hereda igual cuando aquélla no tiene nada ese día (el orden de abajo sigue intacto),
+      // así que ninguna se queda a medio camino. Es el mismo reparto que usa
+      // scripts/jugar_carrera.ts, que por eso jugaba las diez fechas de Copa BetPlay del Junior.
+      const laNacionalTieneCruceHoy = !!realPrimary?.esReservaDeCuadro
+        && realPrimary.competition.kind === 'domestic_cup'
+        && (() => {
+          const mio = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+          if (!mio) return false;
+          const temp = usaFechasReales
+            ? (temporadaDelPaso(mio.name, playerProfile.currentWeek)?.temporada ?? year)
+            : year;
+          const guardada = playerProfile.domesticCups?.[`${mio.league}-${temp}`];
+          // Edición todavía sin sortear: el cuadro se arma más abajo y tu club siempre entra, así
+          // que hoy tenés cruce. Se contesta sin sortear nada -- un sorteo acá daría un cuadro
+          // distinto del que se guarda después.
+          if (!guardada) return true;
+          if (guardada.championId) return false;
+          return sigueEnCopa(guardada, mio.id) && !!cruceActual(guardada, mio.id);
+        })();
+
       let foundOpponentId: string | null = null;
       let eliminatedFromQualifiedCup = false;
-      if (qualifiedCupId) {
+      if (qualifiedCupId && !laNacionalTieneCruceHoy) {
         const cupKey = `${qualifiedCupId}-${year}`;
         // myClub.id NO es opcional acá: sin él la copa se adelanta hasta el paso que le toca por
         // conteo de semanas, aunque el jugador tenga un partido suyo sin jugar. Reportado: ganar el
@@ -2857,7 +2888,7 @@ export default function App() {
 
       // Si el club no juega Libertadores/Sudamericana (ligas sudamericanas), probamos Champions/Europa League.
       let foundUefaOpponentId: string | null = null;
-      if (!foundOpponentId) {
+      if (!foundOpponentId && !laNacionalTieneCruceHoy) {
         const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE));
         const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE));
         const qualifiedUefaCupId: 'champions' | 'europa' | null = championsIds.has(myClub.id)
@@ -3018,10 +3049,12 @@ export default function App() {
           // esto cruceActual devolvía la llave YA JUGADA -- sigueEnCopa da true porque la ganaste --
           // y el jugador la disputaba de nuevo contra el mismo rival, con un resultado que el motor
           // después descartaba. Un partido fantasma en cada cambio de ronda.
-          const ultimaRonda = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1];
-          if (!cup.championId && ultimaRonda?.every(t => t.played)) {
-            cup = resolverPasoCopaNacional(cup, CLUBS_DATABASE);
-          }
+          //
+          // Se ARMA y nada más. Acá se llamaba a resolverPasoCopaNacional, que además de armar la
+          // ronda le resuelve una pierna: la IDA de cada ronda nueva se jugaba sola, y el jugador
+          // entraba directo a un partido rotulado "(Vuelta)" con un global que venía de un partido
+          // que nunca disputó. Un partido perdido por ronda, en todas las copas nacionales.
+          cup = prepararRondaCopaNacional(cup);
           if (playerProfile.domesticCups?.[cupKey] !== cup) {
             const cupGuardada = cup;
             setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cupGuardada } }));
