@@ -16,7 +16,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import { armarReporteDeBug } from '../reporteDeBug';
-import { claveDeCopaNacional, duenoDelDiaDeCopa } from '../decisionDelDia';
+import { claveDeCopaNacional, cuadrangularDeHoy, duenoDelDiaDeCopa } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -1109,21 +1109,11 @@ export default function Dashboard({
     // distinción que ya se hacía con las fechas reservadas de copa, sólo que acá el día SÍ trae un
     // rival escrito, y por eso pasaba desapercibido: la tarjeta lo mostraba como si fuera el bueno.
     // Reportado: "el calendario muestra otro equipo y partido".
-    const playoffDeLaSemana = realDeLaSemana?.esPlayoff ? (() => {
-      // Misma clave que App.tsx al resolver el paso, o se leería el cuadro de otro semestre.
-      const semestre = torneoDelClubEnFecha(currentClub.name, realDeLaSemana.date) ?? '';
-      const temporada = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
-        ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
-      const cuadro = playerProfile.playoffsDeLiga?.[`${myLeagueKey}|${temporada}|${semestre}`];
-      const cruce = crucePlayoffDeLiga(cuadro, currentClub.id);
-      if (!cruce) return null;
-      const rivalId = cruce.clubAId === currentClub.id ? cruce.clubBId : cruce.clubAId;
-      // La localía sale de la LLAVE (en la ida es local el clubA, en la vuelta se invierte), igual
-      // que en la copa nacional: la del calendario es la del cruce real, que no es este.
-      const esIda = cruce.firstLegGoalsA === null;
-      const soyLocal = esIda ? cruce.clubAId === currentClub.id : cruce.clubBId === currentClub.id;
-      return { rivalId, ronda: rondaDelPlayoff(cuadro), soyLocal };
-    })() : null;
+    // La clave, el cruce, la localia y la ronda salen de cuadrangularDeHoy: es LA MISMA funcion que
+    // usa App.tsx al armar el partido, no una copia que haya que mantener a la par.
+    const playoffDeLaSemana = realDeLaSemana?.esPlayoff
+      ? cuadrangularDeHoy(playerProfile, currentClub, playerProfile.currentWeek, realDeLaSemana.date)
+      : null;
 
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
     // calendario real, así que todos los accesos van con ?.

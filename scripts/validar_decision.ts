@@ -9,7 +9,9 @@
 import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import { fixturesAtStep, temporadaDelPaso } from '../src/dateSchedule';
-import { claveDeCopaNacional, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
+import { claveDeCopaNacional, clavePlayoffDeLiga, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
+import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable } from '../src/leagueEngine';
+import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional } from '../src/copaNacional';
 import type { Club, PlayerProfile } from '../src/types';
 
@@ -129,6 +131,56 @@ for (const club of jugables.slice(0, 40)) {
 }
 ok('la misma pregunta da la misma respuesta siempre (es pura)', inconsistencias === 0);
 ok('y no toca el perfil', Object.keys(perfilVacio.domesticCups ?? {}).length === 0);
+
+// =============================================================================================
+// 4. EL CUADRANGULAR
+// =============================================================================================
+//
+// La clave lleva el SEMESTRE porque Apertura y Clausura son dos torneos con su propio campeon: con
+// una sola clave por temporada, el segundo se jugaria sobre el cuadro del primero.
+
+console.log('');
+const colombianos = clubesDeLiga('Colombiana-1');
+const juni = colombianos.find(c => c.name === 'Junior de Barranquilla')!;
+
+// Dos fechas del mismo club en semestres distintos tienen que dar claves distintas.
+const fechaApertura = '2026-05-10';
+const fechaClausura = '2026-11-25';
+ok('Apertura y Clausura NO comparten cuadro',
+   clavePlayoffDeLiga(juni, 26, fechaApertura) !== clavePlayoffDeLiga(juni, 83, fechaClausura),
+   `${clavePlayoffDeLiga(juni, 26, fechaApertura)} vs ${clavePlayoffDeLiga(juni, 83, fechaClausura)}`);
+
+const sinCuadro = { currentClubId: juni.id, playoffsDeLiga: {} } as unknown as PlayerProfile;
+ok('sin cuadro sembrado no se inventa un cruce',
+   cuadrangularDeHoy(sinCuadro, juni, 26, fechaApertura) === null);
+
+// Con un cuadro sembrado y la ida jugada, la vuelta tiene que traer el global y la localia dada
+// vuelta -- que es justo lo que la tarjeta y la pantalla del partido tienen que decir IGUAL.
+const tabla = sortTable(buildInitialTable(colombianos.slice(0, 8)));
+let cuadro = prepararPlayoffDeLiga(undefined, tabla, 6);
+const miLlave = cuadro.tiesByRound[0].find(t => t.clubAId === juni.id || t.clubBId === juni.id);
+if (miLlave) {
+  const soyAInicial = miLlave.clubAId === juni.id;
+  const conCuadro = {
+    currentClubId: juni.id,
+    playoffsDeLiga: { [clavePlayoffDeLiga(juni, 26, fechaApertura)]: cuadro },
+  } as unknown as PlayerProfile;
+  const ida = cuadrangularDeHoy(conCuadro, juni, 26, fechaApertura)!;
+  ok('en la IDA no hay global que mostrar', ida.esIda && ida.global === null);
+  ok('y la localia de la ida es la del clubA', ida.soyLocal === soyAInicial);
+
+  cuadro = resolverPasoPlayoffDeLiga(cuadro, colombianos, {
+    clubId: juni.id, isHome: ida.soyLocal, goals: 2, opponentGoals: 1,
+  });
+  const conIdaJugada = {
+    currentClubId: juni.id,
+    playoffsDeLiga: { [clavePlayoffDeLiga(juni, 26, fechaApertura)]: cuadro },
+  } as unknown as PlayerProfile;
+  const vuelta = cuadrangularDeHoy(conIdaJugada, juni, 27, fechaApertura)!;
+  ok('en la VUELTA sale el global de la ida', !vuelta.esIda && vuelta.global === '2-1', vuelta.global ?? '');
+  ok('y la localia se invierte', vuelta.soyLocal === !soyAInicial);
+  ok('el rival es el mismo en las dos piernas', ida.rivalId === vuelta.rivalId);
+}
 
 console.log('');
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);

@@ -63,7 +63,7 @@ import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOver
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
-import { claveDeCopaNacional, duenoDelDiaDeCopa } from './decisionDelDia';
+import { claveDeCopaNacional, clavePlayoffDeLiga, duenoDelDiaDeCopa } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -3319,8 +3319,7 @@ export default function App() {
       // que puso el rival de la pantalla.
       let cruceDelPlayoffHoy: TwoLegTie | null = null;
       if (esFechaDePlayoff && datedStep) {
-        const semestre = torneoDelClubEnFecha(myClub.name, datedStep.date) ?? '';
-        clavePlayoff = `${leagueKey}|${temporadaDe(playerProfile, playerProfile.currentWeek)}|${semestre}`;
+        clavePlayoff = clavePlayoffDeLiga(myClub, playerProfile.currentWeek, datedStep.date);
         brackedDelPlayoff = prepararPlayoffDeLiga(
           playerProfile.playoffsDeLiga?.[clavePlayoff], season.table,
           fechasDePlayoffDelTorneo(myClub.name, datedStep.date));
@@ -4086,7 +4085,9 @@ export default function App() {
       const hoyFuePlayoff = !!pasoHoy && pasoHoy.fixtures.some(f => f.esPlayoff);
       if (hoyFuePlayoff && pasoHoy && activeOppositionClubId) {
         const semestre = torneoDelClubEnFecha(myClub.name, pasoHoy.date) ?? '';
-        const clave = `${leagueKey}|${temporadaDe(playerProfile, playerProfile.currentWeek)}|${semestre}`;
+        // La MISMA clave que uso handlePlayMatch al armar el partido: si las dos no coinciden, el
+        // resultado se guarda en un cuadro distinto del que se jugo.
+        const clave = clavePlayoffDeLiga(myClub, playerProfile.currentWeek, pasoHoy.date);
         const antes = playerProfile.playoffsDeLiga?.[clave];
         const tie = crucePlayoffDeLiga(antes, myClub.id);
 

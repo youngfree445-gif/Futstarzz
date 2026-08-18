@@ -29,9 +29,10 @@
 // partido sería contra otro. Cuando la edición todavía no está sorteada, la respuesta se deduce sin
 // sortearla (tu club SIEMPRE entra al cuadro de su país, así que hay cruce).
 
-import { Club, PlayerProfile } from './types';
-import { temporadaDeCarrera, temporadaDelPaso } from './dateSchedule';
+import { Club, PlayerProfile, TwoLegTie } from './types';
+import { temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { cruceActual, sigueEnCopa } from './copaNacional';
+import { crucePlayoffDeLiga, leagueKeyFor, rondaDelPlayoff } from './leagueEngine';
 
 /**
  * La clave con la que se guarda la edición de copa nacional que le toca al club en este paso.
@@ -92,4 +93,65 @@ export function duenoDelDiaDeCopa(
 ): DuenoDelDia {
   if (esReservaDeLaNacional && laNacionalTieneCruce(perfil, club, paso)) return 'nacional';
   return 'continental';
+}
+
+
+// --- EL CUADRANGULAR ---------------------------------------------------------------------------
+//
+// Mismo problema que el dia de copa: App.tsx y Dashboard.tsx armaban la clave y leian el cruce cada
+// uno por su lado. Las dos formulas de la clave daban lo mismo -- se comprobo -- pero eran tres
+// construcciones distintas de la cadena que decide QUE CUADRO se lee, y con el cuadro equivocado la
+// tarjeta anuncia un rival y el partido es contra otro. Ya paso con el rival del calendario:
+// "el calendario muestra otro equipo y partido".
+
+/**
+ * La clave del cuadro de cuadrangular de este club, en este paso.
+ *
+ * Lleva el SEMESTRE porque Apertura y Clausura son dos torneos con su propio campeon: con una sola
+ * clave por temporada, el segundo se jugaria sobre el cuadro del primero.
+ */
+export function clavePlayoffDeLiga(club: Club, paso: number, fecha: string): string {
+  const semestre = torneoDelClubEnFecha(club.name, fecha) ?? '';
+  return `${leagueKeyFor(club)}|${temporadaDeCarrera(club.name, paso)}|${semestre}`;
+}
+
+export interface CruceDeCuadrangular {
+  llave: TwoLegTie;
+  rivalId: string;
+  /** La localia sale de la LLAVE: en la ida es local el clubA y en la vuelta se invierte. */
+  soyLocal: boolean;
+  esIda: boolean;
+  ronda: string;
+  /** "2-1" en la vuelta; null en la ida, donde todavia no hay nada que sumar. */
+  global: string | null;
+}
+
+/**
+ * El cruce de cuadrangular que le toca al club hoy, o null si no le toca ninguno.
+ *
+ * Lee el cuadro GUARDADO y no lo siembra: sembrar aca daria un cuadro distinto del que App guarda
+ * despues. Cuando el cuadro todavia no esta sembrado devuelve null, y quien pregunte tiene que
+ * decir "rival por definir" en vez de inventar uno -- que es lo que ya hace la tarjeta.
+ */
+export function cuadrangularDeHoy(
+  perfil: PlayerProfile,
+  club: Club,
+  paso: number,
+  fecha: string,
+): CruceDeCuadrangular | null {
+  const cuadro = perfil.playoffsDeLiga?.[clavePlayoffDeLiga(club, paso, fecha)];
+  const llave = crucePlayoffDeLiga(cuadro, club.id);
+  if (!llave) return null;
+  const esIda = llave.firstLegGoalsA === null;
+  const soyA = llave.clubAId === club.id;
+  const misGoles = (soyA ? llave.firstLegGoalsA : llave.firstLegGoalsB) ?? 0;
+  const susGoles = (soyA ? llave.firstLegGoalsB : llave.firstLegGoalsA) ?? 0;
+  return {
+    llave,
+    rivalId: soyA ? llave.clubBId : llave.clubAId,
+    soyLocal: esIda ? llave.clubAId === club.id : llave.clubBId === club.id,
+    esIda,
+    ronda: rondaDelPlayoff(cuadro),
+    global: esIda ? null : `${misGoles}-${susGoles}`,
+  };
 }
