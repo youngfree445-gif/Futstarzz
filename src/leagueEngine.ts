@@ -180,8 +180,12 @@ export function sortTable(table: TableTeam[]): TableTeam[] {
 export function roundLabelByMatchCount(n: number): string {
   if (n === 1) return 'Final';
   if (n === 2) return 'Semifinal';
-  if (n === 4) return 'Cuartos';
-  if (n === 8) return 'Octavos';
+  if (n === 4) return 'Cuartos de Final';
+  if (n === 8) return 'Octavos de Final';
+  if (n === 16) return 'Dieciseisavos de Final';
+  if (n === 32) return 'Treintaidosavos de Final';
+  // Mas alla de 64 clubes no hay nombre de uso corriente en español, asi que se dice cuantos
+  // quedan, que es lo unico que no se puede malinterpretar.
   return `Ronda de ${n * 2}`;
 }
 

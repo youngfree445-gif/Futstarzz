@@ -12,6 +12,7 @@
 
 import type { Club, TwoLegBracket, TwoLegTie } from './types';
 import { reglamentoDe } from './reglamentos';
+import { roundLabelByMatchCount } from './leagueEngine';
 
 export interface DomesticCupState {
   /** Liga a la que pertenece la copa ('Colombiana'), para no cruzar países. */
@@ -134,13 +135,21 @@ export function sigueEnCopa(cup: DomesticCupState, clubId: string): boolean {
  * Sale del tamaño del cuadro y no de un contador aparte, así no hay dos fuentes que puedan
  * desincronizarse.
  */
+/**
+ * Como se llama una ronda, segun cuantas llaves tiene.
+ *
+ * Habia DOS tablas para esta misma pregunta -- esta y roundLabelByMatchCount en leagueEngine -- y no
+ * decian lo mismo: para 16 llaves, esta contestaba "Dieciseisavos" y la otra "Ronda de 32". Como la
+ * de leagueEngine es la que usan las copas continentales, la Champions y el cuadrangular, un
+ * dieciseisavos de Libertadores salia rotulado "Ronda de 32". Pedido: "que diga lo que es, si es
+ * octavos octavos, si es 16avos 16avos".
+ *
+ * Ahora hay una sola, en leagueEngine, y esta la reexporta para no romper a quien ya la importaba.
+ * El import va en esta direccion y no al reves: leagueEngine solo toma un TIPO de este archivo
+ * (`import type`), que se borra al compilar, asi que no se cierra ningun ciclo.
+ */
 export function nombreDeRonda(ties: number): string {
-  if (ties === 1) return 'Final';
-  if (ties === 2) return 'Semifinal';
-  if (ties === 4) return 'Cuartos de Final';
-  if (ties === 8) return 'Octavos de Final';
-  if (ties === 16) return 'Dieciseisavos';
-  return `Ronda de ${ties * 2}`;
+  return roundLabelByMatchCount(ties);
 }
 
 /** La ronda que se está jugando ahora, ya nombrada. */

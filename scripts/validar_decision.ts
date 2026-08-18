@@ -10,9 +10,9 @@ import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import { fixturesAtStep, temporadaDelPaso } from '../src/dateSchedule';
 import { claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
-import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable } from '../src/leagueEngine';
+import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
-import { crearCopaNacional, cruceActual } from '../src/copaNacional';
+import { crearCopaNacional, cruceActual, nombreDeRonda } from '../src/copaNacional';
 import { resolverPasoCopaNacional } from '../src/leagueEngine';
 import type { Club, PlayerProfile } from '../src/types';
 
@@ -260,6 +260,32 @@ const delPartido = copaNacionalDelPaso(perfilNuevo, tigres, clubes, 1);
 const suyo = delPartido ? cruceActual(delPartido, tigres.id) : null;
 ok('y es EXACTAMENTE el que va a armar el partido',
    !!suyo && !!primero && (suyo.clubAId === primero.rivalId || suyo.clubBId === primero.rivalId));
+
+// =============================================================================================
+// 7. CADA RONDA SE LLAMA COMO SE LLAMA
+// =============================================================================================
+//
+// Habia DOS tablas para esto y no coincidian: para 16 llaves, la copa nacional decia
+// "Dieciseisavos" y las copas continentales "Ronda de 32". Pedido: "que diga lo que es, si es
+// octavos octavos, si es 16avos 16avos".
+
+console.log('');
+const esperados: [number, string][] = [
+  [1, 'Final'],
+  [2, 'Semifinal'],
+  [4, 'Cuartos de Final'],
+  [8, 'Octavos de Final'],
+  [16, 'Dieciseisavos de Final'],
+  [32, 'Treintaidosavos de Final'],
+];
+for (const [llaves, nombre] of esperados) {
+  ok(`${llaves} llave(s) = ${nombre}`, roundLabelByMatchCount(llaves) === nombre,
+     roundLabelByMatchCount(llaves));
+}
+ok('la copa nacional y las continentales dicen LO MISMO',
+   esperados.every(([n]) => nombreDeRonda(n) === roundLabelByMatchCount(n)));
+ok('mas alla de 64 clubes se dice cuantos quedan, que no se puede malinterpretar',
+   roundLabelByMatchCount(64) === 'Ronda de 128', roundLabelByMatchCount(64));
 
 console.log('');
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);
