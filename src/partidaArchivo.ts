@@ -17,6 +17,52 @@ const FORMATO_VERSION = 1;
 const claveSave = (slotId: string) => `futbol_star_save_${slotId}`;
 const claveShop = (slotId: string) => `futbol_star_shop_${slotId}`;
 
+/** Cómo salió el intento de guardar. Ver guardarRanura. */
+export interface ResultadoDeGuardado {
+  ok: boolean;
+  /** true cuando el navegador dijo explícitamente que no queda espacio. */
+  lleno: boolean;
+}
+
+/**
+ * Guarda una ranura. Las dos claves o ninguna.
+ *
+ * Vive acá y no en App.tsx por dos razones. La primera es que este módulo YA es el dueño del
+ * formato de las claves (claveSave/claveShop): tenerlo escrito también allá era la misma
+ * duplicación de siempre, con el agravante de que un cambio de formato dejaría partidas
+ * inalcanzables sin que nada avisara.
+ *
+ * La segunda es que adentro de un componente de React esto no se puede probar. Acá sí: el
+ * validador le pasa un almacén que tira QuotaExceededError y comprueba que no se rompa nada.
+ *
+ * GUARDAR PUEDE FALLAR. localStorage tiene un tope de ~5 MB por dominio, repartido entre todas las
+ * ranuras, y una carrera de 32 temporadas pesa cerca de 1 MB -- las copas continentales guardan sus
+ * ocho grupos con las tablas completas, edición por edición, y nada se poda nunca. Con tres ranuras
+ * llenas se roza el tope, y ahí `setItem` tira.
+ *
+ * Se serializa TODO antes de escribir nada: si el perfil grabara y la tienda fallara, la ranura
+ * quedaría con el perfil nuevo y los objetos viejos.
+ */
+export function guardarRanura(
+  slotId: string,
+  perfil: PlayerProfile,
+  tienda: ShopItem[],
+  almacen: Pick<Storage, 'setItem'> = localStorage,
+): ResultadoDeGuardado {
+  try {
+    const perfilSerializado = JSON.stringify(perfil);
+    const tiendaSerializada = JSON.stringify(tienda);
+    almacen.setItem(claveSave(slotId), perfilSerializado);
+    almacen.setItem(claveShop(slotId), tiendaSerializada);
+    return { ok: true, lleno: false };
+  } catch (e) {
+    const lleno = typeof DOMException !== 'undefined' && e instanceof DOMException
+      ? e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+      : (e as { name?: string })?.name === 'QuotaExceededError';
+    return { ok: false, lleno };
+  }
+}
+
 export interface ArchivoPartida {
   formato: 'futstarzz-partida';
   version: number;

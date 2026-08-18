@@ -63,6 +63,7 @@ import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOver
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
+import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
@@ -1174,11 +1175,40 @@ export default function App() {
   // Sube uno por partido y va como `key` de MatchSimulator, para que cada partido monte de cero.
   const [matchInstance, setMatchInstance] = useState(0);
 
+  // GUARDAR PUEDE FALLAR, Y CALLARSE ES LO PEOR QUE PUEDE HACER.
+  //
+  // localStorage tiene un tope de ~5 MB POR DOMINIO, repartido entre todas las ranuras. Una carrera
+  // de 32 temporadas pesa cerca de 1 MB -- las copas continentales guardan sus ocho grupos con las
+  // tablas completas, edición por edición, y nada se poda nunca -- así que tres ranuras llenas
+  // rozan el tope. Cuando se pasa, `setItem` TIRA una excepción.
+  //
+  // Hasta acá no había try/catch. Dos consecuencias, las dos malas:
+  //
+  //   - La excepción salía disparada en medio del handler que la llamó (los 51 llamadores están en
+  //     mitad de resolver un partido o una transición de temporada), cortando lo que quedaba.
+  //   - Y el jugador no se enteraba de nada: seguía jugando temporadas sobre una partida que ya no
+  //     se estaba guardando, y las perdía todas al cerrar.
+  //
+  // Son dos claves separadas, además, así que la primera podía grabar y la segunda fallar: ranura a
+  // medio guardar, con el perfil nuevo y la tienda vieja.
+  //
+  // Ahora se escriben las dos o ninguna, y si no se puede, se avisa. Un aviso no arregla el tope,
+  // pero convierte "perdí veinte temporadas sin saber por qué" en "exportá la partida ahora mismo",
+  // que es una salida que el juego ya tiene (ver partidaArchivo.ts).
+  const guardadoFallido = useRef(false);
   const saveGameState = (profile: PlayerProfile, items: ShopItem[], forcedSlotId?: string) => {
     const slot = forcedSlotId || activeSlotId;
     if (!slot) return;
-    localStorage.setItem(`futbol_star_save_${slot}`, JSON.stringify(profile));
-    localStorage.setItem(`futbol_star_shop_${slot}`, JSON.stringify(items));
+    const res = guardarRanura(slot, profile, items);
+    if (res.ok) { guardadoFallido.current = false; return; }
+    // Se avisa UNA vez por racha: esto corre en cada partido, y repetir el cartel en todos taparía
+    // el resto del juego sin agregar información.
+    if (!guardadoFallido.current) {
+      guardadoFallido.current = true;
+      notify(res.lleno
+        ? '⚠️ NO SE PUDO GUARDAR: el almacenamiento del navegador está lleno. Exportá tu partida desde el menú de inicio ANTES de cerrar, y borrá alguna ranura vieja para liberar espacio.'
+        : '⚠️ NO SE PUDO GUARDAR tu partida. Exportá el archivo desde el menú de inicio antes de cerrar el juego.');
+    }
   };
 
   const handleStartNew = (slotId: string) => {

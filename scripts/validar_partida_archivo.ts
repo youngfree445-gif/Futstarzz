@@ -5,7 +5,7 @@
 // que arruinarían al jugador: que lo exportado vuelva IDÉNTICO, y que un archivo corrupto NO pise
 // la ranura que ya tenía.
 
-import { exportarPartida, importarPartida } from '../src/partidaArchivo';
+import { exportarPartida, guardarRanura, importarPartida } from '../src/partidaArchivo';
 
 // --- Entorno mínimo de navegador -------------------------------------------------------------
 const almacen = new Map<string, string>();
@@ -78,5 +78,43 @@ for (const [caso, texto] of [
 
 console.log('\n=== D) Ranura vacía ===');
 check('exportar una ranura vacía devuelve null', exportarPartida('slot_6', 'X') === null);
+
+// =============================================================================================
+// GUARDAR CUANDO NO ENTRA MAS
+// =============================================================================================
+//
+// Una carrera de 32 temporadas pesa ~1 MB y localStorage topa en ~5 MB por dominio, repartidos
+// entre todas las ranuras. Cuando se pasa, setItem TIRA. Lo que no puede pasar es que el juego se
+// entere tarde: sin esto, el jugador seguia jugando temporadas sobre una partida que ya no se
+// guardaba y las perdia todas al cerrar.
+
+console.log('');
+console.log('--- guardarRanura ---');
+
+const almacenBueno = new Map<string, string>();
+const okGuardar = guardarRanura('slot_9', PERFIL as never, [{ id: 'x' }] as never, {
+  setItem: (k: string, v: string) => { almacenBueno.set(k, v); },
+});
+check('guardado normal: devuelve ok', okGuardar.ok && !okGuardar.lleno);
+check('guardado normal: escribe las DOS claves', almacenBueno.size === 2,
+  [...almacenBueno.keys()].join(', '));
+
+// El navegador lleno: setItem tira QuotaExceededError.
+const seLlena = { setItem: () => { const e: any = new Error('lleno'); e.name = 'QuotaExceededError'; throw e; } };
+const lleno = guardarRanura('slot_9', PERFIL as never, [] as never, seLlena);
+check('almacenamiento lleno: NO tira, devuelve el fallo', lleno.ok === false);
+check('y lo reconoce como "lleno" para poder avisar bien', lleno.lleno === true);
+
+// Falla la SEGUNDA clave: la ranura no puede quedar a medias.
+const aMedias = new Map<string, string>();
+let escrituras = 0;
+const fallaLaSegunda = { setItem: (k: string, v: string) => {
+  escrituras++;
+  if (escrituras === 2) throw new Error('se corto');
+  aMedias.set(k, v);
+} };
+const parcial = guardarRanura('slot_9', PERFIL as never, [] as never, fallaLaSegunda);
+check('si falla la segunda clave, devuelve fallo', parcial.ok === false);
+check('un error que NO es de espacio no se reporta como lleno', parcial.lleno === false);
 
 console.log(`\n${fallas === 0 ? 'Sin fallas.' : `${fallas} fallas (ver arriba).`}`);
