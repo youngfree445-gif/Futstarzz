@@ -137,6 +137,62 @@ export function inicioDeCarrera(clubName: string): string {
   return r;
 }
 
+// --- CASILLAS DEL CALENDARIO (ascensos y descensos) -------------------------------------------
+//
+// El calendario es una función pura del NOMBRE del club, y esa pureza es lo que lo hace confiable:
+// las mismas fechas siempre, sin estado escondido. Pero tiene un límite -- no sabe de ascensos ni
+// de descensos. El Deportivo Pasto jugó la Primera en 2026, así que sus 50 fechas son de la Liga
+// BetPlay para siempre; en la Segunda no tiene NI UNA, porque nunca jugó ahí.
+//
+// Sin esto, un club descendido quedaba roto: el motor lo mandaba a Colombiana-2 (16 clubes) y el
+// calendario le seguía dando rivales de Primera, de los cuales NINGUNO estaba en su liga. Las dos
+// búsquedas de rival fallaban, el partido caía a un respaldo que no pone `opClubId`, y con eso
+// handleFinishMatch se salteaba el bloque de liga entero: 54 partidos jugados que no se registraban
+// en ningún lado. La temporada no terminaba nunca.
+//
+// La salida es que el que baja y el que sube INTERCAMBIEN su casilla del calendario. Es lo que pasa
+// de verdad -- la fecha del calendario le pertenece a la categoría, no al club -- y encaja con lo
+// que el juego ya hace de la temporada 2 en adelante, donde los nombres se permutan sobre la misma
+// grilla.
+//
+// El intercambio vale DESDE su temporada en adelante, nunca hacia atrás: los resultados ya jugados
+// apuntan a fechas concretas y remapearlas cambiaría la historia. Por eso se guardan como eventos y
+// no como un diccionario plano -- para saber la casilla de una temporada hay que reproducir los
+// intercambios hasta ahí, y ninguno más.
+//
+// Mismo patrón que setDivisionOverrides en leagueEngine: estado de la CARRERA que se instala una
+// vez y que decenas de sitios consultan sin tener que recibir el perfil.
+
+/** Un ascenso y un descenso que se cruzan: desde `temporada`, `a` juega donde jugaba `b` y viceversa. */
+export interface IntercambioDeCasilla {
+  temporada: number;
+  a: string;
+  b: string;
+}
+
+let intercambiosDeCasilla: IntercambioDeCasilla[] = [];
+
+export function setIntercambiosDeCasilla(lista: IntercambioDeCasilla[] | undefined): void {
+  intercambiosDeCasilla = [...(lista ?? [])].sort((x, y) => x.temporada - y.temporada);
+}
+
+/**
+ * En qué casilla del calendario juega este club en esa temporada.
+ *
+ * Se reproducen los intercambios en orden: cada uno cambia la casilla ACTUAL, no el nombre, así que
+ * un club que sube y vuelve a bajar termina donde corresponde sin ningún caso especial.
+ */
+function casillaEn(clubName: string, temporada: number): string {
+  if (!intercambiosDeCasilla.length) return clubName;
+  let casilla = clubName;
+  for (const it of intercambiosDeCasilla) {
+    if (it.temporada > temporada) break;
+    if (casilla === it.a) casilla = it.b;
+    else if (casilla === it.b) casilla = it.a;
+  }
+  return casilla;
+}
+
 // Índice club -> partidos de UNA temporada, ordenados por fecha. Se cachea por temporada: recorrer
 // los 7808 partidos en cada avance de día se nota en móvil.
 const indicePorTemporada = new Map<number, Map<string, DatedFixture[]>>();
@@ -1673,7 +1729,7 @@ export function fechasDeCopaTranscurridas(
  */
 export function fechasDeCopaNacionalRestantes(clubName: string, temporada: number, desdeFecha: string): number {
   const fechas = new Set<string>();
-  for (const f of getIndice(temporada).get(clubName) ?? []) {
+  for (const f of getIndice(temporada).get(casillaEn(clubName, temporada)) ?? []) {
     if (esCopaConCuadro(f.competition) && f.date >= desdeFecha) fechas.add(f.date);
   }
   return fechas.size;
@@ -1736,7 +1792,7 @@ export function fixturesForClub(clubName: string): DatedFixture[] {
   // las dos funciones siguen coincidiendo.
   const todas: DatedFixture[] = [];
   for (let temporada = 1; temporada <= horizonte; temporada++) {
-    const deLaTemporada = getIndice(temporada).get(clubName);
+    const deLaTemporada = getIndice(temporada).get(casillaEn(clubName, temporada));
     if (deLaTemporada) todas.push(...deLaTemporada);
     else if (temporada === 1) break; // sin calendario real: no hay nada que generar
   }
@@ -2123,7 +2179,7 @@ export function competitionsForClub(clubName: string): DatedCompetition[] {
  */
 export function competitionsForClubInSeason(clubName: string, temporada: number): DatedCompetition[] {
   const vistas = new Map<string, DatedCompetition>();
-  for (const f of getIndice(temporada).get(clubName) ?? []) vistas.set(f.competition.id, f.competition);
+  for (const f of getIndice(temporada).get(casillaEn(clubName, temporada)) ?? []) vistas.set(f.competition.id, f.competition);
   return [...vistas.values()];
 }
 
@@ -2166,7 +2222,7 @@ export function fixturesAtStep(clubName: string, step: number): { date: string; 
   let restante = step;
   for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
     asegurarHorizonte(temporada);
-    const todas = getIndice(temporada).get(clubName) ?? [];
+    const todas = getIndice(temporada).get(casillaEn(clubName, temporada)) ?? [];
     if (!todas.length) {
       // Un club sin fechas en la temporada 1 no tiene calendario real: no hay nada que recorrer.
       if (temporada === 1) return null;
@@ -2189,7 +2245,7 @@ export function temporadaDelPaso(clubName: string, step: number): { temporada: n
   let primerPaso = 1;
   for (let temporada = 1; temporada <= MAX_TEMPORADAS; temporada++) {
     asegurarHorizonte(temporada);
-    const todas = getIndice(temporada).get(clubName) ?? [];
+    const todas = getIndice(temporada).get(casillaEn(clubName, temporada)) ?? [];
     if (!todas.length) {
       if (temporada === 1) return null;
       continue;

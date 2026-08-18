@@ -19,7 +19,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -834,6 +834,12 @@ function applyPromotionRelegationIfNewSeason(
 
   // 2. Resolver los movimientos, liga por liga.
   const overrides: Record<string, 1 | 2> = { ...(profile.divisionOverrides ?? {}) };
+  // Los intercambios de casilla del calendario que deja este cierre de año. Ver el comentario largo
+  // más abajo, donde se emparejan, y setIntercambiosDeCasilla en dateSchedule.ts.
+  const intercambios: IntercambioDeCasilla[] = [...(profile.intercambiosDeCasilla ?? [])];
+  // La temporada que ARRANCA: el intercambio rige desde ahí, nunca hacia atrás. Remapear el pasado
+  // cambiaría las fechas de partidos ya jugados y con eso todo el historial.
+  const temporadaQueEmpieza = temporadaDe(profile, newWeek);
   let ultimo: PlayerProfile['ultimoAscensoDescenso'];
 
   for (const league of [...new Set(CLUBS_DATABASE.map(c => c.league))]) {
@@ -875,6 +881,24 @@ function applyPromotionRelegationIfNewSeason(
     for (const d of descienden) overrides[d.clubId] = 2;
     for (const a of ascienden) overrides[a.clubId] = 1;
 
+    // EL QUE BAJA Y EL QUE SUBE SE INTERCAMBIAN LA CASILLA DEL CALENDARIO.
+    //
+    // La división la cambia `overrides`, pero el calendario no la mira: es una función del NOMBRE
+    // del club, y el que baja nunca jugó en la categoría de abajo, así que no tiene ni una fecha
+    // ahí. Sin el intercambio, sus rivales seguían siendo los de la categoría que dejó -- ninguno
+    // de su liga nueva -- y el partido caía a un respaldo que no registraba el resultado.
+    //
+    // Se emparejan de a uno, en orden: los cupos son los mismos de los dos lados (resolverMovimientos
+    // devuelve tantos ascensos como descensos), así que cada casilla que se libera arriba la ocupa
+    // la que se libera abajo. Vale desde la temporada que ARRANCA, no la que cerró.
+    for (let i = 0; i < Math.min(descienden.length, ascienden.length); i++) {
+      const queBaja = CLUBS_DATABASE.find(c => c.id === descienden[i].clubId);
+      const queSube = CLUBS_DATABASE.find(c => c.id === ascienden[i].clubId);
+      if (queBaja && queSube) {
+        intercambios.push({ temporada: temporadaQueEmpieza, a: queBaja.name, b: queSube.name });
+      }
+    }
+
     // Se guarda el movimiento de TU liga, que es el que se cuenta en pantalla.
     const miClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
     if (miClub?.league === league && (descienden.length || ascienden.length)) {
@@ -886,7 +910,7 @@ function applyPromotionRelegationIfNewSeason(
     }
   }
 
-  return { ...profile, historialAnual: historial, divisionOverrides: overrides, ultimoAscensoDescenso: ultimo ?? profile.ultimoAscensoDescenso };
+  return { ...profile, historialAnual: historial, divisionOverrides: overrides, intercambiosDeCasilla: intercambios, ultimoAscensoDescenso: ultimo ?? profile.ultimoAscensoDescenso };
 }
 
 // Balón de Oro anual: usa el mismo pool de candidatos que el ranking mundial (generateWorldRanking)
@@ -1023,6 +1047,12 @@ export default function App() {
   React.useMemo(() => {
     setDivisionOverrides(playerProfile?.divisionOverrides);
   }, [playerProfile?.divisionOverrides]);
+  // Y las casillas del calendario, por la misma razón y en el mismo momento: fixturesAtStep lo
+  // consultan decenas de sitios y ninguno recibe el perfil. Si esto se instalara tarde, el club
+  // recién descendido pediría un paso y el calendario le contestaría con la categoría que dejó.
+  React.useMemo(() => {
+    setIntercambiosDeCasilla(playerProfile?.intercambiosDeCasilla);
+  }, [playerProfile?.intercambiosDeCasilla]);
   const [shopItems, setShopItems] = useState<ShopItem[]>(INITIAL_LIFESTYLE_ITEMS);
   
   const [activeOpposition, setActiveOpposition] = useState('');

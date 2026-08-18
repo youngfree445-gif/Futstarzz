@@ -306,6 +306,12 @@ export interface PlayerProfile {
   // recalcularlo al abrir la pantalla daba un podio distinto cada vez -- con un nombre arriba que
   // ni siquiera era el ganador que la misma gala anunciaba abajo. Un resultado ya entregado no se
   // vuelve a votar.
+  /**
+   * Intercambios de casilla del calendario por ascenso/descenso -- ver setIntercambiosDeCasilla en
+   * dateSchedule.ts. Sin esto, un club descendido conservaba sus fechas de Primera y su carrera
+   * dejaba de avanzar. Opcional: las partidas viejas no lo tienen y se comportan como antes.
+   */
+  intercambiosDeCasilla?: import('./dateSchedule').IntercambioDeCasilla[];
   ballonDorHistory?: {
     year: number;
     rank: number | null;

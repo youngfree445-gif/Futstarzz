@@ -43,7 +43,8 @@
     "validar:tecnico": "esbuild scripts/validar_tecnico.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_tecnico.cjs --log-level=error && node node_modules/.cache/validar_tecnico.cjs",
     "validar:rival": "esbuild scripts/validar_rival.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_rival.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_rival.cjs",
     "validar:simulador": "vite build --ssr scripts/validar_simulador.jsx --outDir node_modules/.cache/simulador --logLevel error && node node_modules/.cache/simulador/validar_simulador.js",
-    "revisar": "esbuild scripts/revisar_partida.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/revisar.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/revisar.cjs"
+    "revisar": "esbuild scripts/revisar_partida.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/revisar.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/revisar.cjs",
+    "validar:descenso": "esbuild scripts/validar_descenso.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_descenso.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_descenso.cjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
