@@ -9,10 +9,11 @@
 import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import { fixturesAtStep, temporadaDelPaso } from '../src/dateSchedule';
-import { claveDeCopaNacional, clavePlayoffDeLiga, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
+import { claveDeCopaNacional, clavePlayoffDeLiga, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
 import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
-import { crearCopaNacional } from '../src/copaNacional';
+import { crearCopaNacional, cruceActual } from '../src/copaNacional';
+import { resolverPasoCopaNacional } from '../src/leagueEngine';
 import type { Club, PlayerProfile } from '../src/types';
 
 let fallas = 0, corridos = 0;
@@ -181,6 +182,49 @@ if (miLlave) {
   ok('y la localia se invierte', vuelta.soyLocal === !soyAInicial);
   ok('el rival es el mismo en las dos piernas', ida.rivalId === vuelta.rivalId);
 }
+
+// =============================================================================================
+// 5. LA RONDA SIGUIENTE, ANTES DE MIRAR
+// =============================================================================================
+//
+// El cuadro se guarda con la ronda RECIEN TERMINADA como ultima. Preguntarle directamente devuelve
+// la llave YA JUGADA -- sigueEnCopa da true porque la ganaste -- asi que la tarjeta anunciaba al
+// rival que acababas de eliminar. Reportado jugando con Tigres: decia Leon y el partido era contra
+// Cruz Azul.
+
+console.log('');
+const mex = clubesDeLiga('Mexicana-1');
+const tigres = mex.find(c => c.name === 'Tigres U.A.N.L.') ?? mex[0];
+let copaMx = crearCopaNacional(tigres.league, 1, clubes, c => (c.division === 2 ? 2 : 1));
+const rivalDe = (t: { clubAId: string; clubBId: string } | null) =>
+  t ? (t.clubAId === tigres.id ? t.clubBId : t.clubAId) : null;
+const eliminado = rivalDe(cruceActual(copaMx, tigres.id));
+
+// Se gana la ronda entera (ida y vuelta).
+for (let i = 0; i < 2; i++) {
+  const c = cruceActual(copaMx, tigres.id)!;
+  const esIda = c.firstLegGoalsA === null;
+  copaMx = resolverPasoCopaNacional(copaMx, clubes, {
+    clubId: tigres.id, isHome: esIda ? c.clubAId === tigres.id : c.clubBId === tigres.id,
+    goals: 5, opponentGoals: 0,
+  });
+}
+
+const perfilMx = {
+  currentClubId: tigres.id,
+  domesticCups: { [claveDeCopaNacional(tigres, 1)]: copaMx },
+} as unknown as PlayerProfile;
+
+const crudo = rivalDe(cruceActual(copaMx, tigres.id));
+const contestado = cruceDeCopaNacionalHoy(perfilMx, tigres, 1);
+
+ok('el cuadro guardado todavia devuelve la llave ya jugada', crudo === eliminado,
+   `guardado apunta a ${clubes.find(c => c.id === crudo)?.name}`);
+ok('cruceDeCopaNacionalHoy YA no anuncia al eliminado',
+   contestado !== null && contestado.rivalId !== eliminado,
+   `${clubes.find(c => c.id === eliminado)?.name} -> ${clubes.find(c => c.id === contestado?.rivalId)?.name}`);
+ok('y el cruce que anuncia esta SIN jugar', contestado?.llave.played === false);
+ok('arranca por la ida, sin global', contestado?.esIda === true && contestado?.global === null);
 
 console.log('');
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);

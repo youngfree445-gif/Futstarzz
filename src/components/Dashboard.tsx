@@ -16,7 +16,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import { armarReporteDeBug } from '../reporteDeBug';
-import { claveDeCopaNacional, cuadrangularDeHoy, duenoDelDiaDeCopa } from '../decisionDelDia';
+import { claveDeCopaNacional, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -1090,32 +1090,17 @@ export default function Dashboard({
       realDeLaSemana?.competition.kind === 'domestic_cup',
     ) === 'nacional';
     const continentalDeLaSemana = esReservaDeCopa && !laNacionalTieneCruceHoy ? copaContinentalDeHoy : null;
+    // El cruce sale de cruceDeCopaNacionalHoy, que es LA MISMA funcion que usa App.tsx: la clave de
+    // la edicion, la ronda, el rival y la localia salen todos de ahi.
+    //
+    // Y esa funcion ARMA LA RONDA SIGUIENTE antes de mirar. Es lo que faltaba: el cuadro se guarda
+    // con la ronda recien terminada como ultima, asi que leerlo tal cual devolvia LA LLAVE YA
+    // JUGADA. Reportado jugando con Tigres: la tarjeta anunciaba a Leon, al que acababa de
+    // eliminar, mientras el partido era contra Cruz Azul.
     const cupBracketDeLaSemana = (!continentalDeLaSemana
-      && ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa)) ? (() => {
-      // La temporada la manda el calendario cuando lo hay -- misma clave que usa App.tsx, o la
-      // tarjeta leería la edición del año equivocado.
-      const cupYearNow = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
-        ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
-      // Misma clave que App.tsx porque es LA MISMA función, no una copia que hay que mantener a la
-      // par: leer otra edición acá anunciaría un cruce que el partido no va a jugar.
-      const cupKeyNow = claveDeCopaNacional(currentClub, playerProfile.currentWeek);
-      // En una fecha reservada NO se inventa un cuadro de muestra: si la edición todavía no está
-      // guardada, el rival que se anunciaría acá saldría de un sorteo distinto del que va a armar
-      // App.tsx, y la tarjeta prometería un rival que después no es. Mejor no decir nada.
-      const cupNow = playerProfile.domesticCups?.[cupKeyNow]
-        ?? (esReservaDeCopa
-          ? null
-          : crearCopaNacional(currentClub.league, cupYearNow, ULTIMATE_CLUBS_DATABASE, c => (c.division === 2 ? 2 : 1)));
-      if (!cupNow || cupNow.championId || !sigueEnCopa(cupNow, currentClub.id)) return null;
-      const cruce = cruceActual(cupNow, currentClub.id);
-      if (!cruce) return null;
-      const rivalId = cruce.clubAId === currentClub.id ? cruce.clubBId : cruce.clubAId;
-      // La localía sale de la LLAVE, no del calendario: en la ida es local el clubA y en la vuelta
-      // se invierte. La reserva viene siempre marcada como local porque no tiene rival todavía.
-      const esIda = piernaDelCruce(cruce) === 'ida';
-      const soyLocal = esIda ? cruce.clubAId === currentClub.id : cruce.clubBId === currentClub.id;
-      return { rivalId, ronda: rondaActual(cupNow), soyLocal };
-    })() : null;
+      && ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa))
+      ? cruceDeCopaNacionalHoy(playerProfile, currentClub, playerProfile.currentWeek)
+      : null;
 
     // PLAYOFF DE LIGA: el rival lo pone el CUADRO, no el calendario.
     //

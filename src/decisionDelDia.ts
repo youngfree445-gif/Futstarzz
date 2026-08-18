@@ -32,7 +32,8 @@
 import { Club, PlayerProfile, TwoLegTie } from './types';
 import { temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { cruceActual, sigueEnCopa } from './copaNacional';
-import { crucePlayoffDeLiga, leagueKeyFor, rondaDelPlayoff } from './leagueEngine';
+import { crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, rondaDelPlayoff } from './leagueEngine';
+import { rondaActual } from './copaNacional';
 
 /**
  * La clave con la que se guarda la edición de copa nacional que le toca al club en este paso.
@@ -62,7 +63,43 @@ export function laNacionalTieneCruce(perfil: PlayerProfile, club: Club, paso: nu
   const guardada = perfil.domesticCups?.[claveDeCopaNacional(club, paso)];
   if (!guardada) return true;
   if (guardada.championId) return false;
-  return sigueEnCopa(guardada, club.id) && !!cruceActual(guardada, club.id);
+  return sigueEnCopa(guardada, club.id) && !!cruceActual(prepararRondaCopaNacional(guardada), club.id);
+}
+
+/**
+ * El cruce de copa nacional que le toca al club hoy: rival, pierna, ronda y global.
+ *
+ * ARMA LA RONDA SIGUIENTE ANTES DE MIRAR, y ese es todo el punto. El cuadro se guarda con la ronda
+ * que se acaba de terminar como ultima, asi que preguntarle directamente devuelve LA LLAVE YA
+ * JUGADA -- sigueEnCopa da true porque la ganaste. Reportado jugando con Tigres: la tarjeta
+ * anunciaba a Leon, al que acababa de eliminar, mientras el partido era contra Cruz Azul.
+ *
+ * Avanzar aca es seguro y no rompe la regla de "se lee, no se sortea": prepararRondaCopaNacional
+ * solo empareja a los ganadores en orden -- no hay azar -- asi que da EXACTAMENTE el mismo cuadro
+ * que va a armar App.tsx al resolver el paso. Sortear seria otra cosa; esto es deducir.
+ */
+export function cruceDeCopaNacionalHoy(
+  perfil: PlayerProfile,
+  club: Club,
+  paso: number,
+): CruceDeCuadrangular | null {
+  const guardada = perfil.domesticCups?.[claveDeCopaNacional(club, paso)];
+  if (!guardada || guardada.championId || !sigueEnCopa(guardada, club.id)) return null;
+  const alDia = prepararRondaCopaNacional(guardada);
+  const llave = cruceActual(alDia, club.id);
+  if (!llave) return null;
+  const esIda = llave.firstLegGoalsA === null;
+  const soyA = llave.clubAId === club.id;
+  const misGoles = (soyA ? llave.firstLegGoalsA : llave.firstLegGoalsB) ?? 0;
+  const susGoles = (soyA ? llave.firstLegGoalsB : llave.firstLegGoalsA) ?? 0;
+  return {
+    llave,
+    rivalId: soyA ? llave.clubBId : llave.clubAId,
+    soyLocal: esIda ? llave.clubAId === club.id : llave.clubBId === club.id,
+    esIda,
+    ronda: rondaActual(alDia),
+    global: esIda ? null : `${misGoles}-${susGoles}`,
+  };
 }
 
 /** Quién se queda con un día que el calendario apartó para copa. */
@@ -139,7 +176,13 @@ export function cuadrangularDeHoy(
   paso: number,
   fecha: string,
 ): CruceDeCuadrangular | null {
-  const cuadro = perfil.playoffsDeLiga?.[clavePlayoffDeLiga(club, paso, fecha)];
+  const guardado = perfil.playoffsDeLiga?.[clavePlayoffDeLiga(club, paso, fecha)];
+  if (!guardado) return null;
+  // Misma trampa que en la copa nacional: el cuadro se guarda con la ronda recien terminada como
+  // ultima, asi que sin avanzarla la tarjeta anuncia al rival que acabas de eliminar. Con el cuadro
+  // ya sembrado, prepararPlayoffDeLiga solo empareja ganadores en orden y no mira la tabla -- por
+  // eso se le puede pasar vacia -- ni tira ningun dado.
+  const cuadro = prepararPlayoffDeLiga(guardado, [], undefined);
   const llave = crucePlayoffDeLiga(cuadro, club.id);
   if (!llave) return null;
   const esIda = llave.firstLegGoalsA === null;
