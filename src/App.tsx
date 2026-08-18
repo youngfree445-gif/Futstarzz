@@ -62,6 +62,7 @@ import ChampionOverlay, { type ChampionInfo } from './components/ChampionOverlay
 import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOverlay';
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
+import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
@@ -1047,6 +1048,24 @@ export default function App() {
   // cada carga mostraba otro nombre arriba. Reportado: "cada que me meto me sale un ganador
   // distinto".
   const lastBallonDorCount = useRef<number | null>(null);
+  // LA FOTO DEL ESTADO PARA CUANDO SE CAIGA LA PANTALLA.
+  //
+  // PantallaDeError envuelve el árbol entero desde main.tsx, así que cuando un error de render la
+  // despierta ya no puede leer el perfil: el árbol que lo tenía se acaba de desmontar. Se le deja
+  // servido acá, en una variable de módulo que no es parte del árbol y por eso sobrevive.
+  //
+  // Cuesta armar un string por paso de carrera y evita el reporte que no sirve para nada: un stack
+  // trace suelto, que dice dónde reventó pero no en qué fecha, en qué torneo ni contra quién. Ver
+  // src/reporteDeBug.ts.
+  useEffect(() => {
+    if (!playerProfile) return;
+    try {
+      recordarEstado(armarReporteDeBug(playerProfile, CLUBS_DATABASE));
+    } catch {
+      // Un reporte que se rompe no puede llevarse puesta la partida: es diagnóstico, no juego.
+    }
+  }, [playerProfile]);
+
   useEffect(() => {
     if (!playerProfile) return;
     const history = playerProfile.ballonDorHistory ?? [];

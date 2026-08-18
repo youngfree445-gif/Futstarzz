@@ -15,6 +15,7 @@ import { getPalmares } from '../palmares';
 import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
+import { armarReporteDeBug } from '../reporteDeBug';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -377,6 +378,9 @@ export default function Dashboard({
   // antes de ver los atributos o el botón de jugar. En md+ no aplica -- la barra es una columna al
   // costado y el menú se muestra siempre.
   const [navAbiertoEnMovil, setNavAbiertoEnMovil] = useState(false);
+  // El texto del reporte de bug, mientras está en pantalla. Ver el panel al final del archivo.
+  const [reporteDeBug, setReporteDeBug] = useState<string | null>(null);
+  const [reporteCopiado, setReporteCopiado] = useState(false);
   const [pressResponseState, setPressResponseState] = useState<'asking' | 'answered'>('asking');
   const [pressReaction, setPressReaction] = useState('');
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
@@ -2625,6 +2629,15 @@ export default function Dashboard({
         </div>
 
         <div className="space-y-1.5 pt-3 border-t border-slate-800">
+          {/* REPORTAR BUG. Va acá, con los controles de la partida y no escondido en una pestaña,
+              porque se usa JUSTO cuando algo se vio raro: si hay que buscarlo, el momento se pasa y
+              el estado que había que fotografiar ya cambió de paso. Ver src/reporteDeBug.ts. */}
+          <button
+            onClick={() => setReporteDeBug(armarReporteDeBug(playerProfile, ULTIMATE_CLUBS_DATABASE))}
+            className="btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-gold-400 text-2xs font-mono transition-colors text-left cursor-pointer"
+          >
+            🐞 Reportar un bug
+          </button>
           <button
             onClick={onLogout}
             className="btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-red-400 text-2xs font-mono transition-colors text-left cursor-pointer"
@@ -5421,6 +5434,50 @@ export default function Dashboard({
         </div>
 
       </main>
+
+      {/* EL PANEL DEL REPORTE DE BUG.
+          El texto se muestra ADEMÁS de copiarse: el portapapeles falla sin contexto seguro (http en
+          el celular, WebView de Capacitor) y en ese caso el botón no haría nada sin decirlo. Con el
+          texto a la vista, siempre se puede seleccionar y copiar a mano. */}
+      {reporteDeBug !== null && (
+        <div
+          className="fixed inset-0 z-[210] flex items-center justify-center p-4 bg-slate-950/92 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Reporte de bug"
+        >
+          <div className="w-full max-w-2xl bg-slate-900 border border-gold-500/30 rounded-3xl p-5 space-y-3">
+            <h2 className="text-lg font-black uppercase tracking-tight text-gold-400">Reporte de bug</h2>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Esto es una foto de tu partida en este momento: el paso, qué dice el calendario de hoy
+              y cómo está cada cuadro. Copialo y pegalo junto con <strong>qué esperabas que pasara</strong>.
+            </p>
+            <pre className="text-3xs bg-slate-950 border border-slate-800 rounded-xl p-3 overflow-auto max-h-[45vh] whitespace-pre-wrap text-slate-400 select-text">
+              {reporteDeBug}
+            </pre>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard?.writeText(reporteDeBug)
+                    .then(() => setReporteCopiado(true))
+                    .catch(() => setReporteCopiado(false));
+                }}
+                className="btn-fx px-4 py-2 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-sm font-black uppercase tracking-wide"
+              >
+                {reporteCopiado ? '✓ Copiado' : 'Copiar'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setReporteDeBug(null); setReporteCopiado(false); }}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-bold"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

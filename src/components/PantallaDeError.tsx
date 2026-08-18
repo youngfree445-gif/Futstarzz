@@ -1,4 +1,6 @@
 import React from 'react';
+import { estadoAntesDeLaCaida } from '../reporteDeBug';
+import { avisarDeLaCaida } from '../reporteRemoto';
 
 /**
  * Red de seguridad contra la PANTALLA EN NEGRO.
@@ -27,8 +29,20 @@ export default class PantallaDeError extends React.Component<Props, State> {
   componentDidCatch(error: Error, info: React.ErrorInfo) {
     // El componentStack dice EN QUE COMPONENTE reventó, que es la mitad util del diagnostico: el
     // mensaje solo ("cannot read properties of undefined") aparece en veinte lugares distintos.
-    this.setState({ detalle: `${error.stack ?? error.message}\n\nComponente:${info.componentStack}` });
+    //
+    // La otra mitad del diagnostico es QUE ESTABA JUGANDO. Esta pantalla envuelve el arbol entero
+    // desde main.tsx, asi que cuando se despierta el arbol que tenia el perfil ya se desmonto y no
+    // hay de donde leerlo. Por eso App va dejando una foto del estado en una variable de modulo,
+    // que sobrevive al desmontaje porque no es parte del arbol (ver src/reporteDeBug.ts). Sin esto,
+    // el reporte de una caida traia el stack trace y nada mas -- y el stack dice DONDE reventó,
+    // no en que fecha, en que torneo ni contra quien.
+    const estado = estadoAntesDeLaCaida();
+    const tecnico = `${error.stack ?? error.message}\n\nComponente:${info.componentStack}`;
+    this.setState({ detalle: estado ? `${estado}\n\n--- DETALLE TECNICO DEL ERROR ---\n${tecnico}` : tecnico });
     console.error('[Fut Starzz] error de render', error, info);
+    // Y si hay reporte remoto configurado, que llegue tambien la caida del que NO va a escribirte
+    // (ver src/reporteRemoto.ts). Sin DSN esto no hace nada.
+    avisarDeLaCaida(error, estado);
   }
 
   render() {

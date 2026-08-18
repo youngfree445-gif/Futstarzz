@@ -38,6 +38,14 @@ corren su calendario y tabla en simultáneo de fondo.
   aleatorios, preguntas de prensa, ítems de tienda/patrocinios, selecciones
   del Mundial. Es contenido, no lógica.
 - `types.ts` — todos los tipos/interfaces compartidos
+- `reporteDeBug.ts` — la foto del estado de la partida en texto, para pegar en
+  un chat. La usan los tres caminos de diagnóstico y tiene que ser **una sola**:
+  el botón 🐞 del Dashboard, `PantallaDeError` cuando se cae la pantalla, y
+  `npm run revisar -- partida.json` para leer una partida exportada desde
+  afuera. Ver `docs/COMO_REPORTAR_BUGS.md`.
+- `reporteRemoto.ts` — Sentry, **apagado** salvo que se defina `VITE_SENTRY_DSN`.
+  Sólo para las caídas de los jugadores que no te van a escribir; los bugs de
+  lógica no tiran excepciones y no llegan por acá.
 - `components/` — `Dashboard.tsx` (hub principal, tablas, redes sociales),
   `MatchSimulator.tsx`, `DecisionCenter.tsx` (eventos random), `PostMatch.tsx`,
   `PenaltyShootout.tsx`, `SetupScreen.tsx`, `WelcomeScreen.tsx`,
