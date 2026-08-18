@@ -63,7 +63,7 @@ import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOver
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
-import { claveDeCopaNacional, clavePlayoffDeLiga, duenoDelDiaDeCopa } from './decisionDelDia';
+import { claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, duenoDelDiaDeCopa } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -3076,28 +3076,12 @@ export default function App() {
           // colombianos -> 32), y ese recorte se llevaba por delante a los cuatro de menor
           // reputación: no jugaban la Copa BetPlay ninguna temporada, para siempre, sin que nada se
           // lo dijera al jugador. Medido: 28 club-temporadas sin un solo partido de copa.
-          const clubesParaContinuar = usaFechasReales
-            ? (() => {
-                const quedan = fechasDeCopaNacionalRestantes(
-                  myClubForCup.name, temporadaDeCopa, datedStep?.date ?? '');
-                const delPais = CLUBS_DATABASE.filter(c => c.league === myClubForCup.league);
-                const cupo = Math.min(
-                  2 ** Math.max(1, Math.min(6, Math.floor(quedan / 2))),
-                  tamanoDelCuadro(delPais.length),
-                );
-                return [
-                  myClubForCup.id,
-                  ...delPais
-                    .filter(c => c.id !== myClubForCup.id)
-                    .sort((a, b) => (b.reputation ?? 0) - (a.reputation ?? 0))
-                    .slice(0, cupo - 1)
-                    .map(c => c.id),
-                ];
-              })()
-            : undefined;
-
+          // El sorteo de la edicion vive en copaNacionalDelPaso, no aca: la tarjeta del proximo
+          // partido necesita armar EL MISMO cuadro para poder anunciar el rival, y con el sorteo
+          // escrito solo de este lado no le quedaba mas que decir "Rival por definir".
           let cup = playerProfile.domesticCups?.[cupKey]
-            ?? crearCopaNacional(myClubForCup.league, temporadaDeCopa, CLUBS_DATABASE, divisionDeClub(playerProfile), clubesParaContinuar);
+            ?? copaNacionalDelPaso(playerProfile, myClubForCup, CLUBS_DATABASE, playerProfile.currentWeek)
+            ?? crearCopaNacional(myClubForCup.league, temporadaDeCopa, CLUBS_DATABASE, divisionDeClub(playerProfile));
 
           // Ronda anterior ya completa: se arma la siguiente ANTES de preguntar por el cruce. Sin
           // esto cruceActual devolvía la llave YA JUGADA -- sigueEnCopa da true porque la ganaste --

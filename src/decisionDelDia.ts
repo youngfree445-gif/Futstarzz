@@ -29,9 +29,9 @@
 // partido sería contra otro. Cuando la edición todavía no está sorteada, la respuesta se deduce sin
 // sortearla (tu club SIEMPRE entra al cuadro de su país, así que hay cruce).
 
-import { Club, PlayerProfile, TwoLegTie } from './types';
-import { temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
-import { cruceActual, sigueEnCopa } from './copaNacional';
+import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
+import { fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
 import { crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, rondaDelPlayoff } from './leagueEngine';
 import { rondaActual } from './copaNacional';
 
@@ -81,9 +81,11 @@ export function laNacionalTieneCruce(perfil: PlayerProfile, club: Club, paso: nu
 export function cruceDeCopaNacionalHoy(
   perfil: PlayerProfile,
   club: Club,
+  clubes: readonly Club[],
   paso: number,
 ): CruceDeCuadrangular | null {
-  const guardada = perfil.domesticCups?.[claveDeCopaNacional(club, paso)];
+  const guardada = perfil.domesticCups?.[claveDeCopaNacional(club, paso)]
+    ?? copaNacionalDelPaso(perfil, club, clubes, paso);
   if (!guardada || guardada.championId || !sigueEnCopa(guardada, club.id)) return null;
   const alDia = prepararRondaCopaNacional(guardada);
   const llave = cruceActual(alDia, club.id);
@@ -175,8 +177,19 @@ export function cuadrangularDeHoy(
   club: Club,
   paso: number,
   fecha: string,
+  /**
+   * La tabla de la fase regular, para poder SEMBRAR el cuadro si todavia no existe.
+   *
+   * Sembrarlo aca es seguro por lo mismo que el sorteo de la copa: no hay azar. El cuadrangular se
+   * siembra con los ocho primeros de la tabla, en orden, asi que con la misma tabla los dos lados
+   * arman las mismas llaves. Sin esto, la tarjeta del primer dia decia "Rival por definir".
+   */
+  tabla: readonly TableTeam[] = [],
 ): CruceDeCuadrangular | null {
-  const guardado = perfil.playoffsDeLiga?.[clavePlayoffDeLiga(club, paso, fecha)];
+  const guardado = perfil.playoffsDeLiga?.[clavePlayoffDeLiga(club, paso, fecha)]
+    ?? (tabla.length
+      ? prepararPlayoffDeLiga(undefined, [...tabla], fechasDePlayoffDelTorneo(club.name, fecha))
+      : undefined);
   if (!guardado) return null;
   // Misma trampa que en la copa nacional: el cuadro se guarda con la ronda recien terminada como
   // ultima, asi que sin avanzarla la tarjeta anuncia al rival que acabas de eliminar. Con el cuadro
@@ -197,4 +210,54 @@ export function cuadrangularDeHoy(
     ronda: rondaDelPlayoff(cuadro),
     global: esIda ? null : `${misGoles}-${susGoles}`,
   };
+}
+
+
+/**
+ * La edicion de copa nacional que le corresponde al club en este paso, sorteada.
+ *
+ * EL SORTEO NO ES ALEATORIO, y por eso esto se puede llamar desde donde sea. `sortear` usa un
+ * generador congruencial sembrado con el AÑO: mismo año, mismo cuadro. El propio comentario de
+ * copaNacional.ts lo dice -- "recargar la pagina no puede cambiar el rival que te toco".
+ *
+ * Eso importa porque la tarjeta del proximo partido se abstenia de sortear "para no prometer un
+ * rival distinto del que armaria App.tsx", y terminaba anunciando "Rival por definir" justo donde
+ * hay que decidir si jugas. La precaucion era razonable pero la premisa era falsa: los dos lados
+ * calculan lo mismo. Reportado: "mostrar eso en la ventana de disputar partido no es bueno".
+ *
+ * Las tres entradas del sorteo son deterministas: el año sale de claveDeCopaNacional, la division
+ * de los overrides guardados, y los clubes que continuan del calendario (que es funcion pura del
+ * nombre del club).
+ */
+export function copaNacionalDelPaso(
+  perfil: PlayerProfile,
+  club: Club,
+  clubes: readonly Club[],
+  paso: number,
+) {
+  const clave = claveDeCopaNacional(club, paso);
+  const temporada = Number(clave.slice(clave.lastIndexOf('-') + 1));
+  const fecha = fechaDelPaso(club.name, paso);
+  if (!fecha) return null;
+
+  // El cuadro se dimensiona a las FECHAS QUE QUEDAN: cada ronda son dos partidos, asi que con N
+  // fechas entran floor(N/2) rondas y 2^rondas clubes. Y TU CLUB entra siempre -- el recorte a la
+  // potencia de dos se llevaba puestos a los de menor reputacion, que se quedaban sin jugar la copa
+  // ninguna temporada.
+  const quedan = fechasDeCopaNacionalRestantes(club.name, temporada, fecha);
+  const delPais = clubes.filter(c => c.league === club.league);
+  const cupo = Math.min(
+    2 ** Math.max(1, Math.min(6, Math.floor(quedan / 2))),
+    tamanoDelCuadro(delPais.length),
+  );
+  const continuan = [
+    club.id,
+    ...delPais
+      .filter(c => c.id !== club.id)
+      .sort((a, b) => (b.reputation ?? 0) - (a.reputation ?? 0))
+      .slice(0, cupo - 1)
+      .map(c => c.id),
+  ];
+  const division = (c: Club) => (perfil.divisionOverrides?.[c.id] ?? (c.division === 2 ? 2 : 1)) as 1 | 2;
+  return crearCopaNacional(club.league, temporada, clubes, division, continuan);
 }

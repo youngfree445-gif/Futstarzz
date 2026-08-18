@@ -1099,7 +1099,7 @@ export default function Dashboard({
     // eliminar, mientras el partido era contra Cruz Azul.
     const cupBracketDeLaSemana = (!continentalDeLaSemana
       && ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa))
-      ? cruceDeCopaNacionalHoy(playerProfile, currentClub, playerProfile.currentWeek)
+      ? cruceDeCopaNacionalHoy(playerProfile, currentClub, ULTIMATE_CLUBS_DATABASE, playerProfile.currentWeek)
       : null;
 
     // PLAYOFF DE LIGA: el rival lo pone el CUADRO, no el calendario.
@@ -1113,8 +1113,14 @@ export default function Dashboard({
     // Reportado: "el calendario muestra otro equipo y partido".
     // La clave, el cruce, la localia y la ronda salen de cuadrangularDeHoy: es LA MISMA funcion que
     // usa App.tsx al armar el partido, no una copia que haya que mantener a la par.
+    // La tabla se lee del perfil y no de myLeagueSeason: esa constante se declara ~1200 lineas mas
+    // abajo y usarla aca seria el ReferenceError por zona muerta temporal que ya dejo la pantalla
+    // en negro una vez. Va para poder SEMBRAR el cuadro el primer dia: sin ella la tarjeta decia
+    // "Rival por definir" justo cuando hay que decidir si jugas.
     const playoffDeLaSemana = realDeLaSemana?.esPlayoff
-      ? cuadrangularDeHoy(playerProfile, currentClub, playerProfile.currentWeek, realDeLaSemana.date)
+      ? cuadrangularDeHoy(
+          playerProfile, currentClub, playerProfile.currentWeek, realDeLaSemana.date,
+          playerProfile.leagueSeasons?.[myLeagueKey]?.table ?? [])
       : null;
 
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del

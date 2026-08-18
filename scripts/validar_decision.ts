@@ -9,7 +9,7 @@
 import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import { fixturesAtStep, temporadaDelPaso } from '../src/dateSchedule';
-import { claveDeCopaNacional, clavePlayoffDeLiga, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
+import { claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
 import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional, cruceActual } from '../src/copaNacional';
@@ -216,7 +216,7 @@ const perfilMx = {
 } as unknown as PlayerProfile;
 
 const crudo = rivalDe(cruceActual(copaMx, tigres.id));
-const contestado = cruceDeCopaNacionalHoy(perfilMx, tigres, 1);
+const contestado = cruceDeCopaNacionalHoy(perfilMx, tigres, clubes, 1);
 
 ok('el cuadro guardado todavia devuelve la llave ya jugada', crudo === eliminado,
    `guardado apunta a ${clubes.find(c => c.id === crudo)?.name}`);
@@ -225,6 +225,41 @@ ok('cruceDeCopaNacionalHoy YA no anuncia al eliminado',
    `${clubes.find(c => c.id === eliminado)?.name} -> ${clubes.find(c => c.id === contestado?.rivalId)?.name}`);
 ok('y el cruce que anuncia esta SIN jugar', contestado?.llave.played === false);
 ok('arranca por la ida, sin global', contestado?.esIda === true && contestado?.global === null);
+
+// =============================================================================================
+// 6. SIN EDICION GUARDADA, LAS DOS PANTALLAS SORTEAN LO MISMO
+// =============================================================================================
+//
+// La tarjeta del proximo partido se abstenia de sortear "para no prometer un rival distinto del que
+// armaria App.tsx", y por eso anunciaba "Rival por definir" justo donde hay que decidir si jugas.
+// La precaucion era razonable pero la premisa era falsa: el sorteo usa un generador sembrado con el
+// AÑO, asi que los dos lados calculan lo MISMO. Esto lo deja clavado.
+
+console.log('');
+let sorteosDistintos = 0, sinEdicion = 0, revisados6 = 0;
+for (const club of jugables.slice(0, 30)) {
+  const perfil = { currentClubId: club.id, domesticCups: {} } as unknown as PlayerProfile;
+  const a = copaNacionalDelPaso(perfil, club, clubes, 1);
+  const b = copaNacionalDelPaso(perfil, club, clubes, 1);
+  if (!a || !b) { sinEdicion++; continue; }
+  revisados6++;
+  if (JSON.stringify(a.bracket) !== JSON.stringify(b.bracket)) sorteosDistintos++;
+}
+ok('el mismo paso sortea SIEMPRE el mismo cuadro', sorteosDistintos === 0,
+   `${revisados6} clubes`);
+
+// Y con el cuadro sorteado, la tarjeta puede nombrar al rival en vez de decir "por definir".
+const perfilNuevo = { currentClubId: tigres.id, domesticCups: {} } as unknown as PlayerProfile;
+const primero = cruceDeCopaNacionalHoy(perfilNuevo, tigres, clubes, 1);
+ok('sin edicion guardada YA se sabe el rival (no mas "por definir")',
+   primero !== null && !!primero.rivalId,
+   primero ? `${tigres.name} vs ${clubes.find(c => c.id === primero.rivalId)?.name} · ${primero.ronda}` : '');
+
+// Y tiene que ser el mismo que armaria el partido al resolver el paso.
+const delPartido = copaNacionalDelPaso(perfilNuevo, tigres, clubes, 1);
+const suyo = delPartido ? cruceActual(delPartido, tigres.id) : null;
+ok('y es EXACTAMENTE el que va a armar el partido',
+   !!suyo && !!primero && (suyo.clubAId === primero.rivalId || suyo.clubBId === primero.rivalId));
 
 console.log('');
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);
