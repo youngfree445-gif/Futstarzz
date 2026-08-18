@@ -1895,6 +1895,41 @@ export function pasoDeFecha(clubName: string, date: string): number | null {
  * Se usa para topar el currentWeek que se le pasa al motor sintético: nunca debe avanzar el
  * catch-up de knockout más allá de las fechas de liga que el calendario real ya cubrió.
  */
+/**
+ * La JORNADA del torneo de liga en curso: "fecha 13 de 17".
+ *
+ * No es lo mismo que el paso de carrera, y confundirlos era el bug. El encabezado mostraba
+ * "FECHA {currentWeek}", que cuenta TODOS los dias con partido -- copas, fechas FIFA, cuadrangulares
+ * --, bajo un rotulo que en futbol significa jornada. Con Tigres, el 7 de abril de 2026 decia
+ * "FECHA 21" jugando la jornada 13 del Clausura... que solo tiene 17. Reportado: "me sale que es
+ * clausura, pero mira la fecha".
+ *
+ * Se cuenta por TORNEO y no por temporada: en Mexico el año trae Clausura y Apertura, y arrastrar
+ * el contador daria "fecha 24" en la primera jornada del Apertura.
+ *
+ * Las fechas de Liguilla/cuadrangular no suman: no son jornadas, son cuartos, semis y final. Durante
+ * esa fase el contador se queda en el total de la fase regular, que es la verdad -- jugaste las 17.
+ *
+ * Devuelve null cuando el club todavia no jugo ninguna fecha de liga o ya se le agoto el calendario;
+ * ahi el encabezado vuelve al paso, que es lo unico que queda.
+ */
+export function jornadaDeLiga(clubName: string, paso: number): { jornada: number; total: number } | null {
+  const hoy = fixturesAtStep(clubName, paso);
+  if (!hoy) return null;
+  const regulares = fixturesForClub(clubName).filter(f => f.competition.kind === 'league' && !f.esPlayoff);
+  const hastaHoy = regulares.filter(f => f.date <= hoy.date);
+  if (!hastaHoy.length) return null;
+  // El torneo en curso lo define la ultima fecha de liga jugada o de hoy.
+  const referencia = hastaHoy[hastaHoy.length - 1];
+  const torneo = torneoDelFixture(referencia);
+  const delTorneo = regulares.filter(f =>
+    f.temporada === referencia.temporada && torneoDelFixture(f) === torneo);
+  return {
+    jornada: delTorneo.filter(f => f.date <= hoy.date).length,
+    total: delTorneo.length,
+  };
+}
+
 export function fechasDeLigaTranscurridas(clubName: string, currentWeek: number): number {
   let n = 0;
   for (let w = 1; w < currentWeek; w++) {

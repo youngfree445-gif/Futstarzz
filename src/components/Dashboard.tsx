@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
+import { jornadaDeLiga, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -900,6 +900,13 @@ export default function Dashboard({
   // tiene (así el 7 de mayo es el 7 de mayo de verdad) y del cálculo por semanas si no.
   // Igual que misTrofeos: se calcula acá arriba porque el JSX que la usa está ~1200 líneas abajo y
   // declararla ahí repetiría el TDZ que dejó la pantalla en blanco.
+  // Va acá arriba y no junto al JSX por la misma razón que fechaEnPantalla: el encabezado se
+  // renderiza ~2000 líneas más abajo y declararla ahí repite el TDZ que dejó la pantalla en blanco.
+  const jornadaDeHoy = (() => {
+    const club = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    return club ? jornadaDeLiga(club.name, playerProfile.currentWeek) : null;
+  })();
+
   const fechaEnPantalla = (() => {
     const club = ULTIMATE_CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
     const fecha = club ? fechaDelPaso(club.name, playerProfile.currentWeek) : null;
@@ -2664,7 +2671,12 @@ export default function Dashboard({
               métricas y "miércoles 11 de marzo de 2026" se partía en tres renglones, que era lo
               que estiraba la barra a lo alto. */}
           <div className="flex gap-1.5 items-center flex-wrap shrink-0">
-            <span className="text-gold-400 text-sm font-black">FECHA {playerProfile.currentWeek}</span>
+            {/* La JORNADA del torneo, no el paso de carrera. "FECHA" en futbol significa jornada, y
+                aca se mostraba currentWeek, que cuenta tambien los dias de copa y las fechas FIFA:
+                con Tigres decia "FECHA 21" jugando la 13 del Clausura, que solo tiene 17. */}
+            <span className="text-gold-400 text-sm font-black">
+              {jornadaDeHoy ? `FECHA ${jornadaDeHoy.jornada}/${jornadaDeHoy.total}` : `DIA ${playerProfile.currentWeek}`}
+            </span>
             <span className="text-slate-500 text-2xs whitespace-nowrap">· {fechaEnPantalla}</span>
             {playerProfile.suspendedMatches > 0 && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-3xs font-black uppercase">
