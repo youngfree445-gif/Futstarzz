@@ -11,6 +11,9 @@
 
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
 import { fixturesForClub } from '../src/dateSchedule';
+import { clubesDeLiga, esClubJugable } from '../src/clubesJugables';
+import { leagueKeyFor } from '../src/leagueEngine';
+import { resolverClubDeCalendario } from '../src/clubAliases';
 
 const MIN_DESCANSO_DIAS = 2;
 const MAX_PARTIDOS_EN_7_DIAS = 3;
@@ -97,5 +100,48 @@ const TOPE_DE_ARMADO_MS = 300;
 console.log(`\n=== C) Armar el calendario (32 temporadas, en frío) ===`);
 console.log(`  ${msDeArmado} ms   ${msDeArmado > TOPE_DE_ARMADO_MS ? `<-- PASADO EL TOPE de ${TOPE_DE_ARMADO_MS} ms: esto se congela al abrir` : `(tope ${TOPE_DE_ARMADO_MS} ms)`}`);
 
-const problemas = pocoDescanso.length + saturadas.length;
+// =============================================================================================
+// D) CADA RIVAL DEL CALENDARIO TIENE QUE EXISTIR EN SU LIGA
+// =============================================================================================
+//
+// Si el calendario nombra a un rival que no esta en la liga del club, App.tsx no lo encuentra --
+// ni por el calendario ni por el motor -- y cae al respaldo de emergencia: rival AL AZAR, sin
+// opClubId y sin rotulo de torneo. Con opClubId nulo, handleFinishMatch se saltea el bloque de
+// liga entero, asi que el partido se juega y el resultado NO SE REGISTRA en ningun lado.
+//
+// Reportado jugando con Tigres: la tarjeta anunciaba Mazatlan, el partido era contra Atletico de
+// San Luis y el encabezado no decia si era Apertura o Clausura. Los tres sintomas eran el mismo
+// respaldo. La causa: Mazatlan FC figuraba con `division: 2` en data.ts jugando la Liga MX, asi
+// que clubesDeLiga('Mexicana-1') no lo incluia.
+//
+// Es la misma trampa que ya tiene su propia nota en el repo: una division mal puesta no se ve como
+// un error de datos, se ve como otra cosa (ahi, "le falta el escudo"). Por eso va como candado.
+
+let sinResolver = 0, fechasMiradas = 0;
+const culpables = new Map<string, number>();
+
+for (const club of CLUBS.filter(esClubJugable)) {
+  const liga = clubesDeLiga(leagueKeyFor(club));
+  for (const f of fixturesForClub(club.name)) {
+    if (f.temporada !== 1 || f.competition.kind !== 'league' || f.esPlayoff) continue;
+    fechasMiradas++;
+    if (resolverClubDeCalendario(liga, f.opponentName, club.league, 'league', f.competition.name)) continue;
+    sinResolver++;
+    const clave = `${leagueKeyFor(club)} -> "${f.opponentName}"`;
+    culpables.set(clave, (culpables.get(clave) ?? 0) + 1);
+  }
+}
+
+console.log(`
+=== D) Rivales del calendario que existen en su liga ===`);
+console.log(`  ${fechasMiradas} fechas de liga revisadas · ${sinResolver} con rival sin resolver`);
+if (sinResolver) {
+  console.log(`  Cada una cae al respaldo de emergencia: rival al azar y resultado sin registrar.`);
+  for (const [c, n] of [...culpables].sort((a, b) => b[1] - a[1]).slice(0, 10)) {
+    console.log(`     ${n.toString().padStart(3)} x  ${c}`);
+  }
+  console.log(`  Revisar la \`division\` de esos clubes en data.ts contra el calendario de su liga.`);
+}
+
+const problemas = pocoDescanso.length + saturadas.length + sinResolver;
 console.log(`\n${problemas === 0 ? 'Sin problemas de descanso.' : `${problemas} hallazgos de descanso (ver arriba).`}`);
