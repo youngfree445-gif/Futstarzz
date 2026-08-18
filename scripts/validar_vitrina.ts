@@ -12,7 +12,7 @@ import type { PlayerProfile } from '../src/types';
 
 // Las mismas dos funciones que le pasa el Dashboard, simplificadas a lo que este caso necesita.
 const nombreDeLiga = (liga: string) => liga === 'Colombiana' ? 'Primera Division Dimayor' : liga;
-const dosTorneos = (liga: string) => (liga === 'Colombiana' ? 'colombia' : null) as 'colombia' | null;
+const dosTorneos = (liga: string) => liga === 'Colombiana';
 
 let fallas = 0;
 const ok = (nombre: string, cond: boolean, detalle = '') => {

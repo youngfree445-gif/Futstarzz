@@ -13,6 +13,7 @@
 
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
 import { CAREER_START_YEAR } from './leagueEngine';
+import { fechasDelCuadroFinal, repartesDosTitulos, torneosDelAnio } from './reglamentos';
 import { CAREER_START_DATE, MAX_TEMPORADAS, competicionEnTemporada, partidosDePlayoff } from './seasonCalendar';
 import { FECHAS_FIFA } from './fechasFifa';
 import { CUPOS_CONCACAF, VENTANA_CONCACAF } from './copaConcacaf';
@@ -318,8 +319,10 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   return indice;
 }
 
-/** Cuartos, semis y final del cuadrangular, todo a ida y vuelta. */
-const FECHAS_DE_CUADRANGULAR = 6;
+// Cuántas fechas pide el cuadro final lo dice el reglamento de cada liga (ver fechasDelCuadroFinal):
+// son log2(clubes del cuadro) rondas a ida y vuelta. Era una constante GLOBAL de 6, igual para
+// todos los países, así que ninguna liga podía tener un cuadro de otro tamaño aunque su reglamento
+// lo dijera.
 
 /**
  * Los cuadrangulares del semestre que no los trae scrapeados.
@@ -419,7 +422,7 @@ function reservarFechasDeCuadrangular(
       // dejaba afuera a los clubes cuyo fragmento trae una o dos fechas sueltas del cuadro -- 25
       // clubes de Ecuador, Venezuela y Uruguay con UN día para un cuadrangular que pide seis.
       const yaTiene = fs.filter(f => f.esPlayoff).length;
-      const objetivo = FECHAS_DE_CUADRANGULAR - yaTiene;
+      const objetivo = fechasDelCuadroFinal(comp.league) - yaTiene;
       if (objetivo <= 0) continue;
       // Un club con cuatro fechas sueltas del semestre no jugó ese torneo: no hay nada que definir.
       if (fs.length < 8) continue;
@@ -1957,35 +1960,22 @@ export function torneoDeFecha(competition: DatedCompetition, date: string): stri
   // temporada. Se detecta por la forma del calendario, no por una lista de ligas.
   if (!esCalendarioDeDosTorneos(competition)) return competition.name;
   const mes = Number(date.slice(5, 7));
-  const primeroDelAnio = LIGAS_QUE_ARRANCAN_EN_CLAUSURA.has(competition.league ?? '') ? 'Clausura' : 'Apertura';
-  const elOtro = primeroDelAnio === 'Clausura' ? 'Apertura' : 'Clausura';
-  return mes <= 6 ? primeroDelAnio : elOtro;
+  const [primero, segundo] = torneosDelAnio(competition.league ?? '');
+  return mes <= 6 ? primero : segundo;
 }
 
-/**
- * Ligas que reparten DOS títulos por año (Apertura y Clausura).
- *
- * Va como lista explícita a propósito. Se intentó deducirlo de la forma del calendario y no se
- * puede: el Brasileirão va de enero a diciembre igual que la Liga BetPlay, y los dos tienen un
- * parón de mitad de año de 46 días exactos. Por forma son idénticos, pero Brasil corona UN campeón
- * y Colombia DOS. Deducirlo partía el Brasileirão en dos y coronaba dos campeones inventados.
- *
- * Es la misma lista que isApeturaClausuraLeague en leagueEngine, y tiene que seguir coincidiendo:
- * acá no se importa para no crear una dependencia circular entre los dos módulos.
- */
-const LIGAS_DE_DOS_TORNEOS = new Set(['Colombiana', 'Argentina', 'Mexicana']);
-
-/**
- * Ligas donde el semestre de ENERO es el Clausura y el de JULIO el Apertura -- al revés que Colombia.
- *
- * En México la temporada arranca en julio con el Apertura y se cierra en mayo con el Clausura del
- * año siguiente, así que los dos torneos de un mismo año calendario van Clausura primero. Llamarlos
- * como en Colombia dejaba a un jugador del América ganando el "Apertura" en abril.
- */
-const LIGAS_QUE_ARRANCAN_EN_CLAUSURA = new Set(['Mexicana']);
+// Las ligas que reparten dos títulos por año, y en qué orden, salen de src/reglamentos.ts.
+//
+// Acá vivían dos listas propias -- LIGAS_DE_DOS_TORNEOS y LIGAS_QUE_ARRANCAN_EN_CLAUSURA -- con un
+// comentario que decía "es la misma lista que isApeturaClausuraLeague en leagueEngine, y tiene que
+// seguir coincidiendo". No coincidían: México estaba acá y allá no, así que el calendario le
+// partía el año en dos torneos mientras el resto del juego lo trataba como uno solo.
+//
+// El módulo de reglamentos no importa nada, y por eso lo pueden leer los tres sin cerrar un ciclo
+// -- dateSchedule importa leagueEngine, que es de donde venía la duplicación.
 
 function esCalendarioDeDosTorneos(competition: DatedCompetition): boolean {
-  return LIGAS_DE_DOS_TORNEOS.has(competition.league);
+  return repartesDosTitulos(competition.league);
 }
 
 /**

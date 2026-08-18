@@ -48,7 +48,7 @@ export function getPalmares(
   profile: PlayerProfile,
   clubs: readonly ClubLookup[],
   leagueName: (league: string, division?: number) => string,
-  esApeturaClausura: (league: string) => 'colombia' | 'argentina' | null,
+  esApeturaClausura: (league: string) => boolean,
   seleccionId?: string,
 ): Trofeo[] {
   const trofeos: Trofeo[] = [];

@@ -11,6 +11,7 @@
 // y penales si termina igualado.
 
 import type { Club, TwoLegBracket, TwoLegTie } from './types';
+import { reglamentoDe } from './reglamentos';
 
 export interface DomesticCupState {
   /** Liga a la que pertenece la copa ('Colombiana'), para no cruzar países. */
@@ -153,35 +154,15 @@ export function piernaDelCruce(tie: TwoLegTie): 'ida' | 'vuelta' {
   return tie.firstLegGoalsA === null ? 'ida' : 'vuelta';
 }
 
-/** Cómo se llama la copa nacional de ese país. Sin entrada, el genérico. */
-const NOMBRES: Record<string, string> = {
-  Colombiana: 'Copa BetPlay',
-  Argentina: 'Copa Argentina',
-  Brasileña: 'Copa do Brasil',
-  Inglesa: 'FA Cup',
-  Española: 'Copa del Rey',
-  Italiana: 'Coppa Italia',
-  Alemana: 'DFB-Pokal',
-  Francesa: 'Coupe de France',
-  Holandesa: 'KNVB Beker',
-  Portuguesa: 'Taça de Portugal',
-  // Las siete de abajo se activaron el 12 de agosto de 2026, al cargar sus calendarios (estaban en
-  // data/calendarios/copas/ sin usar). El nombre TIENE que coincidir exacto con el `name` de la
-  // competición en realCalendarDates.ts: es la llave con la que el calendario decide a qué copa
-  // reservarle fechas, y con otro nombre el país se queda sin copa en silencio.
-  Chilena: 'Copa Chile',
-  Ecuatoriana: 'Copa Ecuador',
-  Boliviana: 'Copa Bolivia',
-  Uruguaya: 'Copa Uruguay',
-  Venezolana: 'Copa Venezuela',
-  Mexicana: 'Copa MX',
-  Estadounidense: 'US Open Cup',
-  Paraguaya: 'Copa Paraguay',
-  Peruana: 'Copa de la Liga',
-};
+// Los nombres de copa vivían acá, en una lista propia. Ahora salen del reglamento de cada liga
+// (src/reglamentos.ts), que es donde está el resto de lo que distingue a un país de otro.
+//
+// El nombre TIENE que coincidir exacto con el `name` de la competición en realCalendarDates.ts: es
+// la llave con la que el calendario decide a qué copa reservarle fechas, y con otro nombre el país
+// se queda sin copa en silencio.
 
 export function nombreCopaNacional(league: string): string {
-  return NOMBRES[league] ?? 'Copa Nacional';
+  return reglamentoDe(league).copaNacional ?? 'Copa Nacional';
 }
 
 /**
@@ -197,5 +178,5 @@ export function nombreCopaNacional(league: string): string {
  * fijo semanal para siempre, sin cuadro, sin ida y vuelta y sin poder salir campeón nunca.
  */
 export function tieneCopaNacionalReal(league: string): boolean {
-  return league in NOMBRES;
+  return !!reglamentoDe(league).copaNacional;
 }

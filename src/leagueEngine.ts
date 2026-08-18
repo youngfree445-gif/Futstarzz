@@ -1,3 +1,4 @@
+import { repartesDosTitulos } from './reglamentos';
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 import type { DomesticCupState } from './copaNacional';
 import { participantesConmebol, type CampeonesConmebol, type PosicionesFinales } from './copasConmebol';
@@ -330,10 +331,16 @@ const SEED_PAIRS_32 = [
   [1, 30], [14, 17], [6, 25], [9, 22], [2, 29], [13, 18], [5, 26], [10, 21],
 ];
 
-export function isApeturaClausuraLeague(league: string): 'colombia' | 'argentina' | null {
-  if (league === 'Colombiana') return 'colombia';
-  if (league === 'Argentina') return 'argentina';
-  return null;
+/**
+ * ¿Esta liga reparte Apertura y Clausura?
+ *
+ * Devolvía `'colombia' | 'argentina'` con los dos países escritos a mano, y ese tipo era justamente
+ * lo que impedía cargar México: no había forma de decir "sí, pero no es ninguno de esos dos".
+ * Nadie usaba el VALOR -- los ocho llamadores sólo preguntan si hay o no hay --, así que ahora
+ * contesta lo que dice el reglamento de la liga (ver src/reglamentos.ts).
+ */
+export function isApeturaClausuraLeague(league: string): boolean {
+  return repartesDosTitulos(league);
 }
 
 // División determinística en 2 zonas de 15 (no tenemos el sorteo real de

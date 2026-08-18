@@ -5,6 +5,7 @@
 // ponerlo allá creaba un ciclo entre los dos módulos. Acá abajo solo hay datos puros
 // (realCalendarDates.ts no importa nada), así que no hay ciclo posible.
 
+import { repartesDosTitulos, torneosDelAnio } from './reglamentos';
 import { DATED_CALENDARS, type DatedCompetition, type DatedMatch } from './realCalendarDates';
 
 /** Día 1 de la carrera. Coincide con el arranque real de la temporada 2026. */
@@ -113,13 +114,14 @@ export function competicionesDeTemporada(temporada: number): DatedCompetition[] 
 // cuatro a 23 y dos a 25 -- cuartos, semis y final a ida y vuelta. Sumando esas fechas a la misma
 // tabla, el campeón salía de comparar 25 partidos contra 19.
 
-/** Ligas que reparten DOS títulos por año. Misma lista que en dateSchedule.ts y leagueEngine.ts. */
-const LIGAS_DE_DOS_TORNEOS = new Set(['Colombiana', 'Argentina']);
+// La lista de ligas de dos torneos vivía acá también, y decía "misma lista que en dateSchedule.ts
+// y leagueEngine.ts" siendo que le faltaba México. Ahora sale de src/reglamentos.ts.
 
 /** El semestre al que pertenece una fecha: 'Apertura', 'Clausura', o la liga entera si no se parte. */
 function semestreDe(comp: DatedCompetition, date: string): string {
-  if (!comp.league || !LIGAS_DE_DOS_TORNEOS.has(comp.league)) return comp.name;
-  return Number(date.slice(5, 7)) <= 6 ? 'Apertura' : 'Clausura';
+  if (!comp.league || !repartesDosTitulos(comp.league)) return comp.name;
+  const [primero, segundo] = torneosDelAnio(comp.league);
+  return Number(date.slice(5, 7)) <= 6 ? primero : segundo;
 }
 
 /** El valor que más se repite. Con empate gana el más chico: la fase regular es el piso. */

@@ -37,6 +37,14 @@ corren su calendario y tabla en simultáneo de fondo.
 - `data.ts` (~4100 líneas) — la base de datos completa: clubes, eventos
   aleatorios, preguntas de prensa, ítems de tienda/patrocinios, selecciones
   del Mundial. Es contenido, no lógica.
+- `reglamentos.ts` — **un registro por liga**: cuántos títulos reparte el año,
+  en qué orden van Apertura y Clausura, si define por tabla o por cuadro (y con
+  cuántos clubes) y cómo se llama su copa. Es un **módulo hoja: no importa nada**,
+  y por eso lo pueden leer dateSchedule, seasonCalendar, leagueEngine y
+  copaNacional sin cerrar el ciclo que había obligado a copiar las listas.
+  Antes esa información vivía en cuatro listas sueltas que no coincidían.
+  El ascenso y el descenso siguen en `promocionDescenso.ts`, que ya es una tabla
+  por liga bien formada. Validador: `npm run validar:reglamentos`.
 - `types.ts` — todos los tipos/interfaces compartidos
 - `reporteDeBug.ts` — la foto del estado de la partida en texto, para pegar en
   un chat. La usan los tres caminos de diagnóstico y tiene que ser **una sola**:
