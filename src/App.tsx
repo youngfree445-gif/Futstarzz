@@ -27,7 +27,7 @@ import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENT
 import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
   getLibertadoresParticipants, getSudamericanaParticipants, getConcacafParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
-  sigueEnElCuadro, sigueEnElCuadroDeIdaYVuelta,
+  sigueEnElCuadroDeIdaYVuelta,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
@@ -104,24 +104,6 @@ function findShootoutInTwoLegTies(ties: TwoLegTie[] | null | undefined, myId: st
   return null;
 }
 
-/**
- * ¿El club sigue vivo en el playoff de liga (cuadrangulares/final de Colombia o Argentina)?
- *
- * Colombia va a ida y vuelta (twoLegKnockout); Argentina a partido único (knockout). Mismo criterio
- * que isClubStillInCup: está en la última ronda armada Y no la perdió, o es el campeón.
- */
-function estaEnPlayoffDeLiga(season: { stage?: string; twoLegKnockout?: TwoLegBracket; knockout?: PlayoffBracket }, clubId: string): boolean {
-  if (season.stage !== 'knockout') return false;
-  if (season.twoLegKnockout) {
-    if (season.twoLegKnockout.championId) return season.twoLegKnockout.championId === clubId;
-    return sigueEnElCuadroDeIdaYVuelta(season.twoLegKnockout.tiesByRound, clubId);
-  }
-  if (season.knockout) {
-    if (season.knockout.championId) return season.knockout.championId === clubId;
-    return sigueEnElCuadro(season.knockout.matchesByRound, clubId);
-  }
-  return false;
-}
 
 /**
  * Tope para el catch-up sintético de la liga Apertura/Clausura de un club con calendario real.
@@ -3440,14 +3422,10 @@ export default function App() {
         // Playoff de liga a ida y vuelta (Colombia/Argentina, cuadrangulares y final): el global se
         // arma igual que en la copa nacional, buscando el TwoLegTie del club en la ronda en curso.
         //
-        // Primero el cuadro que de verdad se está jugando (playoffsDeLiga, el que puso al rival en
-        // pantalla) y sólo después el del motor. Mirando únicamente el del motor, el global de los
-        // cuadrangulares salía de OTRO cuadro -- sembrado aparte, con otras llaves -- así que o no
-        // aparecía o mostraba el acumulado de una serie contra un rival distinto. El del motor sigue
-        // de respaldo para los clubes sin calendario real, donde el playoff lo lleva él.
-        const miLlaveLiga = cruceDelPlayoffHoy
-          ?? season.twoLegKnockout?.tiesByRound[season.twoLegKnockout.tiesByRound.length - 1]
-            ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+        // Sale del cuadro que de verdad se está jugando (playoffsDeLiga, el mismo que puso al rival
+        // en pantalla). Antes se leía el cuadro interno del motor, que además de ser otro cuadro
+        // NUNCA se llenaba: por eso el global del cuadrangular no aparecía jamás.
+        const miLlaveLiga = cruceDelPlayoffHoy;
         if (miLlaveLiga) {
           const soyA = miLlaveLiga.clubAId === myClub.id;
           const idaJugada = miLlaveLiga.firstLegGoalsA !== null && miLlaveLiga.firstLegGoalsB !== null;
@@ -4024,31 +4002,18 @@ export default function App() {
       const leagueClubs = clubesDeLiga(leagueKey);
       const existingSeason = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
 
-      // En fase de knockout de liga (cuadrangulares/final de Colombia o Argentina), la localía que
-      // hay que pasarle al motor es la de SU llave interna (twoLegKnockout/knockout, armada por
-      // sorteo propio), no la del calendario real que se mostró en pantalla. Cuando el club tiene
-      // calendario real, activeIsHome sale de esa fecha real y puede no coincidir con la localía
-      // que el bracket interno espera para ese mismo cruce -- y el comentario de
-      // resolveOneLegOfTie ya advertía: "cuando discrepaban, el resultado entraba DADO VUELTA".
-      // Eso corrompía qué equipo suma qué en la llave, y con eso el global y quién sale campeón.
-      // Bug reportado: "me dio el campeonaao y habiamos empatado en el global".
-      const llaveInternaDelClub = existingSeason.twoLegKnockout?.tiesByRound[existingSeason.twoLegKnockout.tiesByRound.length - 1]
-        ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
-      // Argentina no juega a ida y vuelta (partido único, PlayoffBracket): la localía interna es la
-      // del emparejamiento sorteado, sin pierna que invertir.
-      const partidoInternoDelClub = existingSeason.knockout?.matchesByRound[existingSeason.knockout.matchesByRound.length - 1]
-        ?.find(m => m.homeTeamId === myClub.id || m.awayTeamId === myClub.id);
-      const isHomeParaElMotor = llaveInternaDelClub
-        ? (llaveInternaDelClub.firstLegGoalsA === null
-            ? llaveInternaDelClub.clubAId === myClub.id  // ida: A es local
-            : llaveInternaDelClub.clubBId === myClub.id) // vuelta: se invierte, B es local
-        : partidoInternoDelClub
-        ? partidoInternoDelClub.homeTeamId === myClub.id
-        : activeIsHome;
+      // Acá se calculaba una "localía para el motor" leyendo los cuadros internos de la temporada.
+      // Los dos estaban SIEMPRE vacíos (ver la nota de LeagueSeasonState en types.ts), así que el
+      // cálculo entero terminaba siempre en el mismo `activeIsHome` del final.
+      //
+      // Y aunque no lo estuvieran, no cambiaría nada: resolvePlayerWeekForLeague recibe la localía
+      // pero NO LA USA -- su único camino es resolveLigaPorFecha, que arma la tabla con las fechas
+      // del calendario y no necesita saber quién es local. La localía que sí importa, la de la
+      // llave del cuadrangular, la calcula el bloque de playoff más abajo con su propio cuadro.
 
       const resolvedSeason = resolvePlayerWeekForLeague(
         existingSeason, leagueClubs, playerProfile.currentWeek, myClub.id,
-        isHomeParaElMotor, results.golesMiEquipo, results.golesRival, shootoutOverride,
+        activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride,
         contextoRealDelPaso(myClub.name, playerProfile.currentWeek)
       );
 
@@ -4068,13 +4033,15 @@ export default function App() {
           homeGoals: f.homeGoals ?? 0, awayGoals: f.awayGoals ?? 0,
         }));
 
-      const shootout = findShootoutInPlayoffBracket(resolvedSeason.knockout, myClub.id, activeOppositionClubId)
-        || findShootoutInTwoLegBracket(resolvedSeason.twoLegKnockout, myClub.id, activeOppositionClubId);
-      if (shootout) {
-        foundShootout = shootout;
-        foundShootoutMyId = myClub.id;
-        foundShootoutMyName = myClub.name;
-      }
+      // ACÁ SE BUSCABA LA TANDA DE PENALES DEL CUADRANGULAR, en los cuadros internos de la
+      // temporada. Como esos cuadros nunca se llenaron, la búsqueda daba null siempre y la pantalla
+      // de penales NO SE OFRECE en un cuadrangular: una llave empatada en el global resuelve los
+      // penales sola, por dentro de resolverPasoPlayoffDeLiga, sin que el jugador los patee.
+      //
+      // Queda anotado como pendiente y no se improvisa acá: ofrecer la tanda es pausar el partido
+      // ANTES de aplicar el resultado y volver a resolver la llave con el resultado real
+      // (`shootoutOverride`), que es lo que ya hacen las copas continentales. Fingirlo con el cuadro
+      // equivocado es lo que produjo este bug en primer lugar.
 
       // El cierre lo manda el CALENDARIO REAL cuando el club tiene uno, no el fixture del motor:
       // son calendarios distintos y el del motor es más corto (20 partidos contra los 44 reales del
@@ -4160,13 +4127,13 @@ export default function App() {
               competition: nombreDeLaLigaHoy,
               year: anioPlayoff, clubId: myClub.id, torneo: semestre || undefined, tipo: 'liga',
             };
-          } else if ((!shootout || shootoutOverride)
+          } else if (
             // Campeón del cuadrangular NO es eliminado, y hay que decirlo aparte: crucePlayoffDeLiga
             // devuelve null en cuanto el cuadro tiene campeón, sea quien sea. Con el `jugoElTorneo`
             // de la rama de arriba en false -- un semestre al que llegaste a mitad de camino, o con
             // muchos partidos jugados sin vos -- ganar la final caía acá y anunciaba "Eliminado en
             // Final" al que se acababa de coronar.
-            && despues.championId !== myClub.id
+            despues.championId !== myClub.id
             && !crucePlayoffDeLiga(despues, myClub.id)) {
             // Recién eliminado con este partido. Antes esto pasaba en silencio.
             const ronda = despues.tiesByRound[despues.tiesByRound.length - 1];
@@ -4221,9 +4188,11 @@ export default function App() {
         // final por diferencia de gol de la fase regular (no del partido) coronaba a quien NO ganó
         // la final. Bug reportado: "me dio el campeonaao y habiamos empatado en el global".
         const tablaOrdenada = sortTable([...resolvedSeason.table]);
-        const enKnockout = resolvedSeason.stage === 'knockout';
-        const campeonDeLaLlave = resolvedSeason.twoLegKnockout?.championId ?? resolvedSeason.knockout?.championId ?? null;
-        const lider = enKnockout ? null : tablaOrdenada[0];
+        // `enKnockout` miraba resolvedSeason.stage, que para una liga NUNCA vale 'knockout':
+        // resolveLigaPorFecha -- el único camino que queda -- no lo setea. Y el campeón de la llave
+        // salía de los cuadros internos, que nunca se llenaron. El cuadrangular lo corona el bloque
+        // de playoff de más arriba, con playoffsDeLiga; acá sólo queda la liga de tabla directa.
+        const lider = tablaOrdenada[0];
         // DONDE HAY CUADRANGULAR, LA TABLA NO CORONA A NADIE.
         //
         // La última fecha del Apertura ES la final del cuadrangular -- el 8 de junio de 2026, para el
@@ -4238,8 +4207,6 @@ export default function App() {
         // torneo se corona por donde no se define.
         const esCampeon = hoyFuePlayoff
           ? false
-          : enKnockout
-          ? campeonDeLaLlave === myClub.id
           : !!lider && (lider.clubId === myClub.id || lider.name === myClub.name);
         if (esCampeon && jugoElTorneo) {
           salioCampeon = true;
@@ -4266,7 +4233,7 @@ export default function App() {
         // `!hoyFuePlayoff`: en el día de la final del cuadrangular, el desenlace ya lo contó la rama
         // del playoff -- con la ronda y todo. Sin esto se apilaba encima un "terminaste 1º en la
         // tabla" de la fase regular, que a esa altura ya no es la noticia.
-        } else if (!enKnockout && !esCampeon && !hoyFuePlayoff) {
+        } else if (!esCampeon && !hoyFuePlayoff) {
           // No saliste campeón de una liga de tabla directa (Brasil): antes el torneo se cerraba en
           // silencio y la carrera seguía sin que el jugador se enterara -- ni de que había
           // terminado, ni de en qué puesto quedó. Bug reportado: "el jugador jamás se da cuenta".

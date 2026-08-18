@@ -319,10 +319,7 @@ export function simulatePenaltyShootout(clubA: Club, clubB: Club): PenaltyShooto
 // y los partidos que sobran en el calendario real son los PLAYOFFS. Con 20 el motor pedía una fecha
 // que el calendario real no tenía, y al simular una carrera del Junior la tabla dejaba de sumar
 // partidos desde mayo: el jugador seguía jugando fechas reales que ya no entraban en ninguna tabla.
-const REGULAR_PHASE_MATCHDAYS: Record<'colombia' | 'argentina', number> = {
-  colombia: 19,
-  argentina: 16,
-};
+
 
 const SEED_PAIRS_8 = [[0, 7], [3, 4], [2, 5], [1, 6]];
 const SEED_PAIRS_16 = [[0, 15], [7, 8], [4, 11], [3, 12], [2, 13], [5, 10], [6, 9], [1, 14]];
@@ -341,10 +338,7 @@ export function isApeturaClausuraLeague(league: string): 'colombia' | 'argentina
 
 // División determinística en 2 zonas de 15 (no tenemos el sorteo real de
 // AFA) — estable mientras la lista de clubIds no cambie.
-function assignArgentinaZones(clubIds: string[]): { zoneA: string[]; zoneB: string[] } {
-  const sorted = [...clubIds].sort();
-  return { zoneA: sorted.filter((_, i) => i % 2 === 0), zoneB: sorted.filter((_, i) => i % 2 === 1) };
-}
+
 
 // Algoritmo del círculo: reparte los rivales de cada club a lo largo de las rondas sin
 // repetirlos. Si maxMatchdays es menor que el ciclo completo (n-1 rondas), se corta ahí --
@@ -452,186 +446,27 @@ function resolveBracketRound(
   return { matchesByRound, championId: null };
 }
 
-/** Arma la ronda siguiente del knockout de liga (Argentina, partido único) tras la ya jugada. */
-function siguienteRondaBracket(bracket: PlayoffBracket): PlayoffBracket {
-  const roundIdx = bracket.matchesByRound.length - 1;
-  const currentRound = bracket.matchesByRound[roundIdx];
-  if (bracket.championId || !currentRound.every(m => m.played)) return bracket;
-  const winners = currentRound.map(m => m.penaltyShootout ? m.penaltyShootout.winnerId : (m.homeGoals! > m.awayGoals! ? m.homeTeamId : m.awayTeamId));
-  const nextRound = [];
-  for (let i = 0; i < winners.length; i += 2) {
-    nextRound.push({ homeTeamId: winners[i], awayTeamId: winners[i + 1], played: false, homeGoals: null, awayGoals: null });
-  }
-  return { matchesByRound: [...bracket.matchesByRound, nextRound], championId: null };
-}
-
-function freshRegularPhase(clubs: Club[], format: 'colombia' | 'argentina', semester: 1 | 2, semesterStartWeek: number): LeagueSeasonState {
-  const leagueKey = leagueKeyFor(clubs[0]);
-  if (format === 'colombia') {
-    const clubIds = shuffle(clubs.map(c => c.id));
-    return {
-      leagueKey,
-      fixtures: generateSingleRound(clubIds, REGULAR_PHASE_MATCHDAYS.colombia),
-      table: buildInitialTable(clubs),
-      round: 0,
-      semester,
-      semesterStartWeek,
-      stage: 'regular',
-    };
-  }
-  // Argentina: 2 zonas, fixture combinado (matchweek de ambas zonas comparten número de fecha)
-  const { zoneA, zoneB } = assignArgentinaZones(shuffle(clubs.map(c => c.id)));
-  const fixturesA = generateSingleRound(zoneA, REGULAR_PHASE_MATCHDAYS.argentina);
-  const fixturesB = generateSingleRound(zoneB, REGULAR_PHASE_MATCHDAYS.argentina);
-  return {
-    leagueKey,
-    fixtures: [...fixturesA, ...fixturesB],
-    table: buildInitialTable(clubs),
-    round: 0,
-    semester,
-    semesterStartWeek,
-    stage: 'regular',
-  };
-}
-
-// Resuelve UN paso (una fecha de fase regular, o una ronda/pierna de
-// playoffs) de la temporada. Si currentWeek ya alcanzó el final de una
-// etapa, transiciona a la siguiente (playoffs, o al semestre siguiente) y
-// resuelve el primer paso de esa nueva etapa en la misma llamada, para no
-// "perder" la semana.
-function resolveApeturaClausuraStep(
-  season: LeagueSeasonState,
-  clubs: Club[],
-  currentWeek: number,
-  format: 'colombia' | 'argentina',
-  forced?: ForcedResult
-): LeagueSeasonState {
-  const stage = season.stage ?? 'regular';
-
-  if (stage === 'regular') {
-    // Basado en el estado real de los fixtures (próxima fecha sin jugar), NO
-    // en aritmética de currentWeek — así el catch-up (que llama a esta
-    // función muchas veces seguidas con el mismo currentWeek "objetivo")
-    // avanza fecha a fecha en vez de recalcular siempre la misma fecha.
-    const nextMw = season.fixtures.find(f => !f.played)?.matchweek;
-
-    if (nextMw === undefined) {
-      // Fase regular terminada: se ARMA el cuadro y se corta acá. Antes se encadenaba una llamada
-      // recursiva que resolvía la primera ronda en el mismo paso, así que el jugador clasificaba a
-      // cuartos y su partido se jugaba solo: aparecía eliminado sin haberlo jugado. La primera
-      // ronda se juega en el paso siguiente, que es cuando la pantalla se la ofrece.
-      if (format === 'colombia') {
-        // Formato real vigente desde 2024, igual en Apertura y Clausura: Cuartos, Semifinal y
-        // Final, TODO a ida y vuelta -- ver twoLegKnockout más abajo.
-        const top8 = sortTable(season.table).slice(0, 8).map(r => r.clubId!);
-        return { ...season, stage: 'knockout', twoLegKnockout: seedTwoLegBracket(top8) };
-      }
-      // Argentina: top 8 de cada zona por separado
-      const { zoneA, zoneB } = assignArgentinaZones(clubs.map(c => c.id));
-      const zoneTable = (zoneIds: string[]) => sortTable(season.table.filter(r => zoneIds.includes(r.clubId!)));
-      const top8A = zoneTable(zoneA).slice(0, 8).map(r => r.clubId!);
-      const top8B = zoneTable(zoneB).slice(0, 8).map(r => r.clubId!);
-      const rankedClubIds = [...top8A, ...top8B]; // 16 equipos, seed 1-16 (zona A primero, zona B después)
-      return { ...season, stage: 'knockout', knockout: seedBracket(rankedClubIds) };
-    }
-
-    let fixtures = season.fixtures;
-    let table = season.table;
-    fixtures = fixtures.map(fx => {
-      if (fx.matchweek !== nextMw || fx.played) return fx;
-      const isForcedMatch = forced && (fx.homeTeamId === forced.clubId || fx.awayTeamId === forced.clubId);
-      let homeGoals: number, awayGoals: number;
-      if (isForcedMatch && forced) {
-        // Quién es local lo decide el FIXTURE, no forced.isHome. Ese flag viene de la UI y puede no
-        // coincidir (en Argentina el rival se elige con getUpcomingApeturaClausuraMatch, pero si el
-        // club no tiene partido en esa fecha la pantalla cae a un amistoso y sortea la localía).
-        // Cuando discrepaban, el resultado entraba DADO VUELTA: un 3-0 tuyo se anotaba 0-3 en
-        // contra. Ganando todos los partidos 3-0, River terminaba con 4 victorias y 4 derrotas.
-        const yoSoyLocal = fx.homeTeamId === forced.clubId;
-        homeGoals = yoSoyLocal ? forced.goals : forced.opponentGoals;
-        awayGoals = yoSoyLocal ? forced.opponentGoals : forced.goals;
-      } else {
-        const home = clubs.find(c => c.id === fx.homeTeamId);
-        const away = clubs.find(c => c.id === fx.awayTeamId);
-        if (!home || !away) return fx;
-        ({ homeGoals, awayGoals } = simulateMatch(home, away));
-      }
-      table = applyResultToTable(table, fx.homeTeamId, fx.awayTeamId, homeGoals, awayGoals);
-      return { ...fx, played: true, homeGoals, awayGoals };
-    });
-    return { ...season, fixtures, table };
-  }
-
-  if (stage === 'knockout') {
-    if (format === 'colombia') {
-      const bracket = season.twoLegKnockout!;
-      if (bracket.championId) {
-        return startNextSemester(season, clubs, currentWeek, format, forced);
-      }
-      // La ronda actual ya está completa (todas las llaves jugadas) pero sin campeón todavía: hay
-      // que ARMAR la ronda siguiente y cortar acá, sin resolverla en el mismo paso -- mismo patrón
-      // que fase regular -> knockout. Sin esto, resolveTwoLegRound armaba Y resolvía la ronda
-      // siguiente de una, así que el partido del jugador (que recién pasó de ronda) se jugaba solo.
-      const rondaActualCompleta = bracket.tiesByRound[bracket.tiesByRound.length - 1].every(t => t.played);
-      if (rondaActualCompleta) {
-        return { ...season, twoLegKnockout: siguienteRondaTwoLeg(bracket) };
-      }
-      const updatedBracket = resolveTwoLegRound(bracket, clubs, forced);
-      return { ...season, twoLegKnockout: updatedBracket };
-    }
-    const bracket = season.knockout!;
-    if (bracket.championId) {
-      return startNextSemester(season, clubs, currentWeek, format, forced);
-    }
-    // Mismo corte que en Colombia (twoLegKnockout) unas líneas más arriba.
-    const rondaActualCompletaArg = bracket.matchesByRound[bracket.matchesByRound.length - 1].every(m => m.played);
-    if (rondaActualCompletaArg) {
-      return { ...season, knockout: siguienteRondaBracket(bracket) };
-    }
-    const updatedBracket = resolveBracketRound(bracket, clubs, forced);
-    return { ...season, knockout: updatedBracket };
-  }
-
-  return season;
-}
-
-function startNextSemester(
-  season: LeagueSeasonState,
-  clubs: Club[],
-  currentWeek: number,
-  format: 'colombia' | 'argentina',
-  forced?: ForcedResult
-): LeagueSeasonState {
-  const nextSemester: 1 | 2 = season.semester === 1 ? 2 : 1;
-  const fresh = freshRegularPhase(clubs, format, nextSemester, currentWeek);
-  return resolveApeturaClausuraStep(fresh, clubs, currentWeek, format, forced);
-}
 
 
 
-/**
- * La temporada ya no tiene nada por jugar y hay que arrancar la siguiente.
- *
- * Ojo con la fase regular: quedarse sin fechas NO es el final del semestre, es el momento en que
- * empiezan los cuadrangulares. Darla por agotada ahí saltaba los playoffs enteros -- el semestre
- * pasaba de regular a regular y nunca había campeón de Apertura ni de Clausura.
- */
-function temporadaAgotada(season: LeagueSeasonState): boolean {
-  const stage = season.stage ?? 'regular';
-  if (stage === 'knockout') {
-    if (season.twoLegKnockout) return !!season.twoLegKnockout.championId;
-    if (season.knockout) return !!season.knockout.championId;
-    return true;
-  }
-  return stage === 'done';
-}
 
-/** La fase regular terminó y toca armar los playoffs (no confundir con temporadaAgotada). */
-function faseRegularTerminada(season: LeagueSeasonState): boolean {
-  return (season.stage ?? 'regular') === 'regular'
-    && season.fixtures.length > 0
-    && !season.fixtures.some(f => !f.played);
-}
+// ACÁ VIVÍA EL MOTOR DE APERTURA/CLAUSURA DEL CALENDARIO VIEJO, y estaba muerto.
+//
+// Eran resolveApeturaClausuraStep y startNextSemester, que se llamaban ENTRE SÍ y nada más las
+// llamaba: un bucle cerrado sin puerta de entrada. Con ellas se van temporadaAgotada y
+// faseRegularTerminada, que tampoco tenían un solo llamador.
+//
+// Quedaron huérfanas el 12 de agosto de 2026, cuando resolvePlayerWeekForLeague pasó a tener un
+// solo camino (resolveLigaPorFecha, que arma la tabla con las fechas del calendario). Nadie las
+// borró entonces, y ese olvido costó caro: eran las únicas que escribían season.knockout y
+// season.twoLegKnockout, así que esos dos cuadros estaban SIEMPRE vacíos -- y nueve lugares los
+// seguían leyendo.
+//
+// Una fuente muerta es más difícil de encontrar que una equivocada. No contradice a nadie:
+// contesta `undefined`, y cada lector lo traduce a "no hay". Por eso el global del cuadrangular no
+// aparecía nunca y la tanda de penales del cuadrangular no se ofrecía jamás.
+//
+// El cuadrangular de verdad vive en PlayerProfile.playoffsDeLiga (ver prepararPlayoffDeLiga).
 
 
 

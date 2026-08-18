@@ -557,17 +557,11 @@ export default function Dashboard({
     // En playoffs se nombra la RONDA concreta ("Semifinal", "Final"), no un "Playoffs" genérico:
     // el jugador llegaba a la final del Apertura sin que nada le dijera en qué instancia estaba.
     // La ronda se deriva de cuántas llaves quedan vivas (ver roundLabelByMatchCount).
-    const rondaActual = (() => {
-      if (season.stage !== 'knockout') return null;
-      const ties = season.twoLegKnockout?.tiesByRound;
-      if (ties?.length) return roundLabelByMatchCount(ties[ties.length - 1].length);
-      const rounds = season.knockout?.matchesByRound;
-      if (rounds?.length) return roundLabelByMatchCount(rounds[rounds.length - 1].length);
-      return null;
-    })();
-    const fase = season.stage === 'knockout' ? ` · ${rondaActual ?? 'Playoffs'}`
-      : season.stage === 'done' ? ' · Finalizado'
-      : '';
+    // Acá se nombraba la ronda del cuadrangular leyendo los cuadros internos de la temporada. Nunca
+    // se llenaron (ver LeagueSeasonState en types.ts) y `stage` tampoco se setea para una liga, así
+    // que esto devolvía null siempre. La ronda del cuadrangular la muestra la tarjeta del próximo
+    // partido, que la saca de playoffsDeLiga -- el cuadro que sí se juega.
+    const fase = season.stage === 'done' ? ' · Finalizado' : '';
     return `${nombre} ${anio}${fase}`;
   })();
   // Los datos de REAL_LEAGUE_LEADERS son una foto de la temporada real previa al inicio de la

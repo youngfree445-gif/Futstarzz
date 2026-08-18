@@ -699,8 +699,21 @@ export interface LeagueSeasonState {
   semester?: 1 | 2; // 1 = Apertura, 2 = Clausura
   semesterStartWeek?: number; // currentWeek en el que arrancó la fase de todos-contra-todos del semestre actual
   stage?: 'regular' | 'knockout' | 'done';
-  knockout?: PlayoffBracket; // Argentina: Cuartos-Semifinal-Final a partido único
-  twoLegKnockout?: TwoLegBracket; // Colombia: Cuartos-Semifinal-Final a ida y vuelta
+  // ACÁ VIVÍAN `knockout` y `twoLegKnockout`, los cuadros de playoff del motor viejo.
+  //
+  // Se fueron porque NADIE LOS LLENABA. Las únicas funciones que los escribían --
+  // resolveApeturaClausuraStep y startNextSemester -- se llamaban entre sí y nada más las llamaba:
+  // un bucle cerrado sin puerta de entrada, resto de la migración al calendario por fechas. Estaban
+  // siempre vacíos, en toda carrera.
+  //
+  // Y sin embargo nueve lugares los leían. Ese es el daño: una fuente MUERTA no contradice a nadie
+  // -- contesta `undefined`, y cada lector lo traduce a "no hay". Por eso el global del
+  // cuadrangular no aparecía nunca y la tanda de penales del cuadrangular no se ofrecía jamás: no
+  // estaban mal calculados, estaban preguntándole a un cuadro que no existe.
+  //
+  // El cuadrangular de verdad vive en `PlayerProfile.playoffsDeLiga` (ver prepararPlayoffDeLiga).
+  // Borrar los campos del tipo fue el arreglo: el compilador señaló los nueve lectores de una y no
+  // se pudo olvidar ninguno.
   stepsConsumed?: number; // cuántas fechas de liga (independiente del semestre) ya se resolvieron en total, para el catch-up perezoso
   // Año de carrera de ESTA temporada, en las ligas de calendario real (Europa). Marca cuándo hay
   // que empezar una temporada nueva: sin él, al terminar las 38 jornadas el fixture quedaba sin
