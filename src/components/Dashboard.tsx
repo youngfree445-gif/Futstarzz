@@ -929,6 +929,17 @@ export default function Dashboard({
   /** El cartel de "todavía no hay rival". Uno solo, para poder reconocerlo después. */
   const RIVAL_SIN_SORTEAR = 'Rival por definir';
 
+  /**
+   * El calendario aparto el dia para copa y NINGUNA copa tiene cruce para vos: hoy no se juega.
+   *
+   * Pasa cuando ya ganaste la copa nacional, cuando te eliminaron, o cuando el cuadro termino antes
+   * que las fechas apartadas. App.tsx en ese caso da el dia por libre -- avanza y avisa --, asi que
+   * la tarjeta no puede seguir ofreciendo "DISPUTAR PARTIDO" con un hueco de rival vacio al lado.
+   * Reportado con captura: la tarjeta decia "SIN PARTIDO DE COPA" y "Rival aun sin sortear", y
+   * abajo el boton de jugar.
+   */
+  let hoySinPartido = false;
+
   let nextMatchOpponent: {
     club: Club | undefined; name: string; isHome: boolean; competition: string;
     jornada: string; rivalPos: number | null; rivalTotal: number | null;
@@ -1109,6 +1120,10 @@ export default function Dashboard({
       ? cruceDeCopaNacionalHoy(playerProfile, currentClub, ULTIMATE_CLUBS_DATABASE, playerProfile.currentWeek)
       : null;
 
+    // Dia de copa sin cruce en NINGUNA copa: hoy no se juega. Se decide con las mismas dos
+    // respuestas que usa App.tsx, asi que no puede discrepar de lo que el partido va a hacer.
+    hoySinPartido = esReservaDeCopa && !continentalDeLaSemana && !cupBracketDeLaSemana;
+
     // PLAYOFF DE LIGA: el rival lo pone el CUADRO, no el calendario.
     //
     // En los cuadrangulares de Colombia y Argentina el calendario real aporta los DÍAS, pero los
@@ -1140,11 +1155,14 @@ export default function Dashboard({
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === continentalDeLaSemana.rivalId)?.name ?? '')
       : cupBracketDeLaSemana
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === cupBracketDeLaSemana.rivalId)?.name ?? '')
-      : esReservaDeCopa
-      // Fecha de copa sin cruce todavía: se dice la verdad en vez de anunciar un rival de liga.
-      ? RIVAL_SIN_SORTEAR
-      // Día de playoff cuyo cuadro todavía no está sembrado (se siembra al llegar la primera fecha):
-      // el rival del calendario es el del cuadrangular real, que no es el que vas a jugar.
+      // Día de copa sin cruce en ninguna copa: ya no llega acá. Lo atiende hoySinPartido, que no
+      // arma tarjeta de rival y cambia el botón por "Pasar a Siguiente Fecha" -- decir "rival por
+      // definir" con el botón de jugar debajo era el contrasentido reportado.
+      //
+      // Queda este último, y es honesto: día de cuadrangular cuyo cuadro no se puede sembrar porque
+      // la tabla de la fase regular todavía está vacía. En una carrera normal no pasa -- el
+      // cuadrangular llega después de 17 o 19 jornadas -- pero si pasara, el rival del calendario es
+      // el del cuadrangular REAL, que no es el que vas a jugar, y anunciarlo sería peor.
       : realDeLaSemana?.esPlayoff
       ? RIVAL_SIN_SORTEAR
       : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
@@ -1157,7 +1175,7 @@ export default function Dashboard({
       : realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
 
-    nextMatchOpponent = {
+    nextMatchOpponent = hoySinPartido ? null : {
       club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === opponentId),
       name: opponentName,
       isHome,
@@ -1171,10 +1189,9 @@ export default function Dashboard({
         // todavía no está sorteado (a propósito, ver arriba) pero la copa del día ya se sabe.
         : cupBracketDeLaSemana || laNacionalTieneCruceHoy
         ? nombreCopaNacional(currentClub.league)
-        // Reserva sin cruce en NINGUNA copa: hoy no se juega nada de copa, y decir el nombre del
-        // torneo que pidió el día sería inventar. App.tsx en ese caso da la semana por libre.
-        : esReservaDeCopa
-        ? 'Sin partido de copa'
+        // El caso "reserva sin cruce en ninguna copa" ya no llega acá: lo atiende hoySinPartido, que
+        // no arma tarjeta de rival. Antes se rotulaba "Sin partido de copa" y aun así se dibujaba el
+        // hueco del rival con el botón de jugar debajo, que era el contrasentido reportado.
         : realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
         ? realDeLaSemana.competition.name
         : currentClub.league,
@@ -3100,6 +3117,23 @@ export default function Dashboard({
                           <span className="text-white font-bold text-sm truncate block">No fuiste convocado esta ventana</span>
                         </div>
                       </div>
+                    ) : hoySinPartido ? (
+                      <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl shrink-0">
+                          ☕
+                        </div>
+                        <div className="min-w-0">
+                          <span className="text-3xs text-slate-500 uppercase font-mono block truncate">Dia libre</span>
+                          <span className="text-white font-bold text-sm block leading-tight">
+                            Hoy no se juega
+                          </span>
+                          {/* Se dice POR QUE, que es la diferencia entre un dia libre y un bug. */}
+                          <span className="text-3xs text-slate-500 block mt-0.5 leading-snug">
+                            El calendario aparto esta fecha para {nombreCopaNacional(currentClub.league)}, y tu
+                            club ya no tiene cruce ahi.
+                          </span>
+                        </div>
+                      </div>
                     ) : nextWeekIsFillerCup ? (
                       <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl flex items-center gap-3">
                         <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl shrink-0">
@@ -3139,7 +3173,9 @@ export default function Dashboard({
                       ? `Recuperándose (${playerProfile.activeInjury.weeksRemaining} sem.)`
                       : temporadaRealTerminada
                       ? 'Finalizar Temporada'
-                      : nextWeekInWorldCupBreak && !nextMatchOpponent ? 'Pasar a Siguiente Fecha' : 'Disputar Partido'} <ArrowRight size={15} />
+                      : hoySinPartido || (nextWeekInWorldCupBreak && !nextMatchOpponent)
+                      ? 'Pasar a Siguiente Fecha'
+                      : 'Disputar Partido'} <ArrowRight size={15} />
                   </button>
                 </div>
 

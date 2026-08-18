@@ -173,7 +173,16 @@ for (const nombre of CLUBES) {
     // "vs Rival por definir" no puede aparecer NUNCA: cuando el cruce todavia no esta sorteado la
     // tarjeta tiene que decirlo como estado, no colar el cartel en el hueco del nombre del rival.
     caso(`${nombre} · paso ${paso}`,
-      () => dibujar(perfilDe(club, { currentWeek: paso }), undefined, null, 'vs Rival por definir'));
+      () => {
+        const html = dibujar(perfilDe(club, { currentWeek: paso }), undefined, null, 'vs Rival por definir');
+        // Un dia sin partido no puede ofrecer jugarlo: o hay rival, o el boton dice "Pasar a
+        // Siguiente Fecha". Reportado con captura: la tarjeta decia "SIN PARTIDO DE COPA" y
+        // "Rival aun sin sortear", y abajo el boton de disputar.
+        if (html.includes('Hoy no se juega') && html.includes('Disputar Partido')) {
+          throw new Error('dice "Hoy no se juega" y ofrece "Disputar Partido" a la vez');
+        }
+        return html;
+      });
   }
 }
 
