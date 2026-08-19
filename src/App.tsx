@@ -65,7 +65,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -383,55 +383,6 @@ const RONDAS_EN_ESPANOL: Record<string, string> = {
  * 48 de 2026: Colombia clasificaba siempre e Italia no jugaba nunca, pasaran veinte años.
  */
 /**
- * EL TORNEO DE SELECCIONES QUE OCUPA EL DIA, con todo lo que hace falta para jugarlo.
- *
- * Son tres y nunca coinciden: el Mundial va en los anos pares de la carrera y los continentales
- * -- Eurocopa y Copa America -- en los del medio. Cual de los dos continentales te toca lo decide
- * tu NACIONALIDAD, no tu club: un colombiano que juega en Italia va a la Copa America.
- *
- * Devuelve null si hoy no hay torneo, o si el jugador no tiene seleccion (su nacionalidad no
- * pertenece a ninguna confederacion con torneo).
- */
-function torneoDeSeleccionesDeHoy(perfil: PlayerProfile, clubName: string): {
-  torneo: TorneoDeSelecciones;
-  equipos: Club[];
-  /** La clave con la que se guarda en perfil.worldCups. */
-  clave: string;
-  pasos: number;
-  miSeleccionId: string;
-} | null {
-  const cual = torneoDeSeleccionesDelDia(clubName, perfil.currentWeek);
-  if (!cual) return null;
-  const miSeleccionId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
-  if (!miSeleccionId) return null;
-  const temporada = temporadaDe(perfil, perfil.currentWeek);
-
-  if (cual === 'mundial') {
-    return {
-      torneo: 'mundial',
-      equipos: seleccionesDelMundialDe(anioDeCarrera(clubName, perfil.currentWeek), perfil),
-      // La clave del Mundial es el numero de temporada a secas: es como se guardo siempre y las
-      // carreras viejas la tienen asi.
-      clave: String(temporada),
-      pasos: pasosDeMundialTranscurridos(clubName, perfil.currentWeek),
-      miSeleccionId,
-    };
-  }
-
-  const torneo = torneoContinentalDe(CONFEDERACION_POR_SELECCION[miSeleccionId]);
-  if (!torneo) return null;   // AFC, CAF y OFC no tienen torneo en esta ventana
-  return {
-    torneo,
-    equipos: torneo === 'eurocopa'
-      ? seleccionesDeLaEurocopa(ALL_NATIONAL_TEAMS_DATABASE)
-      : seleccionesDeLaCopaAmerica(ALL_NATIONAL_TEAMS_DATABASE),
-    clave: `${torneo}-${temporada}`,
-    pasos: pasosDeContinentalTranscurridos(clubName, perfil.currentWeek),
-    miSeleccionId,
-  };
-}
-
-/**
  * Como se llama el torneo de selecciones que para la actividad de clubes hoy.
  *
  * Se nombra el que de verdad ocupa el dia. En los anos del medio son DOS a la vez -- la Eurocopa y
@@ -439,12 +390,25 @@ function torneoDeSeleccionesDeHoy(perfil: PlayerProfile, clubName: string): {
  * CAF, OFC) se nombran los dos, que es lo honesto: su liga para igual porque las de al lado paran.
  */
 function nombreDelParonDeSelecciones(perfil: PlayerProfile, clubName: string): string {
-  if (torneoDeSeleccionesDelDia(clubName, perfil.currentWeek) === 'mundial') return 'el Mundial';
-  const mia = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
-  const torneo = mia ? torneoContinentalDe(CONFEDERACION_POR_SELECCION[mia]) : null;
-  if (torneo === 'eurocopa') return 'la Eurocopa';
-  if (torneo === 'copaamerica') return 'la Copa America';
-  return 'la Eurocopa y la Copa America';
+  const hoy = torneoDeSeleccionesDeHoyEnApp(perfil, clubName);
+  if (hoy?.torneo === 'mundial') return 'el Mundial';
+  if (hoy?.torneo === 'eurocopa') return 'la Eurocopa';
+  if (hoy?.torneo === 'copaamerica') return 'la Copa America';
+  return torneoDeSeleccionesDelDia(clubName, perfil.currentWeek) === 'mundial'
+    ? 'el Mundial'
+    : 'la Eurocopa y la Copa America';
+}
+
+/**
+ * Envoltorio de torneoDeSeleccionesDeHoy con las selecciones del Mundial de ESTE ciclo.
+ *
+ * La funcion compartida no puede calcularlas: salen de las eliminatorias jugadas en esta carrera,
+ * que es cuenta de App. El Dashboard le pasa las 48 de siempre, que para dibujar la tarjeta alcanza.
+ */
+function torneoDeSeleccionesDeHoyEnApp(perfil: PlayerProfile, clubName: string) {
+  return torneoDeSeleccionesDeHoy(
+    perfil, clubName, temporadaDe(perfil, perfil.currentWeek),
+    seleccionesDelMundialDe(anioDeCarrera(clubName, perfil.currentWeek), perfil));
 }
 
 function seleccionesDelMundialDe(anio: number, perfil: PlayerProfile): Club[] {
@@ -2966,7 +2930,7 @@ export default function App() {
       // Los tres torneos de selecciones pasan por aca: el Mundial y, en los anos del medio, la
       // Eurocopa o la Copa America segun tu nacionalidad. Ver torneoDeSeleccionesDeHoy, que es
       // quien contesta cual es y con quienes se juega.
-      const hoy = torneoDeSeleccionesDeHoy(playerProfile, myClubForSchedule?.name ?? '');
+      const hoy = torneoDeSeleccionesDeHoyEnApp(playerProfile, myClubForSchedule?.name ?? '');
       const wcTeamId = hoy?.miSeleccionId;
       const isEligible = !!hoy
         && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
@@ -4759,7 +4723,7 @@ export default function App() {
       const clubDelMundial = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
       // Mismo helper que al ofrecer el partido: si el torneo se resolviera con otros equipos o bajo
       // otra clave que los que se ofrecieron, el resultado caeria en un torneo que no es.
-      const hoy = torneoDeSeleccionesDeHoy(playerProfile, clubDelMundial?.name ?? '');
+      const hoy = torneoDeSeleccionesDeHoyEnApp(playerProfile, clubDelMundial?.name ?? '');
       const seleccionesDeEsteMundial = hoy?.equipos ?? WORLD_CUP_TEAMS_DATABASE;
       const clave = hoy?.clave ?? String(temporadaDe(playerProfile, playerProfile.currentWeek));
       const wcBeforeMatch = getOrCreateWorldCupState(
@@ -4773,6 +4737,30 @@ export default function App() {
         foundShootoutMyName = seleccionesDeEsteMundial.find(t => t.id === activeWorldCupTeamId)?.name || '';
       }
       updatedWorldCups = { ...playerProfile.worldCups, [clave]: resolvedWorldCup };
+
+      // GANAR CON LA SELECCION SE ANOTA COMO TITULO.
+      //
+      // No se anotaba. La vitrina lo DEDUCIA del estado guardado -- por eso el trofeo aparecia --
+      // pero los logros leen cupTitles, asi que "Campeon del Mundo", "El Record de Pele" (tres
+      // Mundiales) y el de ganarlo antes de los 20 eran inalcanzables aunque lo ganaras. Es la
+      // misma forma de bug que el Mundial que no coronaba: nadie escribia el dato que otro leia.
+      if (resolvedWorldCup.championId && resolvedWorldCup.championId === activeWorldCupTeamId) {
+        const comoSeLlama: Record<TorneoDeSelecciones, string> = {
+          mundial: 'Copa del Mundo', eurocopa: 'Eurocopa', copaamerica: 'Copa América',
+        };
+        cupTitleWon = {
+          competition: comoSeLlama[hoy?.torneo ?? 'mundial'],
+          year: anioDeCarrera(clubDelMundial?.name ?? '', playerProfile.currentWeek),
+          clubId: activeWorldCupTeamId,
+          tipo: 'copa',
+        };
+        setChampionInfo({
+          competition: comoSeLlama[hoy?.torneo ?? 'mundial'],
+          clubName: seleccionesDeEsteMundial.find(t => t.id === activeWorldCupTeamId)?.name ?? '',
+          season: String(anioDeCarrera(clubDelMundial?.name ?? '', playerProfile.currentWeek)),
+          badgeUrl: null,
+        });
+      }
     }
 
     // Si tu partido terminó igualado en eliminación directa y todavía no jugaste la tanda en vivo,

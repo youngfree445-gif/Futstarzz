@@ -21,10 +21,19 @@ export type TipoTrofeo = 'liga' | 'copa' | 'continental' | 'mundial';
 export interface Trofeo {
   id: string;            // estable: sirve de key en React y para deduplicar
   nombre: string;        // "Liga BetPlay Dimayor", "Copa Libertadores"
-  detalle: string;       // "Clausura 2027", "2029"
+  detalle: string;       // "Apertura 2026, 2027", "2029"
   clubName: string;      // con qué club lo ganó
   tipo: TipoTrofeo;
-  orden: number;         // año aproximado, para ordenar del más nuevo al más viejo
+  orden: number;         // año del más reciente, para ordenar del más nuevo al más viejo
+  /**
+   * "Apertura" / "Clausura", cuando la liga reparte dos títulos por año.
+   *
+   * Es parte de la IDENTIDAD del trofeo, no un adorno del texto: tres Aperturas y un Clausura son
+   * dos vitrinas distintas, no cuatro tarjetas ni una sola. Por eso entra en la clave que agrupa.
+   */
+  torneo?: string;
+  /** Los años en que lo ganó, del más nuevo al más viejo. */
+  anios: number[];
 }
 
 interface ClubLookup {
@@ -137,6 +146,8 @@ export function getPalmares(
       clubName: clubCampeon.name,
       tipo: 'liga',
       orden: anio,
+      torneo: formato ? (season.semester === 2 ? 'Clausura' : 'Apertura') : undefined,
+      anios: [anio],
     });
   }
 
@@ -151,6 +162,7 @@ export function getPalmares(
       clubName: nombreDe(cup.championId),
       tipo: 'continental',
       orden: cup.year,
+      anios: [cup.year],
     });
   }
 
@@ -162,6 +174,7 @@ export function getPalmares(
       id: `uefa-${cup.cupId}-${cup.year}`,
       nombre: cup.cupId === 'champions' ? 'UEFA Champions League' : 'UEFA Europa League',
       detalle: `Edición ${cup.year}`,
+      anios: [cup.year],
       clubName: nombreDe(cup.championId),
       tipo: 'continental',
       orden: CAREER_START_YEAR + cup.year,
@@ -177,6 +190,8 @@ export function getPalmares(
       id: `titulo-${t.competition}-${t.year}-${t.torneo ?? ''}`,
       nombre: t.competition,
       detalle: t.torneo ? `${t.torneo} ${t.year}` : String(t.year),
+      torneo: t.torneo,
+      anios: [t.year],
       clubName: nombreDe(t.clubId),
       // Las copas nacionales (Copa BetPlay, Superliga) van como 'copa', no como 'continental':
       // compartir tipo con la Libertadores les daba el mismo ícono en la vitrina.
@@ -188,21 +203,62 @@ export function getPalmares(
   // --- Mundial ---
   // Acá el "club" es el seleccionado, así que no se filtra por misClubes: se compara contra el
   // equipo nacional con el que el jugador fue convocado.
+  const NOMBRE_DEL_TORNEO = {
+    mundial: 'Copa del Mundo', eurocopa: 'Eurocopa', copaamerica: 'Copa América',
+  } as const;
   for (const wc of Object.values(profile.worldCups ?? {}) as WorldCupState[]) {
     if (wc?.stage !== 'done' || !wc.championId) continue;
     if (!seleccionId || wc.championId !== seleccionId) continue;
+    const nombre = NOMBRE_DEL_TORNEO[wc.torneo ?? 'mundial'];
+    // Desde que App.tsx anota el titulo al ganarlo, esta deduccion es el respaldo para las carreras
+    // que ganaron antes de ese cambio. Sin el corte saldrian dos tarjetas del mismo trofeo: una
+    // deducida y otra anotada.
+    const yaAnotado = (profile.cupTitles ?? []).some(t => t.competition === nombre && t.year === wc.year);
+    if (yaAnotado) continue;
     trofeos.push({
-      id: `mundial-${wc.year}`,
-      nombre: 'Copa del Mundo',
+      id: `seleccion-${wc.torneo ?? 'mundial'}-${wc.year}`,
+      nombre,
       detalle: String(wc.year),
       clubName: 'Selección',
       tipo: 'mundial',
       orden: wc.year,
+      anios: [wc.year],
     });
   }
+
+  // UNA TARJETA POR TROFEO, con todos los años adentro.
+  //
+  // Ganar tres veces la misma liga son tres títulos pero UNA vitrina: repetir la tarjeta llena la
+  // lista de renglones idénticos donde lo único que cambia es el año, y a los diez años de carrera
+  // ya no se ve nada. Pedido: "que no sean cuadros distintos, sino que en el mismo cuadro de esa
+  // competición pongas los años que la ganaste".
+  //
+  // La clave lleva el TORNEO además del nombre, y ahí está el detalle que importa: en las ligas de
+  // Apertura y Clausura son dos campeonatos distintos con su propio campeón, así que tres Aperturas
+  // y un Clausura tienen que ser DOS tarjetas -- "Apertura 2026, 2027, 2028" y "Clausura 2027" --
+  // y no una sola de Liga BetPlay con cuatro años mezclados.
+  //
+  // Y lleva el CLUB porque el mismo título ganado con dos camisetas son dos historias: juntarlas
+  // dejaría una tarjeta con años de un club y el nombre del otro.
+  const porTrofeo = new Map<string, Trofeo>();
+  for (const t of trofeos) {
+    const clave = `${t.nombre}|${t.torneo ?? ''}|${t.clubName}`;
+    const ya = porTrofeo.get(clave);
+    if (!ya) { porTrofeo.set(clave, { ...t, id: clave, anios: [...t.anios] }); continue; }
+    for (const anio of t.anios) if (!ya.anios.includes(anio)) ya.anios.push(anio);
+    ya.orden = Math.max(ya.orden, t.orden);
+  }
+
+  const agrupados = [...porTrofeo.values()].map(t => {
+    // Los años van del más VIEJO al más nuevo: adentro de una tarjeta se leen como una racha
+    // ("2026, 2027, 2028"), no como una lista. Entre tarjetas manda el más reciente, que es `orden`.
+    const anios = [...t.anios].sort((a, b) => a - b);
+    // "Apertura 2026, 2027" -- el torneo una sola vez y después los años. Sin torneo, sólo los años.
+    return { ...t, anios, detalle: [t.torneo, anios.join(', ')].filter(Boolean).join(' ') };
+  });
 
   // Más nuevo primero, y a igualdad de año el trofeo más importante arriba.
   // La copa nacional pesa menos que la liga: ganar el campeonato vale más que la copa.
   const peso: Record<TipoTrofeo, number> = { mundial: 0, continental: 1, liga: 2, copa: 3 };
-  return trofeos.sort((a, b) => (b.orden - a.orden) || (peso[a.tipo] - peso[b.tipo]));
+  return agrupados.sort((a, b) => (b.orden - a.orden) || (peso[a.tipo] - peso[b.tipo]));
 }

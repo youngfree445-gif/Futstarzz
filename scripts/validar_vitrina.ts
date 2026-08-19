@@ -21,6 +21,7 @@ const ok = (nombre: string, cond: boolean, detalle = '') => {
 };
 
 const junior = ULTIMATE_CLUBS_DATABASE.find(c => c.name === 'Junior de Barranquilla')!;
+const nacional = ULTIMATE_CLUBS_DATABASE.find(c => c.name === 'Atlético Nacional')!;
 const rival = ULTIMATE_CLUBS_DATABASE.find(c => c.league === 'Colombiana' && c.id !== junior.id)!;
 
 // Ocho fechas jugadas, Junior primero. Es EXACTAMENTE el estado de la captura.
@@ -57,5 +58,42 @@ const conTitulo = { ...perfil, cupTitles: [
 ok('un titulo ganado de verdad SI aparece en la vitrina',
    getPalmares(conTitulo, ULTIMATE_CLUBS_DATABASE as any, nombreDeLiga, dosTorneos).some(t => t.tipo === 'liga'));
 
-console.log(fallas === 0 ? '\nLos 2 casos pasan.' : `\n${fallas} FALLAS`);
+// =================================================================================================
+// UNA TARJETA POR TROFEO, CON TODOS SUS ANOS
+// =================================================================================================
+//
+// Ganar tres veces la misma liga son tres titulos pero UNA vitrina. Y el Apertura y el Clausura son
+// dos campeonatos distintos con su propio campeon, asi que van en tarjetas separadas: tres Aperturas
+// y un Clausura son DOS tarjetas, no cuatro ni una.
+
+const repetidos = { ...perfil, cupTitles: [
+  { competition: 'Liga BetPlay Dimayor', year: 2026, clubId: junior.id, torneo: 'Apertura', tipo: 'liga' },
+  { competition: 'Liga BetPlay Dimayor', year: 2027, clubId: junior.id, torneo: 'Apertura', tipo: 'liga' },
+  { competition: 'Liga BetPlay Dimayor', year: 2028, clubId: junior.id, torneo: 'Apertura', tipo: 'liga' },
+  { competition: 'Liga BetPlay Dimayor', year: 2027, clubId: junior.id, torneo: 'Clausura', tipo: 'liga' },
+  { competition: 'Superliga de Colombia', year: 2026, clubId: junior.id, tipo: 'copa' },
+  { competition: 'Superliga de Colombia', year: 2027, clubId: junior.id, tipo: 'copa' },
+] } as unknown as PlayerProfile;
+const vitrina = getPalmares(repetidos, ULTIMATE_CLUBS_DATABASE as any, nombreDeLiga, dosTorneos);
+const buscar = (d: string) => vitrina.find(t => t.detalle === d);
+
+ok('los tres Aperturas van en UNA tarjeta, con sus tres anos',
+   !!buscar('Apertura 2026, 2027, 2028'),
+   vitrina.map(t => `${t.nombre} [${t.detalle}]`).join(' · '));
+ok('y el Clausura va APARTE: es otro campeonato', !!buscar('Clausura 2027'));
+ok('la Superliga repetida tambien se junta', !!buscar('2026, 2027'));
+ok('seis titulos entran en tres tarjetas', vitrina.length === 3, `${vitrina.length} tarjetas`);
+ok('y la cuenta de titulos sigue siendo seis',
+   vitrina.reduce((n, t) => n + t.anios.length, 0) === 6);
+
+// El mismo titulo con dos camisetas NO se junta: seria una tarjeta con anos de un club y el
+// nombre del otro.
+const dosClubes = { ...perfil, cupTitles: [
+  { competition: 'Liga BetPlay Dimayor', year: 2026, clubId: junior.id, torneo: 'Apertura', tipo: 'liga' },
+  { competition: 'Liga BetPlay Dimayor', year: 2029, clubId: nacional.id, torneo: 'Apertura', tipo: 'liga' },
+] } as unknown as PlayerProfile;
+ok('el mismo titulo con dos clubes distintos son dos tarjetas',
+   getPalmares(dosClubes, ULTIMATE_CLUBS_DATABASE as any, nombreDeLiga, dosTorneos).length === 2);
+
+console.log(fallas === 0 ? '\nLos casos pasan.' : `\n${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

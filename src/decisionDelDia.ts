@@ -31,10 +31,12 @@
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
 import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
-import { fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { resolverClubDeCalendario } from './clubAliases';
+import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from './data';
+import { CONFEDERACION_POR_SELECCION, seleccionesDeLaCopaAmerica, seleccionesDeLaEurocopa, torneoContinentalDe } from './eliminatorias';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
-import { getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
+import { type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
 
 /**
@@ -436,4 +438,75 @@ export function repescadosDeLaLibertadores(perfil: PlayerProfile, temporada: num
   const lib = perfil.continentalCups?.[`libertadores-${temporada}`];
   const terceros = lib ? tercerosDeGrupo(lib) : [];
   return terceros.length ? terceros : undefined;
+}
+
+
+/**
+ * EL TORNEO DE SELECCIONES QUE OCUPA EL DIA, con todo lo que hace falta para jugarlo.
+ *
+ * Son tres y nunca coinciden: el Mundial va en los anos pares de la carrera y los continentales
+ * -- Eurocopa y Copa America -- en los del medio. Cual de los dos continentales te toca lo decide
+ * tu NACIONALIDAD, no tu club: un colombiano que juega en Italia va a la Copa America.
+ *
+ * Devuelve null si hoy no hay torneo, o si el jugador no tiene seleccion (su nacionalidad no
+ * pertenece a ninguna confederacion con torneo).
+ */
+export function torneoDeSeleccionesDeHoy(
+  perfil: PlayerProfile,
+  clubName: string,
+  temporada: number,
+  /** Las selecciones del Mundial de este ciclo. Solo App las sabe: salen de las eliminatorias. */
+  seleccionesDelMundial: Club[],
+): {
+  torneo: TorneoDeSelecciones;
+  equipos: Club[];
+  /** La clave con la que se guarda en perfil.worldCups. */
+  clave: string;
+  pasos: number;
+  miSeleccionId: string;
+} | null {
+  const cual = torneoDeSeleccionesDelDia(clubName, perfil.currentWeek);
+  if (!cual) return null;
+  const miSeleccionId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
+  if (!miSeleccionId) return null;
+
+  if (cual === 'mundial') {
+    return {
+      torneo: 'mundial',
+      equipos: seleccionesDelMundial,
+      // La clave del Mundial es el numero de temporada a secas: es como se guardo siempre y las
+      // carreras viejas la tienen asi.
+      clave: String(temporada),
+      pasos: pasosDeMundialTranscurridos(clubName, perfil.currentWeek),
+      miSeleccionId,
+    };
+  }
+
+  const torneo = torneoContinentalDe(CONFEDERACION_POR_SELECCION[miSeleccionId]);
+  if (!torneo) return null;   // AFC, CAF y OFC no tienen torneo en esta ventana
+  return {
+    torneo,
+    equipos: torneo === 'eurocopa'
+      ? seleccionesDeLaEurocopa(ALL_NATIONAL_TEAMS_DATABASE)
+      : seleccionesDeLaCopaAmerica(ALL_NATIONAL_TEAMS_DATABASE),
+    clave: `${torneo}-${temporada}`,
+    pasos: pasosDeContinentalTranscurridos(clubName, perfil.currentWeek),
+    miSeleccionId,
+  };
+}
+
+/**
+ * Como se llama el torneo de selecciones que para la actividad de clubes hoy.
+ *
+ * Se nombra el que de verdad ocupa el dia. En los anos del medio son DOS a la vez -- la Eurocopa y
+ * la Copa America --, asi que se nombra el del jugador; si su confederacion no tiene ninguno (AFC,
+ * CAF, OFC) se nombran los dos, que es lo honesto: su liga para igual porque las de al lado paran.
+ */
+function nombreDelParonDeSelecciones(perfil: PlayerProfile, clubName: string): string {
+  if (torneoDeSeleccionesDelDia(clubName, perfil.currentWeek) === 'mundial') return 'el Mundial';
+  const mia = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
+  const torneo = mia ? torneoContinentalDe(CONFEDERACION_POR_SELECCION[mia]) : null;
+  if (torneo === 'eurocopa') return 'la Eurocopa';
+  if (torneo === 'copaamerica') return 'la Copa America';
+  return 'la Eurocopa y la Copa America';
 }

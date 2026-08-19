@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { jornadaDeLiga, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
+import { torneoDeSeleccionesDelDia, jornadaDeLiga, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -16,7 +16,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
+import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -880,7 +880,9 @@ export default function Dashboard({
   // leagueEngine.ts), NI la liga doméstica NI Libertadores/Champions tienen partido -- están
   // realmente congeladas -- así que el único rival posible es el de la selección (y solo si estás
   // convocado y tu selección todavía tiene partido pendiente esa semana puntual).
-  const nextWeekInWorldCupBreak = enVentanaDelMundial(currentClub.name, playerProfile.currentWeek);
+  // El paron es de SELECCIONES, no solo del Mundial: en los anios del medio lo ocupan la Eurocopa y
+  // la Copa America. Ver torneoDeSeleccionesDelDia, que contesta cual de los tres es.
+  const nextWeekInWorldCupBreak = !!torneoDeSeleccionesDelDia(currentClub.name, playerProfile.currentWeek);
   // Igual que en App: lo que se juega hoy lo dice el calendario. Con isCupWeek, la tarjeta y el
   // partido de verdad se decidían por caminos distintos y podían no coincidir.
   const nextWeekIsCup = !nextWeekInWorldCupBreak
@@ -1055,21 +1057,31 @@ export default function Dashboard({
     rivalPorDefinir: boolean;
   } | null = null;
   if (nextWeekInWorldCupBreak) {
-    const wcYear = temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
-    const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
-    const isEligible = !!wcTeamId
+    // Los tres torneos de selecciones pasan por aca. Cual es y con quienes se juega lo contesta
+    // torneoDeSeleccionesDeHoy -- el MISMO que usa App al ofrecer el partido, para que la tarjeta no
+    // pueda anunciar un torneo y el boton meter en otro.
+    const hoy = torneoDeSeleccionesDeHoy(
+      playerProfile, currentClub.name,
+      temporadaDeCarrera(currentClub.name, playerProfile.currentWeek),
+      // Las 48 de siempre: para dibujar la tarjeta alcanza, y esta pantalla no tiene de donde
+      // sacar las clasificadas de esta carrera (eso lo sabe App).
+      WORLD_CUP_TEAMS_DATABASE);
+    const isEligible = !!hoy
       && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
       && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
-    if (isEligible) {
-      const wcState = getOrCreateWorldCupState(wcYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[wcYear], pasosDeMundialTranscurridos(currentClub.name, playerProfile.currentWeek));
-      const upcoming = getUpcomingWorldCupMatch(wcState, wcTeamId!);
+    if (isEligible && hoy) {
+      const wcState = getOrCreateWorldCupState(
+        temporadaDeCarrera(currentClub.name, playerProfile.currentWeek), hoy.equipos,
+        playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo);
+      const upcoming = getUpcomingWorldCupMatch(wcState, hoy.miSeleccionId);
       if (upcoming) {
+        const NOMBRE = { mundial: 'Copa Mundial FIFA', eurocopa: 'Eurocopa', copaamerica: 'Copa América' } as const;
         nextMatchOpponent = {
-          club: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId),
-          name: WORLD_CUP_TEAMS_DATABASE.find(t => t.id === upcoming.opponentId)?.name || '',
+          club: hoy.equipos.find(t => t.id === upcoming.opponentId),
+          name: hoy.equipos.find(t => t.id === upcoming.opponentId)?.name || '',
           isHome: upcoming.isHome,
-          rivalPorDefinir: false,   // el cuadro del Mundial ya esta sorteado cuando hay partido
-          competition: 'Copa Mundial FIFA',
+          rivalPorDefinir: false,   // el cuadro ya esta sorteado cuando hay partido
+          competition: NOMBRE[hoy.torneo],
           jornada: 'Fecha FIFA',
           rivalPos: null,
           rivalTotal: null
@@ -2997,8 +3009,13 @@ export default function Dashboard({
                   <div className="mt-4 pt-3 border-t border-slate-800">
                     <h4 className="text-3xs font-black uppercase tracking-widest text-slate-400 mb-2.5 flex items-center gap-1.5">
                       <Trophy size={12} className="text-gold-400" /> Vitrina de Trofeos
+                      {/* Cuenta TITULOS, no tarjetas: desde que una tarjeta junta todos los años de
+                          la misma competicion, `misTrofeos.length` seria "2" con cuatro campeonatos
+                          encima. El numero de la vitrina es cuantas veces saliste campeon. */}
                       {misTrofeos.length > 0 && (
-                        <span className="ml-auto text-gold-400 font-mono">{misTrofeos.length}</span>
+                        <span className="ml-auto text-gold-400 font-mono">
+                          {misTrofeos.reduce((n, t) => n + t.anios.length, 0)}
+                        </span>
                       )}
                     </h4>
 
