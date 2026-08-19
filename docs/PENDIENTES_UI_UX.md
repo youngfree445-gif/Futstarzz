@@ -35,6 +35,17 @@ partido, así que **nada de esto valida motor, calendarios ni datos**.
   pantalla. `MatchDecision` ahora acepta `requiereDiferencia`, y esas dos decisiones sólo entran al
   sorteo si la diferencia de gol coincide de verdad.
 
+### Imágenes
+
+- **Overlay uniforme sobre las imágenes de la Tienda.** El catálogo pasó de 6 fotos elegidas a mano
+  a 50 de banco, con brillos que van de un estudio de TV iluminado a una cancha de noche, y el
+  título blanco se lavaba sobre las claras. Se resolvió con **dos capas**: el degradado de siempre,
+  más denso, y encima un velo parejo y débil (`bg-slate-950/15`) sobre toda la tarjeta — el
+  degradado sólo oscurece abajo, así que sin el velo la mitad superior seguía siendo un collage.
+
+  La grilla de **patrocinios** se había quedado con una sola capa aunque comparte pantalla con la
+  Tienda en la misma sesión. Ahora lleva las dos.
+
 ### Rótulos
 
 - **"Relación DT" no era una etiqueta mentirosa: era un dato con DOS nombres.** La auditoría lo
@@ -182,8 +193,6 @@ no un defecto.
      cancha.
 
    Sin esa decisión tomada, no se empieza.
-4. **Overlay uniforme sobre las imágenes de la Tienda**, que varían en brillo y recorte. Ya tienen un
-   degradado; falta emparejar el brillo.
 
 ### Bajo / dirección de diseño
 

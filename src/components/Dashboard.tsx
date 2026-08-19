@@ -4830,8 +4830,11 @@ export default function Dashboard({
                       }`}
                     >
                       <div className="relative h-28 shrink-0 overflow-hidden">
-                        {/* Mismo filtro que la Tienda: las dos grillas se ven una al lado de la otra
-                            en la misma sesión y tienen que sentirse del mismo juego. */}
+                        {/* Mismo filtro Y MISMO OVERLAY que la Tienda: las dos grillas se ven una al
+                            lado de la otra en la misma sesión y tienen que sentirse del mismo juego.
+                            El filtro ya era el mismo; el velo parejo de arriba se había quedado sólo
+                            en la Tienda, así que acá la mitad superior seguía siendo un collage de
+                            brillos -- que es justo lo que el velo existe para emparejar. */}
                         {item.image ? (
                           <img
                             src={item.image}
@@ -4845,7 +4848,8 @@ export default function Dashboard({
                             <Handshake size={32} />
                           </div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                        <div className="absolute inset-0 bg-slate-950/15" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
                         <span className="absolute bottom-2 left-3 text-sm font-black text-white drop-shadow-lg leading-tight pr-3">
                           {item.name}
                         </span>
