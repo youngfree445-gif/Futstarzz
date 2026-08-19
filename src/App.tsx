@@ -7,6 +7,7 @@ import {
 } from './data';
 import {
   CONFEDERACION_POR_SELECCION, crearEliminatoria, esJugable, ponerAlDiaLaEliminatoria,
+  seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica, torneoContinentalDe,
   proximoPartidoDeEliminatoria, resolverPasoEliminatoria, seleccionesDelMundial, tablaDeEliminatoria,
   terminarEliminatoria, zonaDe,
 } from './eliminatorias';
@@ -19,7 +20,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { pasosDeContinentalTranscurridos, torneoDeSeleccionesDelDia, type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -33,7 +34,7 @@ import {
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
-  simulatePenaltyShootout, roundLabelByMatchCount, tercerosDeGrupo, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
+  type TorneoDeSelecciones, simulatePenaltyShootout, roundLabelByMatchCount, tercerosDeGrupo, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
@@ -381,6 +382,71 @@ const RONDAS_EN_ESPANOL: Record<string, string> = {
  * Antes acá iba siempre WORLD_CUP_TEAMS_DATABASE, y por eso el Mundial 2030 lo jugaban las mismas
  * 48 de 2026: Colombia clasificaba siempre e Italia no jugaba nunca, pasaran veinte años.
  */
+/**
+ * EL TORNEO DE SELECCIONES QUE OCUPA EL DIA, con todo lo que hace falta para jugarlo.
+ *
+ * Son tres y nunca coinciden: el Mundial va en los anos pares de la carrera y los continentales
+ * -- Eurocopa y Copa America -- en los del medio. Cual de los dos continentales te toca lo decide
+ * tu NACIONALIDAD, no tu club: un colombiano que juega en Italia va a la Copa America.
+ *
+ * Devuelve null si hoy no hay torneo, o si el jugador no tiene seleccion (su nacionalidad no
+ * pertenece a ninguna confederacion con torneo).
+ */
+function torneoDeSeleccionesDeHoy(perfil: PlayerProfile, clubName: string): {
+  torneo: TorneoDeSelecciones;
+  equipos: Club[];
+  /** La clave con la que se guarda en perfil.worldCups. */
+  clave: string;
+  pasos: number;
+  miSeleccionId: string;
+} | null {
+  const cual = torneoDeSeleccionesDelDia(clubName, perfil.currentWeek);
+  if (!cual) return null;
+  const miSeleccionId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
+  if (!miSeleccionId) return null;
+  const temporada = temporadaDe(perfil, perfil.currentWeek);
+
+  if (cual === 'mundial') {
+    return {
+      torneo: 'mundial',
+      equipos: seleccionesDelMundialDe(anioDeCarrera(clubName, perfil.currentWeek), perfil),
+      // La clave del Mundial es el numero de temporada a secas: es como se guardo siempre y las
+      // carreras viejas la tienen asi.
+      clave: String(temporada),
+      pasos: pasosDeMundialTranscurridos(clubName, perfil.currentWeek),
+      miSeleccionId,
+    };
+  }
+
+  const torneo = torneoContinentalDe(CONFEDERACION_POR_SELECCION[miSeleccionId]);
+  if (!torneo) return null;   // AFC, CAF y OFC no tienen torneo en esta ventana
+  return {
+    torneo,
+    equipos: torneo === 'eurocopa'
+      ? seleccionesDeLaEurocopa(ALL_NATIONAL_TEAMS_DATABASE)
+      : seleccionesDeLaCopaAmerica(ALL_NATIONAL_TEAMS_DATABASE),
+    clave: `${torneo}-${temporada}`,
+    pasos: pasosDeContinentalTranscurridos(clubName, perfil.currentWeek),
+    miSeleccionId,
+  };
+}
+
+/**
+ * Como se llama el torneo de selecciones que para la actividad de clubes hoy.
+ *
+ * Se nombra el que de verdad ocupa el dia. En los anos del medio son DOS a la vez -- la Eurocopa y
+ * la Copa America --, asi que se nombra el del jugador; si su confederacion no tiene ninguno (AFC,
+ * CAF, OFC) se nombran los dos, que es lo honesto: su liga para igual porque las de al lado paran.
+ */
+function nombreDelParonDeSelecciones(perfil: PlayerProfile, clubName: string): string {
+  if (torneoDeSeleccionesDelDia(clubName, perfil.currentWeek) === 'mundial') return 'el Mundial';
+  const mia = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
+  const torneo = mia ? torneoContinentalDe(CONFEDERACION_POR_SELECCION[mia]) : null;
+  if (torneo === 'eurocopa') return 'la Eurocopa';
+  if (torneo === 'copaamerica') return 'la Copa America';
+  return 'la Eurocopa y la Copa America';
+}
+
 function seleccionesDelMundialDe(anio: number, perfil: PlayerProfile): Club[] {
   if (anio <= CAREER_START_YEAR) return WORLD_CUP_TEAMS_DATABASE;
   // Se cierra lo que haya quedado a medio jugar: el calendario no siempre le alcanza al club para
@@ -2575,7 +2641,7 @@ export default function App() {
           return;
         }
         const miClubHoy = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-        const inWorldCupBreak = !!miClubHoy && enVentanaDelMundial(miClubHoy.name, playerProfile.currentWeek);
+        const inWorldCupBreak = !!miClubHoy && !!torneoDeSeleccionesDelDia(miClubHoy.name, playerProfile.currentWeek);
         const isCup = !inWorldCupBreak && !!miClubHoy
           && esDiaDeCopa(miClubHoy.name, playerProfile.currentWeek);
 
@@ -2719,8 +2785,11 @@ export default function App() {
     //
     // Va DESPUÉS de myClubForSchedule a propósito: declararlo antes es el TDZ que ya dejó la
     // pantalla en blanco una vez.
+    // El paron es de SELECCIONES, no solo del Mundial: en los anos del medio lo ocupan la Eurocopa
+    // y la Copa America, y las ligas paran igual. Se llamaba inWorldCupBreak y valia true durante
+    // la Euro, que es la clase de nombre que este proyecto viene sacando.
     const inWorldCupBreak = !!myClubForSchedule
-      && enVentanaDelMundial(myClubForSchedule.name, playerProfile.currentWeek);
+      && !!torneoDeSeleccionesDelDia(myClubForSchedule.name, playerProfile.currentWeek);
 
     const tieneFechasReales = !!myClubForSchedule && hasDatedLeagueSchedule(myClubForSchedule.name);
     const datedStep = tieneFechasReales && !inWorldCupBreak
@@ -2894,22 +2963,24 @@ export default function App() {
     }
 
     if (inWorldCupBreak) {
-      const year = temporadaDe(playerProfile, playerProfile.currentWeek);
-      // `year` es el NÚMERO de temporada (1, 2, 3...) y es la clave con la que se guarda el Mundial.
-      // Para saber QUIÉNES lo juegan hace falta el año calendario: las eliminatorias se guardan por
-      // año de Mundial (2030), no por número de temporada.
-      const anioDelMundial = anioDeCarrera(myClubForSchedule?.name ?? '', playerProfile.currentWeek);
-      const wcTeamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
-      const isEligible = !!wcTeamId
+      // Los tres torneos de selecciones pasan por aca: el Mundial y, en los anos del medio, la
+      // Eurocopa o la Copa America segun tu nacionalidad. Ver torneoDeSeleccionesDeHoy, que es
+      // quien contesta cual es y con quienes se juega.
+      const hoy = torneoDeSeleccionesDeHoy(playerProfile, myClubForSchedule?.name ?? '');
+      const wcTeamId = hoy?.miSeleccionId;
+      const isEligible = !!hoy
         && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
         && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
 
-      const upcoming = isEligible
-        ? getUpcomingWorldCupMatch(getOrCreateWorldCupState(year, seleccionesDelMundialDe(anioDelMundial, playerProfile), playerProfile.worldCups[year], pasosDeMundialTranscurridos(myClubForSchedule?.name ?? '', playerProfile.currentWeek)), wcTeamId!)
+      const upcoming = isEligible && hoy
+        ? getUpcomingWorldCupMatch(
+            getOrCreateWorldCupState(temporadaDe(playerProfile, playerProfile.currentWeek), hoy.equipos,
+              playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo),
+            hoy.miSeleccionId)
         : null;
 
-      if (upcoming) {
-        const opponentTeam = seleccionesDelMundialDe(anioDelMundial, playerProfile).find(t => t.id === upcoming.opponentId);
+      if (upcoming && hoy) {
+        const opponentTeam = hoy.equipos.find(t => t.id === upcoming.opponentId);
         opName = opponentTeam?.name || '';
         opClubId = upcoming.opponentId;
         isHomeThisMatch = upcoming.isHome;
@@ -2959,7 +3030,9 @@ export default function App() {
         }
         setPlayerProfile(aged);
         saveGameState(aged, shopItems);
-        notify('📅 FECHA FIFA: el Mundial paraliza la actividad de clubes en todo el mundo. Esta semana no hay partido de liga ni de copa para tu club.');
+        // El cartel nombra el torneo que de verdad para la actividad. Decia "el Mundial" siempre, y
+        // en los anos del medio el paron es de la Eurocopa y la Copa America.
+        notify(`📅 FECHA FIFA: ${nombreDelParonDeSelecciones(playerProfile, myClubForSchedule?.name ?? '')} paraliza la actividad de clubes. Esta fecha no hay partido de liga ni de copa para tu club.`);
         return;
       }
     } else if (
@@ -4683,11 +4756,15 @@ export default function App() {
         };
       }
     } else if (isCopaLibertadores && activeWorldCupTeamId && activeOppositionClubId) {
-      const year = temporadaDe(playerProfile, playerProfile.currentWeek);
       const clubDelMundial = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-      const seleccionesDeEsteMundial = seleccionesDelMundialDe(
-        anioDeCarrera(clubDelMundial?.name ?? '', playerProfile.currentWeek), playerProfile);
-      const wcBeforeMatch = getOrCreateWorldCupState(year, seleccionesDeEsteMundial, playerProfile.worldCups[year], pasosDeMundialTranscurridos(clubDelMundial?.name ?? '', playerProfile.currentWeek));
+      // Mismo helper que al ofrecer el partido: si el torneo se resolviera con otros equipos o bajo
+      // otra clave que los que se ofrecieron, el resultado caeria en un torneo que no es.
+      const hoy = torneoDeSeleccionesDeHoy(playerProfile, clubDelMundial?.name ?? '');
+      const seleccionesDeEsteMundial = hoy?.equipos ?? WORLD_CUP_TEAMS_DATABASE;
+      const clave = hoy?.clave ?? String(temporadaDe(playerProfile, playerProfile.currentWeek));
+      const wcBeforeMatch = getOrCreateWorldCupState(
+        temporadaDe(playerProfile, playerProfile.currentWeek), seleccionesDeEsteMundial,
+        playerProfile.worldCups[clave], hoy?.pasos ?? 0, hoy?.torneo ?? 'mundial');
       const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, seleccionesDeEsteMundial, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedWorldCup.knockout, activeWorldCupTeamId, activeOppositionClubId);
       if (shootout) {
@@ -4695,7 +4772,7 @@ export default function App() {
         foundShootoutMyId = activeWorldCupTeamId;
         foundShootoutMyName = seleccionesDeEsteMundial.find(t => t.id === activeWorldCupTeamId)?.name || '';
       }
-      updatedWorldCups = { ...playerProfile.worldCups, [year]: resolvedWorldCup };
+      updatedWorldCups = { ...playerProfile.worldCups, [clave]: resolvedWorldCup };
     }
 
     // Si tu partido terminó igualado en eliminación directa y todavía no jugaste la tanda en vivo,

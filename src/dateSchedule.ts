@@ -1820,6 +1820,44 @@ export function enVentanaDelMundial(clubName: string, paso: number): boolean {
 }
 
 /**
+ * ¿Hoy es día de TORNEO CONTINENTAL de selecciones (Eurocopa / Copa América)?
+ *
+ * Hermana de enVentanaDelMundial. Las dos ventanas nunca se pisan: el Mundial va en los años pares
+ * de la carrera y los continentales en los del medio.
+ */
+export function enVentanaContinental(clubName: string, paso: number): boolean {
+  const fecha = fixturesAtStep(clubName, paso)?.date;
+  if (!fecha) return false;
+  if (!esAnioDeTorneoContinental(Number(fecha.slice(0, 4)))) return false;
+  const diaDelAnio = fecha.slice(5);
+  return diaDelAnio >= CONTINENTAL_DESDE && diaDelAnio <= CONTINENTAL_HASTA;
+}
+
+/** Cuántas fechas del club ya cayeron dentro del torneo continental de este año. */
+export function pasosDeContinentalTranscurridos(clubName: string, paso: number): number {
+  const t = temporadaDelPaso(clubName, paso);
+  if (!t) return 0;
+  let n = 0;
+  for (let p = t.primerPaso; p < paso; p++) {
+    if (enVentanaContinental(clubName, p)) n++;
+  }
+  return n;
+}
+
+/**
+ * ¿Hoy hay algún torneo de selecciones, y cuál?
+ *
+ * Una sola pregunta para los tres, porque el que llama necesita LA misma respuesta: qué torneo
+ * ocupa el día. El Mundial y los continentales nunca coinciden -- van en años alternos --, así que
+ * nunca hay dos.
+ */
+export function torneoDeSeleccionesDelDia(clubName: string, paso: number): 'mundial' | 'continental' | null {
+  if (enVentanaDelMundial(clubName, paso)) return 'mundial';
+  if (enVentanaContinental(clubName, paso)) return 'continental';
+  return null;
+}
+
+/**
  * Cuántas fechas del club ya cayeron dentro del Mundial de este año.
  *
  * Es el paso del torneo, igual que fechasDeCopaTranscurridas lo es para las copas de clubes: el
