@@ -2479,6 +2479,49 @@ export default function App() {
     };
   };
 
+  /**
+   * El partido de liga de HOY, jugado por tu club sin vos.
+   *
+   * Lo usan las tres salidas en las que el club juega y vos no: energia baja, lesion y sancion. Las
+   * tres tenian su propia copia de esto -- o directamente no lo hacian, como la lesion, que
+   * adelantaba la liga entera sin resolver el partido del club -- y ninguna anotaba el resultado.
+   *
+   * El rival sale del CALENDARIO REAL cuando lo hay, con el fixture del motor de respaldo: con la
+   * deriva entre los dos relojes, el motor puede no tener fixture mientras el calendario si tiene
+   * fecha, y ahi el aviso de "sin ti en el campo" se saltaba un partido que de verdad se jugaba.
+   */
+  const partidoDeLigaSinVos = (
+    myClub: Club, leagueClubs: Club[], season: ReturnType<typeof getOrCreateSeasonForLeague>,
+  ) => {
+    if (!playerProfile) return null;
+    let rival: Club | null = null;
+    let soyLocal = false;
+    if (hasDatedLeagueSchedule(myClub.name)) {
+      const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
+      const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
+      if (fx?.competition.kind === 'league') {
+        const encontrado = resolverClubDeCalendario(leagueClubs, fx.opponentName, myClub.league, 'league', fx.competition.name);
+        if (encontrado) { rival = encontrado; soyLocal = fx.isHome; }
+      }
+    }
+    if (!rival) {
+      const upcoming = rivalDeLigaDelPaso(leagueClubs, myClub.name, playerProfile.currentWeek);
+      if (!upcoming) return null;
+      rival = leagueClubs.find(c => c.id === upcoming.opponentId) ?? null;
+      soyLocal = upcoming.isHome;
+    }
+    if (!rival) return null;
+    const { homeGoals, awayGoals } = soyLocal ? simulateMatch(myClub, rival) : simulateMatch(rival, myClub);
+    const myGoals = soyLocal ? homeGoals : awayGoals;
+    const rivalGoals = soyLocal ? awayGoals : homeGoals;
+    return {
+      rival, soyLocal, myGoals, rivalGoals,
+      season: resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id,
+        soyLocal, myGoals, rivalGoals, undefined, contextoRealDelPaso(myClub.name, playerProfile.currentWeek)),
+      aviso: ` Sin ti en el campo, ${myClub.name} ${myGoals}-${rivalGoals} ${rival.name}.`,
+    };
+  };
+
   /** El historial con esa fecha anotada. Reemplaza la del mismo dia para no duplicar. */
   const historialCon = (r: DatedResult | null): DatedResult[] | undefined =>
     r ? [...(playerProfile?.datedResults ?? []).filter(x => x.date !== r.date), r]
@@ -2520,41 +2563,26 @@ export default function App() {
         // reportado: "a veces descansaba... y el partido se quedaba ahí").
         let updatedLeagueSeasons = playerProfile.leagueSeasons;
         let restResultMsg = '';
+        // El resultado del partido que jugo el club sin vos, para que quede en el historial: de ahi
+        // salen la racha y los marcadores del calendario. Ver resultadoDelClubSinVos.
+        let resultadoDeHoy: DatedResult | null = null;
         if (!inWorldCupBreak && !isCup) {
           const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
           const leagueKey = leagueKeyFor(myClub);
           const leagueClubs = clubesDeLiga(leagueKey);
           const season = playerProfile.leagueSeasons[leagueKey] ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
-          const upcoming = rivalDeLigaDelPaso(leagueClubs, myClub.name, playerProfile.currentWeek);
-          // El calendario real manda, y no se exige `upcoming`: con la deriva entre relojes el motor
-          // puede no tener fixture mientras el calendario real sí tiene fecha, y ahí "Sin ti en el
-          // campo..." se saltaba un partido que de verdad se jugaba. Bug reportado: "la pantalla que
-          // dice cuando te pierdes un partido... nunca dice el partido correcto".
-          let rivalRest: Club | null = null;
-          let isHomeRestReal = false;
-          if (hasDatedLeagueSchedule(myClub.name)) {
-            const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
-            const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
-            if (fx?.competition.kind === 'league') {
-              const encontrado = resolverClubDeCalendario(leagueClubs, fx.opponentName, myClub.league, 'league', fx.competition.name);
-              if (encontrado) { rivalRest = encontrado; isHomeRestReal = fx.isHome; }
-            }
-          }
-          if (rivalRest || upcoming) {
-            let opponentClub = rivalRest ?? leagueClubs.find(c => c.id === upcoming!.opponentId)!;
-            let isHomeRest = rivalRest ? isHomeRestReal : upcoming!.isHome;
-            const { homeGoals, awayGoals } = isHomeRest ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
-            const myGoals = isHomeRest ? homeGoals : awayGoals;
-            const rivalGoals = isHomeRest ? awayGoals : homeGoals;
-            const resolvedSeason = resolvePlayerWeekForLeague(season, leagueClubs, playerProfile.currentWeek, myClub.id, isHomeRest, myGoals, rivalGoals, undefined, contextoRealDelPaso(myClub.name, playerProfile.currentWeek));
-            updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: resolvedSeason };
-            restResultMsg = ` Sin ti en el campo, ${myClub.name} ${myGoals}-${rivalGoals} ${opponentClub.name}.`;
+          const suyo = partidoDeLigaSinVos(myClub, leagueClubs, season);
+          if (suyo) {
+            updatedLeagueSeasons = { ...playerProfile.leagueSeasons, [leagueKey]: suyo.season };
+            restResultMsg = suyo.aviso;
+            resultadoDeHoy = resultadoDelClubSinVos(myClub, suyo.rival.name, suyo.myGoals, suyo.rivalGoals);
           }
         }
 
         const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
         const updated = {
           ...playerProfile,
+          datedResults: historialCon(resultadoDeHoy),
           energy: Math.min(100, playerProfile.energy + 45),
           mentalHealth: Math.min(100, playerProfile.mentalHealth + 6), // descansar en vez de forzar la máquina te despeja la cabeza
           currentWeek: playerProfile.currentWeek + 1,
@@ -3666,6 +3694,8 @@ export default function App() {
   ) => {
     if (!playerProfile) return;
 
+    // La localia y el rival vienen dados por quien llama (la pantalla ya los calculo), asi que aca
+    // no se usa partidoDeLigaSinVos: seria recalcular lo que ya se sabe y podria discrepar.
     const { homeGoals, awayGoals } = isHomeThisMatch ? simulateMatch(myClub, opponentClub) : simulateMatch(opponentClub, myClub);
     const myGoals = isHomeThisMatch ? homeGoals : awayGoals;
     const rivalGoals = isHomeThisMatch ? awayGoals : homeGoals;
@@ -3770,17 +3800,25 @@ export default function App() {
     const leagueClubs = clubesDeLiga(leagueKey);
     const nextWeek = playerProfile.currentWeek + 1;
 
-    // Tu propia liga se pone al día igual que en advanceSuspendedIdleWeek; el resto de las ligas
-    // que ya visitaste (leagueSeasons) también sigue de fondo para no quedar desincronizadas.
+    // TU CLUB JUEGA IGUAL MIENTRAS VOS ESTAS DE BAJA, y hasta ahora esa fecha no se resolvia: se
+    // adelantaba la liga entera con getOrCreateSeasonForLeague y el partido del club quedaba sin
+    // marcador propio. Osea que una lesion de tres semanas eran tres partidos de tu club que no
+    // existian en ningun lado -- ni en el historial, ni en la racha, ni en el calendario --,
+    // mientras que la sancion y la falta de convocatoria si los anotan.
+    const seasonPropia = playerProfile.leagueSeasons[leagueKey]
+      ?? getOrCreateSeasonForLeague(leagueClubs, undefined, playerProfile.currentWeek);
+    const suyo = partidoDeLigaSinVos(myClub, leagueClubs, seasonPropia);
+
+    // El resto de las ligas que ya visitaste (leagueSeasons) sigue de fondo para no desincronizarse.
     const updatedLeagueSeasons = { ...playerProfile.leagueSeasons };
     for (const key of Object.keys(updatedLeagueSeasons)) {
-      const otherLeagueClubs = key === leagueKey ? leagueClubs : clubesDeLiga(key);
+      if (key === leagueKey) continue;
+      const otherLeagueClubs = clubesDeLiga(key);
       if (otherLeagueClubs.length === 0) continue;
       updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], nextWeek);
     }
-    if (!updatedLeagueSeasons[leagueKey]) {
-      updatedLeagueSeasons[leagueKey] = getOrCreateSeasonForLeague(leagueClubs, undefined, nextWeek);
-    }
+    updatedLeagueSeasons[leagueKey] = suyo?.season
+      ?? getOrCreateSeasonForLeague(leagueClubs, updatedLeagueSeasons[leagueKey], nextWeek);
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
     const sync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
@@ -3795,6 +3833,7 @@ export default function App() {
       playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
       matchesWithoutRest: 0,
       activeInjury: injuryDone ? null : { ...playerProfile.activeInjury, weeksRemaining },
+      datedResults: historialCon(suyo ? resultadoDelClubSinVos(myClub, suyo.rival.name, suyo.myGoals, suyo.rivalGoals) : null),
       injuryHistory: injuryDone
         ? [...(playerProfile.injuryHistory ?? []), { type: playerProfile.activeInjury.type, weeksOut: playerProfile.currentWeek - playerProfile.activeInjury.startedWeek + 1, week: nextWeek }]
         : (playerProfile.injuryHistory ?? []),
@@ -3810,9 +3849,9 @@ export default function App() {
     }
     setPlayerProfile(aged);
     saveGameState(aged, shopItems);
-    notify(injuryDone
+    notify((injuryDone
       ? `✅ Te recuperaste de tu lesión. Ya puedes volver a jugar con ${myClub.name}.`
-      : `🩹 Sigues de baja. Te quedan ${weeksRemaining} semana(s) de recuperación.`);
+      : `🩹 Sigues de baja. Te quedan ${weeksRemaining} semana(s) de recuperación.`) + (suyo?.aviso ?? ''));
   };
 
   // Semana de sanción en la que tu club NO tiene partido de liga (fecha libre por zona impar, o el
