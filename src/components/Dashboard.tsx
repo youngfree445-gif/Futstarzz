@@ -806,6 +806,29 @@ export default function Dashboard({
     (!!conmebolCup && !isClubStillInCup(conmebolCup, currentClub.id)) ||
     (!!uefaCup && !isClubStillInUefaCup(uefaCup, currentClub.id));
 
+  /**
+   * EL TORNEO DE SELECCIONES QUE SE ESTA JUGANDO HOY, si hay alguno y si el jugador esta en el.
+   *
+   * Se muestra SOLO mientras dura: fuera de la ventana no existe, que es lo que corresponde -- el
+   * panel de copas es de lo que se esta jugando, no un archivo. Pedido: "que se vean cuando se
+   * juegue el torneo nada mas".
+   */
+  const torneoDeSelecciones = (() => {
+    const hoy = torneoDeSeleccionesDeHoy(
+      playerProfile, currentClub.name,
+      temporadaDeCarrera(currentClub.name, playerProfile.currentWeek),
+      WORLD_CUP_TEAMS_DATABASE);
+    if (!hoy) return null;
+    const estado = getOrCreateWorldCupState(
+      temporadaDeCarrera(currentClub.name, playerProfile.currentWeek), hoy.equipos,
+      playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo);
+    const NOMBRE = { mundial: 'COPA MUNDIAL FIFA', eurocopa: 'EUROCOPA', copaamerica: 'COPA AMÉRICA' } as const;
+    return { ...hoy, estado, nombre: NOMBRE[hoy.torneo] };
+  })();
+
+  const nombreDeSeleccion = (id: string | null) =>
+    (id ? torneoDeSelecciones?.equipos.find(t => t.id === id)?.name : '') || '';
+
   // Para el post de "campeón del Mundo" en ChutSocial -- ver generateCupChampionPosts.
   const wcState = isWorldCupYear(cupYear)
     ? getOrCreateWorldCupState(cupYear, WORLD_CUP_TEAMS_DATABASE, playerProfile.worldCups[cupYear], pasosDeMundialTranscurridos(currentClub.name, playerProfile.currentWeek))
@@ -1434,6 +1457,25 @@ export default function Dashboard({
   // no lo llama nadie.
 
   /** Un TwoLegBracket (ida y vuelta) llevado a la misma forma. El marcador es el GLOBAL. */
+  /**
+   * El mismo cuadro, pero de partidos UNICOS: el Mundial, la Eurocopa y la Copa America.
+   *
+   * Hermana de rondasDeIdaYVuelta. Las dos existen para que CuadroEliminatoria no tenga que saber
+   * de que torneo viene lo que dibuja.
+   */
+  const rondasDePartidoUnico = (matchesByRound: PlayoffMatch[][] | undefined) =>
+    (matchesByRound ?? []).map(ronda => ({
+      nombre: roundLabelByMatchCount(ronda.length),
+      cruces: ronda.map(m => ({
+        aId: m.homeTeamId, bId: m.awayTeamId,
+        marcador: m.played ? `${m.homeGoals}-${m.awayGoals}` : null,
+        ganadorId: m.played
+          ? (m.penaltyShootout?.winnerId
+            ?? ((m.homeGoals ?? 0) > (m.awayGoals ?? 0) ? m.homeTeamId : m.awayTeamId))
+          : null,
+      })),
+    }));
+
   const rondasDeIdaYVuelta = (tiesByRound: TwoLegTie[][] | undefined) =>
     (tiesByRound ?? []).map(ronda => ({
       nombre: roundLabelByMatchCount(ronda.length),
@@ -5082,6 +5124,54 @@ export default function Dashboard({
                   );
                 })()}
               </div>
+
+              {/* EL TORNEO DE SELECCIONES va PRIMERO y solo mientras se juega: cuando hay Mundial o
+                  continental, es lo unico que esta pasando -- las ligas estan paradas -- asi que es
+                  lo que el jugador viene a mirar. Fuera de la ventana no se dibuja. */}
+              {torneoDeSelecciones && (
+                <div data-torneo={torneoDeSelecciones.torneo}
+                  className="bg-slate-900 border border-gold-500/30 rounded-3xl p-5 shadow-lg space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
+                    {torneoDeSelecciones.torneo === 'mundial' ? '🌎' : '🏆'} {torneoDeSelecciones.nombre}
+                    {' · '}{cupStageLabel(torneoDeSelecciones.estado.stage)}
+                  </h3>
+
+                  {torneoDeSelecciones.estado.stage === 'groups' ? (
+                    <div className="grid md:grid-cols-3 gap-4 font-mono text-xs">
+                      {torneoDeSelecciones.estado.groups.map(group => (
+                        <div key={group.id} className="p-4 bg-slate-950 border border-slate-850 rounded-2xl">
+                          <h4 className="font-extrabold text-white border-b border-slate-800 pb-1.5 mb-2 text-2xs uppercase">
+                            Grupo {group.id}
+                          </h4>
+                          <ul className="space-y-1.5 text-slate-300 font-mono text-3xs">
+                            {sortTable(group.table).map((row, idx) => (
+                              <li
+                                key={row.clubId || row.name}
+                                className={`flex justify-between gap-2 ${
+                                  row.clubId === torneoDeSelecciones.miSeleccionId ? 'text-gold-400 font-black' : ''
+                                }`}
+                              >
+                                <span className="truncate">{idx + 1}. {row.name.replace('Selección de ', '')}</span>
+                                <span className="text-slate-500 shrink-0">{row.puntos} Pts</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  ) : torneoDeSelecciones.estado.stage === 'done' ? (
+                    <p className="text-2xs text-slate-300">
+                      🏆 Campeón: <strong className="text-white">{nombreDeSeleccion(torneoDeSelecciones.estado.championId)}</strong>
+                    </p>
+                  ) : (
+                    <CuadroEliminatoria
+                      rondas={rondasDePartidoUnico(torneoDeSelecciones.estado.knockout?.matchesByRound)}
+                      miId={torneoDeSelecciones.miSeleccionId}
+                      campeonId={torneoDeSelecciones.estado.knockout?.championId ?? torneoDeSelecciones.estado.championId ?? null}
+                    />
+                  )}
+                </div>
+              )}
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
                 {conmebolCup ? (

@@ -49,7 +49,7 @@ import React from 'react';
 import Dashboard from '../src/components/Dashboard';
 import { ULTIMATE_CLUBS_DATABASE, INITIAL_LIFESTYLE_ITEMS } from '../src/data';
 import { crearPerfilInicial } from '../src/components/SetupScreen';
-import { esDiaDeEliminatorias, fixturesAtStep, pickPrimary as pickDatedPrimary } from '../src/dateSchedule';
+import { esDiaDeEliminatorias, fixturesAtStep, pickPrimary as pickDatedPrimary, torneoDeSeleccionesDelDia } from '../src/dateSchedule';
 
 globalThis.localStorage = { getItem: () => null, setItem: () => {}, removeItem: () => {} };
 globalThis.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });
@@ -290,6 +290,45 @@ if (pasoDeFechaFifa == null) {
       ));
   }
 }
+
+// --- El panel del torneo de selecciones, en Copas y tablas -----------------------------------
+//
+// El agujero que cierra: el panel de copas tenia TRES ramas -- Conmebol, UEFA y "no estas en
+// ninguna" -- y ninguna era del Mundial. Osea que en pleno Mundial, con el jugador jugandolo, la
+// pestaña de copas decia "Tu club no esta clasificado a ningun torneo continental esta temporada"
+// y no se podia ver ni el grupo ni el cuadro. El torneo se jugaba a ciegas.
+//
+// Se comprueba en los DOS torneos que le tocan a un colombiano -- el Mundial y la Copa America --
+// porque son ramas distintas: el continental depende de la nacionalidad y el Mundial no.
+//
+// Y se comprueba tambien que FUERA de la ventana no salga, que es la otra mitad del pedido: el
+// panel es de lo que se esta jugando hoy, no un archivo historico.
+const pasoDeTorneo = (cual) => {
+  for (let p = 1; p <= 900; p++) if (torneoDeSeleccionesDelDia(junior.name, p) === cual) return p;
+  return null;
+};
+
+// El panel se marca con data-torneo y el caso busca ESO, no el nombre: "COPA MUNDIAL FIFA" ya
+// aparecia en el titulo del panel de goleadores, asi que el caso del Mundial pasaba en verde con el
+// panel apagado. Se descubrio reintroduciendo el bug a proposito, que es la unica forma de saber si
+// un validador sirve. La marca ademas prueba CUAL torneo se dibuja, no solo que haya uno.
+for (const t of [
+  { cual: 'mundial', esperado: 'data-torneo="mundial"' },
+  { cual: 'continental', esperado: 'data-torneo="copaamerica"' },
+]) {
+  const paso = pasoDeTorneo(t.cual);
+  if (paso == null) {
+    console.log(`FALLA no se encontro ninguna fecha de ${t.cual} en 900 pasos`);
+    fallas++;
+    continue;
+  }
+  caso(`copas: panel de ${t.cual} (paso ${paso})`, () =>
+    dibujar(perfilDe(junior, { currentWeek: paso }), 'tablas', t.esperado,
+      'no está clasificado a ningún torneo continental'));
+}
+
+caso('copas: fuera de la ventana no hay panel de selecciones', () =>
+  dibujar(perfilDe(junior, { currentWeek: 20 }), 'tablas', null, 'data-torneo='));
 
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
