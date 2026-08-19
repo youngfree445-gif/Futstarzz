@@ -1,5 +1,15 @@
 # El tercero del grupo baja a la Sudamericana
 
+> **HECHO** (agosto 2026, commits `bd15c4b` y `ba0ac84`). Se eligió el formato **real**, desde la
+> **temporada 1**, y **dos avisos separados** el día que bajás. Lo que sigue queda como registro de
+> por qué se hizo así y de lo que se midió antes de empezar.
+>
+> Lo que salió distinto de lo previsto: no hizo falta crear estado nuevo. Quién bajó se deduce del
+> cuadro guardado de la Libertadores, que ya dice quién quedó tercero, así que no hubo migración.
+> Y apareció un costo que el scope no había visto: la bolsa de fechas tuvo que subir de 13 a 15
+> **para las dos copas** -- el club no sabe en cuál va a terminar --, lo que subió la congestión del
+> calendario de 1165 a 1263 hallazgos de descanso.
+
 Scope, no implementación. Todo lo que dice está medido contra el código y los datos actuales
 (agosto 2026), no recordado.
 
