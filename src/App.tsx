@@ -2596,7 +2596,17 @@ export default function App() {
     r ? [...(playerProfile?.datedResults ?? []).filter(x => x.date !== r.date), r]
       : playerProfile?.datedResults;
 
-  const handleAdvanceWeek = () => {
+  /**
+   * Si el próximo partido se juega solo.
+   *
+   * Se prende desde el botón "Simular partido" y se apaga al terminar, así que dura exactamente un
+   * partido: la fecha siguiente vuelve a ofrecerte jugarlo. Es una decisión por partido, no un modo
+   * en el que quedás encerrado.
+   */
+  const [simularEstePartido, setSimularEstePartido] = useState(false);
+
+  const handleAdvanceWeek = (simular = false) => {
+    setSimularEstePartido(simular);
     if (!playerProfile) return;
 
     // Lesión activa: no hay decisión de jugar/descansar que tomar, la semana se resuelve sola.
@@ -4016,6 +4026,8 @@ export default function App() {
   };
 
   const handleFinishMatch = (results: any, shootoutOverride?: PenaltyShootoutResult) => {
+    // Un partido simulado no deja el modo prendido: la fecha que viene se vuelve a elegir.
+    setSimularEstePartido(false);
     if (!playerProfile) return;
 
     setMatchResults(results);
@@ -5455,7 +5467,8 @@ export default function App() {
           onAnswerPress={handleAnswerPress}
           onPublicar={handlePublicar}
           onAcceptTransfer={handleAcceptTransfer}
-          onAdvanceWeek={handleAdvanceWeek}
+          onAdvanceWeek={() => handleAdvanceWeek(false)}
+          onSimularPartido={() => handleAdvanceWeek(true)}
           onFinalizeSeason={handleFinalizeSeason}
           onRecoverEnergy={handleRecoverEnergy}
           onSocialInteraction={handleSocialInteraction}
@@ -5485,6 +5498,7 @@ export default function App() {
           leagueTeamCount={activeLeagueTeamCount}
           lineupStatus={activeLineupStatus}
           subEntryMinute={activeSubEntryMinute}
+          autoSimular={simularEstePartido}
           onFinishMatch={handleFinishMatch}
         />
       )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats, PlayClipType } from '../types';
+import { factorDeFase, golEsperadoRestante } from '../dificultad';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
@@ -1391,6 +1392,15 @@ interface MatchSimulatorProps {
    * juego no pasa nunca esta prop.
    */
   charlaInicial?: string | null;
+  /**
+   * El partido se juega SOLO, con vos en la cancha.
+   *
+   * No es "saltear el partido": es jugarlo sin que tengas que elegir. Corre el mismo reloj, el
+   * mismo modelo de goles y las mismas decisiones -- sólo que las contesta el propio jugador,
+   * eligiendo siempre la opción que mejor le calza a su ficha. Así un partido simulado y uno
+   * jugado salen del mismo motor y no de dos que se pueden desincronizar.
+   */
+  autoSimular?: boolean;
   onFinishMatch: (results: {
     goles: number;
     asistencias: number;
@@ -1408,7 +1418,7 @@ interface MatchSimulatorProps {
 }
 
 export default function MatchSimulator({
-  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, globalScoreLabel, torneoLabel, isWorldCup, representingTeamId, isHome: isHomeProp,
+  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, globalScoreLabel, torneoLabel, isWorldCup, representingTeamId, isHome: isHomeProp, autoSimular,
   myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, charlaInicial, onFinishMatch
 }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
@@ -1432,6 +1442,9 @@ export default function MatchSimulator({
   // 'animating': el highlight en Canvas corre ANTES de mostrar el texto narrado (ver
   // PlayHighlightCanvas.tsx y handleChoice) -- solo se pasa por ahí si la decisión tiene clipType.
   const [decisionStage, setDecisionStage] = useState<'none' | 'choosing' | 'animating' | 'result'>('none');
+
+  // En automático el partido arranca ya acelerado: el jugador pidió simularlo, no verlo.
+  useEffect(() => { if (autoSimular) setSpeedMultiplier(5); }, [autoSimular]);
   const [decisionOutcomeText, setDecisionOutcomeText] = useState('');
   const [decisionWasSuccess, setDecisionWasSuccess] = useState(false);
   const [pendingClipType, setPendingClipType] = useState<PlayClipType | null>(null);
@@ -1520,6 +1533,12 @@ export default function MatchSimulator({
   // achica tu ventana de éxito, uno peor ubicado la agranda; sin tabla comparable en copas/Mundial
   // queda neutro) + apoyo de la hinchada (fans muy bajo = "te pitan", fans muy alto = te empuja)
   // + salud mental (Fase 3: cabeza floja te cuesta concentración, cabeza fuerte te da un empujón).
+  // LA FASE DEL TORNEO PESA. Grupos es la dificultad normal; octavos, cuartos, semis y final suben
+  // el escalón de a poco (ver factorDeFase en src/dificultad.ts). Se aplica a los dos lados: tu
+  // equipo espera menos goles y el rival espera más, así que una final se siente distinta en el
+  // marcador y no sólo en el cartel.
+  const faseFactor = factorDeFase(competitionNameOverride);
+
   const tablePositionFactor = (() => {
     if (myTablePosition == null || rivalTablePosition == null) return 1;
     const positionDiff = myTablePosition - rivalTablePosition; // positivo = rival mejor ubicado que vos
@@ -1535,7 +1554,12 @@ export default function MatchSimulator({
   // El piso sube a 0.82 (mala racha = te cuesta, no que sea imposible) y los castigos individuales
   // se suavizan. El techo se mantiene: ir primero con la hinchada a favor sigue dando la misma
   // ventaja que antes.
-  const pressureMultiplier = Math.max(0.82, Math.min(1.35, tablePositionFactor * fanSupportFactor * mentalHealthFactor));
+  // La fase se aplica DESPUÉS del clamp y no adentro: el piso de 0.82 existe para que una mala
+  // racha no se vuelva una espiral sin salida, y eso no tiene nada que ver con que una final sea
+  // más dura. Metida adentro, el escalón de fase desaparecía justo para el jugador que peor la
+  // está pasando -- que es donde más se tiene que notar.
+  const pressureMultiplier = Math.max(0.82, Math.min(1.35,
+    tablePositionFactor * fanSupportFactor * mentalHealthFactor)) * faseFactor;
   const teamName = currentClub.name;
 
   // Modelo tipo Poisson (estilo FIFA) para los goles "ambientales" del partido: en vez de una
@@ -1588,10 +1612,16 @@ export default function MatchSimulator({
   const ratingGapMultiplier = (gap: number) => Math.max(0.5, Math.min(2.0, 1 + gap / 32));
   const formMultiplier = fanSupportFactor * mentalHealthFactor; // moral/apoyo -- la fuerza de tabla ya la usa rivalRating, no se pisa acá
   const HOME_ADVANTAGE_GOALS = 0.15;
-  const lambdaMine = BASE_GOALS_PER_TEAM * ratingGapMultiplier(myAttackRating - rivalRating) * formMultiplier
-    + (isHome.current ? HOME_ADVANTAGE_GOALS : 0);
-  const lambdaRival = BASE_GOALS_PER_TEAM * ratingGapMultiplier(rivalRating - myDefenseRating)
-    + (isHome.current ? 0 : HOME_ADVANTAGE_GOALS);
+  const lambdaEquipoBase = (BASE_GOALS_PER_TEAM * ratingGapMultiplier(myAttackRating - rivalRating) * formMultiplier
+    + (isHome.current ? HOME_ADVANTAGE_GOALS : 0)) * faseFactor;
+
+  // TUS GOLES SON PARTE DE LOS DE TU EQUIPO, no se suman aparte. Sin esto, el generador ambiental
+  // producía el partido completo como si no estuvieras y tus goles se apilaban encima: de ahí los
+  // 8-0. Ver golEsperadoRestante.
+  const lambdaMine = golEsperadoRestante(lambdaEquipoBase, playerGoals, playerAssists);
+
+  const lambdaRival = (BASE_GOALS_PER_TEAM * ratingGapMultiplier(rivalRating - myDefenseRating)
+    + (isHome.current ? 0 : HOME_ADVANTAGE_GOALS)) / faseFactor;
   const totalLambda = lambdaMine + lambdaRival;
 
   // Fase 2.5 -- Fatiga de temporada real: muchos partidos seguidos sin una semana de descanso
@@ -2248,6 +2278,41 @@ export default function MatchSimulator({
     setDecisionOutcomeText('');
     setPendingClipType(null);
   };
+
+  /**
+   * EL PARTIDO SE JUEGA SOLO cuando lo pediste simulado.
+   *
+   * Son los tres únicos lugares donde el partido se detiene a esperarte: la decisión, la pantalla
+   * de resultado de esa decisión, y la charla del entretiempo. Si alguno no se contesta, el reloj
+   * se queda quieto para siempre -- el efecto del reloj no avanza con una decisión abierta.
+   *
+   * La opción se elige por TU FICHA: la que pide el atributo que tenés más alto. Es lo que haría
+   * un jugador que se conoce, y evita que simular sea peor que jugar sólo porque el automático
+   * elige al azar. No se elige "la que más éxito da" porque eso obligaría a duplicar la fórmula de
+   * handleChoice, y dos copias de la misma cuenta es como este proyecto se rompió más de una vez.
+   */
+  useEffect(() => {
+    if (!autoSimular) return;
+
+    if (charlaDelDT !== null) {
+      const t = setTimeout(() => { charlaCumplidaRef.current = true; setCharlaDelDT(null); }, 180);
+      return () => clearTimeout(t);
+    }
+    if (decisionStage === 'result') {
+      const t = setTimeout(resolveDecisionStage, 180);
+      return () => clearTimeout(t);
+    }
+    if (decisionStage === 'choosing' && activeDecision) {
+      let mejor = 0;
+      let mejorValor = -1;
+      activeDecision.choices.forEach((c, i) => {
+        const v = effectiveAttributes[c.requiredAttr] ?? 0;
+        if (v > mejorValor) { mejorValor = v; mejor = i; }
+      });
+      const t = setTimeout(() => handleChoice(mejor), 180);
+      return () => clearTimeout(t);
+    }
+  }, [autoSimular, decisionStage, activeDecision, charlaDelDT]);
 
   /**
    * La RONDA del partido, para mostrarla pegada al marcador.

@@ -37,7 +37,7 @@ import {
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
-  Table, Zap, DollarSign, Star, Heart, Flame, Swords, LogOut, ArrowRight, CheckCircle,
+  Table, Zap, DollarSign, Star, Heart, Flame, Swords, LogOut, ArrowRight, FastForward, CheckCircle,
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users,
   Menu, X, Home
 } from 'lucide-react';
@@ -322,6 +322,8 @@ interface DashboardProps {
   onPublicar: (opcion: OpcionDePublicacion) => void;
   onAcceptTransfer: (clubId: string, signOnBonus: number, newDorsal: number) => void;
   onAdvanceWeek: () => void;
+  /** Juega el partido solo, con vos en cancha. Ver autoSimular en MatchSimulator.tsx. */
+  onSimularPartido: () => void;
   /** Última fecha real del año jugada, con todo cerrado: dispara el periódico de nueva temporada. */
   onFinalizeSeason: () => void;
   onRecoverEnergy: (cost: number, energyAmount: number) => void;
@@ -396,6 +398,7 @@ export default function Dashboard({
   onPublicar,
   onAcceptTransfer,
   onAdvanceWeek,
+  onSimularPartido,
   onFinalizeSeason,
   onRecoverEnergy,
   onSocialInteraction,
@@ -3346,6 +3349,21 @@ export default function Dashboard({
                       ? 'Pasar a Siguiente Fecha'
                       : 'Disputar Partido'} <ArrowRight size={15} />
                   </button>
+
+                  {/* SIMULAR: el mismo partido, jugado solo.
+                      Sale sólo cuando hay un partido de verdad que jugar -- si la fecha se pasa sin
+                      partido, o la temporada terminó, no hay nada que simular y el botón sería un
+                      segundo "avanzar" que confunde. Va en secundario a propósito: disputarlo sigue
+                      siendo lo principal. */}
+                  {!temporadaRealTerminada && !hoySinPartido && !!nextMatchOpponent && (!playerProfile.activeInjury || forzandoLaVuelta(playerProfile)) && (
+                    <button
+                      onClick={onSimularPartido}
+                      className="btn-fx-subtle w-full py-2.5 px-6 rounded-2xl font-black text-2xs flex items-center justify-center gap-2 uppercase tracking-widest cursor-pointer mt-2 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500"
+                      title="Se juega solo, con vos en cancha"
+                    >
+                      <FastForward size={13} /> Simular partido
+                    </button>
+                  )}
                 </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
