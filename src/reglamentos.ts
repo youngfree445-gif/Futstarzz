@@ -178,3 +178,186 @@ export function fechasDelCuadroFinal(league: string): number {
   if (r.definicion !== 'cuadrangular') return 0;
   return Math.round(Math.log2(r.clubesDelCuadro ?? 8)) * 2;
 }
+
+
+// --- ASCENSO Y DESCENSO ------------------------------------------------------------------------
+//
+// Vivía en promocionDescenso.ts, con su propia tabla por liga. Eran DOS tablas indexadas por el
+// mismo nombre de liga contestando sobre el mismo reglamento: una decía cuántos torneos reparte el
+// año y cómo se define el título, la otra cuántos bajan y con qué criterio. Para saber cómo
+// funciona una liga había que abrir dos archivos y esperar que no se contradijeran.
+//
+// Acá está la tabla; los ALGORITMOS que la usan siguen en promocionDescenso.ts, que es otra cosa:
+// esto es el reglamento, aquello es cómo se aplica.
+//
+// CADA PAÍS TIENE SU PROPIO REGLAMENTO, y mezclarlos daría descensos inventados:
+//
+//   Colombia  → bajan 2, por TABLA DE PROMEDIOS (puntos ÷ partidos) acumulando varios años.
+//               Un grande puede bajar pese a una buena temporada suelta si arrastra años flojos,
+//               y un recién ascendido está protegido porque su ventana solo cuenta el año en curso.
+//   Argentina → bajan 4 en Primera Nacional (los 2 últimos de cada zona), por TABLA GENERAL
+//               ANUAL acumulada, sin promedio plurianual.
+//   Holanda   → bajan 2 directo por tabla anual, y el 16° se juega la categoría en un PLAY-OFF
+//               contra seis de la Eerste Divisie. No hay promedio ni torneos semestrales.
+//   Brasil    → intercambio DIRECTO y SIMÉTRICO: bajan los 4 últimos de la Serie A y suben los 4
+//               primeros de la Serie B. Sin play-off, sin liguilla y sin promedio.
+//   Alemania  → bajan 2 directo y el 16° juega la "Relegation" contra UN solo rival, el 3° de la
+//               2. Bundesliga, a ida y vuelta. No es el cuadro de seis de Holanda.
+//   España    → bajan 3 directo y suben 2; la tercera plaza sale de un play-off del 3° al 6° de
+//               Hypermotion. Acá NINGÚN club de Primera juega el play-off: solo decide quién sube.
+//   Inglaterra→ igual que España: bajan 3, suben 2, y el play-off del 3° al 6° del Championship
+//               reparte la tercera plaza sin que la Premier ponga a nadie en juego.
+//   Francia   → híbrido: bajan 2 directo, el 3°/4°/5° de Ligue 2 se cruzan entre sí y recién el
+//               ganador enfrenta al 16° de Ligue 1 a ida y vuelta.
+//
+
+export type SistemaAscenso =
+  | 'colombia' | 'argentina' | 'holanda' | 'brasil' | 'alemania' | 'espana' | 'inglaterra' | 'francia';
+
+export interface ReglasAscenso {
+  sistema: SistemaAscenso;
+  cuposDescenso: number;
+  cuposAscenso: number;
+  /** 'promedio' = puntos ÷ partidos plurianual. 'anual' = puntos del año, sin dividir. */
+  criterioDescenso: 'promedio' | 'anual';
+  /** Cuántos años entran en el promedio. Solo aplica al criterio 'promedio'. */
+  ventanaAnios: number;
+  /**
+   * Puesto de Primera que NO baja directo pero se juega la categoría en un play-off (16° tanto en
+   * Holanda como en Alemania). Se aplica contando desde el fondo -- el club justo encima de los que
+   * bajan directo -- porque las ligas del juego no siempre tienen el tamaño del reglamento real.
+   * undefined = ningún equipo de Primera se juega la categoría en un play-off.
+   */
+  puestoPlayoff?: number;
+  /**
+   * Cuántos clubes de Segunda entran a ese play-off. Holanda mete SEIS a un cuadro de tres rondas;
+   * Alemania uno solo (el 3°) a ida y vuelta. Por defecto 6, que es el caso holandés.
+   */
+  rivalesPlayoff?: number;
+  /**
+   * Play-off que reparte una plaza de ascenso EXTRA entre clubes de Segunda, sin que ningún equipo
+   * de Primera participe (España: del 3° al 6°). Es otra cosa que `puestoPlayoff`: allá el de
+   * Primera se juega la categoría; acá Primera ya cerró sus descensos y esto solo decide quién sube.
+   */
+  ascensoPorPlayoff?: { desde: number; hasta: number };
+}
+
+const REGLAS: Record<string, ReglasAscenso> = {
+  // Dimayor: «Los clubes que ocupen las dos últimas posiciones en la tabla de Descenso descenderán
+  // a la Categoría B», y esa tabla se calcula «dividiendo el total de puntos obtenidos entre el
+  // total de partidos disputados», acumulando años.
+  Colombiana: {
+    sistema: 'colombia',
+    cuposDescenso: 2,
+    cuposAscenso: 2,
+    criterioDescenso: 'promedio',
+    ventanaAnios: 3,
+  },
+  // AFA: bajan los 2 últimos de cada zona de la Primera Nacional (4 en total) y los descensos de
+  // Primera salen de la Tabla General, que suma las fases regulares del año. Sin promedio.
+  Argentina: {
+    sistema: 'argentina',
+    cuposDescenso: 4,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+  },
+  // KNVB: Eredivisie de 18. Bajan directo los 2 últimos (17° y 18°) y suben directo el campeón y
+  // el subcampeón de la Eerste Divisie. El 16° NO baja: juega los play-offs de promoción/permanencia
+  // contra seis clubes de Segunda, con ventaja de recorrido (él juega hasta 2 rondas, ellos hasta 3).
+  Holandesa: {
+    sistema: 'holanda',
+    cuposDescenso: 2,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    puestoPlayoff: 16,
+  },
+  // CBF: el más simple de todos. Intercambio directo y simétrico entre Serie A y Serie B -- bajan
+  // los puestos 17 a 20 y suben los cuatro primeros de la B. Sin promoción, sin liguilla y sin
+  // promedio: 38 fechas de todos contra todos y la tabla general manda. Por eso NO lleva
+  // puestoPlayoff, y sin ese campo `resolverMovimientos` ni se asoma al cruce.
+  Brasileña: {
+    sistema: 'brasil',
+    cuposDescenso: 4,
+    cuposAscenso: 4,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+  },
+  // DFL: bajan directo los 2 últimos de la Bundesliga y suben directo los 2 primeros de la 2.
+  // Bundesliga. La tercera plaza la define la "Relegation": el 16° de Primera contra el 3° de
+  // Segunda, ida y vuelta. Ojo, no es como Holanda: acá el rival es UNO SOLO y ya está definido por
+  // tabla, no hay cuadro de seis. Por eso `rivalesPlayoff: 1`.
+  Alemana: {
+    sistema: 'alemania',
+    cuposDescenso: 2,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    puestoPlayoff: 16,
+    rivalesPlayoff: 1,
+  },
+  // LaLiga: bajan directo los 3 últimos de Primera y suben directo los 2 primeros de Hypermotion.
+  // La tercera plaza de ascenso sale del play-off entre el 3° y el 6° de Segunda -- semifinales y
+  // final, todo a ida y vuelta. Diferencia clave con Holanda y Alemania: acá el play-off es SOLO
+  // entre clubes de Segunda, ningún equipo de Primera se juega la categoría en él. Por eso no lleva
+  // `puestoPlayoff` sino `ascensoPorPlayoff`.
+  Española: {
+    sistema: 'espana',
+    cuposDescenso: 3,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    ascensoPorPlayoff: { desde: 3, hasta: 6 },
+  },
+  // Premier League: bajan directo los 3 últimos y suben directo el campeón y el subcampeón del
+  // Championship. La tercera plaza sale del play-off del 3° al 6°, con semifinales a ida y vuelta y
+  // una final a partido único en Wembley. Ningún club de Premier participa: es el mismo esquema que
+  // España, no el de Alemania.
+  Inglesa: {
+    sistema: 'inglaterra',
+    cuposDescenso: 3,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    ascensoPorPlayoff: { desde: 3, hasta: 6 },
+  },
+  // FIGC: Serie A de 20. Bajan directo los 3 últimos (18°, 19° y 20°) y suben directo los 2
+  // primeros de la Serie B. La tercera plaza sale de los play-off entre el 3° y el 8° -- Italia
+  // mete ocho, no seis, pero el cuadro es el mismo: sólo clubes de Segunda, ningún equipo de Serie
+  // A se juega la categoría ahí. O sea, el esquema de España e Inglaterra, no el de Alemania.
+  //
+  // Se agrega ahora porque recién ahora la Serie B tiene calendario propio (ver `ita2` en
+  // realCalendarDates.ts): sin él, descender dejaba al jugador en una división que el calendario no
+  // sabe hacer jugar, y por eso App.tsx salta las ligas cuya Segunda no tiene fechas.
+  Italiana: {
+    sistema: 'espana',
+    cuposDescenso: 3,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    ascensoPorPlayoff: { desde: 3, hasta: 8 },
+  },
+  // LFP: Ligue 1 de 18. Bajan directo los 2 últimos (17° y 18°) y suben directo los 2 primeros de
+  // Ligue 2. La tercera plaza es un HÍBRIDO de los dos formatos anteriores: primero el 3°, 4° y 5°
+  // de Ligue 2 se cruzan entre sí (barrages), y recién el ganador enfrenta al 16° de Ligue 1 a ida
+  // y vuelta. Verificado con la temporada 2025/26: bajaron Nantes (17°) y Metz (18°), y el Niza
+  // (16°) retuvo la categoría ganándole 4-1 al Saint-Étienne.
+  //
+  // Se modela como el caso alemán pero con TRES retadores en vez de uno: playoffPermanencia ya
+  // resuelve el cuadro previo entre los de Segunda antes de la llave contra el de Primera.
+  Francesa: {
+    sistema: 'francia',
+    cuposDescenso: 2,
+    cuposAscenso: 2,
+    criterioDescenso: 'anual',
+    ventanaAnios: 1,
+    puestoPlayoff: 16,
+    rivalesPlayoff: 3,
+  },
+};
+
+/** Reglas de esa liga, o null si no tiene sistema implementado. */
+export function reglasDeLiga(league: string): ReglasAscenso | null {
+  return REGLAS[league] ?? null;
+}
