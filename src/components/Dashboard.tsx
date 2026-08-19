@@ -16,7 +16,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { claveDeCopaNacional, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa } from '../decisionDelDia';
+import { claveDeCopaNacional, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -82,11 +82,41 @@ const CAREER_MILESTONES: { threshold: number; label: string }[] = [
   { threshold: 350, label: 'Mito Eterno del Fútbol' }
 ];
 
+/**
+ * EL COLOR DE CADA TORNEO en la grilla del calendario.
+ *
+ * Antes eran dos: dorado para la liga y borgoña para "lo demás". Con eso, la Copa MX, la Concacaf,
+ * la Libertadores y el cuadrangular se pintaban todos iguales, y encima el rótulo de las copas
+ * decía "Copa" a secas -- así que un mes entero de celdas borgoña con la misma palabra no decía
+ * nada. Pedido: "no diga copa y ya, sino que diga copa mx o concacaf (...) y agranda el color del
+ * torneo, que no sea sólo la línea de color".
+ *
+ * Son FAMILIAS, no un color por copa: un club juega una sola copa internacional por año, así que
+ * Libertadores, Sudamericana, Concacaf, Champions y Europa nunca conviven en el mismo calendario y
+ * no hay nada que distinguir entre ellas. Lo que sí conviven -- liga, cuadrangular, copa nacional y
+ * copa internacional -- tiene cada una la suya. El NOMBRE del torneo va escrito adentro igual.
+ *
+ * `celda` tiñe el día entero y `pastilla` pinta el bloque: ese es el "color más grande".
+ */
+const COLOR_DE_TORNEO = {
+  liga:        { pastilla: 'bg-gold-500 text-slate-950',    celda: 'bg-gold-500/10',     punto: 'bg-gold-500' },
+  playoff:     { pastilla: 'bg-burgundy-500 text-white',    celda: 'bg-burgundy-500/10', punto: 'bg-burgundy-500' },
+  nacional:    { pastilla: 'bg-emerald-600 text-white',     celda: 'bg-emerald-600/10',  punto: 'bg-emerald-600' },
+  continental: { pastilla: 'bg-sky-600 text-white',         celda: 'bg-sky-600/10',      punto: 'bg-sky-600' },
+  seleccion:   { pastilla: 'bg-slate-200 text-slate-950',   celda: 'bg-slate-200/10',    punto: 'bg-slate-200' },
+  // El día que el calendario apartó para una copa en la que ya no estás. Apagado a propósito: es
+  // la única celda que no es un partido.
+  libre:       { pastilla: 'bg-slate-800 text-slate-400',   celda: 'bg-slate-900/40',    punto: 'bg-slate-800' },
+} as const;
+
+type FamiliaDeTorneo = keyof typeof COLOR_DE_TORNEO;
+
 interface CalendarEvent {
   date: Date;
-  label: string; // rótulo corto de jornada para la esquina (J3, G1, Cuartos...)
+  label: string; // nombre corto del torneo, el que se lee dentro de la celda ("Copa MX", "Clausura")
   sublabel: string; // texto completo "vs./@ Rival", usado como tooltip
   colorClass: string;
+  cellClass: string; // el tinte del día entero, del mismo color que la pastilla
   opponentClub?: Club;
   played?: boolean;
   result?: 'V' | 'E' | 'D';
@@ -849,8 +879,6 @@ export default function Dashboard({
     return paso ? formatDate(paso.date) : null;
   })();
 
-  // Etiqueta corta de cada celda del calendario. En las ligas de Apertura/Clausura dice cuál de los
-  // dos torneos es, que es la información que faltaba: son dos campeonatos distintos en el mismo año.
   /** La ronda de copa, corta y en español, para que entre en la celda del calendario. */
   const rondaCorta = (ronda: string) => {
     const b = ronda.replace(/\s*\([^)]*\)\s*$/, '').trim().toLowerCase();
@@ -864,42 +892,90 @@ export default function Dashboard({
     return ronda.length > 12 ? ronda.slice(0, 12) : ronda;
   };
 
+  /**
+   * El nombre corto de un torneo, tal como entra en una celda del calendario.
+   *
+   * Las copas nacionales ya vienen cortas y con nombre propio (Copa MX, Copa BetPlay, FA Cup,
+   * DFB-Pokal), así que se devuelven tal cual: eran justo las que se perdían bajo el "Copa" genérico.
+   * Las internacionales sí hay que recortarlas -- "Concacaf Champions Cup" no entra en una celda de
+   * séptimo de ancho -- pero se recortan al nombre con el que cada una se conoce, no a su categoría.
+   */
+  const nombreCortoDeTorneo = (nombre: string): string => {
+    if (/Libertadores/i.test(nombre)) return 'Libertadores';
+    if (/Sudamericana/i.test(nombre)) return 'Sudamericana';
+    if (/Concacaf/i.test(nombre)) return 'Concacaf';
+    if (/Champions League/i.test(nombre)) return 'Champions';
+    if (/Europa League/i.test(nombre)) return 'Europa';
+    if (/Conference League/i.test(nombre)) return 'Conference';
+    if (/Recopa/i.test(nombre)) return 'Recopa';
+    if (/Eliminatorias/i.test(nombre)) return 'Eliminatorias';
+    if (/Mundial de Clubes/i.test(nombre)) return 'Mundial Clubes';
+    if (/Mundial/i.test(nombre)) return 'Mundial';
+    return nombre;
+  };
+
+  /** A qué familia de color va este torneo. Ver COLOR_DE_TORNEO. */
+  const familiaDeTorneo = (etiqueta: string, kind: string, esPlayoff?: boolean): FamiliaDeTorneo => {
+    // El cuadrangular es liga, pero no es la fase regular: se pinta aparte porque es la parte del
+    // año en la que un partido te deja afuera. La leyenda prometía un color de "Playoffs" que hasta
+    // ahora no existía: eran del mismo borgoña que todas las copas.
+    if (esPlayoff) return 'playoff';
+    if (kind === 'league') return 'liga';
+    if (etiqueta === 'Libre') return 'libre';
+    if (/^(Eliminatorias|Mundial)/.test(etiqueta)) return 'seleccion';
+    if (/^(Libertadores|Sudamericana|Concacaf|Champions|Europa|Conference|Recopa)$/.test(etiqueta)) return 'continental';
+    return 'nacional';
+  };
+
+  /**
+   * ¿La copa nacional puede quedarse con alguno de los días que faltan?
+   *
+   * Sale de la MISMA función con la que App.tsx decide de quién es el día, así que el calendario no
+   * puede prometer una copa que el motor no va a jugar. Se contesta una sola vez y no una por celda:
+   * la respuesta no depende del día que se esté dibujando sino del estado de hoy, y quedar afuera
+   * -- o salir campeón, que también te saca del cuadro -- es definitivo.
+   */
+  const laNacionalPuedeTomarDias = laNacionalTieneCruce(playerProfile, currentClub, playerProfile.currentWeek);
+
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
     if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
-    // Un día RESERVADO de copa continental no sabe todavía de qué copa es, y no puede saberlo: la
-    // bolsa de días es una sola y el motor recién ese día pregunta "¿tengo continental? ¿nacional?".
-    // La reserva se guarda bajo la competición que le tocó a su liga, que no tiene por qué ser la
-    // tuya -- en Colombia hay clubes en Libertadores y clubes en Sudamericana, y al Junior, que
-    // juega la Libertadores, el calendario le mostraba "Sudamericana" en sus días reservados
-    // (reportado: "con Junior por alguna razón me sale un partido de Sudamericana"). Sus partidos
-    // REALES siempre estuvieron bien: los seis de grupos contra Palmeiras, Cerro Porteño y
+    // Un día RESERVADO de copa no sabe todavía de qué copa es, y no puede saberlo: la bolsa de días
+    // es una sola y el motor recién ese día pregunta "¿tengo cruce en la nacional? ¿y en la
+    // internacional?". La reserva se guarda bajo la competición que le tocó a su LIGA, que no tiene
+    // por qué ser la tuya -- en Colombia hay clubes en Libertadores y clubes en Sudamericana, y al
+    // Junior, que juega la Libertadores, el calendario le mostraba "Sudamericana" en sus días
+    // reservados (reportado: "con Junior por alguna razón me sale un partido de Sudamericana"). Sus
+    // partidos REALES siempre estuvieron bien: los seis de grupos contra Palmeiras, Cerro Porteño y
     // Sporting Cristal. Era sólo el cartel de los días apartados.
-    if (esReserva && comp.kind === 'continental_cup') {
-      // El día apartado se guarda bajo la copa que le tocó a la LIGA del club, que no tiene por qué
-      // ser la tuya -- en Colombia hay clubes en Libertadores y clubes en Sudamericana. Por eso
-      // antes decía "Copa Continental" a secas: era preferible un cartel vago a uno equivocado.
-      //
-      // Pero vago tampoco sirve: con el Junior, que juega la Libertadores, el 1 de abril salía
-      // "Copa Continental" mientras el 9, el 14 y el 29 decían "Libertadores" -- tres días del
-      // mismo torneo con dos nombres distintos. Reportado con captura: "¿por qué sale eso?".
-      //
-      // Acá sí se sabe cuál es tu copa (conmebolCupId sale de los clasificados de TU carrera), así
-      // que se dice. Sólo se vuelve al cartel genérico si ya quedaste afuera: ese día la bolsa
-      // compartida se la lleva la copa nacional y no hay forma de saber de antemano cuál es.
-      if (conmebolCupId && conmebolCup && isClubStillInCup(conmebolCup, currentClub.id)) {
-        return conmebolCupId === 'libertadores' ? 'Libertadores'
-          : conmebolCupId === 'concacaf' ? 'Concacaf' : 'Sudamericana';
-      }
-      return 'Copa';
+    //
+    // Acá sí se sabe cuál es TU copa (conmebolCupId y uefaCupId salen de los clasificados de tu
+    // carrera), así que se dice. Lo que no se sabía se decía como "Copa" a secas, y eso tapaba
+    // justo lo que el jugador quería leer: en un mes de Tigres, cuatro celdas idénticas que decían
+    // "Copa" eran Copa MX y cinco eran Concacaf. Ahora cada día apartado nombra a la copa que puede
+    // quedárselo -- y si no queda ninguna viva, dice que el día está libre en vez de inventar una.
+    if (esReserva) {
+      // Quedar afuera de una copa es definitivo, así que alcanza con mirar cómo estamos HOY para
+      // saber quién puede quedarse con los días que faltan. Una copa que todavía no arrancó -- sin
+      // estado guardado -- cuenta como viva: no se quedó afuera nadie.
+      const nacional = nombreCortoDeTorneo(nombreCopaNacional(currentClub.league));
+      const internacional =
+        conmebolCupId && (!conmebolCup || isClubStillInCup(conmebolCup, currentClub.id))
+          ? (conmebolCupId === 'libertadores' ? 'Libertadores'
+            : conmebolCupId === 'concacaf' ? 'Concacaf' : 'Sudamericana')
+        : uefaCupId && (!uefaCup || isClubStillInUefaCup(uefaCup, currentClub.id))
+          ? (uefaCupId === 'champions' ? 'Champions' : 'Europa')
+        : null;
+      // Un día que pidió la copa nacional lo juega la nacional siempre que tenga cruce: es la que
+      // tiene prioridad sobre la bolsa compartida (ver duenoDelDiaDeCopa).
+      if (comp.kind === 'domestic_cup' && laNacionalPuedeTomarDias) return nacional;
+      if (internacional) return internacional;
+      if (laNacionalPuedeTomarDias) return nacional;
+      // Sin cruce en ninguna de las dos, el día apartado no lo juega nadie. Es el mismo día que la
+      // tarjeta del próximo partido anuncia como "Hoy no se juega", y hasta ahora el calendario lo
+      // seguía contando como un partido de copa que nunca iba a llegar.
+      return 'Libre';
     }
-    // Las fechas FIFA: el nombre completo no entra en la celda del calendario.
-    if (/Eliminatorias/i.test(comp.name)) return 'Eliminatorias';
-    if (/Mundial/i.test(comp.name)) return 'Mundial';
-    if (/Libertadores/i.test(comp.name)) return 'Libertadores';
-    if (/Sudamericana/i.test(comp.name)) return 'Sudamericana';
-    if (/Superliga/i.test(comp.name)) return 'Superliga';
-    if (/Copa/i.test(comp.name)) return 'Copa';
-    return comp.name;
+    return nombreCortoDeTorneo(comp.name);
   };
 
   // Fecha real que se muestra en el encabezado. Sale del calendario de fechas cuando el club lo
@@ -2443,9 +2519,19 @@ export default function Dashboard({
       // mostraba "undefined undefined". Pasa con los partidos de copa (Superliga, Copa Colombia),
       // que no viven en ninguna tabla del motor y por eso no tienen resultado que buscar. Sin
       // marcador se muestra el torneo, atenuado para que se note que ya pasó.
+      // El NOMBRE del torneo de esta celda. En un día ya jugado sale del resultado guardado, que es
+      // el único que sabe qué copa se jugó de verdad: los días de copa son una bolsa compartida y el
+      // calendario sólo sabe cuál los pidió. Un día reservado por la Copa MX lo puede terminar
+      // jugando la Concacaf, y hasta ahora el calendario seguía diciendo Copa MX para siempre.
+      // (Para la liga no: ahí el resultado guarda "Liga MX" y la celda tiene que decir Apertura o
+      // Clausura, que es información que el resultado no trae.)
+      const etiqueta = f.esReservaDeCuadro && porFecha
+        ? nombreCortoDeTorneo(porFecha.competition)
+        : etiquetaCompetencia(f.competition, f.date, f.esReservaDeCuadro);
+      const familia = familiaDeTorneo(etiqueta, f.competition.kind, f.esPlayoff);
       calendarEvents.push({
         date: new Date(`${f.date}T00:00:00`),
-        label: etiquetaCompetencia(f.competition, f.date, f.esReservaDeCuadro),
+        label: etiqueta,
         // En una fecha RESERVADA para la copa el rival todavía no existe: depende de cómo terminen
         // las rondas anteriores. Decirlo es más honesto que mostrar el cartel de relleno.
         // En una copa se dice la RONDA además del rival: no es lo mismo unos octavos que una final,
@@ -2454,12 +2540,19 @@ export default function Dashboard({
         // siembran con la tabla de TU carrera (ver prepararPlayoffDeLiga) y el cruce casi nunca
         // coincide con el que hubo en la realidad. El calendario anunciaba "vs Once Caldas" y salías
         // contra Deportes Tolima. Reportado: "el calendario muestra otro equipo y partido".
-        sublabel: f.esReservaDeCuadro || f.esPlayoff
+        // Un día que ya no lo juega nadie no tiene "rival por definir": no va a haber rival. Decir
+        // las dos cosas en la misma celda -- "Libre" arriba y un rival pendiente en el globo -- es
+        // la clase de contradicción que hace dudar de si el calendario está roto.
+        sublabel: etiqueta === 'Libre'
+          ? 'El calendario apartó este día para una copa en la que tu club ya no está'
+          : f.esReservaDeCuadro || f.esPlayoff
           ? 'Rival por definir'
           : `${f.competition.kind !== 'league' && f.match.round ? rondaCorta(f.match.round) + ' · ' : ''}${f.isHome ? 'vs.' : '@'} ${rival?.name ?? f.opponentName}`,
-        colorClass: yaJugado
-          ? 'bg-slate-700 text-slate-300'
-          : f.competition.kind === 'league' ? 'bg-gold-600 text-white' : 'bg-burgundy-500 text-slate-950',
+        // El color es SIEMPRE el del torneo, también en los partidos ya jugados: antes se lo comía
+        // el color del resultado y la celda pasada perdía todo rastro de qué torneo era. El
+        // resultado se dice adentro, en su propia fichita.
+        colorClass: COLOR_DE_TORNEO[familia].pastilla,
+        cellClass: COLOR_DE_TORNEO[familia].celda,
         // Sin escudo tampoco: mostrar el del rival del calendario al lado de "Rival por definir" es
         // decir dos cosas distintas en la misma celda, y el escudo es la que se mira primero.
         opponentClub: f.esReservaDeCuadro || f.esPlayoff ? undefined : (rival ?? undefined),
@@ -5077,7 +5170,7 @@ export default function Dashboard({
                 </div>
 
                 <div className="overflow-x-auto">
-                  <div className="min-w-[560px]">
+                  <div className="min-w-[620px]">
                     <div className="grid grid-cols-7 gap-1 text-3xs font-mono uppercase text-center text-slate-500 mb-1">
                       {CALENDAR_WEEKDAY_NAMES.map(d => <div key={d} className="py-1">{d}</div>)}
                     </div>
@@ -5087,14 +5180,17 @@ export default function Dashboard({
                           {week.map((day, di) => (
                             <div
                               key={di}
-                              className={`min-h-[68px] rounded-lg p-1.5 ${
+                              className={`min-h-[78px] rounded-lg p-1.5 ${
                                 day
                                   ? (calendarEventsByDay.get(day) || []).some(e => e.esHoy)
                                     // El partido que te toca AHORA: sin esto la tarjeta decia
                                     // "Libertadores" y en el calendario no se distinguia cual de
                                     // todos era, que es de donde salia la confusion.
                                     ? 'bg-gold-950/40 border-2 border-gold-500'
-                                    : 'bg-slate-950 border border-slate-850'
+                                    // El dia entero se tiñe del color de su torneo. Es la mitad del
+                                    // "color mas grande" que pidio el jugador: la otra mitad es la
+                                    // pastilla, que ahora es un bloque lleno y no una linea fina.
+                                    : `border border-slate-850 ${(calendarEventsByDay.get(day) || [])[0]?.cellClass ?? 'bg-slate-950'}`
                                   : ''
                               }`}
                             >
@@ -5107,30 +5203,36 @@ export default function Dashboard({
                                     )}
                                   </span>
                                   <div className="space-y-0.5 mt-0.5">
-                                    {(calendarEventsByDay.get(day) || []).map((ev, ei) => {
-                                      const resultColorClass = ev.result === 'V'
-                                        ? 'bg-gold-700 text-white'
-                                        : ev.result === 'D'
-                                        ? 'bg-red-700 text-white'
-                                        : 'bg-slate-700 text-white';
-                                      return (
-                                        <div
-                                          key={ei}
-                                          title={ev.sublabel}
-                                          className={`relative flex items-center gap-1 text-[9px] leading-tight font-black rounded pl-1 pr-3 py-0.5 truncate ${ev.played ? resultColorClass : ev.colorClass}`}
-                                        >
+                                    {(calendarEventsByDay.get(day) || []).map((ev, ei) => (
+                                      // El bloque de color lleva SIEMPRE el nombre del torneo. Antes
+                                      // un partido jugado mostraba sólo "V 4-1" y se perdía de qué
+                                      // torneo había sido; ahora el resultado va en su propia fichita
+                                      // adentro, sobre el color del torneo.
+                                      <div
+                                        key={ei}
+                                        title={ev.sublabel}
+                                        className={`rounded-md px-1 py-1 ${ev.colorClass}`}
+                                      >
+                                        <div className="flex items-center gap-1">
                                           {ev.opponentClub ? (
-                                            <ClubBadge club={ev.opponentClub} size={11} className="rounded-sm shrink-0" />
+                                            <ClubBadge club={ev.opponentClub} size={12} className="rounded-sm shrink-0" />
                                           ) : (
-                                            <span className="shrink-0">⚽</span>
+                                            // El mismo café que la tarjeta de "Hoy no se juega":
+                                            // una pelota en un día libre dice lo contrario que el
+                                            // rótulo que tiene al lado.
+                                            <span className="shrink-0 text-[9px] leading-none">{ev.label === 'Libre' ? '☕' : '⚽'}</span>
                                           )}
-                                          <span className="truncate">{ev.played ? `${ev.result} ${ev.score}` : ev.label}</span>
-                                          <span className="absolute -top-1 -right-1 bg-slate-950 border border-slate-800 rounded-full min-w-[13px] h-[13px] px-0.5 flex items-center justify-center text-[6px] text-slate-300 font-mono leading-none">
-                                            {ev.label.replace(/[^0-9]/g, '') || '•'}
-                                          </span>
+                                          <span className="truncate text-[9px] leading-tight font-black tracking-tight">{ev.label}</span>
                                         </div>
-                                      );
-                                    })}
+                                        {ev.played && (
+                                          <div className={`mt-0.5 rounded bg-slate-950/60 text-center text-[9px] leading-tight font-black font-mono ${
+                                            ev.result === 'V' ? 'text-gold-300' : ev.result === 'D' ? 'text-red-400' : 'text-slate-300'
+                                          }`}>
+                                            {ev.result} {ev.score}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
                                   </div>
                                 </>
                               )}
@@ -5142,13 +5244,17 @@ export default function Dashboard({
                   </div>
                 </div>
 
+                {/* Los puntos salen del MISMO mapa que pinta las celdas. Escrita aparte, esta
+                    leyenda ya se había quedado describiendo colores que no existían: prometía un
+                    rojo para los playoffs y un borgoña para la copa continental cuando en la grilla
+                    todas las copas y los playoffs eran del mismo borgoña. */}
                 <div className="flex flex-wrap gap-3 mt-4 pt-3 border-t border-slate-800 text-3xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-gold-600 inline-block" /> Liga ({currentClub.league})</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-burgundy-500 inline-block" /> Copa Continental</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-red-600 inline-block" /> Playoffs</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-gold-700 inline-block" /> Ya jugado: V</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-slate-700 inline-block" /> E</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-red-700 inline-block" /> D</span>
+                  <span className="flex items-center gap-1.5"><span className={`w-2.5 h-2.5 rounded inline-block ${COLOR_DE_TORNEO.liga.punto}`} /> Liga ({currentClub.league})</span>
+                  <span className="flex items-center gap-1.5"><span className={`w-2.5 h-2.5 rounded inline-block ${COLOR_DE_TORNEO.playoff.punto}`} /> Playoffs</span>
+                  <span className="flex items-center gap-1.5"><span className={`w-2.5 h-2.5 rounded inline-block ${COLOR_DE_TORNEO.nacional.punto}`} /> {nombreCopaNacional(currentClub.league)}</span>
+                  <span className="flex items-center gap-1.5"><span className={`w-2.5 h-2.5 rounded inline-block ${COLOR_DE_TORNEO.continental.punto}`} /> Copa internacional</span>
+                  <span className="flex items-center gap-1.5"><span className={`w-2.5 h-2.5 rounded inline-block ${COLOR_DE_TORNEO.seleccion.punto}`} /> Selección</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-slate-950/60 border border-slate-700 inline-block" /> V / E / D: ya jugado</span>
                 </div>
               </div>
 
