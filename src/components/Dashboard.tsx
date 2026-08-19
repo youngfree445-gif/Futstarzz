@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
 import { ULTIMATE_CLUBS_DATABASE, CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS, ROLES_DATABASE, AGENTS_DATABASE, INVESTMENTS_DATABASE } from '../data';
@@ -6,7 +6,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { torneoDeSeleccionesDelDia, jornadaDeLiga, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
+import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -30,7 +30,7 @@ import {
   leagueKeyFor, sortTable,
   getLibertadoresParticipants, getSudamericanaParticipants, getConcacafParticipants, getOrCreateCupState, getUpcomingCupMatch,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch,
-  isClubStillInCup, isClubStillInUefaCup,
+  isClubStillInCup, isClubStillInUefaCup, partidosQueLeQuedanEnLaCopa,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isApeturaClausuraLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
   CAREER_START_YEAR, roundLabelByMatchCount, crucePlayoffDeLiga, rondaDelPlayoff
@@ -981,6 +981,41 @@ export default function Dashboard({
    */
   const laNacionalPuedeTomarDias = laNacionalTieneCruce(playerProfile, currentClub, playerProfile.currentWeek);
 
+  /**
+   * LOS DIAS APARTADOS QUE YA NO SON DE NADIE.
+   *
+   * El calendario aparta mas dias de copa de los que el cuadro necesita -- a proposito, para que
+   * ningun torneo se quede corto -- y hasta ahora TODOS mostraban el cartel de la copa. Con la final
+   * por jugar, al Junior le quedaban tres dias de "Libertadores" DESPUES de la final. Reportado:
+   * "estoy por jugar la final de la Libertadores pero en el calendario aparecen mas fechas".
+   *
+   * Se recorren los dias apartados que quedan por delante, en orden, y se le dan a la copa los
+   * PARTIDOS QUE LE FALTAN (ver partidosQueLeQuedanEnLaCopa). Los de mas atras quedan libres.
+   *
+   * Sólo mira la copa internacional: la nacional comparte la misma bolsa y su cuadro se sortea con
+   * otro reloj, asi que descontarla acá seria adivinar.
+   */
+  const diasDeCopaQueSobran = useMemo(() => {
+    const sobran = new Set<string>();
+    const cupState = conmebolCup ?? null;
+    if (!cupState || !conmebolCupId) return sobran;
+
+    let quedan = partidosQueLeQuedanEnLaCopa(cupState, currentClub.id);
+    if (quedan >= 99) return sobran;   // en grupos todavia falta todo
+
+    const hoy = fechaDelPasoCal(currentClub.name, playerProfile.currentWeek) ?? '';
+    const apartados = fixturesForClub(currentClub.name)
+      .filter(f => f.esReservaDeCuadro && f.competition.kind === 'continental_cup' && f.date >= hoy)
+      .map(f => f.date)
+      .sort();
+
+    for (const d of apartados) {
+      if (quedan > 0) quedan--;
+      else sobran.add(d);
+    }
+    return sobran;
+  }, [conmebolCup, conmebolCupId, currentClub.id, currentClub.name, playerProfile.currentWeek]);
+
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
     if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
     // Un día RESERVADO de copa no sabe todavía de qué copa es, y no puede saberlo: la bolsa de días
@@ -998,6 +1033,8 @@ export default function Dashboard({
     // "Copa" eran Copa MX y cinco eran Concacaf. Ahora cada día apartado nombra a la copa que puede
     // quedárselo -- y si no queda ninguna viva, dice que el día está libre en vez de inventar una.
     if (esReserva) {
+      // Un día apartado que ya no le hace falta a ninguna copa es un día libre, no un partido.
+      if (comp.kind === 'continental_cup' && diasDeCopaQueSobran.has(date)) return 'Libre';
       // Quedar afuera de una copa es definitivo, así que alcanza con mirar cómo estamos HOY para
       // saber quién puede quedarse con los días que faltan. Una copa que todavía no arrancó -- sin
       // estado guardado -- cuenta como viva: no se quedó afuera nadie.

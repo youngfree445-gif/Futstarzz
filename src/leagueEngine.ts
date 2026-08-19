@@ -1006,6 +1006,49 @@ export function sigueEnElCuadroDeIdaYVuelta(rondas: TwoLegTie[][], clubId: strin
   return mia.winnerId === clubId;
 }
 
+/**
+ * CUANTOS PARTIDOS LE QUEDAN AL CLUB EN ESTA COPA.
+ *
+ * Existe para el calendario, no para el motor. El calendario aparta una BOLSA de dias para las
+ * copas -- mas de los que el cuadro necesita, a proposito, para que ningun torneo se quede sin
+ * fechas -- y despues cada dia apartado muestra el cartel de la copa que puede quedarselo. El
+ * cartel preguntaba "¿seguis en la copa?", que no es lo mismo: con la final por jugar seguis
+ * adentro, pero te queda UN partido y los dias apartados que sobran no son de nadie.
+ *
+ * Reportado asi: "estoy por jugar la final de la Libertadores pero en el calendario aparecen mas
+ * fechas". Eran tres dias despues de la final, todos con el cartel de Libertadores.
+ *
+ * Devuelve un numero grande mientras la copa esta en grupos o en repechaje: ahi falta todo y no
+ * hace falta contar fino. La cuenta exacta importa recien en el cuadro final, que es donde se
+ * acaban los partidos y sobran los dias.
+ */
+export function partidosQueLeQuedanEnLaCopa(cup: CupState, clubId: string): number {
+  if (!isClubStillInCup(cup, clubId)) return 0;
+  // La copa TERMINADA va primero: al campeon le quedan cero partidos, no "todavia falta todo".
+  // Sin esta linea el campeon caia en la rama de grupos y sus dias apartados seguian con cartel.
+  if (cup.stage === 'done' || cup.knockout?.championId) return 0;
+  if (cup.stage !== 'knockout' || !cup.knockout) return 99;
+
+  const rondas = cup.knockout.tiesByRound;
+  const actual = rondas[rondas.length - 1] ?? [];
+  const mia = actual.find(t => t.clubAId === clubId || t.clubBId === clubId);
+  if (!mia) return 0;
+
+  // Lo que falta de MI llave: dos si no se jugo nada, uno si ya se jugo la ida.
+  let quedan = 0;
+  if (!mia.played) {
+    if (mia.partidoUnico) quedan = 1;
+    else quedan = mia.firstLegGoalsA === null ? 2 : 1;
+  }
+
+  // Y las rondas que vendrian despues, si gano. La final va a partido unico.
+  for (let cruces = Math.floor(actual.length / 2); cruces >= 1; cruces = Math.floor(cruces / 2)) {
+    quedan += cruces === 1 ? 1 : 2;
+    if (cruces === 1) break;
+  }
+  return quedan;
+}
+
 export function isClubStillInCup(cup: CupState, clubId: string): boolean {
   if (cup.stage === 'groups') {
     return cup.groups.some(g => g.clubIds.includes(clubId));
