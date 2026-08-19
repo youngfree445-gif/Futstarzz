@@ -519,7 +519,7 @@ for (const liga of fichajes.ligas) {
       // subtotales sumaran más que el total, que es la clase de informe que no se puede creer.
       if (elegido.team_name === destino.team_name) { yaEstaba.push(alta.nombre); continue; }
       criterio.push(alta.nombre);
-      movidos.push({ nombre: elegido.nombre_completo, de: elegido.team_name, a: destino.team_name });
+      movidos.push({ nombre: elegido.nombre_completo, de: elegido.team_name, a: destino.team_name, jugador: elegido });
       mover(elegido, destino);
     }
   }
@@ -555,11 +555,64 @@ for (const liga of fichajes.ligas) {
       // quedaba en su club viejo aunque Transfermarkt dijera que se fue.
       const destino = buscarEquipo(baja.otroClub) ?? LIBRES;
       if (destino === LIBRES) aLibres.push({ nombre: p.nombre_completo, de: p.team_name, a: baja.otroClub });
-      else movidos.push({ nombre: p.nombre_completo, de: p.team_name, a: destino.team_name });
+      else movidos.push({ nombre: p.nombre_completo, de: p.team_name, a: destino.team_name, jugador: p });
       mover(p, destino);
     }
   }
 }
+
+// --- EL TOPE DE PLANTEL ------------------------------------------------------------------------
+//
+// Transfermarkt lista como altas las vueltas de préstamo y los juveniles que suben, así que un club
+// puede terminar con 27 altas y 8 bajas en una ventana. Aplicado tal cual, Boca quedaba con 54
+// jugadores. Boca no tiene 54 jugadores.
+//
+// El tope sale del propio juego, no de una idea: medida la base entera, la mediana de plantel es 27,
+// el percentil 75 es 30 y el 90 es 34. 32 deja pasar a los planteles grandes de verdad y corta los
+// que no son planteles sino acumulaciones.
+//
+// Se corta por MEDIA, de abajo hacia arriba, y con dos protecciones:
+//
+//   . Los que acaban de llegar NO se tocan. Cortar por media a secas podía sacar del Real Madrid al
+//     jugador que el club compró la semana pasada, y "fiché a Diomande y no está" es peor que un
+//     plantel largo.
+//   . Se respetan mínimos por línea. Ordenar por media y quedarse con los 32 mejores puede dejar a
+//     un club con un arquero, y ahí no hay equipo que se pueda parar en la cancha.
+const TOPE_DE_PLANTEL = 32;
+const MIN_PORTEROS = 3, MIN_DEFENSIVOS = 9, MIN_OFENSIVOS = 9;
+
+const reciénLlegados = new Set([...creados, ...movidos.map(m => m.jugador).filter(Boolean)]);
+const podados = [];
+if (LIBRES) {
+  const porClub = new Map();
+  for (const p of jugadores) {
+    if (!p.team_name || SELECCIONES.has(p.team_name)) continue;
+    const l = porClub.get(p.team_name);
+    if (l) l.push(p); else porClub.set(p.team_name, [p]);
+  }
+  for (const [club, plantel] of porClub) {
+    if (plantel.length <= TOPE_DE_PLANTEL) continue;
+    const cupo = { portero: MIN_PORTEROS, defensivo: MIN_DEFENSIVOS, ofensivo: MIN_OFENSIVOS };
+    const quedan = { portero: 0, defensivo: 0, ofensivo: 0 };
+    for (const p of plantel) quedan[p.categoria_tactica] = (quedan[p.categoria_tactica] ?? 0) + 1;
+
+    // De peor a mejor, que es el orden en que se va un plantel inflado.
+    const candidatos = plantel
+      .filter(p => !reciénLlegados.has(p))
+      .sort((a, b) => (a.media_valoracion ?? 0) - (b.media_valoracion ?? 0));
+    let sobran = plantel.length - TOPE_DE_PLANTEL;
+    for (const p of candidatos) {
+      if (sobran <= 0) break;
+      const cat = p.categoria_tactica;
+      if ((quedan[cat] ?? 0) <= (cupo[cat] ?? 0)) continue;   // no bajar del mínimo de su línea
+      quedan[cat]--;
+      sobran--;
+      podados.push({ nombre: p.nombre_completo, de: club, media: p.media_valoracion });
+      mover(p, LIBRES);
+    }
+  }
+}
+console.log(`\n  TOPE DE PLANTEL (${TOPE_DE_PLANTEL}): ${podados.length} jugadores a agentes libres`);
 
 const total = fichajes.ligas.reduce((a, l) => a + l.clubes.reduce((b, c) => b + c.altas.length, 0), 0);
 console.log(`FICHAJES BAJADOS: ${total} altas en ${fichajes.ligas.length} ligas (temporada ${fichajes.saison})\n`);
