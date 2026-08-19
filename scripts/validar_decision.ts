@@ -577,5 +577,42 @@ console.log('');
      casos > 0 && enSuFecha === casos, `${enSuFecha} de ${casos}${fallos.length ? ' | ' + fallos.join(' | ') : ''}`);
 }
 
+// =============================================================================================
+// 14. LA COPA CUENTA SUS PASOS AUNQUE SUS DIAS SE LLAMEN DE OTRA MANERA
+// =============================================================================================
+//
+// El nombre de un dia RESERVADO no dice nada del club: sale de la copa que el calendario le mapeo
+// a su LIGA (ventanaContinentalPorClub elige una sola por liga). A los cuatro colombianos que
+// juegan la Libertadores les aparta dias rotulados "Copa Sudamericana". Filtrando por nombre a
+// secas, su Libertadores contaba SEIS pasos de los trece que necesita y dejaba de correr de fondo
+// a mitad de camino.
+
+console.log('');
+{
+  const lib = getLibertadoresParticipants(clubes, 1, {}, undefined);
+  const sud = getSudamericanaParticipants(clubes, 1, {}, undefined);
+  let conCalendario = 0, suficientes = 0;
+  const cortos: string[] = [];
+  for (const id of [...lib, ...sud]) {
+    const c = clubes.find(x => x.id === id)!;
+    const suyas = fixturesForClub(c.name).filter(f => f.temporada === 1 && f.competition.kind === 'continental_cup');
+    if (!suyas.length) continue;
+    conCalendario++;
+    let ultimo = 1;
+    for (let p = 1; p <= 300; p++) { const t = temporadaDelPaso(c.name, p); if (!t || t.temporada > 1) break; ultimo = p; }
+    // 11 y no 13: el conteo mira los dias ANTERIORES al paso -- el ultimo no entra -- y un par de
+    // clubes juegan de verdad las DOS copas (la previa de Libertadores baja a la Sudamericana), asi
+    // que sus partidos reales de la otra no le suman a esta. Lo que se exige es que llegue al final
+    // del ano con CASI todos sus pasos. Antes del arreglo, los cuatro colombianos contaban SEIS.
+    const pasos = fechasDeCopaTranscurridas(c.name, ultimo, true,
+      lib.includes(id) ? 'Copa Libertadores' : 'Copa Sudamericana');
+    if (pasos >= 11) suficientes++;
+    else if (cortos.length < 5) cortos.push(`${c.name}: ${pasos}`);
+  }
+  ok('todos los participantes cuentan los pasos de copa que su calendario les da',
+     conCalendario > 0 && suficientes === conCalendario,
+     `${suficientes} de ${conCalendario}${cortos.length ? ' | ' + cortos.join(' | ') : ''}`);
+}
+
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

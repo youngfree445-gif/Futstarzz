@@ -1856,8 +1856,20 @@ export function fechasDeCopaTranscurridas(
     // cruce) no se cuenta, asi que la cuenta puede quedar CORTA. Es el lado seguro del error: la
     // copa espera en vez de simular de fondo, y el partido pendiente del jugador sigue estando. Que
     // igual termine coronando lo garantiza terminarCopaContinental, no este contador.
+    // Un dia RESERVADO cuenta para la copa que el club juegue, sea cual sea el nombre que lleve.
+    //
+    // El nombre de una reserva no dice nada del CLUB: sale de la copa que el calendario le mapeo a
+    // su LIGA (ver ventanaContinentalPorClub, que elige una sola por liga). A los cuatro
+    // colombianos que juegan la Libertadores el calendario les aparta dias rotulados "Copa
+    // Sudamericana", y filtrando por nombre a secas su Libertadores contaba SEIS pasos de los trece
+    // que necesita: la copa dejaba de correr de fondo a mitad de camino.
+    //
+    // El nombre solo desempata los partidos REALES, que son los que si dicen de que copa son. Es lo
+    // que hacia falta para el Independiente Medellin, que juega los dos: sus dos partidos reales de
+    // Sudamericana -- el repechaje al que baja el tercero del grupo -- ya no le suman pasos a su
+    // Libertadores, que era lo que la coronaba en agosto.
     if (s.fixtures.some(f => f.competition.kind === 'continental_cup'
-      && (!nombreDeLaCopa || f.competition.name === nombreDeLaCopa))) n++;
+      && (!nombreDeLaCopa || f.esReservaDeCuadro || f.competition.name === nombreDeLaCopa))) n++;
   }
   return n;
 }
