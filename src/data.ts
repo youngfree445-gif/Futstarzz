@@ -4744,97 +4744,41 @@ export function getClubWithRoster(clubName: string, clubId?: string): any {
     player => player.team_name && player.team_name.toLowerCase() === nombreParaBuscar.toLowerCase()
   );
 
-  // 4. Si encontramos jugadores en el JSON para este equipo, reconstruimos su plantilla, sacando a
-  // los que ya se fueron a otro club según data.ts (ver getJugadoresMudados).
+  // 4. El plantel es el de la base de jugadores, entero.
+  //
+  // ACÁ HABÍA UN FILTRO Y SE SACÓ. Descartaba a los jugadores que el `starPlayers` de OTRO club
+  // nombrara, para que la pantalla no mostrara a alguien que ya se había ido. Tenía sentido cuando
+  // la base de jugadores era la fuente vieja y starPlayers la que se corregía a mano; hoy es al
+  // revés: la base se actualiza con la ventana de pases entera (ver scripts/aplicar_fichajes.mjs)
+  // y starPlayers es una lista de 7 a 11 figuras que en varios clubes quedó a medio actualizar.
+  //
+  // Y el filtro no fallaba sólo por eso. Cruzaba por NOMBRE contra los ~4.900 nombres de todos los
+  // starPlayers juntos, con una normalización que quita acentos y cambia la m por la n: cualquier
+  // club que nombrara a un "Gabriel" borraba a todos los Gabriel de los demás planteles. Escondía a
+  // 455 jugadores, entre ellos Luis Díaz -- que no aparecía en el Bayern porque Envigado tiene un
+  // juvenil llamado "Luis Díaz (Jr)".
+  //
+  // Un jugador de más en un plantel se ve raro; uno que no está en ninguno no se puede ni fichar.
   if (clubPlayers.length > 0) {
-    const mudados = getJugadoresMudados().get(baseClub.id) ?? new Set<string>();
-    const sigueAca = (p: any) => !mudados.has(normalizarNombreJugador(String(p.nombre_completo ?? '')));
-    const vigentes = clubPlayers.filter(sigueAca);
     clubClonado.plantilla = {
-      porteros: vigentes.filter(p => p.categoria_tactica === 'portero'),
-      defensivos: vigentes.filter(p => p.categoria_tactica === 'defensivo'),
-      ofensivos: vigentes.filter(p => p.categoria_tactica === 'ofensivo')
+      porteros: clubPlayers.filter(p => p.categoria_tactica === 'portero'),
+      defensivos: clubPlayers.filter(p => p.categoria_tactica === 'defensivo'),
+      ofensivos: clubPlayers.filter(p => p.categoria_tactica === 'ofensivo')
     };
   }
 
   return clubClonado;
 }
 
-/**
- * Nombres de jugadores que YA NO pertenecen a este club, según el traspaso registrado en
- * starPlayers de CLUBS_DATABASE.
- *
- * ALL_PLAYERS es una foto del JSON original y no se actualiza cuando se aplica un traspaso en
- * data.ts. Por eso la pantalla de plantilla seguía mostrando a Carlos Bacca y Jhonier Guerrero en
- * Junior de Barranquilla mucho después de que Bacca pasara al Deportivo Cali: son dos fuentes
- * distintas y la de la pantalla era la vieja.
- *
- * Solo se filtra cuando hay evidencia POSITIVA de la mudanza -- que el jugador figure en el
- * starPlayers de OTRO club --, nunca por ausencia: starPlayers lista 5-11 titulares y el roster
- * trae 26, así que descartar a los que no están en la lista corta borraría media plantilla.
- */
-/**
- * Nombre de jugador listo para comparar entre las dos fuentes de plantilla.
- *
- * Se quita la posicion ("(ST)"), la marca de debut ("#2031") y los acentos, y se unifica m/n: el
- * JSON viejo trae nombres mal escritos respecto de Transfermarkt ("Jhonier" por "Jhomier"), y sin
- * eso un traspaso real no se detecta y el jugador sigue apareciendo en su club anterior.
- */
-/**
- * Los paréntesis que son una POSICIÓN y no parte del nombre.
- *
- * Antes se borraba cualquier paréntesis del final, y en toda la base hay exactamente uno que no es
- * una posición: "Luis Díaz (Jr)", el juvenil de Envigado. Al borrarlo quedaba "luis diaz", el mismo
- * nombre que el Luis Díaz del Bayern -- así que el filtro de traspasos daba por mudado al del Bayern
- * y lo sacaba de su plantel. El jugador no aparecía en NINGÚN club: ni en Liverpool, de donde se fue
- * en 2025, ni en el Bayern, donde juega. Reportado como "Luis Díaz no está en el Liverpool".
- *
- * Es el homónimo de siempre (ver docs/PROMPT_DATOS_Y_SCRAPING.md §3) escondido en una expresión
- * regular: "(Jr)" es justamente lo que distingue a una persona de la otra, y era lo primero que se
- * tiraba a la basura.
- */
-const POSICIONES_EN_PARENTESIS = /\s*\((GK|CB|LB|RB|CDM|CM|CAM|LM|RM|LW|RW|ST)\)\s*$/;
-
-function normalizarNombreJugador(n: string): string {
-  return n
-    .replace(POSICIONES_EN_PARENTESIS, '')
-    .replace(/#\d+/g, '')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .trim()
-    .toLowerCase()
-    .replace(/m/g, 'n');
-}
-
-let jugadoresMudadosCache: Map<string, Set<string>> | null = null;
-
-function getJugadoresMudados(): Map<string, Set<string>> {
-  if (jugadoresMudadosCache) return jugadoresMudadosCache;
-
-  // nombre del jugador -> ids de los clubes que lo listan como titular
-  const clubesDe = new Map<string, Set<string>>();
-  for (const club of CLUBS_DATABASE as any[]) {
-    for (const raw of (club.starPlayers ?? [])) {
-      const nom = normalizarNombreJugador(raw);
-      if (!nom) continue;
-      if (!clubesDe.has(nom)) clubesDe.set(nom, new Set());
-      clubesDe.get(nom)!.add(club.id);
-    }
-  }
-
-  // Para cada club, los nombres del JSON que hoy pertenecen a otro lado.
-  const porClub = new Map<string, Set<string>>();
-  for (const club of CLUBS_DATABASE as any[]) {
-    const fuera = new Set<string>();
-    for (const [nom, ids] of clubesDe) {
-      if (!ids.has(club.id) && ids.size > 0) fuera.add(nom);
-    }
-    porClub.set(club.id, fuera);
-  }
-
-  jugadoresMudadosCache = porClub;
-  return porClub;
-}
+// AQUÍ VIVÍA getJugadoresMudados, y se borró junto con el filtro que la usaba (ver el punto 4 de
+// getClubWithRoster). Armaba, para cada club, el conjunto de nombres que el starPlayers de CUALQUIER
+// otro club mencionara, y con eso descartaba jugadores del plantel.
+//
+// Dos cosas la hundieron. La primera es que ya no hace falta: la base de jugadores es hoy la fuente
+// que se actualiza con la ventana de pases completa, así que no necesita que otra lista le corrija
+// quién se fue. La segunda es que emparejaba por NOMBRE contra los ~4.900 nombres de todos los
+// starPlayers juntos -- normalizados sin acentos y con la m cambiada por n --, de modo que un
+// "Gabriel" en un club borraba a los Gabriel de todos los demás. Escondía a 455 jugadores.
 
 /**
  * Sinónimos de los clubes HOMÓNIMOS, indexados por id en vez de por nombre.
