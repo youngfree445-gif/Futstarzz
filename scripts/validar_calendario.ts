@@ -143,5 +143,45 @@ if (sinResolver) {
   console.log(`  Revisar la \`division\` de esos clubes en data.ts contra el calendario de su liga.`);
 }
 
-const problemas = pocoDescanso.length + saturadas.length + sinResolver;
+// === E) NINGUNA RESERVA DE COPA PUEDE TAPAR UN PARTIDO DE LIGA ================================
+//
+// Las fechas reales del knockout continental entran en el calendario tenga el club partido ese dia
+// o no: la Conmebol fija su fecha y el torneo domestico se acomoda. Pero acomodarse quiere decir
+// CORRERSE, no desaparecer, y durante mucho tiempo el partido de liga se quedaba abajo del dia de
+// copa. Como pickPrimary le da prioridad a la copa, ese partido no se jugaba nunca: el calendario
+// te prometia Colo-Colo-La Serena el 29 de noviembre y el dia llegaba con una fecha de Libertadores
+// que tu club ni siquiera juega.
+//
+// Eran 58 partidos en la temporada 1 y 232 en las primeras cuatro. Los arregla
+// desenterrarPartidosDeLiga en dateSchedule.ts.
+//
+// Las fechas FIFA quedan afuera A PROPOSITO y no son un olvido: ese dia te vas con tu seleccion y
+// el club juega igual, sin vos. El partido de liga se juega, asi que no hay nada que correr. Eran
+// 1.958 de los 2.190 choques y meterlos aca convertia un arreglo en una mudanza masiva.
+console.log(`
+=== E) Partidos de liga tapados por un dia de copa ===`);
+let tapados = 0;
+const tapadosPorCopa = new Map<string, number>();
+for (const club of muestra) {
+  const fechas = fixturesForClub(club.name);
+  const reservas = new Map<string, string>();
+  for (const f of fechas) {
+    if (!f.esReservaDeCuadro || f.competition.kind === 'national_tournament') continue;
+    reservas.set(`${f.temporada}|${f.date}`, f.competition.name);
+  }
+  for (const f of fechas) {
+    if (f.competition.kind !== 'league' || f.esReservaDeCuadro || f.esPlayoff) continue;
+    const copa = reservas.get(`${f.temporada}|${f.date}`);
+    if (!copa) continue;
+    tapados++;
+    tapadosPorCopa.set(copa, (tapadosPorCopa.get(copa) ?? 0) + 1);
+  }
+}
+console.log(`  ${tapados} partidos de liga caen el mismo dia que una reserva de copa`);
+for (const [copa, n] of [...tapadosPorCopa].sort((a, b) => b[1] - a[1]).slice(0, 6)) {
+  console.log(`     ${String(n).padStart(4)} x  ${copa}`);
+}
+if (tapados) console.log(`  Cada uno es un partido que el calendario promete y no se juega nunca.`);
+
+const problemas = pocoDescanso.length + saturadas.length + sinResolver + tapados;
 console.log(`\n${problemas === 0 ? 'Sin problemas de descanso.' : `${problemas} hallazgos de descanso (ver arriba).`}`);

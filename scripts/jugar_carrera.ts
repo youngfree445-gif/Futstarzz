@@ -11,11 +11,15 @@
 // podía ver: el calendario estaba perfecto, los cuadros estaban perfectos, y sin embargo el torneo
 // se congelaba a mitad de camino. Lo único que lo delata es jugarlo hasta el final.
 
-import { CLUBS_DATABASE } from '../src/data';
+import {
+  CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE,
+  NATIONALITY_TO_WORLD_CUP_TEAM_ID,
+} from '../src/data';
 import {
   fixturesForClub, fixturesAtStep, pickPrimary, esUltimaFechaDelTorneo,
   esUltimoPartidoDeLaCopa, torneoDelClubEnFecha, partidosDeLaMismaLlave, fechasDePlayoffDelTorneo,
   RIVAL_POR_SORTEAR,
+  torneoDeSeleccionesDelDia, pasosDeMundialTranscurridos, pasosDeContinentalTranscurridos,
 } from '../src/dateSchedule';
 import {
   simulateMatch, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, leagueKeyFor, sortTable,
@@ -27,13 +31,30 @@ import {
   prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff, resolverPasoCopaNacional,
   terminarTorneoSinElJugador,
   CAREER_START_YEAR, roundLabelByMatchCount,
+  getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek,
+  type TorneoDeSelecciones,
 } from '../src/leagueEngine';
 import { crearCopaNacional, cruceActual, rondaActual, sigueEnCopa } from '../src/copaNacional';
 import { clubesDeLiga } from '../src/clubesJugables';
+import {
+  CONFEDERACION_POR_SELECCION, torneoContinentalDe,
+  seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica,
+} from '../src/eliminatorias';
 import type { Club } from '../src/types';
 
 const NOMBRE = process.argv[2] || 'Junior de Barranquilla';
 const club = CLUBS_DATABASE.find(c => c.name === NOMBRE)!;
+// Un nombre mal escrito reventaba con "Cannot read properties of undefined (reading 'league')" seis
+// llamadas mas adentro, en el motor, que no tiene nada que ver. Costo un rato entender que el club
+// simplemente no existia con ese nombre.
+if (!club) {
+  const parecidos = CLUBS_DATABASE
+    .filter(c => NOMBRE.split(/\s+/).some(t => t.length > 3 && c.name.toLowerCase().includes(t.toLowerCase())))
+    .slice(0, 6).map(c => c.name);
+  console.log(`No hay ningun club llamado "${NOMBRE}".`);
+  if (parecidos.length) console.log(`Quisiste decir: ${parecidos.join(' · ')}`);
+  process.exit(1);
+}
 const leagueKey = leagueKeyFor(club);
 const leagueClubs = clubesDeLiga(leagueKey);
 const nom = (id: string) => CLUBS_DATABASE.find(c => c.id === id)?.name ?? id;
@@ -91,6 +112,50 @@ const copasSinCuadro: Record<string, number> = {};
 const resultados: string[] = [];
 let pasosDeCopa = 0;
 
+// ------------------------------------------------------------------ el torneo de selecciones
+//
+// LA TEMPORADA NO ES SOLO DEL CLUB. En junio se para todo y se juega el Mundial -- o, en los anos
+// del medio, la Eurocopa y la Copa America -- y este validador lo SALTEABA: la linea decia "el
+// Mundial es con la seleccion, no con el club" y seguia de largo. Osea que la unica herramienta que
+// juega temporadas enteras nunca jugo un Mundial.
+//
+// Lo que costo esa ceguera: el Mundial no coronaba campeon NUNCA. Le faltaba la funcion que arma la
+// ronda siguiente de un cuadro a partido unico, se congelaba en la ronda de 32 y ahi se quedaba
+// hasta que la temporada terminaba. Un torneo entero, en todas las carreras, desde siempre.
+//
+// La nacionalidad sale del CLUB, que es de donde tiene que salir en un validador: `league` guarda el
+// gentilicio ('Colombiana', 'Espanola') y es la misma clave con la que el juego busca tu seleccion.
+// Asi, jugar con Junior prueba la Copa America y jugar con el Barcelona prueba la Eurocopa.
+const miSeleccionId: string | null = NATIONALITY_TO_WORLD_CUP_TEAM_ID[club.league] ?? null;
+const nomSel = (id: string) => ALL_NATIONAL_TEAMS_DATABASE.find(s => s.id === id)?.name ?? nom(id);
+
+const NOMBRE_DEL_TORNEO: Record<TorneoDeSelecciones, string> = {
+  mundial: 'Copa Mundial FIFA', eurocopa: 'Eurocopa', copaamerica: 'Copa America',
+};
+
+const equiposDe = (t: TorneoDeSelecciones): Club[] =>
+  t === 'mundial' ? (WORLD_CUP_TEAMS_DATABASE as Club[])
+  : t === 'eurocopa' ? seleccionesDeLaEurocopa(ALL_NATIONAL_TEAMS_DATABASE)
+  : seleccionesDeLaCopaAmerica(ALL_NATIONAL_TEAMS_DATABASE);
+
+/**
+ * Cual de los tres torneos ocupa el dia, o null si a tu seleccion no le toca ninguno.
+ *
+ * El calendario aparta la ventana y dice si es la del Mundial o la de los continentales; CUAL de
+ * los dos continentales te toca lo decide tu confederacion, no el calendario. Un asiatico o un
+ * africano no juega ninguno de los dos: para el es un parate a secas.
+ */
+const torneoDeHoy = (paso: number): TorneoDeSelecciones | null => {
+  const cual = torneoDeSeleccionesDelDia(club.name, paso);
+  if (!cual) return null;
+  if (cual === 'mundial') return 'mundial';
+  return torneoContinentalDe(CONFEDERACION_POR_SELECCION[miSeleccionId ?? '']);
+};
+
+// Un estado por torneo, aunque en una temporada solo pueda haber uno: el Mundial y los
+// continentales nunca caen el mismo ano.
+const selecciones: Record<string, any> = {};
+
 const fechas = fixturesForClub(club.name).filter(f => f.temporada === 1);
 console.log(`===== CARRERA: ${jugador.nombre} · ${club.name} · temporada ${CAREER_START_YEAR} =====`);
 console.log(`${fechas.length} fechas en el calendario · copa continental: ${cupIdMio ?? uefaIdMio ?? 'ninguna'}\n`);
@@ -106,8 +171,41 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
   const esPlayoff = hoy.fixtures.some(f => f.esPlayoff);
   const esContinental = fx.competition.kind === 'continental_cup';
   const esNacional = fx.competition.kind === 'domestic_cup';
-  const esMundial = fx.competition.kind === 'national_tournament';
-  if (esMundial) continue;   // el Mundial es con la selección, no con el club
+  // ---- el torneo de selecciones, por el MISMO camino que App.tsx
+  //
+  // No se llama al motor de una para que resuelva el torneo entero: se recorre dia por dia igual
+  // que el juego -- cuantas fechas pasaron, quien es el rival de hoy, se juega, se avanza -- porque
+  // es en ese camino donde estaban los bugs, no en el motor resolviendo de corrido. El atajo pasa
+  // en verde mientras el jugador ve un torneo congelado.
+  if (fx.competition.kind === 'national_tournament') {
+    const cual = torneoDeHoy(paso);
+    if (!cual) continue;
+    const equipos = equiposDe(cual);
+    const pasos = cual === 'mundial'
+      ? pasosDeMundialTranscurridos(club.name, paso)
+      : pasosDeContinentalTranscurridos(club.name, paso);
+    // El torneo avanza SIEMPRE, juegue tu seleccion o no: si no clasificaste, el Mundial se juega
+    // igual y tiene campeon. Es lo mismo que hacen los cuadros de copa cuando quedas eliminado.
+    selecciones[cual] = getOrCreateWorldCupState(1, equipos, selecciones[cual], pasos, cual);
+
+    const juego = miSeleccionId && equipos.some(e => e.id === miSeleccionId);
+    const prox = juego ? getUpcomingWorldCupMatch(selecciones[cual], miSeleccionId!) : null;
+    if (!prox) continue;
+
+    const yo = equipos.find(e => e.id === miSeleccionId)!;
+    const rivalSel = equipos.find(e => e.id === prox.opponentId);
+    if (!rivalSel) { raro(`${hoy.date}: rival sin seleccion en la base en ${NOMBRE_DEL_TORNEO[cual]}`); continue; }
+    if (prox.opponentId === miSeleccionId) raro(`${hoy.date}: tu seleccion se enfrenta a SI MISMA en ${NOMBRE_DEL_TORNEO[cual]}`);
+
+    const simS = prox.isHome ? simulateMatch(yo, rivalSel) : simulateMatch(rivalSel, yo);
+    const misS = prox.isHome ? simS.homeGoals : simS.awayGoals;
+    const susS = prox.isHome ? simS.awayGoals : simS.homeGoals;
+    jugador.partidos++;
+    if (misS > 0 && Math.random() < 0.35) jugador.goles++;
+    jugados[NOMBRE_DEL_TORNEO[cual]] = (jugados[NOMBRE_DEL_TORNEO[cual]] ?? 0) + 1;
+    selecciones[cual] = resolveWorldCupWeek(selecciones[cual], equipos, miSeleccionId!, prox.isHome, misS, susS);
+    continue;
+  }
 
   // ---- de dónde sale el rival
   let rivalId: string | null = null;
@@ -242,6 +340,24 @@ if (uefaIdMio && uefa) {
     uefa.championId ?? uefa.knockout?.championId ?? null,
     isClubStillInUefaCup(uefa, club.id), ronda ? roundLabelByMatchCount(ronda.length) : (uefa.stage ?? '?'));
 }
+// EL TORNEO DE SELECCIONES TIENE QUE CORONAR. Es el invariante que faltaba: el Mundial se congelaba
+// en la ronda de 32 y la temporada terminaba sin campeon, sin que nada lo dijera.
+for (const [t, estado] of Object.entries(selecciones)) {
+  const campeon: string | null = estado.championId ?? estado.knockout?.championId ?? null;
+  const etiqueta = NOMBRE_DEL_TORNEO[t as TorneoDeSelecciones];
+  console.log(`   ${etiqueta.padEnd(26)} ${
+    campeon === miSeleccionId ? 'CAMPEON con tu seleccion'
+    : campeon ? `campeon ${nomSel(campeon)}`
+    : `SIN CAMPEON (quedo en ${estado.stage})`}`);
+  if (!campeon) raro(`${etiqueta} termino la temporada SIN campeon (quedo en ${estado.stage})`);
+}
+// Que el torneo no se juegue tampoco puede pasar en silencio: si el calendario aparta las fechas y
+// tu seleccion existe, algo tuvo que pasar esos dias.
+if (!Object.keys(selecciones).length && miSeleccionId
+    && fechas.some(f => f.competition.kind === 'national_tournament')) {
+  raro('el calendario aparta fechas de selecciones y no se jugo ningun torneo');
+}
+
 for (const [nombre, n] of Object.entries(copasSinCuadro)) {
   console.log(`   ${nombre.padEnd(26)} ${n} partido(s) del calendario · SIN CUADRO en el motor, no hay campeon`);
 }
@@ -260,8 +376,22 @@ for (const [sem, b] of Object.entries(playoffs)) if (!b.championId) raro(`el cua
 if (!copaNacional.championId) raro(`la copa nacional terminó la temporada SIN campeón (quedó en ${rondaActual(copaNacional)})`);
 if (cupIdMio && !continental.knockout?.championId) raro(`la ${cupIdMio} terminó la temporada SIN campeón`);
 
-const jugadasDeLiga = jugados['Liga BetPlay Dimayor'] ?? jugados[Object.keys(jugados).find(k => /Liga|Primera|LaLiga|Serie|Premier/.test(k)) ?? ''] ?? 0;
-if (jugadasDeLiga < 30) raro(`sólo ${jugadasDeLiga} fechas de liga jugadas en toda la temporada`);
+// LAS FECHAS DE LIGA QUE EL CALENDARIO TRAIA, contra las que se jugaron.
+//
+// Antes el nombre de la liga se adivinaba con una expresion regular -- /Liga|Primera|LaLiga|Serie|
+// Premier/ -- y se comparaba contra un minimo fijo de 30. La Bundesliga, la Ligue 1 y la Eredivisie
+// no entran en esa lista: con el Bayern, el PSG o el Ajax el informe decia "solo 0 fechas de liga
+// jugadas" habiendose jugado las 34. Tres avisos falsos de una, que es exactamente lo que ensena a
+// ignorar la lista de rarezas.
+//
+// Ahora no se adivina nada: el nombre sale del calendario y el numero tambien. Y de paso el aviso
+// pasa a ser una pregunta que vale la pena -- ¿se jugaron TODAS? -- en vez de un minimo inventado.
+const nombreDeLaLiga = fechas.find(f => f.competition.kind === 'league')?.competition.name ?? null;
+const fechasDeLigaDelCalendario = fechas.filter(f => f.competition.kind === 'league' && !f.esPlayoff).length;
+const jugadasDeLiga = nombreDeLaLiga ? (jugados[nombreDeLaLiga] ?? 0) : 0;
+if (nombreDeLaLiga && jugadasDeLiga < fechasDeLigaDelCalendario) {
+  raro(`${nombreDeLaLiga}: el calendario traía ${fechasDeLigaDelCalendario} fechas y se jugaron ${jugadasDeLiga}`);
+}
 
 // Los titulos se leen del ESTADO FINAL, no se van anotando durante la temporada: una final que se
 // resuelve al cerrar el torneo (terminarTorneoSinElJugador) no pasa por el paso del partido, y el
@@ -270,6 +400,10 @@ jugador.titulos = [];
 if (copaNacional.championId === club.id) jugador.titulos.push(`Copa nacional ${CAREER_START_YEAR}`);
 if (continental.knockout?.championId === club.id) jugador.titulos.push(`Copa ${cupIdMio} ${CAREER_START_YEAR}`);
 for (const [sem, b] of Object.entries(playoffs)) if (b.championId === club.id) jugador.titulos.push(`${sem} ${CAREER_START_YEAR}`);
+for (const [t, estado] of Object.entries(selecciones)) {
+  const campeon = estado.championId ?? estado.knockout?.championId ?? null;
+  if (campeon && campeon === miSeleccionId) jugador.titulos.push(`${NOMBRE_DEL_TORNEO[t as TorneoDeSelecciones]} ${CAREER_START_YEAR}`);
+}
 
 console.log('\n--- TU JUGADOR ---');
 console.log(`   ${jugador.nombre}, ${jugador.edad} años, ${jugador.posicion} · ${club.name}`);

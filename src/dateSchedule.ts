@@ -313,6 +313,8 @@ function getIndice(temporada = 1): Map<string, DatedFixture[]> {
   for (const comp of deLiga) reservarFechasDeCuadrangular(comp, temporada, indice, agregar);
   reservarFechasDeMundial(indice, temporada);
   reservarFechasFifa(indice, temporada);
+  // Al final de todo: las reservas entran sin mirar, así que lo que taparon se corre de día.
+  desenterrarPartidosDeLiga(indice);
   for (const lista of indice.values()) lista.sort((a, b) => a.date.localeCompare(b.date));
 
   indicePorTemporada.set(temporada, indice);
@@ -1077,6 +1079,185 @@ function acomodarFechas(
     agregar(match.away, { competition: comp, match: suyo, date, isHome: false, opponentName: match.home, temporada });
     bloquear(match.home, elegido);
     bloquear(match.away, elegido);
+  }
+}
+
+/**
+ * LOS PARTIDOS DE LIGA QUE UNA RESERVA DE COPA DEJÓ ENTERRADOS.
+ *
+ * Las fechas reales del knockout continental entran SIEMPRE, tenga el club partido ese día o no
+ * (ver reservarFechasDeCopa): la Conmebol fija su calendario y el torneo doméstico se acomoda
+ * alrededor. Eso está bien y es lo que pasa en la vida real.
+ *
+ * Lo que faltaba era la segunda mitad de la frase. El torneo doméstico NO se acomodaba: el partido
+ * de liga se quedaba en el mismo día, debajo de la reserva, y como pickPrimary le da prioridad a la
+ * copa, ese partido no se jugaba nunca. Desaparecía. Medido sobre la temporada 1: 58 días en 34
+ * clubes, y en 39 de esos días el club ni siquiera juega copa continental -- osea que perdía el
+ * partido de liga a cambio de un día libre.
+ *
+ * Se ve jugando: el calendario te muestra Colo-Colo-La Serena el 29 de noviembre, llega el día, y
+ * lo que aparece es una fecha de Libertadores que tu club no juega. El partido no se posterga: se
+ * evapora, y la liga te queda con una fecha menos que la que el calendario prometía.
+ *
+ * Ahora se corre al día libre más cercano, buscando primero hacia adelante -- aplazar antes que
+ * adelantar, como se hace de verdad -- y respetando el descanso mínimo de los DOS clubes. Es la
+ * misma regla de siempre en este proyecto: se aprieta el calendario, no se recorta nada.
+ *
+ * Si en dos semanas no hay hueco para ninguno de los dos, el partido se queda donde estaba. No se
+ * pierde nada que no estuviera perdido ya, y es preferible a mandarlo a otro mes.
+ */
+function desenterrarPartidosDeLiga(indice: Map<string, DatedFixture[]>) {
+  const MAX_CORRIMIENTO_DIAS = 14;
+
+  // --- 1) QUE PARTIDOS ESTAN ENTERRADOS -------------------------------------------------------
+  //
+  // Se guardan LOS DOS FIXTURES de cada partido, no sus nombres para buscarlos despues. Buscarlos
+  // obligaba a recorrer la lista entera de los dos clubes por cada mudanza y, con las ~2.000 que
+  // salen por temporada a partir de la segunda, eso solo ya costaba 35 ms.
+  const enterrados = new Map<string, { home: string; away: string; dia: number; lados: DatedFixture[] }>();
+  const afectados = new Set<string>();
+  for (const [club, fixtures] of indice) {
+    // Se compara la fecha COMO TEXTO y no convertida a numero de dia. Este barrido toca los ~18.000
+    // partidos de cada una de las 32 temporadas, y convertir cada fecha ahi adentro le sumaba 35 ms
+    // al armado del calendario -- lo justo para pasarse del tope de 300 ms que vigila el validador.
+    // Para saber si dos fixtures caen el mismo dia alcanza con que la cadena sea igual.
+    // UNA sola vuelta por los partidos del club, juntando las dos listas a la vez. Este barrido toca
+    // los ~18.000 partidos de cada una de las 32 temporadas: darle dos vueltas costaba 30 ms de mas
+    // y con eso el armado del calendario se pasaba del tope de 300 ms que el validador vigila.
+    let reservas: Set<string> | null = null;
+    let deLiga: DatedFixture[] | null = null;
+    for (const f of fixtures) {
+      if (f.esReservaDeCuadro) {
+        // LAS FECHAS FIFA NO ENTIERRAN NADA, y son la enorme mayoria de los dias reservados: 1.958
+        // de los 2.190 choques de las primeras cuatro temporadas. Ese dia el jugador se va con su
+        // seleccion y EL CLUB JUEGA IGUAL, sin el (ver partidoDeLigaSinVos en App.tsx). El partido
+        // de liga no se pierde, asi que correrlo seria inventar un problema -- y pagar el precio de
+        // reubicar dos mil partidos por temporada que estan perfectamente donde estan.
+        //
+        // Un dia de COPA es otra cosa: ahi va el club entero, o no va nadie si no le toca. El
+        // partido de liga de ese dia no lo juega ninguno de los dos equipos, y sin correrlo
+        // desaparece.
+        if (f.competition.kind !== 'national_tournament') (reservas ??= new Set()).add(f.date);
+        continue;
+      }
+      // Solo la fase regular de liga. Un cuadrangular pertenece a un semestre y correrlo lo puede
+      // sacar de su torneo, y una copa nacional ya tiene su propio acomodo.
+      if (f.competition.kind === 'league' && !f.esPlayoff) (deLiga ??= []).push(f);
+    }
+    if (!reservas || !deLiga) continue;
+    for (const f of deLiga) {
+      if (!reservas.has(f.date)) continue;
+      const dia = dayForDate(f.date);
+      const home = f.isHome ? club : f.opponentName;
+      const away = f.isHome ? f.opponentName : club;
+      const clave = `${f.competition.id}|${home}|${away}|${dia}`;
+      const ya = enterrados.get(clave);
+      // El local y el visitante llegan aca por separado -- cada uno en su vuelta -- y los dos apuntan
+      // al mismo partido. Se junta por PARTIDO y no por club para moverlo una sola vez y para los dos
+      // lados: si cada uno lo moviera por su cuenta quedarian con el partido en dias distintos, que
+      // es el mismo error de dos fuentes contestando la misma pregunta que ya costo varios bugs aca.
+      if (ya) { ya.lados.push(f); continue; }
+      enterrados.set(clave, { home, away, dia, lados: [f] });
+      afectados.add(home);
+      afectados.add(away);
+    }
+  }
+  if (!enterrados.size) return;
+
+  // --- 2) LOS DIAS OCUPADOS, SOLO DE LOS CLUBES QUE HACE FALTA ---------------------------------
+  //
+  // Armar el mapa de los 549 clubes costaba 60 ms por temporada y con eso el armado del calendario
+  // se pasaba del tope de 300 ms que el validador vigila. Los clubes con un partido enterrado son
+  // unas decenas, asi que se calcula la ocupacion de esos y de nadie mas.
+  //
+  // Los dias van en un arreglo plano y no en un Map. Con las ~2.000 mudanzas por temporada que
+  // salen a partir de la segunda, casi todos los clubes entran aca, y armar un Map por cada uno
+  // costaba 25 ms de las 32 temporadas -- lo justo para pasarse del tope. Un Uint8Array indexado
+  // por dia hace lo mismo con una escritura en memoria: la temporada de un club son unos 300 dias,
+  // asi que son 300 bytes por club y se descarta al terminar.
+  const ocupados = new Map<string, { desde: number; dias: Uint8Array }>();
+  for (const club of afectados) {
+    const fixtures = indice.get(club);
+    if (!fixtures?.length) continue;
+    let min = Infinity, max = -Infinity;
+    for (const f of fixtures) {
+      const d = dayForDate(f.date);
+      if (d < min) min = d;
+      if (d > max) max = d;
+    }
+    const dias = new Uint8Array(max - min + 1);
+    for (const f of fixtures) dias[dayForDate(f.date) - min]++;
+    ocupados.set(club, { desde: min, dias });
+  }
+
+  /** Cuantos partidos tiene el club ese dia. Fuera de su temporada, ninguno. */
+  const cuantosEse = (club: string, dia: number): number => {
+    const o = ocupados.get(club);
+    if (!o) return 0;
+    const i = dia - o.desde;
+    return i < 0 || i >= o.dias.length ? 0 : o.dias[i];
+  };
+
+  /**
+   * Cuantos dias de descanso deja este dia, mirando el partido mas cercano de los dos clubes.
+   *
+   * Devuelve 0 si el dia ya tiene partido -- ahi no hay nada que evaluar -- y como mucho
+   * DESCANSO_MINIMO_DIAS, que es todo el descanso que hace falta: mas lejos ya da igual.
+   */
+  const descansoQueDeja = (home: string, away: string, dia: number): number => {
+    if (cuantosEse(home, dia) || cuantosEse(away, dia)) return 0;
+    for (let k = 1; k <= DESCANSO_MINIMO_DIAS; k++) {
+      if (cuantosEse(home, dia - k) || cuantosEse(home, dia + k)) return k;
+      if (cuantosEse(away, dia - k) || cuantosEse(away, dia + k)) return k;
+    }
+    return DESCANSO_MINIMO_DIAS + 1;
+  };
+
+  const dentroDeSuTemporada = (club: string, dia: number) => {
+    const o = ocupados.get(club);
+    return !o || (dia >= o.desde && dia < o.desde + o.dias.length);
+  };
+
+  // --- 3) A DONDE SE MUEVE ---------------------------------------------------------------------
+  for (const { home, away, dia, lados } of enterrados.values()) {
+    // Se miran los quince dias para cada lado y se elige EL MAS COMODO, no el primero que aparezca.
+    //
+    // Buscar el primero libre metia el partido pegado a otro habiendo un dia holgado dos jornadas
+    // mas alla: el calendario ganaba 58 partidos y de paso 373 avisos nuevos de descanso corto. La
+    // holgada primero deja el mismo resultado con la mitad del apriete.
+    //
+    // Y cuando NO hay ningun dia comodo se toma igual el mejor que haya, aunque quede apretado: en
+    // noviembre se juntan liga, copa y cuadrangular y ahi no queda hueco holgado. La alternativa a
+    // jugar con dos dias de descanso es no jugar el partido, y eso no es una alternativa.
+    let elegido: number | null = null;
+    let mejor = 0;
+    for (let salto = 1; salto <= MAX_CORRIMIENTO_DIAS; salto++) {
+      // Aplazar antes que adelantar, como se hace de verdad.
+      for (const d of [dia + salto, dia - salto]) {
+        if (!dentroDeSuTemporada(home, d) || !dentroDeSuTemporada(away, d)) continue;
+        const descanso = descansoQueDeja(home, away, d);
+        if (descanso > mejor) { mejor = descanso; elegido = d; }
+      }
+      // Un dia con descanso de sobra ya no se mejora buscando mas lejos, y cuanto menos se corra el
+      // partido de su fecha original, mejor.
+      if (mejor > DESCANSO_MINIMO_DIAS) break;
+    }
+    // Sin un solo dia libre en un mes: se queda donde estaba. No se pierde nada que no estuviera
+    // perdido ya, y es preferible a mandarlo a otro mes.
+    if (elegido === null || mejor === 0) continue;
+
+    const date = dateForDay(elegido);
+    // Un DatedMatch nuevo y compartido por los dos clubes. No se toca el de la competicion: en la
+    // temporada 1 ese objeto es el dato crudo importado, el mismo que sirve de molde para las 31
+    // temporadas siguientes, y escribirle encima moveria el partido en todas.
+    const suyo: DatedMatch = { date, home, away };
+    for (const f of lados) { f.date = date; f.match = suyo; }
+    for (const club of [home, away]) {
+      const o = ocupados.get(club);
+      if (!o) continue;
+      if (o.dias[dia - o.desde]) o.dias[dia - o.desde]--;
+      o.dias[elegido - o.desde]++;
+    }
   }
 }
 
