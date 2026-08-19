@@ -574,6 +574,7 @@ export function quedanFechasDeCopaContinental(clubName: string, paso: number): b
   const hoy = fechaDelPaso(clubName, paso);
   const t = temporadaDelPaso(clubName, paso);
   if (!hoy || !t) return false;
+  asegurarHorizonte(t.temporada);   // ver quedanFechasDePlayoff
   // ESTRICTAMENTE posteriores, y se pregunta por el dia que se acaba de jugar: asi el torneo se
   // cierra EL DIA de su ultima fecha y no al siguiente. Con `>=` y el dia siguiente, el campeon
   // aparecia tres dias tarde -- el 25 de noviembre para una final del 22 --, que es leer el
@@ -597,6 +598,7 @@ export function quedanFechasDeCopaContinental(clubName: string, paso: number): b
 export function rivalesDeGrupoEnElCalendario(
   clubName: string, competitionName: string, temporada: number,
 ): string[] {
+  asegurarHorizonte(temporada);   // ver quedanFechasDePlayoff
   const suyos = fixturesForClub(clubName).filter(f =>
     f.temporada === temporada
     && f.competition.kind === 'continental_cup'
@@ -632,6 +634,11 @@ export function rivalesDeGrupoEnElCalendario(
  * jugó el de vuelta", con el cuadro congelado en semifinal y el calendario ya en el Apertura.
  */
 export function quedanFechasDePlayoff(clubName: string, temporada: number, torneo: string, paso: number): boolean {
+  // El calendario se construye bajo demanda (ver asegurarHorizonte) y arranca con cuatro
+  // temporadas. Preguntando por una mas lejana sin estirarlo, fixturesForClub devuelve una lista
+  // corta y esto contesta "no quedan fechas" sobre un torneo que si las tiene -- y la red de
+  // seguridad lo cerraria antes de tiempo.
+  asegurarHorizonte(temporada);
   const hoy = fechaDelPaso(clubName, paso);
   if (!hoy) return false;
   // Estrictamente posteriores, por lo mismo que en la copa continental: se pregunta por el dia que
@@ -1862,6 +1869,7 @@ export function fechasDeCopaTranscurridas(
  * rivales, cada uno dos veces. Se usa para no contar la fase previa como pasos del cuadro.
  */
 function primeraFechaDeGrupos(clubName: string, competitionName: string, temporada: number): string | null {
+  asegurarHorizonte(temporada);   // ver quedanFechasDePlayoff
   const suyos = fixturesForClub(clubName).filter(f =>
     f.temporada === temporada
     && f.competition.kind === 'continental_cup'
