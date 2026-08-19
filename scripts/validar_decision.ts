@@ -9,8 +9,8 @@
 import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import { fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, quedanFechasDeCopaContinental, rivalesDeGrupoEnElCalendario, temporadaDelPaso } from '../src/dateSchedule';
-import { cerrarPlayoffsSinFechas, grupoRealDelCalendario, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce, playoffDelDiaSinElJugador } from '../src/decisionDelDia';
-import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, terminarCopaContinental, tercerosDeGrupo } from '../src/leagueEngine';
+import { bajoALaSudamericana, copaContinentalDelJugador, repescadosDeLaLibertadores, cerrarPlayoffsSinFechas, grupoRealDelCalendario, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce, playoffDelDiaSinElJugador } from '../src/decisionDelDia';
+import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, terminarCopaContinental, tercerosDeGrupo, isClubStillInCup, getUpcomingCupMatch } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional, cruceActual, nombreDeRonda } from '../src/copaNacional';
 import { resolverPasoCopaNacional } from '../src/leagueEngine';
@@ -628,6 +628,46 @@ console.log('');
   ok('todos los participantes cuentan los pasos de copa que su calendario les da',
      conCalendario > 0 && suficientes === conCalendario,
      `${suficientes} de ${conCalendario}${cortos.length ? ' | ' + cortos.join(' | ') : ''}`);
+}
+
+// =============================================================================================
+// 15. EL TERCERO DEL GRUPO CAMBIA DE COPA, NO SE VA A CASA
+// =============================================================================================
+//
+// Cual es TU copa era una funcion pura de las listas de participantes, y alcanzaba porque no
+// cambiaba en todo el ano. Con el repechaje si cambia: el tercero de un grupo de Libertadores baja
+// a la Sudamericana y sigue jugando ahi. La respuesta vive en un solo lugar a proposito -- entre
+// App y Dashboard se usa 39 veces, y dos derivaciones desincronizadas serian un cartel anunciando
+// una copa y un partido de la otra, que es un bug que este proyecto ya tuvo.
+
+console.log('');
+{
+  const lib = getOrCreateCupState('libertadores', 1, clubes, undefined, 6, {}, undefined, undefined, undefined);
+  const terceros = tercerosDeGrupo(lib);
+  const queBaja = clubes.find(c => c.id === terceros[0])!;
+  const perfil = { currentClubId: queBaja.id, continentalCups: { 'libertadores-1': lib } } as unknown as PlayerProfile;
+
+  ok('el que quedo tercero YA NO sigue en la Libertadores', !isClubStillInCup(lib, queBaja.id), queBaja.name);
+  ok('pero su copa pasa a ser la Sudamericana',
+     copaContinentalDelJugador(perfil, queBaja, clubes, 1, {}, undefined) === 'sudamericana');
+
+  const sud = getOrCreateCupState('sudamericana', 1, clubes, undefined, 6, {}, undefined, queBaja.id,
+    undefined, repescadosDeLaLibertadores(perfil, 1));
+  ok('y aparece en el repechaje, con rival y localia',
+     !!getUpcomingCupMatch(sud, queBaja.id));
+  ok('y cuenta como vivo ahi', isClubStillInCup(sud, queBaja.id));
+
+  // El que NO quedo tercero no cambia de copa.
+  const sigue = clubes.find(c => getLibertadoresParticipants(clubes, 1, {}, undefined).includes(c.id)
+    && !terceros.includes(c.id))!;
+  ok('el que paso de ronda sigue en la Libertadores',
+     copaContinentalDelJugador(perfil, sigue, clubes, 1, {}, undefined) === 'libertadores', sigue.name);
+
+  // Y sin cuadro guardado de Libertadores -- un club que nunca la jugo -- no baja nadie.
+  const sinNada = { currentClubId: queBaja.id, continentalCups: {} } as unknown as PlayerProfile;
+  ok('sin cuadro guardado no se inventa ninguna baja',
+     copaContinentalDelJugador(sinNada, queBaja, clubes, 1, {}, undefined) === 'libertadores'
+     && repescadosDeLaLibertadores(sinNada, 1) === undefined);
 }
 
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);

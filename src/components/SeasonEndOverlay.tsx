@@ -32,6 +32,15 @@ export interface SeasonEndInfo {
    */
   avanzo?: boolean;
   rondaSiguiente?: string | null;
+  /**
+   * La copa a la que BAJÁS. El tercero de un grupo de Libertadores no queda afuera: pasa a la
+   * Sudamericana y sigue jugando ahí.
+   *
+   * Va como aviso APARTE del de eliminación, no mezclado: primero se cierra la Libertadores -- que
+   * sí terminó para vos -- y después se anuncia que el año internacional sigue. Son dos cosas
+   * distintas y decirlas juntas convierte una eliminación en un premio.
+   */
+  bajaA?: string;
 }
 
 interface SeasonEndOverlayProps {
@@ -62,7 +71,9 @@ export default function SeasonEndOverlay({ info, onClose }: SeasonEndOverlayProp
   // La ronda a la que pasás sigue sin nombrarse a propósito (ver rondaSiguiente en SeasonEndInfo):
   // el nombre sale de contar llaves y no acierta en los cuadros que no tienen la forma esperada.
   // Decir "pasaste de ronda" sin nombrarla es cierto siempre.
-  const headline = info.avanzo
+  const headline = info.bajaA
+    ? 'Seguís en carrera'
+    : info.avanzo
     ? 'Pasaste de ronda'
     : info.eliminated
     ? `Eliminado en ${info.eliminatedRound ?? 'la eliminatoria'}`
@@ -77,7 +88,7 @@ export default function SeasonEndOverlay({ info, onClose }: SeasonEndOverlayProp
       className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-950/92 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
-      aria-label={info.avanzo ? `Clasificado en ${info.competition}` : `Fin de ${info.competition}`}
+      aria-label={info.bajaA ? `Pasás a la ${info.bajaA}` : info.avanzo ? `Clasificado en ${info.competition}` : `Fin de ${info.competition}`}
     >
       <div
         className={`relative w-full max-w-md bg-slate-900 border border-slate-700/60 rounded-3xl p-7 text-center shadow-2xl transition-all duration-500 ${
@@ -96,9 +107,9 @@ export default function SeasonEndOverlay({ info, onClose }: SeasonEndOverlayProp
         {/* La bandera gris es el gesto de "se terminó". Con ella arriba, el aviso de que pasás de
             ronda se leía como una despedida antes de que el jugador llegara a leer el texto. */}
         <div className={`w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br flex items-center justify-center shadow-lg ${
-          info.avanzo ? 'from-emerald-500 to-emerald-600' : 'from-slate-700 to-slate-800'
+          info.avanzo || info.bajaA ? 'from-emerald-500 to-emerald-600' : 'from-slate-700 to-slate-800'
         }`}>
-          {info.avanzo
+          {info.avanzo || info.bajaA
             ? <ChevronsUp size={36} className="text-white" />
             : <Flag size={36} className="text-slate-300" />}
         </div>
@@ -111,9 +122,9 @@ export default function SeasonEndOverlay({ info, onClose }: SeasonEndOverlayProp
         </h2>
         <p className="mt-3 text-sm text-slate-300 leading-relaxed">
           <span className="font-bold text-white">{info.clubName}</span>{' '}
-          {info.avanzo ? 'sigue en carrera en' : 'cierra su participación en'}{' '}
-          <span className="font-bold text-slate-200">{info.competition}</span>
-          {!info.eliminated && !info.avanzo && info.finalPosition && info.totalTeams
+          {info.bajaA ? 'pasa a la' : info.avanzo ? 'sigue en carrera en' : 'cierra su participación en'}{' '}
+          <span className="font-bold text-slate-200">{info.bajaA ?? info.competition}</span>
+          {!info.eliminated && !info.avanzo && !info.bajaA && info.finalPosition && info.totalTeams
             ? <> en el puesto <span className="font-bold text-white">{info.finalPosition}</span> de {info.totalTeams}.</>
             : '.'}
         </p>

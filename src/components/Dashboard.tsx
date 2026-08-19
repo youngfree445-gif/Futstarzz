@@ -16,7 +16,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { claveDeCopaNacional, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce } from '../decisionDelDia';
+import { bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -619,13 +619,11 @@ export default function Dashboard({
   // pantalla. Faltaba, y por eso un club mexicano no tenia copa continental para esta pantalla: la
   // tarjeta del proximo partido le anunciaba Copa MX en dias que el partido jugaba Concacaf, y el
   // panel de la copa no mostraba su cuadro. Encontrado con Tigres.
-  const conmebolCupId: 'libertadores' | 'sudamericana' | 'concacaf' | null = getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
-    ? 'libertadores'
-    : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones).includes(currentClub.id)
-    ? 'sudamericana'
-    : getConcacafParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones).includes(currentClub.id)
-    ? 'concacaf'
-    : null;
+  // Cual es TU copa lo contesta decisionDelDia, no esta pantalla: desde el repechaje la respuesta
+  // cambia a mitad de ano -- el tercero de un grupo de Libertadores baja a la Sudamericana -- y dos
+  // derivaciones que se desincronicen serian un cartel anunciando una copa y un partido de la otra.
+  const conmebolCupId = copaContinentalDelJugador(
+    playerProfile, currentClub, ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones);
   const conmebolCup = conmebolCupId
     // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
     // adelantaba el torneo de fondo con sólo mirarlo: la tabla de grupos mostraba fechas que el
@@ -646,7 +644,9 @@ export default function Dashboard({
           conmebolCupId === 'libertadores'
             ? getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones)
             : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones),
-        ))
+        ),
+        // Los terceros de la Libertadores, que bajan al repechaje de la Sudamericana.
+        repescadosDeLaLibertadores(playerProfile, cupYear))
     : null;
 
   const cupCampeonesUefa = {

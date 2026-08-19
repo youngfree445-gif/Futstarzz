@@ -30,10 +30,11 @@
 // sortearla (tu club SIEMPRE entra al cuadro de su país, así que hay cruce).
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
+import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
 import { fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { resolverClubDeCalendario } from './clubAliases';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
-import { crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
+import { getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
 
 /**
@@ -379,4 +380,60 @@ export function grupoRealDelCalendario(
   if (ids.length !== 3) return undefined;
   const grupo = [club.id, ...ids];
   return grupo.every(id => participantes.includes(id)) ? grupo : undefined;
+}
+
+
+// --- CUÁL ES TU COPA CONTINENTAL, Y CUÁNDO DEJA DE SERLO ---------------------------------------
+//
+// Hasta ahora era una función pura de las listas de participantes, calculada por separado en
+// App.tsx y en Dashboard.tsx. Alcanzaba porque la respuesta no cambiaba en todo el año.
+//
+// Con el repechaje sí cambia: el tercero de un grupo de Libertadores NO queda eliminado, baja a la
+// Sudamericana y sigue jugando ahí. O sea que a mitad de temporada tu copa pasa a ser otra, y esa
+// es exactamente la clase de pregunta que este archivo existe para contestar UNA vez -- entre los
+// dos archivos, `conmebolCupId` se usa 39 veces, y dos derivaciones que se desincronicen serían un
+// cartel anunciando una copa y un partido de la otra. Ya pasó.
+//
+// No hace falta campo nuevo ni migración: se deduce del cuadro guardado de la Libertadores, que ya
+// dice quién quedó tercero.
+
+/** ¿Este club quedó TERCERO en su grupo de Libertadores, o sea que baja a la Sudamericana? */
+export function bajoALaSudamericana(perfil: PlayerProfile, club: Club, temporada: number): boolean {
+  const lib = perfil.continentalCups?.[`libertadores-${temporada}`];
+  return !!lib && tercerosDeGrupo(lib).includes(club.id);
+}
+
+/**
+ * La copa continental que el club juega HOY.
+ *
+ * Es la de los clasificados, salvo que la Libertadores ya lo haya dejado tercero de grupo: desde
+ * ese momento su copa es la Sudamericana, y lo sigue siendo el resto del año.
+ */
+export function copaContinentalDelJugador(
+  perfil: PlayerProfile,
+  club: Club,
+  clubes: Club[],
+  temporada: number,
+  posiciones?: PosicionesFinales,
+  campeones?: CampeonesConmebol,
+): 'libertadores' | 'sudamericana' | 'concacaf' | null {
+  if (getLibertadoresParticipants(clubes, temporada, posiciones, campeones).includes(club.id)) {
+    return bajoALaSudamericana(perfil, club, temporada) ? 'sudamericana' : 'libertadores';
+  }
+  if (getSudamericanaParticipants(clubes, temporada, posiciones, campeones).includes(club.id)) return 'sudamericana';
+  if (getConcacafParticipants(clubes, temporada, posiciones).includes(club.id)) return 'concacaf';
+  return null;
+}
+
+/**
+ * Los terceros de la Libertadores que bajan al repechaje de la Sudamericana.
+ *
+ * Salen del cuadro guardado. Si esa edición no está guardada -- un club que nunca jugó la
+ * Libertadores -- no hay terceros y la Sudamericana siembra su cuadro como siempre. Es el mismo
+ * respaldo que ya tiene el motor.
+ */
+export function repescadosDeLaLibertadores(perfil: PlayerProfile, temporada: number): string[] | undefined {
+  const lib = perfil.continentalCups?.[`libertadores-${temporada}`];
+  const terceros = lib ? tercerosDeGrupo(lib) : [];
+  return terceros.length ? terceros : undefined;
 }

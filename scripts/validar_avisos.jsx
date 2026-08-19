@@ -90,6 +90,19 @@ caso('fin de torneo: sin puesto ni eliminacion',
   ['Torneo finalizado'],
   ['Pasaste de ronda', 'en el puesto']);
 
+// El dia que quedas tercero del grupo de Libertadores son DOS avisos, no uno: primero se cierra esa
+// copa -- que si termino para vos -- y aparte se anuncia que pasas a la Sudamericana. Decirlas
+// juntas convertiria una eliminacion en un premio.
+caso('baja a la Sudamericana: el pase, aparte del cierre',
+  <SeasonEndOverlay info={{ ...base, competition: 'Copa Libertadores', bajaA: 'Copa Sudamericana' }} onClose={nada} />,
+  ['Seguís en carrera', 'pasa a la', 'Copa Sudamericana'],
+  ['finalizado', 'cierra su participación', 'Pasaste de ronda', 'Eliminado']);
+
+caso('y el cierre de la Libertadores sigue diciendo lo suyo',
+  <SeasonEndOverlay info={{ ...base, competition: 'Copa Libertadores', eliminated: true, eliminatedRound: 'Fase de Grupos' }} onClose={nada} />,
+  ['Eliminado en Fase de Grupos', 'cierra su participación', 'Copa Libertadores'],
+  ['Seguís en carrera', 'Sudamericana']);
+
 caso('campeon',
   <ChampionOverlay info={base} playerName="Cani" onClose={nada} />,
   ['Tigres U.A.N.L.'],

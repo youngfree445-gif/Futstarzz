@@ -33,7 +33,7 @@ import {
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
-  simulatePenaltyShootout, roundLabelByMatchCount, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
+  simulatePenaltyShootout, roundLabelByMatchCount, tercerosDeGrupo, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
@@ -64,7 +64,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador } from './decisionDelDia';
+import { bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -178,16 +178,16 @@ function syncBackgroundCups(
   // recreación vuelve a simular con azar nuevo, la tabla del grupo se movía sola entre un vistazo y
   // el siguiente. Persistirlo acá la deja quieta: se simula una vez por paso y se guarda.
   if (myClub) {
-    const conmebolCupId: 'libertadores' | 'sudamericana' | null = getLibertadoresParticipants(CLUBS_DATABASE, year, posiciones, campeones).includes(myClub.id)
-      ? 'libertadores'
-      : getSudamericanaParticipants(CLUBS_DATABASE, year, posiciones, campeones).includes(myClub.id)
-      ? 'sudamericana'
-      : null;
+    // Ver copaContinentalDelJugador: desde el repechaje, la copa del club cambia a mitad de ano.
+    // `{ continentalCups }` y no el perfil entero: esta funcion no lo recibe, y de el solo se leen
+    // las copas guardadas -- que es justo lo que si tiene a mano.
+    const perfilDeCopas = { continentalCups } as unknown as PlayerProfile;
+    const conmebolCupId = copaContinentalDelJugador(perfilDeCopas, myClub, CLUBS_DATABASE, year, posiciones, campeones);
     if (conmebolCupId && !skipConmebol) {
       const cupKey = `${conmebolCupId}-${year}`;
       // myClub.id al final: la copa de fondo NO puede jugar los partidos del jugador. Se detiene en
       // el suyo y lo deja pendiente. Ver getOrCreateCupState.
-      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], fechasDeCopaTranscurridas(myClub.name, atWeek, true, NOMBRE_DE_COPA[conmebolCupId]), posiciones, campeones, myClub.id, grupoDelCalendario(conmebolCupId, myClub, year, posiciones, campeones)) };
+      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], fechasDeCopaTranscurridas(myClub.name, atWeek, true, NOMBRE_DE_COPA[conmebolCupId]), posiciones, campeones, myClub.id, grupoDelCalendario(conmebolCupId, myClub, year, posiciones, campeones), repescadosDeLaLibertadores(perfilDeCopas, year)) };
     }
 
     const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(CLUBS_DATABASE, year, posiciones, campeonesEuropa).includes(myClub.id)
@@ -1188,6 +1188,14 @@ export default function App() {
   // una copa de bracket. Complementa a ChampionOverlay -- entre los dos, cerrar cualquier torneo
   // siempre le avisa algo al jugador.
   const [seasonEndInfo, setSeasonEndInfo] = useState<SeasonEndInfo | null>(null);
+  /**
+   * El aviso que va DESPUES del que se esta mostrando.
+   *
+   * Hace falta porque hay un caso con dos: el dia que quedas tercero del grupo de Libertadores se
+   * cierra esa copa -- que si termino para vos -- y aparte se anuncia que pasas a la Sudamericana.
+   * Son dos cosas distintas y decirlas juntas convertiria una eliminacion en un premio.
+   */
+  const avisoEncolado = useRef<SeasonEndInfo | null>(null);
   // Periódico de arranque de temporada, disparado al tocar "Finalizar Temporada" (ver
   // handleFinalizeSeason). Pedido explícito del usuario.
   const [newSeasonInfo, setNewSeasonInfo] = useState<NewSeasonInfo | null>(null);
@@ -3106,7 +3114,7 @@ export default function App() {
         // conteo de semanas, aunque el jugador tenga un partido suyo sin jugar. Reportado: ganar el
         // PRIMER partido de la fase de grupos y que salte "eliminado en octavos" acto seguido --
         // el motor se había comido la fase de grupos entera de fondo. Ver getOrCreateCupState.
-        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true, NOMBRE_DE_COPA[qualifiedCupId]), playerProfile.posicionesFinales, cupCampeones, myClub.id, grupoDelCalendario(qualifiedCupId, myClub, year, playerProfile.posicionesFinales, cupCampeones));
+        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true, NOMBRE_DE_COPA[qualifiedCupId]), playerProfile.posicionesFinales, cupCampeones, myClub.id, grupoDelCalendario(qualifiedCupId, myClub, year, playerProfile.posicionesFinales, cupCampeones), repescadosDeLaLibertadores(playerProfile, year));
         const upcoming = getUpcomingCupMatch(cup, myClub.id);
         if (!upcoming && !isClubStillInCup(cup, myClub.id)) {
           eliminatedFromQualifiedCup = true;
@@ -4555,8 +4563,8 @@ export default function App() {
       // Mismo myClub.id que al armar el partido. Si acá se omite, este estado "antes del partido"
       // sale adelantado respecto del que el jugador vio en pantalla, y su resultado se aplica a una
       // ronda que no es la suya.
-      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true, NOMBRE_DE_COPA[activeCupId]), playerProfile.posicionesFinales, undefined, myClub.id, grupoDelCalendario(activeCupId, myClub, year, playerProfile.posicionesFinales));
-      const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
+      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true, NOMBRE_DE_COPA[activeCupId]), playerProfile.posicionesFinales, undefined, myClub.id, grupoDelCalendario(activeCupId, myClub, year, playerProfile.posicionesFinales), repescadosDeLaLibertadores(playerProfile, year));
+      const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride, repescadosDeLaLibertadores(playerProfile, year));
       const shootout = findShootoutInTwoLegBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
       if (shootout) {
         foundShootout = shootout;
@@ -4581,6 +4589,20 @@ export default function App() {
             eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
           });
           setPlayerProfile(p => ({ ...p, ultimaEliminacion: { competicion: nombreDeLaCopa, semana: p.currentWeek } }));
+
+          // EL TERCERO DEL GRUPO NO SE VA A CASA: baja a la Sudamericana y sigue jugando ahi. Se
+          // anuncia DESPUES del cartel de eliminacion, no en vez de el: la Libertadores si termino.
+          //
+          // Se lee de `resolvedCup` y no del perfil porque el estado nuevo todavia no se guardo.
+          if (activeCupId === 'libertadores' && tercerosDeGrupo(resolvedCup).includes(myClub.id)) {
+            avisoEncolado.current = {
+              competition: nombreDeLaCopa,
+              clubName: myClub.name,
+              season: String(year),
+              badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+              bajaA: 'Copa Sudamericana',
+            };
+          }
         } else if (seguiaAntes && sigueAhora && !resolvedCup.championId && pasoDeRonda(cupBeforeMatch, resolvedCup)) {
           // PASASTE DE RONDA. El contrario exacto del caso de arriba, y hasta ahora no existia: la
           // copa te despedia al perder pero nunca te felicitaba al ganar. Avanzar es la mitad buena
@@ -5264,7 +5286,11 @@ export default function App() {
       {!championInfo && seasonEndInfo && screen === 'dashboard' && playerProfile && (
         <SeasonEndOverlay
           info={seasonEndInfo}
-          onClose={() => setSeasonEndInfo(null)}
+          onClose={() => {
+            const siguiente = avisoEncolado.current;
+            avisoEncolado.current = null;
+            setSeasonEndInfo(siguiente);
+          }}
         />
       )}
 
