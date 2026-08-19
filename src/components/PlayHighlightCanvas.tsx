@@ -49,8 +49,25 @@ function goalMouthPoint(side: 'left' | 'right', verticalBias: number): { x: numb
   return { x, y };
 }
 
-const HOME = '#c0a047'; // gold-400 del juego (tailwind.config.js)
-const RIVAL = '#7d0e2d'; // burgundy-600 del juego
+/**
+ * Los colores de los jugadores salen del TEMA DEL CLUB, no de un hex escrito acá.
+ *
+ * clubTheme.ts repinta toda la app reescribiendo --color-gold-* y --color-burgundy-* con una escala
+ * derivada del color de camiseta del club (Club.themeColor en data.ts). Como Tailwind referencia
+ * esas variables con var(...), cualquier bg-gold-400 de cualquier pantalla se repinta solo.
+ *
+ * Este canvas no: dibuja con ctx.fillStyle, que no pasa por CSS. Con los hex fijos que había antes
+ * -- gold-400 y burgundy-600 del tema por defecto -- era el ÚNICO elemento del juego que se quedaba
+ * dorado mientras el resto de la pantalla se ponía roja jugando con Junior, o verde con Nacional.
+ *
+ * Se leen en cada corrida y no una sola vez al cargar el módulo: el jugador cambia de club a mitad
+ * de carrera y las variables cambian con él.
+ */
+function colorDelTema(variable: string, porDefecto: string): string {
+  if (typeof window === 'undefined') return porDefecto;
+  const v = getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+  return v || porDefecto;
+}
 const GK_COLOR = '#d9dcd8';
 const PITCH_COLOR = '#0f2417';
 const OK = '#7fb87f';
@@ -100,6 +117,10 @@ export default function PlayHighlightCanvas({ clipType, isSuccess, onComplete }:
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     let cancelled = false;
+
+    // El color del club, leído al empezar la jugada (ver colorDelTema arriba).
+    const HOME = colorDelTema('--color-gold-400', '#c0a047');
+    const RIVAL = colorDelTema('--color-burgundy-600', '#7d0e2d');
 
     function drawPitch() {
       ctx!.clearRect(0, 0, W, H);
