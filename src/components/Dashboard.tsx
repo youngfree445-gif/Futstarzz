@@ -16,7 +16,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { claveDeCopaNacional, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../decisionDelDia';
+import { claveDeCopaNacional, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
@@ -630,7 +630,18 @@ export default function Dashboard({
     // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
     // adelantaba el torneo de fondo con sólo mirarlo: la tabla de grupos mostraba fechas que el
     // jugador todavía no jugó, y peor, ese estado adelantado quedaba guardado.
-    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true), cupPosiciones, cupCampeones, currentClub.id)
+    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true), cupPosiciones, cupCampeones, currentClub.id,
+        // El grupo del jugador sale del CALENDARIO, que es de donde salen sus seis partidos. Sin
+        // esto esta pantalla dibujaba el grupo que sorteo el motor -- otros rivales -- y el jugador
+        // lo vio: "en copas y tablas muestra un grupo distinto al que juego".
+        conmebolCupId === 'concacaf' ? undefined : grupoRealDelCalendario(
+          currentClub, ULTIMATE_CLUBS_DATABASE,
+          conmebolCupId === 'libertadores' ? 'Copa Libertadores' : 'Copa Sudamericana',
+          cupYear,
+          conmebolCupId === 'libertadores'
+            ? getLibertadoresParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones)
+            : getSudamericanaParticipants(ULTIMATE_CLUBS_DATABASE, cupYear, cupPosiciones, cupCampeones),
+        ))
     : null;
 
   const cupCampeonesUefa = {

@@ -582,8 +582,19 @@ function assignGroupsAvoidingSameCountry(
   return fallback;
 }
 
-function drawCupGroups(participantIds: string[], allClubs: Club[]): CupGroup[] {
-  const grouped = assignGroupsAvoidingSameCountry(participantIds, allClubs, 8, 4);
+/**
+ * @param grupoFijo Los cuatro clubes que YA tienen grupo decidido -- el del jugador, que sale del
+ *   calendario real (ver grupoRealDelCalendario). Se aparta del sorteo y los otros 28 se reparten
+ *   en los siete grupos restantes. Sin esto el motor sorteaba tambien el del jugador, y la pantalla
+ *   de Copas mostraba un grupo que no era el de sus partidos.
+ * @param year Solo para no dejar al jugador siempre en el grupo A.
+ */
+function drawCupGroups(participantIds: string[], allClubs: Club[], grupoFijo?: string[], year = 1): CupGroup[] {
+  const fijo = grupoFijo?.length === 4 && grupoFijo.every(id => participantIds.includes(id))
+    ? grupoFijo : undefined;
+  const resto = fijo ? participantIds.filter(id => !fijo.includes(id)) : participantIds;
+  const grouped = assignGroupsAvoidingSameCountry(resto, allClubs, fijo ? 7 : 8, 4);
+  if (fijo) grouped.splice((year * 3) % 8, 0, fijo);
   const groups: CupGroup[] = [];
   for (let g = 0; g < 8; g++) {
     const clubIds = grouped[g];
@@ -706,7 +717,7 @@ export function getConcacafParticipants(allClubs: Club[], year = 1, posiciones?:
 
 function freshCupState(
   cupId: 'libertadores' | 'sudamericana' | 'concacaf', year: number, allClubs: Club[],
-  posiciones?: PosicionesFinales, campeones?: CampeonesConmebol,
+  posiciones?: PosicionesFinales, campeones?: CampeonesConmebol, grupoFijo?: string[],
 ): CupState {
   // La Concacaf NO tiene fase de grupos: son cinco rondas de eliminación directa seguidas. Se
   // arranca ya en el cuadro, y de ahí en adelante corre por el mismo camino que las otras dos --
@@ -724,7 +735,7 @@ function freshCupState(
   return {
     cupId,
     year,
-    groups: drawCupGroups(participants, allClubs),
+    groups: drawCupGroups(participants, allClubs, grupoFijo, year),
     stage: 'groups',
     knockout: null,
     championId: null,
@@ -778,8 +789,28 @@ export function getOrCreateCupState(
    * juega sola".
    */
   playerClubId?: string,
+  /**
+   * El grupo del jugador, sacado del CALENDARIO (ver grupoRealDelCalendario). Los seis partidos de
+   * grupos que va a jugar salen de ahi, asi que el sorteo del motor tiene que respetarlo o la
+   * pantalla termina mostrando un grupo que no es. Reportado: "en copas y tablas muestra un grupo
+   * distinto al que juego".
+   */
+  grupoDelJugador?: string[],
 ): CupState {
-  let cup = existing ?? freshCupState(cupId, year, allClubs, posiciones, campeones);
+  let cup = existing ?? freshCupState(cupId, year, allClubs, posiciones, campeones, grupoDelJugador);
+
+  // REPARACION de las partidas que ya venian con el grupo sorteado por el motor. Se rehace el
+  // sorteo solo si la fase de grupos NO empezo (ningun paso consumido): ahi no hay ni un resultado
+  // que perder. Empezada, se deja como esta -- cambiar el grupo a mitad de camino borraria puntos
+  // ya jugados, que es peor que la incoherencia.
+  if (grupoDelJugador && playerClubId && cupId !== 'concacaf' && cup.stage === 'groups' && (cup.stepsConsumed ?? 0) === 0) {
+    const mio = cup.groups.find(g => g.clubIds.includes(playerClubId));
+    const coincide = mio && grupoDelJugador.every(id => mio.clubIds.includes(id));
+    if (!coincide) {
+      const participants = participantesConmebol(cupId, year, posiciones, campeones, allClubs);
+      cup = { ...cup, groups: drawCupGroups(participants, allClubs, grupoDelJugador, year) };
+    }
+  }
   let stepsConsumed = existing?.stepsConsumed ?? 0;
   const targetSteps = pasosDeCopa;
 

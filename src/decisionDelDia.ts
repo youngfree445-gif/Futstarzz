@@ -30,7 +30,8 @@
 // sortearla (tu club SIEMPRE entra al cuadro de su país, así que hay cruce).
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
-import { fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { resolverClubDeCalendario } from './clubAliases';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
 import { crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
@@ -343,4 +344,39 @@ export function cerrarPlayoffsSinFechas(
     cambio = true;
   }
   return cambio ? copia : null;
+}
+
+
+/**
+ * El grupo REAL del club en una copa continental, sacado del calendario.
+ *
+ * El motor sorteaba los ocho grupos por su cuenta, sin mirar el calendario, asi que el grupo que
+ * dibujaba la pantalla de Copas no tenia nada que ver con los seis partidos que el jugador iba a
+ * disputar. Reportado con captura: "en copas y tablas muestra un grupo distinto al que juego".
+ *
+ * Los grupos de los OTROS siete no se pueden sacar de ningun lado -- medido: de los 32
+ * participantes solo 11 tienen partidos de grupos en el calendario, y solo 2 tienen los tres
+ * rivales completos, porque el calendario de cada club trae unicamente SUS partidos. Asi que el
+ * sorteo del motor sigue armando el resto; lo unico que cambia es que el grupo del jugador, que es
+ * el unico que el jugador puede contrastar, ya no se inventa.
+ *
+ * Devuelve los CUATRO ids (el club y sus tres rivales) o undefined si el calendario no los tiene
+ * completos, si alguno no se puede resolver a un club de la base, o si alguno no esta entre los
+ * participantes de esta edicion -- en cualquiera de esos casos sembrar seria peor que sortear.
+ */
+export function grupoRealDelCalendario(
+  club: Club,
+  clubes: readonly Club[],
+  competitionName: string,
+  temporada: number,
+  participantes: readonly string[],
+): string[] | undefined {
+  const nombres = rivalesDeGrupoEnElCalendario(club.name, competitionName, temporada);
+  if (nombres.length !== 3) return undefined;
+  const ids = nombres
+    .map(n => resolverClubDeCalendario(clubes, n, undefined, 'continental_cup', competitionName)?.id)
+    .filter((id): id is string => !!id);
+  if (ids.length !== 3) return undefined;
+  const grupo = [club.id, ...ids];
+  return grupo.every(id => participantes.includes(id)) ? grupo : undefined;
 }

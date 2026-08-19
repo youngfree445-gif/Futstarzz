@@ -8,9 +8,9 @@
 
 import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
-import { fixturesAtStep, temporadaDelPaso } from '../src/dateSchedule';
-import { cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce, playoffDelDiaSinElJugador } from '../src/decisionDelDia';
-import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor } from '../src/leagueEngine';
+import { fechasDeCopaTranscurridas, fixturesAtStep, rivalesDeGrupoEnElCalendario, temporadaDelPaso } from '../src/dateSchedule';
+import { cerrarPlayoffsSinFechas, grupoRealDelCalendario, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce, playoffDelDiaSinElJugador } from '../src/decisionDelDia';
+import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional, cruceActual, nombreDeRonda } from '../src/copaNacional';
 import { resolverPasoCopaNacional } from '../src/leagueEngine';
@@ -389,5 +389,88 @@ console.log('');
 }
 
 console.log('');
+// =============================================================================================
+// 10. EL GRUPO QUE MUESTRA LA PANTALLA ES EL DE TUS PARTIDOS
+// =============================================================================================
+//
+// El motor sorteaba los ocho grupos por su cuenta, sin mirar el calendario. Osea que la pantalla de
+// Copas dibujaba un grupo y los seis partidos eran contra otros tres clubes. Reportado con captura:
+// "en copas y tablas muestra un grupo distinto al que juego" -- el Junior figuraba con Lanus,
+// Corinthians y Always Ready mientras jugaba contra Palmeiras, Cerro Porteno y Sporting Cristal.
+
+console.log('');
+{
+  const lib = getLibertadoresParticipants(clubes, 1, {}, undefined);
+  const sud = getSudamericanaParticipants(clubes, 1, {}, undefined);
+  let conDatos = 0, coinciden = 0, cuadrosSanos = 0;
+  for (const id of [...lib, ...sud]) {
+    const c = clubes.find(x => x.id === id)!;
+    const enLib = lib.includes(id);
+    const nombreCopa = enLib ? 'Copa Libertadores' : 'Copa Sudamericana';
+    const rivales = rivalesDeGrupoEnElCalendario(c.name, nombreCopa, 1);
+    if (rivales.length !== 3) continue;
+    conDatos++;
+    const fijo = grupoRealDelCalendario(c, clubes, nombreCopa, 1, enLib ? lib : sud);
+    const cup = getOrCreateCupState(enLib ? 'libertadores' : 'sudamericana', 1, clubes, undefined, 0, {}, undefined, c.id, fijo);
+    const grupo = cup.groups.find(g => g.clubIds.includes(c.id));
+    if (fijo && grupo && fijo.every(x => grupo.clubIds.includes(x))) coinciden++;
+    const todos = cup.groups.flatMap(g => g.clubIds);
+    if (cup.groups.length === 8 && todos.length === 32 && new Set(todos).size === 32) cuadrosSanos++;
+  }
+  ok('los clubes con fase de grupos en el calendario ven SU grupo en la pantalla',
+     conDatos > 0 && coinciden === conDatos, `${coinciden} de ${conDatos}`);
+  ok('y sembrar el grupo del jugador no rompe el cuadro (8 grupos de 4, sin repetidos)',
+     cuadrosSanos === conDatos, `${cuadrosSanos} de ${conDatos}`);
+
+  // Un club SIN datos de grupo en el calendario tiene que seguir entrando al sorteo normal: de los
+  // 64 participantes solo 6 tienen la fase de grupos cargada, asi que el respaldo es el caso comun.
+  const sinDatos = lib.find(id => {
+    const c = clubes.find(x => x.id === id)!;
+    return rivalesDeGrupoEnElCalendario(c.name, 'Copa Libertadores', 1).length !== 3;
+  })!;
+  const sinFijo = getOrCreateCupState('libertadores', 1, clubes, undefined, 0, {}, undefined, sinDatos, undefined);
+  ok('un club sin datos de grupo igual queda en un grupo (se sortea, como siempre)',
+     !!sinFijo.groups.find(g => g.clubIds.includes(sinDatos)),
+     clubes.find(c => c.id === sinDatos)?.name ?? '?');
+}
+
+// =============================================================================================
+// 11. LA COPA CONTINENTAL AVANZA UN PASO POR FECHA SUYA, NO POR FECHA DE CUALQUIER COPA
+// =============================================================================================
+//
+// fechasDeCopaTranscurridas le dice al motor cuantos pasos deberia haber consumido la copa
+// continental. Contaba TAMBIEN los dias de copa nacional, asi que la continental corria al doble de
+// velocidad: al Junior, las dos fechas de Copa BetPlay de enero le sumaban dos pasos de
+// Libertadores antes de que la Libertadores empezara. El cuadro quedaba desfasado de su calendario.
+// Reportado: "jugue un partido de mas contra el Always Ready, por que?".
+//
+// La invariante: al terminar la fase de grupos, los pasos contados tienen que ser exactamente los
+// seis de la fase de grupos -- ni uno mas.
+
+console.log('');
+{
+  let revisados = 0, exactos = 0;
+  const detalle: string[] = [];
+  for (const c of clubes.filter(x => rivalesDeGrupoEnElCalendario(x.name, 'Copa Libertadores', 1).length === 3
+                                  || rivalesDeGrupoEnElCalendario(x.name, 'Copa Sudamericana', 1).length === 3)) {
+    const copa = rivalesDeGrupoEnElCalendario(c.name, 'Copa Libertadores', 1).length === 3
+      ? 'Copa Libertadores' : 'Copa Sudamericana';
+    // El paso siguiente al ultimo dia de fase de grupos.
+    const dias: number[] = [];
+    for (let p = 1; p <= 200; p++) {
+      const s = fixturesAtStep(c.name, p);
+      if (!s) break;
+      if (s.fixtures.some(f => f.competition.kind === 'continental_cup' && f.competition.name === copa && !f.esReservaDeCuadro)) dias.push(p);
+    }
+    if (dias.length < 6) continue;
+    revisados++;
+    const pasos = fechasDeCopaTranscurridas(c.name, dias[5] + 1, true);
+    if (pasos === 6) exactos++;
+    else if (detalle.length < 3) detalle.push(`${c.name}: ${pasos} pasos para 6 fechas de grupos`);
+  }
+  ok('al cerrar los grupos, los pasos contados son exactamente los seis jugados',
+     revisados > 0 && exactos === revisados, `${exactos} de ${revisados}${detalle.length ? ' | ' + detalle.join(' | ') : ''}`);
+}
+
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

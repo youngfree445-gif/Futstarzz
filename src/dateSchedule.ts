@@ -564,6 +564,46 @@ export function fechasDePlayoffDelTorneo(clubName: string, date: string): number
 }
 
 /**
+ * Los rivales de FASE DE GRUPOS que el calendario le tiene guardados a este club en esa copa.
+ *
+ * Son los que el jugador va a jugar de verdad: en la temporada 1 salen del sorteo real de 2026. El
+ * motor, en cambio, sorteaba su propio grupo, asi que la pantalla de Copas mostraba uno y los
+ * partidos eran contra otros. Reportado con captura: "en copas y tablas muestra un grupo distinto
+ * al que juego" -- el Junior figuraba con Lanus, Corinthians y Always Ready mientras jugaba contra
+ * Palmeiras, Cerro Porteño y Sporting Cristal.
+ *
+ * Devuelve NOMBRES de calendario, que es lo unico que el calendario sabe; resolverlos a clubes es
+ * trabajo de quien llame (ver grupoRealDelCalendario en decisionDelDia.ts).
+ */
+export function rivalesDeGrupoEnElCalendario(
+  clubName: string, competitionName: string, temporada: number,
+): string[] {
+  const suyos = fixturesForClub(clubName).filter(f =>
+    f.temporada === temporada
+    && f.competition.kind === 'continental_cup'
+    && f.competition.name === competitionName
+    && !f.esReservaDeCuadro);
+
+  // Los partidos de esa copa no son todos de grupos, y el calendario no dice de que ronda es cada
+  // uno (el `round` viene vacio). El Independiente Medellin trae DOCE: cuatro de fase previa
+  // (Liverpool y Juventud, ida y vuelta), seis de grupos y dos de Sudamericana, adonde cae el
+  // tercero del grupo. El Millonarios trae siete: uno de repechaje y seis de grupos.
+  //
+  // La fase de grupos se reconoce por su FORMA: seis partidos seguidos contra tres rivales, cada
+  // uno dos veces. Ni la previa ni el repechaje la tienen, y como en Libertadores y Sudamericana
+  // todos pasan por los grupos antes del cuadro, la PRIMERA ventana que encaja es la buena -- tomar
+  // la ultima podria agarrar octavos, cuartos y semis, que tambien son tres rivales a ida y vuelta.
+  for (let i = 0; i + 6 <= suyos.length; i++) {
+    const ventana = suyos.slice(i, i + 6);
+    const rivales = [...new Set(ventana.map(f => f.opponentName))];
+    if (rivales.length === 3 && rivales.every(r => ventana.filter(f => f.opponentName === r).length === 2)) {
+      return rivales;
+    }
+  }
+  return [];
+}
+
+/**
  * ¿Le queda a este club alguna fecha de cuadrangular de ese torneo, de hoy en adelante?
  *
  * Con esto se sabe si un cuadro sin campeón todavía puede definirse en cancha o si ya se quedó sin
@@ -1733,7 +1773,19 @@ export function fechasDeCopaTranscurridas(
   for (let p = desdePaso; p < paso; p++) {
     const s = fixturesAtStep(clubName, p);
     if (!s) break;
-    if (s.fixtures.some(f => f.competition.kind === 'continental_cup' || f.competition.kind === 'domestic_cup')) n++;
+    // SOLO los dias de copa CONTINENTAL. Los seis que llaman a esta funcion son las copas
+    // continentales -- las dos de Conmebol y las dos de UEFA -- y ninguno es la copa nacional, asi
+    // que contar tambien sus dias hacia correr la continental al doble de velocidad: al Junior, las
+    // dos fechas de Copa BetPlay de enero y las cuatro de agosto le sumaban seis pasos de
+    // Libertadores que la Libertadores no jugo. El cuadro quedaba desfasado de su calendario y el
+    // jugador terminaba disputando una fecha de grupos que ya no correspondia. Reportado: "jugue un
+    // partido de mas contra el Always Ready, por que?".
+    //
+    // Un dia que pidio la NACIONAL y termina jugando la continental (cuando la nacional ya no tiene
+    // cruce) no se cuenta, asi que la cuenta puede quedar CORTA. Es el lado seguro del error: la
+    // copa deja de simular de fondo y espera: el partido pendiente del jugador sigue estando. Con
+    // la cuenta larga pasaba lo contrario -- la copa se adelantaba y jugaba sola.
+    if (s.fixtures.some(f => f.competition.kind === 'continental_cup')) n++;
   }
   return n;
 }
