@@ -97,11 +97,21 @@ const SIN_PAIS = new Set(['Internacional', 'Resto del Mundo', '']);
 
 // Los dos diccionarios que traducen del nombre del juego al de la base.
 const leerMapa = (nombreDelMapa) => {
-  const i = dataTs.indexOf(`const ${nombreDelMapa}`);
+  // Con los DOS PUNTOS. Sin ellos, buscar "const EQUIPO_SYNONYMS" encuentra primero a
+  // "const EQUIPO_SYNONYMS_POR_ID", que esta veinte lineas mas arriba y empieza igual: el
+  // diccionario por nombre nunca se leia, y "Junior de Barranquilla" no encontraba a "Junior".
+  const i = dataTs.indexOf(`const ${nombreDelMapa}:`);
   if (i < 0) return new Map();
-  const bloque = dataTs.slice(i, dataTs.indexOf('\n};', i));
+  // El cierre puede venir indentado (" };"), así que se busca por el patrón y no por la cadena
+  // exacta: cortando en el lugar equivocado el mapa se lee entero o no se lee nada.
+  const resto = dataTs.slice(i);
+  const fin = /\n\s*\};/.exec(resto);
+  const bloque = resto.slice(0, fin ? fin.index : resto.length);
   const m = new Map();
-  for (const x of bloque.matchAll(/'([^']+)':\s*'([^']+)'/g)) m.set(x[1], x[2]);
+  // Comillas simples O DOBLES: EQUIPO_SYNONYMS_POR_ID usa simples y EQUIPO_SYNONYMS usa dobles.
+  // Leyendo sólo las simples, el mapa por nombre devolvía CERO de sus catorce entradas y clubes
+  // como "Junior de Barranquilla" no encontraban su plantel, que en la base se llama "Junior".
+  for (const x of bloque.matchAll(/["']([^"']+)["']:\s*["']([^"']+)["']/g)) m.set(x[1], x[2]);
   return m;
 };
 const SIN_POR_ID = leerMapa('EQUIPO_SYNONYMS_POR_ID');
