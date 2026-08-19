@@ -100,11 +100,19 @@ const leerMapa = (nombreDelMapa) => {
 const SIN_POR_ID = leerMapa('EQUIPO_SYNONYMS_POR_ID');
 const SIN_POR_NOMBRE = leerMapa('EQUIPO_SYNONYMS');
 
-// Los equipos de la base, por nombre exacto.
+// Los equipos de la base, por nombre exacto y por clave de palabras. Las claves que apuntan a dos
+// equipos distintos quedan marcadas y no resuelven a nadie: "FC Barcelona" y "Barcelona SC" dan las
+// dos "barcelona", y elegir una es mandar a Rodri a jugar a Guayaquil.
 const porNombreExacto = new Map();
+const equiposPorClave = new Map();
+const clavesDeLaBaseAmbiguas = new Set();
 for (const p of jugadores) {
   if (!p.team_name) continue;
   if (!porNombreExacto.has(p.team_name)) porNombreExacto.set(p.team_name, { team_name: p.team_name, team_id: p.team_id });
+  const k = clave(p.team_name);
+  const ya = equiposPorClave.get(k);
+  if (!ya) equiposPorClave.set(k, { team_name: p.team_name, team_id: p.team_id });
+  else if (ya.team_name !== p.team_name) clavesDeLaBaseAmbiguas.add(k);
 }
 
 /**
@@ -153,9 +161,19 @@ function buscarEquipo(nombreTM, ligaDelScrape) {
     r = porNombreExacto.get(enLaBase) ?? null;
   }
 
-  // 3) Y si el club no está en data.ts, se prueba contra la base directamente por nombre exacto:
-  // hay equipos en la base que el juego todavía no tiene como club jugable.
-  if (!r && alias === undefined && porNombreExacto.has(nombreTM)) r = porNombreExacto.get(nombreTM);
+  // 3) Y si el club no está en data.ts, se prueba contra la base directamente: hay equipos en la
+  // base que el juego todavía no tiene como club jugable. El Rangers escocés es uno -- existe en la
+  // base con 27 jugadores y no figura en data.ts --, así que sin esto sus veinte bajas no se
+  // aplicaban y el plantel quedaba con gente que ya no está.
+  //
+  // Primero por nombre exacto y después por clave de palabras, siempre que la clave apunte a UN
+  // solo equipo. La clave exige que las palabras que importan sean LAS MISMAS -- "Rangers FC" y
+  // "Rangers" dan las dos "rangers" --, así que no repite el error de "Liverpool FC Montevideo",
+  // cuya clave es "liverpool montevideo" y no coincide con "liverpool".
+  if (!r && alias === undefined) {
+    if (porNombreExacto.has(nombreTM)) r = porNombreExacto.get(nombreTM);
+    else if (!clavesDeLaBaseAmbiguas.has(k)) r = equiposPorClave.get(k) ?? null;
+  }
   if (alias) r = porNombreExacto.get(alias) ?? null;
   // NO HAY CUARTA PASADA, y eso es a propósito.
   //
@@ -214,6 +232,144 @@ for (const p of jugadores) {
 }
 
 /**
+ * El nombre listo para comparar entre las dos fuentes: sin acentos y sin letras dobles.
+ *
+ * Las dos fuentes escriben distinto a la misma persona: Transfermarkt pone "Mohamed Diomandé" y la
+ * base "Mohammed Diomande". Sin esto, su pase del Rangers al Çorum no se aplicaba y el jugador se
+ * quedaba en Escocia.
+ *
+ * ESTO SÓLO SE USA DENTRO DEL PLANTEL DE UN CLUB, nunca contra la base entera, y ahí está la
+ * diferencia: aflojar la comparación de nombres a nivel global es exactamente cómo se juntan dos
+ * personas distintas. En un plantel de 30 no hay dos "Diomande", y si los hubiera, el chequeo de
+ * unicidad de abajo lo deja pasar sin tocar nada.
+ */
+const nombreLaxo = (n) => (n || '')
+  .normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .toLowerCase()
+  .replace(/(.)\1+/g, '$1')
+  .replace(/[^a-z ]/g, '')
+  .trim();
+
+// Índice de plantel por club, con el nombre laxo.
+const planteles = new Map();
+for (const p of jugadores) {
+  if (!p.nombre_completo || SELECCIONES.has(p.team_name)) continue;
+  let m = planteles.get(p.team_name);
+  if (!m) { m = new Map(); planteles.set(p.team_name, m); }
+  const k = nombreLaxo(p.nombre_completo);
+  const ya = m.get(k);
+  if (ya) ya.push(p); else m.set(k, [p]);
+}
+
+/** El jugador de ESE club que se llama así, o null si no hay exactamente uno. */
+function enElPlantel(teamName, nombre) {
+  const l = planteles.get(teamName)?.get(nombreLaxo(nombre));
+  return l && l.length === 1 ? l[0] : null;
+}
+
+/**
+ * Mueve al jugador y MANTIENE EL ÍNDICE AL DÍA.
+ *
+ * Sin esto el índice queda viejo apenas alguien se mueve: el jugador sigue figurando en el plantel
+ * de su club anterior, la baja del club que lo vendió no lo encuentra, y el club se queda con un
+ * jugador que ya no tiene. Con el índice congelado, once clubes se pasaron de cuarenta jugadores.
+ */
+function mover(p, destino) {
+  const antes = planteles.get(p.team_name)?.get(nombreLaxo(p.nombre_completo));
+  if (antes) {
+    const i = antes.indexOf(p);
+    if (i >= 0) antes.splice(i, 1);
+  }
+  p.team_name = destino.team_name;
+  p.team_id = destino.team_id;
+  let m = planteles.get(destino.team_name);
+  if (!m) { m = new Map(); planteles.set(destino.team_name, m); }
+  const k = nombreLaxo(p.nombre_completo);
+  const ya = m.get(k);
+  if (ya) ya.push(p); else m.set(k, [p]);
+}
+
+// --- CREAR AL JUGADOR QUE LA BASE NO TIENE ---------------------------------------------------
+//
+// Si el club que lo ficha está en el juego, el jugador tiene que existir: si no, el club recibe un
+// refuerzo que nunca aparece en su plantel.
+const POSICION = {
+  'Goalkeeper': 'GK',
+  'Centre-Back': 'CB', 'Left-Back': 'LB', 'Right-Back': 'RB', 'Defender': 'CB',
+  'Defensive Midfield': 'CDM', 'Central Midfield': 'CM', 'Attacking Midfield': 'CAM',
+  'Left Midfield': 'LM', 'Right Midfield': 'RM', 'Midfielder': 'CM',
+  'Left Winger': 'LW', 'Right Winger': 'RW',
+  'Centre-Forward': 'ST', 'Second Striker': 'ST', 'Striker': 'ST',
+};
+const CATEGORIA = {
+  GK: 'portero', CB: 'defensivo', LB: 'defensivo', RB: 'defensivo', CDM: 'defensivo',
+  CM: 'ofensivo', CAM: 'ofensivo', LM: 'ofensivo', RM: 'ofensivo',
+  LW: 'ofensivo', RW: 'ofensivo', ST: 'ofensivo',
+};
+
+/** "€70.00m" / "€450k" -> euros. */
+const euros = (s) => {
+  if (!s) return null;
+  const m = /€\s*([\d.,]+)\s*(m|k|bn)?/i.exec(s.replace(/\s/g, ''));
+  if (!m) return null;
+  const n = Number(m[1].replace(/,/g, ''));
+  if (!isFinite(n)) return null;
+  const u = (m[2] || '').toLowerCase();
+  return u === 'm' ? n * 1e6 : u === 'k' ? n * 1e3 : u === 'bn' ? n * 1e9 : n;
+};
+
+/**
+ * La media de un jugador nuevo, a partir de su valor de mercado y su edad.
+ *
+ * LA TABLA ESTÁ MEDIDA, no elegida: se cruzaron los 3.181 jugadores que aparecen a la vez en los
+ * fichajes de Transfermarkt y en la base del juego, y se tomó la MEDIANA de la media real por tramo
+ * de valor. Sale monótona y sin saltos raros. Inventar la curva habría sido inventar el dato — que
+ * es justo lo que docs/PROMPT_DATOS_Y_SCRAPING.md §0 prohíbe. Se puede rehacer con
+ * scripts/_calibrar.mjs si la base cambia.
+ *
+ * Ojo: el `valor_mercado_eur` de la base NO está en la escala de Transfermarkt (la base topa cerca
+ * de 50M y TM llega a 200M), así que la tabla va de valor DE TM a media, sin pasar por el otro.
+ */
+const MEDIA_POR_VALOR = [
+  [100e6, 82], [60e6, 82], [40e6, 80], [25e6, 77], [15e6, 76], [8e6, 74],
+  [4e6, 72], [2e6, 70], [1e6, 69], [500e3, 66], [250e3, 65], [0, 62],
+];
+function estimarMedia(valorEur, edad) {
+  let m = 62;
+  for (const [minimo, media] of MEDIA_POR_VALOR) if (valorEur >= minimo) { m = media; break; }
+  // El mismo ajuste por edad que usa scripts/actualizar_plantel_tm.mjs: un pibe de 19 con valor alto
+  // vale por lo que promete, no por lo que rinde hoy.
+  if (edad != null) {
+    if (edad <= 20) m -= 3;
+    else if (edad <= 22) m -= 2;
+    else if (edad >= 35) m -= 2;
+  }
+  return Math.max(52, Math.min(90, m));
+}
+
+let maxId = 0;
+for (const p of jugadores) { const n = Number(p.player_id); if (isFinite(n) && n > maxId) maxId = n; }
+
+const creados = [];
+function crearJugador(alta, destino) {
+  const pos = POSICION[alta.posicion];
+  // Sin posición no se crea: un jugador sin posición no lo puede alinear nadie, y adivinarla sería
+  // meter un dato inventado en la base.
+  if (!pos) return null;
+  const valor = euros(alta.valor) ?? 0;
+  return {
+    player_id: String(++maxId),
+    nombre_completo: alta.nombre,
+    posicion_especifica: pos,
+    valor_mercado_eur: valor,
+    media_valoracion: estimarMedia(valor, alta.edad ?? null),
+    team_name: destino.team_name,
+    team_id: destino.team_id,
+    categoria_tactica: CATEGORIA[pos],
+  };
+}
+
+/**
  * Las mismas cuentas, sobre el estado actual de la base. Se corren ANTES y DESPUÉS de mover.
  *
  * Un número suelto -- "12 clubes con más de 40 jugadores" -- no dice nada: puede ser algo que rompí
@@ -250,15 +406,36 @@ for (const liga of fichajes.ligas) {
   for (const club of liga.clubes) {
     const destino = buscarEquipo(club.nombre, liga.liga);
     for (const alta of club.altas) {
-      const candidatos = porNombre.get(alta.nombre);
-      if (!candidatos) { sinJugador.push({ liga: liga.liga, club: club.nombre, alta }); continue; }
+      // EL CLUB PRIMERO, y no es un detalle de orden. Si el club que ficha no está en el juego, el
+      // fichaje no nos importa y el jugador tampoco: preguntar antes por el jugador mezclaba las dos
+      // cosas en un solo número y hacía parecer que faltaban dos mil jugadores de clubes reales.
       if (!destino) { sinDestino.push({ liga: liga.liga, club: club.nombre, alta }); continue; }
+      const candidatos = porNombre.get(alta.nombre);
+      if (!candidatos) {
+        // El club SÍ está en el juego y el jugador no existe en la base: hay que crearlo, o el
+        // plantel se queda sin el refuerzo.
+        const nuevo = crearJugador(alta, destino);
+        if (nuevo) {
+          jugadores.push(nuevo);
+          porNombre.set(alta.nombre, [nuevo]);
+          let m = planteles.get(destino.team_name);
+          if (!m) { m = new Map(); planteles.set(destino.team_name, m); }
+          const k = nombreLaxo(nuevo.nombre_completo);
+          const ya = m.get(k);
+          if (ya) ya.push(nuevo); else m.set(k, [nuevo]);
+          creados.push(nuevo);
+        }
+        else sinJugador.push({ liga: liga.liga, club: club.nombre, alta });
+        continue;
+      }
 
       // SIN liga, y no es un olvido: el club del que sale el jugador es de otro país casi siempre,
       // así que pasarle la liga de la tabla que estamos leyendo sería afirmar algo falso. Sin liga,
       // buscarEquipo sólo acepta el caso en que ese nombre es único en todo el juego.
       const origen = buscarEquipo(alta.otroClub);
-      const desdeOrigen = origen ? candidatos.filter(p => p.team_name === origen.team_name) : [];
+      // Dentro del plantel del club que lo vende, la comparacion puede ser laxa sin riesgo.
+      const enOrigen = origen ? enElPlantel(origen.team_name, alta.nombre) : null;
+      const desdeOrigen = enOrigen ? [enOrigen] : [];
 
       let elegido = null;
       let criterio = null;
@@ -277,8 +454,7 @@ for (const liga of fichajes.ligas) {
       if (elegido.team_name === destino.team_name) { yaEstaba.push(alta.nombre); continue; }
       criterio.push(alta.nombre);
       movidos.push({ nombre: elegido.nombre_completo, de: elegido.team_name, a: destino.team_name });
-      elegido.team_name = destino.team_name;
-      elegido.team_id = destino.team_id;
+      mover(elegido, destino);
     }
   }
 }
@@ -304,13 +480,17 @@ for (const liga of fichajes.ligas) {
     const origen = buscarEquipo(club.nombre, liga.liga);
     if (!origen || !LIBRES) continue;
     for (const baja of club.bajas) {
-      if (buscarEquipo(baja.otroClub)) continue;   // se fue a un club que el juego sí tiene
-      const candidatos = (porNombre.get(baja.nombre) ?? []).filter(p => p.team_name === origen.team_name);
-      if (candidatos.length !== 1) { bajasIgnoradas.push(baja.nombre); continue; }
-      const p = candidatos[0];
-      aLibres.push({ nombre: p.nombre_completo, de: p.team_name, a: baja.otroClub });
-      p.team_name = LIBRES.team_name;
-      p.team_id = LIBRES.team_id;
+      // SIGUE EN EL CLUB QUE LO VENDIÓ: eso es lo único que hay que mirar. Si el alta del club que
+      // lo compró ya lo movió, acá no queda nada por hacer y este filtro lo deja pasar de largo.
+      const p = enElPlantel(origen.team_name, baja.nombre);
+      if (!p) { bajasIgnoradas.push(baja.nombre); continue; }
+      // Si el club que lo compra está en el juego, va ahí; si no, a agentes libres. Antes esta rama
+      // sólo corría para los destinos de afuera, y el jugador cuya alta no se pudo emparejar se
+      // quedaba en su club viejo aunque Transfermarkt dijera que se fue.
+      const destino = buscarEquipo(baja.otroClub) ?? LIBRES;
+      if (destino === LIBRES) aLibres.push({ nombre: p.nombre_completo, de: p.team_name, a: baja.otroClub });
+      else movidos.push({ nombre: p.nombre_completo, de: p.team_name, a: destino.team_name });
+      mover(p, destino);
     }
   }
 }
@@ -322,7 +502,8 @@ console.log(`     por club de origen .... ${porOrigen.length}`);
 console.log(`     por nombre unico ...... ${porUnico.length}`);
 console.log(`  ya estaba en su club ..... ${yaEstaba.length}`);
 console.log(`  el club destino no existe  ${sinDestino.length}`);
-console.log(`  el jugador no existe ..... ${sinJugador.length}`);
+console.log(`  CREADOS (club del juego) . ${creados.length}`);
+console.log(`  no se pudo crear ......... ${sinJugador.length}  (sin posicion)`);
 console.log(`  no se pudo identificar ... ${clubDistinto.length}`);
 console.log(`  se fueron a agentes libres ${aLibres.length}  (a un club que el juego no tiene)`);
 console.log(`     baja sin identificar .. ${bajasIgnoradas.length}`);
@@ -393,6 +574,11 @@ if (crecieron.length) {
 const CONTROL = [
   ['Anthony Gordon', 'FC Barcelona'], ['Rodri', 'FC Barcelona'], ['Luis Díaz', 'Bayern München'],
   ['Ferran Torres', 'Paris Saint-Germain'], ['Bruno Guimarães', 'Arsenal'],
+  // Los tres Diomande de esta misma ventana, que son tres personas distintas y van a tres clubes
+  // distintos. Si el cruce se equivoca de persona, se ve acá y en ningún otro lado.
+  ['Yan Diomande', 'Real Madrid'], ['Ousmane Diomande', 'Nottingham Forest'],
+  ['Mohammed Diomande', 'Agentes libres'],
+  ['Marc Cucurella', 'Real Madrid'], ['Ibrahima Konaté', 'Real Madrid'],
 ];
 console.log(`  --- casos de control ---`);
 for (const [nombre, esperado] of CONTROL) {
@@ -402,8 +588,51 @@ for (const [nombre, esperado] of CONTROL) {
   console.log(`     ${ok ? 'OK  ' : 'MAL '} ${nombre.padEnd(20)} esperado ${esperado.padEnd(22)} está en ${donde}`);
 }
 
+// --- LA OTRA FUENTE: starPlayers de data.ts --------------------------------------------------
+//
+// data.ts tiene una lista corta de figuras por club, y getJugadoresMudados la usa para ESCONDER del
+// plantel a los que figuran en otro club. Es un buen mecanismo -- así el juego no muestra a alguien
+// que ya se fue -- pero apunta al revés cuando la lista queda vieja: después de mover a Rodri al
+// Barcelona, el starPlayers del Manchester City seguía nombrándolo, así que el juego lo daba por
+// "mudado al City" y lo borraba del plantel del Barcelona. El fichaje se aplicaba y no se veía.
+//
+// Se borra SÓLO la entrada del club que el jugador dejó, y sólo para los que este script movió. No
+// se toca el resto de la lista: es la fuente de las figuras de cada club y reescribirla entera por
+// las dudas sería cambiar mucho más de lo que hace falta.
+const POSICION_AL_FINAL = /\s*\((GK|CB|LB|RB|CDM|CM|CAM|LM|RM|LW|RW|ST)\)\s*$/;
+const nombreDeStar = (s) => s.replace(POSICION_AL_FINAL, '').replace(/#\d+/g, '')
+  .normalize('NFD').replace(/[̀-ͯ]/g, '').trim().toLowerCase();
+
+// De qué club se fue cada jugador movido, con el nombre que usa la BASE.
+const seFueDe = new Map();
+for (const m of movidos) seFueDe.set(nombreDeStar(m.nombre), { de: m.de, a: m.a });
+
+let lineasTocadas = 0, entradasBorradas = 0;
+const lineas = dataTs.split('\n');
+for (let i = 0; i < lineas.length; i++) {
+  const mid = /^\s*\{\s*id: '([^']+)'/.exec(lineas[i]);
+  const mnm = /\bname: '([^']+)'/.exec(lineas[i]);
+  const msp = /starPlayers: \[([^\]]*)\]/.exec(lineas[i]);
+  if (!mid || !mnm || !msp) continue;
+  const enLaBase = SIN_POR_ID.get(mid[1]) || SIN_POR_NOMBRE.get(mnm[1]) || mnm[1];
+  const quedan = [];
+  let borre = false;
+  for (const x of msp[1].matchAll(/'((?:[^'\\]|\\.)*)'/g)) {
+    const mov = seFueDe.get(nombreDeStar(x[1]));
+    // Se borra sólo si este club es EL QUE DEJÓ. Si el jugador no se movió, o se movió desde otro
+    // lado, la entrada se queda como está.
+    if (mov && mov.de === enLaBase && mov.a !== enLaBase) { borre = true; entradasBorradas++; continue; }
+    quedan.push(`'${x[1]}'`);
+  }
+  if (!borre) continue;
+  lineas[i] = lineas[i].replace(msp[0], `starPlayers: [${quedan.join(', ')}]`);
+  lineasTocadas++;
+}
+console.log(`\n  starPlayers: ${entradasBorradas} entradas viejas borradas en ${lineasTocadas} clubes`);
+
 if (ESCRIBIR) {
   await writeFile(DB, JSON.stringify(jugadores));
+  if (entradasBorradas) await writeFile('src/data.ts', lineas.join('\n'));
   console.log(`\nGUARDADO: ${DB} con ${movidos.length} jugadores movidos.`);
 } else {
   console.log(`\n(informe: no se escribió nada. Correr con --escribir para aplicar.)`);
