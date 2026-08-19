@@ -564,6 +564,23 @@ export function fechasDePlayoffDelTorneo(clubName: string, date: string): number
 }
 
 /**
+ * ¿Le queda a este club alguna fecha de cuadrangular de ese torneo, de hoy en adelante?
+ *
+ * Con esto se sabe si un cuadro sin campeón todavía puede definirse en cancha o si ya se quedó sin
+ * días. Hacía falta porque el cuadro sólo avanza los días que el jugador disputa, y las fechas que
+ * se pierden -- por lesión, sanción o por no ser convocado -- no vuelven: el Clausura mexicano
+ * tiene seis y un cuadro de ocho necesita las seis. Reportado: "la liga mx no dio campeón, no se
+ * jugó el de vuelta", con el cuadro congelado en semifinal y el calendario ya en el Apertura.
+ */
+export function quedanFechasDePlayoff(clubName: string, temporada: number, torneo: string, paso: number): boolean {
+  const hoy = fechaDelPaso(clubName, paso);
+  if (!hoy) return false;
+  return fixturesForClub(clubName).some(f =>
+    f.competition.kind === 'league' && f.esPlayoff && f.temporada === temporada
+    && torneoDelFixture(f) === torneo && f.date >= hoy);
+}
+
+/**
  * A qué torneo del año pertenece una fecha de este club.
  *
  * Manda lo que la fecha traiga escrito (`torneo`, que sólo llevan los días de cuadrangular

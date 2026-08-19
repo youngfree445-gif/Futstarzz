@@ -9,8 +9,8 @@
 import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import { fixturesAtStep, temporadaDelPaso } from '../src/dateSchedule';
-import { claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce } from '../src/decisionDelDia';
-import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount } from '../src/leagueEngine';
+import { cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce, playoffDelDiaSinElJugador } from '../src/decisionDelDia';
+import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional, cruceActual, nombreDeRonda } from '../src/copaNacional';
 import { resolverPasoCopaNacional } from '../src/leagueEngine';
@@ -331,6 +331,61 @@ console.log('');
      /local vs/.test(seccionCalendario) && !/visitante vs/.test(seccionCalendario));
   ok('y el global de la ida va escrito, que es lo que hay que mirar en una vuelta',
      seccionCalendario.includes('4-1'));
+}
+
+// =============================================================================================
+// 9. EL CUADRANGULAR NO SE CONGELA PORQUE EL JUGADOR SE PIERDA FECHAS
+// =============================================================================================
+//
+// El cuadro solo avanzaba los dias que el jugador disputaba una llave. Los que se perdia --
+// lesionado, sancionado, sin convocatoria -- el calendario los gastaba igual y el cuadro se quedaba
+// quieto. Y las fechas son contadas: el Clausura mexicano tiene seis y un cuadro de ocho necesita
+// las seis. Reportado: "la liga mx no dio campeon, no se jugo el de vuelta", con el cuadro en
+// Semifinal y el calendario ya en el Apertura.
+
+console.log('');
+{
+  const mexicanos = clubesDeLiga(leagueKeyFor(tigres));
+  const PASO_DE_PLAYOFF = 30;   // 2026-05-10, una de las seis fechas del cuadrangular del Clausura
+  const PASO_DEL_APERTURA = 48; // 2026-08-01, cuando ya no queda ninguna
+  const fecha = fixturesAtStep(tigres.name, PASO_DE_PLAYOFF)!.date;
+  const clave = clavePlayoffDeLiga(tigres, PASO_DE_PLAYOFF, fecha);
+
+  const tabla = sortTable(buildInitialTable(mexicanos));
+  const cuadro = prepararPlayoffDeLiga(undefined, tabla, 6);
+  const perfilLesionado = {
+    ...perfilNuevo, currentWeek: PASO_DE_PLAYOFF,
+    playoffsDeLiga: { [clave]: cuadro },
+  } as unknown as PlayerProfile;
+
+  const despues = playoffDelDiaSinElJugador(perfilLesionado, tigres, mexicanos, tabla);
+  const llavesJugadas = (b: typeof cuadro | undefined) =>
+    b?.tiesByRound[b.tiesByRound.length - 1].filter(t => t.firstLegGoalsA !== null).length ?? 0;
+  ok('una fecha perdida SE JUEGA igual: el cuadro avanza sin el jugador',
+     !!despues && llavesJugadas(despues[clave]) > llavesJugadas(cuadro),
+     `llaves con la ida jugada: antes ${llavesJugadas(cuadro)}, despues ${llavesJugadas(despues?.[clave])}`);
+
+  // Y no avanza los dias que NO son de cuadrangular: el 26 de julio es fase regular del Apertura.
+  const enLiga = playoffDelDiaSinElJugador(
+    { ...perfilLesionado, currentWeek: 47 } as unknown as PlayerProfile, tigres, mexicanos, tabla);
+  ok('un dia que no es de cuadrangular no toca el cuadro', enLiga === null);
+
+  // --- La red de seguridad: un cuadro sin fechas por delante se termina, no queda abierto.
+  const congelado = { [clave]: cuadro };
+  const enPlenoTorneo = cerrarPlayoffsSinFechas(
+    { ...perfilNuevo, playoffsDeLiga: congelado } as unknown as PlayerProfile,
+    tigres, mexicanos, PASO_DE_PLAYOFF);
+  ok('con fechas por delante NO se cierra nada: el torneo se define en cancha',
+     enPlenoTorneo === null);
+
+  const cerrado = cerrarPlayoffsSinFechas(
+    { ...perfilNuevo, playoffsDeLiga: congelado } as unknown as PlayerProfile,
+    tigres, mexicanos, PASO_DEL_APERTURA);
+  ok('sin fechas por delante, el cuadro congelado corona campeon',
+     !!cerrado?.[clave]?.championId,
+     cerrado?.[clave]?.championId
+       ? clubes.find(c => c.id === cerrado[clave]!.championId)?.name ?? '?'
+       : 'sigue sin campeon');
 }
 
 console.log('');

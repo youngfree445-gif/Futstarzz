@@ -63,7 +63,7 @@ import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOver
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
-import { claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, duenoDelDiaDeCopa } from './decisionDelDia';
+import { cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, duenoDelDiaDeCopa, playoffDelDiaSinElJugador } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -929,8 +929,43 @@ function applyBallonDorIfNewSeason(profile: PlayerProfile, previousWeek: number,
   return { ...profile, ballonDorHistory: [...(profile.ballonDorHistory ?? []), entry] };
 }
 
+/**
+ * Un cuadrangular que se quedo sin fechas se termina, en vez de quedar abierto para siempre.
+ *
+ * Va aca porque applySeasonTransitions es el unico punto por el que pasan LOS DOCE caminos que
+ * avanzan un dia -- jugar, descansar, lesionarse, estar sancionado, no ser convocado, el paron del
+ * Mundial --, y el cuadro se puede quedar sin dias por cualquiera de ellos.
+ */
+function cerrarCuadrangularesVencidos(profile: PlayerProfile, newWeek: number): PlayerProfile {
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  if (!club) return profile;
+  const cerrados = cerrarPlayoffsSinFechas(profile, club, clubesDeLiga(leagueKeyFor(club)), newWeek);
+  if (!cerrados) return profile;
+
+  // Si al simular las llaves que ya no tenian fecha el campeon resulta ser TU club, el titulo se
+  // anota. Sin esto, la vitrina -- que sale de cupTitles y no de los cuadros -- se quedaria sin un
+  // campeonato que el juego si dio por ganado: un titulo invisible es peor que no tenerlo.
+  const titulos = [...(profile.cupTitles ?? [])];
+  const clave = (t: CupTitle) => `${t.competition}|${t.year}|${t.torneo ?? ''}`;
+  const vistos = new Set(titulos.map(clave));
+  for (const [k, cuadro] of Object.entries(cerrados)) {
+    if (cuadro?.championId !== club.id) continue;
+    const [, , torneo] = k.split('|');
+    const nuevo: CupTitle = {
+      competition: getLeagueDisplay(club.league, club.division).name,
+      year: anioDeCarrera(club.name, newWeek),
+      clubId: club.id,
+      torneo: torneo || undefined,
+      tipo: 'liga',
+    };
+    if (!vistos.has(clave(nuevo))) { titulos.push(nuevo); vistos.add(clave(nuevo)); }
+  }
+  return { ...profile, playoffsDeLiga: cerrados, cupTitles: titulos };
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  let next = freezeSeasonLeadersIfNewSeason(profile, previousWeek, newWeek);
+  let next = cerrarCuadrangularesVencidos(profile, newWeek);
+  next = freezeSeasonLeadersIfNewSeason(next, previousWeek, newWeek);
   next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
@@ -2310,6 +2345,28 @@ export default function App() {
     });
   };
 
+  /**
+   * El cuadrangular avanza aunque vos no juegues.
+   *
+   * Los dias que el jugador se pierde -- lesionado, sancionado, sin convocatoria, descansando por
+   * energia baja, o porque el dia era de una copa en la que ya no esta -- el calendario los gasta
+   * igual, pero el cuadro se quedaba quieto. Y las fechas de cuadrangular son contadas: el Clausura
+   * mexicano tiene seis y un cuadro de ocho necesita las seis. Perdiendo tres, el torneo se congela
+   * en semifinal para siempre. Reportado: "la liga mx no dio campeon, no se jugo el de vuelta".
+   *
+   * La tabla sale del perfil y no de un parametro para que todas las salidas puedan llamarlo igual;
+   * solo hace falta el dia que el cuadro todavia no esta sembrado.
+   */
+  const playoffSinVosHoy = () => {
+    const club = playerProfile && CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    if (!playerProfile || !club) return undefined;
+    const liga = leagueKeyFor(club);
+    return playoffDelDiaSinElJugador(
+      playerProfile, club, clubesDeLiga(liga),
+      playerProfile.leagueSeasons?.[liga]?.table ?? [],
+    ) ?? undefined;
+  };
+
   const handleAdvanceWeek = () => {
     if (!playerProfile) return;
 
@@ -2384,6 +2441,7 @@ export default function App() {
           energy: Math.min(100, playerProfile.energy + 45),
           mentalHealth: Math.min(100, playerProfile.mentalHealth + 6), // descansar en vez de forzar la máquina te despeja la cabeza
           currentWeek: playerProfile.currentWeek + 1,
+          playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
           matchesWithoutRest: 0,
           leagueSeasons: updatedLeagueSeasons,
           continentalCups: restSync.continentalCups,
@@ -2720,6 +2778,7 @@ export default function App() {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
           currentWeek: playerProfile.currentWeek + 1,
+          playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
           matchesWithoutRest: 0,
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups
@@ -3006,6 +3065,7 @@ export default function App() {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
           currentWeek: playerProfile.currentWeek + 1,
+          playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
           matchesWithoutRest: 0,
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups
@@ -3156,6 +3216,7 @@ export default function App() {
             ...playerProfile,
             energy: Math.min(100, playerProfile.energy + 20),
             currentWeek: playerProfile.currentWeek + 1,
+            playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
             matchesWithoutRest: 0,
             continentalCups: restSync.continentalCups,
             uefaCups: restSync.uefaCups,
@@ -3444,6 +3505,7 @@ export default function App() {
           energy: Math.min(100, playerProfile.energy + 18),
           mentalHealth: Math.max(0, playerProfile.mentalHealth - 4),
           currentWeek: playerProfile.currentWeek + 1,
+          playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
           matchesWithoutRest: 0,
         };
         const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
@@ -3509,6 +3571,7 @@ export default function App() {
       capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
       mentalHealth: Math.max(0, playerProfile.mentalHealth - 3),
       currentWeek: playerProfile.currentWeek + 1,
+      playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
       suspendedMatches: playerProfile.suspendedMatches - 1,
       matchesWithoutRest: 0,
       leagueSeasons: updatedLeagueSeasons,
@@ -3610,6 +3673,7 @@ export default function App() {
       energy: Math.min(100, playerProfile.energy + 12),
       capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
       currentWeek: nextWeek,
+      playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
       matchesWithoutRest: 0,
       activeInjury: injuryDone ? null : { ...playerProfile.activeInjury, weeksRemaining },
       injuryHistory: injuryDone
@@ -3660,6 +3724,7 @@ export default function App() {
       energy: Math.min(100, playerProfile.energy + 15),
       capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
       currentWeek: playerProfile.currentWeek + 1,
+      playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
       suspendedMatches: playerProfile.suspendedMatches - 1,
       matchesWithoutRest: 0,
       leagueSeasons: updatedLeagueSeasons,
@@ -4146,7 +4211,13 @@ export default function App() {
           // final. Sin esto el Apertura se quedaba sin campeón el día que perdías la semifinal.
           const cerrado = despues.championId || crucePlayoffDeLiga(despues, myClub.id)
             ? despues
-            : terminarTorneoSinElJugador(despues, b => resolverPasoPlayoffDeLiga(b, leagueClubs));
+            // Con `prepararPlayoffDeLiga` adelante: resolverPasoPlayoffDeLiga solo JUEGA una
+            // pierna, y resolveTwoLegRound corta a proposito sin armar la ronda siguiente. Sin la
+            // primera mitad, "sigue sin vos hasta la final" se quedaba en la ronda donde te
+            // eliminaron. No se notaba porque cada fecha de cuadrangular que venia despues volvia a
+            // preparar el cuadro; se nota el dia que ya no quedan fechas.
+            : terminarTorneoSinElJugador(
+                despues, b => resolverPasoPlayoffDeLiga(prepararPlayoffDeLiga(b, [], undefined), leagueClubs));
           updatedPlayoffs = { ...(playerProfile.playoffsDeLiga ?? {}), [clave]: cerrado };
 
           const anioPlayoff = Number(pasoHoy.date.slice(0, 4));

@@ -30,9 +30,9 @@
 // sortearla (tu club SIEMPRE entra al cuadro de su país, así que hay cruce).
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
-import { fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
-import { crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, rondaDelPlayoff } from './leagueEngine';
+import { crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
 
 /**
@@ -260,4 +260,87 @@ export function copaNacionalDelPaso(
   ];
   const division = (c: Club) => (perfil.divisionOverrides?.[c.id] ?? (c.division === 2 ? 2 : 1)) as 1 | 2;
   return crearCopaNacional(club.league, temporada, clubes, division, continuan);
+}
+
+
+// --- EL TORNEO SIGUE AUNQUE VOS NO JUEGUES ------------------------------------------------------
+//
+// Un cuadrangular avanza SOLO los dias que el jugador disputa una llave. Los dias que se pierde --
+// lesionado, sancionado, sin convocatoria, descansando por energia baja -- el calendario los gasta
+// igual y el cuadro se queda quieto.
+//
+// Eso no es un detalle de contabilidad: las fechas de cuadrangular son contadas. El Clausura
+// mexicano tiene seis y un cuadro de ocho necesita exactamente seis. Perder tres deja el torneo
+// congelado en semifinal para siempre, que es lo que reporto el jugador: "la liga mx no dio
+// campeon, no se jugo el de vuelta". Su cuadro quedo en Semifinal con la vuelta pendiente mientras
+// el calendario ya estaba en el Apertura.
+//
+// La regla de la casa es no recortar torneos: se acomoda el calendario, no se achica el trofeo. Un
+// torneo que no corona a nadie es la version silenciosa de recortarlo.
+
+/**
+ * La pierna de cuadrangular de HOY, jugada sin el jugador.
+ *
+ * Devuelve el mapa de cuadros actualizado, o null si hoy no hay nada de cuadrangular que avanzar.
+ * Es la misma llamada que ya hacia la rama de "los cuadrangulares se juegan sin tu club" cuando el
+ * club no entraba al cuadro; lo que faltaba era hacerla tambien cuando el club SI esta y el que
+ * falta sos vos.
+ */
+export function playoffDelDiaSinElJugador(
+  perfil: PlayerProfile,
+  club: Club,
+  clubesDeLaLiga: Club[],
+  tabla: readonly TableTeam[] = [],
+): PlayerProfile['playoffsDeLiga'] | null {
+  const paso = fixturesAtStep(club.name, perfil.currentWeek);
+  const hoy = paso ? pickPrimary(paso.fixtures) : null;
+  if (!paso || !hoy?.esPlayoff) return null;
+  const clave = clavePlayoffDeLiga(club, perfil.currentWeek, paso.date);
+  // Si el cuadro todavia no existe se siembra con la tabla, igual que lo haria el partido: perder
+  // la PRIMERA fecha del cuadrangular no puede dejar el torneo sin arrancar.
+  const guardado = perfil.playoffsDeLiga?.[clave]
+    ?? (tabla.length
+      ? prepararPlayoffDeLiga(undefined, [...tabla], fechasDePlayoffDelTorneo(club.name, paso.date))
+      : undefined);
+  if (!guardado || guardado.championId) return null;
+  const alDia = prepararPlayoffDeLiga(guardado, [], undefined);
+  return { ...(perfil.playoffsDeLiga ?? {}), [clave]: resolverPasoPlayoffDeLiga(alDia, clubesDeLaLiga) };
+}
+
+/**
+ * Los cuadrangulares que se quedaron SIN FECHAS se terminan, para que tengan campeon.
+ *
+ * Es la red de seguridad de la funcion de arriba, y ademas arregla las partidas que ya venian con
+ * un cuadro congelado: no hay forma de devolverles las fechas perdidas, pero si de que el torneo se
+ * defina en vez de quedar abierto para siempre. Se resuelve simulando, que es lo que ya se hace
+ * cuando al jugador lo eliminan (ver terminarTorneoSinElJugador).
+ *
+ * Solo toca los cuadros de la liga en la que el jugador esta hoy: de las otras no se conoce el
+ * calendario, asi que no se puede saber si les quedan fechas.
+ */
+export function cerrarPlayoffsSinFechas(
+  perfil: PlayerProfile,
+  club: Club,
+  clubesDeLaLiga: Club[],
+  paso: number,
+): PlayerProfile['playoffsDeLiga'] | null {
+  const cuadros = perfil.playoffsDeLiga;
+  if (!cuadros) return null;
+  const miLiga = leagueKeyFor(club);
+  let cambio = false;
+  const copia = { ...cuadros };
+  for (const [clave, cuadro] of Object.entries(cuadros)) {
+    if (!cuadro || cuadro.championId) continue;
+    const [liga, temporada, torneo] = clave.split('|');
+    if (liga !== miLiga) continue;
+    if (quedanFechasDePlayoff(club.name, Number(temporada), torneo, paso)) continue;
+    // El paso lleva las DOS mitades: prepararPlayoffDeLiga arma la ronda siguiente y
+    // resolverPasoPlayoffDeLiga juega una pierna. Con solo la segunda, el cuadro se termina en la
+    // ronda donde estaba -- resolveTwoLegRound corta a proposito sin armar la que viene -- y el
+    // torneo se queda sin campeon igual, que es lo que se estaba tratando de arreglar.
+    copia[clave] = terminarTorneoSinElJugador(
+      cuadro, b => resolverPasoPlayoffDeLiga(prepararPlayoffDeLiga(b, [], undefined), clubesDeLaLiga));
+    cambio = true;
+  }
+  return cambio ? copia : null;
 }
