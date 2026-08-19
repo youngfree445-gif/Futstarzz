@@ -2308,6 +2308,34 @@ export function daysUntilNextFixture(clubName: string, date: string): number | n
  *
  * Sirve para saber si un partido del calendario ya se jugó: su paso es menor al actual.
  */
+/**
+ * EL PASO CON EL QUE SEGUÍS LA CARRERA EN OTRO CLUB.
+ *
+ * Un "paso" es la N-ésima fecha DE TU CLUB, así que el mismo número cae en momentos del año
+ * completamente distintos según dónde juegues. Medido: el paso 40 es el 17 de febrero para el
+ * Benfica, el 5 de julio para el Junior y el 2 de agosto para el Santos. Cinco meses y medio de
+ * diferencia entre el primero y el último.
+ *
+ * Sin esto, cambiar de club movía la carrera en el TIEMPO: un traspaso del Benfica al Santos te
+ * mandaba de febrero a agosto y te comías media temporada; al revés, te devolvía al pasado. Y no
+ * pasa sólo al fichar -- también al irse a préstamo, al volver de uno y al bajar de categoría para
+ * estirar la carrera.
+ *
+ * La carrera sigue en la MISMA FECHA: se busca el primer partido del club nuevo que no haya pasado
+ * todavía. Si su calendario ya terminó, se queda con el último: es preferible a saltar a otro año.
+ */
+export function pasoAlCambiarDeClub(clubNuevo: string, fechaDeHoy: string | null): number | null {
+  if (!fechaDeHoy) return null;
+  const fechas: string[] = [];
+  for (const f of fixturesForClub(clubNuevo)) {
+    if (f.date < inicioDeCarrera(clubNuevo)) continue;
+    if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
+  }
+  if (!fechas.length) return null;
+  const i = fechas.findIndex(d => d >= fechaDeHoy);
+  return (i < 0 ? fechas.length : i + 1);
+}
+
 export function pasoDeFecha(clubName: string, date: string): number | null {
   // Mismo filtro que fixturesAtStep: si una cuenta desde el arranque de la carrera y la otra desde
   // el principio del calendario, los pasos no coinciden y el calendario en pantalla marca como

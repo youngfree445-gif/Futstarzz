@@ -20,7 +20,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { pasosDeContinentalTranscurridos, torneoDeSeleccionesDelDia, type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { pasoAlCambiarDeClub, fechaDelPaso, pasosDeContinentalTranscurridos, torneoDeSeleccionesDelDia, type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -2120,6 +2120,7 @@ export default function App() {
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       currentClubId: clubId,
+      currentWeek: pasoEnElClubNuevo(playerProfile, originClub, targetClub),
       yearsAtClub: 0,
       // Los vínculos de vestuario son con COMPAÑEROS, así que no cruzan la puerta del club: al
       // cambiar de plantel se cortan los dos lados. Si no, getSquadPlayerAge termina preguntando
@@ -2164,6 +2165,7 @@ export default function App() {
       const updatedProfile: PlayerProfile = {
         ...playerProfile,
         currentClubId: originClub.id,
+        currentWeek: pasoEnElClubNuevo(playerProfile, CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId), originClub),
         yearsAtClub: 0,
         // Volvés del préstamo a un vestuario que ya no es el que dejaste: los vínculos se rehacen.
         mentorName: null,
@@ -2382,7 +2384,19 @@ export default function App() {
     });
   };
 
-  const handleAcceptTransfer = (clubId: string, signOnBonus: number, newDorsal: number) => {
+/**
+   * El paso con el que sigue la carrera al cambiar de club, o el actual si no se puede calcular.
+   *
+   * Sin esto la carrera saltaba en el TIEMPO en cada cambio de club: el paso es la N-ésima fecha DE TU
+   * CLUB, y el 40 cae el 17 de febrero para el Benfica y el 2 de agosto para el Santos. Ver
+   * pasoAlCambiarDeClub en dateSchedule.ts.
+   */
+  const pasoEnElClubNuevo = (perfil: PlayerProfile, clubViejo: Club | undefined, clubNuevo: Club): number => {
+    const hoy = clubViejo ? fechaDelPaso(clubViejo.name, perfil.currentWeek) : null;
+    return pasoAlCambiarDeClub(clubNuevo.name, hoy) ?? perfil.currentWeek;
+  };
+  
+    const handleAcceptTransfer = (clubId: string, signOnBonus: number, newDorsal: number) => {
     if (!playerProfile) return;
     const targetClub = CLUBS_DATABASE.find(c => c.id === clubId)!;
     const previousClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
@@ -2407,6 +2421,7 @@ export default function App() {
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       currentClubId: clubId,
+      currentWeek: pasoEnElClubNuevo(playerProfile, previousClub, targetClub),
       dorsal: newDorsal,
       dorsalHistory,
       capital: playerProfile.capital + signOnBonus - agentCommission,
@@ -5255,6 +5270,7 @@ export default function App() {
         const steppedDown: PlayerProfile = {
           ...profile,
           currentClubId: stepDownClub.id,
+          currentWeek: pasoEnElClubNuevo(profile, CLUBS_DATABASE.find(c => c.id === profile.currentClubId), stepDownClub),
           hasSteppedDownRetirement: true,
           marketValue: Math.max(50000, Math.round(profile.marketValue * STEP_DOWN_MARKET_VALUE_MULTIPLIER)),
           prestige: Math.round(profile.prestige * STEP_DOWN_PRESTIGE_MULTIPLIER),

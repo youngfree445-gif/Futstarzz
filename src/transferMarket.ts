@@ -3,6 +3,7 @@
 // semanal y desde el agente (Agent.type modifica los parámetros de esta misma función).
 import { Club, PlayerProfile, TransferOffer, Agent } from './types';
 import { clubStrength } from './leagueEngine';
+import { hasDatedSchedule } from './dateSchedule';
 
 // Corregido: antes "possible" dependía solo del Prestigio (que arranca en 50 y ya deja fichable
 // casi cualquier club de reputación <=4 desde la semana 1). Ahora se mide un "Rendimiento" real
@@ -84,6 +85,11 @@ export function generateTransferOffers(
 
   return allClubs
     .filter(c => c.id !== profile.currentClubId)
+    // UN CLUB SIN CALENDARIO NO TE PUEDE FICHAR. Son 84 de los 697 -- casi toda la tercera de
+    // Argentina, más algún europeo suelto como el Boavista -- y no tienen ni un partido: aceptar esa
+    // oferta te dejaba en un club donde no ibas a jugar nunca. Lo encontró el simulador de carreras
+    // la primera vez que se le enseñó a mirar el mercado, jugando con el Santos.
+    .filter(c => hasDatedSchedule(c.name))
     .map(c => {
       const multiplier = (1 + (profile.prestige / 100)) * agentSalaryMultiplier;
       const customSalary = Math.round(c.initialSalary * multiplier);
@@ -140,6 +146,10 @@ export function radarDeInteres(
   // fuerza es baja y ya lo cumplís.
   const fueraDeAlcance = allClubs
     .filter(c => c.id !== profile.currentClubId)
+    // El mismo filtro que las ofertas: si el club no tiene calendario, no tiene sentido ponerlo como
+    // meta. El radar es una zanahoria, y una zanahoria a un club donde nunca vas a jugar es peor que
+    // ninguna.
+    .filter(c => hasDatedSchedule(c.name))
     .map(c => {
       const { reqPrestige, reqMatches } = requisitosDe(c, currentClub, profile.agent);
       const faltaRendimiento = Math.max(0, Math.ceil(reqPrestige - rendimiento));

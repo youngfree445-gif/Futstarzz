@@ -10,7 +10,7 @@
 //      como un congelamiento al abrir.
 
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
-import { fixturesForClub } from '../src/dateSchedule';
+import { fechaDelPaso, fixturesForClub, pasoAlCambiarDeClub } from '../src/dateSchedule';
 import { clubesDeLiga, esClubJugable } from '../src/clubesJugables';
 import { leagueKeyFor } from '../src/leagueEngine';
 import { resolverClubDeCalendario } from '../src/clubAliases';
@@ -183,5 +183,70 @@ for (const [copa, n] of [...tapadosPorCopa].sort((a, b) => b[1] - a[1]).slice(0,
 }
 if (tapados) console.log(`  Cada uno es un partido que el calendario promete y no se juega nunca.`);
 
-const problemas = pocoDescanso.length + saturadas.length + sinResolver + tapados;
+// === F) CAMBIAR DE CLUB NO PUEDE MOVER LA CARRERA EN EL TIEMPO ================================
+//
+// Un "paso" es la N-esima FECHA DE TU CLUB, no una fecha del almanaque, asi que el mismo numero cae
+// en momentos del anio distintos segun donde juegues: el paso 40 es el 17 de febrero para el
+// Benfica, el 5 de julio para el Junior y el 2 de agosto para el Santos.
+//
+// Al fichar, al irse a prestamo, al volver de uno y al bajar de categoria, el juego seguia con el
+// MISMO numero de paso contra el calendario del club nuevo. O sea que un traspaso del Benfica al
+// Santos te mandaba de febrero a agosto -- te comias media temporada -- y al reves te devolvia al
+// pasado. Lo arregla pasoAlCambiarDeClub, que busca el primer partido del club nuevo que todavia no
+// se jugo.
+//
+// Se mide en DIAS de salto, que es lo que el jugador nota. Un salto de hasta un mes es normal: si
+// el club nuevo no juega hasta dentro de tres semanas, no hay nada que hacer.
+console.log(`
+=== F) Cambiar de club no mueve la carrera en el tiempo ===`);
+// Dos cosas distintas y solo una es un error:
+//
+//   . HACIA ATRAS no se puede ir nunca. Volver al pasado no tiene arreglo posible y es lo que hacia
+//     el codigo viejo la mitad de las veces.
+//   . Hacia adelante, un hueco largo puede ser real: si el club nuevo no vuelve a jugar hasta enero,
+//     no hay ningun paso mejor al que ir. Se informa aparte y no cuenta como falla.
+let atras = 0, huecoLargo = 0, paresMirados = 0;
+let peorAtras = '', peorHueco = '', peorAtrasDias = 0, peorHuecoDias = 0;
+// Y cuanto saltaba ANTES, cuando se conservaba el mismo numero de paso.
+let atrasViejo = 0, saltoViejoTotal = 0, viejoMirados = 0;
+
+const PARES = muestra.slice(0, 40);
+for (const desde of PARES) {
+  for (const hacia of PARES) {
+    if (desde.id === hacia.id) continue;
+    for (const paso of [20, 40, 60]) {
+      const hoy = fechaDelPaso(desde.name, paso);
+      if (!hoy) continue;
+
+      // Lo que hacia el codigo viejo: el mismo numero de paso en el club nuevo.
+      const fechaVieja = fechaDelPaso(hacia.name, paso);
+      if (fechaVieja) {
+        viejoMirados++;
+        const d = dias(hoy, fechaVieja);
+        saltoViejoTotal += Math.abs(d);
+        if (d < 0) atrasViejo++;
+      }
+
+      const nuevoPaso = pasoAlCambiarDeClub(hacia.name, hoy);
+      if (!nuevoPaso) continue;
+      const nuevaFecha = fechaDelPaso(hacia.name, nuevoPaso);
+      if (!nuevaFecha) continue;
+      paresMirados++;
+      const salto = dias(hoy, nuevaFecha);
+      if (salto < 0) {
+        atras++;
+        if (-salto > peorAtrasDias) { peorAtrasDias = -salto; peorAtras = `${desde.name} -> ${hacia.name} (paso ${paso}): ${hoy} vuelve a ${nuevaFecha}`; }
+      } else if (salto > 31) {
+        huecoLargo++;
+        if (salto > peorHuecoDias) { peorHuecoDias = salto; peorHueco = `${desde.name} -> ${hacia.name} (paso ${paso}): ${hoy} espera hasta ${nuevaFecha}`; }
+      }
+    }
+  }
+}
+console.log(`  ${paresMirados} cambios de club probados`);
+console.log(`  hacia ATRAS en el tiempo: ${atras}${atras ? '   ' + peorAtras : ''}`);
+console.log(`  hueco de mas de un mes (el club nuevo no juega antes): ${huecoLargo}${huecoLargo ? '   ' + peorHueco : ''}`);
+console.log(`  antes de pasoAlCambiarDeClub: ${atrasViejo} iban al pasado y el salto medio era de ${Math.round(saltoViejoTotal / Math.max(1, viejoMirados))} dias`);
+
+const problemas = pocoDescanso.length + saturadas.length + sinResolver + tapados + atras;
 console.log(`\n${problemas === 0 ? 'Sin problemas de descanso.' : `${problemas} hallazgos de descanso (ver arriba).`}`);

@@ -20,6 +20,7 @@ import {
   esUltimoPartidoDeLaCopa, torneoDelClubEnFecha, partidosDeLaMismaLlave, fechasDePlayoffDelTorneo,
   RIVAL_POR_SORTEAR,
   torneoDeSeleccionesDelDia, pasosDeMundialTranscurridos, pasosDeContinentalTranscurridos,
+  mercadoAbierto, fechaDelPaso, pasoAlCambiarDeClub,
 } from '../src/dateSchedule';
 import {
   simulateMatch, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, leagueKeyFor, sortTable,
@@ -36,6 +37,7 @@ import {
 } from '../src/leagueEngine';
 import { crearCopaNacional, cruceActual, rondaActual, sigueEnCopa } from '../src/copaNacional';
 import { clubesDeLiga } from '../src/clubesJugables';
+import { generateTransferOffers, rendimientoDe } from '../src/transferMarket';
 import {
   CONFEDERACION_POR_SELECCION, torneoContinentalDe,
   seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica,
@@ -112,6 +114,43 @@ const copasSinCuadro: Record<string, number> = {};
 const resultados: string[] = [];
 let pasosDeCopa = 0;
 
+// ------------------------------------------------------------------ el mercado de pases
+//
+// El otro punto ciego que tenia este validador. El mercado es la parte del juego que MUEVE al
+// jugador de un club a otro, y nunca se habia ejercitado de punta a punta: ni las ofertas, ni el
+// umbral que las vuelve alcanzables, ni -- sobre todo -- que pasa con el reloj de la carrera cuando
+// el traspaso se acepta.
+//
+// Ese ultimo punto ya dio un bug de los grandes: un "paso" es la N-esima FECHA DE TU CLUB, asi que
+// el mismo numero cae en momentos distintos del anio segun donde juegues (el paso 40 es el 17 de
+// febrero para el Benfica y el 2 de agosto para el Santos). Al fichar, el juego seguia con el mismo
+// numero contra el calendario nuevo, y la carrera saltaba meses. Ver pasoAlCambiarDeClub.
+//
+// ACLARACION SOBRE EL ALCANCE: aca se comprueban las ofertas y a donde caeria el traspaso. La
+// temporada se sigue jugando con UN club: mudarse a mitad de anio obliga a rehacer el estado de liga,
+// copa y cuadrangular, y eso es otro trabajo. Lo que este validador cubre, lo cubre de verdad; lo
+// que no, no lo simula.
+const perfilDeMercado = () => ({
+  currentClubId: club.id,
+  prestige: Math.min(99, 30 + jugador.goles * 2 + jugador.titulos.length * 5),
+  agent: null,
+  attributes: { ritmo: 70, tiro: 70, pase: 70, regate: 70, defensa: 60, fisico: 70 },
+  careerStats: {
+    partidosHistoricos: jugador.partidos,
+    golesHistoricos: jugador.goles,
+    asistenciasHistoricos: jugador.asistencias,
+    campeonatos: jugador.titulos.length,
+  },
+} as any);
+
+const mercado = {
+  pasosAbiertos: 0,
+  ofertas: 0,
+  alcanzables: 0,
+  mejor: null as null | { club: string; salario: number; req: number },
+  traspasos: [] as string[],
+};
+
 // ------------------------------------------------------------------ el torneo de selecciones
 //
 // LA TEMPORADA NO ES SOLO DEL CLUB. En junio se para todo y se juega el Mundial -- o, en los anos
@@ -166,6 +205,36 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
   if (!hoy || hoy.fixtures[0]?.temporada !== 1) break;
   const fx = pickPrimary(hoy.fixtures);
   if (!fx) continue;
+
+  // ---- el mercado, cuando esta abierto
+  if (mercadoAbierto(club.name, paso)) {
+    mercado.pasosAbiertos++;
+    const perfil = perfilDeMercado();
+    const ofertas = generateTransferOffers(perfil, club, CLUBS_DATABASE as Club[], paso)
+      .sort((a, b) => (b.possible === a.possible ? b.reqPrestige - a.reqPrestige : b.possible ? 1 : -1))
+      .slice(0, 3);
+    mercado.ofertas += ofertas.length;
+    for (const o of ofertas) {
+      if (!o.possible) continue;
+      mercado.alcanzables++;
+      const destino = CLUBS_DATABASE.find(c => c.id === o.clubId);
+      if (!destino) { raro(`oferta de un club que no existe: ${o.clubId}`); continue; }
+      if (!mercado.mejor || o.reqPrestige > mercado.mejor.req) {
+        mercado.mejor = { club: destino.name, salario: o.salaryOffer, req: o.reqPrestige };
+      }
+      // A DONDE CAERIA el traspaso. No se muda el jugador (ver la aclaracion de alcance arriba),
+      // pero SI se comprueba lo que rompia: que la carrera no viaje en el tiempo al cambiar de club.
+      const hoy = fechaDelPaso(club.name, paso);
+      const pasoAlla = pasoAlCambiarDeClub(destino.name, hoy);
+      if (hoy && pasoAlla) {
+        const alla = fechaDelPaso(destino.name, pasoAlla);
+        if (alla && alla < hoy) raro(`fichar por ${destino.name} el ${hoy} devolveria la carrera a ${alla}`);
+        if (alla) mercado.traspasos.push(`${destino.name} (${hoy} -> ${alla})`);
+      } else if (hoy && !pasoAlla) {
+        raro(`fichar por ${destino.name} el ${hoy} no encuentra ninguna fecha en su calendario`);
+      }
+    }
+  }
 
   const esLiga = fx.competition.kind === 'league';
   const esPlayoff = hoy.fixtures.some(f => f.esPlayoff);
@@ -404,6 +473,13 @@ for (const [t, estado] of Object.entries(selecciones)) {
   const campeon = estado.championId ?? estado.knockout?.championId ?? null;
   if (campeon && campeon === miSeleccionId) jugador.titulos.push(`${NOMBRE_DEL_TORNEO[t as TorneoDeSelecciones]} ${CAREER_START_YEAR}`);
 }
+
+console.log('\n--- EL MERCADO DE PASES ---');
+console.log(`   ${mercado.pasosAbiertos} fechas con el mercado abierto · ${mercado.ofertas} ofertas · ${mercado.alcanzables} alcanzables`);
+if (mercado.mejor) console.log(`   la mas grande: ${mercado.mejor.club} (exige ${mercado.mejor.req}, ofrece ${mercado.mejor.salario})`);
+for (const t of mercado.traspasos.slice(0, 3)) console.log(`   iria a ${t}`);
+// Un mercado que nunca ofrece nada esta roto, y un mercado donde todo es alcanzable tambien.
+if (mercado.pasosAbiertos && !mercado.ofertas) raro('el mercado estuvo abierto y no genero ni una oferta');
 
 console.log('\n--- TU JUGADOR ---');
 console.log(`   ${jugador.nombre}, ${jugador.edad} años, ${jugador.posicion} · ${club.name}`);
