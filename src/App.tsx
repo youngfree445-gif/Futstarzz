@@ -63,6 +63,7 @@ import SeasonEndOverlay, { type SeasonEndInfo } from './components/SeasonEndOver
 import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOverlay';
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
+import { podarEdicionesTerminadas } from './podarPartida';
 import { cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay } from './leagueDisplay';
@@ -1046,6 +1047,18 @@ function cerrarCopasUefaVencidas(profile: PlayerProfile, paso: number): PlayerPr
   return cambio ? { ...profile, uefaCups: copia } : profile;
 }
 
+/**
+ * Al cambiar de temporada, las ediciones ya terminadas se guardan por su resultado.
+ *
+ * Ver podarPartida.ts: son ~24 KB por temporada de cuadros que nadie vuelve a mirar. Se hace al
+ * cambiar de ano y no en cada paso porque es justo cuando dejan de ser la edicion en curso.
+ */
+function podarSiEsNuevaTemporada(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  return club ? podarEdicionesTerminadas(profile, temporadaDeCarrera(club.name, newWeek)) : profile;
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   // Las dos redes miran el dia que se ACABA de jugar (previousWeek), no el siguiente: asi un torneo
   // se cierra el dia de su ultima fecha. Preguntando por el siguiente, el campeon aparecia tres
@@ -1068,6 +1081,9 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   next = applyCountryDutyToll(next, previousWeek, newWeek);
   next = applyPromotionRelegationIfNewSeason(next, previousWeek, newWeek);
   next = applyBallonDorIfNewSeason(next, previousWeek, newWeek);
+  // Al final: lo de arriba puede leer las ediciones que esta poda reduce (el reparto de cupos
+  // continentales del ano siguiente sale de sus campeones).
+  next = podarSiEsNuevaTemporada(next, previousWeek, newWeek);
   return next;
 }
 
