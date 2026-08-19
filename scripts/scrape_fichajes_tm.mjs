@@ -26,6 +26,19 @@
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
 
 // Las ligas que el juego tiene con plantel. El código es el de Transfermarkt.
+//
+// LOS CÓDIGOS NO SE ADIVINAN. Cinco de estos estaban mal y devolvían cero clubes sin dar error:
+// Argentina no es AR1N sino ARGC, Chile no es CHL1 sino CLPD, Bolivia es BO1A, Paraguay PR1C y
+// Venezuela VZ1C. Se sacan de la ficha de un club conocido, mirando los enlaces a competición que
+// NO son los genéricos que Transfermarkt recomienda en todas sus páginas.
+//
+// Y se verifican por el CONTENIDO, no por el código de respuesta: buscando el de Chile apareció
+// "PL1", que responde 200 y trae 18 clubes... polacos. Lech Poznan y Legia Warszawa no juegan el
+// campeonato chileno. Si no se miran los nombres, entra una liga entera equivocada.
+//
+// Paraguay y Venezuela parten el año en Apertura y Clausura, con un código cada uno (PR1A/PR1C,
+// VZ1A/VZ1C). Los dos devuelven los MISMOS fichajes -- se comprobó, 146 y 93 altas en cada par --
+// así que va uno solo: cargar los dos duplicaría cada movimiento.
 const LIGAS = [
   ['GB1', 'Inglesa'], ['GB2', 'Inglesa 2'],
   ['ES1', 'Española'], ['ES2', 'Española 2'],
@@ -35,9 +48,9 @@ const LIGAS = [
   ['NL1', 'Holandesa'], ['PO1', 'Portuguesa'], ['TR1', 'Turca'],
   ['BE1', 'Belga'], ['SC1', 'Escocesa'], ['GR1', 'Griega'], ['RU1', 'Rusa'],
   ['SA1', 'Saudí'], ['MLS1', 'Estadounidense'], ['MEX1', 'Mexicana'],
-  ['AR1N', 'Argentina'], ['BRA1', 'Brasileña'], ['COL1', 'Colombiana'],
-  ['CHL1', 'Chilena'], ['URU1', 'Uruguaya'], ['TDeC', 'Peruana'], ['EC1N', 'Ecuatoriana'],
-  ['BOL1', 'Boliviana'], ['PAR1', 'Paraguaya'], ['VZ1L', 'Venezolana'],
+  ['ARGC', 'Argentina'], ['BRA1', 'Brasileña'], ['COL1', 'Colombiana'],
+  ['CLPD', 'Chilena'], ['URU1', 'Uruguaya'], ['TDeC', 'Peruana'], ['EC1N', 'Ecuatoriana'],
+  ['BO1A', 'Boliviana'], ['PR1C', 'Paraguaya'], ['VZ1C', 'Venezolana'],
 ];
 
 // El dominio decide el IDIOMA de los nombres de club, y eso importa mucho mas de lo que parece:

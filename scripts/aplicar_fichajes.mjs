@@ -76,12 +76,19 @@ const dataTs = await readFile('src/data.ts', 'utf8');
 // Transfermarkt le dice "Club Nacional" al de MONTEVIDEO, y el juego le dice así al de ASUNCIÓN
 // (el uruguayo se llama "Nacional" a secas). Con el nombre solo, trece fichajes del Nacional
 // uruguayo se fueron a jugar a Paraguay. El país es lo único que los distingue.
+// Se lee por BLOQUES y no por líneas: la mayoría de los clubes están escritos en una sola línea
+// larguísima, pero unos cuantos están repartidos en varias. Leyendo por línea esos no existían, y
+// el Everton chileno era uno: al no encontrarlo, la búsqueda seguía de largo hasta el Everton de
+// Goodison Park y sus fichajes cruzaban el Atlántico.
 const clubesDelJuego = [];              // { id, nombre, liga }
-for (const linea of dataTs.split('\n')) {
-  const m = /^\s*\{\s*id: '([^']+)'.*?\bname: '([^']+)'/.exec(linea);
-  if (!m) continue;
-  const liga = /\bleague: '([^']+)'/.exec(linea);
-  clubesDelJuego.push({ id: m[1], nombre: m[2], liga: liga ? liga[1] : '' });
+for (const bloque of dataTs.split(/\n\s*\{\s*/)) {
+  const mid = /^\s*(?:themeColor: \{[^}]*\},\s*)?id: '([^']+)'/.exec(bloque)
+    ?? /^id: '([^']+)'/.exec(bloque);
+  if (!mid) continue;
+  const nombre = /\bname: '((?:[^'\\]|\\.)*)'/.exec(bloque);
+  const liga = /\bleague: '([^']+)'/.exec(bloque);
+  if (!nombre) continue;
+  clubesDelJuego.push({ id: mid[1], nombre: nombre[1], liga: liga ? liga[1] : '' });
 }
 
 // Ligas que no dicen de qué país es el club: no sirven para desempatar homónimos, pero tampoco
@@ -123,6 +130,7 @@ for (const p of jugadores) {
  * milan" contiene a "inter" y a "milan" y ahí adivinar sería inventar un fichaje.
  */
 const cacheEquipo = new Map();
+const cachear = (k, v) => { cacheEquipo.set(k, v); return v; };
 function buscarEquipo(nombreTM, ligaDelScrape) {
   const cacheKey = `${nombreTM}|${ligaDelScrape ?? ''}`;
   if (cacheEquipo.has(cacheKey)) return cacheEquipo.get(cacheKey);
@@ -137,28 +145,50 @@ function buscarEquipo(nombreTM, ligaDelScrape) {
     // Las segundas divisiones vienen etiquetadas "Inglesa 2" y en data.ts la liga es "Inglesa" con
     // división 2: para saber de qué país es el club alcanza con el nombre sin el número.
     const pais = (ligaDelScrape ?? '').replace(/ \d$/, '');
-    let candidatos = clubesDelJuego.filter(c => c.nombre === nombreTM);
-    if (!candidatos.length) candidatos = clubesDelJuego.filter(c => clave(c.nombre) === k);
+    const mias = new Set(palabras(nombreTM));
 
-    const delPais = pais ? candidatos.filter(c => c.liga === pais) : [];
-    if (delPais.length === 1) {
-      club = delPais[0];
-    } else if (candidatos.length === 1 && SIN_PAIS.has(candidatos[0].liga)) {
-      // Uno solo y el juego no lo tiene clasificado por país: no hay con quién confundirlo.
-      club = candidatos[0];
-    } else if (candidatos.length === 1 && !pais) {
-      // Sin liga de referencia (los clubes de ORIGEN vienen sin ella) sólo vale el caso en que hay
-      // un único club con ese nombre en todo el juego.
-      club = candidatos[0];
+    // DENTRO DE UN PAÍS la comparación puede ser generosa, y ahí está la clave de todo esto: los
+    // homónimos que rompen el juego son SIEMPRE de países distintos -- el Everton de Viña del Mar y
+    // el de Liverpool, el Nacional de Montevideo y el de Asunción. Entre clubes del mismo país,
+    // "CD Everton" y "Everton de Viña del Mar" son el mismo y no hay con quién confundirlo.
+    const delPais = pais ? clubesDelJuego.filter(c => c.liga === pais) : [];
+    const buscarEn = (lista) => {
+      let m = lista.filter(c => c.nombre === nombreTM);
+      if (m.length !== 1) m = lista.filter(c => clave(c.nombre) === k);
+      if (m.length !== 1) {
+        // Una palabra distintiva en común alcanza, pero sólo si la encuentra en UNO.
+        m = lista.filter(c => {
+          const suyas = palabras(c.nombre);
+          return suyas.length && (suyas.every(w => mias.has(w)) || [...mias].every(w => suyas.includes(w)));
+        });
+      }
+      return m.length === 1 ? m[0] : null;
+    };
+
+    club = buscarEn(delPais);
+    if (!club) {
+      // Fuera del país sólo vale el nombre o la clave exactos, y sólo si hay UNO en todo el juego.
+      const todos = clubesDelJuego.filter(c => c.nombre === nombreTM || clave(c.nombre) === k);
+      if (todos.length === 1 && (!pais || SIN_PAIS.has(todos[0].liga))) club = todos[0];
+      // Si hay candidatos de OTRO país, no se elige ninguno y tampoco se sigue buscando en la base:
+      // que exista un "Everton" inglés es justamente la razón para no adivinar con el chileno.
+      else if (todos.length && pais) return cachear(cacheKey, null);
     }
-    // Todo lo demás queda sin resolver A PROPÓSITO: dos clubes que se llaman igual y no se puede
-    // decidir cuál es, es exactamente el caso donde adivinar rompe el juego.
   }
 
   // 2) Del club del juego al equipo de la base, con el diccionario del propio juego.
   if (club) {
     const enLaBase = SIN_POR_ID.get(club.id) || SIN_POR_NOMBRE.get(club.nombre) || club.nombre;
     r = porNombreExacto.get(enLaBase) ?? null;
+    // Y si la base lo escribe apenas distinto ("Rangers FC" contra "Rangers"), se compara por
+    // palabras -- pero las del CLUB DEL JUEGO, que ya sabemos de qué país es, no las de
+    // Transfermarkt. Ahí está toda la diferencia: "Everton de Viña del Mar" da la clave
+    // "everton vina mar" y no encuentra nada, que es lo correcto; el que buscaba con la clave de
+    // Transfermarkt encontraba "Everton" y mandaba los fichajes chilenos a Inglaterra.
+    if (!r) {
+      const kJuego = clave(enLaBase);
+      if (!clavesDeLaBaseAmbiguas.has(kJuego)) r = equiposPorClave.get(kJuego) ?? null;
+    }
   }
 
   // 3) Y si el club no está en data.ts, se prueba contra la base directamente: hay equipos en la
@@ -170,7 +200,14 @@ function buscarEquipo(nombreTM, ligaDelScrape) {
   // solo equipo. La clave exige que las palabras que importan sean LAS MISMAS -- "Rangers FC" y
   // "Rangers" dan las dos "rangers" --, así que no repite el error de "Liverpool FC Montevideo",
   // cuya clave es "liverpool montevideo" y no coincide con "liverpool".
-  if (!r && alias === undefined) {
+  //
+  // Y sólo si NO se identificó el club: si data.ts sí lo tiene y lo que falta es su plantel en la
+  // base, no hay nada que buscar. Sin esta condición, "CD Everton" (Chile) se identificaba bien como
+  // el club chileno, la base no tenía su plantel, y la búsqueda seguía de largo hasta encontrar
+  // "Everton" a secas -- el de Goodison Park. Los fichajes de Viña del Mar terminaban en Liverpool.
+  // Es el primer ejemplo que da docs/PROMPT_DATOS_Y_SCRAPING.md §3, y volvió a entrar por la puerta
+  // de atrás al agregar la liga chilena.
+  if (!r && !club && alias === undefined) {
     if (porNombreExacto.has(nombreTM)) r = porNombreExacto.get(nombreTM);
     else if (!clavesDeLaBaseAmbiguas.has(k)) r = equiposPorClave.get(k) ?? null;
   }
@@ -189,6 +226,35 @@ function buscarEquipo(nombreTM, ligaDelScrape) {
   // alias escrito a mano, o no se toca.
   cacheEquipo.set(cacheKey, r);
   return r;
+}
+
+// --- LA GUARDIA FINAL CONTRA HOMÓNIMOS -------------------------------------------------------
+//
+// Antes de mover a nadie se resuelven TODOS los clubes y se mira si dos cayeron en el mismo. Si dos
+// clubes distintos de Transfermarkt apuntan al mismo equipo de la base, no se puede saber cuál es
+// cuál, así que no se elige: se anulan los dos y sus fichajes quedan sin aplicar.
+//
+// Es la verificación convertida en regla. Cada vez que se aflojó una comparación para ganar unos
+// cientos de fichajes, apareció una fusión nueva -- el Everton de Viña del Mar con el de Goodison
+// Park, el Nacional de Montevideo con el de Asunción, dos clubes peruanos que comparten la palabra
+// "Cajamarca" -- y siempre la encontró este conteo, nunca la lectura del código. Poniéndolo como
+// guardia, la próxima vez no llega a pasar.
+const usadoPor = new Map();
+for (const liga of fichajes.ligas) {
+  for (const c of liga.clubes) {
+    const d = buscarEquipo(c.nombre, liga.liga);
+    if (!d) continue;
+    const clave = `${c.nombre}|${liga.liga}`;
+    const l = usadoPor.get(d.team_name);
+    if (l) l.push(clave); else usadoPor.set(d.team_name, [clave]);
+  }
+}
+let fusionesEvitadas = 0;
+for (const [equipo, claves] of usadoPor) {
+  if (claves.length < 2) continue;
+  fusionesEvitadas++;
+  console.log(`  (homónimos) ${claves.join(' + ')} caían los dos en "${equipo}": no se aplica ninguno`);
+  for (const k of claves) cacheEquipo.set(k, null);
 }
 
 // Las selecciones NO son clubes: un jugador figura en su club y otra vez en su selección, y mover
