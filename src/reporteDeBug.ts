@@ -256,7 +256,9 @@ export function armarReporteDeBug(
   seccion(`ÚLTIMOS ${ULTIMOS_PARTIDOS} PARTIDOS REGISTRADOS`);
   const ultimos = (perfil.datedResults ?? []).slice(-ULTIMOS_PARTIDOS);
   if (!ultimos.length) l.push('(ninguno)');
-  for (const r of ultimos) l.push(`${r.date}  ${r.competition.padEnd(26)} ${r.myGoals}-${r.rivalGoals} vs ${r.opponentName}`);
+  // Se marca la fecha que jugó el club sin el jugador: cambia la lectura de una racha y de un
+  // global, y es la diferencia entre "no lo jugué" y "el juego se lo comió".
+  for (const r of ultimos) l.push(`${r.date}  ${r.competition.padEnd(26)} ${r.myGoals}-${r.rivalGoals} vs ${r.opponentName}${r.sinElJugador ? '  (sin vos: sancion o sin convocatoria)' : ''}`);
 
   if (perfil.ultimaEliminacion) {
     l.push('', `Última eliminación anotada: ${perfil.ultimaEliminacion.competicion} (paso ${perfil.ultimaEliminacion.semana})`);

@@ -408,6 +408,14 @@ export interface DatedResult {
   opponentName: string;
   myGoals: number;
   rivalGoals: number;
+  /**
+   * El club jugó esta fecha SIN VOS: sanción, o el DT no te convocó.
+   *
+   * El resultado se anota igual porque es del CLUB, y de ahí salen la racha, el global de las
+   * llaves y el calendario. Sin anotarlo, un club que perdía mientras vos cumplías sanción seguía
+   * figurando invicto. La marca queda para poder decirlo en el reporte de bug.
+   */
+  sinElJugador?: boolean;
 }
 
 // --- Copa Libertadores / Copa Sudamericana ---

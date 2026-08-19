@@ -172,5 +172,29 @@ ok('y la racha se lee sobre el orden correcto, no el de llegada',
    rachaDeResultados(desordenada) === null,
    '(2 derrotas al final: no llega al mínimo)');
 
+// =============================================================================================
+// 8. LOS PARTIDOS QUE JUGO EL CLUB SIN VOS CUENTAN
+// =============================================================================================
+//
+// La racha es del CLUB, no de tu planilla personal. Reportado: "hubo un partido que se simulo
+// porque me suspendieron y perdimos, pero en la ventana de proximo partido aun me sale que voy
+// invicto". La derrota se simulaba y se avisaba por pantalla, pero no se anotaba en datedResults,
+// que es de donde sale la racha -- asi que el invicto seguia corriendo sobre un partido perdido.
+
+// Cuatro sin perder (el minimo para que el invicto salga) y una derrota que jugo el club sin vos.
+const conSancion: DatedResult[] = [
+  { date: '2026-02-01', competition: 'Liga', opponentName: 'A', myGoals: 2, rivalGoals: 0 },
+  { date: '2026-02-08', competition: 'Liga', opponentName: 'B', myGoals: 1, rivalGoals: 1 },
+  { date: '2026-02-15', competition: 'Liga', opponentName: 'C', myGoals: 3, rivalGoals: 1 },
+  { date: '2026-02-22', competition: 'Liga', opponentName: 'D', myGoals: 2, rivalGoals: 2 },
+  { date: '2026-03-01', competition: 'Liga', opponentName: 'E', myGoals: 0, rivalGoals: 2, sinElJugador: true },
+];
+ok('una derrota que jugo el club sin vos CORTA el invicto',
+   rachaDeResultados(conSancion)?.tono !== 'buena',
+   rachaDeResultados(conSancion)?.texto ?? 'sin racha');
+ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
+   rachaDeResultados(conSancion.slice(0, 4))?.tono === 'buena',
+   rachaDeResultados(conSancion.slice(0, 4))?.texto ?? 'sin racha');
+
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

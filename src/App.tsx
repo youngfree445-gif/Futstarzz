@@ -2367,6 +2367,35 @@ export default function App() {
     ) ?? undefined;
   };
 
+  /**
+   * El resultado de una fecha que tu club jugo SIN VOS, anotado en el historial.
+   *
+   * datedResults no es "los partidos que jugaste": es lo que le paso a tu club fecha por fecha. De
+   * ahi salen la racha, el global de las llaves de copa y los marcadores del calendario -- y el
+   * codigo ya daba por sentado que estaba completo ("incluye las fechas que el club resolvio sin
+   * vos", dice el comentario del global). No lo estaba: las fechas de sancion y las que el DT no te
+   * convocaba se simulaban, se te avisaba el marcador por pantalla, se actualizaba la tabla... y no
+   * quedaba registro. Reportado: "hubo un partido que se simulo porque me suspendieron y perdimos,
+   * pero en la ventana de proximo partido aun me sale que voy invicto".
+   */
+  const resultadoDelClubSinVos = (
+    myClub: Club, opponentName: string, myGoals: number, rivalGoals: number,
+  ): DatedResult | null => {
+    if (!playerProfile || !hasDatedLeagueSchedule(myClub.name)) return null;
+    const paso = fixturesAtStep(myClub.name, playerProfile.currentWeek);
+    const fx = paso ? pickDatedPrimary(paso.fixtures) : null;
+    if (!paso || !fx) return null;
+    return {
+      date: paso.date, competition: fx.competition.name,
+      opponentName, myGoals, rivalGoals, sinElJugador: true,
+    };
+  };
+
+  /** El historial con esa fecha anotada. Reemplaza la del mismo dia para no duplicar. */
+  const historialCon = (r: DatedResult | null): DatedResult[] | undefined =>
+    r ? [...(playerProfile?.datedResults ?? []).filter(x => x.date !== r.date), r]
+      : playerProfile?.datedResults;
+
   const handleAdvanceWeek = () => {
     if (!playerProfile) return;
 
@@ -3506,6 +3535,7 @@ export default function App() {
           mentalHealth: Math.max(0, playerProfile.mentalHealth - 4),
           currentWeek: playerProfile.currentWeek + 1,
           playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
+          datedResults: historialCon(resultadoDelClubSinVos(myClub, opName, myGoals, rivalGoals)),
           matchesWithoutRest: 0,
         };
         const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
@@ -3572,6 +3602,7 @@ export default function App() {
       mentalHealth: Math.max(0, playerProfile.mentalHealth - 3),
       currentWeek: playerProfile.currentWeek + 1,
       playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
+      datedResults: historialCon(resultadoDelClubSinVos(myClub, opponentClub.name, myGoals, rivalGoals)),
       suspendedMatches: playerProfile.suspendedMatches - 1,
       matchesWithoutRest: 0,
       leagueSeasons: updatedLeagueSeasons,
