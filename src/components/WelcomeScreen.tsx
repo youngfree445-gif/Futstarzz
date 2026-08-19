@@ -214,7 +214,11 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                           </div>
                           <div className="flex items-center gap-1 text-slate-400">
                             <Star size={10} className="text-burgundy-500" />
-                            <span>Pres: {profile.prestige}</span>
+                            {/* "DT" y no "Pres": es el MISMO numero que las otras pantallas
+                                muestran como "Relacion DT" (ver tecnico.ts). Con dos nombres
+                                publicos para un solo dato, el jugador cree que son dos cosas y
+                                busca en vano el segundo. */}
+                            <span>DT: {profile.prestige}</span>
                           </div>
                           <div className="flex items-center gap-1 text-slate-400">
                             <Trophy size={10} className="text-yellow-500" />
@@ -301,7 +305,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
               {[
                 {
                   title: 'Balón de Oro',
-                  desc: 'Prestigio > 90, Valor de Mercado > $10M y Goles > 30.',
+                  desc: 'Relación DT > 90, Valor de Mercado > $10M y Goles > 30.',
                   icon: '👑',
                   color: 'from-burgundy-600/20 to-burgundy-900/10 border-burgundy-500/20',
                   badgeColor: 'text-burgundy-400 bg-burgundy-950/50'

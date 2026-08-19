@@ -35,6 +35,20 @@ partido, así que **nada de esto valida motor, calendarios ni datos**.
   pantalla. `MatchDecision` ahora acepta `requiereDiferencia`, y esas dos decisiones sólo entran al
   sorteo si la diferencia de gol coincide de verdad.
 
+### Rótulos
+
+- **"Relación DT" no era una etiqueta mentirosa: era un dato con DOS nombres.** La auditoría lo
+  anotó como "el botón de renovación le pone nombre a un dato que es otro", porque el gate lee
+  `playerProfile.prestige` y el cartel dice "Relación DT". Verificado contra el código: es
+  deliberado y está documentado en `src/tecnico.ts` — `prestige` **es** la relación con el DT, y
+  crear un campo paralelo dejaría "dos números peleando por el mismo rótulo".
+
+  Lo que sí estaba mal era otra cosa, y la auditoría no la vio: el mismo número se mostraba como
+  **"Relación DT"** en la tira de estado, la renovación y el comparador de temporadas, y como
+  **"Prestigio"** en los logros de la pantalla de inicio y **"Pres:"** en la lista de partidas
+  guardadas. Un dato con dos nombres públicos hace que el jugador crea que son dos cosas y busque
+  en vano la segunda. Ahora se llama Relación DT en las cinco.
+
 ### Móvil
 
 - **El nav se colapsa.** La barra lateral es `w-full` en pantallas chicas y desplegaba las once
@@ -168,15 +182,6 @@ no un defecto.
      cancha.
 
    Sin esa decisión tomada, no se empieza.
-5. **El botón de renovación le pone nombre a un dato que es otro.** Dice *"Necesitás 55 de Relación
-   DT para pedir la renovación (tenés N)"* (Dashboard.tsx ~4036) pero el número que lee y compara es
-   `playerProfile.prestige`. **Verificado: no existe ningún campo de relación con el DT en el juego**
-   — se buscó `coachRelation`/`relacionDT`/`dtRelation` y no hay nada.
-
-   No rompe nada: el gate funciona, es la etiqueta la que miente. Pero le enseña al jugador un
-   concepto que no existe, y después no lo encuentra en ninguna pantalla. Arreglo chico: o se llama
-   Prestigio (que es lo que es), o se crea de verdad la relación con el DT — que es justo lo que
-   pedían la renovación negociada y "el técnico te habla en el entretiempo" en el plan de trabajo.
 4. **Overlay uniforme sobre las imágenes de la Tienda**, que varían en brillo y recorte. Ya tienen un
    degradado; falta emparejar el brillo.
 

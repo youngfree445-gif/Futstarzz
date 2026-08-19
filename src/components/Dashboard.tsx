@@ -4165,7 +4165,7 @@ export default function Dashboard({
                         <span className="text-white">Gala de Caridad</span>
                         <span className="text-red-400 font-mono">-$3,000</span>
                       </div>
-                      <p className="text-3xs text-slate-400">Impacto altamente positivo en el prestigio de la prensa especializada.</p>
+                      <p className="text-3xs text-slate-400">Impacto altamente positivo en tu Relación DT y en la prensa especializada.</p>
                       <button
                         onClick={() => onLaunchPRCampaign(3000, 15, 3)}
                         disabled={playerProfile.capital < 3000}
@@ -4529,7 +4529,7 @@ export default function Dashboard({
                       Tu Rendimiento hoy es <strong className="text-gold-400">{Math.round(rendimiento)}</strong> con{' '}
                       <strong className="text-gold-400">{playerProfile.careerStats.partidosHistoricos}</strong>{' '}
                       {playerProfile.careerStats.partidosHistoricos === 1 ? 'partido' : 'partidos'} en las piernas.
-                      Sube con prestigio, con goles y asistencias por partido, y con títulos.
+                      Sube con la Relación DT, con goles y asistencias por partido, y con títulos.
                     </p>
 
                     <div className="space-y-2.5">
@@ -5066,8 +5066,20 @@ export default function Dashboard({
                 {conmebolCup ? (
                   <>
                     <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 border-b border-slate-800 pb-2 flex items-center gap-2">
-                      🏆 {conmebolCup.cupId === 'libertadores' ? 'COPA LIBERTADORES' : 'COPA SUDAMERICANA'} {conmebolCup.year} · {cupStageLabel(conmebolCup.stage)}
+                      🏆 {conmebolCup.cupId === 'libertadores' ? 'COPA LIBERTADORES'
+                        : conmebolCup.cupId === 'concacaf' ? 'CONCACAF CHAMPIONS CUP'
+                        : 'COPA SUDAMERICANA'} {conmebolCup.year} · {cupStageLabel(conmebolCup.stage)}
                     </h3>
+                    {/* La Concacaf NO tiene fase de grupos: son cinco rondas de eliminación directa
+                        seguidas, y así se juega de verdad. Sin decirlo, el jugador entra a su primer
+                        partido y cree que el juego se saltó los grupos -- reportado dos veces con la
+                        misma frase: "me metió a ese partido sin haber jugado grupos". */}
+                    {conmebolCup.cupId === 'concacaf' && (
+                      <p className="text-3xs text-slate-500 leading-relaxed -mt-1">
+                        La Concacaf Champions Cup no tiene fase de grupos: se juega a eliminación
+                        directa desde la primera ronda, como en la realidad.
+                      </p>
+                    )}
                     {conmebolCup.stage === 'groups' ? (
                       <div className="grid md:grid-cols-3 gap-4 font-mono text-xs">
                         {conmebolCup.groups.map(group => (
