@@ -20,6 +20,8 @@ import {
   simulateMatch, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, leagueKeyFor, sortTable,
   getOrCreateCupState, getUpcomingCupMatch, isClubStillInCup, resolveCupWeek,
   getLibertadoresParticipants, getSudamericanaParticipants,
+  getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState,
+  getUpcomingUefaCupMatch, isClubStillInUefaCup, resolveUefaCupWeek,
   prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff, resolverPasoCopaNacional,
   terminarTorneoSinElJugador,
   CAREER_START_YEAR, roundLabelByMatchCount,
@@ -55,13 +57,23 @@ const cupIdMio = getLibertadoresParticipants(CLUBS_DATABASE as Club[], 1, undefi
   : getSudamericanaParticipants(CLUBS_DATABASE as Club[], 1, undefined).includes(club.id) ? 'sudamericana' : null;
 if (cupIdMio) continental = getOrCreateCupState(cupIdMio as any, 1, CLUBS_DATABASE as Club[], undefined, 0);
 
+// LAS COPAS EUROPEAS TAMBIEN SE JUEGAN. Este validador no las conocia -- cero referencias a UEFA --
+// asi que con un club europeo cada dia de Champions apartado caia al camino del calendario, cuyo
+// rival ese dia es el cartel "Por definir", y salia como rareza. Osea que la unica herramienta que
+// juega temporadas enteras estaba CIEGA a las dos copas de media Europa: ni el cuadro, ni el
+// campeon, ni los partidos del jugador se comprobaban nunca.
+const uefaIdMio: 'champions' | 'europa' | null =
+  getChampionsParticipants(CLUBS_DATABASE as Club[], 1).includes(club.id) ? 'champions'
+  : getEuropaParticipants(CLUBS_DATABASE as Club[], 1).includes(club.id) ? 'europa' : null;
+let uefa = uefaIdMio ? getOrCreateUefaCupState(uefaIdMio, CLUBS_DATABASE as Club[], undefined, 0) : null;
+
 const jugados: Record<string, number> = {};
 const resultados: string[] = [];
 let pasosDeCopa = 0;
 
 const fechas = fixturesForClub(club.name).filter(f => f.temporada === 1);
 console.log(`===== CARRERA: ${jugador.nombre} · ${club.name} · temporada ${CAREER_START_YEAR} =====`);
-console.log(`${fechas.length} fechas en el calendario · copa continental: ${cupIdMio ?? 'ninguna'}\n`);
+console.log(`${fechas.length} fechas en el calendario · copa continental: ${cupIdMio ?? uefaIdMio ?? 'ninguna'}\n`);
 
 // ------------------------------------------------------------------ se juega
 for (let paso = 1; paso <= fechas.length + 5; paso++) {
@@ -103,6 +115,15 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
     continental = getOrCreateCupState(cupIdMio as any, 1, CLUBS_DATABASE as Club[], continental, pasosDeCopa);
     if (!isClubStillInCup(continental, club.id)) { continue; }
     const prox = getUpcomingCupMatch(continental, club.id);
+    if (!prox) { continue; }
+    rivalId = prox.opponentId; local = prox.isHome;
+    etiqueta = fx.competition.name;
+  } else if (esContinental && uefaIdMio && uefa) {
+    // Mismo trato que la Conmebol: el cuadro avanza cada dia de copa, haya partido tuyo o no.
+    pasosDeCopa++;
+    uefa = getOrCreateUefaCupState(uefaIdMio, CLUBS_DATABASE as Club[], uefa, pasosDeCopa, undefined, undefined, club.id);
+    if (!isClubStillInUefaCup(uefa, club.id)) { continue; }
+    const prox = getUpcomingUefaCupMatch(uefa, club.id);
     if (!prox) { continue; }
     rivalId = prox.opponentId; local = prox.isHome;
     etiqueta = fx.competition.name;
@@ -151,6 +172,9 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
     }
   } else if (esContinental && cupIdMio) {
     continental = resolveCupWeek(continental, CLUBS_DATABASE as Club[], club.id, local, misGoles, susGoles);
+  } else if (esContinental && uefaIdMio && uefa) {
+    uefa = resolveUefaCupWeek(uefa, CLUBS_DATABASE as Club[], club.id, local, misGoles, susGoles);
+    if (uefa.championId === club.id) jugador.titulos.push(`${fx.competition.name} ${CAREER_START_YEAR}`);
   } else if (esNacional && !/Superliga/i.test(fx.competition.name)) {
     copaNacional = resolverPasoCopaNacional(copaNacional, CLUBS_DATABASE, { clubId: club.id, isHome: local, goals: misGoles, opponentGoals: susGoles });
     if (copaNacional.championId === club.id) jugador.titulos.push(`${fx.competition.name} ${CAREER_START_YEAR}`);
@@ -180,6 +204,12 @@ if (cupIdMio) {
   const ronda = continental.knockout?.tiesByRound[continental.knockout.tiesByRound.length - 1];
   desenlace(`Copa ${cupIdMio}`, continental.knockout?.championId ?? null,
     isClubStillInCup(continental, club.id), ronda ? roundLabelByMatchCount(ronda.length) : (continental.stage ?? '?'));
+}
+if (uefaIdMio && uefa) {
+  const ronda = uefa.knockout?.tiesByRound[uefa.knockout.tiesByRound.length - 1];
+  desenlace(uefaIdMio === 'champions' ? 'Champions League' : 'Europa League',
+    uefa.championId ?? uefa.knockout?.championId ?? null,
+    isClubStillInUefaCup(uefa, club.id), ronda ? roundLabelByMatchCount(ronda.length) : (uefa.stage ?? '?'));
 }
 for (const [sem, b] of Object.entries(playoffs)) {
   desenlace(`Cuadrangular ${sem}`, b.championId, !!crucePlayoffDeLiga(b, club.id), rondaDelPlayoff(b));

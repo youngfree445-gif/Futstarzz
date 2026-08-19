@@ -1335,19 +1335,28 @@ function resolveUefaLeaguePhaseStep(
 }
 
 function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: ForcedResult): UefaCupState {
+  // ARMAR NO GASTA UNA FECHA, ACA TAMPOCO.
+  //
+  // Las copas de Conmebol ya tenian este arreglo -- tres veces: sembrar el cuadro, armar cada ronda
+  // y coronar-- y al camino de la UEFA nunca se porto. Sumaba CUATRO fechas de calendario que no
+  // jugaban nada: la de pasar de fase de liga a playoff, la de pasar de playoff a octavos, la de
+  // dar vuelta el cartel a 'done', y una por ronda que se perdia el jugador (ver abajo). Medido: la
+  // Champions necesitaba 21 pasos cuando sus partidos son 18.
   if (cup.stage === 'league_phase') {
     const allPlayed = cup.fixtures.every(f => f.played);
     if (allPlayed) {
       const ranked = sortTable(cup.table).map(t => t.clubId!);
       const playoffPool = ranked.slice(UEFA_TOP_DIRECT, UEFA_PLAYOFF_ZONE_END);
-      // Se arma el cuadro y se corta: encadenar la recursión resolvía la primera ronda en el mismo
-      // paso y el partido del jugador se jugaba solo, sin que él lo viera.
+      // Se arma el cuadro Y SE JUEGA la primera pierna en el mismo paso, que es lo que hace la
+      // Conmebol: armarlo y cortar se comia un dia de copa entero sin partido.
       if (playoffPool.length >= 2) {
-        return { ...cup, stage: 'playoff', playoff: seedSingleTwoLegRound(playoffPool) };
+        const armado: UefaCupState = { ...cup, stage: 'playoff', playoff: seedSingleTwoLegRound(playoffPool) };
+        return { ...armado, playoff: resolveSingleTwoLegRoundStep(armado.playoff!, allClubs, forced) };
       }
       // Campo chico (no llega a 24 clasificados): saltamos directo a octavos con el top 8.
       const direct = ranked.slice(0, UEFA_TOP_DIRECT);
-      return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(direct) };
+      const armado: UefaCupState = { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(direct) };
+      return { ...armado, knockout: resolveTwoLegRound(armado.knockout!, allClubs, forced) };
     }
     const { fixtures, table } = resolveUefaLeaguePhaseStep(cup.fixtures, cup.table, allClubs, forced);
     return { ...cup, fixtures, table };
@@ -1360,7 +1369,8 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
       const ranked = sortTable(cup.table).map(t => t.clubId!);
       const direct = ranked.slice(0, UEFA_TOP_DIRECT);
       const playoffWinners = cup.playoff.map(t => t.winnerId!);
-      return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket([...direct, ...playoffWinners]) };
+      const armado: UefaCupState = { ...cup, stage: 'knockout', knockout: seedTwoLegBracket([...direct, ...playoffWinners]) };
+      return { ...armado, knockout: resolveTwoLegRound(armado.knockout!, allClubs, forced) };
     }
     const playoff = resolveSingleTwoLegRoundStep(cup.playoff, allClubs, forced);
     return { ...cup, playoff };
@@ -1371,11 +1381,25 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
     if (cup.knockout.championId) {
       return { ...cup, stage: 'done', championId: cup.knockout.championId };
     }
-    // Ver la nota de resolverPasoCopaNacional: armar la ronda no gasta una fecha.
     const completa = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1].every(t => t.played);
     const puesto = completa ? siguienteRondaTwoLeg(cup.knockout) : cup.knockout;
-    const knockout = resolveTwoLegRound(puesto, allClubs, forced);
-    return { ...cup, knockout };
+    const resuelto = resolveTwoLegRound(puesto, allClubs, forced);
+
+    // Y LA RONDA SIGUIENTE SE ARMA ACA MISMO, al cerrar la anterior. Armarla recien al empezar el
+    // paso siguiente llega tarde: getUpcomingCupMatch se consulta ANTES de resolver el paso, asi
+    // que al completar los octavos, el paso siguiente le preguntaba por su partido mirando una
+    // ronda que todavia no existia -- no hay partido -- y los cuartos aparecian un paso despues, ya
+    // con la ida jugada de fondo. UN PARTIDO PERDIDO POR RONDA, el mismo bug que la Conmebol ya
+    // tenia corregido.
+    const cerrada = resuelto.tiesByRound[resuelto.tiesByRound.length - 1];
+    const conLaProxima = !resuelto.championId && cerrada.length > 1 && cerrada.every(t => t.played)
+      ? siguienteRondaTwoLeg(resuelto)
+      : resuelto;
+    // Coronar tampoco gasta una fecha.
+    if (conLaProxima.championId) {
+      return { ...cup, knockout: conLaProxima, stage: 'done', championId: conLaProxima.championId };
+    }
+    return { ...cup, knockout: conLaProxima };
   }
 
   return cup;

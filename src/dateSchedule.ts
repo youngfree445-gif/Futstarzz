@@ -716,6 +716,19 @@ const VENTANA_DE_DESCANSO_DIAS = 3;
 const FECHAS_DE_COPA_CONTINENTAL = 13;
 
 /**
+ * Las de la UEFA son MAS, porque la Champions es mas larga que la Libertadores.
+ *
+ * Una Champions completa son 18: ocho de fase de liga, dos de playoff y cuatro rondas de ida y
+ * vuelta -- octavos, cuartos, semis y final. Con las 13 de la bolsa comun se quedaba en octavos y
+ * no coronaba a nadie NUNCA. No se habia visto porque el validador que juega temporadas enteras no
+ * simulaba copas europeas; en cuanto se le enseno, salio a la primera.
+ */
+const FECHAS_DE_COPA_UEFA = 18;
+
+/** Las dos copas de la UEFA, por id de calendario. */
+const esCopaUefa = (id: string) => id === 'ucl' || id === 'uel';
+
+/**
  * Los clubes que pueden llegar a jugar una copa continental, y por eso necesitan la bolsa grande.
  *
  * Se decide por COMPETICIÓN de liga, no por país: la Serie A italiana pone clubes en la Champions
@@ -806,8 +819,9 @@ function clubesConBonoContinental(): Set<string> {
 }
 
 function fechasDeCopaReservadas(club: string): number {
-  return FECHAS_DE_COPA_BASE
-    + (clubesConBonoContinental().has(club) ? FECHAS_DE_COPA_CONTINENTAL : 0);
+  const suya = ventanaContinentalPorClub().get(club);
+  if (!suya) return FECHAS_DE_COPA_BASE;
+  return FECHAS_DE_COPA_BASE + (esCopaUefa(suya.id) ? FECHAS_DE_COPA_UEFA : FECHAS_DE_COPA_CONTINENTAL);
 }
 
 /**
@@ -822,7 +836,8 @@ function fechasDeCopaReservadas(club: string): number {
  * partido es un día de descanso, que es lo que le pasa a cualquier club eliminado.
  */
 function fechasQueNecesita(comp: DatedCompetition): number {
-  return comp.kind === 'continental_cup' ? FECHAS_DE_COPA_CONTINENTAL : FECHAS_DE_COPA_BASE;
+  if (comp.kind !== 'continental_cup') return FECHAS_DE_COPA_BASE;
+  return esCopaUefa(comp.id) ? FECHAS_DE_COPA_UEFA : FECHAS_DE_COPA_CONTINENTAL;
 }
 
 /**
