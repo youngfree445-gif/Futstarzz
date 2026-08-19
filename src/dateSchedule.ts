@@ -1531,6 +1531,43 @@ const COMPETICION_MUNDIAL: DatedCompetition = {
   firstDate: null, lastDate: null, matches: [],
 };
 
+// --- LOS TORNEOS CONTINENTALES DE SELECCIONES --------------------------------------------------
+//
+// La Eurocopa y la Copa América se juegan en junio/julio de los años PARES que no son de Mundial:
+// Mundial 2026, continentales 2028, Mundial 2030. Lo fija el Calendario Internacional de la FIFA
+// (ver docs/CALENDARIO_INTERNACIONAL_FIFA.md), que para la edición 2028 dice "junio/julio" y no da
+// los días: por eso el juego reserva la ventana y el motor sortea adentro.
+//
+// UNA sola ventana para los dos, y no una por torneo: se juegan a la vez, y un jugador va al de su
+// confederación o a ninguno. Cuál de los dos ocupa el día lo decide la nacionalidad del jugador, no
+// el calendario -- que es el mismo reparto que ya tienen los días de copa: el calendario pone el
+// día, otro decide de quién es.
+const CONTINENTAL_DESDE = '06-10';
+const CONTINENTAL_HASTA = '07-15';
+
+/** Siete pasos necesita la Eurocopa (la Copa América, seis) y uno más para coronar. */
+const FECHAS_DE_CONTINENTAL = 8;
+
+const COMPETICION_CONTINENTAL: DatedCompetition = {
+  id: 'continental_selecciones', name: 'Torneo Continental', kind: 'national_tournament',
+  firstDate: null, lastDate: null, matches: [],
+};
+
+/**
+ * ¿Este año se juegan la Eurocopa y la Copa América?
+ *
+ * Los años de Mundial son 2026, 2030, 2034... y los continentales van justo en el medio.
+ */
+export function esAnioDeTorneoContinental(anio: number): boolean {
+  return (anio - CAREER_START_YEAR) % 2 === 0 && !esAnioDeMundial(anio);
+}
+
+/** Primer y último día de la ventana continental, o null si ese año no hay. */
+function ventanaContinentalDelAnio(anio: number): { desde: number; hasta: number } | null {
+  if (!esAnioDeTorneoContinental(anio)) return null;
+  return { desde: dayForDate(`${anio}-${CONTINENTAL_DESDE}`), hasta: dayForDate(`${anio}-${CONTINENTAL_HASTA}`) };
+}
+
 /**
  * Le reserva a CADA club las fechas del Mundial, y le saca las suyas de esa ventana.
  *
@@ -1547,11 +1584,19 @@ const COMPETICION_MUNDIAL: DatedCompetition = {
  */
 function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada: number) {
   const anio = CAREER_START_YEAR + temporada - 1;
-  if (!esAnioDeMundial(anio)) return;
 
-  const desde = dayForDate(`${anio}-${MUNDIAL_DESDE}`);
-  const hasta = dayForDate(`${anio}-${MUNDIAL_HASTA}`);
-  const paso = Math.floor((hasta - desde) / (FECHAS_DE_MUNDIAL - 1));
+  // El mismo reparto sirve para los tres torneos de selecciones: el Mundial en su año y los dos
+  // continentales -- Eurocopa y Copa América -- en el año del medio. Cambian la ventana, cuántas
+  // fechas hacen falta y el cartel; el resto es idéntico, y duplicar esta función para dos números
+  // distintos sería tener dos repartos que se pueden desincronizar.
+  const continental = ventanaContinentalDelAnio(anio);
+  if (!esAnioDeMundial(anio) && !continental) return;
+
+  const COMPETICION = continental ? COMPETICION_CONTINENTAL : COMPETICION_MUNDIAL;
+  const CUANTAS = continental ? FECHAS_DE_CONTINENTAL : FECHAS_DE_MUNDIAL;
+  const desde = continental ? continental.desde : dayForDate(`${anio}-${MUNDIAL_DESDE}`);
+  const hasta = continental ? continental.hasta : dayForDate(`${anio}-${MUNDIAL_HASTA}`);
+  const paso = Math.floor((hasta - desde) / (CUANTAS - 1));
 
   for (const [club, propios] of indice) {
     if (!propios.length) continue;
@@ -1584,17 +1629,17 @@ function reservarFechasDeMundial(indice: Map<string, DatedFixture[]>, temporada:
       for (let k = -(DESCANSO_MINIMO_DIAS - 1); k <= DESCANSO_MINIMO_DIAS - 1; k++) vetados.add(d + k);
     }
 
-    const elegidos = elegirDias(desde, hasta, vetados, FECHAS_DE_MUNDIAL, new Set(sobreviven.map(f => dayForDate(f.date))));
+    const elegidos = elegirDias(desde, hasta, vetados, CUANTAS, new Set(sobreviven.map(f => dayForDate(f.date))));
     // Si el veto dejó menos de las que hace falta, se cae al reparto parejo: es preferible un
     // Mundial apretado contra el calendario del club a un Mundial que no llega a la final.
-    const dias = elegidos.length >= FECHAS_DE_MUNDIAL
+    const dias = elegidos.length >= CUANTAS
       ? elegidos
-      : Array.from({ length: FECHAS_DE_MUNDIAL }, (_, i) => desde + i * paso);
+      : Array.from({ length: CUANTAS }, (_, i) => desde + i * paso);
 
     for (const dia of dias) {
       const date = dateForDay(dia);
       sobreviven.push({
-        competition: COMPETICION_MUNDIAL,
+        competition: COMPETICION,
         match: { date, home: club, away: RIVAL_POR_SORTEAR },
         date, isHome: true, opponentName: RIVAL_POR_SORTEAR,
         temporada, esReservaDeCuadro: true,

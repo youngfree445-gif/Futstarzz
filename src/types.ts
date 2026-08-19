@@ -537,6 +537,16 @@ export interface UefaCupState {
 import type { EliminatoriaState } from './eliminatorias';
 
 export interface WorldCupState {
+  /**
+   * Cuál de los tres torneos de selecciones es.
+   *
+   * Ausente = 'mundial', que es lo que valía cuando este era el único. Así las carreras viejas
+   * siguen leyéndose sin migración.
+   *
+   * Los tres son el mismo torneo con otros números -- grupos de cuatro y después eliminación a
+   * partido único -- y por eso comparten estado y motor. Ver FORMATO_DE_TORNEO en leagueEngine.
+   */
+  torneo?: 'mundial' | 'eurocopa' | 'copaamerica';
   year: number; // año de esta edición dentro de la carrera (cada 4 años)
   groups: CupGroup[]; // 12 grupos de 4
   stage: 'groups' | 'knockout' | 'done';

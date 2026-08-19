@@ -1698,15 +1698,17 @@ const WORLD_CUP_BREAK_LENGTH_WEEKS = 9;
 // clubes. Antes el bloque arrancaba en la semana 19 de la temporada, que con temporadas de entre
 // 34 y 66 pasos caía en un mes distinto para cada club.
 
-function drawWorldCupGroups(teamIds: string[], allTeams: Club[], year: number): CupGroup[] {
+function drawWorldCupGroups(teamIds: string[], allTeams: Club[], year: number, cuantosGrupos = 12): CupGroup[] {
   // El Mundial 2026 (año 1 de la carrera) usa el SORTEO REAL, no uno al azar: sin esto Argentina
   // podía cruzarse con Brasil en fase de grupos y el torneo no se parecía en nada al de verdad.
   // Las ediciones siguientes sí se sortean: no simulamos eliminatorias, así que no hay manera de
   // saber quién clasificaría a 2030.
-  const real = year === 1 && GRUPOS_MUNDIAL_2026.every(g => g.every(id => teamIds.includes(id)));
+  // El sorteo real solo aplica al Mundial 2026, que es el unico del que se tienen los grupos.
+  const real = cuantosGrupos === 12 && year === 1
+    && GRUPOS_MUNDIAL_2026.every(g => g.every(id => teamIds.includes(id)));
   const shuffled = shuffle(teamIds);
   const groups: CupGroup[] = [];
-  for (let g = 0; g < 12; g++) {
+  for (let g = 0; g < cuantosGrupos; g++) {
     const clubIds = real ? [...GRUPOS_MUNDIAL_2026[g]] : shuffled.slice(g * 4, g * 4 + 4);
     const groupTeams = clubIds.map(id => allTeams.find(c => c.id === id)).filter((c): c is Club => !!c);
     groups.push({
@@ -1719,15 +1721,25 @@ function drawWorldCupGroups(teamIds: string[], allTeams: Club[], year: number): 
   return groups;
 }
 
-function seedFromWorldCupGroups(groups: CupGroup[]): string[] {
+/**
+ * Los que salen de la fase de grupos de un torneo de selecciones.
+ *
+ * Los dos primeros de cada grupo y, si el formato los pide, los mejores terceros. Los tres torneos
+ * del juego usan la misma regla con numeros distintos:
+ *
+ *   Mundial       12 grupos + 8 terceros = 32
+ *   Eurocopa       6 grupos + 4 terceros = 16
+ *   Copa America   4 grupos + 0 terceros =  8
+ */
+function seedFromWorldCupGroups(groups: CupGroup[], cuantosTerceros = 8): string[] {
   const winners = groups.map(g => sortTable(g.table)[0].clubId!);
   const runnersUp = groups.map(g => sortTable(g.table)[1].clubId!);
-  const bestThirds = groups
+  const bestThirds = cuantosTerceros === 0 ? [] : groups
     .map(g => sortTable(g.table)[2])
     .sort((a, b) => (b.puntos - a.puntos) || ((b.gf - b.gc) - (a.gf - a.gc)) || (b.gf - a.gf))
-    .slice(0, 8)
+    .slice(0, cuantosTerceros)
     .map(row => row.clubId!);
-  return [...winners, ...runnersUp, ...bestThirds]; // 12 + 12 + 8 = 32
+  return [...winners, ...runnersUp, ...bestThirds];
 }
 
 /**
@@ -1755,7 +1767,7 @@ function resolveWorldCupStep(cup: WorldCupState, allTeams: Club[], forced?: Forc
   if (cup.stage === 'groups') {
     const allPlayed = cup.groups.every(g => g.fixtures.every(f => f.played));
     if (allPlayed) {
-      const seeded = seedFromWorldCupGroups(cup.groups);
+      const seeded = seedFromWorldCupGroups(cup.groups, FORMATO_DE_TORNEO[cup.torneo ?? 'mundial'].terceros);
       return resolveWorldCupStep({ ...cup, stage: 'knockout', knockout: seedBracket(seeded) }, allTeams, forced);
     }
     return { ...cup, groups: resolveCupGroupsStep(cup.groups, allTeams, forced) };
@@ -1785,11 +1797,38 @@ function resolveWorldCupStep(cup: WorldCupState, allTeams: Club[], forced?: Forc
   return cup; // 'done'
 }
 
-function freshWorldCupState(year: number, allTeams: Club[]): WorldCupState {
-  const teamIds = allTeams.map(t => t.id); // el array pasado ya son las 48 selecciones clasificadas
+/**
+ * LOS TRES TORNEOS DE SELECCIONES, y en que se diferencian.
+ *
+ * Son el mismo torneo con otros numeros: grupos de cuatro a una vuelta, despues eliminacion directa
+ * a partido unico. Por eso comparten motor -- resolveWorldCupStep no distingue cual es -- y lo unico
+ * que cambia es cuantos grupos hay y cuantos terceros pasan.
+ *
+ * Las fechas salen del Calendario Internacional de la FIFA (ver docs/CALENDARIO_INTERNACIONAL_FIFA.md):
+ * los continentales van en junio/julio de los anos PARES que no son de Mundial. Mundial 2026,
+ * Eurocopa y Copa America 2028, Mundial 2030.
+ */
+export const FORMATO_DE_TORNEO = {
+  // 48 selecciones: 12 grupos de 4, pasan los dos primeros y los ocho mejores terceros.
+  mundial: { equipos: 48, grupos: 12, terceros: 8, pasos: 8 },
+  // 24 selecciones: 6 grupos de 4, pasan los dos primeros y los cuatro mejores terceros.
+  eurocopa: { equipos: 24, grupos: 6, terceros: 4, pasos: 7 },
+  // 16 selecciones -- las 10 de Conmebol mas 6 invitadas de Concacaf -- en 4 grupos de 4. Pasan los
+  // dos primeros y van directo a cuartos: no hay terceros ni octavos.
+  copaamerica: { equipos: 16, grupos: 4, terceros: 0, pasos: 6 },
+} as const;
+
+export type TorneoDeSelecciones = keyof typeof FORMATO_DE_TORNEO;
+
+function freshWorldCupState(year: number, allTeams: Club[], torneo: TorneoDeSelecciones = 'mundial'): WorldCupState {
+  const formato = FORMATO_DE_TORNEO[torneo];
+  // El array que llega ya son las selecciones que juegan ESTE torneo. Se recorta por las dudas: un
+  // sorteo con mas equipos que grupos por cuatro dejaria selecciones sin grupo, sin avisar.
+  const teamIds = allTeams.map(t => t.id).slice(0, formato.grupos * 4);
   return {
+    torneo,
     year,
-    groups: drawWorldCupGroups(teamIds, allTeams, year),
+    groups: drawWorldCupGroups(teamIds, allTeams, year, formato.grupos),
     stage: 'groups',
     knockout: null,
     championId: null,
@@ -1803,9 +1842,11 @@ export function getOrCreateWorldCupState(
   existing: WorldCupState | undefined,
   /** Cuántas fechas del Mundial ya pasaron para el club del jugador. Cada una es un paso del
    *  torneo: ver pasosDeMundialTranscurridos en dateSchedule.ts. */
-  pasosDeMundial: number
+  pasosDeMundial: number,
+  /** Cual de los tres torneos de selecciones. Ausente = el Mundial, que era el unico. */
+  torneo: TorneoDeSelecciones = 'mundial',
 ): WorldCupState {
-  let cup = existing ?? freshWorldCupState(year, allTeams);
+  let cup = existing ?? freshWorldCupState(year, allTeams, torneo);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
   const targetSteps = pasosDeMundial;
 

@@ -10,10 +10,11 @@
 // decisión de rama, mismo cuadro -- y cuenta partidos de copa REALMENTE jugados, rondas superadas y
 // campeones coronados. Si una copa no se puede jugar, acá sale en cero.
 
-import { ULTIMATE_CLUBS_DATABASE as CLUBS, WORLD_CUP_TEAMS_DATABASE } from '../src/data';
-import { fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE } from '../src/data';
+import { seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica } from '../src/eliminatorias';
+import { esAnioDeTorneoContinental, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
-import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getOrCreateWorldCupState, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
+import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getOrCreateWorldCupState, FORMATO_DE_TORNEO, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
 import type { Club } from '../src/types';
 
 const TEMPORADAS = 3;
@@ -481,4 +482,64 @@ console.log('\n=== EL MUNDIAL ===');
        .filter(f => f.temporada === 1 && f.competition.kind === 'national_tournament').length >= 8);
 
   if (fallasWC) { console.log(`\nFALLA: ${fallasWC} en el Mundial.`); process.exit(1); }
+}
+
+
+// =================================================================================================
+// LA EUROCOPA Y LA COPA AMERICA
+// =================================================================================================
+//
+// Los dos torneos continentales de selecciones. Son el MISMO torneo que el Mundial con otros
+// numeros -- grupos de cuatro a una vuelta y despues eliminacion a partido unico -- asi que
+// comparten motor: lo unico que cambia es cuantos grupos hay y cuantos terceros pasan.
+//
+// Van en junio/julio de los anos pares que no son de Mundial, que es lo que fija el Calendario
+// Internacional de la FIFA (docs/CALENDARIO_INTERNACIONAL_FIFA.md). Ese documento no da los dias de
+// la edicion 2028 -- dice "junio/julio" --, asi que el calendario reserva la ventana y el motor
+// sortea adentro.
+
+console.log('\n=== EUROCOPA Y COPA AMERICA ===');
+{
+  let fallasTC = 0;
+  const okTC = (n: string, c: boolean, d = '') => { if (!c) fallasTC++; console.log(`${c ? 'OK  ' : 'FALLA'} ${n}${d ? '  ' + d : ''}`); };
+  const todas = ALL_NATIONAL_TEAMS_DATABASE;
+  const nomSel = (id: string) => todas.find(t => t.id === id)?.name.replace('Seleccion de ', '') ?? id;
+
+  const euro = seleccionesDeLaEurocopa(todas);
+  const copa = seleccionesDeLaCopaAmerica(todas);
+  okTC('la Eurocopa junta 24 selecciones de la UEFA', euro.length === 24);
+  okTC('la Copa America junta 16: las 10 de Conmebol mas 6 invitadas', copa.length === 16);
+  okTC('y las diez sudamericanas estan todas',
+     ['Argentina', 'Brasil', 'Uruguay', 'Colombia', 'Chile', 'Perú', 'Ecuador', 'Paraguay', 'Venezuela', 'Bolivia']
+       .every(n => copa.some(c => c.name.includes(n))));
+
+  const euroEntera = getOrCreateWorldCupState(1, euro, undefined, FORMATO_DE_TORNEO.eurocopa.pasos, 'eurocopa');
+  okTC('la Eurocopa corona campeon con sus siete pasos', !!euroEntera.championId, nomSel(euroEntera.championId ?? ''));
+  okTC('y su cuadro es 16 -> 8 -> 4 -> 2 -> 1 (seis grupos y cuatro mejores terceros)',
+     euroEntera.groups.length === 6
+     && (euroEntera.knockout?.matchesByRound ?? []).map(r => r.length).join(',') === '8,4,2,1');
+
+  const copaEntera = getOrCreateWorldCupState(1, copa, undefined, FORMATO_DE_TORNEO.copaamerica.pasos, 'copaamerica');
+  okTC('la Copa America corona campeon con sus seis pasos', !!copaEntera.championId, nomSel(copaEntera.championId ?? ''));
+  okTC('y su cuadro arranca en CUARTOS: cuatro grupos, sin terceros ni octavos',
+     copaEntera.groups.length === 4
+     && (copaEntera.knockout?.matchesByRound ?? []).map(r => r.length).join(',') === '4,2,1');
+
+  // El Mundial no se entera de que esto existe.
+  const mundial = getOrCreateWorldCupState(1, WORLD_CUP_TEAMS_DATABASE as unknown as Club[], undefined, 8);
+  okTC('el Mundial sigue con sus doce grupos y su ronda de 32',
+     mundial.groups.length === 12
+     && (mundial.knockout?.matchesByRound ?? []).map(r => r.length).join(',') === '16,8,4,2,1');
+
+  // Y el calendario les reserva dias en el ano que toca.
+  okTC('2028 y 2032 son anios de torneo continental; 2026 y 2030 no',
+     esAnioDeTorneoContinental(2028) && esAnioDeTorneoContinental(2032)
+     && !esAnioDeTorneoContinental(2026) && !esAnioDeTorneoContinental(2030));
+  const diasT3 = fixturesForClub('Junior de Barranquilla')
+    .filter(f => f.temporada === 3 && f.competition.id === 'continental_selecciones');
+  okTC('el calendario reserva dias suficientes en la temporada del torneo',
+     diasT3.length >= FORMATO_DE_TORNEO.eurocopa.pasos,
+     `${diasT3.length} dias · ${diasT3[0]?.date} a ${diasT3[diasT3.length - 1]?.date}`);
+
+  if (fallasTC) { console.log(`\nFALLA: ${fallasTC} en los torneos continentales.`); process.exit(1); }
 }

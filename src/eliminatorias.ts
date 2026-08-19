@@ -390,3 +390,52 @@ export function seleccionesDelMundial(
   }
   return dentro.slice(0, plazas);
 }
+
+
+// --- LA EUROCOPA Y LA COPA AMÉRICA -------------------------------------------------------------
+//
+// Los dos torneos continentales de selecciones. Van en junio/julio de los años PARES que no son de
+// Mundial, que es lo que fija el Calendario Internacional de la FIFA (ver
+// docs/CALENDARIO_INTERNACIONAL_FIFA.md): Mundial 2026, Eurocopa y Copa América 2028, Mundial 2030.
+//
+// El IMC no da los días exactos de la edición 2028 -- dice "junio/julio" y nada más --, así que el
+// juego reserva la ventana y el motor sortea los grupos. Los cruces no calcan un sorteo real
+// porque no existe todavía: se arman con la misma serpiente de fuerza que ya usa el Mundial.
+
+/**
+ * Las selecciones que juegan la EUROCOPA: las 24 mejores de la UEFA.
+ *
+ * En la realidad salen de una clasificación propia; acá se toman por fuerza, que es el mismo
+ * criterio con el que el juego arma todo lo que no tiene datos reales. La base tiene 54 selecciones
+ * de la UEFA, así que sobra de dónde elegir.
+ */
+export function seleccionesDeLaEurocopa(todas: Club[]): Club[] {
+  return porFuerza(seleccionesDe('UEFA', todas)).slice(0, 24);
+}
+
+/**
+ * Las selecciones que juegan la COPA AMÉRICA: las 10 de Conmebol más 6 invitadas de Concacaf.
+ *
+ * Las diez sudamericanas juegan siempre -- son todas las que hay -- y las seis invitadas se eligen
+ * por fuerza entre las de Concacaf, que es lo que hace la Conmebol al invitar.
+ */
+export function seleccionesDeLaCopaAmerica(todas: Club[]): Club[] {
+  const sudamericanas = seleccionesDe('CONMEBOL', todas);
+  const invitadas = porFuerza(seleccionesDe('CONCACAF', todas)).slice(0, 6);
+  return [...porFuerza(sudamericanas), ...invitadas];
+}
+
+/** De más fuerte a más débil. El sorteo por serpiente las reparte después. */
+function porFuerza(equipos: Club[]): Club[] {
+  return [...equipos].sort((a, b) => (b.reputation ?? 0) - (a.reputation ?? 0)
+    || a.name.localeCompare(b.name));
+}
+
+/** El torneo continental que le toca a esta confederación, o null si no tiene. */
+export function torneoContinentalDe(conf: Confederacion | undefined): 'eurocopa' | 'copaamerica' | null {
+  if (conf === 'UEFA') return 'eurocopa';
+  // Los de Concacaf entran como invitados a la Copa América. La Copa Oro queda para otro día: el
+  // IMC la tiene en 2027 y 2029, o sea en los años impares, y son otras fechas.
+  if (conf === 'CONMEBOL' || conf === 'CONCACAF') return 'copaamerica';
+  return null;
+}
