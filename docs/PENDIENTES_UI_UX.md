@@ -163,10 +163,6 @@ no un defecto.
 
 ### Medio
 
-2. **Barras de progreso en la Galería de Balones de Oro.** Necesita una decisión antes de codearla:
-   la galería se ve **antes** de cargar una carrera, así que "progreso" no tiene un dueño obvio.
-   ¿Se mide contra la carrera más avanzada, contra una elegida, o se muestra sólo dentro de la
-   partida?
 3. **Campo 2D con micro-animaciones** — **EL ENUNCIADO ESTÁ DESACTUALIZADO. Verificado contra el
    código.** Ya no hay círculos estáticos: `src/components/PlayHighlightCanvas.tsx` (525 líneas) es
    un campo 2D animado en Canvas, con **6 tipos de jugada** (`gol`, `pase`, `gambeta`, `defensa`,
