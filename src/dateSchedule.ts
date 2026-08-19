@@ -718,12 +718,13 @@ const FECHAS_DE_COPA_CONTINENTAL = 13;
 /**
  * Las de la UEFA son MAS, porque la Champions es mas larga que la Libertadores.
  *
- * Una Champions completa son 18: ocho de fase de liga, dos de playoff y cuatro rondas de ida y
- * vuelta -- octavos, cuartos, semis y final. Con las 13 de la bolsa comun se quedaba en octavos y
- * no coronaba a nadie NUNCA. No se habia visto porque el validador que juega temporadas enteras no
- * simulaba copas europeas; en cuanto se le enseno, salio a la primera.
+ * Una Champions completa son 17: ocho de fase de liga, dos de playoff, tres rondas de ida y vuelta
+ * -- octavos, cuartos y semis -- y la final, que se juega a partido unico en cancha neutral. Con
+ * las 13 de la bolsa comun se quedaba en octavos y no coronaba a nadie NUNCA. No se habia visto
+ * porque el validador que juega temporadas enteras no simulaba copas europeas; en cuanto se le
+ * enseno, salio a la primera.
  */
-const FECHAS_DE_COPA_UEFA = 18;
+const FECHAS_DE_COPA_UEFA = 17;
 
 /** Las dos copas de la UEFA, por id de calendario. */
 const esCopaUefa = (id: string) => id === 'ucl' || id === 'uel';

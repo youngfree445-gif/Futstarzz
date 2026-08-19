@@ -33,7 +33,7 @@ import {
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
-  simulatePenaltyShootout, roundLabelByMatchCount, terminarCopaContinental, terminarTorneoSinElJugador,
+  simulatePenaltyShootout, roundLabelByMatchCount, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
@@ -1024,12 +1024,35 @@ function cerrarCopasContinentalesVencidas(profile: PlayerProfile, newWeek: numbe
   return cambio ? { ...profile, continentalCups: copia } : profile;
 }
 
+/**
+ * Lo mismo para las copas de la UEFA.
+ *
+ * Van aparte porque su estado es distinto (uefaCups, con fase de liga y playoff) y porque NO son
+ * por temporada: la Champions arrastra su edicion de un ano al siguiente, asi que la clave no lleva
+ * el ano y solo se cierra la que se quedo sin fechas por delante.
+ */
+function cerrarCopasUefaVencidas(profile: PlayerProfile, paso: number): PlayerProfile {
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  const guardadas = profile.uefaCups;
+  if (!club || !guardadas || quedanFechasDeCopaContinental(club.name, paso)) return profile;
+
+  let cambio = false;
+  const copia = { ...guardadas };
+  for (const [clave, cup] of Object.entries(guardadas)) {
+    if (!cup || cup.championId) continue;
+    const cerrada = terminarCopaUefa(cup, CLUBS_DATABASE);
+    if (cerrada.championId) { copia[clave] = cerrada; cambio = true; }
+  }
+  return cambio ? { ...profile, uefaCups: copia } : profile;
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   // Las dos redes miran el dia que se ACABA de jugar (previousWeek), no el siguiente: asi un torneo
   // se cierra el dia de su ultima fecha. Preguntando por el siguiente, el campeon aparecia tres
   // dias tarde.
   let next = cerrarCuadrangularesVencidos(profile, previousWeek);
   next = cerrarCopasContinentalesVencidas(next, previousWeek);
+  next = cerrarCopasUefaVencidas(next, previousWeek);
   next = freezeSeasonLeadersIfNewSeason(next, previousWeek, newWeek);
   next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);

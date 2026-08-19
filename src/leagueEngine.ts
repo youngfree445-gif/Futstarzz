@@ -1130,8 +1130,10 @@ function siguienteRondaTwoLeg(bracket: TwoLegBracket, finalAPartidoUnico = false
   const currentRound = bracket.tiesByRound[roundIdx];
   if (bracket.championId || !currentRound.every(t => t.played)) return bracket;
   const winners = currentRound.map(t => t.winnerId!);
-  // Dos ganadores = la que viene es LA FINAL. Sólo la Conmebol la pide a partido único; la Champions
-  // y las copas nacionales siguen definiendo con global, que es como las modela el resto del motor.
+  // Dos ganadores = la que viene es LA FINAL. La piden a partido único las dos de Conmebol y las dos
+  // de la UEFA -- las cuatro se juegan en cancha neutral y a un solo partido, la Champions desde
+  // siempre y la Libertadores desde 2019. Las copas nacionales siguen definiendo con global, que es
+  // como las modela el resto del motor y como se juegan de verdad.
   const esLaFinal = winners.length === 2;
   const nextRound: TwoLegTie[] = [];
   for (let i = 0; i < winners.length; i += 2) {
@@ -1382,7 +1384,7 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
       return { ...cup, stage: 'done', championId: cup.knockout.championId };
     }
     const completa = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1].every(t => t.played);
-    const puesto = completa ? siguienteRondaTwoLeg(cup.knockout) : cup.knockout;
+    const puesto = completa ? siguienteRondaTwoLeg(cup.knockout, true) : cup.knockout;
     const resuelto = resolveTwoLegRound(puesto, allClubs, forced);
 
     // Y LA RONDA SIGUIENTE SE ARMA ACA MISMO, al cerrar la anterior. Armarla recien al empezar el
@@ -1393,7 +1395,7 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
     // tenia corregido.
     const cerrada = resuelto.tiesByRound[resuelto.tiesByRound.length - 1];
     const conLaProxima = !resuelto.championId && cerrada.length > 1 && cerrada.every(t => t.played)
-      ? siguienteRondaTwoLeg(resuelto)
+      ? siguienteRondaTwoLeg(resuelto, true)
       : resuelto;
     // Coronar tampoco gasta una fecha.
     if (conLaProxima.championId) {
@@ -1483,6 +1485,20 @@ export function getOrCreateUefaCupState(
     cup = { ...resolveUefaCupStep(cup, allClubs), stepsConsumed: cup.stepsConsumed + 1 };
   }
   return cup;
+}
+
+/**
+ * Termina una copa de la UEFA que se quedo sin fechas, para que tenga campeon.
+ *
+ * Hermana de terminarCopaContinental y por lo mismo: un torneo sin coronar deja sin repartir los
+ * cupos del ano siguiente, sin llenar la vitrina y sin noticia. El tope de vueltas es mas alto
+ * porque la Champions es mas larga: 17 pasos desde la fase de liga.
+ */
+export function terminarCopaUefa(cup: UefaCupState, allClubs: Club[]): UefaCupState {
+  return terminarTorneoSinElJugador(cup, c => {
+    const siguiente = resolveUefaCupStep(c, allClubs);
+    return { ...siguiente, stepsConsumed: (c.stepsConsumed ?? 0) + 1 };
+  }, 25);
 }
 
 export function resolveUefaCupWeek(

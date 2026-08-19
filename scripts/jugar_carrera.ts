@@ -15,6 +15,7 @@ import { CLUBS_DATABASE } from '../src/data';
 import {
   fixturesForClub, fixturesAtStep, pickPrimary, esUltimaFechaDelTorneo,
   esUltimoPartidoDeLaCopa, torneoDelClubEnFecha, partidosDeLaMismaLlave, fechasDePlayoffDelTorneo,
+  RIVAL_POR_SORTEAR,
 } from '../src/dateSchedule';
 import {
   simulateMatch, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, leagueKeyFor, sortTable,
@@ -22,6 +23,7 @@ import {
   getLibertadoresParticipants, getSudamericanaParticipants,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState,
   getUpcomingUefaCupMatch, isClubStillInUefaCup, resolveUefaCupWeek,
+  terminarCopaContinental, terminarCopaUefa,
   prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff, resolverPasoCopaNacional,
   terminarTorneoSinElJugador,
   CAREER_START_YEAR, roundLabelByMatchCount,
@@ -67,7 +69,25 @@ const uefaIdMio: 'champions' | 'europa' | null =
   : getEuropaParticipants(CLUBS_DATABASE as Club[], 1).includes(club.id) ? 'europa' : null;
 let uefa = uefaIdMio ? getOrCreateUefaCupState(uefaIdMio, CLUBS_DATABASE as Club[], undefined, 0) : null;
 
+// El nombre de MI copa. Sin el, cualquier dia continental se trataba como dia de mi copa, y los
+// partidos de la OTRA -- la Sudamericana a la que baja el tercero del grupo de Libertadores -- le
+// hacian avanzar un paso al cuadro que no era. Es el mismo error que tenia el motor en
+// fechasDeCopaTranscurridas, replicado aca adentro.
+const nombreDeMiCopa = cupIdMio === 'libertadores' ? 'Copa Libertadores'
+  : cupIdMio === 'sudamericana' ? 'Copa Sudamericana'
+  : uefaIdMio === 'champions' ? 'Champions League'
+  : uefaIdMio === 'europa' ? 'Europa League' : null;
+const esDeMiCopa = (n: string) => n === nombreDeMiCopa;
+
 const jugados: Record<string, number> = {};
+// Las copas continentales que el club juega SIN cuadro en el motor.
+//
+// Pasa de verdad y con doce clubes de Conmebol: el tercero de un grupo de Libertadores baja a la
+// Sudamericana, y el calendario real trae esos partidos. El motor no le arma cuadro -- el club no
+// figura entre los participantes de esa otra copa -- asi que los partidos se juegan contra el rival
+// del calendario y nadie sabe como termino. El validador los jugaba en silencio: aparecian en la
+// lista de partidos y no en la de desenlaces, que es la mitad que importa.
+const copasSinCuadro: Record<string, number> = {};
 const resultados: string[] = [];
 let pasosDeCopa = 0;
 
@@ -107,7 +127,7 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
     rivalId = cruce.clubAId === club.id ? cruce.clubBId : cruce.clubAId;
     local = cruce.firstLegGoalsA === null ? cruce.clubAId === club.id : cruce.clubBId === club.id;
     etiqueta = `Cuadrangular ${sem} · ${rondaDelPlayoff(playoffs[sem])}`;
-  } else if (esContinental && cupIdMio) {
+  } else if (esContinental && cupIdMio && esDeMiCopa(fx.competition.name)) {
     // El cuadro avanza SIEMPRE que llega un dia de copa, haya partido tuyo o no: cuando terminan
     // los grupos hace falta un paso para sembrar el knockout, y si ese paso no se da la copa se
     // queda congelada en 'groups' para siempre. Es lo que hace App.tsx con pasosDeCopaTranscurridos.
@@ -118,7 +138,7 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
     if (!prox) { continue; }
     rivalId = prox.opponentId; local = prox.isHome;
     etiqueta = fx.competition.name;
-  } else if (esContinental && uefaIdMio && uefa) {
+  } else if (esContinental && uefaIdMio && uefa && esDeMiCopa(fx.competition.name)) {
     // Mismo trato que la Conmebol: el cuadro avanza cada dia de copa, haya partido tuyo o no.
     pasosDeCopa++;
     uefa = getOrCreateUefaCupState(uefaIdMio, CLUBS_DATABASE as Club[], uefa, pasosDeCopa, undefined, undefined, club.id);
@@ -138,9 +158,15 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
     local = cruce.firstLegGoalsA === null ? cruce.clubAId === club.id : cruce.clubBId === club.id;
     etiqueta = `${fx.competition.name} · ${rondaActual(copaNacional)}`;
   } else {
+    // Un dia RESERVADO al que no lo reclamo ningun cuadro es un DIA LIBRE, no un dato roto: el
+    // calendario le aparta dias a las dos copas continentales del pais y el club juega una sola. En
+    // el juego es la tarjeta de "Hoy no se juega". Avisarlo como rareza llenaba la lista de ruido y
+    // es justo lo que le saca valor a una lista de rarezas.
+    if (fx.opponentName === RIVAL_POR_SORTEAR) { continue; }
     const r = CLUBS_DATABASE.find(c => c.name === fx.opponentName);
     rivalId = r?.id ?? null;
     if (!rivalId) { raro(`rival del calendario sin club en la base: "${fx.opponentName}" (${fx.competition.name}, ${hoy.date})`); continue; }
+    if (esContinental) copasSinCuadro[fx.competition.name] = (copasSinCuadro[fx.competition.name] ?? 0) + 1;
   }
 
   const rival = CLUBS_DATABASE.find(c => c.id === rivalId);
@@ -170,9 +196,9 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
       const torneo = torneoDelClubEnFecha(club.name, hoy.date);
       resultados.push(`${torneo} ${CAREER_START_YEAR}: ${t.findIndex(r => r.clubId === club.id) + 1}º de ${t.length}  (campeón de la fase regular: ${t[0]?.name})`);
     }
-  } else if (esContinental && cupIdMio) {
+  } else if (esContinental && cupIdMio && esDeMiCopa(fx.competition.name)) {
     continental = resolveCupWeek(continental, CLUBS_DATABASE as Club[], club.id, local, misGoles, susGoles);
-  } else if (esContinental && uefaIdMio && uefa) {
+  } else if (esContinental && uefaIdMio && uefa && esDeMiCopa(fx.competition.name)) {
     uefa = resolveUefaCupWeek(uefa, CLUBS_DATABASE as Club[], club.id, local, misGoles, susGoles);
     if (uefa.championId === club.id) jugador.titulos.push(`${fx.competition.name} ${CAREER_START_YEAR}`);
   } else if (esNacional && !/Superliga/i.test(fx.competition.name)) {
@@ -188,6 +214,11 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
 // ------------------------------------------------------------------ desenlaces
 // Fin de temporada: los torneos que el jugador dejo a mitad se terminan igual.
 copaNacional = terminarTorneoSinElJugador(copaNacional, c => resolverPasoCopaNacional(c, CLUBS_DATABASE));
+// Las continentales tambien, igual que hace App.tsx cuando se quedan sin fechas (ver
+// cerrarCopasContinentalesVencidas). Sin esto el validador reportaba "SIN TERMINAR" una copa que en
+// el juego SI corona: el aviso apuntaba al motor cuando el que no cerraba era el validador.
+if (cupIdMio) continental = terminarCopaContinental(continental, CLUBS_DATABASE as Club[]);
+if (uefaIdMio && uefa) uefa = terminarCopaUefa(uefa, CLUBS_DATABASE as Club[]);
 for (const k of Object.keys(playoffs)) playoffs[k] = terminarTorneoSinElJugador(playoffs[k], (b: any) => resolverPasoPlayoffDeLiga(b, leagueClubs));
 
 console.log('--- PARTIDOS JUGADOS POR COMPETICIÓN ---');
@@ -210,6 +241,9 @@ if (uefaIdMio && uefa) {
   desenlace(uefaIdMio === 'champions' ? 'Champions League' : 'Europa League',
     uefa.championId ?? uefa.knockout?.championId ?? null,
     isClubStillInUefaCup(uefa, club.id), ronda ? roundLabelByMatchCount(ronda.length) : (uefa.stage ?? '?'));
+}
+for (const [nombre, n] of Object.entries(copasSinCuadro)) {
+  console.log(`   ${nombre.padEnd(26)} ${n} partido(s) del calendario · SIN CUADRO en el motor, no hay campeon`);
 }
 for (const [sem, b] of Object.entries(playoffs)) {
   desenlace(`Cuadrangular ${sem}`, b.championId, !!crucePlayoffDeLiga(b, club.id), rondaDelPlayoff(b));
