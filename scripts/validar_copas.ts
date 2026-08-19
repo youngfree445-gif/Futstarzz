@@ -13,7 +13,7 @@
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
 import { fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
-import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
+import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
 import type { Club } from '../src/types';
 
 const TEMPORADAS = 3;
@@ -393,3 +393,54 @@ if (nSinCopa > 0) {
   process.exit(1);
 }
 console.log(`\nPiso de coronación OK: ${Math.round(logrado * 100)}% (mínimo ${PISO_DE_CORONACION * 100}%).`);
+
+
+// =================================================================================================
+// EL REPECHAJE DE LA SUDAMERICANA
+// =================================================================================================
+//
+// El tercero de cada grupo de Libertadores no queda eliminado: baja a la Sudamericana y se cruza
+// con uno de sus ocho segundos, a ida y vuelta. Es el formato real, y la razon por la que doce
+// clubes tienen partidos de las DOS copas en el calendario de 2026 -- partidos que el juego jugaba
+// sin cuadro detras: sin ronda, sin eliminacion y sin campeon posible.
+
+console.log('\n=== EL REPECHAJE DE LA SUDAMERICANA ===');
+{
+  let fallasRep = 0;
+  const okRep = (n: string, c: boolean, d = '') => { if (!c) fallasRep++; console.log(`${c ? 'OK  ' : 'FALLA'} ${n}${d ? '  ' + d : ''}`); };
+  const db = CLUBS as Club[];
+  const nom = (id: string) => db.find(c => c.id === id)?.name ?? id;
+
+  const lib = getOrCreateCupState('libertadores', 1, db, undefined, 6, {}, undefined, undefined, undefined);
+  const terceros = tercerosDeGrupo(lib);
+  okRep('la Libertadores deja OCHO terceros al cerrar los grupos', terceros.length === 8,
+     terceros.map(nom).join(', '));
+
+  const sud = getOrCreateCupState('sudamericana', 1, db, undefined, 6, {}, undefined, undefined, undefined, terceros);
+  okRep('la Sudamericana entra en repechaje, no directo al cuadro', sud.stage === 'playoff', `etapa ${sud.stage}`);
+  okRep('y son OCHO llaves', (sud.playoff?.length ?? 0) === 8);
+
+  const enRepechaje = new Set((sud.playoff ?? []).flatMap(t => [t.clubAId, t.clubBId]));
+  okRep('los ocho terceros estan adentro', terceros.every(id => enRepechaje.has(id)));
+  const ganadores = sud.groups.map(g => sortTable(g.table)[0].clubId!);
+  okRep('los ganadores de grupo NO: pasan directo a octavos', !ganadores.some(id => enRepechaje.has(id)));
+  okRep('y siguen contando como vivos mientras se juega el repechaje',
+     ganadores.every(id => isClubStillInCup(sud, id)));
+
+  // La cuenta: 6 de grupos + 2 de repechaje + 2 + 2 + 2 + 1 = 15.
+  const alFinal = getOrCreateCupState('sudamericana', 1, db, undefined, 15, {}, undefined, undefined, undefined, terceros);
+  okRep('con quince pasos corona campeon', !!alFinal.championId, alFinal.championId ? nom(alFinal.championId) : 'sin campeon');
+  const catorce = getOrCreateCupState('sudamericana', 1, db, undefined, 14, {}, undefined, undefined, undefined, terceros);
+  okRep('con catorce todavia no: el repechaje agrega una ronda de verdad', !catorce.championId);
+
+  // Sin terceros -- la Libertadores, la Concacaf, o una Sudamericana que todavia no los tiene --
+  // todo tiene que seguir exactamente como antes.
+  const sinRepechaje = getOrCreateCupState('sudamericana', 1, db, undefined, 6, {}, undefined, undefined, undefined);
+  okRep('sin terceros, la Sudamericana siembra su cuadro como siempre',
+     sinRepechaje.stage === 'knockout' && !sinRepechaje.playoff);
+  const soloLib = getOrCreateCupState('libertadores', 1, db, undefined, 13, {}, undefined, undefined, undefined, terceros);
+  okRep('la Libertadores no tiene repechaje aunque se le pasen terceros',
+     !soloLib.playoff && !!soloLib.championId);
+
+  if (fallasRep) { console.log(`\nFALLA: ${fallasRep} en el repechaje.`); process.exit(1); }
+}

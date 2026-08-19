@@ -643,7 +643,34 @@ function seedFromCupGroups(groups: CupGroup[]): string[] {
   return [...winners, ...runnersUp]; // 16: seeds 1-8 ganadores, 9-16 segundos — nunca cruza compañeros de grupo en la 1ª ronda
 }
 
-function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult): CupState {
+/** Los GANADORES de cada grupo, que en la Sudamericana pasan directo a octavos. */
+function ganadoresDeGrupo(groups: CupGroup[]): string[] {
+  return groups.map(g => sortTable(g.table)[0].clubId!);
+}
+
+/** Los SEGUNDOS de cada grupo, que en la Sudamericana juegan el repechaje. */
+function segundosDeGrupo(groups: CupGroup[]): string[] {
+  return groups.map(g => sortTable(g.table)[1].clubId!);
+}
+
+/**
+ * Los TERCEROS de cada grupo. En la Libertadores no quedan eliminados: bajan a la Sudamericana.
+ *
+ * Es la razon por la que doce clubes tienen partidos de las dos copas en el calendario real de
+ * 2026. Hasta ahora el juego jugaba esos partidos sin cuadro detras.
+ */
+export function tercerosDeGrupo(cup: CupState): string[] {
+  if (cup.cupId !== 'libertadores' || !cup.groups.length) return [];
+  // Solo cuando los grupos TERMINARON: con la fase a medias, el tercero de hoy no es el de manana.
+  if (!cup.groups.every(g => g.fixtures.every(f => f.played))) return [];
+  return cup.groups.map(g => sortTable(g.table)[2]?.clubId).filter((id): id is string => !!id);
+}
+
+function resolveCupStep(
+  cup: CupState, allClubs: Club[], forced?: ForcedResult,
+  /** Los terceros de la Libertadores, para sembrar el repechaje de la Sudamericana. */
+  repescados?: string[],
+): CupState {
   if (cup.stage === 'groups') {
     // ARMAR EL CUADRO NO GASTA UNA FECHA. Se resuelve la fecha de grupos y, si con ésa se
     // completaron, los octavos quedan sembrados en la MISMA llamada, sin jugar.
@@ -658,12 +685,43 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
     // Es el mismo patrón que ya usan resolverPasoCopaNacional y el encadenado de rondas de abajo.
     const gruposResueltos = resolveCupGroupsStep(cup.groups, allClubs, forced);
     if (gruposResueltos.every(g => g.fixtures.every(f => f.played))) {
+      // EL REPECHAJE DE LA SUDAMERICANA. Los 8 ganadores de grupo pasan directo a octavos; los 8
+      // segundos se cruzan con los 8 TERCEROS de la Libertadores, que no quedan eliminados sino que
+      // bajan. Es el formato real y la razon por la que doce clubes tienen partidos de las dos
+      // copas en el calendario de 2026.
+      //
+      // Sin terceros -- la Libertadores todavia no cerro sus grupos, o es otra copa -- se siembra
+      // el cuadro como siempre, con los 16 clasificados. Asi la Libertadores y la Concacaf no se
+      // enteran de que esto existe.
+      // `cupId` y no solo "hay terceros": la Libertadores tambien recibe la lista -- quien llama no
+      // sabe de cual copa es la que esta resolviendo -- y sin este corte se armaba un repechaje a si
+      // misma. Lo cazo el validador nuevo.
+      if (cup.cupId === 'sudamericana' && repescados?.length) {
+        return {
+          ...cup, groups: gruposResueltos, stage: 'playoff',
+          playoff: seedSingleTwoLegRound([...segundosDeGrupo(gruposResueltos), ...repescados]),
+        };
+      }
       return {
         ...cup, groups: gruposResueltos, stage: 'knockout',
         knockout: seedTwoLegBracket(seedFromCupGroups(gruposResueltos)),
       };
     }
     return { ...cup, groups: gruposResueltos };
+  }
+
+  // EL REPECHAJE: una ronda suelta a ida y vuelta, igual que el playoff de la Champions. Al
+  // cerrarse, sus ocho ganadores completan los octavos junto a los ocho ganadores de grupo.
+  if (cup.stage === 'playoff') {
+    if (!cup.playoff) return cup;
+    if (cup.playoff.every(t => t.played)) {
+      // Se arma Y SE JUEGA la primera pierna de octavos en la misma llamada: armar no gasta una
+      // fecha, por lo mismo que no la gasta la transicion de grupos.
+      const clasificados = [...ganadoresDeGrupo(cup.groups), ...cup.playoff.map(t => t.winnerId!)];
+      const armado: CupState = { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(clasificados) };
+      return { ...armado, knockout: resolveTwoLegRound(armado.knockout!, allClubs, forced) };
+    }
+    return { ...cup, playoff: resolveSingleTwoLegRoundStep(cup.playoff, allClubs, forced) };
   }
 
   if (cup.stage === 'knockout') {
@@ -810,6 +868,11 @@ export function getOrCreateCupState(
    * distinto al que juego".
    */
   grupoDelJugador?: string[],
+  /**
+   * Los TERCEROS de la Libertadores, para sembrar el repechaje de la Sudamericana. Ver
+   * tercerosDeGrupo: el tercero de un grupo de Libertadores no queda eliminado, baja.
+   */
+  repescados?: string[],
 ): CupState {
   let cup = existing ?? freshCupState(cupId, year, allClubs, posiciones, campeones, grupoDelJugador);
 
@@ -834,7 +897,7 @@ export function getOrCreateCupState(
     // y el resto del cuadro sigue corriendo con normalidad -- no se generan partidos fantasma para
     // alguien que ya está afuera.
     if (playerClubId && getUpcomingCupMatch(cup, playerClubId)) break;
-    cup = resolveCupStep(cup, allClubs);
+    cup = resolveCupStep(cup, allClubs, undefined, repescados);
     stepsConsumed++;
   }
   return { ...cup, stepsConsumed };
@@ -867,9 +930,11 @@ export function resolveCupWeek(
   playerIsHome: boolean,
   playerGoals: number,
   opponentGoals: number,
-  shootoutOverride?: PenaltyShootoutResult
+  shootoutOverride?: PenaltyShootoutResult,
+  /** Ver getOrCreateCupState: los terceros de la Libertadores que bajan al repechaje. */
+  repescados?: string[],
 ): CupState {
-  const updated = resolveCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals, shootoutOverride });
+  const updated = resolveCupStep(cup, allClubs, { clubId: playerClubId, isHome: playerIsHome, goals: playerGoals, opponentGoals, shootoutOverride }, repescados);
   return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
 }
 
@@ -882,6 +947,11 @@ export function getUpcomingCupMatch(cup: CupState, clubId: string): { opponentId
       if (fx) return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
     }
     return null;
+  }
+
+  // El repechaje es una ronda suelta, igual que el playoff de la Champions: se busca directo en ella.
+  if (cup.stage === 'playoff' && cup.playoff) {
+    return findUpcomingTwoLegMatch(cup.playoff, clubId);
   }
 
   if (cup.stage === 'knockout' && cup.knockout && !cup.knockout.championId) {
@@ -939,6 +1009,12 @@ export function sigueEnElCuadroDeIdaYVuelta(rondas: TwoLegTie[][], clubId: strin
 export function isClubStillInCup(cup: CupState, clubId: string): boolean {
   if (cup.stage === 'groups') {
     return cup.groups.some(g => g.clubIds.includes(clubId));
+  }
+  // En el repechaje sigue vivo el que tiene su llave sin jugar, o la gano. Los ganadores de grupo
+  // NO estan en esa ronda -- pasaron directo a octavos -- asi que tambien cuentan como vivos.
+  if (cup.stage === 'playoff' && cup.playoff) {
+    if (cup.groups.some(g => sortTable(g.table)[0]?.clubId === clubId)) return true;
+    return sigueEnElCuadroDeIdaYVuelta([cup.playoff], clubId);
   }
   if (cup.stage === 'knockout' && cup.knockout) {
     if (cup.knockout.championId) return cup.knockout.championId === clubId;

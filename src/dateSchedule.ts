@@ -707,8 +707,12 @@ const VENTANA_DE_DESCANSO_DIAS = 3;
  * Las de más para los clubes cuyo país juega copas continentales.
  *
  * Una Libertadores son TRECE: 6 fechas de grupo, 2 de octavos, 2 de cuartos, 2 de semis y la final,
- * que en la Conmebol es a partido único desde 2019. Una Champions, 8 de fase de liga más el playoff
- * y las rondas de ida y vuelta.
+ * que en la Conmebol es a partido único desde 2019. La SUDAMERICANA son QUINCE: las mismas trece más
+ * las dos del repechaje, la ronda en la que sus ocho segundos de grupo se cruzan con los ocho
+ * terceros de la Libertadores (ver el playoff en CupState). Se reservan quince para las dos, porque
+ * el club no sabe en cuál va a terminar: el tercero de un grupo de Libertadores pasa a jugar la
+ * Sudamericana, y necesita las fechas de las dos. Una Champions, 8 de fase de liga más el playoff y
+ * las rondas de ida y vuelta.
  *
  * Estuvo en 14 un rato, por un paso de más que gastaba el motor al coronar (ver resolveCupStep: dar
  * vuelta el cartel a 'done' se comía una fecha entera sin jugar nada). Subir la bolsa era acomodar
@@ -720,7 +724,7 @@ const VENTANA_DE_DESCANSO_DIAS = 3;
  * Los clubes de esos países que NO clasifican ese año no pierden nada: sus fechas sobrantes son
  * días de descanso, que es exactamente lo que le pasa a un club sin copa internacional.
  */
-const FECHAS_DE_COPA_CONTINENTAL = 13;
+const FECHAS_DE_COPA_CONTINENTAL = 15;
 
 /**
  * Las de la UEFA son MAS, porque la Champions es mas larga que la Libertadores.

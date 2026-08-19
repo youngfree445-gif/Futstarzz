@@ -10,7 +10,7 @@ import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import { fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, quedanFechasDeCopaContinental, rivalesDeGrupoEnElCalendario, temporadaDelPaso } from '../src/dateSchedule';
 import { cerrarPlayoffsSinFechas, grupoRealDelCalendario, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce, playoffDelDiaSinElJugador } from '../src/decisionDelDia';
-import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, terminarCopaContinental } from '../src/leagueEngine';
+import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, terminarCopaContinental, tercerosDeGrupo } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional, cruceActual, nombreDeRonda } from '../src/copaNacional';
 import { resolverPasoCopaNacional } from '../src/leagueEngine';
@@ -557,23 +557,39 @@ console.log('');
       const ultima = dias[dias.length - 1];
 
       // El peor caso: el jugador ya esta eliminado, asi que la copa depende del contador y de la red.
+      // La Sudamericana corre CON su repechaje, que es como va a correr cuando la entrega 2 lo
+      // conecte: los ocho terceros de la Libertadores bajan a jugarlo (ver tercerosDeGrupo).
+      const terceros = cupId === 'sudamericana'
+        ? tercerosDeGrupo(getOrCreateCupState('libertadores', temporada, clubes, undefined, 6, {}, undefined, undefined, undefined))
+        : undefined;
       let cup = getOrCreateCupState(cupId, temporada, clubes, undefined, 0, {}, undefined, undefined,
-        grupoRealDelCalendario(club, clubes, nombreCopa, temporada, enLib ? lib : sud));
+        grupoRealDelCalendario(club, clubes, nombreCopa, temporada, enLib ? lib : sud), terceros);
       let corono: string | null = null;
       for (const p of pasos) {
         cup = getOrCreateCupState(cupId, temporada, clubes, cup,
-          fechasDeCopaTranscurridas(club.name, p, true, nombreCopa), {}, undefined, undefined, undefined);
+          fechasDeCopaTranscurridas(club.name, p, true, nombreCopa), {}, undefined, undefined, undefined, terceros);
         if (!cup.championId && !quedanFechasDeCopaContinental(club.name, p)) {
           cup = terminarCopaContinental(cup, clubes);
         }
         if (cup.championId && !corono) { corono = fechaDelPaso(club.name, p) ?? '?'; break; }
       }
+      // La fecha en la que DEBE coronar es la N-esima de su copa: trece para la Libertadores (6 de
+      // grupos, 3 llaves a ida y vuelta y la final a partido unico) y quince para la Sudamericana,
+      // que agrega las dos del repechaje. El calendario reserva quince PARA LAS DOS, porque el club
+      // no sabe en cual va a terminar -- el tercero de un grupo de Libertadores baja --, asi que a
+      // un club de Libertadores le sobran dos dias y corona antes de su ultima fecha. Eso no es
+      // coronar temprano: es que sus dos ultimos dias estaban reservados por si bajaba.
+      const necesarias = cupId === 'sudamericana' ? 15 : 13;
+      const masTemprano = dias[necesarias - 1] ?? ultima;   // antes de esto no le dio el tiempo
       casos++;
-      if (corono === ultima) enSuFecha++;
-      else fallos.push(`${nombre} T${temporada}: corona ${corono ?? 'NUNCA'}, ultima fecha ${ultima}`);
+      // La ventana: no antes de tener jugadas todas sus rondas, y no despues de su ultima fecha.
+      // Los dos bordes son los dos bugs que hubo: coronar en AGOSTO con el calendario a mitad de
+      // camino, y coronar tres dias despues de una final del 22 de noviembre.
+      if (corono && corono >= masTemprano && corono <= ultima) enSuFecha++;
+      else fallos.push(`${nombre} T${temporada}: corona ${corono ?? 'NUNCA'}, ventana ${masTemprano}..${ultima}`);
     }
   }
-  ok('cada copa corona EL DIA de su ultima fecha, en la temporada 1 y en la 2',
+  ok('cada copa corona dentro de su ventana: ni antes de jugarla ni despues de su ultima fecha',
      casos > 0 && enSuFecha === casos, `${enSuFecha} de ${casos}${fallos.length ? ' | ' + fallos.join(' | ') : ''}`);
 }
 

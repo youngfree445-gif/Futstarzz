@@ -430,7 +430,22 @@ export interface CupState {
   cupId: 'libertadores' | 'sudamericana' | 'concacaf';
   year: number;
   groups: CupGroup[];
-  stage: 'groups' | 'knockout' | 'done';
+  stage: 'groups' | 'playoff' | 'knockout' | 'done';
+  /**
+   * EL REPECHAJE de la Sudamericana: los 8 segundos de grupo contra los 8 TERCEROS de la
+   * Libertadores, a ida y vuelta. Los ocho que ganan completan los octavos junto a los 8 ganadores
+   * de grupo, que pasan directo.
+   *
+   * Es la razón por la que doce clubes tienen partidos de las dos copas en el calendario real: el
+   * tercero de un grupo de Libertadores no queda eliminado, baja. Sin esto el juego jugaba esos
+   * partidos sin cuadro detrás -- sin ronda, sin eliminación y sin campeón posible.
+   *
+   * Misma forma que el playoff de la Champions (ver UefaCupState.playoff), que resuelve el mismo
+   * problema: una ronda suelta cuyos ganadores se suman a los que ya estaban clasificados.
+   *
+   * null en la Libertadores y en la Concacaf, que no tienen repechaje.
+   */
+  playoff?: TwoLegTie[] | null;
   /**
    * Ida y vuelta desde octavos, con la FINAL a partido único (ver partidoUnico en TwoLegTie).
    *
