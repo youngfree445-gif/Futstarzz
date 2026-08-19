@@ -487,7 +487,9 @@ console.log('');
 
 console.log('');
 {
-  const NECESARIOS = 14;  // medido: con 13 se queda en el cuadro, con 14 corona
+  // 13: 6 de grupos, 2 de octavos, 2 de cuartos, 2 de semis y la final, que en la Conmebol es a
+  // partido unico. Medido: con 12 queda en la final sin jugar, con 13 corona.
+  const NECESARIOS = 13;
   const lib = getLibertadoresParticipants(clubes, 1, {}, undefined);
   const mio = clubes.find(c => c.name === 'Junior de Barranquilla')!;
   const fijo = grupoRealDelCalendario(mio, clubes, 'Copa Libertadores', 1, lib);

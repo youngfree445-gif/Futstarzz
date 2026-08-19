@@ -699,13 +699,13 @@ const VENTANA_DE_DESCANSO_DIAS = 3;
 /**
  * Las de más para los clubes cuyo país juega copas continentales.
  *
- * Una Libertadores son 6 fechas de grupo más 4 rondas de ida y vuelta -- octavos, cuartos, semis y
- * final --, o sea CATORCE. Acá decía 13, y ese día que faltaba era justo el último: un club que
- * llegaba a la final se quedaba sin fecha para jugarla y el torneo tenía que resolverse solo.
- * Medido con el cuadro real: con 13 pasos la copa queda en el cuadro, con 14 corona.
+ * Una Libertadores son TRECE: 6 fechas de grupo, 2 de octavos, 2 de cuartos, 2 de semis y la final,
+ * que en la Conmebol es a partido único desde 2019. Una Champions, 8 de fase de liga más el playoff
+ * y las rondas de ida y vuelta.
  *
- * Una Champions son 8 de fase de liga más el playoff y cuatro rondas de ida y vuelta, y entra en
- * las mismas 14 porque su fase de liga no es todos contra todos.
+ * Estuvo en 14 un rato, por un paso de más que gastaba el motor al coronar (ver resolveCupStep: dar
+ * vuelta el cartel a 'done' se comía una fecha entera sin jugar nada). Subir la bolsa era acomodar
+ * el bug en vez de arreglarlo; el arreglo está en el motor y acá vuelven a ser 13.
  *
  * Con la bolsa base sola, un club que juega las dos copas se quedaba sin fechas para la nacional --
  * o al revés.
@@ -713,7 +713,7 @@ const VENTANA_DE_DESCANSO_DIAS = 3;
  * Los clubes de esos países que NO clasifican ese año no pierden nada: sus fechas sobrantes son
  * días de descanso, que es exactamente lo que le pasa a un club sin copa internacional.
  */
-const FECHAS_DE_COPA_CONTINENTAL = 14;
+const FECHAS_DE_COPA_CONTINENTAL = 13;
 
 /**
  * Los clubes que pueden llegar a jugar una copa continental, y por eso necesitan la bolsa grande.

@@ -705,6 +705,20 @@ function resolveCupStep(cup: CupState, allClubs: Club[], forced?: ForcedResult):
     const conLaProxima = !resuelto.championId && cerrada.length > 1 && cerrada.every(t => t.played)
       ? siguienteRondaTwoLeg(resuelto, true)
       : resuelto;
+    // Y SI ESA FUE LA FINAL, la copa termina ACA MISMO. Coronar no gasta una fecha, por lo mismo
+    // que no la gasta armar la ronda siguiente.
+    //
+    // Antes el campeon del cuadro quedaba anotado en `knockout.championId` y la copa seguia en
+    // etapa 'knockout' con `championId` en null hasta el paso SIGUIENTE, que no jugaba nada: solo
+    // daba vuelta el cartel. Ese paso de mas era el catorceavo, y la cuenta correcta -- la que dice
+    // el comentario de arriba -- es TRECE: 6 de grupos, 2 de octavos, 2 de cuartos, 2 de semis y la
+    // final, que en la Conmebol es a partido unico desde 2019.
+    //
+    // Y no era solo una fecha: el dia que ganabas la final, App leia `cup.championId` todavia en
+    // null y con el club ya fuera del cuadro, que es exactamente su condicion de ELIMINADO.
+    if (conLaProxima.championId) {
+      return { ...cup, knockout: conLaProxima, stage: 'done', championId: conLaProxima.championId };
+    }
     return { ...cup, knockout: conLaProxima };
   }
 
