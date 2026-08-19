@@ -5823,6 +5823,64 @@ function mundialesJugados(p: PlayerProfile): number {
   return misLineas(p, /Mundial/i).length;
 }
 
+/** Clubes DISTINTOS en los que jugo, contando el actual. Ver el record de Abreu. */
+function clubesDistintos(p: PlayerProfile): number {
+  const ids = new Set((p.seasonHistory ?? []).map(s => s.clubId));
+  if (p.currentClubId) ids.add(p.currentClubId);
+  return ids.size;
+}
+
+/**
+ * Paises DISTINTOS en los que salio campeon de liga.
+ *
+ * El pais sale de la liga del club con el que gano, no de su nacionalidad: un titulo con el
+ * Guadalajara es mexicano aunque el jugador sea colombiano. Solo cuentan los titulos de LIGA --
+ * `tipo: 'liga'` --, que es lo que dice el record: campeon de Primera Division en cuatro paises.
+ */
+function paisesDondeSalioCampeon(p: PlayerProfile): number {
+  const paises = new Set<string>();
+  for (const t of p.cupTitles ?? []) {
+    if (t.tipo !== 'liga') continue;
+    const club = CLUBS_DATABASE.find(c => c.id === t.clubId);
+    if (club) paises.add(club.league);
+  }
+  return paises.size;
+}
+
+/**
+ * La edad que tenia en esa temporada de carrera.
+ *
+ * Se deduce hacia atras: el jugador cumple un ano por temporada, asi que su edad en la temporada T
+ * es la de hoy menos las temporadas que pasaron desde entonces. La temporada en curso sale de
+ * seasonHistory, que guarda una linea por cada una ya cerrada.
+ */
+function edadEnLaTemporada(p: PlayerProfile, temporada: number): number {
+  const temporadaActual = (p.seasonHistory ?? []).length + 1;
+  return p.age - (temporadaActual - temporada);
+}
+
+/**
+ * ¿Jugo un Mundial teniendo esa edad o mas?
+ *
+ * No alcanza con "tiene 40 y jugo un Mundial alguna vez": el record es haberlo jugado A esa edad.
+ * La clave de la tabla de goleadores lleva la temporada (ver claveDeCompeticion), asi que se puede
+ * saber en cual fue cada Mundial y que edad tenia entonces.
+ */
+function jugoUnMundialPasadosLos(p: PlayerProfile, edad: number): boolean {
+  for (const [clave, tabla] of Object.entries(p.lideresPorCompeticion ?? {})) {
+    const [nombre, temporada] = clave.split('|');
+    if (!/Mundial/i.test(nombre) || /Clubes/i.test(nombre)) continue;
+    if (!Object.values(tabla).some(l => l.esVos)) continue;
+    if (edadEnLaTemporada(p, Number(temporada)) >= edad) return true;
+  }
+  return false;
+}
+
+/** Su mejor temporada de goles. seasonHistory guarda una linea por temporada cerrada. */
+function golesEnSuMejorTemporada(p: PlayerProfile): number {
+  return Math.max(0, ...(p.seasonHistory ?? []).map(s => s.goles ?? 0));
+}
+
 export const ACHIEVEMENTS_DATABASE: Achievement[] = [
 
   // ===============================================================================================
@@ -6249,6 +6307,68 @@ export const ACHIEVEMENTS_DATABASE: Achievement[] = [
     description: 'Diez temporadas seguidas en el mismo club, como Totti en la Roma o Maldini en el Milan.',
     icon: '❤️', category: 'records', reward: 18000,
     check: p => p.yearsAtClub >= 10
+  },
+  // -----------------------------------------------------------------------------------------
+  // RECORDS DE CARRERA
+  // -----------------------------------------------------------------------------------------
+  //
+  // Los de aca no son marcas de un partido ni de un torneo: son cosas que solo se pueden lograr
+  // jugando una carrera entera, que es lo que este juego es. Salen de la lista de records del
+  // futbol, igual que los de arriba, pero eligiendo los que un simulador de carrera puede medir y
+  // una tabla de goleadores no: cuantos clubes vestiste, en cuantos paises saliste campeon, a que
+  // edad seguias jugando un Mundial.
+
+  {
+    id: 'record_goles_805', name: 'El Record de Bican',
+    description: '805 goles oficiales. Es la marca del austriaco Josef Bican, la mas alta que se tiene por demostrada.',
+    icon: '👑', category: 'records', reward: 40000,
+    check: p => p.careerStats.golesHistoricos >= 805
+  },
+  {
+    id: 'record_goles_temporada_96', name: 'Los 96 de Roberts',
+    description: '96 goles en una sola temporada, como el irlandes Frederick Roberts en la 1930-31.',
+    icon: '🎯', category: 'records', reward: 30000,
+    check: p => golesEnSuMejorTemporada(p) >= 96
+  },
+  {
+    id: 'record_clubes_10', name: 'Trotamundos',
+    description: 'Jugaste en diez clubes distintos.',
+    icon: '🧳', category: 'records', reward: 12000,
+    check: p => clubesDistintos(p) >= 10
+  },
+  {
+    id: 'record_clubes_26', name: 'El Record de Abreu',
+    description: 'Veintiseis clubes distintos en una carrera. El uruguayo Sebastian Abreu tiene el Guinness.',
+    icon: '🧳', category: 'records', reward: 35000,
+    check: p => clubesDistintos(p) >= 26
+  },
+  {
+    id: 'record_campeon_2_paises', name: 'Campeon en Dos Paises',
+    description: 'Saliste campeon de liga en dos paises distintos.',
+    icon: '🌎', category: 'records', reward: 15000,
+    check: p => paisesDondeSalioCampeon(p) >= 2
+  },
+  {
+    id: 'record_campeon_4_paises', name: 'Los Cuatro Paises',
+    description: 'Campeon de Primera en cuatro paises distintos, como Jose Manuel Moreno, Beckham o Ibrahimovic.',
+    icon: '🌎', category: 'records', reward: 30000,
+    check: p => paisesDondeSalioCampeon(p) >= 4
+  },
+  {
+    id: 'record_mundial_a_los_40', name: 'El Record de Mondragon',
+    description: 'Jugaste un Mundial pasados los 40. El arquero colombiano lo hizo a los 43 en Brasil 2014.',
+    icon: '🧓', category: 'records', reward: 25000,
+    check: p => jugoUnMundialPasadosLos(p, 40)
+  },
+  {
+    id: 'record_mundial_joven', name: 'Campeon del Mundo con 19',
+    description: 'Ganaste la Copa del Mundo antes de cumplir 20, como Pele en Suecia 1958.',
+    icon: '🌟', category: 'records', reward: 30000,
+    // El titulo lleva el ANO en que se gano, y la temporada 1 es 2026: de ahi sale que edad tenia.
+    // El 2026 va escrito y no importado de leagueEngine porque ese importa data, y el ciclo
+    // rompe el arranque. Si alguna vez se mueve la fecha de inicio, esto se mueve con ella.
+    check: p => (p.cupTitles ?? []).some(t =>
+      /Mundial/i.test(t.competition) && edadEnLaTemporada(p, t.year - 2026 + 1) < 20)
   },
   {
     id: 'record_limpio', name: 'Juego Limpio',
