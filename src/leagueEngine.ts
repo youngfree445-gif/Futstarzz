@@ -826,6 +826,26 @@ export function getOrCreateCupState(
   return { ...cup, stepsConsumed };
 }
 
+/**
+ * Termina una copa continental que se quedo SIN FECHAS, para que tenga campeon.
+ *
+ * El motor pacea la copa con las fechas continentales del calendario: un paso por fecha. Eso es lo
+ * correcto -- antes contaba tambien las de copa nacional y la copa corria adelantada, hasta
+ * ofrecerte una fecha de grupos que ya no tocaba --, pero deja un borde: medido, 29 de los 64
+ * participantes llegan al final del ano con 12 fechas continentales y una Libertadores completa
+ * necesita 13 (seis de grupos, tres llaves a ida y vuelta y la final a partido unico). Sin esto la
+ * copa se quedaba a un paso de coronar.
+ *
+ * La regla de la casa es no recortar torneos. Si no quedan fechas, se resuelve simulando -- igual
+ * que la copa nacional y el cuadrangular cuando al jugador lo eliminan.
+ */
+export function terminarCopaContinental(cup: CupState, allClubs: Club[]): CupState {
+  return terminarTorneoSinElJugador(cup, c => {
+    const siguiente = resolveCupStep(c, allClubs);
+    return { ...siguiente, stepsConsumed: (c.stepsConsumed ?? 0) + 1 };
+  }, 20);
+}
+
 export function resolveCupWeek(
   cup: CupState,
   allClubs: Club[],

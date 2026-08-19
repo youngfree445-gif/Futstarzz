@@ -630,7 +630,12 @@ export default function Dashboard({
     // currentClub.id frena la copa antes de un partido pendiente del jugador. Sin eso, el Dashboard
     // adelantaba el torneo de fondo con sólo mirarlo: la tabla de grupos mostraba fechas que el
     // jugador todavía no jugó, y peor, ese estado adelantado quedaba guardado.
-    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true), cupPosiciones, cupCampeones, currentClub.id,
+    ? getOrCreateCupState(conmebolCupId, cupYear, ULTIMATE_CLUBS_DATABASE, playerProfile.continentalCups[`${conmebolCupId}-${cupYear}`], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, true,
+          // El nombre importa: sin el se cuentan las fechas de las DOS copas continentales y el
+          // Medellin, que juega Libertadores y despues cae a la Sudamericana, coronaba su
+          // Libertadores en agosto.
+          conmebolCupId === 'libertadores' ? 'Copa Libertadores'
+            : conmebolCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Sudamericana'), cupPosiciones, cupCampeones, currentClub.id,
         // El grupo del jugador sale del CALENDARIO, que es de donde salen sus seis partidos. Sin
         // esto esta pantalla dibujaba el grupo que sorteo el motor -- otros rivales -- y el jugador
         // lo vio: "en copas y tablas muestra un grupo distinto al que juego".
@@ -654,7 +659,7 @@ export default function Dashboard({
     ? 'europa'
     : null;
   const uefaCup = uefaCupId
-    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false), cupPosiciones, cupCampeonesUefa, currentClub.id)
+    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false, uefaCupId === 'europa' ? 'UEFA Europa League' : 'UEFA Champions League'), cupPosiciones, cupCampeonesUefa, currentClub.id)
     : null;
 
   // QUÉ COPA SE JUEGA HOY, cuando el día que trae el calendario es una RESERVA.

@@ -19,7 +19,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -33,7 +33,7 @@ import {
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
-  simulatePenaltyShootout, roundLabelByMatchCount, terminarTorneoSinElJugador,
+  simulatePenaltyShootout, roundLabelByMatchCount, terminarCopaContinental, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
@@ -186,7 +186,7 @@ function syncBackgroundCups(
       const cupKey = `${conmebolCupId}-${year}`;
       // myClub.id al final: la copa de fondo NO puede jugar los partidos del jugador. Se detiene en
       // el suyo y lo deja pendiente. Ver getOrCreateCupState.
-      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], fechasDeCopaTranscurridas(myClub.name, atWeek, true), posiciones, campeones, myClub.id, grupoDelCalendario(conmebolCupId, myClub, year, posiciones, campeones)) };
+      nextContinental = { ...nextContinental, [cupKey]: getOrCreateCupState(conmebolCupId, year, CLUBS_DATABASE, nextContinental[cupKey], fechasDeCopaTranscurridas(myClub.name, atWeek, true, NOMBRE_DE_COPA[conmebolCupId]), posiciones, campeones, myClub.id, grupoDelCalendario(conmebolCupId, myClub, year, posiciones, campeones)) };
     }
 
     const uefaCupId: 'champions' | 'europa' | null = getChampionsParticipants(CLUBS_DATABASE, year, posiciones, campeonesEuropa).includes(myClub.id)
@@ -195,7 +195,7 @@ function syncBackgroundCups(
       ? 'europa'
       : null;
     if (uefaCupId && !skipUefa) {
-      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], fechasDeCopaTranscurridas(myClub.name, atWeek, false), posiciones, campeonesEuropa, myClub.id) };
+      nextUefa = { ...nextUefa, [uefaCupId]: getOrCreateUefaCupState(uefaCupId, CLUBS_DATABASE, nextUefa[uefaCupId], fechasDeCopaTranscurridas(myClub.name, atWeek, false, NOMBRE_DE_COPA_UEFA[uefaCupId]), posiciones, campeonesEuropa, myClub.id) };
     }
   }
   return { continentalCups: nextContinental, uefaCups: nextUefa };
@@ -966,6 +966,11 @@ function cerrarCuadrangularesVencidos(profile: PlayerProfile, newWeek: number): 
 import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
 
 /** El nombre con el que el calendario rotula cada copa continental. */
+const NOMBRE_DE_COPA_UEFA: Record<'champions' | 'europa', string> = {
+  champions: 'UEFA Champions League',
+  europa: 'UEFA Europa League',
+};
+
 const NOMBRE_DE_COPA: Record<'libertadores' | 'sudamericana' | 'concacaf', string> = {
   libertadores: 'Copa Libertadores',
   sudamericana: 'Copa Sudamericana',
@@ -989,8 +994,42 @@ function grupoDelCalendario(
   return grupoRealDelCalendario(club, CLUBS_DATABASE, NOMBRE_DE_COPA[cupId], temporada, participantes);
 }
 
+/**
+ * Una copa continental que se quedo sin fechas se termina, en vez de quedar sin campeon.
+ *
+ * Hermana de cerrarCuadrangularesVencidos y por el mismo motivo. La copa avanza un paso por fecha
+ * continental del calendario, y medido: 29 de los 64 participantes terminan el ano con 12, cuando
+ * una Libertadores completa necesita 13. Sin esto se quedaba a un paso de coronar -- y un torneo
+ * sin campeon deja sin repartir los cupos del ano siguiente, sin llenar la vitrina y sin noticia.
+ */
+function cerrarCopasContinentalesVencidas(profile: PlayerProfile, newWeek: number): PlayerProfile {
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  const guardadas = profile.continentalCups;
+  if (!club || !guardadas) return profile;
+  const temporadaHoy = temporadaDeCarrera(club.name, newWeek);
+  const quedanFechas = quedanFechasDeCopaContinental(club.name, newWeek);
+
+  let cambio = false;
+  const copia = { ...guardadas };
+  for (const [clave, cup] of Object.entries(guardadas)) {
+    if (!cup || cup.championId) continue;
+    // La edicion en curso solo se cierra cuando ya no queda ninguna fecha por delante; las de
+    // temporadas anteriores, siempre: sus fechas pasaron hace rato.
+    const suTemporada = Number(clave.split('-').pop());
+    if (suTemporada === temporadaHoy && quedanFechas) continue;
+    if (suTemporada > temporadaHoy) continue;
+    const cerrada = terminarCopaContinental(cup, CLUBS_DATABASE);
+    if (cerrada.championId) { copia[clave] = cerrada; cambio = true; }
+  }
+  return cambio ? { ...profile, continentalCups: copia } : profile;
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
-  let next = cerrarCuadrangularesVencidos(profile, newWeek);
+  // Las dos redes miran el dia que se ACABA de jugar (previousWeek), no el siguiente: asi un torneo
+  // se cierra el dia de su ultima fecha. Preguntando por el siguiente, el campeon aparecia tres
+  // dias tarde.
+  let next = cerrarCuadrangularesVencidos(profile, previousWeek);
+  next = cerrarCopasContinentalesVencidas(next, previousWeek);
   next = freezeSeasonLeadersIfNewSeason(next, previousWeek, newWeek);
   next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
@@ -3000,7 +3039,7 @@ export default function App() {
         // conteo de semanas, aunque el jugador tenga un partido suyo sin jugar. Reportado: ganar el
         // PRIMER partido de la fase de grupos y que salte "eliminado en octavos" acto seguido --
         // el motor se había comido la fase de grupos entera de fondo. Ver getOrCreateCupState.
-        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true), playerProfile.posicionesFinales, cupCampeones, myClub.id, grupoDelCalendario(qualifiedCupId, myClub, year, playerProfile.posicionesFinales, cupCampeones));
+        const cup = getOrCreateCupState(qualifiedCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true, NOMBRE_DE_COPA[qualifiedCupId]), playerProfile.posicionesFinales, cupCampeones, myClub.id, grupoDelCalendario(qualifiedCupId, myClub, year, playerProfile.posicionesFinales, cupCampeones));
         const upcoming = getUpcomingCupMatch(cup, myClub.id);
         if (!upcoming && !isClubStillInCup(cup, myClub.id)) {
           eliminatedFromQualifiedCup = true;
@@ -3062,7 +3101,7 @@ export default function App() {
           : null;
 
         if (qualifiedUefaCupId) {
-          const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, false), undefined, undefined, myClub.id);
+          const uefaCup = getOrCreateUefaCupState(qualifiedUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[qualifiedUefaCupId], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, false, NOMBRE_DE_COPA_UEFA[qualifiedUefaCupId]), undefined, undefined, myClub.id);
           const upcoming = getUpcomingUefaCupMatch(uefaCup, myClub.id);
           if (!upcoming && !isClubStillInUefaCup(uefaCup, myClub.id)) {
             eliminatedFromQualifiedCup = true;
@@ -4438,7 +4477,7 @@ export default function App() {
       // Mismo myClub.id que al armar el partido. Si acá se omite, este estado "antes del partido"
       // sale adelantado respecto del que el jugador vio en pantalla, y su resultado se aplica a una
       // ronda que no es la suya.
-      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true), playerProfile.posicionesFinales, undefined, myClub.id, grupoDelCalendario(activeCupId, myClub, year, playerProfile.posicionesFinales));
+      const cupBeforeMatch = getOrCreateCupState(activeCupId, year, CLUBS_DATABASE, playerProfile.continentalCups[cupKey], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, true, NOMBRE_DE_COPA[activeCupId]), playerProfile.posicionesFinales, undefined, myClub.id, grupoDelCalendario(activeCupId, myClub, year, playerProfile.posicionesFinales));
       const resolvedCup = resolveCupWeek(cupBeforeMatch, CLUBS_DATABASE, myClub.id, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInTwoLegBracket(resolvedCup.knockout, myClub.id, activeOppositionClubId);
       if (shootout) {
@@ -4485,7 +4524,7 @@ export default function App() {
     let updatedUefaCups = playerProfile.uefaCups;
     if (isCopaLibertadores && activeUefaCupId && activeOppositionClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, false), undefined, undefined, myClub.id);
+      const uefaCupBeforeMatch = getOrCreateUefaCupState(activeUefaCupId, CLUBS_DATABASE, playerProfile.uefaCups[activeUefaCupId], fechasDeCopaTranscurridas(myClub.name, playerProfile.currentWeek, false, NOMBRE_DE_COPA_UEFA[activeUefaCupId]), undefined, undefined, myClub.id);
       // Desde el playoff en adelante, Champions/Europa es ida y vuelta (TwoLegTie): mismo bug ya
       // corregido en el playoff de liga y en la copa nacional -- la localía para el motor tiene que
       // salir de la llave interna, no del calendario real (activeIsHome), porque se invierte entre

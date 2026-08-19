@@ -8,9 +8,9 @@
 
 import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
-import { fechasDeCopaTranscurridas, fixturesAtStep, rivalesDeGrupoEnElCalendario, temporadaDelPaso } from '../src/dateSchedule';
+import { fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, quedanFechasDeCopaContinental, rivalesDeGrupoEnElCalendario, temporadaDelPaso } from '../src/dateSchedule';
 import { cerrarPlayoffsSinFechas, grupoRealDelCalendario, claveDeCopaNacional, clavePlayoffDeLiga, copaNacionalDelPaso, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, laNacionalTieneCruce, playoffDelDiaSinElJugador } from '../src/decisionDelDia';
-import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState } from '../src/leagueEngine';
+import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, sortTable, roundLabelByMatchCount, leagueKeyFor, getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, terminarCopaContinental } from '../src/leagueEngine';
 import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional, cruceActual, nombreDeRonda } from '../src/copaNacional';
 import { resolverPasoCopaNacional } from '../src/leagueEngine';
@@ -470,6 +470,109 @@ console.log('');
   }
   ok('al cerrar los grupos, los pasos contados son exactamente los seis jugados',
      revisados > 0 && exactos === revisados, `${exactos} de ${revisados}${detalle.length ? ' | ' + detalle.join(' | ') : ''}`);
+}
+
+// =============================================================================================
+// 12. NINGUNA COPA SE QUEDA SIN CAMPEON POR FALTA DE FECHAS
+// =============================================================================================
+//
+// La copa continental avanza un paso por fecha continental del calendario. Es lo correcto -- con el
+// contador viejo, que sumaba tambien las de copa nacional, la copa corria adelantada --, pero deja
+// un borde: 29 de los 64 participantes llegan al final del ano con 12 fechas continentales y una
+// Libertadores completa necesita 13 (seis de grupos, tres llaves a ida y vuelta, y la final a
+// partido unico). Sin red, la copa se quedaba a un paso de coronar.
+//
+// La regla de la casa: se acomoda, no se recorta. Un torneo sin campeon deja sin repartir los cupos
+// del ano siguiente, sin llenar la vitrina y sin noticia.
+
+console.log('');
+{
+  const NECESARIOS = 14;  // medido: con 13 se queda en el cuadro, con 14 corona
+  const lib = getLibertadoresParticipants(clubes, 1, {}, undefined);
+  const mio = clubes.find(c => c.name === 'Junior de Barranquilla')!;
+  const fijo = grupoRealDelCalendario(mio, clubes, 'Copa Libertadores', 1, lib);
+
+  // Una copa parada a mitad de camino: se le dan solo 12 pasos, uno menos de los que necesita.
+  let corta = getOrCreateCupState('libertadores', 1, clubes, undefined, NECESARIOS - 1, {}, undefined, undefined, fijo);
+  ok('con una fecha de menos, la copa NO llega a campeon sola',
+     !corta.championId, `etapa ${corta.stage}, pasos ${corta.stepsConsumed}`);
+
+  const cerrada = terminarCopaContinental(corta, clubes);
+  ok('y la red de seguridad la termina: hay campeon',
+     !!cerrada.championId, clubes.find(c => c.id === cerrada.championId)?.name ?? 'sigue sin campeon');
+
+  // Una que ya tiene campeon no se toca.
+  const otraVez = terminarCopaContinental(cerrada, clubes);
+  ok('una copa ya coronada no se vuelve a tocar',
+     otraVez.championId === cerrada.championId);
+
+  // Y con las fechas completas corona sola, sin red.
+  const entera = getOrCreateCupState('libertadores', 1, clubes, undefined, NECESARIOS, {}, undefined, undefined, fijo);
+  ok('con las fechas completas corona sin ayuda',
+     !!entera.championId, clubes.find(c => c.id === entera.championId)?.name ?? 'sin campeon');
+}
+
+// =============================================================================================
+// 13. CADA COPA CORONA EL DIA DE SU ULTIMA FECHA. NI ANTES NI DESPUES
+// =============================================================================================
+//
+// Pedido tal cual: "revisa que las copas coronen en su fecha en la segunda temporada, todas deben
+// tener campeon pero en sus fechas, nada de antes y despues (...) para ver si corona realmente o
+// por algun bug en el futuro simplemente lo da aleatoriamente".
+//
+// Los dos lados fallaban:
+//   . TARDE: la red miraba el dia SIGUIENTE, asi que el campeon salia el 25 de noviembre para una
+//     final del 22.
+//   . TEMPRANO, y este era el grave: el contador sumaba las fechas de las DOS copas continentales,
+//     y el Independiente Medellin -- que juega Libertadores y despues cae a la Sudamericana --
+//     coronaba su Libertadores el 24 de AGOSTO, tres meses antes de la final.
+
+console.log('');
+{
+  const lib = getLibertadoresParticipants(clubes, 1, {}, undefined);
+  const sud = getSudamericanaParticipants(clubes, 1, {}, undefined);
+  let casos = 0, enSuFecha = 0;
+  const fallos: string[] = [];
+  for (const nombre of ['Junior de Barranquilla', 'Independiente Medellín', 'Millonarios FC']) {
+    const club = clubes.find(c => c.name === nombre);
+    if (!club) continue;
+    const enLib = lib.includes(club.id);
+    if (!enLib && !sud.includes(club.id)) continue;
+    const cupId = enLib ? 'libertadores' as const : 'sudamericana' as const;
+    const nombreCopa = enLib ? 'Copa Libertadores' : 'Copa Sudamericana';
+
+    for (const temporada of [1, 2]) {
+      const pasos: number[] = [];
+      for (let p = 1; p <= 300; p++) {
+        const t = temporadaDelPaso(club.name, p);
+        if (!t) break;
+        if (t.temporada === temporada) pasos.push(p);
+      }
+      const dias = fixturesForClub(club.name)
+        .filter(f => f.temporada === temporada && f.competition.kind === 'continental_cup')
+        .map(f => f.date);
+      if (!pasos.length || !dias.length) continue;
+      const ultima = dias[dias.length - 1];
+
+      // El peor caso: el jugador ya esta eliminado, asi que la copa depende del contador y de la red.
+      let cup = getOrCreateCupState(cupId, temporada, clubes, undefined, 0, {}, undefined, undefined,
+        grupoRealDelCalendario(club, clubes, nombreCopa, temporada, enLib ? lib : sud));
+      let corono: string | null = null;
+      for (const p of pasos) {
+        cup = getOrCreateCupState(cupId, temporada, clubes, cup,
+          fechasDeCopaTranscurridas(club.name, p, true, nombreCopa), {}, undefined, undefined, undefined);
+        if (!cup.championId && !quedanFechasDeCopaContinental(club.name, p)) {
+          cup = terminarCopaContinental(cup, clubes);
+        }
+        if (cup.championId && !corono) { corono = fechaDelPaso(club.name, p) ?? '?'; break; }
+      }
+      casos++;
+      if (corono === ultima) enSuFecha++;
+      else fallos.push(`${nombre} T${temporada}: corona ${corono ?? 'NUNCA'}, ultima fecha ${ultima}`);
+    }
+  }
+  ok('cada copa corona EL DIA de su ultima fecha, en la temporada 1 y en la 2',
+     casos > 0 && enSuFecha === casos, `${enSuFecha} de ${casos}${fallos.length ? ' | ' + fallos.join(' | ') : ''}`);
 }
 
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);

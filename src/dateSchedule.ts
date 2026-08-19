@@ -564,6 +564,25 @@ export function fechasDePlayoffDelTorneo(clubName: string, date: string): number
 }
 
 /**
+ * ¿Le queda a este club alguna fecha de COPA CONTINENTAL en esta temporada, de hoy en adelante?
+ *
+ * La copa avanza un paso por fecha continental (ver fechasDeCopaTranscurridas). Cuando ya no queda
+ * ninguna y todavia no hay campeon, no hay forma de que se defina jugando: hay que terminarla. Un
+ * torneo que se queda sin coronar es la version silenciosa de recortarlo.
+ */
+export function quedanFechasDeCopaContinental(clubName: string, paso: number): boolean {
+  const hoy = fechaDelPaso(clubName, paso);
+  const t = temporadaDelPaso(clubName, paso);
+  if (!hoy || !t) return false;
+  // ESTRICTAMENTE posteriores, y se pregunta por el dia que se acaba de jugar: asi el torneo se
+  // cierra EL DIA de su ultima fecha y no al siguiente. Con `>=` y el dia siguiente, el campeon
+  // aparecia tres dias tarde -- el 25 de noviembre para una final del 22 --, que es leer el
+  // resultado de un torneo que en el calendario ya habia terminado.
+  return fixturesForClub(clubName).some(f =>
+    f.temporada === t.temporada && f.competition.kind === 'continental_cup' && f.date > hoy);
+}
+
+/**
  * Los rivales de FASE DE GRUPOS que el calendario le tiene guardados a este club en esa copa.
  *
  * Son los que el jugador va a jugar de verdad: en la temporada 1 salen del sorteo real de 2026. El
@@ -615,9 +634,11 @@ export function rivalesDeGrupoEnElCalendario(
 export function quedanFechasDePlayoff(clubName: string, temporada: number, torneo: string, paso: number): boolean {
   const hoy = fechaDelPaso(clubName, paso);
   if (!hoy) return false;
+  // Estrictamente posteriores, por lo mismo que en la copa continental: se pregunta por el dia que
+  // se acaba de jugar, asi el cuadro se cierra el dia de su ultima fecha y no al siguiente.
   return fixturesForClub(clubName).some(f =>
     f.competition.kind === 'league' && f.esPlayoff && f.temporada === temporada
-    && torneoDelFixture(f) === torneo && f.date >= hoy);
+    && torneoDelFixture(f) === torneo && f.date > hoy);
 }
 
 /**
@@ -678,14 +699,21 @@ const VENTANA_DE_DESCANSO_DIAS = 3;
 /**
  * Las de más para los clubes cuyo país juega copas continentales.
  *
- * Una Libertadores son 6 fechas de grupo más 4 de eliminación; una Champions, 8 de fase de liga más
- * el playoff y cuatro rondas de ida y vuelta. Con la bolsa base sola, un club que juega las dos
- * copas se quedaba sin fechas para la nacional -- o al revés.
+ * Una Libertadores son 6 fechas de grupo más 4 rondas de ida y vuelta -- octavos, cuartos, semis y
+ * final --, o sea CATORCE. Acá decía 13, y ese día que faltaba era justo el último: un club que
+ * llegaba a la final se quedaba sin fecha para jugarla y el torneo tenía que resolverse solo.
+ * Medido con el cuadro real: con 13 pasos la copa queda en el cuadro, con 14 corona.
+ *
+ * Una Champions son 8 de fase de liga más el playoff y cuatro rondas de ida y vuelta, y entra en
+ * las mismas 14 porque su fase de liga no es todos contra todos.
+ *
+ * Con la bolsa base sola, un club que juega las dos copas se quedaba sin fechas para la nacional --
+ * o al revés.
  *
  * Los clubes de esos países que NO clasifican ese año no pierden nada: sus fechas sobrantes son
  * días de descanso, que es exactamente lo que le pasa a un club sin copa internacional.
  */
-const FECHAS_DE_COPA_CONTINENTAL = 13;
+const FECHAS_DE_COPA_CONTINENTAL = 14;
 
 /**
  * Los clubes que pueden llegar a jugar una copa continental, y por eso necesitan la bolsa grande.
@@ -1764,30 +1792,73 @@ export function esDiaDeCopa(clubName: string, paso: number): boolean {
  */
 export function fechasDeCopaTranscurridas(
   clubName: string, paso: number, porTemporada: boolean,
+  /**
+   * El nombre de la copa: "Copa Libertadores", "UEFA Champions League"...
+   *
+   * Sin el se cuentan TODAS las fechas continentales del club, y eso alcanza para la mayoria pero
+   * no para los que juegan dos copas en el mismo ano. El Independiente Medellin tiene 19 dias
+   * continentales -- cuatro de fase previa, trece de Libertadores y dos de Sudamericana, adonde cae
+   * el tercero del grupo -- y con todos sumados su Libertadores llegaba a los 14 pasos que corona
+   * en AGOSTO, tres meses antes de la final. El campeon salia de un torneo que en el calendario
+   * todavia estaba a mitad de camino.
+   */
+  nombreDeLaCopa?: string,
 ): number {
   const t = temporadaDelPaso(clubName, paso);
   if (!t) return 0;
   const desdePaso = porTemporada ? t.primerPaso : 1;
 
+  // La fase previa tampoco cuenta: el cuadro del motor arranca en la fase de GRUPOS, asi que los
+  // dias anteriores a ella son pasos que la copa modelada no juega. Se ubica con la misma ventana
+  // que reconoce el grupo (ver rivalesDeGrupoEnElCalendario) y, si no se puede ubicar, se cuenta
+  // desde el principio como antes.
+  const desdeFecha = nombreDeLaCopa
+    ? primeraFechaDeGrupos(clubName, nombreDeLaCopa, t.temporada)
+    : null;
+
   let n = 0;
   for (let p = desdePaso; p < paso; p++) {
     const s = fixturesAtStep(clubName, p);
     if (!s) break;
-    // SOLO los dias de copa CONTINENTAL. Los seis que llaman a esta funcion son las copas
-    // continentales -- las dos de Conmebol y las dos de UEFA -- y ninguno es la copa nacional, asi
-    // que contar tambien sus dias hacia correr la continental al doble de velocidad: al Junior, las
-    // dos fechas de Copa BetPlay de enero y las cuatro de agosto le sumaban seis pasos de
-    // Libertadores que la Libertadores no jugo. El cuadro quedaba desfasado de su calendario y el
-    // jugador terminaba disputando una fecha de grupos que ya no correspondia. Reportado: "jugue un
-    // partido de mas contra el Always Ready, por que?".
+    if (desdeFecha && s.date < desdeFecha) continue;
+    // SOLO los dias de copa CONTINENTAL, y solo los de ESTA copa. Los seis que llaman a esta
+    // funcion son copas continentales -- las dos de Conmebol y las dos de UEFA -- y ninguno es la
+    // copa nacional, asi que contar tambien sus dias hacia correr la continental al doble de
+    // velocidad: al Junior, las dos fechas de Copa BetPlay de enero y las cuatro de agosto le
+    // sumaban seis pasos de Libertadores que la Libertadores no jugo. El cuadro quedaba desfasado
+    // de su calendario y el jugador terminaba disputando una fecha de grupos que ya no
+    // correspondia. Reportado: "jugue un partido de mas contra el Always Ready, por que?".
     //
     // Un dia que pidio la NACIONAL y termina jugando la continental (cuando la nacional ya no tiene
     // cruce) no se cuenta, asi que la cuenta puede quedar CORTA. Es el lado seguro del error: la
-    // copa deja de simular de fondo y espera: el partido pendiente del jugador sigue estando. Con
-    // la cuenta larga pasaba lo contrario -- la copa se adelantaba y jugaba sola.
-    if (s.fixtures.some(f => f.competition.kind === 'continental_cup')) n++;
+    // copa espera en vez de simular de fondo, y el partido pendiente del jugador sigue estando. Que
+    // igual termine coronando lo garantiza terminarCopaContinental, no este contador.
+    if (s.fixtures.some(f => f.competition.kind === 'continental_cup'
+      && (!nombreDeLaCopa || f.competition.name === nombreDeLaCopa))) n++;
   }
   return n;
+}
+
+/**
+ * La fecha del primer partido de fase de GRUPOS de este club en esa copa, o null si no se ubica.
+ *
+ * Misma deteccion por forma que rivalesDeGrupoEnElCalendario: seis partidos seguidos contra tres
+ * rivales, cada uno dos veces. Se usa para no contar la fase previa como pasos del cuadro.
+ */
+function primeraFechaDeGrupos(clubName: string, competitionName: string, temporada: number): string | null {
+  const suyos = fixturesForClub(clubName).filter(f =>
+    f.temporada === temporada
+    && f.competition.kind === 'continental_cup'
+    && f.competition.name === competitionName
+    && !f.esReservaDeCuadro);
+  for (let i = 0; i + 6 <= suyos.length; i++) {
+    const ventana = suyos.slice(i, i + 6);
+    const rivales = [...new Set(ventana.map(f => f.opponentName))];
+    if (rivales.length === 3 && rivales.every(r => ventana.filter(f => f.opponentName === r).length === 2)) {
+      return ventana[0].date;
+    }
+  }
+  return null;
 }
 
 /**
