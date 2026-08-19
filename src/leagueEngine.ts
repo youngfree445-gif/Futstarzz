@@ -1,5 +1,5 @@
 import { repartesDosTitulos } from './reglamentos';
-import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
+import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, PlayoffMatch, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 import type { DomesticCupState } from './copaNacional';
 import { participantesConmebol, type CampeonesConmebol, type PosicionesFinales } from './copasConmebol';
 import { participantesUefa, type CampeonesUefa } from './copasUefa';
@@ -1730,6 +1730,27 @@ function seedFromWorldCupGroups(groups: CupGroup[]): string[] {
   return [...winners, ...runnersUp, ...bestThirds]; // 12 + 12 + 8 = 32
 }
 
+/**
+ * Arma la ronda siguiente de un cuadro a partido unico, con los ganadores de la ultima ya jugada.
+ *
+ * Es la hermana de siguienteRondaTwoLeg para los cuadros que se definen en UN partido: el Mundial.
+ * Faltaba, y por eso el Mundial se congelaba en la ronda de 32 PARA SIEMPRE.
+ */
+function siguienteRondaBracket(bracket: PlayoffBracket): PlayoffBracket {
+  const ultima = bracket.matchesByRound[bracket.matchesByRound.length - 1];
+  if (bracket.championId || !ultima?.length || !ultima.every(m => m.played)) return bracket;
+  const winners = ultima.map(m => ganadorDelPartido(m)).filter((id): id is string => !!id);
+  if (winners.length < 2) return bracket;
+  const nueva: PlayoffMatch[] = [];
+  for (let i = 0; i < winners.length; i += 2) {
+    nueva.push({
+      homeTeamId: winners[i], awayTeamId: winners[i + 1],
+      played: false, homeGoals: null, awayGoals: null,
+    });
+  }
+  return { matchesByRound: [...bracket.matchesByRound, nueva], championId: null };
+}
+
 function resolveWorldCupStep(cup: WorldCupState, allTeams: Club[], forced?: ForcedResult): WorldCupState {
   if (cup.stage === 'groups') {
     const allPlayed = cup.groups.every(g => g.fixtures.every(f => f.played));
@@ -1743,7 +1764,23 @@ function resolveWorldCupStep(cup: WorldCupState, allTeams: Club[], forced?: Forc
     if (cup.knockout?.championId) {
       return { ...cup, stage: 'done', championId: cup.knockout.championId };
     }
-    return { ...cup, knockout: resolveBracketRound(cup.knockout!, allTeams, forced) };
+    // EL MUNDIAL SE CONGELABA EN LA RONDA DE 32, y no coronaba nunca a nadie.
+    //
+    // resolveBracketRound resuelve la ronda y corta a proposito -- asi la pantalla alcanza a
+    // mostrar el partido que se acaba de jugar -- pero nadie llamaba despues a armar la siguiente.
+    // Es EL MISMO agujero que tenian las copas de Conmebol, cuyo comentario decia que era "el unico
+    // lugar donde faltaba": faltaba en dos. Medido: con 20 pasos el cuadro seguia teniendo una sola
+    // ronda de 16 partidos, asi que "Campeon del Mundo" era un logro inalcanzable.
+    //
+    // Y la ronda nueva se arma en el MISMO paso que cierra la anterior, no en el siguiente: sino se
+    // pierde un partido por ronda (getUpcomingWorldCupMatch se consulta antes de resolver el paso).
+    const resuelto = resolveBracketRound(cup.knockout!, allTeams, forced);
+    const conLaProxima = siguienteRondaBracket(resuelto);
+    // Coronar tampoco gasta una fecha, por lo mismo que no la gasta armar la ronda.
+    if (conLaProxima.championId) {
+      return { ...cup, knockout: conLaProxima, stage: 'done', championId: conLaProxima.championId };
+    }
+    return { ...cup, knockout: conLaProxima };
   }
   return cup; // 'done'
 }

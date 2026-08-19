@@ -10,10 +10,10 @@
 // decisión de rama, mismo cuadro -- y cuenta partidos de copa REALMENTE jugados, rondas superadas y
 // campeones coronados. Si una copa no se puede jugar, acá sale en cero.
 
-import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS, WORLD_CUP_TEAMS_DATABASE } from '../src/data';
 import { fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
-import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
+import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getOrCreateWorldCupState, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
 import type { Club } from '../src/types';
 
 const TEMPORADAS = 3;
@@ -443,4 +443,42 @@ console.log('\n=== EL REPECHAJE DE LA SUDAMERICANA ===');
      !soloLib.playoff && !!soloLib.championId);
 
   if (fallasRep) { console.log(`\nFALLA: ${fallasRep} en el repechaje.`); process.exit(1); }
+}
+
+
+// =================================================================================================
+// EL MUNDIAL TIENE QUE CORONAR
+// =================================================================================================
+//
+// Se congelaba en la ronda de 32 PARA SIEMPRE: resolveBracketRound resuelve la ronda y corta a
+// proposito, y nadie llamaba despues a armar la siguiente. Medido antes del arreglo: con 20 pasos
+// el cuadro seguia teniendo una sola ronda de 16 partidos. Osea que "Campeon del Mundo" era un
+// logro inalcanzable y ningun Mundial de ninguna carrera tuvo campeon nunca.
+//
+// Es EL MISMO agujero que tenian las copas de Conmebol, y su comentario decia que ese era "el unico
+// lugar donde faltaba". Faltaba en dos.
+
+console.log('\n=== EL MUNDIAL ===');
+{
+  let fallasWC = 0;
+  const okWC = (n: string, c: boolean, d = '') => { if (!c) fallasWC++; console.log(`${c ? 'OK  ' : 'FALLA'} ${n}${d ? '  ' + d : ''}`); };
+  const equipos = WORLD_CUP_TEAMS_DATABASE as unknown as Club[];
+  const nomEq = (id: string) => equipos.find(e => e.id === id)?.name ?? id;
+
+  const aMitad = getOrCreateWorldCupState(2026, equipos, undefined, 5);
+  okWC('el cuadro AVANZA de ronda', (aMitad.knockout?.matchesByRound.length ?? 0) > 1,
+     `rondas: ${(aMitad.knockout?.matchesByRound ?? []).map(r => r.length).join(' -> ')}`);
+
+  const entero = getOrCreateWorldCupState(2026, equipos, undefined, 8);
+  okWC('con ocho pasos hay campeon del mundo', !!entero.championId,
+     entero.championId ? nomEq(entero.championId) : 'sin campeon');
+  okWC('y el cuadro llego hasta la final',
+     (entero.knockout?.matchesByRound ?? []).map(r => r.length).join(',') === '16,8,4,2,1');
+
+  // Nueve dias reserva el calendario para el Mundial: tienen que alcanzar.
+  okWC('el calendario le reserva mas dias de los que necesita',
+     fixturesForClub('Junior de Barranquilla')
+       .filter(f => f.temporada === 1 && f.competition.kind === 'national_tournament').length >= 8);
+
+  if (fallasWC) { console.log(`\nFALLA: ${fallasWC} en el Mundial.`); process.exit(1); }
 }
