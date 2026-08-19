@@ -33,14 +33,24 @@
 // El reporte muestra lo que está GUARDADO en la partida, sin llamar a getOrCreateCupState ni a
 // nada que adelante un torneo. Un informe que avanza el estado mientras lo mira deja de describir
 // el bug y pasa a taparlo -- y además dejaría al jugador con una partida distinta por haber tocado
-// un botón de diagnóstico. Lo único que se consulta afuera es el CALENDARIO, que es una función
-// pura del nombre del club y no guarda nada.
+// un botón de diagnóstico.
+//
+// Lo que sí se consulta afuera son FUNCIONES PURAS: el calendario (que sólo depende del nombre del
+// club) y decisionDelDia (que arma la ronda siguiente sobre una copia, sin azar y sin escribir).
+// Esa segunda hizo falta y no es un lujo: sin ella el reporte imprimía el cartel de relleno del
+// calendario -- "local vs Por definir" -- mientras tres secciones más abajo, leyendo el cuadro
+// guardado, decía "vs Toluca · VUELTA · ida 4-1". Un informe que se contradice a sí mismo manda a
+// buscar un bug que no existe y tapa el que sí. El reporte tiene que decir lo que el jugador ve.
 
 import { Club, PlayerProfile, TwoLegTie } from './types';
 import {
-  anioDeCarrera, fechaDelPaso, fixturesAtStep, hasDatedLeagueSchedule,
+  type DatedFixture,
+  anioDeCarrera, fechaDelPaso, fixturesAtStep, hasDatedLeagueSchedule, RIVAL_POR_SORTEAR,
   temporadaDeCarrera, torneoDelClubEnFecha,
 } from './dateSchedule';
+import {
+  type CruceDeCuadrangular, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa,
+} from './decisionDelDia';
 import { cruceActual, rondaActual, sigueEnCopa } from './copaNacional';
 import { roundLabelByMatchCount } from './leagueEngine';
 
@@ -127,6 +137,38 @@ export function armarReporteDeBug(
   l.push(`Club: ${club?.name ?? '¿?'} (${club?.league ?? '¿?'}, división ${club?.division ?? '?'})`);
   l.push(`Paso de carrera: ${perfil.currentWeek}`);
 
+  /**
+   * Contra quién se juega de verdad un día cuyo rival lo pone un cuadro.
+   *
+   * Las tres funciones que consulta son PURAS -- arman la ronda siguiente sobre una copia y no
+   * tocan nada guardado --, así que esto no rompe la regla de arriba: el reporte sigue sin cambiar
+   * la partida del jugador por haber apretado un botón de diagnóstico.
+   */
+  const decidirRival = (f: DatedFixture): { nombre: string; soyLocal: boolean; detalle: string } | null => {
+    if (!club) return null;
+    const describir = (c: CruceDeCuadrangular) => ({
+      nombre: nombre(c.rivalId),
+      soyLocal: c.soyLocal,
+      detalle: `${c.ronda} · ${c.esIda ? 'IDA' : 'VUELTA'}${c.global ? ` · global ${c.global}` : ''}`,
+    });
+    if (f.esPlayoff) {
+      const c = cuadrangularDeHoy(perfil, club, perfil.currentWeek, f.date);
+      return c ? describir(c) : null;
+    }
+    if (f.esReservaDeCuadro) {
+      // De quién es el día lo decide duenoDelDiaDeCopa, no la copa que lo reservó: son una sola
+      // bolsa compartida. Es la confusión que ya costó un "Copa MX 3-2 vs FC Cincinnati" en el
+      // historial, con Cincinnati siendo rival de Concacaf.
+      const dueno = duenoDelDiaDeCopa(perfil, club, perfil.currentWeek, f.competition.kind === 'domestic_cup');
+      if (dueno === 'nacional') {
+        const c = cruceDeCopaNacionalHoy(perfil, club, clubs, perfil.currentWeek);
+        return c ? describir(c) : null;
+      }
+      return null; // continental: la llave está más abajo, en COPAS CONTINENTALES GUARDADAS
+    }
+    return null;
+  };
+
   // El calendario es la fuente de verdad de qué se juega hoy, así que se le pregunta directo. Si el
   // club no tiene fechas reales hay que decirlo: media docena de reglas cambian en ese caso.
   if (club && hasDatedLeagueSchedule(club.name)) {
@@ -144,7 +186,20 @@ export function armarReporteDeBug(
           f.esReservaDeCuadro ? 'RESERVADA (el rival lo pone el cuadro)' : null,
           f.esPlayoff ? 'CUADRANGULAR' : null,
         ].filter(Boolean).join(' · ');
-        l.push(`  · ${f.competition.kind.padEnd(19)} ${f.competition.name} — ${f.isHome ? 'local' : 'visitante'} vs ${f.opponentName}${marcas ? ` [${marcas}]` : ''}`);
+        // El calendario no sabe contra quién jugás en los días de cuadro, y lleva un cartel de
+        // relleno. Imprimirlo tal cual hacía que el reporte SE CONTRADIJERA A SÍ MISMO: acá decía
+        // "local vs Por definir" y treinta líneas más abajo, en CUADRANGULARES GUARDADOS, decía
+        // "vs Toluca · VUELTA · ida 4-1". El jugador lo mandó como bug, con razón.
+        //
+        // La respuesta sale de decisionDelDia, que es la MISMA que usa la tarjeta del próximo
+        // partido y la que va a usar el motor al resolver el día, así que el reporte describe lo
+        // que el jugador tiene en pantalla y no una versión cruda que no ve nadie.
+        const decidido = f.opponentName === RIVAL_POR_SORTEAR ? decidirRival(f) : null;
+        const localia = decidido ? decidido.soyLocal : f.isHome;
+        const contra = decidido
+          ? `${decidido.nombre}${decidido.detalle ? ` · ${decidido.detalle}` : ''} (lo puso el cuadro; el calendario trae "${f.opponentName}")`
+          : f.opponentName;
+        l.push(`  · ${f.competition.kind.padEnd(19)} ${f.competition.name} — ${localia ? 'local' : 'visitante'} vs ${contra}${marcas ? ` [${marcas}]` : ''}`);
       }
       if (paso.fixtures.length > 1) {
         l.push('  (hay más de un partido el mismo día: gana el de mayor prioridad — selección > continental > nacional > liga)');

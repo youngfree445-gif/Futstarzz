@@ -14,6 +14,7 @@ import { prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, buildInitialTable, so
 import { clubesDeLiga } from '../src/clubesJugables';
 import { crearCopaNacional, cruceActual, nombreDeRonda } from '../src/copaNacional';
 import { resolverPasoCopaNacional } from '../src/leagueEngine';
+import { armarReporteDeBug } from '../src/reporteDeBug';
 import type { Club, PlayerProfile } from '../src/types';
 
 let fallas = 0, corridos = 0;
@@ -286,6 +287,51 @@ ok('la copa nacional y las continentales dicen LO MISMO',
    esperados.every(([n]) => nombreDeRonda(n) === roundLabelByMatchCount(n)));
 ok('mas alla de 64 clubes se dice cuantos quedan, que no se puede malinterpretar',
    roundLabelByMatchCount(64) === 'Ronda de 128', roundLabelByMatchCount(64));
+
+// =============================================================================================
+// 8. EL REPORTE DE BUG DICE LO MISMO QUE LA DECISION
+// =============================================================================================
+//
+// El reporte imprimia el cartel de relleno del calendario -- "local vs Por definir" -- mientras
+// tres secciones mas abajo, leyendo el cuadro guardado, decia "vs Toluca . VUELTA . ida 4-1". El
+// jugador lo mando como bug, con razon: un informe que se contradice a si mismo manda a buscar un
+// bug que no existe.
+
+console.log('');
+{
+  const toluca = clubes.find(c => c.name.includes('Toluca'))!;
+  const paso = 32;
+  const fecha = fixturesAtStep(tigres.name, paso)!.date;
+  const llave = {
+    clubAId: toluca.id, clubBId: tigres.id,
+    firstLegGoalsA: 1, firstLegGoalsB: 4,
+    secondLegGoalsA: null, secondLegGoalsB: null,
+    played: false, winnerId: null,
+  };
+  const otros = clubes.filter(c => c.league === 'Mexicana' && c.division === 1
+    && c.id !== tigres.id && c.id !== toluca.id).slice(0, 6);
+  const relleno = [0, 2, 4].map(i => ({
+    clubAId: otros[i].id, clubBId: otros[i + 1].id,
+    firstLegGoalsA: 0, firstLegGoalsB: 0, secondLegGoalsA: null, secondLegGoalsB: null,
+    played: false, winnerId: null,
+  }));
+  const perfilCuadrangular = {
+    ...perfilNuevo, currentWeek: paso,
+    playoffsDeLiga: { [clavePlayoffDeLiga(tigres, paso, fecha)]: { tiesByRound: [[llave, ...relleno]], championId: null } },
+  } as unknown as PlayerProfile;
+
+  const reporte = armarReporteDeBug(perfilCuadrangular, clubes);
+  const seccionCalendario = reporte.slice(
+    reporte.indexOf('QUÉ DICE EL CALENDARIO DE HOY'),
+    reporte.indexOf('---', reporte.indexOf('QUÉ DICE EL CALENDARIO DE HOY') + 40),
+  );
+  ok('el reporte nombra al rival del cuadro y no el cartel de relleno',
+     seccionCalendario.includes(toluca.name), seccionCalendario.trim().split(/\r?\n/).pop() ?? '');
+  ok('y dice la localia que sale de la LLAVE (Tigres es local en la vuelta)',
+     /local vs/.test(seccionCalendario) && !/visitante vs/.test(seccionCalendario));
+  ok('y el global de la ida va escrito, que es lo que hay que mirar en una vuelta',
+     seccionCalendario.includes('4-1'));
+}
 
 console.log('');
 console.log(fallas === 0 ? `Los ${corridos} casos pasan.` : `${fallas} FALLAS`);
