@@ -4780,9 +4780,24 @@ export function getClubWithRoster(clubName: string, clubId?: string): any {
  * JSON viejo trae nombres mal escritos respecto de Transfermarkt ("Jhonier" por "Jhomier"), y sin
  * eso un traspaso real no se detecta y el jugador sigue apareciendo en su club anterior.
  */
+/**
+ * Los paréntesis que son una POSICIÓN y no parte del nombre.
+ *
+ * Antes se borraba cualquier paréntesis del final, y en toda la base hay exactamente uno que no es
+ * una posición: "Luis Díaz (Jr)", el juvenil de Envigado. Al borrarlo quedaba "luis diaz", el mismo
+ * nombre que el Luis Díaz del Bayern -- así que el filtro de traspasos daba por mudado al del Bayern
+ * y lo sacaba de su plantel. El jugador no aparecía en NINGÚN club: ni en Liverpool, de donde se fue
+ * en 2025, ni en el Bayern, donde juega. Reportado como "Luis Díaz no está en el Liverpool".
+ *
+ * Es el homónimo de siempre (ver docs/PROMPT_DATOS_Y_SCRAPING.md §3) escondido en una expresión
+ * regular: "(Jr)" es justamente lo que distingue a una persona de la otra, y era lo primero que se
+ * tiraba a la basura.
+ */
+const POSICIONES_EN_PARENTESIS = /\s*\((GK|CB|LB|RB|CDM|CM|CAM|LM|RM|LW|RW|ST)\)\s*$/;
+
 function normalizarNombreJugador(n: string): string {
   return n
-    .replace(/\s*\([^)]*\)\s*$/, '')
+    .replace(POSICIONES_EN_PARENTESIS, '')
     .replace(/#\d+/g, '')
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
