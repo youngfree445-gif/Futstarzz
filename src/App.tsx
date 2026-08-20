@@ -3,8 +3,7 @@ import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutRe
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
   WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, MAX_ACTIVE_SPONSORSHIPS, ACHIEVEMENTS_DATABASE, ROLES_DATABASE,
-  AGENTS_DATABASE, INVESTMENTS_DATABASE
-} from './data';
+  AGENTS_DATABASE, INVESTMENTS_DATABASE, getClubWithRoster } from './data';
 import {
   CONFEDERACION_POR_SELECCION, crearEliminatoria, esJugable, ponerAlDiaLaEliminatoria,
   seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica, torneoContinentalDe,
@@ -42,6 +41,7 @@ import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGI
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
+import { crecimientoDeLaTemporada, informeDeLaTemporada } from './modoHardcore';
 import { estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, cronicaDelRival } from './rivalDePuesto';
 import {
   elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, AVISO_TE_QUEDAS,
@@ -469,6 +469,63 @@ function cambioDeTemporada(profile: PlayerProfile, previousWeek: number, newWeek
 // Se llama una vez por cada semana que avanza la carrera; si esa semana cruza el límite de un
 // "año" (SEASON_LENGTH_WEEKS), el jugador cumple años y, si ya es veterano, sufre un pequeño
 // declive físico automático que el entrenamiento normal ya no alcanza a compensar del todo.
+/**
+ * MODO HARDCORE: los atributos se ganan jugando, no entrenando.
+ *
+ * Reemplaza a la ventana de entrenamiento, que en este modo no existe. La regla vive en
+ * src/modoHardcore.ts para poder medirla sin abrir el juego -- y se midió: un jugador promedio en un
+ * club chico hace pico a los 25 y termina en 60 a los 32; el mismo jugador en un plantel mejor
+ * llega a 78, porque los compañeros tiran para arriba.
+ *
+ * El reparto de los puntos entre los seis atributos SÍ vive acá: la regla dice cuánto, el juego
+ * decide dónde. Se reparte parejo y con el resto al que más se usa en tu posición, para que la
+ * evolución tenga forma de jugador y no de planilla.
+ */
+function applyHardcoreGrowthIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (!profile.hardcoreEnabled) return profile;
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
+
+  const notas = profile.notasDeLaTemporada ?? [];
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  const plantel = club ? getClubWithRoster(club.name, club.id) : null;
+  const companeros: number[] = plantel?.plantilla
+    ? [...plantel.plantilla.porteros, ...plantel.plantilla.defensivos, ...plantel.plantilla.ofensivos]
+        .map((j: any) => j.media_valoracion).filter((n: number) => !!n)
+    : [];
+  const nivelDelPlantel = companeros.length
+    ? companeros.reduce((a, b) => a + b, 0) / companeros.length
+    : 65;
+  const nivelPropio = Object.values(profile.attributes).reduce((a, b) => a + b, 0) / 6;
+
+  const datos = {
+    edad: profile.age,
+    partidosJugados: notas.length,
+    promedioDeNota: notas.length ? Number((notas.reduce((a, b) => a + b, 0) / notas.length).toFixed(1)) : null,
+    nivelDelPlantel,
+    nivelPropio,
+  };
+  const cambio = crecimientoDeLaTemporada(datos);
+
+  // El reparto: un punto entero a cada atributo hasta donde alcance, y el resto al que tu posición
+  // usa más. Repartir el decimal en los seis dejaba temporadas donde no se movía nada.
+  const claves = Object.keys(profile.attributes) as (keyof PlayerStats)[];
+  const enteros = Math.trunc(cambio);
+  const resto = cambio - enteros;
+  const preferido: Record<string, keyof PlayerStats> = {
+    POR: 'defensa', DEF: 'defensa', CB: 'defensa', LI: 'ritmo', LD: 'ritmo',
+    MCD: 'defensa', MC: 'pase', MCO: 'pase', EI: 'regate', ED: 'regate', DC: 'tiro', ST: 'tiro',
+  };
+  const favorito = preferido[profile.position] ?? 'fisico';
+
+  const attributes = { ...profile.attributes };
+  for (const k of claves) attributes[k] = Math.max(30, Math.min(99, attributes[k] + enteros));
+  if (Math.abs(resto) >= 0.5) {
+    attributes[favorito] = Math.max(30, Math.min(99, attributes[favorito] + Math.sign(resto)));
+  }
+
+  return { ...profile, attributes, notasDeLaTemporada: [], ultimoInformeHardcore: informeDeLaTemporada(cambio, datos) };
+}
+
 function applyAgingIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
 
@@ -1164,6 +1221,10 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   next = cerrarCopasUefaVencidas(next, previousWeek);
   next = freezeSeasonLeadersIfNewSeason(next, previousWeek, newWeek);
   next = applyWorldRetirementsIfNewSeason(next, previousWeek, newWeek);
+  // ANTES del envejecimiento: la temporada que cerras te deja lo que te dejo, y recien despues te
+  // sumas el anio. Al reves, un jugador de 29 cobraria el declive de los 30 por una temporada que
+  // jugo con 29.
+  next = applyHardcoreGrowthIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
   next = applyRefuerzoIfNewSeason(next, previousWeek, newWeek);
@@ -1432,6 +1493,15 @@ export default function App() {
 
     // La venta forzada se cuenta UNA vez y se limpia: si quedara guardada, el aviso volveria a
     // salir en cada render que tocara el perfil.
+    // El informe de la temporada en hardcore. Sin entrenamiento, esto es lo UNICO que le explica al
+    // jugador por que sus atributos se movieron: sin el aviso, los numeros cambian solos y parece un
+    // bug. Se cuenta una vez y se limpia.
+    if (playerProfile.ultimoInformeHardcore) {
+      notify(`📈 ${playerProfile.ultimoInformeHardcore}`);
+      setPlayerProfile(p => (p ? { ...p, ultimoInformeHardcore: undefined } : p));
+      return;
+    }
+
     if (playerProfile.ventaForzada) {
       const v = playerProfile.ventaForzada;
       notify(`🚫 ${v.desde} te vendió a ${v.hacia}. No es el traspaso que querías, pero vas a jugar.`);
@@ -1450,7 +1520,7 @@ export default function App() {
       notify(`✅ ${AVISO_TE_QUEDAS}`);
     }
     listaAnterior.current = ahora;
-  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada]);
+  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore]);
 
   // Los sfx se descargan al arrancar y no en el primer disparo: si se pidieran recién cuando entra
   // el gol, el sonido llegaría tarde (o directamente después del festejo) en conexiones lentas.
@@ -5268,6 +5338,12 @@ export default function App() {
       // paso hace falta para que una lesión larga corte la racha: sin él, volverías de dos meses
       // afuera todavía "en racha" por partidos de antes de romperte, y eso es memoria, no forma.
       formaReciente: anotarNota(playerProfile.formaReciente, results.rating, playerProfile.currentWeek),
+      // En hardcore la temporada se cierra mirando como rendiste, asi que hay que ir guardando las
+      // notas: sin ellas applyHardcoreGrowthIfNewSeason no tiene con que decidir y todos los anios
+      // darian lo mismo. Fuera de hardcore no se guarda nada.
+      notasDeLaTemporada: playerProfile.hardcoreEnabled
+        ? [...(playerProfile.notasDeLaTemporada ?? []), results.rating]
+        : playerProfile.notasDeLaTemporada,
       lastMatchGoals: results.goles,
       lastMatchWonShootout: !!shootoutOverride && shootoutOverride.winnerId === (activeWorldCupTeamId || playerProfile.currentClubId),
       currentWeek: playerProfile.currentWeek + 1,

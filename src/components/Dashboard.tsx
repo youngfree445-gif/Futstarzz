@@ -2866,7 +2866,10 @@ export default function Dashboard({
           >
             {/* min-h-[44px]: los botones quedaban en ~36px de alto, por debajo de la guía de zona
                 táctil. En escritorio no se nota; con el pulgar, sí. */}
-            {SECCIONES.map(({ key, label, Icon }) => {
+            {/* EN HARDCORE NO HAY ENTRENAMIENTO. No se deshabilita el boton: se saca. Un boton
+                apagado sigue prometiendo algo que en este modo no existe, y la promesa del modo es
+                justamente que no elegis vos como crecer -- crecés jugando (ver src/modoHardcore.ts). */}
+            {SECCIONES.filter(s => !(playerProfile.hardcoreEnabled && s.key === 'entrenamiento')).map(({ key, label, Icon }) => {
               const activa = activeTab === key;
               return (
                 <button
@@ -3787,7 +3790,7 @@ export default function Dashboard({
             </div>
           )}
 
-          {activeTab === 'entrenamiento' && (
+          {activeTab === 'entrenamiento' && !playerProfile.hardcoreEnabled && (
             /* Sin max-w-4xl: la pestaña usa el ancho que haya. Con el tope de 4xl, en una pantalla
                normal sobraba media pantalla vacía a la derecha mientras la clínica y la
                especialización quedaban abajo de todo, fuera de la vista. Ahora van AL LADO. */

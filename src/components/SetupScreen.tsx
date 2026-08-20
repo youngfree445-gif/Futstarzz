@@ -76,10 +76,12 @@ export function crearPerfilInicial(datos: {
   difficultyMode: 'normal' | 'realista';
   startedAsVeteran: boolean;
   starModeEnabled: boolean;
+  /** Modo hardcore: sin entrenamiento, se crece jugando. Ver src/modoHardcore.ts. */
+  hardcoreEnabled?: boolean;
 }): PlayerProfile {
   const { name, position, age, nationality, dorsal, heightCm, selectedClubId, currentClub,
     defaultAttributes, superstition, injuriesEnabled, difficultyMode, startedAsVeteran,
-    starModeEnabled } = datos;
+    starModeEnabled, hardcoreEnabled } = datos;
   const finalDorsal = dorsal;
   const finalHeight = heightCm;
   return {
@@ -140,6 +142,8 @@ export function crearPerfilInicial(datos: {
       difficultyMode,
       startedAsVeteran,
       starModeEnabled,
+      hardcoreEnabled,
+      notasDeLaTemporada: [],
       activeInjury: null,
       injuryHistory: [],
       agent: null,
@@ -171,6 +175,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
   // Modo Superestrella: arrancás titular con prestige alto, no por edad (independiente del modo
   // veterano) -- ver más abajo dónde se aplica el bonus chico de atributos.
   const [starModeEnabled, setStarModeEnabled] = useState(false);
+  const [hardcoreEnabled, setHardcoreEnabled] = useState(false);
   const [dorsal, setDorsal] = useState(10);
   const [heightCm, setHeightCm] = useState(180);
   // Espejo en texto de los dos campos numéricos: permite dejarlos vacíos mientras se escribe. El
@@ -289,6 +294,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       selectedClubId, currentClub,
       defaultAttributes, superstition,
       injuriesEnabled, difficultyMode, startedAsVeteran, starModeEnabled,
+      hardcoreEnabled,
     });
 
     onFinishSetup(newProfile);
@@ -545,7 +551,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                       </button>
                       <button
                         type="button"
-                        onClick={() => setStarModeEnabled(true)}
+                        onClick={() => { setStarModeEnabled(true); setHardcoreEnabled(false); }}
                         className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
                           starModeEnabled
                             ? 'border-gold-500 bg-gold-950/30 text-white'
@@ -553,6 +559,41 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                         }`}
                       >
                         Estrella
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* MODO HARDCORE. Va pegado a Superestrella porque son las dos caras de la misma
+                      pregunta: aquel te da la carrera hecha, este te la hace ganar. Y son
+                      incompatibles a proposito -- con la titularidad regalada, "crecer jugando" no
+                      cuesta nada. */}
+                  <div className="p-2.5 rounded-xl border border-slate-800 bg-slate-950/40">
+                    <p className="text-2xs font-bold text-white mb-1">Modo Hardcore</p>
+                    <p className="text-3xs text-slate-500 mb-2 leading-snug">
+                      Sin entrenamiento. Creces jugando: dependes de tu rendimiento y del nivel de tus companeros.
+                    </p>
+                    <div className="grid grid-cols-2 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setHardcoreEnabled(false)}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          !hardcoreEnabled
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Normal
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => { setHardcoreEnabled(true); setStarModeEnabled(false); }}
+                        className={`btn-fx-subtle py-1.5 px-1.5 text-3xs font-bold rounded-md border transition-all ${
+                          hardcoreEnabled
+                            ? 'border-gold-500 bg-gold-950/30 text-white'
+                            : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        Hardcore
                       </button>
                     </div>
                   </div>

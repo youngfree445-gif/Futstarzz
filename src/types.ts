@@ -263,6 +263,20 @@ export interface PlayerProfile {
   // entrenar para crecer, no arrancás con una carrera hecha. Opcional: las partidas viejas no lo
   // tienen.
   starModeEnabled?: boolean;
+  /**
+   * MODO HARDCORE: la vida profesional de un jugador promedio.
+   *
+   * No hay ventana de entrenamiento. Los atributos crecen -- o se caen -- según lo que hiciste en la
+   * temporada y quiénes fueron tus compañeros (ver src/modoHardcore.ts). Es la promesa opuesta a la
+   * del juego normal: ahí construís al jugador que querés, acá se ve si llegás.
+   *
+   * Opcional: las partidas viejas no lo tienen y siguen entrenando como siempre.
+   */
+  hardcoreEnabled?: boolean;
+  /** Notas del año en curso, para saber cómo rendiste al cerrar la temporada. Sólo en hardcore. */
+  notasDeLaTemporada?: number[];
+  /** Lo que dejó la última temporada en hardcore, para mostrarlo una vez. */
+  ultimoInformeHardcore?: string;
   // Dorsales usados club a club, para narrar "en tu club anterior usabas el 10". Se agrega una
   // entrada por cada traspaso (ver handleAcceptTransfer), no incluye el club actual. Opcional: las
   // partidas viejas no lo tienen.

@@ -14,6 +14,7 @@ import {
   PESO_MAXIMO_DEL_RIVAL, type RivalDePuesto,
 } from '../src/rivalDePuesto';
 import { elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, exigenciaPorLoQueValés, EXIGENCIA_MAXIMA, CREDITO_MAXIMO } from '../src/listaDeTransferibles';
+import { crecimientoDeLaTemporada, informeDeLaTemporada, PARTIDOS_MINIMOS } from '../src/modoHardcore';
 
 let fallas = 0;
 let corridos = 0;
@@ -322,6 +323,40 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
     `${exigenciaPorLoQueValés(20_000_000, PLANTEL)} con el 4% del plantel`);
   // Y que no reviente con datos que faltan: un club sin valor cargado no puede exigir nada.
   ok('sin valor de plantel no exige nada', exigenciaPorLoQueValés(20_000_000, 0) === 0);
+}
+
+// --- MODO HARDCORE: se crece jugando, no entrenando --------------------------------------------
+//
+// La regla reemplaza a la ventana de entrenamiento, asi que si se equivoca no hay otra forma de
+// mejorar: es la unica puerta. Se comprueban las cuatro reglas por separado.
+{
+  const base = { edad: 22, partidosJugados: 30, promedioDeNota: 7.0, nivelDelPlantel: 70, nivelPropio: 68 };
+  const con = (o: Partial<typeof base>) => crecimientoDeLaTemporada({ ...base, ...o });
+
+  // 1. El que no juega no mejora.
+  ok('sin partidos no se crece', con({ partidosJugados: PARTIDOS_MINIMOS - 1 }) <= 0,
+    `${con({ partidosJugados: PARTIDOS_MINIMOS - 1 })}`);
+  ok('y de veterano sin jugar, se pierde', con({ partidosJugados: 2, edad: 32 }) < 0);
+
+  // 2. Rendir manda.
+  ok('una buena temporada hace crecer', con({ promedioDeNota: 7.4 }) > 0, `${con({ promedioDeNota: 7.4 })}`);
+  ok('una mala temporada hace bajar', con({ promedioDeNota: 5.4 }) < 0, `${con({ promedioDeNota: 5.4 })}`);
+
+  // 3. Los companeros. Es lo que hace que el club importe y no solo por los titulos.
+  const enGrande = con({ nivelDelPlantel: 84 });
+  const enChico = con({ nivelDelPlantel: 58 });
+  ok('un plantel mejor te tira para arriba', enGrande > enChico, `${enGrande} contra ${enChico}`);
+
+  // 4. La edad le gana a todo al final.
+  ok('a los 33 se baja aunque rindas', con({ edad: 33, promedioDeNota: 7.0 }) < con({ edad: 20, promedioDeNota: 7.0 }));
+  ok('un pibe crece mas que un consagrado', con({ edad: 19 }) > con({ edad: 27 }));
+
+  // Y el tope, para que ninguna temporada convierta a un jugador en otro.
+  ok('ninguna temporada sube mas de 3.5', con({ promedioDeNota: 10, nivelDelPlantel: 99, edad: 18 }) <= 3.5);
+  ok('ni baja mas de 4', con({ promedioDeNota: 3.5, nivelDelPlantel: 40, edad: 35 }) >= -4);
+
+  // Y que se le cuente al jugador que paso, porque sin entrenamiento es lo unico que explica su curva.
+  ok('la temporada se explica', informeDeLaTemporada(con({}), { ...base }).length > 20);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);
