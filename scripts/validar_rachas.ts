@@ -8,6 +8,7 @@ import {
   rachasDelProximoPartido, MINIMO_CON_UN_RIVAL, MINIMO_DERROTAS, MINIMO_VICTORIAS,
 } from '../src/rachas';
 import { DatedResult } from '../src/types';
+import { evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce, PESO_DE_LA_FORMA_EN_EL_ONCE } from '../src/forma';
 
 let fallas = 0;
 let corridos = 0;
@@ -195,6 +196,39 @@ ok('una derrota que jugo el club sin vos CORTA el invicto',
 ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
    rachaDeResultados(conSancion.slice(0, 4))?.tono === 'buena',
    rachaDeResultados(conSancion.slice(0, 4))?.texto ?? 'sin racha');
+
+// --- EL PUESTO SE PIERDE Y SE GANA -------------------------------------------------------------
+//
+// La titularidad la decidia SOLO el prestigio, que nada mas sube: pasado el umbral del club eras
+// titular para siempre, jugaras bien o jugaras mal. No habia forma de perder el puesto, asi que
+// tampoco habia nada en juego cada fin de semana. Ahora la forma entra en la cuenta.
+//
+// Se comprueban las tres direcciones, porque una sola no prueba nada: que una mala racha APRIETE,
+// que una buena AFLOJE, y que sin racha no mueva un punto.
+{
+  const notasDe = (ratings: number[], pasoBase = 40) =>
+    ratings.map((rating, i) => ({ rating, paso: pasoBase - (ratings.length - 1 - i) }));
+
+  const enBaja = evaluarForma(notasDe([4.9, 5.1, 5.0]), 40);
+  const enRacha = evaluarForma(notasDe([7.8, 8.1, 7.5]), 40);
+  const normal = evaluarForma(notasDe([6.2, 7.4, 5.9]), 40);
+
+  ok('tres partidos flojos aprietan el puesto', ajusteDeFormaEnElOnce(enBaja) > 0,
+    `ajuste ${ajusteDeFormaEnElOnce(enBaja)}`);
+  ok('tres partidos buenos aflojan el puesto', ajusteDeFormaEnElOnce(enRacha) < 0,
+    `ajuste ${ajusteDeFormaEnElOnce(enRacha)}`);
+  ok('sin racha, la forma no mueve el once', ajusteDeFormaEnElOnce(normal) === 0);
+
+  // Y que no se vaya de las manos: doce puntos es como mucho un escalon de reputacion de club. Sin
+  // tope, una mala racha larga dejaba a un crack en la tribuna por dos partidos regulares.
+  const bajaLarga = evaluarForma(notasDe([5.0, 4.8, 5.2, 4.9, 5.1]), 40);
+  ok('el castigo tiene tope', ajusteDeFormaEnElOnce(bajaLarga) <= PESO_DE_LA_FORMA_EN_EL_ONCE,
+    `ajuste ${ajusteDeFormaEnElOnce(bajaLarga)}`);
+
+  // Y que se le AVISE al jugador: perder el puesto sin que nadie te diga por que se lee como un bug.
+  ok('la mala racha se avisa', !!avisoDeFormaEnElOnce(enBaja));
+  ok('sin racha no se avisa nada', avisoDeFormaEnElOnce(normal) === null);
+}
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

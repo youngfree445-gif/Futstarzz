@@ -131,3 +131,45 @@ export function rotuloDeForma(forma: Forma): string {
   if (forma.estado === 'en_baja') return `En baja · ${forma.seguidos} partidos seguidos`;
   return 'Sin racha definida';
 }
+
+/**
+ * CUÁNTO TE PESA LA FORMA A LA HORA DEL ONCE.
+ *
+ * Devuelve puntos que se SUMAN al umbral de titularidad (ver decideLineupStatus en App.tsx):
+ * positivo es más difícil ser titular, negativo es más fácil.
+ *
+ * Existe porque la titularidad se decidía SOLO con el prestigio, y el prestigio nada más sube. Una
+ * vez que pasabas el umbral del club eras titular para siempre, jugaras bien o jugaras mal. No había
+ * forma de perder el puesto, así que tampoco había nada en juego cada fin de semana.
+ *
+ * En el fútbol el que baja el nivel se sienta, por mucho nombre que tenga. Con esto la forma -- que
+ * sube y baja, a diferencia del prestigio -- entra en la decisión: tres partidos flojos y el DT
+ * prueba con otro; tres buenos y sos intocable aunque el club te quede grande.
+ *
+ * Los números son chicos a propósito. 12 puntos de umbral es alrededor de un escalón de reputación
+ * de club: alcanza para mover el borde y para que una mala racha se sienta, y no para que un crack
+ * termine en la tribuna por dos partidos regulares.
+ */
+export const PESO_DE_LA_FORMA_EN_EL_ONCE = 12;
+
+export function ajusteDeFormaEnElOnce(forma: Forma): number {
+  if (forma.estado === 'en_baja') {
+    // Cuanto más larga la mala racha, más se aprieta -- hasta el tope.
+    return Math.min(PESO_DE_LA_FORMA_EN_EL_ONCE, forma.seguidos * 4);
+  }
+  if (forma.estado === 'en_racha') {
+    return -Math.min(PESO_DE_LA_FORMA_EN_EL_ONCE, forma.seguidos * 4);
+  }
+  return 0;
+}
+
+/** Lo que hay que decirle al jugador cuando la forma le movió el puesto. */
+export function avisoDeFormaEnElOnce(forma: Forma): string | null {
+  if (forma.estado === 'en_baja' && forma.seguidos >= PARTIDOS_PARA_RACHA) {
+    return `El DT no está conforme: ${forma.seguidos} partidos flojos seguidos y tu puesto está en discusión.`;
+  }
+  if (forma.estado === 'en_racha' && forma.seguidos >= PARTIDOS_PARA_RACHA) {
+    return `Estás intocable: ${forma.seguidos} partidos seguidos a buen nivel y el DT no te saca.`;
+  }
+  return null;
+}

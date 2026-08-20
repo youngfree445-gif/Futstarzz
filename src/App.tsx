@@ -41,7 +41,7 @@ import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } 
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO } from './lesion';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
-import { anotarNota } from './forma';
+import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -3725,7 +3725,15 @@ export default function App() {
     // arriba), así que si estás ahí siempre arrancás titular.
     if (!foundWorldCupTeamId && opClubId) {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
-      const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige, playerProfile.starModeEnabled, refuerzoQueTeTapa(playerProfile));
+      // EL PUESTO SE PIERDE Y SE GANA. Antes la titularidad la decidia solo el prestigio, que nada
+      // mas sube: pasado el umbral del club eras titular para siempre, jugaras bien o jugaras mal.
+      // Ahora la FORMA -- que sube y baja -- entra en la cuenta junto al refuerzo que te taparon.
+      // Ver ajusteDeFormaEnElOnce en src/forma.ts.
+      const formaHoy = evaluarForma(playerProfile.formaReciente, playerProfile.currentWeek);
+      const estorboTotal = refuerzoQueTeTapa(playerProfile) + ajusteDeFormaEnElOnce(formaHoy);
+      const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige, playerProfile.starModeEnabled, estorboTotal);
+      const avisoForma = avisoDeFormaEnElOnce(formaHoy);
+      if (avisoForma && lineupStatus !== 'not_called') notify(avisoForma);
 
       if (lineupStatus === 'not_called') {
         const { homeGoals, awayGoals } = isHomeThisMatch ? simulateMatch(myClub, CLUBS_DATABASE.find(c => c.id === opClubId) || myClub) : simulateMatch(CLUBS_DATABASE.find(c => c.id === opClubId) || myClub, myClub);
