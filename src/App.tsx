@@ -45,7 +45,7 @@ import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce }
 import { estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, cronicaDelRival } from './rivalDePuesto';
 import {
   elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, AVISO_TE_QUEDAS,
-  exigenciaPorLoQueValés,
+  exigenciaPorLoQueValés, evolucionDeLaLista,
   type ListaDeTransferibles,
 } from './listaDeTransferibles';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -1119,45 +1119,40 @@ function applyListaDeTransferiblesIfNewSeason(profile: PlayerProfile, previousWe
 
   const forma = evaluarForma(profile.formaReciente, newWeek);
   const estorbo = estorboDelRival(profile.fichajeRival, newWeek);
-  const enLista = profile.listaDeTransferibles;
 
-  // Ya estabas en la lista: o te ganaste quedarte, o el club pasa a vender.
-  if (enLista) {
-    if (teGanasteQuedarte(forma.promedio, estorbo)) {
-      return { ...profile, listaDeTransferibles: undefined };
-    }
-    if (enLista.temporadas >= 1) {
-      // La venta. Se busca un club de la misma liga con menos reputación: el escalón para abajo.
-      const candidatos = CLUBS_DATABASE.filter(c =>
-        c.league === club.league && c.id !== club.id && c.reputation <= Math.max(1, club.reputation - 1));
-      const destino = candidatos[Math.floor(Math.random() * candidatos.length)];
-      if (!destino) return { ...profile, listaDeTransferibles: { ...enLista, temporadas: enLista.temporadas + 1 } };
-      return {
-        ...profile,
-        currentClubId: destino.id,
-        currentWeek: pasoAlCambiarDeClub(destino.name, fechaDelPaso(club.name, newWeek)) ?? newWeek,
-        listaDeTransferibles: undefined,
-        fichajeRival: undefined,
-        yearsAtClub: 0,
-        mentorName: null,
-        mentorshipPlayerName: null,
-        prestige: Math.round(profile.prestige * 0.92),
-        ventaForzada: { desde: club.name, hacia: destino.name, semana: newWeek },
-      };
-    }
-    return { ...profile, listaDeTransferibles: { ...enLista, temporadas: enLista.temporadas + 1 } };
-  }
+  // Un club más chico de la misma liga: el escalón para abajo que es una salida forzada. Mandarte a
+  // otro país sin que lo elijas sería peor que venderte.
+  //
+  // Y el destino tiene que ser JUGABLE. Sin este filtro el club te podia vender a un equipo cuya liga
+  // no tiene un solo club cargado -- Excursionistas es uno -- y ahi la carrera se queda sin rivales
+  // contra quien jugar. Lo encontro el simulador de carreras largas la primera vez que encadeno
+  // temporadas: "Excursionistas no tiene rivales en su liga, la temporada 4 no se puede jugar".
+  const candidatos = CLUBS_DATABASE.filter(c =>
+    c.league === club.league && c.id !== club.id && c.reputation <= Math.max(1, club.reputation - 1)
+    && clubesDeLiga(leagueKeyFor(c)).some(x => x.id === c.id));
+  const destino = candidatos[Math.floor(Math.random() * candidatos.length)];
 
-  // Todavía no estabas: ¿se cansaron?
-  if (elClubSeCansoDeVos({
+  // LA REGLA VIVE EN EL MODULO, no acá: el simulador de carreras largas necesita la misma respuesta,
+  // y una regla escrita dos veces es una regla que se desincroniza.
+  const r = evolucionDeLaLista(profile, {
     promedioDeForma: forma.promedio,
     estorboDelRival: estorbo,
-    prestigio: profile.prestige,
     reputacionDelClub: club.reputation,
-  })) {
-    return { ...profile, listaDeTransferibles: { desdeSemana: newWeek, temporadas: 0 } };
-  }
-  return profile;
+    destinoSiTeVenden: destino ? { id: destino.id, nombre: destino.name } : null,
+    semana: newWeek,
+  });
+
+  if (!r.vendidoA) return r.perfil as PlayerProfile;
+
+  // Lo que sólo sabe App: el reloj de la carrera y el vestuario que se deja atrás.
+  return {
+    ...(r.perfil as PlayerProfile),
+    currentWeek: pasoAlCambiarDeClub(r.vendidoA.nombre, fechaDelPaso(club.name, newWeek)) ?? newWeek,
+    yearsAtClub: 0,
+    mentorName: null,
+    mentorshipPlayerName: null,
+    ventaForzada: { desde: club.name, hacia: r.vendidoA.nombre, semana: newWeek },
+  };
 }
 
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {

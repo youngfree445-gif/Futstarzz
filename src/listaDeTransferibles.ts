@@ -105,3 +105,86 @@ export function avisoDeExigencia(puntos: number): string | null {
   if (puntos <= -4) return 'Nadie te reclama nada todavía: sos el pibe de la casa y tenés margen.';
   return null;
 }
+
+
+/**
+ * LA EVOLUCIÓN DE LA LISTA, temporada a temporada.
+ *
+ * Vive acá y no dentro de App.tsx porque hay DOS lugares que necesitan la misma respuesta: el juego
+ * y el simulador de carreras largas. Con la regla escrita en App, el simulador tendría que
+ * reimplementarla -- y una regla escrita dos veces es una regla que se desincroniza, que es como
+ * este proyecto se rompió más de una vez.
+ *
+ * Devuelve el perfil ya actualizado. Los tres desenlaces posibles:
+ *
+ *   . te ganaste quedarte      -> sale de la lista
+ *   . primera temporada        -> sigue en la lista, con el contador en 1
+ *   . segunda temporada        -> el club te vende a uno más chico de la misma liga
+ *
+ * `buscarDestino` lo pone el llamador: el juego mira CLUBS_DATABASE y el simulador puede pasar otra
+ * cosa. Lo que NO cambia entre los dos es la regla de cuándo se vende y a qué escalón.
+ */
+export interface PerfilParaLaLista {
+  prestige: number;
+  listaDeTransferibles?: ListaDeTransferibles;
+  fichajeRival?: unknown;
+  currentClubId: string;
+}
+
+export interface ResultadoDeLaLista<T> {
+  perfil: T;
+  /** El club al que te vendieron, si te vendieron. */
+  vendidoA: { id: string; nombre: string } | null;
+  /** Si saliste de la lista por mérito propio. */
+  teQuedaste: boolean;
+}
+
+export function evolucionDeLaLista<T extends PerfilParaLaLista>(
+  perfil: T,
+  datos: {
+    promedioDeForma: number | null;
+    estorboDelRival: number;
+    reputacionDelClub: number;
+    /** Un club más chico de la misma liga al que mandarte, o null si no hay ninguno. */
+    destinoSiTeVenden: { id: string; nombre: string } | null;
+    semana: number;
+  },
+): ResultadoDeLaLista<T> {
+  const enLista = perfil.listaDeTransferibles;
+
+  if (enLista) {
+    if (teGanasteQuedarte(datos.promedioDeForma, datos.estorboDelRival)) {
+      return { perfil: { ...perfil, listaDeTransferibles: undefined }, vendidoA: null, teQuedaste: true };
+    }
+    if (enLista.temporadas >= 1 && datos.destinoSiTeVenden) {
+      return {
+        perfil: {
+          ...perfil,
+          currentClubId: datos.destinoSiTeVenden.id,
+          listaDeTransferibles: undefined,
+          fichajeRival: undefined,
+          prestige: Math.round(perfil.prestige * 0.92),
+        },
+        vendidoA: datos.destinoSiTeVenden,
+        teQuedaste: false,
+      };
+    }
+    return {
+      perfil: { ...perfil, listaDeTransferibles: { ...enLista, temporadas: enLista.temporadas + 1 } },
+      vendidoA: null, teQuedaste: false,
+    };
+  }
+
+  if (elClubSeCansoDeVos({
+    promedioDeForma: datos.promedioDeForma,
+    estorboDelRival: datos.estorboDelRival,
+    prestigio: perfil.prestige,
+    reputacionDelClub: datos.reputacionDelClub,
+  })) {
+    return {
+      perfil: { ...perfil, listaDeTransferibles: { desdeSemana: datos.semana, temporadas: 0 } },
+      vendidoA: null, teQuedaste: false,
+    };
+  }
+  return { perfil, vendidoA: null, teQuedaste: false };
+}

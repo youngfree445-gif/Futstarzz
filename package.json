@@ -27,6 +27,7 @@
     "validar:tarjetas": "node scripts/validar_tarjetas.cjs",
     "validar:eliminatorias": "esbuild scripts/validar_eliminatorias.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_eliminatorias.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_eliminatorias.cjs",
     "jugar": "esbuild scripts/jugar_carrera.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/jugar.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/jugar.cjs",
+    "jugar:larga": "vite-node scripts/jugar_carrera_larga.ts",
     "validar:lideres": "esbuild scripts/validar_lideres.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_lideres.cjs --log-level=error && node node_modules/.cache/validar_lideres.cjs",
     "validar:logros": "esbuild scripts/validar_logros.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_logros.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_logros.cjs",
     "validar:avisos": "vite build --ssr scripts/validar_avisos.jsx --outDir node_modules/.cache/avisos --logLevel error && node node_modules/.cache/avisos/validar_avisos.js",
