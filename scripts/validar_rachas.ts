@@ -18,6 +18,7 @@ import { crecimientoDeLaTemporada, informeDeLaTemporada, PARTIDOS_MINIMOS } from
 import { apodoDe, PARTIDOS_PARA_APODO } from '../src/apodo';
 import { secuelaDeLaLesion, riesgoDeSecuela, RIESGO_MAXIMO, PISO_DE_ATRIBUTO } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion, RIESGO_MAXIMO_POR_FATIGA, TIPOS_DE_LESION } from '../src/lesion';
+import { clubQueTeFormo, teLlamaLaCasa, temporadasEnLaCasa, EDAD_DEL_LLAMADO } from '../src/clubQueTeFormo';
 
 let fallas = 0;
 let corridos = 0;
@@ -487,6 +488,35 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   ok('pero tiene techo', riesgoDeLesion(40) === riesgoDeLesion(4));
   ok('y el techo deja el riesgo lejos de lo seguro', riesgoDeLesion(40) <= 0.09,
     `${(riesgoDeLesion(40) * 100).toFixed(1)}%`);
+}
+
+// --- EL CLUB QUE TE FORMO -----------------------------------------------------------------------
+//
+// La unica oferta del mercado que no mira lo que valés. Lo que se cuida es que no se abra antes de
+// tiempo: a los 24 nadie te llama para volver a casa, te quieren en Europa.
+{
+  const h = (clubId: string, n: number) => ({ seasonNum: n, clubId, clubName: clubId, goles: 0,
+    asistencias: 0, partidos: 30, titulo: '' });
+  const perfil = (edad: number, actual: string, hist: string[]) => ({
+    age: edad, currentClubId: actual,
+    seasonHistory: hist.map((c, i) => h(c, i + 1)),
+  });
+
+  const carrera = perfil(34, 'real_madrid', ['junior', 'junior', 'porto', 'real_madrid']);
+  ok('el club que te formo es el primero de todos', clubQueTeFormo(carrera) === 'junior');
+  ok('y se sabe cuantas temporadas jugaste ahi', temporadasEnLaCasa(carrera) === 2);
+  ok('a los 34 te llaman de vuelta', teLlamaLaCasa(carrera, 'junior'));
+  ok('pero solo ellos', !teLlamaLaCasa(carrera, 'porto'));
+
+  const pibe = perfil(EDAD_DEL_LLAMADO - 1, 'real_madrid', ['junior', 'porto', 'real_madrid']);
+  ok('un ano antes todavia no', !teLlamaLaCasa(pibe, 'junior'));
+
+  // Si ya estas en casa no hay nada que llamar: es el caso que dejaria una oferta de tu propio club.
+  const enCasa = perfil(36, 'junior', ['junior', 'porto', 'junior']);
+  ok('si ya volviste, no te vuelven a llamar', !teLlamaLaCasa(enCasa, 'junior'));
+
+  // Y una carrera que todavia no cerro ninguna temporada no tiene club que la formara.
+  ok('sin temporadas cerradas no hay casa', clubQueTeFormo({ seasonHistory: [] }) === null);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

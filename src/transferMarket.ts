@@ -4,6 +4,7 @@
 import { Club, PlayerProfile, TransferOffer, Agent } from './types';
 import { clubStrength } from './leagueEngine';
 import { hasDatedSchedule } from './dateSchedule';
+import { teLlamaLaCasa, motivoDelLlamado, temporadasEnLaCasa } from './clubQueTeFormo';
 
 // Corregido: antes "possible" dependía solo del Prestigio (que arranca en 50 y ya deja fichable
 // casi cualquier club de reputación <=4 desde la semana 1). Ahora se mide un "Rendimiento" real
@@ -100,14 +101,26 @@ export function generateTransferOffers(
       );
       const { reqPrestige, reqMatches } = requisitosDe(c, currentClub, profile.agent);
 
+      // LA VUELTA A CASA se salta los dos requisitos. No es un descuido: es la regla. A los 33, con
+      // el prestigio caído y sin mercado, el club que te formó sigue siendo el único que atiende el
+      // teléfono -- y si esa oferta tuviera que cumplir un umbral, no aparecería justo cuando es lo
+      // único que te queda, que es cuando significa algo.
+      const esCasa = teLlamaLaCasa(profile, c.id);
+
       return {
         clubId: c.id,
-        salaryOffer: customSalary,
-        signOnBonus,
+        // Pagan lo que pueden, que es poco. Si el club que te formó pagara como un grande, la
+        // decisión de volver no existiría.
+        salaryOffer: esCasa ? Math.round(customSalary * 0.6) : customSalary,
+        signOnBonus: esCasa ? Math.round(signOnBonus * 0.4) : signOnBonus,
         reqPrestige,
         reqMatches,
-        possible: performanceScore >= reqPrestige && matchesPlayed >= reqMatches,
+        possible: esCasa || (performanceScore >= reqPrestige && matchesPlayed >= reqMatches),
         generatedWeek: currentWeek,
+        ...(esCasa ? {
+          esVueltaACasa: true,
+          motivo: motivoDelLlamado(c.name, temporadasEnLaCasa(profile), profile.age),
+        } : {}),
       };
     });
 }

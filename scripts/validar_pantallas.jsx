@@ -370,6 +370,29 @@ caso('apodo: sin nada que te defina, no hay apodo', () =>
     careerStats: { ...perfilDe(junior).careerStats, golesHistoricos: 5, asistenciasHistoricos: 3, partidosHistoricos: 60 },
   }), 'carrera', null, 'data-apodo'));
 
+// --- LA VUELTA A CASA: que la oferta del club que te formo se vea, y que no se vea antes de tiempo
+//
+// La oferta se marca con data-vuelta-a-casa y no con su texto: el motivo lleva acentos y comillas
+// que React escapa, y buscar por texto es como se colo un caso que pasaba con la feature apagada.
+{
+  const cartagena = ULTIMATE_CLUBS_DATABASE.find(c => c.name === 'Real Cartagena');
+  const historia = [{ seasonNum: 1, clubId: cartagena.id, clubName: cartagena.name,
+    goles: 8, asistencias: 4, partidos: 30, titulo: '' }];
+  const oferta = [{ clubId: cartagena.id, salaryOffer: 4000, signOnBonus: 12000,
+    reqPrestige: 99, reqMatches: 999, possible: true, generatedWeek: 9,
+    esVueltaACasa: true, motivo: 'El club donde empezaste todo.' }];
+
+  caso('casa: la oferta del club que te formo se ve', () =>
+    dibujar(perfilDe(junior, { age: 34, seasonHistory: historia, pendingTransferOffers: oferta }),
+      'traspasos', `data-vuelta-a-casa="${cartagena.name}"`));
+
+  // Y la contracara: la MISMA oferta sin la marca no puede pintarse como vuelta a casa.
+  caso('casa: una oferta cualquiera no se disfraza de vuelta a casa', () =>
+    dibujar(perfilDe(junior, { age: 34, seasonHistory: historia,
+      pendingTransferOffers: [{ ...oferta[0], esVueltaACasa: undefined, motivo: undefined }] }),
+      'traspasos', null, 'data-vuelta-a-casa'));
+}
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`

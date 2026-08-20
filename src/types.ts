@@ -389,6 +389,15 @@ export interface TransferOffer {
   reqMatches: number;
   possible: boolean;
   generatedWeek: number;
+  /**
+   * LA VUELTA A CASA. Marca la oferta del club que te formó (ver src/clubQueTeFormo.ts).
+   *
+   * Es la única oferta del mercado que está siempre abierta: no mira prestigio ni partidos. Un club
+   * te ficha por lo que le servís; el club que te formó te llama por lo que fuiste.
+   */
+  esVueltaACasa?: boolean;
+  /** Por qué te llaman. Sólo lo trae la vuelta a casa: el resto del mercado no da explicaciones. */
+  motivo?: string;
 }
 
 /**

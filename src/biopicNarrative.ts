@@ -4,6 +4,7 @@
 // sin costo adicional (lesiones, cabeza a cabeza, Balón de Oro, etc.).
 import { PlayerProfile } from './types';
 import { apodoDe } from './apodo';
+import { clubQueTeFormo } from './clubQueTeFormo';
 
 export function generateBiopicNarrative(profile: PlayerProfile): string[] {
   const paragraphs: string[] = [];
@@ -30,6 +31,17 @@ export function generateBiopicNarrative(profile: PlayerProfile): string[] {
   if (apodo) {
     paragraphs.push(
       `La prensa lo bautizó "${apodo.apodo}", y el apodo no era un capricho: ${apodo.porque.charAt(0).toLowerCase()}${apodo.porque.slice(1)}`
+    );
+  }
+
+  // VOLVER A CASA cierra el circulo, y el documental es el unico lugar donde el circulo se ve
+  // entero: el primer club y el ultimo en la misma frase.
+  const casa = clubQueTeFormo(profile);
+  if (casa && profile.currentClubId === casa && profile.seasonHistory.length > 3) {
+    const nombre = profile.seasonHistory[0].clubName;
+    paragraphs.push(
+      `Terminó donde empezó. Después de dar la vuelta al mundo, ${profile.name} volvió a ${nombre} ` +
+      `para colgar los botines en la cancha donde aprendió a jugar.`
     );
   }
 

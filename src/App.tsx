@@ -19,7 +19,7 @@ import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
-import { pasoAlCambiarDeClub, fechaDelPaso, pasosDeContinentalTranscurridos, torneoDeSeleccionesDelDia, type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { pasoAlCambiarDeClub, fechaDelPaso, pasosDeContinentalTranscurridos, torneoDeSeleccionesDelDia, type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, hasDatedSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
@@ -39,6 +39,7 @@ import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartir
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO, TIPOS_DE_LESION, sortearTipoDeLesion, riesgoDeLesion } from './lesion';
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
+import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
@@ -1310,6 +1311,19 @@ function isPastRetirementAge(profile: PlayerProfile): boolean {
 function findStepDownClub(profile: PlayerProfile): Club | null {
   const myClub = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
   if (!myClub) return null;
+
+  // EL CLUB QUE TE FORMO GANA A CUALQUIER OTRO. Bajar de categoria a un club cualquiera es una
+  // decision de calendario -- donde vas a jugar los ultimos anios. Bajar al club que te formo es un
+  // final. No hay ninguna razon para ofrecerte el segundo mejor equipo de tu liga si el lugar donde
+  // empezaste todo te esta esperando.
+  const casa = clubQueTeFormo(profile);
+  if (casa) {
+    const clubDeLaCasa = CLUBS_DATABASE.find(c => c.id === casa);
+    if (clubDeLaCasa && esLaCasaQueEspera(profile, clubDeLaCasa) && hasDatedSchedule(clubDeLaCasa.name)) {
+      return clubDeLaCasa;
+    }
+  }
+
   const leagueKey = leagueKeyFor(myClub);
   const leagueClubs = clubesDeLiga(leagueKey).filter(c => c.id !== myClub.id);
   const lowerTier = leagueClubs.filter(c => c.reputation < myClub.reputation).sort((a, b) => b.reputation - a.reputation);
@@ -5559,7 +5573,9 @@ export default function App() {
     if (!profile.hasSteppedDownRetirement) {
       const stepDownClub = findStepDownClub(profile);
       if (stepDownClub && confirm(
-        `Sigues. Pero a los ${profile.age} en ${clubName} vas a pelear cada minuto.\n\n¿Quieres bajar a ${stepDownClub.name}, donde vas a jugar seguido aunque haya menos luces?\n\nAceptar = bajo de categoría    ·    Cancelar = me quedo`
+        esLaCasaQueEspera(profile, stepDownClub)
+          ? `Sigues. Pero a los ${profile.age} en ${clubName} vas a pelear cada minuto.\n\nY ${stepDownClub.name} te llamó. Donde empezó todo. Menos plata y menos luces, pero ahí te esperan.\n\n¿Volvés a casa?\n\nAceptar = vuelvo    ·    Cancelar = me quedo`
+          : `Sigues. Pero a los ${profile.age} en ${clubName} vas a pelear cada minuto.\n\n¿Quieres bajar a ${stepDownClub.name}, donde vas a jugar seguido aunque haya menos luces?\n\nAceptar = bajo de categoría    ·    Cancelar = me quedo`
       )) {
         const prestigeCompanerosAlBajar = profile.prestigeCompaneros ?? profile.prestige;
         const steppedDown: PlayerProfile = {
@@ -5575,7 +5591,9 @@ export default function App() {
         setShopItems(updatedShopItems);
         saveGameState(steppedDown, updatedShopItems);
         setScreen('dashboard');
-        notify(`🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo. Menos luces, pero sigues en la cancha.`);
+        notify(esLaCasaQueEspera(profile, stepDownClub)
+          ? `🏠 ${volvisteACasa(stepDownClub.name, profile.age)}`
+          : `🔻 Bajaste de categoría a ${stepDownClub.name} para seguir compitiendo. Menos luces, pero sigues en la cancha.`);
         return;
       }
     }

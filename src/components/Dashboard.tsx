@@ -4674,8 +4674,22 @@ export default function Dashboard({
                   return (
                     <div 
                       key={offer.club.id} 
-                      className={`p-3 rounded-xl border flex flex-col gap-2 transition-all bg-slate-900 border-slate-800 ${!offer.possible ? 'opacity-60' : ''}`}
+                      data-vuelta-a-casa={offer.esVueltaACasa ? offer.club.name : undefined}
+                      className={`p-3 rounded-xl border flex flex-col gap-2 transition-all ${
+                        offer.esVueltaACasa
+                          ? 'bg-gold-950/20 border-gold-500/40'
+                          : 'bg-slate-900 border-slate-800'
+                      } ${!offer.possible ? 'opacity-60' : ''}`}
                     >
+                      {/* LA VUELTA A CASA lleva su motivo escrito. El resto del mercado no explica
+                          nada -- te fichan por lo que servis y el numero lo dice todo. Esta si:
+                          sin el motivo, al lado de una oferta que paga el doble, parece una oferta
+                          mala y nada mas. */}
+                      {offer.esVueltaACasa && offer.motivo && (
+                        <p className="text-3xs text-gold-400 font-bold leading-snug">
+                          {'\u{1F3E0}'} {offer.motivo}
+                        </p>
+                      )}
                       <div className="flex items-center gap-2.5 min-w-0">
                         <ClubBadge club={offer.club} size={34} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner shrink-0" />
                         <div className="min-w-0 flex-1">
