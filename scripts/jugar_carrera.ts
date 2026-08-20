@@ -21,6 +21,7 @@ import {
   RIVAL_POR_SORTEAR,
   torneoDeSeleccionesDelDia, pasosDeMundialTranscurridos, pasosDeContinentalTranscurridos,
   mercadoAbierto, fechaDelPaso, pasoAlCambiarDeClub,
+  cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, anioDeCarrera,
 } from '../src/dateSchedule';
 import {
   simulateMatch, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, leagueKeyFor, sortTable,
@@ -41,6 +42,8 @@ import { generateTransferOffers, rendimientoDe } from '../src/transferMarket';
 import {
   CONFEDERACION_POR_SELECCION, torneoContinentalDe,
   seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica,
+  crearEliminatoria, ponerAlDiaLaEliminatoria, proximoPartidoDeEliminatoria,
+  tablaDeEliminatoria, resolverPasoEliminatoria, eliminatoriaTerminada,
 } from '../src/eliminatorias';
 import type { Club } from '../src/types';
 
@@ -195,14 +198,57 @@ const torneoDeHoy = (paso: number): TorneoDeSelecciones | null => {
 // continentales nunca caen el mismo ano.
 const selecciones: Record<string, any> = {};
 
-const fechas = fixturesForClub(club.name).filter(f => f.temporada === 1);
-console.log(`===== CARRERA: ${jugador.nombre} · ${club.name} · temporada ${CAREER_START_YEAR} =====`);
+// ------------------------------------------------------------------ las eliminatorias
+//
+// El otro punto ciego que quedaba. Las fechas FIFA son dias de `national_tournament` igual que el
+// Mundial, pero torneoDeSeleccionesDelDia devuelve null para ellas, asi que el bucle las salteaba
+// sin decir nada: la clasificacion al Mundial -- que es un torneo de dieciocho fechas -- no se
+// jugaba nunca en este validador.
+//
+// Y ahi hay algo que solo se ve jugandolo: la eliminatoria tiene que TERMINAR. Una tabla que se
+// queda a mitad de camino deja al jugador sin saber si clasifico, y el Mundial de la temporada
+// siguiente no se entera.
+const eliminatoria = {
+  clave: null as string | null,
+  estado: null as any,
+  partidos: 0,
+  golesMios: 0,
+};
+
+// LA TEMPORADA A JUGAR. Por defecto la 1, y se puede pedir otra:
+//
+//   node scripts/jugar_carrera.ts "Junior de Barranquilla" 2
+//
+// Esto no es un lujo. Este validador SOLO habia jugado la temporada 1 en toda su vida, y la
+// temporada 1 es un caso particular: es la unica con calendario importado de verdad. De la 2 en
+// adelante las copas salen del cuadro del motor en vez del fragmento scrapeado, los clubes se
+// permutan y las fechas se corren un anio -- es otro camino de codigo entero, sin probar.
+//
+// Y ademas es la unica forma de llegar a las ELIMINATORIAS: 2026 es anio de Mundial y no tiene
+// ninguna fecha FIFA. Medido en el Junior: T1 tiene 0 fechas de eliminatorias, T2 tiene 4 y T4
+// tiene 10.
+const TEMPORADA = Math.max(1, Number(process.argv[3]) || 1);
+
+const todasLasFechas = fixturesForClub(club.name);
+const fechas = todasLasFechas.filter(f => f.temporada === TEMPORADA);
+if (!fechas.length) {
+  console.log(`El ${club.name} no tiene fechas en la temporada ${TEMPORADA}.`);
+  process.exit(1);
+}
+
+// El paso de una carrera se cuenta de corrido a traves de las temporadas, asi que para arrancar en
+// la temporada N hay que saltear los dias de las anteriores. Se cuentan DIAS distintos, no fixtures:
+// un dia con dos partidos es un solo paso (ver fixturesAtStep).
+const diasPrevios = new Set(todasLasFechas.filter(f => f.temporada < TEMPORADA).map(f => f.date));
+const PASO_INICIAL = diasPrevios.size + 1;
+
+console.log(`===== CARRERA: ${jugador.nombre} · ${club.name} · temporada ${CAREER_START_YEAR + TEMPORADA - 1} =====`);
 console.log(`${fechas.length} fechas en el calendario · copa continental: ${cupIdMio ?? uefaIdMio ?? 'ninguna'}\n`);
 
 // ------------------------------------------------------------------ se juega
-for (let paso = 1; paso <= fechas.length + 5; paso++) {
+for (let paso = PASO_INICIAL; paso <= PASO_INICIAL + fechas.length + 5; paso++) {
   const hoy = fixturesAtStep(club.name, paso);
-  if (!hoy || hoy.fixtures[0]?.temporada !== 1) break;
+  if (!hoy || hoy.fixtures[0]?.temporada !== TEMPORADA) break;
   const fx = pickPrimary(hoy.fixtures);
   if (!fx) continue;
 
@@ -247,6 +293,43 @@ for (let paso = 1; paso <= fechas.length + 5; paso++) {
   // es en ese camino donde estaban los bugs, no en el motor resolviendo de corrido. El atajo pasa
   // en verde mientras el jugador ve un torneo congelado.
   if (fx.competition.kind === 'national_tournament') {
+    // ---- FECHA FIFA: eliminatorias, no Mundial. Va primero porque comparte el `kind`.
+    if (fx.competition.id === 'eliminatorias') {
+      const conf = CONFEDERACION_POR_SELECCION[miSeleccionId ?? ''];
+      const ciclo = cicloDeEliminatorias(anioDeCarrera(club.name, paso));
+      if (!miSeleccionId || !conf || !ciclo) continue;
+
+      const clave = `${conf}-${ciclo.mundial}`;
+      if (eliminatoria.clave !== clave) { eliminatoria.clave = clave; eliminatoria.estado = null; }
+      eliminatoria.estado = ponerAlDiaLaEliminatoria(
+        eliminatoria.estado ?? crearEliminatoria(conf, ciclo.mundial, ALL_NATIONAL_TEAMS_DATABASE),
+        ALL_NATIONAL_TEAMS_DATABASE,
+        pasosDeEliminatoriasTranscurridos(club.name, paso),
+        miSeleccionId,
+      );
+
+      const prox = proximoPartidoDeEliminatoria(eliminatoria.estado, miSeleccionId);
+      if (!prox) continue;
+      const yo = ALL_NATIONAL_TEAMS_DATABASE.find(t => t.id === miSeleccionId);
+      const su = ALL_NATIONAL_TEAMS_DATABASE.find(t => t.id === prox.opponentId);
+      if (!yo || !su) { raro(`${hoy.date}: rival de eliminatoria sin seleccion en la base`); continue; }
+      if (prox.opponentId === miSeleccionId) raro(`${hoy.date}: tu seleccion se enfrenta a SI MISMA en eliminatorias`);
+
+      const simE = prox.isHome ? simulateMatch(yo, su) : simulateMatch(su, yo);
+      const misE = prox.isHome ? simE.homeGoals : simE.awayGoals;
+      const susE = prox.isHome ? simE.awayGoals : simE.homeGoals;
+      // La firma pide teamId/goals/opponentGoals -- la localia ya la sabe el fixture.
+      eliminatoria.estado = resolverPasoEliminatoria(
+        eliminatoria.estado, ALL_NATIONAL_TEAMS_DATABASE,
+        { teamId: miSeleccionId, goals: misE, opponentGoals: susE });
+      eliminatoria.partidos++;
+      eliminatoria.golesMios += misE;
+      jugador.partidos++;
+      if (misE > 0 && Math.random() < 0.3) jugador.goles++;
+      jugados['Eliminatorias'] = (jugados['Eliminatorias'] ?? 0) + 1;
+      continue;
+    }
+
     const cual = torneoDeHoy(paso);
     if (!cual) continue;
     const equipos = equiposDe(cual);
@@ -422,8 +505,11 @@ for (const [t, estado] of Object.entries(selecciones)) {
 }
 // Que el torneo no se juegue tampoco puede pasar en silencio: si el calendario aparta las fechas y
 // tu seleccion existe, algo tuvo que pasar esos dias.
+// Las fechas FIFA NO son un torneo de selecciones: comparten el `kind` pero son otra cosa. Sin
+// excluirlas, cualquier temporada sin Mundial ni continental -- que son la mitad -- avisaba que
+// "no se jugo ningun torneo" teniendo la eliminatoria jugada al lado.
 if (!Object.keys(selecciones).length && miSeleccionId
-    && fechas.some(f => f.competition.kind === 'national_tournament')) {
+    && fechas.some(f => f.competition.kind === 'national_tournament' && f.competition.id !== 'eliminatorias')) {
   raro('el calendario aparta fechas de selecciones y no se jugo ningun torneo');
 }
 
@@ -458,8 +544,18 @@ if (cupIdMio && !continental.knockout?.championId) raro(`la ${cupIdMio} terminó
 const nombreDeLaLiga = fechas.find(f => f.competition.kind === 'league')?.competition.name ?? null;
 const fechasDeLigaDelCalendario = fechas.filter(f => f.competition.kind === 'league' && !f.esPlayoff).length;
 const jugadasDeLiga = nombreDeLaLiga ? (jugados[nombreDeLaLiga] ?? 0) : 0;
-if (nombreDeLaLiga && jugadasDeLiga < fechasDeLigaDelCalendario) {
-  raro(`${nombreDeLaLiga}: el calendario traía ${fechasDeLigaDelCalendario} fechas y se jugaron ${jugadasDeLiga}`);
+
+// LAS FECHAS QUE OCUPA UNA FECHA FIFA NO SE PIERDEN. Ese dia te vas con tu seleccion y el club juega
+// igual, sin vos (ver partidoDeLigaSinVos en App.tsx): el partido de liga se juega, sos vos el que
+// no esta. Contarlas como perdidas hacia que la temporada 2 del Junior avisara que faltaban dos
+// fechas de liga cuando en realidad eran los dos dias de eliminatorias.
+const diasDeFechaFifa = new Set(
+  fechas.filter(f => f.competition.id === 'eliminatorias').map(f => f.date));
+const fechasDeLigaJugables = fechas.filter(f =>
+  f.competition.kind === 'league' && !f.esPlayoff && !diasDeFechaFifa.has(f.date)).length;
+
+if (nombreDeLaLiga && jugadasDeLiga < fechasDeLigaJugables) {
+  raro(`${nombreDeLaLiga}: el calendario traía ${fechasDeLigaJugables} fechas jugables y se jugaron ${jugadasDeLiga}`);
 }
 
 // Los titulos se leen del ESTADO FINAL, no se van anotando durante la temporada: una final que se
@@ -472,6 +568,19 @@ for (const [sem, b] of Object.entries(playoffs)) if (b.championId === club.id) j
 for (const [t, estado] of Object.entries(selecciones)) {
   const campeon = estado.championId ?? estado.knockout?.championId ?? null;
   if (campeon && campeon === miSeleccionId) jugador.titulos.push(`${NOMBRE_DEL_TORNEO[t as TorneoDeSelecciones]} ${CAREER_START_YEAR}`);
+}
+
+if (eliminatoria.estado) {
+  const tabla = tablaDeEliminatoria(eliminatoria.estado, miSeleccionId!) ?? [];
+  const puesto = tabla.findIndex((r: any) => r.clubId === miSeleccionId) + 1;
+  console.log('\n--- ELIMINATORIAS ---');
+  console.log(`   ${eliminatoria.partidos} partidos jugados · ${puesto || '?'}o de ${tabla.length}`);
+  for (const r of tabla.slice(0, 4)) {
+    console.log(`      ${(r.name ?? r.clubId).padEnd(24)} ${String(r.puntos).padStart(3)} pts`);
+  }
+  // Una eliminatoria que no llega a jugarse entera deja al jugador sin saber si clasifico, y el
+  // Mundial de la temporada siguiente no se entera.
+  if (eliminatoria.partidos === 0) raro('el calendario tiene fechas FIFA y no se jugo ni un partido de eliminatorias');
 }
 
 console.log('\n--- EL MERCADO DE PASES ---');

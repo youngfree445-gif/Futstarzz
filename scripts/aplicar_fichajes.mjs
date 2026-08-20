@@ -56,6 +56,36 @@ const clave = (s) => palabras(s).join(' ');
 // Alias escritos a mano, sólo para lo que ninguna regla puede resolver sola.
 const ALIAS = {
   'without clubwithout club': null,   // en TM, el jugador sin club: no es un destino
+
+  // LOS OCHO QUE LA GUARDIA DE HOMONIMOS FRENO. Son cuatro pares en los que los dos clubes existen
+  // en la base con nombres distintos, pero la comparacion por palabras los mandaba al mismo -- y
+  // como no se puede saber cual es cual, la guardia no aplicaba NINGUNO de los dos y esos ocho
+  // clubes se quedaban sin su ventana de pases entera.
+  //
+  // Escribir el alias es la salida correcta: no hay regla automatica que distinga "Cercle Brugge" de
+  // "Club Brugge KV" sin conocerlos, y son ocho lineas contra una regla nueva que puede volver a
+  // fundir otro par el dia que se agregue una liga.
+  'vitoria guimaraes sc': 'Vitória de Guimarães',          // Portugal
+  'esporte clube vitoria': 'Vitória',                       // Brasil
+  'cercle brugge': 'Cercle Brugge',                         // Belgica
+  'club brugge kv': 'Club Brugge',                          // Belgica
+  'fc cajamarca': 'FC Cajamarca',                           // Peru
+  'universidad tecnica de cajamarca': 'UTC',                // Peru
+  'libertad fc': 'Libertad F.C.',                           // Ecuador
+  'club libertad asuncion': 'Libertad',                     // Paraguay
+
+  // LOS FILIALES NO SON EL PRIMER EQUIPO. El juego no los tiene, y sin esto los fichajes del Celta
+  // Fortuna -- que juega en Segunda -- caian en el Celta de Vigo. La guardia de homonimos lo agarro
+  // apenas se destrabaron los cuatro pares de arriba. Se ignoran a proposito: es mejor no aplicar el
+  // fichaje de un filial que sumarselo al primer equipo.
+  'rc celta fortuna': null,
+  'real madrid castilla': null,
+  'barcelona atletic': null,
+  'juventus next gen': null,
+  'atletico madrid b': null,
+  'athletic bilbao b': null,
+  'villarreal b': null,
+  'sevilla atletico': null,
 };
 
 const dataTs = await readFile('src/data.ts', 'utf8');

@@ -94,3 +94,21 @@ export function lesionTeDejaAfuera(perfil: { activeInjury?: ActiveInjury | null 
   const lesion = perfil.activeInjury;
   return !!lesion && lesion.weeksRemaining > 0 && !forzandoLaVuelta(perfil);
 }
+
+/**
+ * LOS ARQUEROS DEL MUNDO NO SE LESIONAN, Y HOY ESO SALE GRATIS.
+ *
+ * Decisión tomada el 20 de agosto de 2026, anotada acá porque es donde alguien la va a buscar.
+ *
+ * Hay 14 clubes (de 571 con plantel jugable) que tienen UN SOLO arquero. Si el juego lesionara a los
+ * jugadores del plantel, esos clubes se quedarían sin nadie bajo los tres palos, así que se pidió
+ * que ningún arquero se lesione -- salvo el propio jugador, si su carrera es de arquero.
+ *
+ * NO HIZO FALTA ESCRIBIR NADA: hoy `activeInjury` vive únicamente en PlayerProfile. El juego no
+ * lesiona a nadie más que a vos, ni arquero ni de campo. La regla ya se cumple por construcción.
+ *
+ * SI ALGUNA VEZ SE AGREGAN LESIONES A LOS DEMÁS, esta es la regla que tiene que venir con ellas:
+ * los arqueros quedan afuera del sorteo, y el único que puede lesionarse atajando es el jugador.
+ * Ponerla después, cuando ya aparezca el club sin arqueros, es llegar tarde.
+ */
+export const LOS_ARQUEROS_DEL_MUNDO_NO_SE_LESIONAN = true;
