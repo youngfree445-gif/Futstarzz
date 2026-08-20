@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNumeroQueCuenta } from '../animaciones';
+import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
 import { ULTIMATE_CLUBS_DATABASE, CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS, ROLES_DATABASE, AGENTS_DATABASE, INVESTMENTS_DATABASE } from '../data';
@@ -3540,6 +3541,50 @@ export default function Dashboard({
                   </div>
                 );
               })()}
+
+              {/* EL QUE TE PELEA EL PUESTO. Va antes del rival de carrera y no después, porque es
+                  el más urgente de los dos: el rival de carrera es una comparación con alguien de
+                  otro club, y éste te saca del equipo el domingo.
+
+                  Se muestra con NÚMEROS y no con un cartel de "hay competencia": el problema tiene
+                  que tener cara. Si no jugaste dos fechas y él metió tres, eso se ve acá. */}
+              {playerProfile.fichajeRival && (
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+                    <Swords size={15} className="text-gold-400" /> Te pelea el puesto
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-slate-950 border border-gold-900/40 rounded-xl p-3">
+                      <div className="text-3xs font-mono uppercase tracking-widest text-gold-400 mb-1">Vos</div>
+                      <div className="text-sm font-black text-white truncate">{playerProfile.name}</div>
+                      <div className="text-2xs text-slate-400 font-mono mt-1.5">
+                        {playerProfile.careerStats.partidos} PJ · {playerProfile.careerStats.goles} G · {playerProfile.careerStats.asistencias} A
+                      </div>
+                    </div>
+                    <div className="bg-slate-950 border border-slate-800 rounded-xl p-3">
+                      <div className="text-3xs font-mono uppercase tracking-widest text-slate-500 mb-1">
+                        {playerProfile.fichajeRival.posicion}
+                      </div>
+                      <div className="text-sm font-black text-white truncate">{playerProfile.fichajeRival.nombre}</div>
+                      <div className="text-2xs text-slate-400 font-mono mt-1.5">
+                        {playerProfile.fichajeRival.partidos ?? 0} PJ · {playerProfile.fichajeRival.goles ?? 0} G · {playerProfile.fichajeRival.asistencias ?? 0} A
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-2xs text-slate-400 leading-relaxed mt-3">
+                    {(() => {
+                      const e = estorboDelRival(playerProfile.fichajeRival, playerProfile.currentWeek);
+                      const prom = promedioDelRival(playerProfile.fichajeRival);
+                      if ((playerProfile.fichajeRival.partidos ?? 0) === 0) {
+                        return 'Todavía no jugó. Llegó con crédito del club: mientras no lo pongan, el puesto sigue siendo tuyo.';
+                      }
+                      if (e > 6) return `Está por delante tuyo (promedio ${prom}). Cada fecha que no juegues le suma.`;
+                      if (e < -6) return `Le ganaste el puesto: promedia ${prom} y el DT ya no lo mira.`;
+                      return `Están parejos (promedia ${prom}). Lo define el próximo mes.`;
+                    })()}
+                  </p>
+                </div>
+              )}
 
               {/* EL RIVAL DE CARRERA (ver rivalDeCarrera.ts). Va pegado al momento de forma
                   porque son la misma pregunta a dos escalas: la forma dice cómo venís estas

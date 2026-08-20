@@ -9,6 +9,10 @@ import {
 } from '../src/rachas';
 import { DatedResult } from '../src/types';
 import { evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce, PESO_DE_LA_FORMA_EN_EL_ONCE } from '../src/forma';
+import {
+  estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, promedioDelRival, cronicaDelRival,
+  PESO_MAXIMO_DEL_RIVAL, type RivalDePuesto,
+} from '../src/rivalDePuesto';
 
 let fallas = 0;
 let corridos = 0;
@@ -228,6 +232,50 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   // Y que se le AVISE al jugador: perder el puesto sin que nadie te diga por que se lee como un bug.
   ok('la mala racha se avisa', !!avisoDeFormaEnElOnce(enBaja));
   ok('sin racha no se avisa nada', avisoDeFormaEnElOnce(normal) === null);
+}
+
+// --- EL QUE TE PELEA EL PUESTO -----------------------------------------------------------------
+//
+// Antes el refuerzo pesaba 14 * (1 - fechas/10): se apagaba SOLO a las diez fechas, metiera goles o
+// no. O sea que no se le podia ganar el puesto jugando bien -- habia que esperar. Y el nunca jugaba
+// ni marcaba: era un numero invisible con un nombre encima.
+//
+// Se comprueba que ahora pese por lo que HIZO, en las dos direcciones.
+{
+  const nuevo = (): RivalDePuesto => ({ nombre: 'Diego Sanabria', posicion: 'MC', desdeSemana: 30, nivel: 75, partidos: 0, goles: 0, asistencias: 0, sumaDeNotas: 0 });
+
+  // Recien llegado: pesa por el credito de fichaje y se va con las fechas.
+  ok('el recien llegado pesa al principio', estorboDelRival(nuevo(), 30) > 0,
+    `estorbo ${estorboDelRival(nuevo(), 30)}`);
+  ok('y su credito se agota si no juega', estorboDelRival(nuevo(), 45) === 0);
+
+  // Jugando bien, te saca el puesto.
+  let crack = nuevo();
+  for (let i = 0; i < 4; i++) crack = anotarFechaDelRival(crack, { nota: 8.0, goles: 1, asistencias: 0 });
+  ok('si le va bien, te complica el puesto', estorboDelRival(crack, 60) > 6,
+    `estorbo ${estorboDelRival(crack, 60)} con promedio ${promedioDelRival(crack)}`);
+
+  // Jugando mal, se lo gana el jugador.
+  let flojo = nuevo();
+  for (let i = 0; i < 4; i++) flojo = anotarFechaDelRival(flojo, { nota: 5.2, goles: 0, asistencias: 0 });
+  ok('si le va mal, deja de ser problema', estorboDelRival(flojo, 60) < 0,
+    `estorbo ${estorboDelRival(flojo, 60)} con promedio ${promedioDelRival(flojo)}`);
+
+  // Y con tope, para que un goleador en racha no te borre del club.
+  let imparable = nuevo();
+  for (let i = 0; i < 12; i++) imparable = anotarFechaDelRival(imparable, { nota: 9.5, goles: 2, asistencias: 1 });
+  ok('el peso del rival tiene tope', estorboDelRival(imparable, 90) <= PESO_MAXIMO_DEL_RIVAL,
+    `estorbo ${estorboDelRival(imparable, 90)}`);
+
+  // Que de verdad juegue: mil fechas de un jugador de 85 tienen que dar goles y notas razonables.
+  let acumulado = { ...nuevo(), nivel: 85 };
+  for (let i = 0; i < 1000; i++) acumulado = anotarFechaDelRival(acumulado, jugarFechaDelRival(85));
+  const prom = promedioDelRival(acumulado) ?? 0;
+  ok('un rival de 85 promedia como un buen jugador', prom > 6.2 && prom < 8.2, `promedio ${prom}`);
+  ok('y marca alguna vez', (acumulado.goles ?? 0) > 50, `${acumulado.goles} goles en 1000 fechas`);
+
+  // Y que se pueda contar lo que hizo, que es la mitad del punto.
+  ok('la cronica nombra al rival', cronicaDelRival(nuevo(), { nota: 8.1, goles: 2, asistencias: 0 }).includes('Sanabria'));
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

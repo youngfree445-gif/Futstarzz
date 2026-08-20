@@ -42,6 +42,7 @@ import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGI
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
+import { estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, cronicaDelRival } from './rivalDePuesto';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -512,8 +513,12 @@ function applyRefuerzoIfNewSeason(profile: PlayerProfile, previousWeek: number, 
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
   if (!club) return profile;
-  // Un jugador consagrado no se ve amenazado: a los 85 de prestigio la chance ya es cero.
-  const chance = REFUERZO_CHANCE_BASE * (club.reputation / 5) * Math.max(0, 1 - profile.prestige / 85);
+  // Antes: "un jugador consagrado no se ve amenazado", y a los 85 de prestigio la chance era CERO.
+  // Es al reves de como funciona un club grande -- cuanto mejor sos, mejor es el que traen para
+  // pelearte el puesto -- y ademas apagaba la unica fuente de tension justo cuando la carrera se
+  // queda sin nada en juego. Ahora baja pero nunca se apaga: al mejor del mundo igual le traen a
+  // alguien, sólo que menos seguido.
+  const chance = REFUERZO_CHANCE_BASE * (club.reputation / 5) * Math.max(0.3, 1 - profile.prestige / 130);
   if (Math.random() >= chance) return profile;
   return {
     ...profile,
@@ -521,6 +526,9 @@ function applyRefuerzoIfNewSeason(profile: PlayerProfile, previousWeek: number, 
       nombre: NOMBRES_DE_REFUERZO[Math.floor(Math.random() * NOMBRES_DE_REFUERZO.length)],
       posicion: profile.position,
       desdeSemana: newWeek,
+      // Su nivel sale de la talla del club: en un grande te pelea el puesto alguien de verdad.
+      nivel: Math.round(62 + club.reputation * 4 + Math.random() * 8),
+      partidos: 0, goles: 0, asistencias: 0, sumaDeNotas: 0,
     },
   };
 }
@@ -2698,20 +2706,10 @@ export default function App() {
   // con el DT tiene chance real de arrancar en el banco o directamente quedar afuera de la lista,
   // igual que en la vida real (las jóvenes promesas de clubes top rotan menos que en clubes chicos).
   // reputation va de 1 (chico) a 5 (élite mundial); prestige va de 0 a 100.
-  /**
-   * Cuanto te complica hoy el refuerzo que trajeron para tu puesto.
-   *
-   * Devuelve puntos que se SUMAN al umbral de titularidad: mientras el fichaje esta fresco cuesta
-   * mas ser titular, y el efecto se va aflojando solo con las fechas -- gana el lugar el que rinde,
-   * no el que llego ultimo. A las ~10 fechas ya no pesa nada y no hace falta ningun evento que lo
-   * saque.
-   */
-  function refuerzoQueTeTapa(profile: PlayerProfile): number {
-    if (!profile.fichajeRival) return 0;
-    const fechas = profile.currentWeek - profile.fichajeRival.desdeSemana;
-    if (fechas < 0 || fechas > 10) return 0;
-    return Math.round(14 * (1 - fechas / 10));
-  }
+  // ACA VIVIA refuerzoQueTeTapa, que devolvia 14 * (1 - fechas/10): el refuerzo pesaba por ser
+  // NUEVO y se apagaba solo a las diez fechas, metiera goles o no. O sea que no se le podia ganar el
+  // puesto jugando bien -- habia que esperar. Ahora el peso sale de lo que el rival HIZO en la
+  // cancha (ver estorboDelRival en src/rivalDePuesto.ts).
 
   function decideLineupStatus(reputation: number, prestige: number, starMode?: boolean, estorbo = 0): 'starter' | 'substitute' | 'not_called' {
     // Modo Superestrella: titular garantizado, sin importar el umbral de la reputation del club --
@@ -3730,7 +3728,10 @@ export default function App() {
       // Ahora la FORMA -- que sube y baja -- entra en la cuenta junto al refuerzo que te taparon.
       // Ver ajusteDeFormaEnElOnce en src/forma.ts.
       const formaHoy = evaluarForma(playerProfile.formaReciente, playerProfile.currentWeek);
-      const estorboTotal = refuerzoQueTeTapa(playerProfile) + ajusteDeFormaEnElOnce(formaHoy);
+      // El rival del puesto ya no pesa por ser nuevo sino por lo que HIZO: ver estorboDelRival en
+      // src/rivalDePuesto.ts. Antes se diluia solo en diez fechas aunque estuviera metiendo goles.
+      const estorboTotal = estorboDelRival(playerProfile.fichajeRival, playerProfile.currentWeek)
+        + ajusteDeFormaEnElOnce(formaHoy);
       const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige, playerProfile.starModeEnabled, estorboTotal);
       const avisoForma = avisoDeFormaEnElOnce(formaHoy);
       if (avisoForma && lineupStatus !== 'not_called') notify(avisoForma);
@@ -3739,6 +3740,11 @@ export default function App() {
         const { homeGoals, awayGoals } = isHomeThisMatch ? simulateMatch(myClub, CLUBS_DATABASE.find(c => c.id === opClubId) || myClub) : simulateMatch(CLUBS_DATABASE.find(c => c.id === opClubId) || myClub, myClub);
         const myGoals = isHomeThisMatch ? homeGoals : awayGoals;
         const rivalGoals = isHomeThisMatch ? awayGoals : homeGoals;
+        // LA FECHA QUE VOS NO JUGAS, LA JUEGA EL. Y se te cuenta: perder el puesto por un numero
+        // invisible se lee como un bug, y perderlo porque el otro metio dos se lee como futbol.
+        const rivalHoy = playerProfile.fichajeRival;
+        const fechaDelRival = rivalHoy ? jugarFechaDelRival(rivalHoy.nivel ?? 72) : null;
+
         const updated: PlayerProfile = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 18),
@@ -3747,6 +3753,7 @@ export default function App() {
           playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
           datedResults: historialCon(resultadoDelClubSinVos(myClub, opName, myGoals, rivalGoals)),
           matchesWithoutRest: 0,
+          fichajeRival: rivalHoy && fechaDelRival ? anotarFechaDelRival(rivalHoy, fechaDelRival) : rivalHoy,
         };
         const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(aged)) {
@@ -3756,6 +3763,7 @@ export default function App() {
         setPlayerProfile(aged);
         saveGameState(aged, shopItems);
         notify(`📋 NO FUISTE CONVOCADO esta fecha: el DT decidió dejarte fuera de la lista de ${myClub.name}. Resultado sin ti: ${myGoals}-${rivalGoals} vs. ${opName}.`);
+        if (rivalHoy && fechaDelRival) notify(`⚠ ${cronicaDelRival(rivalHoy, fechaDelRival)}`);
         return;
       }
 
