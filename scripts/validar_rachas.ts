@@ -22,6 +22,8 @@ import { clubQueTeFormo, teLlamaLaCasa, temporadasEnLaCasa, EDAD_DEL_LLAMADO } f
 import { guardarDeclaracion, laHemerotecaTeRecuerda, SALDO_PARA_QUEDAR_GUARDADA, PASOS_PARA_QUE_ENVEJEZCA, CUANTAS_SE_GUARDAN } from '../src/hemeroteca';
 import { clasicoPersonalContra, elClasicoDeTuCarrera, PARTIDOS_PARA_QUE_SEA_CLASICO } from '../src/clasicoPersonal';
 import { crecimientoDelPibe, destinoDelPibe, chanceDeLlegar, loQueDiceDeVos, NIVEL_INICIAL, NIVEL_PARA_LLEGAR, TEMPORADAS_PARA_DEFINIRSE, type Pibe } from '../src/elPibe';
+import { duenosDeLasCamisetas, podesPedirLaCamiseta, pesoDeLlevarla, VENTAJA_PARA_QUITARSELA } from '../src/laCamiseta';
+import { factorDeMarcaPersonal } from '../src/dificultad';
 
 let fallas = 0;
 let corridos = 0;
@@ -667,6 +669,63 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   ok('y el que no llego, tampoco',
     loQueDiceDeVos({ ...llego, destino: { que: 'perdido', semana: 100, relato: 'x' } }, 'Camilo') === null);
   ok('sin destino todavia no hay nada que decir', loQueDiceDeVos(base, 'Camilo') === null);
+}
+
+// --- LA CAMISETA -------------------------------------------------------------------------------
+//
+// Lo unico del juego que hay que quitarle a alguien: hay una por plantel. Se cuida sobre todo que
+// NADIE LLEVE DOS, que es el bug con el que nacio (en Junior, Muriel se llevaba la 9 y la 10).
+{
+  const j = (nombre: string, media: number, pos: string, cat = '') =>
+    ({ nombre_completo: nombre, media_valoracion: media, posicion_especifica: pos, categoria_tactica: cat });
+
+  const plantel = [
+    j('Arquero Bueno', 84, 'GK', 'portero'),
+    j('Arquero Suplente', 71, 'GK', 'portero'),
+    j('Crack Total', 90, 'RW'),         // gana la 9 por ser el mejor de los de arriba
+    j('Enganche', 86, 'AM'),            // y entonces la 10 le toca a este
+    j('Central', 80, 'CB'),
+  ];
+  const d = duenosDeLasCamisetas(plantel);
+
+  ok('la 1 es del mejor arquero', d[1]?.nombre_completo === 'Arquero Bueno');
+  ok('la 9 es del mejor de arriba', d[9]?.nombre_completo === 'Crack Total');
+  // EL CASO QUE IMPORTA: sin el reparto conjunto, Crack Total se llevaba las dos.
+  ok('nadie lleva dos camisetas', d[10]?.nombre_completo === 'Enganche', d[10]?.nombre_completo ?? 'nadie');
+
+  // Determinista: el mismo plantel en otro orden da los mismos duenios.
+  const alReves = duenosDeLasCamisetas([...plantel].reverse());
+  ok('el orden del plantel no cambia quien la lleva',
+    alReves[10]?.nombre_completo === d[10]?.nombre_completo
+    && alReves[9]?.nombre_completo === d[9]?.nombre_completo);
+
+  // Un plantel sin arqueros no rompe nada.
+  ok('sin arqueros, la 1 no es de nadie',
+    duenosDeLasCamisetas([j('Central', 80, 'CB')])[1] === null);
+
+  // --- LA DISPUTA
+  const disputa = (o: any) => podesPedirLaCamiseta({ tuNivel: 90, tuPrestigio: 90,
+    dueno: j('Enganche', 86, 'AM'), temporadasEnElClub: 2, ...o });
+
+  ok('recien llegado no pide la 10', !disputa({ temporadasEnElClub: 0 }).podes);
+  ok('siendo mejor y con tiempo, si', disputa({}).podes);
+  ok('si esta libre, tambien', disputa({ dueno: null }).podes);
+  ok('empatarle al duenio no alcanza',
+    !disputa({ tuNivel: 86, tuPrestigio: 86 }).podes);
+  ok('y hay que sacarle una ventaja de verdad',
+    !disputa({ tuNivel: 86 + VENTAJA_PARA_QUITARSELA - 1, tuPrestigio: 86 + VENTAJA_PARA_QUITARSELA - 1 }).podes);
+  ok('el que no puede sabe cuanto le falta',
+    disputa({ tuNivel: 80, tuPrestigio: 80 }).motivo.includes('faltan'));
+
+  // --- Y LO QUE CUESTA LLEVARLA. Es un castigo, no un premio: si diera ventaja seria un premio mas.
+  ok('la 10 pesa mas que la 9', pesoDeLlevarla(10) > pesoDeLlevarla(9));
+  ok('un numero cualquiera no pesa nada', pesoDeLlevarla(27) === 0);
+  const sinLa10 = factorDeMarcaPersonal(88, 88, 0);
+  const conLa10 = factorDeMarcaPersonal(88, 88, pesoDeLlevarla(10));
+  ok('con la 10 te marcan mas', conLa10 < sinLa10, `${conLa10.toFixed(3)} contra ${sinLa10.toFixed(3)}`);
+  // Y a un jugador que todavia no es nadie, la camiseta no lo convierte en marcado.
+  ok('al que nadie conoce, la camiseta no lo delata',
+    factorDeMarcaPersonal(60, 60, pesoDeLlevarla(10)) === 1);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

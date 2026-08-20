@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats, PlayClipType } from '../types';
 import { factorDeFase, golEsperadoRestante, factorDeMarcaPersonal, avisoDeMarca } from '../dificultad';
 import { chanceDeAcertar } from '../decisionDelPartido';
+import { pesoDeLlevarla } from '../laCamiseta';
 import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
@@ -1583,7 +1584,8 @@ export default function MatchSimulator({
   // así que no entra en el clamp que existe para que un mal momento no se vuelva una espiral.
   // Ver factorDeMarcaPersonal en src/dificultad.ts.
   const nivelPromedio = Object.values(playerProfile.attributes).reduce((a, b) => a + b, 0) / 6;
-  const marcaFactor = factorDeMarcaPersonal(nivelPromedio, playerProfile.prestige);
+  // El peso de la camiseta entra en la marca: al de la 10 lo miran mas. Ver src/laCamiseta.ts.
+  const marcaFactor = factorDeMarcaPersonal(nivelPromedio, playerProfile.prestige, pesoDeLlevarla(playerProfile.dorsal));
 
   const pressureMultiplier = Math.max(0.82, Math.min(1.35,
     tablePositionFactor * fanSupportFactor * mentalHealthFactor)) * faseFactor * marcaFactor;

@@ -4,6 +4,7 @@ import { apodoDe } from '../apodo';
 import { laHemerotecaTeRecuerda } from '../hemeroteca';
 import { clasicoPersonalContra } from '../clasicoPersonal';
 import { loQueDiceDeVos } from '../elPibe';
+import { CAMISETAS_CON_DUENO } from '../laCamiseta';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -1031,6 +1032,8 @@ export default function Dashboard({
 
   // El apodo se CALCULA, no se guarda: guardarlo sería congelar una foto de lo que fuiste. Un
   // volante que se vuelve goleador se lo gana de nuevo.
+  const llevoUnaDeLasGrandes = CAMISETAS_CON_DUENO.includes(playerProfile.dorsal as 1 | 9 | 10);
+
   const miApodo = apodoDe({
     partidos: playerProfile.careerStats.partidosHistoricos,
     goles: playerProfile.careerStats.golesHistoricos,
@@ -2936,7 +2939,21 @@ export default function Dashboard({
               Ficha Profesional
             </span>
             <h2 className="font-extrabold text-sm text-white truncate">
-              {playerProfile.dorsal != null && <span className="text-gold-400">#{playerProfile.dorsal}</span>} {playerProfile.name}
+              {playerProfile.dorsal != null && (
+                /* LA CAMISETA. Las tres que significan algo van resaltadas: hay una por plantel y
+                   hubo que ganarsela. Un 27 es un numero; la 10 es la 10. Ver src/laCamiseta.ts. */
+                <span
+                  data-camiseta={llevoUnaDeLasGrandes ? String(playerProfile.dorsal) : undefined}
+                  title={llevoUnaDeLasGrandes
+                    ? 'Al que la lleva lo marcan mas y le exigen mas.'
+                    : undefined}
+                  className={llevoUnaDeLasGrandes
+                    ? 'text-gold-300 bg-gold-500/15 border border-gold-500/30 rounded px-1'
+                    : 'text-gold-400'}
+                >
+                  #{playerProfile.dorsal}
+                </span>
+              )} {playerProfile.name}
             </h2>
             {/* EL APODO, debajo del nombre y entre comillas, como lo escribiría un diario. No se
                 elige: se gana con lo que hacés en la cancha (ver src/apodo.ts), y por eso lleva el

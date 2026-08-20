@@ -93,10 +93,18 @@ export function golEsperadoRestante(lambdaDelEquipo: number, golesTuyos: number,
  */
 export const MARCA_MAXIMA = 0.80;
 
-export function factorDeMarcaPersonal(nivelPromedio: number, prestigio: number): number {
+export function factorDeMarcaPersonal(nivelPromedio: number, prestigio: number, pesoDeLaCamiseta = 0): number {
   // Ninguno de los dos solo alcanza: se toma el menor, así que la marca aparece recién cuando el
   // nivel Y la fama van juntos.
-  const cuantoTeConocen = Math.min(nivelPromedio, prestigio);
+  //
+  // LA CAMISETA APRIETA, Y SE SUMA DESPUES DEL MINIMO. Sumarla al prestigio no servía de nada: el
+  // mínimo casi siempre lo pone el nivel -- el prestigio se satura en ocho partidos, medido con
+  // `npm run medir:balance` -- así que la 10 no cambiaba ni un decimal. Lo encontró el caso
+  // "con la 10 te marcan más", que daba 0.876 contra 0.876.
+  //
+  // Sumándola acá, la camiseta te aprieta siempre, que es lo que hace en el fútbol. Y es toda la
+  // recompensa que da: ninguna. Ver src/laCamiseta.ts.
+  const cuantoTeConocen = Math.min(nivelPromedio, prestigio) + pesoDeLaCamiseta;
   // Por debajo de 70 no te marca nadie: sos uno más.
   if (cuantoTeConocen <= 70) return 1;
   // De 70 a 99 la marca se aprieta de forma pareja hasta el piso.

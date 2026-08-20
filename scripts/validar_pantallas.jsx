@@ -443,6 +443,12 @@ caso('apodo: sin nada que te defina, no hay apodo', () =>
   });
 }
 
+// --- LA CAMISETA: que la 10 se vea distinta, y que un 27 no ---------------------------------------
+caso('camiseta: la 10 se ve distinta', () =>
+  dibujar(perfilDe(junior, { dorsal: 10 }), 'carrera', 'data-camiseta="10"'));
+caso('camiseta: un numero cualquiera no se disfraza de 10', () =>
+  dibujar(perfilDe(junior, { dorsal: 27 }), 'carrera', null, 'data-camiseta'));
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`

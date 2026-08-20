@@ -40,6 +40,7 @@ import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } 
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO, TIPOS_DE_LESION, sortearTipoDeLesion, riesgoDeLesion } from './lesion';
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
+import { duenosDeLasCamisetas, podesPedirLaCamiseta, elDiaQueTeLaPonen, CAMISETAS_CON_DUENO, HINCHADA_POR_LA_CAMISETA } from './laCamiseta';
 import { guardarDeclaracion } from './hemeroteca';
 import { crecimientoDelPibe, destinoDelPibe, NIVEL_INICIAL, type Pibe } from './elPibe';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
@@ -804,6 +805,52 @@ function avanzarAlPibeSolo(profile: PlayerProfile, newWeek: number): PlayerProfi
   };
 }
 
+/**
+ * LA CAMISETA, al cerrar la temporada.
+ *
+ * Se resuelve una vez al año y no partido a partido porque los dorsales se reparten en pretemporada,
+ * que es cuando se reparten de verdad. Y va de la mas pesada a la mas liviana: si te ganaste la 10,
+ * no tiene sentido ofrecerte la 9.
+ */
+function applyCamisetaIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
+  // Si ya llevas una de las tres, no hay nada que disputar: ya la tenes.
+  if (CAMISETAS_CON_DUENO.includes(profile.dorsal as 1 | 9 | 10)) return profile;
+
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  const roster = club ? getClubWithRoster(club.name, club.id) : null;
+  const plantel: any[] = roster?.plantilla
+    ? [...roster.plantilla.porteros, ...roster.plantilla.defensivos, ...roster.plantilla.ofensivos]
+    : [];
+  if (!plantel.length) return profile;
+
+  const duenos = duenosDeLasCamisetas(plantel);
+  const nivel = Object.values(profile.attributes).reduce((a, b) => a + b, 0) / 6;
+
+  for (const numero of [10, 9, 1]) {
+    // La 1 es del arquero: no se la pide un delantero.
+    if (numero === 1 && profile.position !== 'Arquero') continue;
+    if (numero !== 1 && profile.position === 'Arquero') continue;
+
+    const disputa = podesPedirLaCamiseta({
+      tuNivel: nivel,
+      tuPrestigio: profile.prestige,
+      dueno: duenos[numero],
+      temporadasEnElClub: profile.yearsAtClub ?? 0,
+    });
+    if (!disputa.podes) continue;
+
+    return {
+      ...profile,
+      dorsal: numero,
+      camisetaGanada: { dorsal: numero, deQuien: duenos[numero]?.nombre_completo ?? null, semana: newWeek },
+      // Lo unico que la camiseta da a cambio: hinchada. Lo demas que trae es peso.
+      fans: Math.max(0, Math.min(100, profile.fans + (HINCHADA_POR_LA_CAMISETA[numero] ?? 0))),
+    };
+  }
+  return profile;
+}
+
 function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
 
@@ -1343,6 +1390,9 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   // ANTES del envejecimiento: la temporada que cerras te deja lo que te dejo, y recien despues te
   // sumas el anio. Al reves, un jugador de 29 cobraria el declive de los 30 por una temporada que
   // jugo con 29.
+  // ANTES del crecimiento: la camiseta se reparte en pretemporada, mirando lo que fuiste la
+  // temporada que acaba de terminar, no lo que vas a ser en la que viene.
+  next = applyCamisetaIfNewSeason(next, previousWeek, newWeek);
   next = applyHardcoreGrowthIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
@@ -1628,6 +1678,16 @@ export default function App() {
     // El informe de la temporada en hardcore. Sin entrenamiento, esto es lo UNICO que le explica al
     // jugador por que sus atributos se movieron: sin el aviso, los numeros cambian solos y parece un
     // bug. Se cuenta una vez y se limpia.
+    // LA CAMISETA. Va primero porque cambia el numero que el jugador ve al lado de su nombre en
+    // TODAS las pantallas: si cambia sin avisar, parece un bug.
+    if (playerProfile.camisetaGanada) {
+      const c = playerProfile.camisetaGanada;
+      const club = CLUBS_DATABASE.find(x => x.id === playerProfile.currentClubId);
+      notify(`👕 ${elDiaQueTeLaPonen(c.dorsal, club?.name ?? 'tu club', c.deQuien)}`);
+      setPlayerProfile(p => (p ? { ...p, camisetaGanada: undefined } : p));
+      return;
+    }
+
     // EL PIBE, cuando se define su carrera. Puede pasar anios despues de que dejo de ser tu ahijado,
     // y ese es justamente el momento en que significa algo.
     if (playerProfile.destinoDelPibeReciente) {
@@ -1669,7 +1729,7 @@ export default function App() {
       notify(`✅ ${AVISO_TE_QUEDAS}`);
     }
     listaAnterior.current = ahora;
-  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore, playerProfile?.ultimaSecuela, playerProfile?.destinoDelPibeReciente]);
+  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore, playerProfile?.ultimaSecuela, playerProfile?.destinoDelPibeReciente, playerProfile?.camisetaGanada]);
 
   /**
    * EL BAUTIZO. El apodo se calcula solo (src/apodo.ts), pero que te lo PONGAN es un momento, y un

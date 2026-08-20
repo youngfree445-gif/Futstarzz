@@ -315,6 +315,10 @@ export interface PlayerProfile {
   // entrada por cada traspaso (ver handleAcceptTransfer), no incluye el club actual. Opcional: las
   // partidas viejas no lo tienen.
   dorsalHistory?: { clubId: string; clubName: string; dorsal: number }[];
+  /**
+   * LA CAMISETA QUE TE GANASTE, para contarlo una vez y limpiarlo. Ver src/laCamiseta.ts.
+   */
+  camisetaGanada?: { dorsal: number; deQuien: string | null; semana: number };
   // Cabeza a cabeza contra cada rival que enfrentaste, clave = nombre del rival tal como aparece en
   // el calendario (mismo valor que DatedResult.opponentName). No hay catálogo de "clásicos" fijo:
   // el rival más enfrentado en tu propia carrera es tu clásico de facto. Se actualiza en
