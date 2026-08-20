@@ -65,3 +65,43 @@ export function avisoDeLista(lista: ListaDeTransferibles, club: string): string 
 }
 
 export const AVISO_TE_QUEDAS = 'Te sacaron de la lista de transferibles: el DT volvió a confiar en vos.';
+
+/**
+ * LO QUE EL CLUB ESPERA DE VOS SEGÚN LO QUE VALÉS PARA ÉL.
+ *
+ * Devuelve puntos que se suman al umbral de titularidad, igual que la forma y el rival.
+ *
+ * La vara de titularidad era sólo la reputación del club: un club grande pide más, uno chico pide
+ * menos, y listo. Pero dentro del mismo club no es lo mismo el pibe que subió de las inferiores que
+ * el fichaje caro: al caro se le exige desde el primer día, y si no rinde el ruido llega antes.
+ *
+ * Se mide con tu valor de mercado contra el del plantel. Si valés mucho más que el promedio del
+ * club, sos la apuesta -- y a la apuesta se le pide que funcione.
+ *
+ * El efecto es chico y va para los dos lados: hasta 8 puntos de exigencia extra si sos la figura
+ * cara, y hasta 5 de crédito si sos el pibe barato al que todavía nadie le reclama nada.
+ */
+export const EXIGENCIA_MAXIMA = 8;
+export const CREDITO_MAXIMO = 5;
+
+export function exigenciaPorLoQueValés(valorDelJugador: number, valorDelPlantel: number): number {
+  if (!valorDelPlantel || valorDelPlantel <= 0) return 0;
+  // Cuánto pesás vos dentro del plantel. Un plantel tiene ~25 jugadores, así que la parte "normal"
+  // de cada uno es 1/25 = 4%. El doble de eso ya es ser la apuesta del club.
+  const peso = valorDelJugador / valorDelPlantel;
+  if (peso >= 0.08) return EXIGENCIA_MAXIMA;
+  if (peso <= 0.01) return -CREDITO_MAXIMO;
+  if (peso >= 0.04) {
+    // De 4% a 8%: de cero a la exigencia máxima.
+    return Math.round(EXIGENCIA_MAXIMA * ((peso - 0.04) / 0.04));
+  }
+  // De 1% a 4%: del crédito máximo a cero.
+  return -Math.round(CREDITO_MAXIMO * (1 - (peso - 0.01) / 0.03));
+}
+
+/** Lo que se le dice al jugador cuando la exigencia lo está apretando. */
+export function avisoDeExigencia(puntos: number): string | null {
+  if (puntos >= 6) return 'Sos la apuesta cara del club: acá no alcanza con cumplir.';
+  if (puntos <= -4) return 'Nadie te reclama nada todavía: sos el pibe de la casa y tenés margen.';
+  return null;
+}

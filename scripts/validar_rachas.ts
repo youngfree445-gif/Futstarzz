@@ -13,7 +13,7 @@ import {
   estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, promedioDelRival, cronicaDelRival,
   PESO_MAXIMO_DEL_RIVAL, type RivalDePuesto,
 } from '../src/rivalDePuesto';
-import { elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista } from '../src/listaDeTransferibles';
+import { elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, exigenciaPorLoQueValés, EXIGENCIA_MAXIMA, CREDITO_MAXIMO } from '../src/listaDeTransferibles';
 
 let fallas = 0;
 let corridos = 0;
@@ -305,6 +305,23 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   // El aviso cambia segun la temporada: la segunda vez es la ultima.
   ok('la primera vez avisa que hay tiempo', avisoDeLista({ desdeSemana: 1, temporadas: 0 }, 'Junior').includes('Tenés'));
   ok('la segunda avisa que te venden', avisoDeLista({ desdeSemana: 1, temporadas: 1 }, 'Junior').includes('venden'));
+}
+
+// --- LO QUE EL CLUB ESPERA SEGUN LO QUE VALES --------------------------------------------------
+//
+// La vara de titularidad era solo la reputacion del club, asi que dentro del mismo plantel el pibe
+// de inferiores y el fichaje caro tenian exactamente la misma exigencia. Ahora no.
+{
+  const PLANTEL = 500_000_000;   // un plantel grande
+
+  ok('el fichaje caro tiene mas exigencia', exigenciaPorLoQueValés(50_000_000, PLANTEL) === EXIGENCIA_MAXIMA,
+    `${exigenciaPorLoQueValés(50_000_000, PLANTEL)} con el 10% del plantel`);
+  ok('el pibe barato tiene credito', exigenciaPorLoQueValés(2_000_000, PLANTEL) === -CREDITO_MAXIMO,
+    `${exigenciaPorLoQueValés(2_000_000, PLANTEL)} con el 0.4% del plantel`);
+  ok('uno del monton no suma ni resta', exigenciaPorLoQueValés(20_000_000, PLANTEL) === 0,
+    `${exigenciaPorLoQueValés(20_000_000, PLANTEL)} con el 4% del plantel`);
+  // Y que no reviente con datos que faltan: un club sin valor cargado no puede exigir nada.
+  ok('sin valor de plantel no exige nada', exigenciaPorLoQueValés(20_000_000, 0) === 0);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

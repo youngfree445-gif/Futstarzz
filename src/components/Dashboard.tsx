@@ -21,7 +21,7 @@ import ReportarBug from './ReportarBug';
 import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
@@ -2323,6 +2323,25 @@ export default function Dashboard({
           }))
       : [];
 
+    // LA LISTA DE TRANSFERIBLES, en el feed. Un aviso en un toast se lee una vez y se va; que la
+    // prensa hable de que estás en la lista es lo que lo convierte en una situación que estás
+    // atravesando. Se mantiene MIENTRAS estés en la lista y no sólo el día que te ponen: es
+    // justamente lo que no te deja olvidarte.
+    const enLaLista: SocialPost[] = playerProfile.listaDeTransferibles
+      ? postsDeListaDeTransferibles(
+          pName, currentClub.name,
+          playerProfile.fichajeRival?.nombre ?? null,
+          (playerProfile.listaDeTransferibles.temporadas ?? 0) >= 1,
+          week)
+          .map((c, i) => ({
+            id: `lista_${playerProfile.listaDeTransferibles!.desdeSemana}_${playerProfile.listaDeTransferibles!.temporadas}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 3000 + Math.floor(Math.random() * 12000),
+            commentsCount: 600 + Math.floor(Math.random() * 3000),
+            timestamp: 'Mercado de pases', avatar: c.avatar,
+          }))
+      : [];
+
     // TU PUBLICACION y lo que le respondieron. Va primero de todo: lo dijiste vos.
     const miPost: SocialPost[] = playerProfile.miPublicacion?.semana === week
       ? [
@@ -2478,6 +2497,7 @@ export default function Dashboard({
       ...previaDeClasico,
       ...miPost,
       ...llegadaDelRefuerzo,
+      ...enLaLista,
       // La lista de convocados va arriba de casi todo: el dia que sale, es LA noticia.
       ...laConvocatoria,
       ...parteMedico,

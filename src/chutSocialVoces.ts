@@ -1178,3 +1178,75 @@ export function postsDelRivalDeCarrera(
     .slice(0, 2)
     .map(x => x.v);
 }
+
+/**
+ * LA LISTA DE TRANSFERIBLES, contada por la prensa.
+ *
+ * Un aviso en un toast se lee una vez y se va. Que el feed hable de que estás en la lista es lo que
+ * lo convierte en una situación que estás atravesando y no en una notificación que apareció: es la
+ * misma diferencia que hay entre enterarte de algo y que te lo recuerden todos los días.
+ *
+ * Las voces están escritas con dos temperaturas a propósito -- el que te defiende y el que te
+ * liquida -- porque un coro que dice lo mismo se lee como el juego hablando, no como gente.
+ */
+export function postsDeListaDeTransferibles(
+  nombre: string,
+  club: string,
+  rival: string | null,
+  ultimaTemporada: boolean,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 43) * 57.3 + i * 31.1) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = [
+    { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+      content: ultimaTemporada
+        ? `${club} ya decidió: ${nombre} sale en la próxima ventana. Salvo un giro de último momento, es su última media temporada acá.`
+        : `${club} puso a ${nombre} en la lista de transferibles. No es definitivo, pero el mensaje es clarísimo.` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: rival
+        ? `${nombre} en la lista. Los números explican la decisión: ${rival} le ganó el puesto y el club no ve para atrás.`
+        : `${nombre} en la lista. Rendimiento por debajo de lo que el club esperaba de él.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `Que lo vendan y listo 🚪 Hace rato que no rinde, y el que entra por él lo hace mejor.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `No me gusta lo de ${nombre}. Se lo bajó de un cachetazo y todavía puede dar vuelta esto si le dan minutos.` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `Ojo, que esto pasó mil veces: un jugador en la lista que mete dos partidos buenos y el club se olvida de todo. ${nombre} está a tiempo.` },
+  ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}
+
+/** La venta forzada, cuando ya pasó. */
+export function postsDeVentaForzada(
+  nombre: string,
+  desde: string,
+  hacia: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 71) * 63.7 + i * 27.3) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = [
+    { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+      content: `Se cerró: ${nombre} deja ${desde} y firma en ${hacia}. Una salida que nadie festeja, ni el club ni el jugador.` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${nombre} a ${hacia}. En ${desde} no encontró continuidad; en un club más chico va a tener los minutos que le faltaron.` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `Bajar de categoría no siempre es retroceder. ${nombre} necesitaba jugar, y en ${hacia} va a jugar.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Suerte ${nombre}. Se va por la puerta de atrás, pero tiene edad y piernas para volver por la de adelante.` },
+  ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}

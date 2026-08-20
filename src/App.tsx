@@ -45,6 +45,7 @@ import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce }
 import { estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, cronicaDelRival } from './rivalDePuesto';
 import {
   elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, AVISO_TE_QUEDAS,
+  exigenciaPorLoQueValés,
   type ListaDeTransferibles,
 } from './listaDeTransferibles';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -3829,8 +3830,11 @@ export default function App() {
       const formaHoy = evaluarForma(playerProfile.formaReciente, playerProfile.currentWeek);
       // El rival del puesto ya no pesa por ser nuevo sino por lo que HIZO: ver estorboDelRival en
       // src/rivalDePuesto.ts. Antes se diluia solo en diez fechas aunque estuviera metiendo goles.
+      // Y la exigencia por lo que valés dentro del plantel: al fichaje caro se le pide desde el
+      // primer día, al pibe de la casa todavía no le reclama nadie. Ver exigenciaPorLoQueValés.
       const estorboTotal = estorboDelRival(playerProfile.fichajeRival, playerProfile.currentWeek)
-        + ajusteDeFormaEnElOnce(formaHoy);
+        + ajusteDeFormaEnElOnce(formaHoy)
+        + exigenciaPorLoQueValés(playerProfile.marketValue, myClub.marketValue);
       const lineupStatus = decideLineupStatus(myClub.reputation, playerProfile.prestige, playerProfile.starModeEnabled, estorboTotal);
       const avisoForma = avisoDeFormaEnElOnce(formaHoy);
       if (avisoForma && lineupStatus !== 'not_called') notify(avisoForma);
