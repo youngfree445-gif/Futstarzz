@@ -82,7 +82,7 @@ export default function NewSeasonOverlay({ info, onClose }: NewSeasonOverlayProp
           <button
             type="button"
             onClick={onClose}
-            className="btn-fx w-full py-3 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black uppercase tracking-wide text-sm"
+            className="btn-fx w-full py-3 rounded-2xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black uppercase tracking-wide text-sm"
           >
             Empezar la temporada {info.year}
           </button>

@@ -62,7 +62,7 @@ export default function BallonDorOverlay({ info, onClose }: BallonDorOverlayProp
         </button>
 
         <div className={`w-20 h-20 mx-auto rounded-2xl flex items-center justify-center shadow-lg ${
-          won ? 'bg-gradient-to-br from-gold-400 to-gold-600' : 'bg-gradient-to-br from-slate-700 to-slate-800'
+          won ? 'bg-gold-500 hover:bg-gold-400 transition-colors' : 'bg-gradient-to-br from-slate-700 to-slate-800'
         }`}>
           <Trophy size={36} className={won ? 'text-slate-950' : 'text-gold-400'} />
         </div>
@@ -101,7 +101,7 @@ export default function BallonDorOverlay({ info, onClose }: BallonDorOverlayProp
         <button
           type="button"
           onClick={onClose}
-          className="btn-fx mt-7 w-full py-3 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black uppercase tracking-wide text-sm"
+          className="btn-fx mt-7 w-full py-3 rounded-2xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black uppercase tracking-wide text-sm"
         >
           Continuar
         </button>

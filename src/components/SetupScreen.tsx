@@ -644,7 +644,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                     </div>
                     <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-0.5">
                       <div 
-                        className="bg-gradient-to-br from-gold-400 to-gold-600 h-full rounded-full" 
+                        className="bg-gold-500 hover:bg-gold-400 transition-colors h-full rounded-full" 
                         style={{ width: `${(val / 99) * 100}%` }}
                       />
                     </div>
@@ -674,7 +674,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   onClick={() => setSelectedDivision('all')}
                   className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 'all'
-                      ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow-md'
+                      ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -685,7 +685,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   onClick={() => setSelectedDivision(1)}
                   className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 1
-                      ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow-md'
+                      ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -701,7 +701,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                     onClick={() => setSelectedDivision(2)}
                     className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
                       selectedDivision === 2
-                        ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow-md'
+                        ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow-md'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
@@ -815,7 +815,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
 
             <button
               type="submit"
-              className="btn-fx w-full mt-6 py-4 px-6 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-700 text-white font-black hover:from-gold-400 hover:to-gold-600 transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-xs shadow-xl"
+              className="btn-fx w-full mt-6 py-4 px-6 rounded-2xl bg-gold-600 text-white font-black hover:from-gold-400 hover:to-gold-600 transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-xs shadow-xl"
             >
               Comenzar Carrera <ArrowRight size={15} />
             </button>

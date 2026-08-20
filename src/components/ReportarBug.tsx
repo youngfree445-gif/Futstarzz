@@ -73,7 +73,7 @@ export default function ReportarBug({ perfil, clubes, partido, variante = 'menu'
                     .then(() => setCopiado(true))
                     .catch(() => setCopiado(false));
                 }}
-                className="btn-fx px-4 py-2 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-sm font-black uppercase tracking-wide"
+                className="btn-fx px-4 py-2 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 text-sm font-black uppercase tracking-wide"
               >
                 {copiado ? '✓ Copiado' : 'Copiar'}
               </button>

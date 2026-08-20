@@ -86,7 +86,11 @@ export default function ChampionOverlay({ info, playerName, onClose }: ChampionO
           <X size={16} />
         </button>
 
-        <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-lg shadow-gold-900/50 motion-safe:animate-bounce">
+        {/* El trofeo NO rebota. Un rebote es el gesto de una app infantil; lo que corresponde acá
+            es el de una vitrina: la pieza quieta, un resplandor detrás y una luz que la cruza una
+            vez. Tampoco lleva hover -- no es un botón, y ofrecer una reacción al mouse en algo que
+            no se puede tocar es una promesa falsa. */}
+        <div className="anim-vitrina relative w-20 h-20 mx-auto rounded-2xl bg-gold-500 flex items-center justify-center shadow-[0_0_40px_-4px_var(--color-gold-500,#a8842e)]">
           <Trophy size={40} className="text-slate-950" />
         </div>
 
@@ -111,7 +115,7 @@ export default function ChampionOverlay({ info, playerName, onClose }: ChampionO
         <button
           type="button"
           onClick={onClose}
-          className="btn-fx mt-7 w-full py-3 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black uppercase tracking-wide text-sm"
+          className="btn-fx mt-7 w-full py-3 rounded-2xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black uppercase tracking-wide text-sm"
         >
           Levantar la copa
         </button>

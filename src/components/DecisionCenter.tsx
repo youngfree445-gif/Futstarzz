@@ -147,7 +147,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
             className={`btn-fx w-full py-3.5 px-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl border transition-all ${
               selectedChoiceIndex === null
                 ? 'bg-slate-800/50 border-slate-800 text-slate-500 cursor-not-allowed'
-                : 'bg-gradient-to-br from-gold-400 to-gold-600 border-gold-400 text-slate-950 cursor-pointer'
+                : 'bg-gold-500 hover:bg-gold-400 transition-colors border-gold-400 text-slate-950 cursor-pointer'
             }`}
           >
             Confirmar Acción <UserCheck size={14} />

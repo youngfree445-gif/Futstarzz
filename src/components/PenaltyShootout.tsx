@@ -87,7 +87,7 @@ export default function PenaltyShootout({ shootout, myClubId, myClubName, rivalC
               </h3>
               <button
                 onClick={onContinue}
-                className="btn-fx mt-2 py-2 px-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
+                className="btn-fx mt-2 py-2 px-6 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
               >
                 Continuar
               </button>

@@ -32,7 +32,7 @@ export default function AchievementToast({ achievement, onDone }: AchievementToa
       }}
     >
       <div className="animate-achievement-in bg-slate-900 border border-gold-500/50 rounded-2xl shadow-2xl shadow-gold-950/40 overflow-hidden">
-        <div className="px-3 py-1.5 bg-gradient-to-r from-gold-500 to-gold-700 flex items-center gap-1.5">
+        <div className="px-3 py-1.5 bg-gold-600 flex items-center gap-1.5">
           <Trophy size={12} className="text-slate-950" />
           <span className="text-3xs font-black uppercase tracking-widest text-slate-950">
             Logro Desbloqueado

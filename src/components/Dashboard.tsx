@@ -2768,7 +2768,7 @@ export default function Dashboard({
         <div className="space-y-4">
 
           <div className="p-3 flex items-center gap-3 border-b border-slate-800">
-            <div className="w-9 h-9 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(168,132,46,0.3)]">
+            <div className="w-9 h-9 bg-gold-500 hover:bg-gold-400 transition-colors rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(168,132,46,0.3)]">
               <Star size={18} className="text-slate-950" fill="currentColor" strokeWidth={1} />
             </div>
             <div>
@@ -2843,7 +2843,7 @@ export default function Dashboard({
                     // cerrarlo a mano para llegar al contenido que se acaba de pedir.
                     setNavAbiertoEnMovil(false);
                   }}
-                  className={`btn-fx-subtle w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950 ${activa ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+                  className={`btn-fx-subtle w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950 ${activa ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
                 >
                   <Icon size={15} /> {label}
                   {key === 'logros' && (
@@ -3082,7 +3082,7 @@ export default function Dashboard({
                         </div>
                         <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden mt-1 border border-slate-800">
                           <div
-                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-[width] duration-500 ease-out"
+                            className="bg-gold-500 h-full rounded-full transition-[width] duration-500 ease-out"
                             style={{ width: `${(val / 99) * 100}%` }}
                           />
                         </div>
@@ -3215,7 +3215,7 @@ export default function Dashboard({
                       <>
                         <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
                           <div
-                            className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-[width] duration-500 ease-out"
+                            className="bg-gold-500 h-full rounded-full transition-[width] duration-500 ease-out"
                             style={{ width: `${milestoneProgressPct}%` }}
                           />
                         </div>
@@ -3375,7 +3375,7 @@ export default function Dashboard({
                         ? 'bg-gradient-to-br from-red-700 to-red-900 text-white'
                         : temporadaRealTerminada
                         ? 'bg-gradient-to-br from-slate-600 to-slate-800 text-white'
-                        : 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950'
+                        : 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950'
                     }`}
                   >
                     {/* Con la lesión encima el botón sigue en rojo -- estás roto -- pero el rótulo
@@ -3965,7 +3965,7 @@ export default function Dashboard({
                             <div className="space-y-2 pt-2 border-t border-slate-950">
                               {comments.map(c => (
                                 <div key={c.id} className="flex items-start gap-2">
-                                  <span className="w-6 h-6 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-[10px] font-black flex items-center justify-center shrink-0">
+                                  <span className="w-6 h-6 rounded-full bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 text-[10px] font-black flex items-center justify-center shrink-0">
                                     {playerProfile.name.charAt(0).toUpperCase()}
                                   </span>
                                   <div className="min-w-0">
@@ -4023,7 +4023,7 @@ export default function Dashboard({
                                 </button>
                                 <button
                                   onClick={() => submitComment(post.id)}
-                                  className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
+                                  className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
                                 >
                                   Publicar
                                 </button>
@@ -4140,7 +4140,7 @@ export default function Dashboard({
                       </p>
                       <button
                         onClick={onFindGirlfriend}
-                        className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Buscar Pareja
                       </button>
@@ -4208,7 +4208,7 @@ export default function Dashboard({
                           <div className="grid grid-cols-2 gap-2">
                             <button
                               onClick={() => onGirlfriendMoveIn(true)}
-                              className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase cursor-pointer"
+                              className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase cursor-pointer"
                             >
                               Aceptar
                             </button>
@@ -4227,7 +4227,7 @@ export default function Dashboard({
                           <button
                             onClick={onPropose}
                             disabled={playerProfile.capital < 8000}
-                            className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="btn-fx-subtle w-full py-2 px-3 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                           >
                             💍 Pedirle Matrimonio
                           </button>
@@ -4273,7 +4273,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(1000, 10, 0)}
                         disabled={playerProfile.capital < 1000}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Lanzar sorteo
                       </button>
@@ -4288,7 +4288,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(3000, 15, 3)}
                         disabled={playerProfile.capital < 3000}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Financiar Evento
                       </button>
@@ -4302,7 +4302,7 @@ export default function Dashboard({
                       <p className="text-3xs text-slate-400">Recibes capital inmediato, pero genera ligeras críticas por saturación publicitaria.</p>
                       <button
                         onClick={() => onLaunchPRCampaign(-4000, 5, -8)}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Firmar Contrato Comercial
                       </button>
@@ -4442,7 +4442,7 @@ export default function Dashboard({
                     <>
                       <p className="mb-2">El préstamo terminó. ¿Ejerces la opción de compra por ${(playerProfile.activeLoan.optionToBuyAmount ?? 0).toLocaleString()} o vuelves a {playerProfile.activeLoan.originClubName}?</p>
                       <div className="grid grid-cols-2 gap-2">
-                        <button onClick={() => onResolveLoan(true)} disabled={playerProfile.capital < (playerProfile.activeLoan.optionToBuyAmount ?? 0)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold text-2xs uppercase cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Comprar</button>
+                        <button onClick={() => onResolveLoan(true)} disabled={playerProfile.capital < (playerProfile.activeLoan.optionToBuyAmount ?? 0)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-2xs uppercase cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Comprar</button>
                         <button onClick={() => onResolveLoan(false)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 font-bold text-2xs uppercase cursor-pointer">Volver</button>
                       </div>
                     </>
@@ -4589,7 +4589,7 @@ export default function Dashboard({
                                         setPendingTransferClubId(null);
                                       }
                                     }}
-                                    className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                                    className="btn-fx py-1.5 px-3.5 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                                   >
                                     Confirmar fichaje
                                   </button>
@@ -4603,7 +4603,7 @@ export default function Dashboard({
                                   setPendingTransferClubId(offer.club.id);
                                   setPendingTransferDorsal(playerProfile.dorsal);
                                 }}
-                                className="btn-fx py-1.5 px-3.5 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
+                                className="btn-fx py-1.5 px-3.5 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
                               >
                                 Aceptar Traspaso
                               </button>
@@ -4666,7 +4666,7 @@ export default function Dashboard({
 
                           <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-2">
                             <div
-                              className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-[width] duration-500 ease-out"
+                              className="bg-gold-500 h-full rounded-full transition-[width] duration-500 ease-out"
                               style={{ width: `${Math.min(100, p.progreso * 100)}%` }}
                             />
                           </div>
@@ -4863,7 +4863,7 @@ export default function Dashboard({
                               disabled={!isAffordable}
                               className={`btn-fx-subtle py-1.5 px-3.5 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
                                 isAffordable
-                                  ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer'
+                                  ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer'
                                   : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'
                               }`}
                             >
@@ -5022,7 +5022,7 @@ export default function Dashboard({
                                     onAcceptSponsor(item.id);
                                   }
                                 }}
-                                className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer"
+                                className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer"
                               >
                                 Aceptar Patrocinio
                               </button>

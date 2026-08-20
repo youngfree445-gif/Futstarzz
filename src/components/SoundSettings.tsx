@@ -57,7 +57,7 @@ export default function SoundSettings({ hidden = false }: SoundSettingsProps) {
 
       {open && (
         <div className="w-[min(17rem,calc(100vw-2rem))] bg-slate-900 border border-gold-500/50 rounded-2xl shadow-2xl shadow-gold-950/40 overflow-hidden">
-          <div className="px-3 py-1.5 bg-gradient-to-r from-gold-500 to-gold-700 flex items-center justify-between gap-1.5">
+          <div className="px-3 py-1.5 bg-gold-600 flex items-center justify-between gap-1.5">
             <div className="flex items-center gap-1.5 min-w-0">
               <Volume2 size={12} className="text-slate-950 shrink-0" />
               <span className="text-3xs font-black uppercase tracking-widest text-slate-950 truncate">
@@ -80,7 +80,7 @@ export default function SoundSettings({ hidden = false }: SoundSettingsProps) {
               onClick={toggleMute}
               className={`btn-fx w-full py-2 rounded-xl font-black text-3xs uppercase tracking-widest flex items-center justify-center gap-2 ${
                 silenciado
-                  ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950'
+                  ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950'
                   : 'bg-slate-950 border border-slate-700 text-slate-300 hover:border-gold-500'
               }`}
             >

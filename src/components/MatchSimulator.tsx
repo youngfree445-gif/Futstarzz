@@ -2465,28 +2465,28 @@ export default function MatchSimulator({
           <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0 lg:hidden">
             <button
               onClick={() => setSpeedMultiplier(450)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Normal"
             >
               1x
             </button>
             <button
               onClick={() => setSpeedMultiplier(225)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Doble"
             >
               2x
             </button>
             <button
               onClick={() => setSpeedMultiplier(100)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Rápida"
             >
               4x
             </button>
             <button
               onClick={() => setSpeedMultiplier(5)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Simulación Ultra Rápida"
             >
               Saltar
@@ -2542,28 +2542,28 @@ export default function MatchSimulator({
         <div className="hidden lg:flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0">
           <button
             onClick={() => setSpeedMultiplier(450)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Normal"
           >
             1x
           </button>
           <button
             onClick={() => setSpeedMultiplier(225)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Doble"
           >
             2x
           </button>
           <button
             onClick={() => setSpeedMultiplier(100)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Rápida"
           >
             4x
           </button>
           <button
             onClick={() => setSpeedMultiplier(5)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Simulación Ultra Rápida"
           >
             Saltar
@@ -2658,7 +2658,7 @@ export default function MatchSimulator({
                 <div className="flex items-center gap-1.5 mb-1 font-mono text-2xs font-black">
                   <span>⚽ [{log.minute}']</span>
                   <span className={`uppercase px-1.5 rounded font-black text-3xs ${
-                    log.type === 'good' ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-900' :
+                    log.type === 'good' ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-900' :
                     log.type === 'bad' ? 'bg-red-500 text-slate-900' :
                     log.type === 'highlight' ? 'bg-burgundy-500 text-slate-900' : 'bg-slate-800 text-slate-300'
                   }`}>
@@ -2793,7 +2793,7 @@ export default function MatchSimulator({
 
                   <button
                     onClick={resolveDecisionStage}
-                    className="btn-fx mt-4 py-2 px-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
+                    className="btn-fx mt-4 py-2 px-6 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-xs tracking-widest uppercase cursor-pointer shadow-lg"
                   >
                     Volver al Partido
                   </button>

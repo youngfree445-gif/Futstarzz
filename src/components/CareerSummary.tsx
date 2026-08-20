@@ -166,7 +166,7 @@ export default function CareerSummary({ playerProfile, onContinue }: CareerSumma
 
           <button
             onClick={onContinue}
-            className="btn-fx w-full mt-2 py-4 px-5 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-700 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl"
+            className="btn-fx w-full mt-2 py-4 px-5 rounded-2xl bg-gold-600 text-slate-950 font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl"
           >
             Volver al Inicio <ArrowRight size={14} />
           </button>

@@ -122,7 +122,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           onClick={() => setActiveTab('saves')}
           className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
             activeTab === 'saves'
-              ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow'
+              ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -136,7 +136,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           onClick={() => setActiveTab('awards')}
           className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
             activeTab === 'awards'
-              ? 'bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-black shadow'
+              ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -230,7 +230,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
                       <div className="space-y-1.5">
                         <button
                           onClick={() => onLoadGame(profile, slot.id)}
-                          className="btn-fx w-full min-h-[44px] py-2 px-3 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 text-xs font-black flex items-center justify-center gap-1 cursor-pointer"
+                          className="btn-fx w-full min-h-[44px] py-2 px-3 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 text-xs font-black flex items-center justify-center gap-1 cursor-pointer"
                         >
                           <RefreshCw size={12} className="text-slate-950" />
                           Continuar

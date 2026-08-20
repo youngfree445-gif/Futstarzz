@@ -58,7 +58,7 @@ export default function CareerCard({ playerProfile, club }: CareerCardProps) {
               <div key={key} className="flex items-center gap-2">
                 <span className="text-3xs text-slate-500 font-mono uppercase w-14 shrink-0">{key}</span>
                 <div className="flex-1 bg-slate-950 h-1.5 rounded-full overflow-hidden border border-slate-800">
-                  <div className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full" style={{ width: `${(val / 99) * 100}%` }} />
+                  <div className="bg-gold-500 h-full rounded-full" style={{ width: `${(val / 99) * 100}%` }} />
                 </div>
                 <span className="text-3xs font-mono font-black text-gold-400 w-6 text-right">{val}</span>
               </div>

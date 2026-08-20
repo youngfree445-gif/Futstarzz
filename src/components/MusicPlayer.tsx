@@ -381,7 +381,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
 
         {open && (
           <div className="w-[min(20rem,calc(100vw-2rem))] bg-slate-900 border border-gold-500/50 rounded-2xl shadow-2xl shadow-gold-950/40 overflow-hidden">
-            <div className="px-3 py-1.5 bg-gradient-to-r from-gold-500 to-gold-700 flex items-center justify-between gap-1.5">
+            <div className="px-3 py-1.5 bg-gold-600 flex items-center justify-between gap-1.5">
               <div className="flex items-center gap-1.5 min-w-0">
                 <Music size={12} className="text-slate-950 shrink-0" />
                 <span className="text-3xs font-black uppercase tracking-widest text-slate-950 truncate">
@@ -419,7 +419,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                     <button
                       type="button"
                       onClick={handleSave}
-                      className="btn-fx shrink-0 px-2 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 flex items-center justify-center"
+                      className="btn-fx shrink-0 px-2 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 flex items-center justify-center"
                       aria-label="Guardar playlist"
                     >
                       <Plus size={14} />
@@ -449,7 +449,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                     <button
                       type="button"
                       onClick={toggleMusic}
-                      className="btn-fx w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 flex items-center justify-center"
+                      className="btn-fx w-9 h-9 shrink-0 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 flex items-center justify-center"
                       aria-label={musicPlaying ? 'Pausar música' : 'Reproducir música'}
                     >
                       {musicPlaying ? <Pause size={15} /> : <Play size={15} />}
@@ -516,7 +516,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                       type="button"
                       onClick={toggleMusic}
                       disabled={!spotifyReady}
-                      className="btn-fx w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 flex items-center justify-center disabled:opacity-40"
+                      className="btn-fx w-9 h-9 shrink-0 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 flex items-center justify-center disabled:opacity-40"
                       aria-label={musicPlaying ? 'Pausar música' : 'Reproducir música'}
                     >
                       {musicPlaying ? <Pause size={15} /> : <Play size={15} />}
