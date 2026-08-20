@@ -2138,6 +2138,9 @@ export default function Dashboard({
   // pocos de forma pseudo-aleatoria por semana (determinístico para no cambiar en cada render, pero
   // distinto semana a semana) de un pool bien mezclado: elogio, análisis neutro, duda/crítica de
   // hincha y chicana de rival conviven, para que la sección se sienta como redes sociales reales.
+  /** Cuántos posts se dibujan como mucho. Ver el comentario del corte, abajo. */
+  const POSTS_EN_EL_FEED = 22;
+
   const generateSocialFeed = (): SocialPost[] => {
     const pName = playerProfile.name;
     const basePostsPool = [
@@ -2620,7 +2623,18 @@ export default function Dashboard({
       ...generateOtherPlayersCritiquePosts(),
       ...generateTransferAnnouncementPosts(),
       ...generateCupChampionPosts()
-    ];
+    // EL FEED TIENE TOPE, Y EL ORDEN DE ARRIBA ES LA PRIORIDAD.
+    //
+    // Son 28 fuentes y hasta acá se dibujaban TODAS. Medido en una fecha donde pasa todo junto --
+    // te bautizaron, se abrió la hemeroteca, al pibe lo vendieron a Europa, estás en la lista,
+    // llegó un refuerzo para tu puesto, estás lesionado y encima jugaste un 9.1 -- salían CINCUENTA
+    // posts de una sentada. Nadie lee cincuenta posts: lo que pasa es que lo importante se pierde
+    // adentro del resto, que es lo contrario de para lo que existe el feed.
+    //
+    // El corte es un slice a secas y puede serlo porque el orden de arriba no es casual: primero lo
+    // que te pasó a VOS esta fecha, después el contexto, y al final el relleno genérico que se
+    // repite todas las semanas. Cortar por abajo tira exactamente lo que sobra.
+    ].slice(0, POSTS_EN_EL_FEED);
   };
 
   // El feed usa Math.random() sin semilla en varios lugares (likes/comentarios de cada post) --

@@ -393,6 +393,56 @@ caso('apodo: sin nada que te defina, no hay apodo', () =>
       'traspasos', null, 'data-vuelta-a-casa'));
 }
 
+// --- CUANTOS POSTS TIENE EL FEED EN EL PEOR CASO -----------------------------------------------
+//
+// En dos dias entraron CUATRO fuentes nuevas (el bautizo, la hemeroteca, la previa del clasico
+// personal y el destino del pibe) a un feed que ya tenia 24. El feed no tiene tope: se dibuja
+// entero. Este caso mide el peor caso real -- una fecha donde todo lo que puede pasar, pasa.
+{
+  const cartagena = ULTIMATE_CLUBS_DATABASE.find(c => c.name === 'Real Cartagena');
+  const marcador = 'rounded-2xl space-y-2';
+
+  const todoJunto = perfilDe(junior, {
+    age: 34,
+    currentWeek: 9,
+    partidos: 60,   // el apodo pide 25 partidos: con los 9 de fabrica no se lo gano nunca
+
+    lastMatchRating: 9.1,
+    seasonHistory: [{ seasonNum: 1, clubId: cartagena.id, clubName: cartagena.name,
+      goles: 8, asistencias: 4, partidos: 30, titulo: '🏆 Campeón' }],
+    // el apodo
+    jugadasPorAtributo: { pase: 44, regate: 10, tiro: 8, ritmo: 6, defensa: 4, fisico: 4 },
+    apodoAnunciado: { apodo: 'El Arquitecto', semana: 9 },
+    // la hemeroteca
+    declaraciones: [{ texto: 'Salimos campeones seguro', saldo: 14, semana: 1,
+      clubId: cartagena.id, clubName: cartagena.name }],
+    // el pibe
+    elPibe: { nombre: 'Brayan Osorio', clubName: 'Junior de Barranquilla', desdeSemana: 1,
+      nivel: 88, temporadasConVos: 4, temporadas: 5,
+      destino: { que: 'europa', semana: 9, relato: 'Brayan Osorio se fue a Europa.' } },
+    // la lista, el refuerzo, la lesion, el bajon
+    listaDeTransferibles: { desdeSemana: 8, temporadas: 0 },
+    fichajeRival: { nombre: 'Kevin Restrepo', posicion: 'MC', desdeSemana: 8,
+      nivel: 80, partidos: 10, goles: 5, asistencias: 3, sumaDeNotas: 75 },
+    activeInjury: { type: 'muscular', weeksRemaining: 3, startedWeek: 7 },
+    ultimaPrensa: { saldo: 8, semana: 9 },
+    miPublicacion: { texto: 'Vamos por todo', saldo: 8, semana: 9 },
+  });
+
+  caso('feed: el peor caso sigue siendo legible', () => {
+    const html = dibujar(todoJunto, 'chutsocial', null);
+    const posts = html.split(marcador).length - 1;
+    // Sin tope esto daba 50. El numero exacto no importa: importa que no vuelva a crecer sin freno
+    // cada vez que se agrega una fuente nueva, que es lo que paso dos veces esta semana.
+    if (posts > 25) throw new Error(`${posts} posts de una sola vez: el feed se volvio ilegible`);
+    // Y la contracara: que el tope no se haya comido lo importante. Lo que te paso a VOS esta fecha
+    // va arriba de todo y tiene que sobrevivir al corte.
+    if (!html.includes('Brayan Osorio')) throw new Error('el tope se comio la noticia del pibe');
+    if (!html.includes('El Arquitecto')) throw new Error('el tope se comio el bautizo');
+    return html;
+  });
+}
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`
