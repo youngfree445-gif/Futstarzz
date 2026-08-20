@@ -194,7 +194,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-gold-500/5 rounded-full blur-[110px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-burgundy-500/5 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl backdrop-blur relative">
+      <div className="w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl backdrop-blur relative">
         
         {/* Newspaper Gacetilla section with authentic layout */}
         <div className="p-6 md:p-8 bg-burgundy-40/10 bg-slate-950 border-b border-slate-800/80 relative overflow-hidden">

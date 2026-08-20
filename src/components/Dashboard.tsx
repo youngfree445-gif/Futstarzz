@@ -1458,16 +1458,16 @@ export default function Dashboard({
       <div className="space-y-3">
         {/* Lo primero es tu situación, que es lo que se viene a mirar. */}
         {campeonId === miId ? (
-          <div className="px-3 py-2 rounded-lg bg-gold-500/10 border border-gold-500/30 text-gold-300 text-2xs font-bold">
+          <div className="px-3 py-2 rounded-xl bg-gold-500/10 border border-gold-500/30 text-gold-300 text-2xs font-bold">
             🏆 Campeón. No queda nada por jugar.
           </div>
         ) : !sigoVivo ? (
-          <div className="px-3 py-2 rounded-lg bg-burgundy-600/10 border border-burgundy-600/30 text-burgundy-300 text-2xs font-bold">
+          <div className="px-3 py-2 rounded-xl bg-burgundy-600/10 border border-burgundy-600/30 text-burgundy-300 text-2xs font-bold">
             Eliminado en {rondaEnQueSali ?? 'la fase eliminatoria'}.
             {campeonId && <span className="text-slate-400 font-normal"> Ganó {clubNameById(campeonId)}.</span>}
           </div>
         ) : miCruce ? (
-          <div className="px-3 py-2 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-400 text-2xs font-bold">
+          <div className="px-3 py-2 rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-400 text-2xs font-bold">
             {ultima.nombre}: te toca {clubNameById(miCruce.aId === miId ? miCruce.bId : miCruce.aId)}
             {miCruce.marcador && <span className="text-slate-300 font-normal"> · va {miCruce.marcador}</span>}
           </div>
@@ -2768,7 +2768,7 @@ export default function Dashboard({
         <div className="space-y-4">
 
           <div className="p-3 flex items-center gap-3 border-b border-slate-800">
-            <div className="w-9 h-9 bg-gold-500 hover:bg-gold-400 transition-colors rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(168,132,46,0.3)]">
+            <div className="w-9 h-9 bg-gold-500 hover:bg-gold-400 transition-colors rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(168,132,46,0.3)]">
               <Star size={18} className="text-slate-950" fill="currentColor" strokeWidth={1} />
             </div>
             <div>
@@ -2807,7 +2807,7 @@ export default function Dashboard({
             onClick={() => setNavAbiertoEnMovil(v => !v)}
             aria-expanded={navAbiertoEnMovil}
             aria-controls="nav-principal"
-            className="btn-fx-subtle md:hidden w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest bg-slate-900 border border-slate-800 text-slate-300 transition-all cursor-pointer"
+            className="btn-fx-subtle md:hidden w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest bg-slate-900 border border-slate-800 text-slate-300 transition-all cursor-pointer"
           >
             {navAbiertoEnMovil ? <X size={16} /> : <Menu size={16} />}
             {navAbiertoEnMovil ? 'Cerrar menú' : 'Menú'}
@@ -2843,7 +2843,7 @@ export default function Dashboard({
                     // cerrarlo a mano para llegar al contenido que se acaba de pedir.
                     setNavAbiertoEnMovil(false);
                   }}
-                  className={`btn-fx-subtle w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950 ${activa ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
+                  className={`btn-fx-subtle w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950 ${activa ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 shadow-md font-black' : 'text-slate-400 hover:bg-slate-900/30 hover:text-white'}`}
                 >
                   <Icon size={15} /> {label}
                   {key === 'logros' && (
@@ -2864,7 +2864,7 @@ export default function Dashboard({
           <ReportarBug perfil={playerProfile} clubes={ULTIMATE_CLUBS_DATABASE} />
           <button
             onClick={onLogout}
-            className="btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-red-400 text-2xs font-mono transition-colors text-left cursor-pointer"
+            className="btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:text-red-400 text-2xs font-mono transition-colors text-left cursor-pointer"
           >
             <LogOut size={13} /> Guardar & Salir
           </button>
@@ -3056,7 +3056,7 @@ export default function Dashboard({
             <div className="space-y-4 animate-fade-in">
               <div className="grid md:grid-cols-3 gap-4">
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
                     <Award size={15} className="text-gold-400" /> Atributos del Jugador
                   </h3>
@@ -3145,7 +3145,7 @@ export default function Dashboard({
                   </div>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg flex flex-col justify-between">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col justify-between">
                   <div>
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
                       🏆 Estadísticas Históricas de Carrera
@@ -3242,7 +3242,7 @@ export default function Dashboard({
                   dejó la tarjeta del partido al dejar de estirarse (self-start), y de paso
                   empareja el alto de las tres columnas en vez de dejar una corta. */}
               <div className="space-y-4 self-start">
-                <div className="bg-gold-950/20 border border-gold-900/30 rounded-3xl p-4 shadow-xl flex flex-col relative overflow-hidden">
+                <div className="bg-gold-950/20 border border-gold-900/30 rounded-2xl p-4 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
@@ -3408,7 +3408,7 @@ export default function Dashboard({
                   )}
                 </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
                 <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
                   🌎 Ranking mundial
                 </h3>
@@ -3450,7 +3450,7 @@ export default function Dashboard({
                 const borde = forma.estado === 'en_racha' ? 'border-emerald-900/40'
                   : forma.estado === 'en_baja' ? 'border-red-900/40' : 'border-slate-800';
                 return (
-                  <div className={`bg-slate-900 border ${borde} rounded-3xl p-5 shadow-lg`}>
+                  <div className={`bg-slate-900 border ${borde} rounded-2xl p-5 shadow-lg`}>
                     <h3 className={`text-xs font-black uppercase tracking-widest ${color} mb-2 flex items-center gap-2`}>
                       {forma.estado === 'en_racha' ? '🔥' : forma.estado === 'en_baja' ? '🥶' : '📈'} Momento de forma
                     </h3>
@@ -3467,7 +3467,7 @@ export default function Dashboard({
                       {notas.map((n, i) => (
                         <div
                           key={`${n.paso}_${i}`}
-                          className={`flex-1 rounded-lg text-center py-1.5 text-2xs font-black tabular-nums ${
+                          className={`flex-1 rounded-xl text-center py-1.5 text-2xs font-black tabular-nums ${
                             n.rating >= NOTA_BUENA ? 'bg-emerald-950/60 text-emerald-300'
                               : n.rating <= NOTA_MALA ? 'bg-red-950/60 text-red-300'
                               : 'bg-slate-950 text-slate-400'
@@ -3493,7 +3493,7 @@ export default function Dashboard({
                   porque son la misma pregunta a dos escalas: la forma dice cómo venís estas
                   cinco fechas, y esto dice cómo vas contra el que arrancó cuando vos. */}
               {miRival && (
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-3">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
                   <h3 className="font-black text-xs text-slate-400 uppercase tracking-wider flex items-center gap-2">
                     <Swords size={14} /> Rival de carrera
                   </h3>
@@ -3528,7 +3528,7 @@ export default function Dashboard({
                   resolver. Va pegado al de Entorno porque son la misma familia -- lo de afuera
                   de la cancha -- y porque visitar a los tuyos es la prevención de esto mismo. */}
               {estaEnBajon(playerProfile) && (
-                <div className="bg-burgundy-950/30 border border-burgundy-500/40 rounded-3xl p-5 shadow-lg space-y-3">
+                <div className="bg-burgundy-950/30 border border-burgundy-500/40 rounded-2xl p-5 shadow-lg space-y-3">
                   <h3 className="font-black text-xs text-burgundy-300 uppercase tracking-wider flex items-center gap-2">
                     <Brain size={14} /> Bajón anímico
                   </h3>
@@ -3566,7 +3566,7 @@ export default function Dashboard({
               )}
 
               {playerProfile.activeInjury && (
-                <div className="bg-slate-900 border border-red-900/40 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-red-900/40 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-red-400 mb-2 flex items-center gap-2">
                     🩹 Lesionado
                   </h3>
@@ -3630,7 +3630,7 @@ export default function Dashboard({
               )}
 
               {playerProfile.age >= 32 && (
-                <div className="bg-slate-900 border border-burgundy-900/40 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-burgundy-900/40 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 mb-2 flex items-center gap-2">
                     🎖️ Fase Veterana de la Carrera
                   </h3>
@@ -3659,7 +3659,7 @@ export default function Dashboard({
                 </div>
               )}
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
                 <SeasonComparisonChart seasonHistory={playerProfile.seasonHistory} />
               </div>
 
@@ -3712,7 +3712,7 @@ export default function Dashboard({
                   return (
                     <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-xl hover:border-gold-500/20 transition-all flex items-center gap-2.5 p-2.5">
                       <img src={item.img} alt="" title={item.desc} loading="lazy" decoding="async"
-                           className="w-12 h-12 rounded-lg object-cover shrink-0" />
+                           className="w-12 h-12 rounded-xl object-cover shrink-0" />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline justify-between gap-2">
                           <h4 className="font-bold text-xs text-white truncate" title={item.desc}>{item.label}</h4>
@@ -3736,7 +3736,7 @@ export default function Dashboard({
                             : playerProfile.capital < trainingCost
                             ? `Te faltan $${(trainingCost - playerProfile.capital).toLocaleString()}.`
                             : item.desc}
-                          className={`btn-fx-subtle w-full min-h-[36px] py-1.5 px-2 rounded-lg font-bold text-3xs uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
+                          className={`btn-fx-subtle w-full min-h-[36px] py-1.5 px-2 rounded-xl font-bold text-3xs uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
                             puede
                               ? 'bg-slate-950 text-white hover:bg-gradient-to-br hover:from-gold-400 hover:to-gold-600 hover:text-slate-950 border border-slate-800 hover:border-gold-400 cursor-pointer'
                               : alMaximo
@@ -3758,7 +3758,7 @@ export default function Dashboard({
               <div className="flex flex-col gap-4">
 
               {/* SECCIÓN ROL FAVORITO */}
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   <Sparkles size={15} className="text-gold-400" /> Especialización
                 </h3>
@@ -3796,7 +3796,7 @@ export default function Dashboard({
 
               {/* SECCIÓN CLÍNICA DE FISIOTERAPIA -- flex-1: es el panel que absorbe el alto sobrante,
                   así la columna derecha termina a la misma altura que la grilla de atributos. */}
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg flex-1">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex-1">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   <Heart size={15} className="text-rose-500" /> Clínica de Fisioterapia
                 </h3>
@@ -3872,7 +3872,7 @@ export default function Dashboard({
           {activeTab === 'chutsocial' && (
             <div className="space-y-6 animate-fade-in max-w-4xl grid md:grid-cols-3 gap-6 items-start">
               <div className="md:col-span-2 space-y-4">
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
                     <Send size={15} className="text-gold-400" /> Red de Opinión Pública - Prensa y Afición
                   </h3>
@@ -3976,7 +3976,7 @@ export default function Dashboard({
                                         src={c.gifUrl}
                                         alt="GIF"
                                         onClick={() => setExpandedGifUrl(c.gifUrl!)}
-                                        className="w-32 rounded-lg border border-slate-800 mt-1 cursor-pointer hover:opacity-90 transition-opacity"
+                                        className="w-32 rounded-xl border border-slate-800 mt-1 cursor-pointer hover:opacity-90 transition-opacity"
                                       />
                                     )}
                                     <span className="text-[9px] text-slate-500 font-mono">❤️ {c.likes.toLocaleString()} Me gusta</span>
@@ -3990,7 +3990,7 @@ export default function Dashboard({
                             <div className="pt-2 border-t border-slate-950 space-y-2">
                               {commentGifDrafts[post.id] && (
                                 <div className="relative inline-block">
-                                  <img src={commentGifDrafts[post.id]} alt="GIF elegido" className="w-28 rounded-lg border border-gold-500/40" />
+                                  <img src={commentGifDrafts[post.id]} alt="GIF elegido" className="w-28 rounded-xl border border-gold-500/40" />
                                   <button
                                     type="button"
                                     onClick={() => setCommentGifDrafts(prev => { const next = { ...prev }; delete next[post.id]; return next; })}
@@ -4007,7 +4007,7 @@ export default function Dashboard({
                                   onChange={e => setCommentDrafts(prev => ({ ...prev, [post.id]: e.target.value }))}
                                   onKeyDown={e => { if (e.key === 'Enter') submitComment(post.id); }}
                                   placeholder="Escribí tu comentario... es libre, opiná lo que quieras"
-                                  className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
+                                  className="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
                                 />
                                 <button
                                   type="button"
@@ -4016,14 +4016,14 @@ export default function Dashboard({
                                     setGifPickerOpenFor(next);
                                     if (next) searchGifsForComment(playerProfile.name);
                                   }}
-                                  className="btn-fx-subtle px-2.5 py-1.5 rounded-lg border border-slate-700 text-2xs font-bold text-slate-300 hover:border-gold-500/50 shrink-0"
+                                  className="btn-fx-subtle px-2.5 py-1.5 rounded-xl border border-slate-700 text-2xs font-bold text-slate-300 hover:border-gold-500/50 shrink-0"
                                   title="Adjuntar GIF"
                                 >
                                   GIF
                                 </button>
                                 <button
                                   onClick={() => submitComment(post.id)}
-                                  className="btn-fx-subtle px-3 py-1.5 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
+                                  className="btn-fx-subtle px-3 py-1.5 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-2xs cursor-pointer shrink-0"
                                 >
                                   Publicar
                                 </button>
@@ -4036,7 +4036,7 @@ export default function Dashboard({
                                     value={gifSearchQuery}
                                     onChange={e => searchGifsForComment(e.target.value)}
                                     placeholder="Buscar GIF..."
-                                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
+                                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-2xs text-white placeholder:text-slate-600 focus:outline-none focus:border-gold-500/50"
                                   />
                                   <div className="max-h-96 overflow-y-auto pr-1 space-y-2">
                                     <div className="grid grid-cols-3 gap-2">
@@ -4053,7 +4053,7 @@ export default function Dashboard({
                                               setCommentGifDrafts(prev => ({ ...prev, [post.id]: url }));
                                               setGifPickerOpenFor(null);
                                             }}
-                                            className="btn-fx-subtle rounded-lg overflow-hidden border border-slate-800 hover:border-gold-500/50"
+                                            className="btn-fx-subtle rounded-xl overflow-hidden border border-slate-800 hover:border-gold-500/50"
                                           >
                                             <img src={url} alt="" loading="lazy" decoding="async" className="w-full h-28 object-cover" />
                                           </button>
@@ -4065,7 +4065,7 @@ export default function Dashboard({
                                         type="button"
                                         onClick={loadMoreGifs}
                                         disabled={gifSearchLoadingMore}
-                                        className="btn-fx-subtle w-full py-2 rounded-lg border border-slate-800 text-2xs font-bold text-slate-300 hover:border-gold-500/50 disabled:opacity-50 disabled:cursor-wait"
+                                        className="btn-fx-subtle w-full py-2 rounded-xl border border-slate-800 text-2xs font-bold text-slate-300 hover:border-gold-500/50 disabled:opacity-50 disabled:cursor-wait"
                                       >
                                         {gifSearchLoadingMore ? 'Cargando...' : 'Cargar más GIFs'}
                                       </button>
@@ -4086,7 +4086,7 @@ export default function Dashboard({
                 {/* Entorno: familia y amigos. Va acá arriba, junto a la vida amorosa, porque es la
                     misma mitad de la carrera -- la que pasa fuera de la cancha. La pareja tiene su
                     propio medidor desde antes y no se toca. */}
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     🏠 Familia y Amigos
                   </h3>
@@ -4128,7 +4128,7 @@ export default function Dashboard({
                   })()}
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     💕 Vida Amorosa
                   </h3>
@@ -4170,31 +4170,31 @@ export default function Dashboard({
                         <button
                           onClick={onGirlfriendFlowers}
                           disabled={playerProfile.capital < 300}
-                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           💐 Regalar Flores
                         </button>
                         <button
                           onClick={onGirlfriendPhoto}
-                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
+                          className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
                         >
                           📸 Foto Juntos
                         </button>
                         <button
                           onClick={onGirlfriendFaithful}
-                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
+                          className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
                         >
                           🙏 Serle Fiel
                         </button>
                         <button
                           onClick={onGirlfriendDenyRumors}
-                          className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
+                          className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer"
                         >
                           📰 Negar Rumores
                         </button>
                         <button
                           onClick={onGirlfriendCheat}
-                          className="btn-fx-subtle col-span-2 py-1.5 px-2 rounded-lg bg-red-950/30 border border-red-500/20 hover:border-red-500/50 text-2xs font-bold text-red-300 cursor-pointer"
+                          className="btn-fx-subtle col-span-2 py-1.5 px-2 rounded-xl bg-red-950/30 border border-red-500/20 hover:border-red-500/50 text-2xs font-bold text-red-300 cursor-pointer"
                         >
                           😈 Engañarla con una Modelo
                         </button>
@@ -4208,13 +4208,13 @@ export default function Dashboard({
                           <div className="grid grid-cols-2 gap-2">
                             <button
                               onClick={() => onGirlfriendMoveIn(true)}
-                              className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase cursor-pointer"
+                              className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase cursor-pointer"
                             >
                               Aceptar
                             </button>
                             <button
                               onClick={() => onGirlfriendMoveIn(false)}
-                              className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 font-bold text-3xs uppercase cursor-pointer"
+                              className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold text-3xs uppercase cursor-pointer"
                             >
                               Rechazar
                             </button>
@@ -4245,7 +4245,7 @@ export default function Dashboard({
                           <button
                             onClick={onHaveChild}
                             disabled={playerProfile.energy < 25}
-                            className="btn-fx-subtle w-full py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="btn-fx-subtle w-full py-1.5 px-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                           >
                             👶 Agrandar la Familia
                           </button>
@@ -4255,7 +4255,7 @@ export default function Dashboard({
                   )}
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     📢 Gestión de Imagen de Marca
                   </h3>
@@ -4273,7 +4273,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(1000, 10, 0)}
                         disabled={playerProfile.capital < 1000}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Lanzar sorteo
                       </button>
@@ -4288,7 +4288,7 @@ export default function Dashboard({
                       <button
                         onClick={() => onLaunchPRCampaign(3000, 15, 3)}
                         disabled={playerProfile.capital < 3000}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Financiar Evento
                       </button>
@@ -4302,7 +4302,7 @@ export default function Dashboard({
                       <p className="text-3xs text-slate-400">Recibes capital inmediato, pero genera ligeras críticas por saturación publicitaria.</p>
                       <button
                         onClick={() => onLaunchPRCampaign(-4000, 5, -8)}
-                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                        className="btn-fx-subtle w-full mt-3 py-1.5 px-3 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                       >
                         Firmar Contrato Comercial
                       </button>
@@ -4326,7 +4326,7 @@ export default function Dashboard({
               </div>
 
               {pressResponseState === 'asking' && playerProfile.lastPressAnsweredWeek === playerProfile.currentWeek ? (
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-3 text-center">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-3 text-center">
                   <div className="inline-flex p-3 rounded-full bg-slate-800/60 border border-slate-700 text-slate-400 mb-1">
                     <Radio size={24} />
                   </div>
@@ -4334,7 +4334,7 @@ export default function Dashboard({
                   <p className="text-3xs text-slate-400 font-mono">Los reporteros vuelven la semana que viene con nuevas preguntas.</p>
                 </div>
               ) : pressResponseState === 'asking' ? (
-                <div className={`bg-slate-900 border rounded-3xl shadow-xl relative overflow-hidden ${PRESS_QUESTIONS_POOL[selectedPressQ].mediaColor}`}>
+                <div className={`bg-slate-900 border rounded-2xl shadow-xl relative overflow-hidden ${PRESS_QUESTIONS_POOL[selectedPressQ].mediaColor}`}>
 
                   {/* Backdrop tipo "step and repeat" de rueda de prensa real, detrás del encabezado */}
                   <div className="absolute inset-x-0 top-0 h-28 overflow-hidden pointer-events-none select-none">
@@ -4401,7 +4401,7 @@ export default function Dashboard({
                   </div>
                 </div>
               ) : (
-                <div className="bg-slate-900 border border-gold-500/20 rounded-3xl p-6 shadow-xl space-y-4 text-center">
+                <div className="bg-slate-900 border border-gold-500/20 rounded-2xl p-6 shadow-xl space-y-4 text-center">
                   <div className="inline-flex p-3 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 mb-2">
                     <CheckCircle size={28} />
                   </div>
@@ -4442,8 +4442,8 @@ export default function Dashboard({
                     <>
                       <p className="mb-2">El préstamo terminó. ¿Ejerces la opción de compra por ${(playerProfile.activeLoan.optionToBuyAmount ?? 0).toLocaleString()} o vuelves a {playerProfile.activeLoan.originClubName}?</p>
                       <div className="grid grid-cols-2 gap-2">
-                        <button onClick={() => onResolveLoan(true)} disabled={playerProfile.capital < (playerProfile.activeLoan.optionToBuyAmount ?? 0)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-2xs uppercase cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Comprar</button>
-                        <button onClick={() => onResolveLoan(false)} className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 font-bold text-2xs uppercase cursor-pointer">Volver</button>
+                        <button onClick={() => onResolveLoan(true)} disabled={playerProfile.capital < (playerProfile.activeLoan.optionToBuyAmount ?? 0)} className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-bold text-2xs uppercase cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">Comprar</button>
+                        <button onClick={() => onResolveLoan(false)} className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 font-bold text-2xs uppercase cursor-pointer">Volver</button>
                       </div>
                     </>
                   ) : (
@@ -4466,7 +4466,7 @@ export default function Dashboard({
                 const windowOpen = mercadoAbierto(currentClub.name, playerProfile.currentWeek);
                 if (windowOpen) {
                   return (
-                    <div className="px-4 py-2.5 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold flex items-center gap-2">
+                    <div className="px-4 py-2.5 rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold flex items-center gap-2">
                       <RefreshCw size={13} /> Ventana de fichajes ABIERTA — puedes concretar traspasos esta semana.
                     </div>
                   );
@@ -4475,7 +4475,7 @@ export default function Dashboard({
                 // era una cuenta que no se correspondía con nada de lo que veía en el calendario.
                 const diasQueFaltan = diasHastaElMercado(currentClub.name, playerProfile.currentWeek);
                 return (
-                  <div className="px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-xs font-bold flex items-center gap-2">
+                  <div className="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs font-bold flex items-center gap-2">
                     <RefreshCw size={13} /> Mercado de fichajes CERRADO — vuelve a abrir en {diasQueFaltan} día{diasQueFaltan !== 1 ? 's' : ''}. Puedes revisar ofertas, pero no concretarlas hasta entonces.
                   </div>
                 );
@@ -4515,7 +4515,7 @@ export default function Dashboard({
                       className={`p-3 rounded-xl border flex flex-col gap-2 transition-all bg-slate-900 border-slate-800 ${!offer.possible ? 'opacity-60' : ''}`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <ClubBadge club={offer.club} size={34} className="rounded-lg border border-slate-800 bg-slate-950 shadow-inner shrink-0" />
+                        <ClubBadge club={offer.club} size={34} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner shrink-0" />
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-1.5">
                             <h3 className="font-extrabold text-xs text-white truncate max-w-[150px] sm:max-w-[210px]">
@@ -4570,7 +4570,7 @@ export default function Dashboard({
                                   <select
                                     value={pendingTransferDorsal}
                                     onChange={(e) => setPendingTransferDorsal(Number(e.target.value))}
-                                    className="w-24 py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white"
+                                    className="w-24 py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white"
                                   >
                                     {Array.from({ length: 33 }, (_, i) => i + 1).map(n => (
                                       <option key={n} value={n}>{n}</option>
@@ -4589,7 +4589,7 @@ export default function Dashboard({
                                         setPendingTransferClubId(null);
                                       }
                                     }}
-                                    className="btn-fx py-1.5 px-3.5 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                                    className="btn-fx py-1.5 px-3.5 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                                   >
                                     Confirmar fichaje
                                   </button>
@@ -4603,7 +4603,7 @@ export default function Dashboard({
                                   setPendingTransferClubId(offer.club.id);
                                   setPendingTransferDorsal(playerProfile.dorsal);
                                 }}
-                                className="btn-fx py-1.5 px-3.5 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
+                                className="btn-fx py-1.5 px-3.5 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black text-2xs uppercase tracking-wider cursor-pointer"
                               >
                                 Aceptar Traspaso
                               </button>
@@ -4614,7 +4614,7 @@ export default function Dashboard({
                                       onLoanOut(offer.club.id);
                                     }
                                   }}
-                                  className="btn-fx-subtle py-1 px-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 font-bold text-3xs uppercase tracking-wider cursor-pointer"
+                                  className="btn-fx-subtle py-1 px-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 font-bold text-3xs uppercase tracking-wider cursor-pointer"
                                 >
                                   Salir a préstamo
                                 </button>
@@ -4640,7 +4640,7 @@ export default function Dashboard({
                   .filter((p): p is typeof p & { club: Club } => !!p.club);
                 if (radar.length === 0) return null;
                 return (
-                  <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
                       🎯 Quién te está mirando
                     </h3>
@@ -4689,7 +4689,7 @@ export default function Dashboard({
               })()}
 
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     🤝 Representante
                   </h3>
@@ -4703,7 +4703,7 @@ export default function Dashboard({
                       </p>
                       <button
                         onClick={onFireAgent}
-                        className="btn-fx-subtle py-1.5 px-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-red-300 hover:border-red-500/40 font-bold text-2xs uppercase cursor-pointer"
+                        className="btn-fx-subtle py-1.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 hover:text-red-300 hover:border-red-500/40 font-bold text-2xs uppercase cursor-pointer"
                       >
                         Terminar relación
                       </button>
@@ -4720,7 +4720,7 @@ export default function Dashboard({
                           <button
                             key={a.id}
                             onClick={() => onHireAgent(a.id)}
-                            className="btn-fx-subtle py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer text-left"
+                            className="btn-fx-subtle py-1.5 px-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer text-left"
                           >
                             {a.name}
                             <span className="block text-3xs text-slate-500 font-mono">{'★'.repeat(a.reputation)} · {a.commissionPct}%</span>
@@ -4728,7 +4728,7 @@ export default function Dashboard({
                         ))}
                         <button
                           onClick={() => onHireAgent('familia')}
-                          className="btn-fx-subtle col-span-2 py-1.5 px-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-2xs font-bold text-slate-300 cursor-pointer text-left"
+                          className="btn-fx-subtle col-span-2 py-1.5 px-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 text-2xs font-bold text-slate-300 cursor-pointer text-left"
                         >
                           Un familiar/amigo cercano
                           <span className="block text-3xs text-slate-500 font-mono">Sin reputación · 3%</span>
@@ -4738,7 +4738,7 @@ export default function Dashboard({
                   )}
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     ✍️ Renovación con {currentClub.name}
                   </h3>
@@ -4861,7 +4861,7 @@ export default function Dashboard({
                                 }
                               }}
                               disabled={!isAffordable}
-                              className={`btn-fx-subtle py-1.5 px-3.5 rounded-lg text-3xs font-black uppercase tracking-wider transition-all ${
+                              className={`btn-fx-subtle py-1.5 px-3.5 rounded-xl text-3xs font-black uppercase tracking-wider transition-all ${
                                 isAffordable
                                   ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer'
                                   : 'bg-slate-950 text-slate-500 border border-slate-800 cursor-not-allowed'
@@ -4877,7 +4877,7 @@ export default function Dashboard({
                 })}
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg mt-6">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg mt-6">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   💼 Finanzas Personales
                 </h3>
@@ -4897,7 +4897,7 @@ export default function Dashboard({
                         <button
                           onClick={() => onBuyInvestment(inv.id)}
                           disabled={owned || playerProfile.capital < inv.cost}
-                          className="btn-fx-subtle w-full mt-2 py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="btn-fx-subtle w-full mt-2 py-1.5 px-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-gold-500/40 text-2xs font-bold text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           {owned ? 'Ya invertiste' : `Invertir $${inv.cost.toLocaleString()}`}
                         </button>
@@ -4924,7 +4924,7 @@ export default function Dashboard({
                 const activeSponsorships = sponsorDeals.filter(i => i.purchased).length;
                 const capReached = activeSponsorships >= MAX_ACTIVE_SPONSORSHIPS;
                 return (
-                  <div className={`px-4 py-2.5 rounded-lg border text-xs font-bold flex items-center gap-2 ${capReached ? 'bg-burgundy-500/10 border-burgundy-500/20 text-burgundy-400' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                  <div className={`px-4 py-2.5 rounded-xl border text-xs font-bold flex items-center gap-2 ${capReached ? 'bg-burgundy-500/10 border-burgundy-500/20 text-burgundy-400' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
                     <DollarSign size={13} /> Patrocinios activos: {activeSponsorships}/{MAX_ACTIVE_SPONSORSHIPS}
                     {capReached ? ' — agenda comercial completa, espera a liberar un cupo.' : ''}
                   </div>
@@ -5003,7 +5003,7 @@ export default function Dashboard({
                                     onCancelSponsor(item.id);
                                   }
                                 }}
-                                className="btn-fx-subtle py-1 px-2 rounded-lg text-3xs font-bold uppercase tracking-wider text-red-400 border border-red-500/20 hover:bg-red-950/30 cursor-pointer"
+                                className="btn-fx-subtle py-1 px-2 rounded-xl text-3xs font-bold uppercase tracking-wider text-red-400 border border-red-500/20 hover:bg-red-950/30 cursor-pointer"
                               >
                                 Cancelar Contrato
                               </button>
@@ -5022,7 +5022,7 @@ export default function Dashboard({
                                     onAcceptSponsor(item.id);
                                   }
                                 }}
-                                className="btn-fx-subtle py-1.5 px-3 rounded-lg text-3xs font-black uppercase tracking-wider bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer"
+                                className="btn-fx-subtle py-1.5 px-3 rounded-xl text-3xs font-black uppercase tracking-wider bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 hover:from-gold-300 hover:to-gold-500 cursor-pointer"
                               >
                                 Aceptar Patrocinio
                               </button>
@@ -5050,7 +5050,7 @@ export default function Dashboard({
                 </p>
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 flex-wrap">
                   <div>
                     <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 flex items-center gap-2">
@@ -5068,7 +5068,7 @@ export default function Dashboard({
                   <select
                     value={selectedLeagueKey}
                     onChange={(e) => setTablesLeagueOverride(e.target.value === myLeagueKey ? null : e.target.value)}
-                    className="bg-slate-950 border border-slate-800 rounded-lg text-2xs font-bold text-white py-1 px-2 focus:outline-none focus:border-gold-500"
+                    className="bg-slate-950 border border-slate-800 rounded-xl text-2xs font-bold text-white py-1 px-2 focus:outline-none focus:border-gold-500"
                   >
                     {allLeagueKeys.map(key => {
                       const sampleClub = ULTIMATE_CLUBS_DATABASE.find(c => leagueKeyFor(c) === key);
@@ -5119,7 +5119,7 @@ export default function Dashboard({
                 )}
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
                   <Award size={13} /> ESTADÍSTICAS DE JUGADORES · {tituloDeLideres.toUpperCase()}
                 </h3>
@@ -5190,7 +5190,7 @@ export default function Dashboard({
                   lo que el jugador viene a mirar. Fuera de la ventana no se dibuja. */}
               {torneoDeSelecciones && (
                 <div data-torneo={torneoDeSelecciones.torneo}
-                  className="bg-slate-900 border border-gold-500/30 rounded-3xl p-5 shadow-lg space-y-4">
+                  className="bg-slate-900 border border-gold-500/30 rounded-2xl p-5 shadow-lg space-y-4">
                   <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
                     {torneoDeSelecciones.torneo === 'mundial' ? '🌎' : '🏆'} {torneoDeSelecciones.nombre}
                     {' · '}{cupStageLabel(torneoDeSelecciones.estado.stage)}
@@ -5233,7 +5233,7 @@ export default function Dashboard({
                 </div>
               )}
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg space-y-4">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 {conmebolCup ? (
                   <>
                     <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 border-b border-slate-800 pb-2 flex items-center gap-2">
@@ -5345,7 +5345,7 @@ export default function Dashboard({
                 </p>
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                 <div className="flex items-center justify-between mb-4">
                   <button
                     onClick={() => setCalendarMonthOffset(m => Math.max(limiteDeMeses.min, m - 1))}
@@ -5379,7 +5379,7 @@ export default function Dashboard({
                           {week.map((day, di) => (
                             <div
                               key={di}
-                              className={`min-h-[78px] rounded-lg p-1.5 ${
+                              className={`min-h-[78px] rounded-xl p-1.5 ${
                                 day
                                   ? (calendarEventsByDay.get(day) || []).some(e => e.esHoy)
                                     // El partido que te toca AHORA: sin esto la tarjeta decia
@@ -5478,7 +5478,7 @@ export default function Dashboard({
                 const categoryLabel = category === 'carrera' ? '📈 Carrera' : category === 'partido' ? '⚡ Partido Puntual' : '❤️ Vida Personal';
                 const categoryAchievements = ACHIEVEMENTS_DATABASE.filter(a => a.category === category);
                 return (
-                  <div key={category} className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-lg">
+                  <div key={category} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">
                       {categoryLabel}
                     </h3>
@@ -5565,7 +5565,7 @@ export default function Dashboard({
                     jugadores ~600px hacia abajo y obligaban a scrollear para ver el plantel. */}
                 <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                   <div className="flex items-center gap-3">
-                    <ClubBadge club={viewedClub} size={40} className="rounded-lg border border-slate-800 bg-slate-950 shadow-inner" />
+                    <ClubBadge club={viewedClub} size={40} className="rounded-xl border border-slate-800 bg-slate-950 shadow-inner" />
                     <div>
                       <span className="text-3xs font-mono font-bold uppercase tracking-widest text-gold-400">
                         {viewedClub.league}
@@ -5592,7 +5592,7 @@ export default function Dashboard({
                       <select
                         value={viewedClub.id}
                         onChange={(e) => setRosterClubIdOverride(e.target.value === currentClub.id ? null : e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg text-2xs font-bold text-white py-1.5 px-2 focus:outline-none focus:border-gold-500"
+                        className="w-full bg-slate-900 border border-slate-800 rounded-xl text-2xs font-bold text-white py-1.5 px-2 focus:outline-none focus:border-gold-500"
                       >
                         <option value={currentClub.id}>{currentClub.name} (Tu club)</option>
                         {ULTIMATE_CLUBS_DATABASE.filter(c => c.id !== currentClub.id).map(c => (
@@ -5624,7 +5624,7 @@ export default function Dashboard({
                           <button
                             type="button"
                             onClick={() => onSelectMentee(null)}
-                            className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                            className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-xl border transition-all ${
                               !playerProfile.mentorshipPlayerName
                                 ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
                                 : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
@@ -5637,7 +5637,7 @@ export default function Dashboard({
                               key={p}
                               type="button"
                               onClick={() => onSelectMentee(p)}
-                              className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                              className={`btn-fx-subtle py-1.5 px-3 text-2xs font-bold rounded-xl border transition-all ${
                                 playerProfile.mentorshipPlayerName === p
                                   ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
                                   : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
@@ -5675,7 +5675,7 @@ export default function Dashboard({
                             <button
                               type="button"
                               onClick={() => onSelectMentor(null)}
-                              className={`btn-fx-subtle min-h-[36px] py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                              className={`btn-fx-subtle min-h-[36px] py-1.5 px-3 text-2xs font-bold rounded-xl border transition-all ${
                                 !playerProfile.mentorName
                                   ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
                                   : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
@@ -5688,7 +5688,7 @@ export default function Dashboard({
                                 key={p}
                                 type="button"
                                 onClick={() => onSelectMentor(p)}
-                                className={`btn-fx-subtle min-h-[36px] py-1.5 px-3 text-2xs font-bold rounded-lg border transition-all ${
+                                className={`btn-fx-subtle min-h-[36px] py-1.5 px-3 text-2xs font-bold rounded-xl border transition-all ${
                                   playerProfile.mentorName === p
                                     ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
                                     : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
@@ -5728,7 +5728,7 @@ export default function Dashboard({
                     </h3>
                     <div className="space-y-1">
                       {plantilla.porteros.length > 0 ? plantilla.porteros.map(player => (
-                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-lg flex justify-between items-center gap-2">
+                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center gap-2">
                           <div>
                             <h4 className="font-bold text-2xs text-white flex items-center gap-1 leading-tight truncate">
                               {player.nombre_completo}
@@ -5756,7 +5756,7 @@ export default function Dashboard({
                     </h3>
                     <div className="space-y-1">
                       {plantilla.defensivos.length > 0 ? plantilla.defensivos.map(player => (
-                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-lg flex justify-between items-center gap-2">
+                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center gap-2">
                           <div>
                             <h4 className="font-bold text-2xs text-white flex items-center gap-1 leading-tight truncate">
                               {player.nombre_completo}
@@ -5784,7 +5784,7 @@ export default function Dashboard({
                     </h3>
                     <div className="space-y-1">
                       {plantilla.ofensivos.length > 0 ? plantilla.ofensivos.map(player => (
-                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-lg flex justify-between items-center gap-2">
+                        <div key={player.player_id} className="px-2 py-1.5 bg-slate-950 border border-slate-850 rounded-xl flex justify-between items-center gap-2">
                           <div>
                             <h4 className="font-bold text-2xs text-white flex items-center gap-1 leading-tight truncate">
                               {player.nombre_completo}

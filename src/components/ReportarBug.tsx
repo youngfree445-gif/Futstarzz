@@ -40,8 +40,8 @@ export default function ReportarBug({ perfil, clubes, partido, variante = 'menu'
         onClick={abrir}
         title="Reportar un bug"
         className={variante === 'menu'
-          ? 'btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-gold-400 text-2xs font-mono transition-colors text-left cursor-pointer'
-          : 'btn-fx-subtle px-2 py-1 rounded-lg text-slate-500 hover:text-gold-400 text-2xs font-mono transition-colors cursor-pointer border border-slate-800'}
+          ? 'btn-fx-subtle w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:text-gold-400 text-2xs font-mono transition-colors text-left cursor-pointer'
+          : 'btn-fx-subtle px-2 py-1 rounded-xl text-slate-500 hover:text-gold-400 text-2xs font-mono transition-colors cursor-pointer border border-slate-800'}
       >
         🐞{variante === 'menu' ? ' Reportar un bug' : ''}
       </button>
@@ -53,7 +53,7 @@ export default function ReportarBug({ perfil, clubes, partido, variante = 'menu'
           aria-modal="true"
           aria-label="Reporte de bug"
         >
-          <div className="w-full max-w-2xl bg-slate-900 border border-gold-500/30 rounded-3xl p-5 space-y-3">
+          <div className="w-full max-w-2xl bg-slate-900 border border-gold-500/30 rounded-2xl p-5 space-y-3">
             <h2 className="text-lg font-black uppercase tracking-tight text-gold-400">Reporte de bug</h2>
             <p className="text-xs text-slate-300 leading-relaxed">
               Esto es una foto de tu partida en este momento{partido ? ', con lo que se está viendo en el partido' : ''}.

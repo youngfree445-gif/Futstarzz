@@ -91,14 +91,14 @@ export default function SeasonEndOverlay({ info, onClose }: SeasonEndOverlayProp
       aria-label={info.bajaA ? `Pasás a la ${info.bajaA}` : info.avanzo ? `Clasificado en ${info.competition}` : `Fin de ${info.competition}`}
     >
       <div
-        className={`relative w-full max-w-md bg-slate-900 border border-slate-700/60 rounded-3xl p-7 text-center shadow-2xl transition-all duration-500 ${
+        className={`relative w-full max-w-md bg-slate-900 border border-slate-700/60 rounded-2xl p-7 text-center shadow-2xl transition-all duration-500 ${
           visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
         }`}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 rounded-lg text-slate-500 hover:text-white hover:bg-slate-800 flex items-center justify-center"
+          className="absolute top-3 right-3 w-8 h-8 rounded-xl text-slate-500 hover:text-white hover:bg-slate-800 flex items-center justify-center"
           aria-label="Cerrar"
         >
           <X size={16} />

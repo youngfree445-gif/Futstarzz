@@ -120,7 +120,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           aria-selected={activeTab === 'saves'}
           aria-controls="panel-inicio"
           onClick={() => setActiveTab('saves')}
-          className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
+          className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
             activeTab === 'saves'
               ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'
@@ -134,7 +134,7 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
           aria-selected={activeTab === 'awards'}
           aria-controls="panel-inicio"
           onClick={() => setActiveTab('awards')}
-          className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
+          className={`btn-fx-subtle flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
             activeTab === 'awards'
               ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow'
               : 'text-slate-400 hover:text-white'

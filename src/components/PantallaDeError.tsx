@@ -49,7 +49,7 @@ export default class PantallaDeError extends React.Component<Props, State> {
     if (!this.state.error) return this.props.children;
     return (
       <div className="min-h-screen bg-slate-950 text-slate-200 flex items-center justify-center p-6">
-        <div className="max-w-2xl w-full bg-slate-900 border border-burgundy-500/40 rounded-3xl p-6 space-y-4">
+        <div className="max-w-2xl w-full bg-slate-900 border border-burgundy-500/40 rounded-2xl p-6 space-y-4">
           <h1 className="text-xl font-black uppercase text-burgundy-400">Se rompió algo en la pantalla</h1>
           <p className="text-sm text-slate-300 leading-relaxed">
             Tu partida <strong>no se perdió</strong>: lo que falló es el dibujo de la pantalla, y el

@@ -2465,28 +2465,28 @@ export default function MatchSimulator({
           <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0 lg:hidden">
             <button
               onClick={() => setSpeedMultiplier(450)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Normal"
             >
               1x
             </button>
             <button
               onClick={() => setSpeedMultiplier(225)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Doble"
             >
               2x
             </button>
             <button
               onClick={() => setSpeedMultiplier(100)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Rápida"
             >
               4x
             </button>
             <button
               onClick={() => setSpeedMultiplier(5)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Simulación Ultra Rápida"
             >
               Saltar
@@ -2514,7 +2514,7 @@ export default function MatchSimulator({
           </div>
 
           <div className="shrink-0 flex flex-col items-center gap-0.5">
-            <div className={`text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums ${golpeDelMarcador}`}>
+            <div className={`text-xl sm:text-3xl font-black font-display tracking-wide bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums ${golpeDelMarcador}`}>
               {scoreHome} - {scoreAway}
             </div>
             {/* La ronda, pegada al marcador: durante el partido se mira acá, no el encabezado. */}
@@ -2542,28 +2542,28 @@ export default function MatchSimulator({
         <div className="hidden lg:flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0">
           <button
             onClick={() => setSpeedMultiplier(450)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Normal"
           >
             1x
           </button>
           <button
             onClick={() => setSpeedMultiplier(225)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Doble"
           >
             2x
           </button>
           <button
             onClick={() => setSpeedMultiplier(100)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Rápida"
           >
             4x
           </button>
           <button
             onClick={() => setSpeedMultiplier(5)}
-            className={`btn-fx-subtle p-1.5 rounded-lg text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Simulación Ultra Rápida"
           >
             Saltar
@@ -2626,7 +2626,7 @@ export default function MatchSimulator({
             tiene su propio scroll interno, el dedo movía la narración en vez de la página: llegar a
             los botones de abajo costaba. Con min(420px, 60vh) el panel cede en pantallas bajas y
             queda igual que siempre en escritorio, donde 60vh es más que 420px. */}
-        <div className="order-1 lg:order-2 flex flex-col bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative h-[min(420px,60vh)] lg:h-[420px]">
+        <div className="order-1 lg:order-2 flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative h-[min(420px,60vh)] lg:h-[420px]">
           
           <div className="px-5 py-3.5 border-b border-slate-800 bg-slate-950/50 flex justify-between items-center z-10">
             <span className="font-mono text-xs uppercase tracking-widest text-slate-400 font-bold">
@@ -2804,7 +2804,7 @@ export default function MatchSimulator({
         </div>
 
         <div className="order-3 space-y-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
             {/* Cabecera tipo "ficha de jugador": calificación grande a la izquierda, identidad a la derecha, degradado sutil para separarla visualmente del resto de la card. */}
             <div className="bg-gradient-to-br from-slate-850 to-slate-900 p-5 flex items-center gap-4 border-b border-slate-800">
               <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl bg-slate-950 border-2 border-gold-500 flex flex-col items-center justify-center shadow-lg shadow-gold-500/20 px-1">

@@ -18,7 +18,7 @@ export default function CareerCard({ playerProfile, club }: CareerCardProps) {
 
   return (
     <div className="space-y-3">
-      <div className="relative w-full max-w-sm mx-auto aspect-[3/4] rounded-3xl overflow-hidden border-2 border-gold-500/40 shadow-2xl bg-gradient-to-b from-slate-900 via-slate-950 to-black">
+      <div className="relative w-full max-w-sm mx-auto aspect-[3/4] rounded-2xl overflow-hidden border-2 border-gold-500/40 shadow-2xl bg-gradient-to-b from-slate-900 via-slate-950 to-black">
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-gold-500/10 rounded-full blur-3xl" />
         <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-burgundy-500/10 rounded-full blur-3xl" />
 
@@ -27,7 +27,7 @@ export default function CareerCard({ playerProfile, club }: CareerCardProps) {
             <span className="text-3xs font-mono font-black uppercase tracking-[0.2em] text-gold-500">
               Fut Starzz
             </span>
-            {club && <ClubBadge club={club} size={34} className="rounded-lg" />}
+            {club && <ClubBadge club={club} size={34} className="rounded-xl" />}
           </div>
 
           <div className="mt-6 text-center">

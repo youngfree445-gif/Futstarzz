@@ -304,7 +304,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
       <div className="absolute top-10 right-10 w-96 h-96 bg-gold-500/5 rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-80 h-80 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="w-full max-w-4xl bg-slate-900/75 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden relative backdrop-blur-md">
+      <div className="w-full max-w-4xl bg-slate-900/75 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden relative backdrop-blur-md">
         <div className="px-6 py-5 border-b border-slate-800/80 bg-slate-950/40 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-burgundy-500" />
@@ -447,7 +447,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                       key={nat.key}
                       type="button"
                       onClick={() => setLeagueOrigin(nat.key)}
-                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
+                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-xl border text-center transition-all flex flex-col items-center justify-center ${
                         leagueOrigin === nat.key
                           ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
                           : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
@@ -474,7 +474,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                       key={s.id}
                       type="button"
                       onClick={() => setSuperstition(s.id)}
-                      className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-lg border text-left transition-all ${
+                      className={`btn-fx-subtle py-2 px-3 text-2xs font-bold rounded-xl border text-left transition-all ${
                         superstition === s.id
                           ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
                           : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
@@ -620,7 +620,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   </div>
                 </div>
                 {injuriesEnabled && (
-                  <p className="text-3xs text-gold-400 mt-2 leading-relaxed bg-gold-950/20 border border-gold-500/20 rounded-lg p-2">
+                  <p className="text-3xs text-gold-400 mt-2 leading-relaxed bg-gold-950/20 border border-gold-500/20 rounded-xl p-2">
                     Confirmado: esta carrera va a tener lesiones reales. Vas a perderte partidos
                     mientras estés lesionado y las decisiones de tratamiento van a afectar cuánto
                     tiempo estás afuera.
@@ -672,7 +672,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                 <button
                   type="button"
                   onClick={() => setSelectedDivision('all')}
-                  className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
+                  className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-xl text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 'all'
                       ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
@@ -683,7 +683,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                 <button
                   type="button"
                   onClick={() => setSelectedDivision(1)}
-                  className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
+                  className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-xl text-3xs sm:text-2xs font-bold transition-all ${
                     selectedDivision === 1
                       ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow-md'
                       : 'text-slate-400 hover:text-white'
@@ -699,7 +699,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   <button
                     type="button"
                     onClick={() => setSelectedDivision(2)}
-                    className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-3xs sm:text-2xs font-bold transition-all ${
+                    className={`btn-fx-subtle flex-1 py-1.5 px-1.5 sm:px-3 rounded-xl text-3xs sm:text-2xs font-bold transition-all ${
                       selectedDivision === 2
                         ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black shadow-md'
                         : 'text-slate-400 hover:text-white'
@@ -795,7 +795,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                       key={nat.key}
                       type="button"
                       onClick={() => { setNationality(nat.key); setNationalityTouched(true); }}
-                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-lg border text-center transition-all flex flex-col items-center justify-center ${
+                      className={`btn-fx-subtle py-1.5 px-1 text-[11px] font-bold rounded-xl border text-center transition-all flex flex-col items-center justify-center ${
                         nationality === nat.key
                           ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
                           : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'

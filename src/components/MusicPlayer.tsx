@@ -414,12 +414,12 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
                       onChange={e => { setDraftUrl(e.target.value); setError(null); }}
                       onKeyDown={e => { if (e.key === 'Enter') handleSave(); }}
                       placeholder="https://music.youtube.com/playlist?list=..."
-                      className="flex-1 min-w-0 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-3xs text-slate-200 placeholder:text-slate-600 focus:border-gold-500 focus:outline-none"
+                      className="flex-1 min-w-0 bg-slate-950 border border-slate-700 rounded-xl px-2 py-1.5 text-3xs text-slate-200 placeholder:text-slate-600 focus:border-gold-500 focus:outline-none"
                     />
                     <button
                       type="button"
                       onClick={handleSave}
-                      className="btn-fx shrink-0 px-2 rounded-lg bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 flex items-center justify-center"
+                      className="btn-fx shrink-0 px-2 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 flex items-center justify-center"
                       aria-label="Guardar playlist"
                     >
                       <Plus size={14} />

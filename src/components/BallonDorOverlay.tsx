@@ -48,14 +48,14 @@ export default function BallonDorOverlay({ info, onClose }: BallonDorOverlayProp
       aria-label={`Balón de Oro ${info.year}`}
     >
       <div
-        className={`relative w-full max-w-md bg-slate-900 border border-gold-500/30 rounded-3xl p-7 text-center shadow-2xl transition-all duration-500 ${
+        className={`relative w-full max-w-md bg-slate-900 border border-gold-500/30 rounded-2xl p-7 text-center shadow-2xl transition-all duration-500 ${
           visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
         }`}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 rounded-lg text-slate-500 hover:text-white hover:bg-slate-800 flex items-center justify-center"
+          className="absolute top-3 right-3 w-8 h-8 rounded-xl text-slate-500 hover:text-white hover:bg-slate-800 flex items-center justify-center"
           aria-label="Cerrar"
         >
           <X size={16} />
@@ -85,7 +85,7 @@ export default function BallonDorOverlay({ info, onClose }: BallonDorOverlayProp
           {info.candidates.slice(0, 5).map((c, i) => (
             <div
               key={c.name}
-              className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs ${
+              className={`flex items-center justify-between px-3 py-1.5 rounded-xl text-xs ${
                 c.name === info.playerName ? 'bg-gold-950/30 border border-gold-500/30' : 'bg-slate-950/60'
               }`}
             >

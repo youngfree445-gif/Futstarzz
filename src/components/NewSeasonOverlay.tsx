@@ -39,14 +39,14 @@ export default function NewSeasonOverlay({ info, onClose }: NewSeasonOverlayProp
       aria-label={`Arranca la temporada ${info.year}`}
     >
       <div
-        className={`relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 ${
+        className={`relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ${
           visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
         }`}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center z-10"
+          className="absolute top-3 right-3 w-8 h-8 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center z-10"
           aria-label="Cerrar"
         >
           <X size={16} />

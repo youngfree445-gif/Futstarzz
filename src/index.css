@@ -1,8 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+/* BARLOW Y BARLOW CONDENSED, no Inter.
+   Inter es la cara "segura" por defecto y es uno de los cuatro gestos que hacian ver la interfaz
+   generada. La pareja Barlow es la misma familia en dos anchos: el condensado para titulares y
+   numeros grandes -- el lenguaje de un marcador de estadio y de una planilla de equipo -- y el
+   normal para leer. Mismo esqueleto, distinto ancho: se ve elegido, no heredado.
+   JetBrains Mono se queda: ya hace bien el trabajo de datos en 227 lugares. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Barlow", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   /* Tema "Noche de Campeones": grafito cálido casi negro + dorado (Oro Viejo) como color
@@ -463,4 +470,13 @@ body {
   }
   .anim-barra { transition: none !important; }
   .anim-gol-flash, .anim-cortina { display: none; }
+}
+
+
+/* Los titulares van en el condensado, sin tener que tocar una sola clase de los componentes.
+   Barlow Condensed es mas angosto que Inter, asi que un titular largo entra donde antes se cortaba;
+   se le sube un poco el tracking para que en mayusculas no se apriete. */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.005em;
 }

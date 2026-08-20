@@ -47,7 +47,7 @@ export default function DecisionCenter({ event, onResolve }: DecisionCenterProps
       {/* Stadium Light atmospheric glow */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-burgundy-500/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative backdrop-blur">
+      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative backdrop-blur">
         
         {/* Header Alert Notification */}
         <div className="px-6 py-4 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-widest text-burgundy-400">
