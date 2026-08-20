@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNumeroQueCuenta } from '../animaciones';
 import { apodoDe } from '../apodo';
 import { laHemerotecaTeRecuerda } from '../hemeroteca';
+import { clasicoPersonalContra } from '../clasicoPersonal';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -23,7 +24,7 @@ import ReportarBug from './ReportarBug';
 import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca,
+import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal,
 } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
@@ -2398,6 +2399,24 @@ export default function Dashboard({
         }));
     })();
 
+    // TU CLASICO PERSONAL, en la previa. El que te ganaste jugando, no el del catalogo: puede ser
+    // cualquier equipo mediano al que le hiciste seis goles seguidos.
+    const miClasico = clasicoPersonalContra(
+      nextMatchOpponent?.club
+        ? playerProfile.headToHeadRecords?.[nextMatchOpponent.club.name]
+        : null);
+    const previaDeMiClasico: SocialPost[] = miClasico
+      ? postsDeClasicoPersonal(pName, miClasico.rivalName, miClasico.tipo, miClasico.titular,
+          miClasico.detalle, week)
+          .map((c, i) => ({
+            id: `miclasico_${miClasico.rivalName}_${week}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 3000 + Math.floor(Math.random() * 12000),
+            commentsCount: 500 + Math.floor(Math.random() * 2500),
+            timestamp: 'Previa', avatar: c.avatar,
+          }))
+      : [];
+
     // TU PUBLICACION y lo que le respondieron. Va primero de todo: lo dijiste vos.
     const miPost: SocialPost[] = playerProfile.miPublicacion?.semana === week
       ? [
@@ -2551,6 +2570,7 @@ export default function Dashboard({
 
     return [
       ...previaDeClasico,
+      ...previaDeMiClasico,
       ...miPost,
       ...elBautizo,
       ...delArchivo,

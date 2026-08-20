@@ -20,6 +20,7 @@ import { secuelaDeLaLesion, riesgoDeSecuela, RIESGO_MAXIMO, PISO_DE_ATRIBUTO } f
 import { sortearTipoDeLesion, riesgoDeLesion, RIESGO_MAXIMO_POR_FATIGA, TIPOS_DE_LESION } from '../src/lesion';
 import { clubQueTeFormo, teLlamaLaCasa, temporadasEnLaCasa, EDAD_DEL_LLAMADO } from '../src/clubQueTeFormo';
 import { guardarDeclaracion, laHemerotecaTeRecuerda, SALDO_PARA_QUEDAR_GUARDADA, PASOS_PARA_QUE_ENVEJEZCA, CUANTAS_SE_GUARDAN } from '../src/hemeroteca';
+import { clasicoPersonalContra, elClasicoDeTuCarrera, PARTIDOS_PARA_QUE_SEA_CLASICO } from '../src/clasicoPersonal';
 
 let fallas = 0;
 let corridos = 0;
@@ -566,6 +567,54 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   // 4. LA PRENSA SACA LA MAS FUERTE, no la mas vieja.
   const dos = [dicho('Una frase floja', 7, 10), dicho('LA frase', 20, 30)];
   ok('sale la que mas ruido hizo', laHemerotecaTeRecuerda(dos, hoy({ enLaLista: true }))?.declaracion.texto === 'LA frase');
+}
+
+// --- TU CLASICO PERSONAL ------------------------------------------------------------------------
+//
+// El riesgo es el mismo de siempre: que hable de mas. Un clasico personal contra cada equipo de la
+// liga no seria un clasico personal, asi que la mayoria de los casos comprueban el silencio.
+{
+  const cruce = (o: any) => ({ rivalName: 'Millonarios', wins: 2, draws: 1, losses: 1,
+    lastMeetingWeek: 50, goles: 0, asistencias: 0, ...o });
+
+  // 1. CUANDO NO HAY HISTORIA. Que es casi siempre, y esta bien.
+  ok('sin rival no hay clasico', clasicoPersonalContra(null) === null);
+  ok('con pocos cruces tampoco',
+    clasicoPersonalContra(cruce({ wins: 1, draws: 1, losses: 0, goles: 3 })) === null);
+  ok('parejo y sin nada llamativo, tampoco',
+    clasicoPersonalContra(cruce({ wins: 2, draws: 1, losses: 1, goles: 1 })) === null);
+
+  // 2. SOS SU PESADILLA: el dato es TUYO, no del club. Este es el agujero que se tapo -- antes solo
+  //    se guardaba ganado/empatado/perdido y "le hice nueve goles" no existia en ningun lado.
+  const pesadilla = clasicoPersonalContra(cruce({ wins: 3, draws: 1, losses: 2, goles: 7 }));
+  ok('siete goles en seis cruces es una pesadilla', pesadilla?.tipo === 'pesadilla');
+  ok('y lo dice con los numeros', (pesadilla?.detalle ?? '').includes('7 goles'));
+  // Ojo: el club puede venir perdiendo y vos seguir siendo su problema. Son dos cuentas distintas.
+  const pierdeElClub = clasicoPersonalContra(cruce({ wins: 0, draws: 1, losses: 5, goles: 6 }));
+  ok('podes ser su pesadilla aunque tu club pierda', pierdeElClub?.tipo === 'pesadilla');
+
+  // 3. ES TU MURO, de las dos formas posibles.
+  const sinGoles = clasicoPersonalContra(cruce({ wins: 2, draws: 2, losses: 1, goles: 0 }));
+  ok('cinco cruces sin un gol es un muro', sinGoles?.tipo === 'muro');
+  const teGanan = clasicoPersonalContra(cruce({ wins: 1, draws: 0, losses: 4, goles: 2 }));
+  ok('que te ganen de sobra tambien', teGanan?.tipo === 'muro');
+
+  // 4. LA PURA HISTORIA, cuando esta parejo pero se jugaron muchisimo.
+  const muchas = clasicoPersonalContra(cruce({ wins: 4, draws: 2, losses: 3, goles: 3 }));
+  ok('nueve cruces parejos ya son una historia', muchas?.tipo === 'historia');
+
+  // 5. UNA PARTIDA VIEJA no tiene tus goles guardados, y no puede reventar por eso.
+  const vieja = clasicoPersonalContra({ rivalName: 'X', wins: 2, draws: 2, losses: 1, lastMeetingWeek: 3 });
+  ok('sin goles guardados sigue funcionando', vieja?.tipo === 'muro');
+
+  // 6. EL DE LA CARRERA: lo mas llamativo, no lo mas repetido.
+  const todos = [
+    cruce({ rivalName: 'Nacional', wins: 5, draws: 3, losses: 4, goles: 4 }),   // historia
+    cruce({ rivalName: 'America', wins: 2, draws: 1, losses: 2, goles: 6 }),    // pesadilla
+  ];
+  ok('el clasico de la carrera es el mas fuerte, no el mas jugado',
+    elClasicoDeTuCarrera(todos)?.rivalName === 'America');
+  ok('y sin ninguno, no se inventa', elClasicoDeTuCarrera([]) === null);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

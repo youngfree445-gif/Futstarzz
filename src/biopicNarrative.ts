@@ -5,6 +5,7 @@
 import { PlayerProfile } from './types';
 import { apodoDe } from './apodo';
 import { clubQueTeFormo } from './clubQueTeFormo';
+import { elClasicoDeTuCarrera } from './clasicoPersonal';
 
 export function generateBiopicNarrative(profile: PlayerProfile): string[] {
   const paragraphs: string[] = [];
@@ -85,6 +86,19 @@ export function generateBiopicNarrative(profile: PlayerProfile): string[] {
       secuelas.length === 1
         ? `Hubo una que le cambió la forma de jugar. ${secuelas[0].relato} El jugador que volvió no era el mismo, y aprendió a que eso no fuera una mala noticia.`
         : `Su cuerpo lo obligó a reinventarse ${secuelas.length} veces. La última: ${secuelas[secuelas.length - 1].relato}`
+    );
+  }
+
+  // EL CLASICO PERSONAL DE LA CARRERA. Va antes del rival mas enfrentado porque cuenta otra cosa:
+  // aquel dice contra quien jugaste mas, este dice contra quien te pasaba ALGO.
+  const clasico = elClasicoDeTuCarrera(Object.values(profile.headToHeadRecords ?? {}));
+  if (clasico) {
+    paragraphs.push(
+      clasico.tipo === 'pesadilla'
+        ? `Si alguien lo recuerda con rencor es ${clasico.rivalName}. ${clasico.detalle}`
+        : clasico.tipo === 'muro'
+        ? `Y quedó una cuenta sin saldar. ${clasico.detalle}`
+        : `${clasico.rivalName} fue el rival de su vida. ${clasico.detalle}`
     );
   }
 

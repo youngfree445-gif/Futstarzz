@@ -5286,6 +5286,10 @@ export default function App() {
         wins: previo.wins + (results.golesMiEquipo > results.golesRival ? 1 : 0),
         draws: previo.draws + (results.golesMiEquipo === results.golesRival ? 1 : 0),
         losses: previo.losses + (results.golesMiEquipo < results.golesRival ? 1 : 0),
+        // LO TUYO CONTRA ELLOS, que es de donde sale el clasico personal. El resultado del club ya
+        // estaba; esto es lo que hiciste vos, y sin esto no hay historia que contar.
+        goles: (previo.goles ?? 0) + results.goles,
+        asistencias: (previo.asistencias ?? 0) + results.asistencias,
         lastMeetingWeek: playerProfile.currentWeek,
       };
       return { ...(playerProfile.headToHeadRecords ?? {}), [key]: nuevo };

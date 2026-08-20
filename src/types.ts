@@ -308,7 +308,13 @@ export interface PlayerProfile {
   // el calendario (mismo valor que DatedResult.opponentName). No hay catálogo de "clásicos" fijo:
   // el rival más enfrentado en tu propia carrera es tu clásico de facto. Se actualiza en
   // handleFinishMatch. Opcional: las partidas viejas no lo tienen.
-  headToHeadRecords?: Record<string, { rivalName: string; wins: number; draws: number; losses: number; lastMeetingWeek: number }>;
+  /**
+   * Cabeza a cabeza contra cada rival. `goles` y `asistencias` son TUYOS contra ellos, y son
+   * opcionales porque las partidas viejas guardaron sólo el resultado del club -- que era el
+   * agujero: "le hice nueve goles en doce partidos" es un dato sobre vos y no estaba en ningún
+   * lado. Ver src/clasicoPersonal.ts.
+   */
+  headToHeadRecords?: Record<string, { rivalName: string; wins: number; draws: number; losses: number; lastMeetingWeek: number; goles?: number; asistencias?: number }>;
   // Lesión activa ahora mismo, si injuriesEnabled es true. Mientras weeksRemaining > 0 el jugador no
   // pisa la cancha: la semana se resuelve sola, sin pantalla de partido (mismo patrón que
   // suspendedMatches, ver resolveSuspendedLeagueWeek/advanceSuspendedIdleWeek en App.tsx). null si

@@ -1331,3 +1331,54 @@ export function postsDeHemeroteca(
     .slice(0, 2)
     .map(x => x.v);
 }
+
+/**
+ * LA PREVIA DE TU CLÁSICO PERSONAL: el rival que es tuyo, no de tu club.
+ *
+ * Sale ANTES del partido, y ésa es la mitad del punto: el mismo historial después es una
+ * estadística, y antes es una expectativa. Todo lo que dicen estas voces sale de contar -- goles,
+ * partidos, victorias -- porque el titular y el detalle los arma src/clasicoPersonal.ts a partir de
+ * los números y nunca de una interpretación.
+ */
+export function postsDeClasicoPersonal(
+  nombre: string,
+  rival: string,
+  tipo: 'pesadilla' | 'muro' | 'historia',
+  titular: string,
+  detalle: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 133) * 39.7 + i * 17.9) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const comunes = [
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${titular}. ${detalle}` },
+    { author: 'Historial y Números', role: 'Cuenta de Estadísticas', avatar: '📈',
+      content: `Hoy juega ${nombre} contra ${rival}. ${detalle}` },
+  ];
+  const propias = tipo === 'pesadilla'
+    ? [
+      { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+        content: `Otra vez ${rival} 😈 Preparen la red que hoy hay fiesta.` },
+      { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+        content: `Si hay un equipo al que ${nombre} le juega con los ojos cerrados, es ${rival}.` },
+    ]
+    : tipo === 'muro'
+    ? [
+      { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+        content: `${rival} es la materia que ${nombre} tiene pendiente. Todos los grandes tienen una.` },
+      { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+        content: `Contra ${rival} desaparece 🙄 A ver si hoy es distinto.` },
+    ]
+    : [
+      { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+        content: `${nombre} y ${rival} otra vez. A esta altura se conocen los movimientos de memoria.` },
+    ];
+  return [...comunes, ...propias]
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}
