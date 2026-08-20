@@ -43,6 +43,10 @@ import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salida
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
 import { estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, cronicaDelRival } from './rivalDePuesto';
+import {
+  elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, AVISO_TE_QUEDAS,
+  type ListaDeTransferibles,
+} from './listaDeTransferibles';
 import WelcomeScreen from './components/WelcomeScreen';
 import SetupScreen, { SUPERSTITIONS_DATABASE } from './components/SetupScreen';
 // Las pantallas grandes se cargan bajo demanda. Todo el juego viajaba en un solo archivo de
@@ -1097,6 +1101,64 @@ function podarSiEsNuevaTemporada(profile: PlayerProfile, previousWeek: number, n
   return club ? podarEdicionesTerminadas(profile, temporadaDeCarrera(club.name, newWeek)) : profile;
 }
 
+/**
+ * LA LISTA DE TRANSFERIBLES: el club se cansa, avisa, y si no lo revertís te vende.
+ *
+ * Corre en el cambio de temporada, después del refuerzo -- así el rival del puesto ya está creado y
+ * su rendimiento cuenta para la decisión.
+ *
+ * La venta manda a un club MÁS CHICO y elegido de la misma liga, no al azar del mundo: una salida
+ * forzada es un escalón para abajo, y mandarte a otro país sin que lo elijas sería peor que
+ * venderte.
+ */
+function applyListaDeTransferiblesIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  if (!club) return profile;
+
+  const forma = evaluarForma(profile.formaReciente, newWeek);
+  const estorbo = estorboDelRival(profile.fichajeRival, newWeek);
+  const enLista = profile.listaDeTransferibles;
+
+  // Ya estabas en la lista: o te ganaste quedarte, o el club pasa a vender.
+  if (enLista) {
+    if (teGanasteQuedarte(forma.promedio, estorbo)) {
+      return { ...profile, listaDeTransferibles: undefined };
+    }
+    if (enLista.temporadas >= 1) {
+      // La venta. Se busca un club de la misma liga con menos reputación: el escalón para abajo.
+      const candidatos = CLUBS_DATABASE.filter(c =>
+        c.league === club.league && c.id !== club.id && c.reputation <= Math.max(1, club.reputation - 1));
+      const destino = candidatos[Math.floor(Math.random() * candidatos.length)];
+      if (!destino) return { ...profile, listaDeTransferibles: { ...enLista, temporadas: enLista.temporadas + 1 } };
+      return {
+        ...profile,
+        currentClubId: destino.id,
+        currentWeek: pasoAlCambiarDeClub(destino.name, fechaDelPaso(club.name, newWeek)) ?? newWeek,
+        listaDeTransferibles: undefined,
+        fichajeRival: undefined,
+        yearsAtClub: 0,
+        mentorName: null,
+        mentorshipPlayerName: null,
+        prestige: Math.round(profile.prestige * 0.92),
+        ventaForzada: { desde: club.name, hacia: destino.name, semana: newWeek },
+      };
+    }
+    return { ...profile, listaDeTransferibles: { ...enLista, temporadas: enLista.temporadas + 1 } };
+  }
+
+  // Todavía no estabas: ¿se cansaron?
+  if (elClubSeCansoDeVos({
+    promedioDeForma: forma.promedio,
+    estorboDelRival: estorbo,
+    prestigio: profile.prestige,
+    reputacionDelClub: club.reputation,
+  })) {
+    return { ...profile, listaDeTransferibles: { desdeSemana: newWeek, temporadas: 0 } };
+  }
+  return profile;
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   // Las dos redes miran el dia que se ACABA de jugar (previousWeek), no el siguiente: asi un torneo
   // se cierra el dia de su ultima fecha. Preguntando por el siguiente, el campeon aparecia tres
@@ -1109,6 +1171,9 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
   next = applyRefuerzoIfNewSeason(next, previousWeek, newWeek);
+  // Va DESPUES del refuerzo: la decision mira como le fue al que te pelea el puesto, asi que el
+  // rival tiene que estar creado antes de preguntarle nada.
+  next = applyListaDeTransferiblesIfNewSeason(next, previousWeek, newWeek);
   next = applyBreakoutSeasonIfNewSeason(next, previousWeek, newWeek);
   next = applyYearsAtClubIfNewSeason(next, previousWeek, newWeek);
   next = applyMentorshipIfNewSeason(next, previousWeek, newWeek);
@@ -1356,6 +1421,40 @@ export default function App() {
     const currentClub = playerProfile ? CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId) : undefined;
     applyClubTheme(currentClub);
   }, [playerProfile?.currentClubId]);
+
+  /**
+   * LOS AVISOS DE LA LISTA DE TRANSFERIBLES, en UN solo lugar.
+   *
+   * applySeasonTransitions se llama desde diez ramas distintas -- partido jugado, fecha sin partido,
+   * descanso, no convocado, lesion, seleccion... -- y avisar en cada una era garantizar que tarde o
+   * temprano una se olvidara y el jugador se enterara de que lo vendieron por ver otro escudo en la
+   * pantalla. Mirando el perfil, las diez quedan cubiertas por igual.
+   */
+  const listaAnterior = useRef<ListaDeTransferibles | undefined>(undefined);
+  useEffect(() => {
+    if (!playerProfile) return;
+
+    // La venta forzada se cuenta UNA vez y se limpia: si quedara guardada, el aviso volveria a
+    // salir en cada render que tocara el perfil.
+    if (playerProfile.ventaForzada) {
+      const v = playerProfile.ventaForzada;
+      notify(`🚫 ${v.desde} te vendió a ${v.hacia}. No es el traspaso que querías, pero vas a jugar.`);
+      setPlayerProfile(p => (p ? { ...p, ventaForzada: undefined } : p));
+      listaAnterior.current = undefined;
+      return;
+    }
+
+    const ahora = playerProfile.listaDeTransferibles;
+    const antes = listaAnterior.current;
+    const club = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+
+    if (ahora && (!antes || antes.temporadas !== ahora.temporadas) && club) {
+      notify(`⚠ ${avisoDeLista(ahora, club.name)}`);
+    } else if (!ahora && antes) {
+      notify(`✅ ${AVISO_TE_QUEDAS}`);
+    }
+    listaAnterior.current = ahora;
+  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada]);
 
   // Los sfx se descargan al arrancar y no en el primer disparo: si se pidieran recién cuando entra
   // el gol, el sonido llegaría tarde (o directamente después del festejo) en conexiones lentas.

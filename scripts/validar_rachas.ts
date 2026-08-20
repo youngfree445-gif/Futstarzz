@@ -13,6 +13,7 @@ import {
   estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, promedioDelRival, cronicaDelRival,
   PESO_MAXIMO_DEL_RIVAL, type RivalDePuesto,
 } from '../src/rivalDePuesto';
+import { elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista } from '../src/listaDeTransferibles';
 
 let fallas = 0;
 let corridos = 0;
@@ -268,7 +269,7 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
     `estorbo ${estorboDelRival(imparable, 90)}`);
 
   // Que de verdad juegue: mil fechas de un jugador de 85 tienen que dar goles y notas razonables.
-  let acumulado = { ...nuevo(), nivel: 85 };
+  let acumulado: RivalDePuesto = { ...nuevo(), nivel: 85 };
   for (let i = 0; i < 1000; i++) acumulado = anotarFechaDelRival(acumulado, jugarFechaDelRival(85));
   const prom = promedioDelRival(acumulado) ?? 0;
   ok('un rival de 85 promedia como un buen jugador', prom > 6.2 && prom < 8.2, `promedio ${prom}`);
@@ -276,6 +277,34 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
 
   // Y que se pueda contar lo que hizo, que es la mitad del punto.
   ok('la cronica nombra al rival', cronicaDelRival(nuevo(), { nota: 8.1, goles: 2, asistencias: 0 }).includes('Sanabria'));
+}
+
+// --- CUANDO EL CLUB SE CANSA DE VOS ------------------------------------------------------------
+//
+// Un traspaso siempre fue un premio, asi que una mala racha no costaba nada mas que unos partidos en
+// el banco. Esta es la otra puerta: si rendis mal y el que te pelea el puesto te paso por arriba, el
+// club te pone en la lista y despues te vende.
+//
+// Lo que se comprueba es que haga falta LAS TRES COSAS a la vez. Con dos de tres no puede pasar, o
+// terminaria echando a un crack por una mala racha de tres partidos.
+{
+  const caso = (o: Partial<Parameters<typeof elClubSeCansoDeVos>[0]>) => elClubSeCansoDeVos({
+    promedioDeForma: 5.4, estorboDelRival: 12, prestigio: 40, reputacionDelClub: 4, ...o,
+  });
+
+  ok('con las tres razones, el club se cansa', caso({}));
+  ok('jugando bien no te ponen en la lista', !caso({ promedioDeForma: 7.2 }));
+  ok('sin nadie peleandote el puesto tampoco', !caso({ estorboDelRival: 0 }));
+  ok('y a un consagrado no lo tocan', !caso({ prestigio: 90 }));
+  ok('sin haber jugado nunca, tampoco', !caso({ promedioDeForma: null }));
+
+  // Y que se pueda revertir: un juego que condena sin salida deja de ser un juego.
+  ok('jugando bien te ganas quedarte', teGanasteQuedarte(7.4, 0));
+  ok('pero no alcanza con una buena si el rival sigue arriba', !teGanasteQuedarte(7.4, 12));
+
+  // El aviso cambia segun la temporada: la segunda vez es la ultima.
+  ok('la primera vez avisa que hay tiempo', avisoDeLista({ desdeSemana: 1, temporadas: 0 }, 'Junior').includes('Tenés'));
+  ok('la segunda avisa que te venden', avisoDeLista({ desdeSemana: 1, temporadas: 1 }, 'Junior').includes('venden'));
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);
