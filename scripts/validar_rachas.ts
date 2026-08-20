@@ -19,6 +19,7 @@ import { apodoDe, PARTIDOS_PARA_APODO } from '../src/apodo';
 import { secuelaDeLaLesion, riesgoDeSecuela, RIESGO_MAXIMO, PISO_DE_ATRIBUTO } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion, RIESGO_MAXIMO_POR_FATIGA, TIPOS_DE_LESION } from '../src/lesion';
 import { clubQueTeFormo, teLlamaLaCasa, temporadasEnLaCasa, EDAD_DEL_LLAMADO } from '../src/clubQueTeFormo';
+import { guardarDeclaracion, laHemerotecaTeRecuerda, SALDO_PARA_QUEDAR_GUARDADA, PASOS_PARA_QUE_ENVEJEZCA, CUANTAS_SE_GUARDAN } from '../src/hemeroteca';
 
 let fallas = 0;
 let corridos = 0;
@@ -517,6 +518,54 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
 
   // Y una carrera que todavia no cerro ninguna temporada no tiene club que la formara.
   ok('sin temporadas cerradas no hay casa', clubQueTeFormo({ seasonHistory: [] }) === null);
+}
+
+// --- LA HEMEROTECA: la prensa se acuerda ---------------------------------------------------------
+//
+// El riesgo de esta mecanica es que hable de mas: que le invente al jugador una promesa que no
+// hizo. Por eso lo que se comprueba es cuando se CALLA, no cuando habla.
+{
+  const dicho = (texto: string, saldo: number, semana: number, clubId = 'junior') =>
+    ({ texto, saldo, semana, clubId, clubName: clubId });
+  const hoy = (o: any) => ({ semana: 100, clubId: 'junior', clubName: 'junior',
+    enLaLista: false, ganasteTitulo: false, ...o });
+
+  // 1. QUE SE GUARDA. Solo lo fuerte: una frase tibia no envejece mal porque no prometia nada.
+  const tibia = guardarDeclaracion([], dicho('Vamos partido a partido', SALDO_PARA_QUEDAR_GUARDADA - 1, 10));
+  ok('una frase tibia no queda en el archivo', tibia.length === 0);
+  const fuerte = guardarDeclaracion([], dicho('Salimos campeones seguro', 12, 10));
+  ok('una declaracion fuerte si', fuerte.length === 1);
+
+  // Y la memoria de la prensa es corta.
+  let muchas: any[] = [];
+  for (let i = 0; i < CUANTAS_SE_GUARDAN + 5; i++) muchas = guardarDeclaracion(muchas, dicho(`frase ${i}`, 10, i));
+  ok('el archivo no crece para siempre', muchas.length === CUANTAS_SE_GUARDAN, String(muchas.length));
+  ok('y se queda con lo reciente', muchas[muchas.length - 1].texto === `frase ${CUANTAS_SE_GUARDAN + 4}`);
+
+  // 2. CUANDO SE CALLA. Esto es lo importante: sin contraste, el archivo no se abre.
+  ok('sin nada guardado no hay cita', laHemerotecaTeRecuerda([], hoy({})) === null);
+  const reciente = [dicho('Salimos campeones seguro', 12, 100 - (PASOS_PARA_QUE_ENVEJEZCA - 1))];
+  ok('una frase de ayer no es material de archivo', laHemerotecaTeRecuerda(reciente, hoy({})) === null);
+  const vieja = [dicho('Salimos campeones seguro', 12, 20)];
+  ok('y una vieja sin contraste tampoco', laHemerotecaTeRecuerda(vieja, hoy({})) === null);
+
+  // 3. CUANDO SI. Las tres situaciones, y su tono.
+  const enLista = laHemerotecaTeRecuerda(vieja, hoy({ enLaLista: true }));
+  ok('en la lista, el archivo se abre', enLista !== null);
+  ok('y no es a favor', enLista?.aFavor === false);
+  ok('la cita va literal', enLista?.declaracion.texto === 'Salimos campeones seguro');
+
+  const campeon = laHemerotecaTeRecuerda(vieja, hoy({ ganasteTitulo: true }));
+  ok('campeon: el archivo tambien juega a favor', campeon?.aFavor === true);
+
+  const otroClub = laHemerotecaTeRecuerda([dicho('Me quedo toda mi carrera', 12, 20, 'porto')],
+    hoy({ clubId: 'junior' }));
+  ok('cambiar de club abre el archivo', otroClub !== null);
+  ok('y nombra los dos clubes', (otroClub?.marco ?? '').includes('porto') && (otroClub?.marco ?? '').includes('junior'));
+
+  // 4. LA PRENSA SACA LA MAS FUERTE, no la mas vieja.
+  const dos = [dicho('Una frase floja', 7, 10), dicho('LA frase', 20, 30)];
+  ok('sale la que mas ruido hizo', laHemerotecaTeRecuerda(dos, hoy({ enLaLista: true }))?.declaracion.texto === 'LA frase');
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

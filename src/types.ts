@@ -133,6 +133,13 @@ export interface PlayerProfile {
    */
   ultimaPrensa?: { saldo: number; semana: number };
   /**
+   * LO QUE DIJISTE EN LA PRENSA, para que te lo puedan sacar despues (ver src/hemeroteca.ts).
+   *
+   * Sólo las declaraciones FUERTES -- las que gustaron. Una frase tibia no envejece mal porque no
+   * prometía nada; las que envejecen mal son las que arrancaron aplausos.
+   */
+  declaraciones?: import('./hemeroteca').Declaracion[];
+  /**
    * La ultima vez que te eliminaron de una copa, para que ChutSocial pueda reaccionar.
    * Sin esto el feed solo miraba tu calificacion: jugabas un 7, quedabas afuera, y te felicitaban.
    */

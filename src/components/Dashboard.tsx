@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNumeroQueCuenta } from '../animaciones';
 import { apodoDe } from '../apodo';
+import { laHemerotecaTeRecuerda } from '../hemeroteca';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -22,7 +23,7 @@ import ReportarBug from './ReportarBug';
 import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo,
+import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca,
 } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
@@ -321,7 +322,9 @@ interface DashboardProps {
   onAcceptSponsor: (itemId: string) => void;
   onCancelSponsor: (itemId: string) => void;
   onLaunchPRCampaign: (cost: number, fansBonus: number, prestigeBonus: number, salaryBonus?: number) => void;
-  onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number) => void;
+  // El TEXTO viaja junto con los numeros: sin el, lo que dijiste no se puede guardar, y la rueda de
+  // prensa se queda siendo un tramite contable (ver src/hemeroteca.ts).
+  onAnswerPress: (prestigeChange: number, fansChange: number, energyChange: number, texto: string) => void;
   /** Publicar en ChutSocial. Una por fecha; las opciones salen de publicacionesDisponibles. */
   onPublicar: (opcion: OpcionDePublicacion) => void;
   onAcceptTransfer: (clubId: string, signOnBonus: number, newDorsal: number) => void;
@@ -2371,6 +2374,30 @@ export default function Dashboard({
           }))
       : [];
 
+    // LA HEMEROTECA. Sale cuando la situacion de hoy contrasta con algo que dijiste hace rato: te
+    // pusieron en la lista, te fuiste del club donde lo dijiste, o saliste campeon despues de
+    // hablar fuerte. Si nada de eso pasa, el archivo se queda cerrado.
+    const delArchivo: SocialPost[] = (() => {
+      const cita = laHemerotecaTeRecuerda(playerProfile.declaraciones ?? [], {
+        semana: week,
+        clubId: playerProfile.currentClubId,
+        clubName: currentClub.name,
+        enLaLista: !!playerProfile.listaDeTransferibles,
+        // La temporada que acabas de cerrar, con titulo o sin el. Sin vueltas: cualquier cuenta
+        // mas fina necesitaria el paso en que arranco la temporada, que no se guarda.
+        ganasteTitulo: !!playerProfile.seasonHistory.at(-1)?.titulo,
+      });
+      if (!cita) return [];
+      return postsDeHemeroteca(pName, cita.declaracion.texto, cita.marco, cita.aFavor, week)
+        .map((c, i) => ({
+          id: `archivo_${cita.declaracion.semana}_${i}`,
+          author: c.author, role: c.role, content: c.content,
+          likes: 2500 + Math.floor(Math.random() * 11000),
+          commentsCount: 400 + Math.floor(Math.random() * 2400),
+          timestamp: 'Del archivo', avatar: c.avatar,
+        }));
+    })();
+
     // TU PUBLICACION y lo que le respondieron. Va primero de todo: lo dijiste vos.
     const miPost: SocialPost[] = playerProfile.miPublicacion?.semana === week
       ? [
@@ -2526,6 +2553,7 @@ export default function Dashboard({
       ...previaDeClasico,
       ...miPost,
       ...elBautizo,
+      ...delArchivo,
       ...llegadaDelRefuerzo,
       ...enLaLista,
       // La lista de convocados va arriba de casi todo: el dia que sale, es LA noticia.
@@ -2580,7 +2608,7 @@ export default function Dashboard({
   }, [socialFeed]);
 
   const handlePressAnswer = (opt: any) => {
-    onAnswerPress(opt.prestigeChange, opt.fansChange, opt.energyChange);
+    onAnswerPress(opt.prestigeChange, opt.fansChange, opt.energyChange, opt.text);
     setPressReaction(opt.reaction);
     setPressResponseState('answered');
   };

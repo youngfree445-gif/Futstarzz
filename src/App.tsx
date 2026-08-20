@@ -40,6 +40,7 @@ import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } 
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO, TIPOS_DE_LESION, sortearTipoDeLesion, riesgoDeLesion } from './lesion';
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
+import { guardarDeclaracion } from './hemeroteca';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
@@ -2608,7 +2609,7 @@ export default function App() {
     }));
   };
 
-  const handleAnswerPress = (prestigeChange: number, fansChange: number, energyChange: number) => {
+  const handleAnswerPress = (prestigeChange: number, fansChange: number, energyChange: number, texto = '') => {
     if (!playerProfile) return;
     prestigeChange = pressDifficultyAdjust(prestigeChange);
     fansChange = pressDifficultyAdjust(fansChange);
@@ -2621,6 +2622,15 @@ export default function App() {
       // El saldo queda guardado para que ChutSocial reaccione a lo que dijiste. Antes la
       // conferencia era un tramite silencioso: movia numeros y el mundo no se enteraba.
       ultimaPrensa: { saldo: prestigeChange + fansChange, semana: playerProfile.currentWeek },
+      // Y ademas queda en el archivo, si fue una declaracion fuerte. El saldo hace de filtro sin
+      // que el juego tenga que entender la frase: las que envejecen mal son las que gustaron.
+      declaraciones: guardarDeclaracion(playerProfile.declaraciones ?? [], {
+        texto,
+        saldo: prestigeChange + fansChange,
+        semana: playerProfile.currentWeek,
+        clubId: playerProfile.currentClubId,
+        clubName: CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.name ?? 'su club',
+      }),
       lastPressAnsweredWeek: playerProfile.currentWeek
     };
 

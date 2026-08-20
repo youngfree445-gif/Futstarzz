@@ -1287,3 +1287,47 @@ export function postsDelBautizo(
     .slice(0, 2)
     .map(x => x.v);
 }
+
+/**
+ * LA HEMEROTECA en el feed: te sacan lo que dijiste hace medio año.
+ *
+ * La cita va literal y entre comillas; el marco lo pone src/hemeroteca.ts y sólo dice cuándo lo
+ * dijiste y qué es cierto hoy. Las voces NUNCA interpretan la frase -- si lo hicieran, el día que
+ * el jugador eligiera la opción humilde el feed le estaría inventando una promesa que no hizo.
+ */
+export function postsDeHemeroteca(
+  nombre: string,
+  cita: string,
+  marco: string,
+  aFavor: boolean,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 117) * 45.1 + i * 19.3) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = aFavor
+    ? [
+      { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+        content: `Rescato esto de ${nombre}: "${cita}". ${marco}` },
+      { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+        content: `"${cita}" 🗣️ ${marco} Hablar de más no es un problema cuando después lo hacés.` },
+      { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+        content: `Se lo cuestionaron cuando lo dijo. "${cita}". ${marco}` },
+    ]
+    : [
+      { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+        content: `Del archivo: "${cita}" — ${nombre}. ${marco}` },
+      { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+        content: `"${cita}" 💀 ${marco} Guarden esa frase, muchachos.` },
+      { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+        content: `Vuelvo a esto que dijo ${nombre}: "${cita}". ${marco}` },
+      { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+        content: `Che, sin cargar a nadie: "${cita}". ${marco} El fútbol es así con todos.` },
+    ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}
