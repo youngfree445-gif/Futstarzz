@@ -3,6 +3,7 @@ import { useNumeroQueCuenta } from '../animaciones';
 import { apodoDe } from '../apodo';
 import { laHemerotecaTeRecuerda } from '../hemeroteca';
 import { clasicoPersonalContra } from '../clasicoPersonal';
+import { loQueDiceDeVos } from '../elPibe';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -24,7 +25,7 @@ import ReportarBug from './ReportarBug';
 import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal,
+import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal, postsDelPibe,
 } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
@@ -2417,6 +2418,23 @@ export default function Dashboard({
           }))
       : [];
 
+    // EL PIBE, la temporada en que se define su carrera. Dura tres fechas: es una noticia, no un
+    // estado.
+    const elPibeEnElFeed: SocialPost[] = (() => {
+      const pibe = playerProfile.elPibe;
+      if (!pibe?.destino) return [];
+      if (week - pibe.destino.semana < 0 || week - pibe.destino.semana > 3) return [];
+      return postsDelPibe(pibe.nombre, pibe.destino.relato, loQueDiceDeVos(pibe, pName),
+        pibe.destino.que !== 'perdido', week)
+        .map((c, i) => ({
+          id: `pibe_${pibe.nombre}_${pibe.destino!.semana}_${i}`,
+          author: c.author, role: c.role, content: c.content,
+          likes: 3500 + Math.floor(Math.random() * 13000),
+          commentsCount: 600 + Math.floor(Math.random() * 2700),
+          timestamp: 'Hace instantes', avatar: c.avatar,
+        }));
+    })();
+
     // TU PUBLICACION y lo que le respondieron. Va primero de todo: lo dijiste vos.
     const miPost: SocialPost[] = playerProfile.miPublicacion?.semana === week
       ? [
@@ -2572,6 +2590,7 @@ export default function Dashboard({
       ...previaDeClasico,
       ...previaDeMiClasico,
       ...miPost,
+      ...elPibeEnElFeed,
       ...elBautizo,
       ...delArchivo,
       ...llegadaDelRefuerzo,

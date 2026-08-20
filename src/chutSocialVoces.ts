@@ -1382,3 +1382,43 @@ export function postsDeClasicoPersonal(
     .slice(0, 2)
     .map(x => x.v);
 }
+
+/**
+ * EL PIBE, el día que su carrera se define.
+ *
+ * Puede caer años después de que dejó de ser tu ahijado, y ése es el momento en que significa algo:
+ * el juvenil que entrenaba con vos hoy juega en otro continente, o no juega en ningún lado.
+ *
+ * `loQueDice` viene de src/elPibe.ts y sólo existe si le fue bien Y vos lo bancaste: la gratitud
+ * hay que habérsela ganado.
+ */
+export function postsDelPibe(
+  nombre: string,
+  relato: string,
+  loQueDice: string | null,
+  llego: boolean,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 151) * 33.3 + i * 15.1) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = llego
+    ? [
+      { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰', content: relato },
+      ...(loQueDice ? [{ author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+        content: `Le preguntaron por ${nombre} y contestó esto: ${loQueDice} 🥹` }] : []),
+      { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+        content: `${relato} Los que lo vieron entrenar de pibe lo venían diciendo.` },
+    ]
+    : [
+      { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️', content: relato },
+      { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+        content: `${relato} El fútbol es esto también, y casi nadie lo cuenta.` },
+    ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}

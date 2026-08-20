@@ -21,6 +21,7 @@ import { sortearTipoDeLesion, riesgoDeLesion, RIESGO_MAXIMO_POR_FATIGA, TIPOS_DE
 import { clubQueTeFormo, teLlamaLaCasa, temporadasEnLaCasa, EDAD_DEL_LLAMADO } from '../src/clubQueTeFormo';
 import { guardarDeclaracion, laHemerotecaTeRecuerda, SALDO_PARA_QUEDAR_GUARDADA, PASOS_PARA_QUE_ENVEJEZCA, CUANTAS_SE_GUARDAN } from '../src/hemeroteca';
 import { clasicoPersonalContra, elClasicoDeTuCarrera, PARTIDOS_PARA_QUE_SEA_CLASICO } from '../src/clasicoPersonal';
+import { crecimientoDelPibe, destinoDelPibe, chanceDeLlegar, loQueDiceDeVos, NIVEL_INICIAL, NIVEL_PARA_LLEGAR, TEMPORADAS_PARA_DEFINIRSE, type Pibe } from '../src/elPibe';
 
 let fallas = 0;
 let corridos = 0;
@@ -615,6 +616,57 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   ok('el clasico de la carrera es el mas fuerte, no el mas jugado',
     elClasicoDeTuCarrera(todos)?.rivalName === 'America');
   ok('y sin ninguno, no se inventa', elClasicoDeTuCarrera([]) === null);
+}
+
+// --- EL PIBE QUE SALE DE ABAJO -------------------------------------------------------------------
+//
+// Dos cosas se cuidan aca, y las dos salieron de medir y encontrar que estaban mal:
+//   . que TODOS terminen en algun lado (antes el 38% quedaba sin definir)
+//   . que bancarlo cambie algo de verdad (antes un mentor normal movia la aguja del 35% al 36%)
+{
+  const base: Pibe = { nombre: 'Pibe', clubName: 'Junior', desdeSemana: 0,
+    nivel: NIVEL_INICIAL, temporadasConVos: 0, temporadas: 0 };
+  const crece = (o: any) => crecimientoDelPibe({ loApadrinaste: true, tuNivel: 70,
+    tuPrestigio: 50, leSalioBien: true, ...o });
+
+  // 1. BANCARLO SIRVE, y siendo mejor jugador sirve mas.
+  ok('apadrinarlo lo hace crecer mas', crece({}) > crece({ loApadrinaste: false }));
+  ok('y un mentor normal ya aporta algo',
+    crece({ tuNivel: 70, tuPrestigio: 50 }) - crece({ loApadrinaste: false }) >= 1.5,
+    (crece({}) - crece({ loApadrinaste: false })).toFixed(2));
+  ok('un fenomeno aporta mas que uno normal',
+    crece({ tuNivel: 92, tuPrestigio: 92 }) > crece({ tuNivel: 70, tuPrestigio: 50 }));
+  ok('una mala temporada crece menos que una buena', crece({ leSalioBien: false }) < crece({}));
+  ok('pero nadie sube diez puntos en un anio', crece({ tuNivel: 99, tuPrestigio: 99 }) <= 8);
+
+  // 2. LA CHANCE SUBE CON EL NIVEL, y ni el mejor la tiene asegurada.
+  ok('un juvenil flojo no tiene chance', chanceDeLlegar(60) === 0);
+  ok('uno bueno tiene bastante', chanceDeLlegar(88) > 0.4, chanceDeLlegar(88).toFixed(2));
+  ok('y ninguno la tiene asegurada', chanceDeLlegar(99) < 1, chanceDeLlegar(99).toFixed(2));
+
+  // 3. TODOS TERMINAN EN ALGUN LADO. Este es EL caso: la primera version dejaba a mas de un tercio
+  //    de los pibes sin final, o sea prometia una historia y no entregaba ninguna.
+  let sinDefinir = 0;
+  for (let nivel = 55; nivel <= 81; nivel++) {
+    const alFinal = { ...base, nivel, temporadas: TEMPORADAS_PARA_DEFINIRSE };
+    if (!destinoDelPibe(alFinal, 200, 0.5)) sinDefinir++;
+  }
+  ok('ningun pibe se queda sin final', sinDefinir === 0, `${sinDefinir} sin definir`);
+
+  // Antes de las cinco temporadas todavia se esta haciendo, salvo que estalle.
+  ok('a la segunda temporada todavia no se sabe',
+    destinoDelPibe({ ...base, nivel: 70, temporadas: 2 }, 100, 0.5) === null);
+  ok('salvo que estalle', destinoDelPibe({ ...base, nivel: NIVEL_PARA_LLEGAR, temporadas: 2 }, 100, 0.5) !== null);
+
+  // 4. LA GRATITUD HAY QUE GANARSELA.
+  const llego: Pibe = { ...base, temporadasConVos: 4,
+    destino: { que: 'europa', semana: 100, relato: 'x' } };
+  ok('el que te debe algo lo dice', (loQueDiceDeVos(llego, 'Camilo') ?? '').includes('Camilo'));
+  ok('el que nunca apadrinaste no dice nada',
+    loQueDiceDeVos({ ...llego, temporadasConVos: 0 }, 'Camilo') === null);
+  ok('y el que no llego, tampoco',
+    loQueDiceDeVos({ ...llego, destino: { que: 'perdido', semana: 100, relato: 'x' } }, 'Camilo') === null);
+  ok('sin destino todavia no hay nada que decir', loQueDiceDeVos(base, 'Camilo') === null);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

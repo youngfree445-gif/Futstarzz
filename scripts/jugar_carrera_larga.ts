@@ -117,6 +117,8 @@ const sorteoDeLesion = (partidosSinDescanso: number) => {
 const PARTIDOS_ANTES_DE_DESCANSAR = 5;
 
 const bitacora: string[] = [];
+/** Temporadas seguidas sin arrancar un solo partido. Ver el bloque de cierre de temporada. */
+let temporadasSinArrancar = 0;
 let paso = 0;
 
 for (let t = 1; t <= TEMPORADAS; t++) {
@@ -200,9 +202,31 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     const asis = Math.random() < chanceDeGol * 0.7 ? 1 : 0;
 
     // La nota sale del aporte y del resultado, que es de donde sale en el juego.
+    //
+    // EL PISO DEL SUPLENTE ES MÁS ALTO QUE EL DEL TITULAR, y no es un mimo: es corregir un error de
+    // este mismo archivo. Con el mismo 5.6 para los dos, un suplente promediaba 5.8 y el prestigio
+    // se mueve con (nota - 6.2), así que CADA partido entrando desde el banco restaba prestigio.
+    // Un trinquete sin fondo: el suplente se hundía para siempre y no había forma de salir --
+    // medido, tres de cada cinco carreras de veinte temporadas terminaban con CERO titularidades.
+    //
+    // Eso lo inventó este banco de pruebas, no el juego. En el juego la nota sale de las decisiones
+    // del partido (prestigeAccum en MatchSimulator) y entrar desde el banco no penaliza nada: jugás
+    // media hora, tomás menos decisiones, tenés menos chances de sumar. "Hacer poco" en treinta
+    // minutos no puede valer menos que "hacer poco" en noventa.
+    //
+    // AVISO PARA EL QUE VENGA: este número es MUY sensible y conviene saberlo antes de tocarlo.
+    // Con 5.6 las seis carreras de prueba terminaban con cero titularidades; con 6.0, las seis
+    // terminan con prestigio 97-99. El modelo de prestigio de este archivo es un paseo aleatorio con
+    // deriva alrededor del 6.2, así que el SIGNO de esa deriva decide la carrera entera y no hay
+    // nada que devuelva al jugador hacia el medio.
+    //
+    // Se deja en 6.0 porque es lo más defendible frente al juego, no porque dé la curva más linda.
+    // Si algún día este banco de pruebas tiene que contestar preguntas de BALANCE y no sólo buscar
+    // estados imposibles, lo que hay que arreglar es la deriva, no este número.
     const gano = sim.homeGoals > sim.awayGoals;
+    const piso = soyTitular ? 5.6 : 6.0;
     const nota = Math.max(3.5, Math.min(10,
-      5.6 + goles * 1.3 + asis * 0.7 + (gano ? 0.5 : -0.3) + (Math.random() - 0.5) * 1.6));
+      piso + goles * 1.3 + asis * 0.7 + (gano ? 0.5 : -0.3) + (Math.random() - 0.5) * 1.6));
 
     carrera.formaReciente = anotarNota(carrera.formaReciente, nota, paso);
     carrera.partidos++; carrera.goles += goles; carrera.asistencias += asis;
@@ -269,6 +293,24 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   carrera.fichajeRival = r.perfil.fichajeRival as RivalDePuesto | undefined;
   carrera.clubId = r.perfil.currentClubId;
 
+  // EL JUGADOR TAMBIEN DECIDE, y hasta ahora este banco de pruebas no lo dejaba.
+  //
+  // La lista de transferibles modela que el CLUB se canse de vos. Faltaba lo otro: que vos te
+  // canses. Sin eso, un suplente eterno se quedaba veinte temporadas en el mismo club sin jugar
+  // nunca de titular -- medido: tres de cada cinco carreras de veinte temporadas terminaban con
+  // CERO titularidades. No es un bug del juego: la vara de titularidad es la misma que usa
+  // decideLineupStatus y esta bien. Es que un futbolista de verdad, despues de dos anios sin
+  // arrancar un partido, se va a un club mas chico donde si va a jugar. El juego lo permite (el
+  // mercado esta ahi); el banco de pruebas no lo hacia.
+  if (titularEsteAnio === 0) temporadasSinArrancar++; else temporadasSinArrancar = 0;
+  if (temporadasSinArrancar >= 2 && destino && !r.vendidoA) {
+    carrera.clubId = destino.id;
+    carrera.prestige = Math.max(5, carrera.prestige - 3);   // bajar de categoria cuesta algo
+    carrera.fichajeRival = undefined;
+    temporadasSinArrancar = 0;
+    bitacora.push(`      -> se cansa del banco y se va a ${destino.name}`);
+  }
+
   const marca = factorDeMarcaPersonal(media(), carrera.prestige);
   const estado = r.vendidoA ? `VENDIDO a ${r.vendidoA.nombre}`
     : r.teQuedaste ? 'salió de la lista'
@@ -295,8 +337,20 @@ console.log(`   terminó en ${(CLUBS_DATABASE as Club[]).find(c => c.id === carr
 // No se comprueba "salió bien" sino que no haya pasado nada IMPOSIBLE. Una carrera puede terminar
 // mal -- ése es el punto de que el mundo reaccione -- pero no puede quedarse trabada.
 if (carrera.partidos === 0) raro('la carrera entera sin un solo partido de titular');
-if (carrera.banco > carrera.titulares * 4 && carrera.titulares > 0) {
-  raro(`demasiado banco: ${carrera.banco} suplencias contra ${carrera.titulares} titularidades`);
+
+// LA RED TENIA UN AGUJERO, y lo encontro enseñarle a lesionarse.
+//
+// El invariante era `banco > titulares * 4 && titulares > 0`, y ese `&& titulares > 0` dejaba pasar
+// justo el peor caso: la carrera con CERO titularidades. Medido con las lesiones apagadas, dos de
+// tres corridas de veinte temporadas terminaban con 0 de titular y 760 de banco, y ninguna avisaba
+// nada -- el guard estaba puesto para no dividir por cero y terminó tapando la unica carrera que de
+// verdad esta trabada, que es la que este invariante existia para encontrar.
+//
+// Y la version vieja ademas se disparaba con una carrera legitima: 76 titularidades en veinte
+// temporadas, con 132 fechas perdidas por lesion, es un suplente de toda la vida. Triste, pero no
+// imposible -- y este archivo comprueba lo IMPOSIBLE, no lo que salio mal.
+if (carrera.titulares === 0 && carrera.partidos > 50) {
+  raro(`${carrera.partidos} partidos y ni UNA titularidad en toda la carrera: la vara no baja nunca`);
 }
 if (carrera.titulares > 0 && carrera.goles === 0) raro('jugó de titular toda la carrera y no marcó nunca');
 

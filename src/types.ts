@@ -166,6 +166,17 @@ export interface PlayerProfile {
   attrSumAtSeasonStart: number; // Fase 2.5: suma de los 6 atributos al arrancar la temporada en curso -- referencia para medir el crecimiento real de esa temporada en applyBreakoutSeasonIfNewSeason
   yearsAtClub: number; // Fase 2.5: temporadas seguidas en el club actual -- se resetea a 0 en cada traspaso (ver handleAcceptTransfer). Pasado COMFORT_ZONE_YEARS_THRESHOLD, el entrenamiento rinde menos (ver handleTrainAttribute) -- "zona de confort"
   appearanceBonus: number; // Fase 2.5: cláusula de contrato fijada al fichar (ver handleAcceptTransfer/SetupScreen) -- se paga cada partido jugado, pero jugar ya exhausto para cobrarla genera fricción con el DT (ver handleFinishMatch)
+  /**
+   * LA CARRERA DEL PIBE que apadrinaste (ver src/elPibe.ts).
+   *
+   * Antes el ahijado era medio nombre: un dado por temporada que te daba prestigio y nada más. Esto
+   * le da carrera propia -- crece según cuánto lo bancaste y en qué nivel estabas vos -- y termina
+   * en algún lado: Europa, figura, o perdido. Sobrevive a la graduación: el pibe deja de ser tu
+   * ahijado a los 23 y su historia sigue.
+   */
+  elPibe?: import('./elPibe').Pibe;
+  /** El destino del pibe recién ocurrido, para contarlo una vez y limpiarlo. */
+  destinoDelPibeReciente?: string;
   mentorshipPlayerName: string | null; // Fase 2.5: joven del plantel actual (de currentClub.starPlayers) elegido como ahijado -- cada cierre de temporada tira un roll según cómo evolucionó y suma/resta prestige (ver applyMentorshipIfNewSeason). null si no elegiste a nadie.
   // El OTRO lado de la mentoría: el veterano del plantel que te apadrina a vos mientras sos joven.
   // Existe porque la carrera arranca a los 17 y el único panel de mentoría que había te decía que

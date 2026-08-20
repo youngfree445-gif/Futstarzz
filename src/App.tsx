@@ -41,6 +41,7 @@ import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGI
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
 import { guardarDeclaracion } from './hemeroteca';
+import { crecimientoDelPibe, destinoDelPibe, NIVEL_INICIAL, type Pibe } from './elPibe';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
@@ -773,9 +774,44 @@ function applyMentorFigureIfNewSeason(profile: PlayerProfile, previousWeek: numb
   };
 }
 
+/**
+ * El pibe, cuando ya no lo apadrinás: crece solo, más lento, y su destino igual llega.
+ *
+ * Acá SÍ se tira un dado propio, y no es una contradicción con lo de abajo: el roll de la mentoría
+ * existe únicamente cuando hay mentoría. Sin ahijado no hay dado que compartir, y el pibe necesita
+ * uno para seguir viviendo.
+ */
+function avanzarAlPibeSolo(profile: PlayerProfile, newWeek: number): PlayerProfile {
+  const pibe = profile.elPibe;
+  if (!pibe || pibe.destino) return profile;
+
+  const crecido: Pibe = {
+    ...pibe,
+    nivel: Math.min(99, pibe.nivel + crecimientoDelPibe({
+      loApadrinaste: false,
+      tuNivel: Object.values(profile.attributes).reduce((x, y) => x + y, 0) / 6,
+      tuPrestigio: profile.prestige,
+      leSalioBien: Math.random() < MENTORSHIP_GOOD_CHANCE,
+    })),
+    temporadas: pibe.temporadas + 1,
+  };
+  const destino = destinoDelPibe(crecido, newWeek, Math.random());
+
+  return {
+    ...profile,
+    elPibe: destino ? { ...crecido, destino } : crecido,
+    ...(destino ? { destinoDelPibeReciente: destino.relato } : {}),
+  };
+}
+
 function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
-  if (!profile.mentorshipPlayerName) return profile;
+
+  // EL PIBE SIGUE SU CAMINO AUNQUE YA NO SEA TU AHIJADO, y ahí está media mecánica: se gradúa a los
+  // 23, deja de aparecer en tu pantalla, y tres temporadas después te enterás de que lo vendieron a
+  // Europa. Si la historia se cortara con la mentoría, el destino siempre llegaría mientras el pibe
+  // todavía es "tuyo", que es justo cuando no significa nada.
+  if (!profile.mentorshipPlayerName) return avanzarAlPibeSolo(profile, newWeek);
 
   const roll = Math.random();
   const prestigeChange = roll < MENTORSHIP_GOOD_CHANCE
@@ -791,10 +827,47 @@ function applyMentorshipIfNewSeason(profile: PlayerProfile, previousWeek: number
   // La mentoría es un vínculo con un compañero de plantel, no con el cuerpo técnico -- golpea la
   // barra de compañeros, no la de prestige (DT).
   const prestigeCompanerosActual = profile.prestigeCompaneros ?? profile.prestige;
+
+  // --- Y ADEMAS EL PIBE TIENE CARRERA PROPIA -------------------------------------------------
+  //
+  // Se usa el MISMO roll que acaba de mover tu prestigio, no uno nuevo: con dos dados el pibe
+  // podria "evolucionar bien" para tu prestigio y mal para su carrera en la misma temporada, que es
+  // la version clasica de dos fuentes contestando la misma pregunta.
+  const leSalioBien = prestigeChange > 0;
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  const previo: Pibe = profile.elPibe?.nombre === profile.mentorshipPlayerName
+    ? profile.elPibe
+    : {
+      nombre: profile.mentorshipPlayerName,
+      clubName: club?.name ?? 'su club',
+      desdeSemana: newWeek,
+      nivel: NIVEL_INICIAL,
+      temporadasConVos: 0,
+      temporadas: 0,
+    };
+
+  const crecido: Pibe = previo.destino ? previo : {
+    ...previo,
+    nivel: Math.min(99, previo.nivel + crecimientoDelPibe({
+      loApadrinaste: true,
+      tuNivel: Object.values(profile.attributes).reduce((x, y) => x + y, 0) / 6,
+      tuPrestigio: profile.prestige,
+      leSalioBien,
+    })),
+    temporadasConVos: previo.temporadasConVos + 1,
+    temporadas: previo.temporadas + 1,
+  };
+  const destino = crecido.destino ?? destinoDelPibe(crecido, newWeek, Math.random());
+  const elPibe: Pibe = destino ? { ...crecido, destino } : crecido;
+
   return {
     ...profile,
     prestigeCompaneros: Math.max(0, Math.min(100, prestigeCompanerosActual + prestigeChange)),
     mentorshipPlayerName: seguiaSiendoJoven ? profile.mentorshipPlayerName : null,
+    elPibe,
+    // Se cuenta UNA vez, la temporada en que se define. Despues queda en el perfil y en el
+    // documental, pero el aviso no vuelve a salir.
+    ...(destino && !previo.destino ? { destinoDelPibeReciente: destino.relato } : {}),
   };
 }
 
@@ -1555,6 +1628,14 @@ export default function App() {
     // El informe de la temporada en hardcore. Sin entrenamiento, esto es lo UNICO que le explica al
     // jugador por que sus atributos se movieron: sin el aviso, los numeros cambian solos y parece un
     // bug. Se cuenta una vez y se limpia.
+    // EL PIBE, cuando se define su carrera. Puede pasar anios despues de que dejo de ser tu ahijado,
+    // y ese es justamente el momento en que significa algo.
+    if (playerProfile.destinoDelPibeReciente) {
+      notify(`🌱 ${playerProfile.destinoDelPibeReciente}`);
+      setPlayerProfile(p => (p ? { ...p, destinoDelPibeReciente: undefined } : p));
+      return;
+    }
+
     // LA SECUELA. Va primero de todo porque es lo mas fuerte que le puede pasar a un perfil sin que
     // el jugador haya hecho nada: los atributos se movieron solos. Sin el aviso parece un bug.
     if (playerProfile.ultimaSecuela) {
@@ -1588,7 +1669,7 @@ export default function App() {
       notify(`✅ ${AVISO_TE_QUEDAS}`);
     }
     listaAnterior.current = ahora;
-  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore, playerProfile?.ultimaSecuela]);
+  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore, playerProfile?.ultimaSecuela, playerProfile?.destinoDelPibeReciente]);
 
   /**
    * EL BAUTIZO. El apodo se calcula solo (src/apodo.ts), pero que te lo PONGAN es un momento, y un

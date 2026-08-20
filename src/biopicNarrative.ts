@@ -6,6 +6,7 @@ import { PlayerProfile } from './types';
 import { apodoDe } from './apodo';
 import { clubQueTeFormo } from './clubQueTeFormo';
 import { elClasicoDeTuCarrera } from './clasicoPersonal';
+import { loQueDiceDeVos } from './elPibe';
 
 export function generateBiopicNarrative(profile: PlayerProfile): string[] {
   const paragraphs: string[] = [];
@@ -99,6 +100,18 @@ export function generateBiopicNarrative(profile: PlayerProfile): string[] {
         : clasico.tipo === 'muro'
         ? `Y quedó una cuenta sin saldar. ${clasico.detalle}`
         : `${clasico.rivalName} fue el rival de su vida. ${clasico.detalle}`
+    );
+  }
+
+  // EL PIBE. Va cerca del final porque es lo que dejaste, no lo que ganaste, y un documental
+  // termina siempre por ahi.
+  const pibe = profile.elPibe;
+  if (pibe?.destino) {
+    const dice = loQueDiceDeVos(pibe, profile.name);
+    paragraphs.push(
+      pibe.destino.que === 'perdido'
+        ? `No todo lo que tocó se convirtió en oro. ${pibe.destino.relato}`
+        : `${pibe.destino.relato}${dice ? ` Cada vez que le preguntan, contesta lo mismo: ${dice}` : ''}`
     );
   }
 
