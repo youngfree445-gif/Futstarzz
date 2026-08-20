@@ -37,7 +37,8 @@ import {
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
-import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO } from './lesion';
+import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO, TIPOS_DE_LESION, sortearTipoDeLesion, riesgoDeLesion } from './lesion';
+import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
@@ -296,14 +297,9 @@ function checkAndUnlockAchievements(profile: PlayerProfile): { profile: PlayerPr
 // juega un partido real ahí, no en las semanas sin partido). INJURY_BASE_CHANCE_PER_MATCH es la
 // probabilidad base por partido jugado; sube con matchesWithoutRest ya existente -- jugar
 // exhausto es lo que más pesa en el riesgo real.
-const INJURY_TYPES: { id: InjuryType; label: string; minWeeks: number; maxWeeks: number }[] = [
-  { id: 'golpe', label: 'Golpe muscular leve', minWeeks: 1, maxWeeks: 2 },
-  { id: 'muscular', label: 'Desgarro muscular', minWeeks: 2, maxWeeks: 5 },
-  { id: 'ligamentos', label: 'Esguince de ligamentos', minWeeks: 4, maxWeeks: 8 },
-  { id: 'fractura', label: 'Fractura', minWeeks: 8, maxWeeks: 16 },
-];
-const INJURY_BASE_CHANCE_PER_MATCH = 0.02;
-const INJURY_FATIGUE_CHANCE_BONUS = 0.015; // por cada partido seguido sin descanso (matchesWithoutRest)
+// El catalogo, las probabilidades y el sorteo viven en src/lesion.ts: los comparte el banco de
+// pruebas, que es el que descubrio que el sorteo uniforme repartia una fractura cada cuatro lesiones.
+const INJURY_TYPES = TIPOS_DE_LESION;
 // El riesgo de recaída vive en src/lesion.ts, no acá: escala con las semanas que te salteás, así que
 // es una función y no una constante. (Antes era un 0.35 fijo que además nunca se ejecutaba.)
 const INJURY_FAST_TREATMENT_COST = 2000;
@@ -482,6 +478,53 @@ function cambioDeTemporada(profile: PlayerProfile, previousWeek: number, newWeek
  * decide dónde. Se reparte parejo y con el resto al que más se usa en tu posición, para que la
  * evolución tenga forma de jugador y no de planilla.
  */
+/**
+ * EL ALTA DE UNA LESIÓN, en un solo lugar.
+ *
+ * Hay TRES puertas por las que una lesión llega a cero: el cierre de temporada, la fecha que pasás
+ * recuperándote, y el partido que aguantaste jugando roto hasta el final. Las tres armaban la línea
+ * de `injuryHistory` por su cuenta, con la misma fórmula copiada tres veces -- y ahora además hay
+ * que tirar el dado de la secuela, que es exactamente el tipo de cosa que en dos meses va a estar
+ * en dos de las tres puertas y no en la tercera.
+ *
+ * Así que el alta se da acá, una vez, y las tres puertas la llaman.
+ */
+function darDeAlta(perfil: PlayerProfile, lesion: ActiveInjury, semanaDeAlta: number): {
+  injuryHistory: NonNullable<PlayerProfile['injuryHistory']>;
+  attributes: PlayerStats;
+  ultimaSecuela?: { titular: string; relato: string };
+  secuelasDeCarrera: NonNullable<PlayerProfile['secuelasDeCarrera']>;
+} {
+  const previas = perfil.injuryHistory ?? [];
+  const weeksOut = Math.max(1, perfil.currentWeek - lesion.startedWeek + 1);
+
+  const secuela = secuelaDeLaLesion({
+    tipo: lesion.type,
+    semanasAfuera: weeksOut,
+    edad: perfil.age,
+    posicion: perfil.position,
+    atributos: perfil.attributes,
+    semanaActual: perfil.currentWeek,
+    historial: previas,
+  }, Math.random());
+
+  const attributes = { ...perfil.attributes };
+  if (secuela) {
+    for (const [k, v] of Object.entries(secuela.cambios) as [keyof PlayerStats, number][]) {
+      attributes[k] = Math.max(PISO_DE_ATRIBUTO, Math.min(99, attributes[k] + v));
+    }
+  }
+
+  return {
+    injuryHistory: [...previas, { type: lesion.type, weeksOut, week: semanaDeAlta }],
+    attributes,
+    ultimaSecuela: secuela ? { titular: secuela.titular, relato: secuela.relato } : undefined,
+    secuelasDeCarrera: secuela
+      ? [...(perfil.secuelasDeCarrera ?? []), { relato: secuela.relato, semana: semanaDeAlta }]
+      : (perfil.secuelasDeCarrera ?? []),
+  };
+}
+
 function applyHardcoreGrowthIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (!profile.hardcoreEnabled) return profile;
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
@@ -1497,6 +1540,15 @@ export default function App() {
     // El informe de la temporada en hardcore. Sin entrenamiento, esto es lo UNICO que le explica al
     // jugador por que sus atributos se movieron: sin el aviso, los numeros cambian solos y parece un
     // bug. Se cuenta una vez y se limpia.
+    // LA SECUELA. Va primero de todo porque es lo mas fuerte que le puede pasar a un perfil sin que
+    // el jugador haya hecho nada: los atributos se movieron solos. Sin el aviso parece un bug.
+    if (playerProfile.ultimaSecuela) {
+      const sec = playerProfile.ultimaSecuela;
+      notify(`🩼 ${sec.titular}. ${sec.relato}`);
+      setPlayerProfile(p => (p ? { ...p, ultimaSecuela: undefined } : p));
+      return;
+    }
+
     if (playerProfile.ultimoInformeHardcore) {
       notify(`📈 ${playerProfile.ultimoInformeHardcore}`);
       setPlayerProfile(p => (p ? { ...p, ultimoInformeHardcore: undefined } : p));
@@ -1521,7 +1573,7 @@ export default function App() {
       notify(`✅ ${AVISO_TE_QUEDAS}`);
     }
     listaAnterior.current = ahora;
-  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore]);
+  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore, playerProfile?.ultimaSecuela]);
 
   /**
    * EL BAUTIZO. El apodo se calcula solo (src/apodo.ts), pero que te lo PONGAN es un momento, y un
@@ -2684,9 +2736,7 @@ export default function App() {
       continentalCups: cupsSync.continentalCups,
       uefaCups: cupsSync.uefaCups,
       activeInjury: !activeInjuryAtClose ? null : injuryDoneAtClose ? null : { ...activeInjuryAtClose, weeksRemaining: weeksRemainingAtClose },
-      injuryHistory: injuryDoneAtClose
-        ? [...(playerProfile.injuryHistory ?? []), { type: activeInjuryAtClose!.type, weeksOut: playerProfile.currentWeek - activeInjuryAtClose!.startedWeek + 1, week: nextWeek }]
-        : (playerProfile.injuryHistory ?? []),
+      ...(injuryDoneAtClose ? darDeAlta(playerProfile, activeInjuryAtClose!, nextWeek) : { injuryHistory: playerProfile.injuryHistory ?? [] }),
     }, playerProfile.currentWeek, nextWeek);
     if (isPastRetirementAge(aged)) {
       resolveRetirementCheckpoint(aged);
@@ -4130,9 +4180,7 @@ export default function App() {
       matchesWithoutRest: 0,
       activeInjury: injuryDone ? null : { ...playerProfile.activeInjury, weeksRemaining },
       datedResults: historialCon(suyo ? resultadoDelClubSinVos(myClub, suyo.rival.name, suyo.myGoals, suyo.rivalGoals) : null),
-      injuryHistory: injuryDone
-        ? [...(playerProfile.injuryHistory ?? []), { type: playerProfile.activeInjury.type, weeksOut: playerProfile.currentWeek - playerProfile.activeInjury.startedWeek + 1, week: nextWeek }]
-        : (playerProfile.injuryHistory ?? []),
+      ...(injuryDone ? darDeAlta(playerProfile, playerProfile.activeInjury, nextWeek) : { injuryHistory: playerProfile.injuryHistory ?? [] }),
       leagueSeasons: updatedLeagueSeasons,
       continentalCups: sync.continentalCups,
       uefaCups: sync.uefaCups,
@@ -5122,6 +5170,7 @@ export default function App() {
     // se salta y el comportamiento es bit a bit igual al de antes de que existiera la feature.
     let newActiveInjury: ActiveInjury | null = playerProfile.activeInjury ?? null;
     let newInjuryHistory = playerProfile.injuryHistory ?? [];
+    let altaConSecuela: ReturnType<typeof darDeAlta> | null = null;
     let injuryMessage: string | null = null;
     if (playerProfile.injuriesEnabled) {
       // FORZASTE LA VUELTA Y JUGASTE ROTO. Acá se cobra -- o se zafa.
@@ -5148,13 +5197,15 @@ export default function App() {
           // llegás al alta, jugando.
           const quedan = restantes - 1;
           if (quedan <= 0) {
-            newInjuryHistory = [...newInjuryHistory, {
-              type: newActiveInjury!.type,
-              weeksOut: playerProfile.currentWeek - newActiveInjury!.startedWeek + 1,
-              week: playerProfile.currentWeek + 1,
-            }];
+            const alta = darDeAlta({ ...playerProfile, injuryHistory: newInjuryHistory }, newActiveInjury!, playerProfile.currentWeek + 1);
+            newInjuryHistory = alta.injuryHistory;
+            altaConSecuela = alta;
             newActiveInjury = null;
-            injuryMessage = `💪 Aguantaste jugando lesionado hasta el final de la recuperación. Estás entero.`;
+            // "Estás entero" sólo si de verdad lo estás: aguantar jugando roto es justo lo que puede
+            // dejar marca, y decir que no pasó nada cuando pasó es la peor forma de contarlo.
+            injuryMessage = alta.ultimaSecuela
+              ? `💪 Aguantaste jugando lesionado hasta el alta, pero no salió gratis.`
+              : `💪 Aguantaste jugando lesionado hasta el final de la recuperación. Estás entero.`;
           } else {
             newActiveInjury = { ...newActiveInjury!, weeksRemaining: quedan };
             injuryMessage = `😬 Aguantaste el partido con la lesión encima. Te quedan ${quedan} fecha(s) de riesgo.`;
@@ -5162,9 +5213,11 @@ export default function App() {
         }
       } else if (!newActiveInjury) {
         const difficultyMultiplier = playerProfile.difficultyMode === 'realista' ? 1.6 : 1;
-        const chance = (INJURY_BASE_CHANCE_PER_MATCH + playerProfile.matchesWithoutRest * INJURY_FATIGUE_CHANCE_BONUS) * difficultyMultiplier;
+        // La cuenta vive en src/lesion.ts, con el tope de fatiga y el porque del tope.
+        const chance = riesgoDeLesion(playerProfile.matchesWithoutRest, difficultyMultiplier);
         if (Math.random() < chance) {
-          const tipo = INJURY_TYPES[Math.floor(Math.random() * INJURY_TYPES.length)];
+          // Con pesos, no uniforme: casi todo son golpes y desgarros, la fractura es rarisima.
+          const tipo = sortearTipoDeLesion(Math.random());
           const weeks = tipo.minWeeks + Math.floor(Math.random() * (tipo.maxWeeks - tipo.minWeeks + 1));
           newActiveInjury = { type: tipo.id, weeksRemaining: weeks, startedWeek: playerProfile.currentWeek };
           injuryMessage = `🩹 Te lesionaste: ${tipo.label}. Vas a estar afuera ${weeks} semana(s).`;
@@ -5235,6 +5288,12 @@ export default function App() {
       suspendedMatches: newSuspendedMatches,
       activeInjury: newActiveInjury,
       injuryHistory: newInjuryHistory,
+      // El alta que ocurrió jugando: los atributos ya vienen con la secuela aplicada, si la hubo.
+      ...(altaConSecuela ? {
+        attributes: altaConSecuela.attributes,
+        ultimaSecuela: altaConSecuela.ultimaSecuela,
+        secuelasDeCarrera: altaConSecuela.secuelasDeCarrera,
+      } : {}),
       investments: updatedInvestments,
       seasonHistory: updatedSeasonHistory,
       headToHeadRecords: updatedHeadToHead,

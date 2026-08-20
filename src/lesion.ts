@@ -40,7 +40,75 @@
 // Con esto la pregunta deja de ser "¿fuerzo?" y pasa a ser "¿fuerzo AHORA o espero dos fechas más?",
 // que es la decisión interesante.
 
-import { ActiveInjury } from './types';
+import { ActiveInjury, InjuryType } from './types';
+
+/**
+ * EL CATÁLOGO DE LESIONES, con su rango de fechas de recuperación.
+ *
+ * Vive acá y no en App.tsx porque hay dos que necesitan leerlo: el juego, que sortea la lesión al
+ * terminar un partido, y el banco de pruebas, que juega dieciséis temporadas para ver cuántas
+ * lesiones deja una carrera. Copiarlo en el segundo sería la receta de siempre: dos fuentes
+ * contestando la misma pregunta, y el día que una cambie el banco de pruebas mide otro juego.
+ *
+ * OJO CON EL SORTEO: el tipo se elige UNIFORME, así que una de cada cuatro lesiones es fractura. No
+ * es un descuido -- es el dato que hay que tener a la vista antes de escribir cualquier regla que
+ * dependa de "una lesión grave", porque graves hay muchas más de las que uno supone.
+ */
+export const TIPOS_DE_LESION: { id: InjuryType; label: string; minWeeks: number; maxWeeks: number; peso: number }[] = [
+  { id: 'golpe', label: 'Golpe muscular leve', minWeeks: 1, maxWeeks: 2, peso: 0.46 },
+  { id: 'muscular', label: 'Desgarro muscular', minWeeks: 2, maxWeeks: 5, peso: 0.37 },
+  { id: 'ligamentos', label: 'Esguince de ligamentos', minWeeks: 4, maxWeeks: 8, peso: 0.13 },
+  { id: 'fractura', label: 'Fractura', minWeeks: 8, maxWeeks: 16, peso: 0.04 },
+];
+
+/**
+ * Elige el tipo de lesión respetando los pesos.
+ *
+ * ANTES SE ELEGÍA UNIFORME, y eso significaba que UNA DE CADA CUATRO lesiones era fractura -- de
+ * ocho a dieciséis fechas afuera. Medido en el banco de pruebas: una carrera larga juntaba doce
+ * fracturas. Un plantel entero de futbolistas reales no junta doce fracturas.
+ *
+ * Los pesos ordenan el catálogo como se ordena en el fútbol: casi todo son golpes y desgarros, el
+ * esguince serio es raro, y la fractura es lo que le pasa a un jugador cada varios años.
+ */
+export function sortearTipoDeLesion(dado: number): typeof TIPOS_DE_LESION[number] {
+  let r = dado;
+  for (const t of TIPOS_DE_LESION) {
+    if (r < t.peso) return t;
+    r -= t.peso;
+  }
+  return TIPOS_DE_LESION[0];
+}
+
+/** Probabilidad de lesionarte en un partido jugado, antes de la fatiga y la dificultad. */
+export const RIESGO_BASE_POR_PARTIDO = 0.02;
+/** Cuánto suma cada partido seguido sin descansar. Jugar exhausto es lo que más pesa. */
+export const RIESGO_POR_PARTIDO_SIN_DESCANSO = 0.015;
+/**
+ * TOPE DE LA FATIGA, y la razón por la que existe.
+ *
+ * Para TU club, todos los pasos del calendario son día de partido -- `fixturesAtStep` está indexado
+ * por club, así que no hay "fecha libre" que reinicie el contador. Medido: 120 de 120 pasos de
+ * Junior tienen partido. `matchesWithoutRest` sólo vuelve a cero si vos no jugás (banco, lesión,
+ * suspensión o descanso), y entonces en una temporada corrida crecía sin techo:
+ *
+ *     10 partidos seguidos -> 17% de lesionarte por partido
+ *     20 partidos seguidos -> 32%
+ *
+ * O sea que la segunda mitad de cualquier temporada larga terminaba en lesión casi segura. La
+ * dirección estaba bien -- jugar exhausto tiene que pesar -- pero sin techo dejaba de ser un riesgo
+ * y pasaba a ser un calendario.
+ *
+ * Con el tope, jugar reventado te lleva de 2% a 8% por partido: cuatro veces más peligroso, que es
+ * mucho, y sigue siendo una minoría de los partidos.
+ */
+export const RIESGO_MAXIMO_POR_FATIGA = 0.06;
+
+/** El riesgo de lesionarte en este partido, con la fatiga ya topeada. */
+export function riesgoDeLesion(partidosSinDescanso: number, multiplicadorDeDificultad = 1): number {
+  const fatiga = Math.min(RIESGO_MAXIMO_POR_FATIGA, Math.max(0, partidosSinDescanso) * RIESGO_POR_PARTIDO_SIN_DESCANSO);
+  return (RIESGO_BASE_POR_PARTIDO + fatiga) * multiplicadorDeDificultad;
+}
 
 /** Piso del riesgo: incluso volviendo casi recuperado, algo se arriesga. */
 export const RECAIDA_BASE = 0.12;

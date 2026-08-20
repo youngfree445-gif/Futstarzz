@@ -310,6 +310,15 @@ export interface PlayerProfile {
   // Lesiones ya superadas, para el historial del perfil (solo se muestra si injuriesEnabled).
   // Opcional: las partidas viejas no lo tienen.
   injuryHistory?: { type: InjuryType; weeksOut: number; week: number }[];
+  /**
+   * LA SECUELA RECIÉN OCURRIDA, para contarla una vez y limpiarla.
+   *
+   * Si quedara guardada, el aviso volvería a salir en cada render que tocara el perfil -- el mismo
+   * error que ya se cometió con la venta forzada.
+   */
+  ultimaSecuela?: { titular: string; relato: string };
+  /** Todas las secuelas de la carrera, en orden. Es material del documental de retiro. */
+  secuelasDeCarrera?: { relato: string; semana: number }[];
   // Especialización elegida una vez desbloqueada la trayectoria mínima (ver ROLE_UNLOCK_MATCHES en
   // App.tsx y ROLES_DATABASE en data.ts). undefined = sin redistribución, comportamiento actual.
   favoriteRole?: string;

@@ -65,6 +65,17 @@ export function generateBiopicNarrative(profile: PlayerProfile): string[] {
     );
   }
 
+  // LA SECUELA, si la hubo. Es distinta de la lesión y merece su propio párrafo: la lesión es algo
+  // que le pasó, la secuela es en quién lo convirtió. Un documental cuenta la segunda.
+  const secuelas = profile.secuelasDeCarrera ?? [];
+  if (secuelas.length > 0) {
+    paragraphs.push(
+      secuelas.length === 1
+        ? `Hubo una que le cambió la forma de jugar. ${secuelas[0].relato} El jugador que volvió no era el mismo, y aprendió a que eso no fuera una mala noticia.`
+        : `Su cuerpo lo obligó a reinventarse ${secuelas.length} veces. La última: ${secuelas[secuelas.length - 1].relato}`
+    );
+  }
+
   const rivalidades = Object.values(profile.headToHeadRecords ?? {})
     .sort((a, b) => (b.wins + b.draws + b.losses) - (a.wins + a.draws + a.losses))[0];
   if (rivalidades && (rivalidades.wins + rivalidades.draws + rivalidades.losses) >= 5) {

@@ -16,6 +16,8 @@ import {
 import { elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, exigenciaPorLoQueValés, EXIGENCIA_MAXIMA, CREDITO_MAXIMO } from '../src/listaDeTransferibles';
 import { crecimientoDeLaTemporada, informeDeLaTemporada, PARTIDOS_MINIMOS } from '../src/modoHardcore';
 import { apodoDe, PARTIDOS_PARA_APODO } from '../src/apodo';
+import { secuelaDeLaLesion, riesgoDeSecuela, RIESGO_MAXIMO, PISO_DE_ATRIBUTO } from '../src/secuela';
+import { sortearTipoDeLesion, riesgoDeLesion, RIESGO_MAXIMO_POR_FATIGA, TIPOS_DE_LESION } from '../src/lesion';
 
 let fallas = 0;
 let corridos = 0;
@@ -388,6 +390,103 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
 
   // Y siempre viene con el porque: sin eso es un adorno.
   ok('el apodo explica que hiciste', (con({})?.porque ?? '').length > 15);
+}
+
+// --- LA LESION QUE TE CAMBIA EL ESTILO ---------------------------------------------------------
+//
+// Lo que se cuida aca no es que la secuela funcione: es que sea RARA. La primera version dejaba una
+// cada dos temporadas porque el juego sorteaba el tipo de lesion uniforme, y eso convertia un
+// momento de carrera en un tramite.
+{
+  const atributos = { ritmo: 70, regate: 68, tiro: 66, pase: 64, defensa: 55, fisico: 72 };
+  const base = { tipo: 'fractura' as const, semanasAfuera: 12, edad: 29, posicion: 'MC',
+    atributos, semanaActual: 200, historial: [] as { type: any; week: number }[] };
+  const con = (o: any) => ({ ...base, ...o });
+
+  // 1. QUE LESION PUEDE DEJAR MARCA, Y CUAL NO.
+  ok('un golpe nunca deja marca', riesgoDeSecuela(con({ tipo: 'golpe', semanasAfuera: 20 })) === 0);
+  ok('un esguince corto tampoco', riesgoDeSecuela(con({ tipo: 'ligamentos', semanasAfuera: 5 })) === 0);
+  ok('una muscular suelta tampoco', riesgoDeSecuela(con({ tipo: 'muscular', semanasAfuera: 4 })) === 0);
+  ok('una fractura larga si arriesga', riesgoDeSecuela(con({})) > 0);
+
+  // 2. Y AUN ASI ES POCO PROBABLE. Este es el caso que corrige el error de la primera version.
+  const rMax = Math.max(
+    riesgoDeSecuela(con({ semanasAfuera: 30, edad: 35 })),
+    riesgoDeSecuela(con({ tipo: 'ligamentos', semanasAfuera: 30, edad: 35 })));
+  ok('ni la peor lesion deja marca mas de la mitad de las veces', rMax <= RIESGO_MAXIMO, rMax.toFixed(2));
+  ok('la fractura joven es un riesgo chico', riesgoDeSecuela(con({ edad: 21, semanasAfuera: 8 })) <= 0.1);
+  ok('la misma lesion de viejo pesa mas',
+    riesgoDeSecuela(con({ edad: 33 })) > riesgoDeSecuela(con({ edad: 21 })));
+
+  // 3. EL DADO MANDA: mismo dato, dos resultados.
+  ok('con el dado en contra no pasa nada', secuelaDeLaLesion(con({}), 0.99) === null);
+  const sec = secuelaDeLaLesion(con({}), 0.001);
+  ok('con el dado a favor si', sec !== null);
+
+  // 4. SE PIERDE Y SE GANA, y se pierde mas de lo que se gana.
+  if (sec) {
+    const vals = Object.values(sec.cambios) as number[];
+    const perdido = vals.filter(v => v < 0).reduce((a, b) => a + b, 0);
+    const ganado = vals.filter(v => v > 0).reduce((a, b) => a + b, 0);
+    ok('la lesion se lleva algo', perdido < 0, String(perdido));
+    ok('y algo te deja', ganado > 0, String(ganado));
+    ok('romperse nunca conviene', ganado < -perdido, `${ganado} contra ${-perdido}`);
+    ok('la fractura se lleva el fisico', (sec.cambios.fisico ?? 0) < 0);
+    ok('y el relato explica que paso', sec.relato.length > 40);
+  }
+
+  // 5. LO QUE PERDES lo decide la lesion; LO QUE GANAS, el puesto.
+  const delantero = secuelaDeLaLesion(con({ posicion: 'DC' }), 0.001);
+  const defensor = secuelaDeLaLesion(con({ posicion: 'DEF' }), 0.001);
+  ok('el delantero afina la definicion', (delantero?.cambios.tiro ?? 0) > 0);
+  ok('el defensor afina la marca', (defensor?.cambios.defensa ?? 0) > 0);
+  ok('los dos pierden lo mismo, porque es la misma lesion',
+    delantero?.cambios.fisico === defensor?.cambios.fisico);
+
+  // 6. EL PISO SE RESPETA, y si no habia nada que perder no hay nada que ganar.
+  const enElPiso = secuelaDeLaLesion(con({
+    atributos: { ...atributos, fisico: PISO_DE_ATRIBUTO, ritmo: PISO_DE_ATRIBUTO } }), 0.001);
+  ok('sin nada que perder no hay secuela', enElPiso === null);
+
+  // 7. LA MUSCULAR CRONICA: no es la lesion, es la acumulacion.
+  const dosPrevias = [{ type: 'muscular', week: 180 }, { type: 'muscular', week: 195 }];
+  ok('la tercera muscular de un veterano si cuenta',
+    riesgoDeSecuela(con({ tipo: 'muscular', semanasAfuera: 3, edad: 30, historial: dosPrevias })) > 0);
+  ok('pero la tercera de un pibe no',
+    riesgoDeSecuela(con({ tipo: 'muscular', semanasAfuera: 3, edad: 23, historial: dosPrevias })) === 0);
+  ok('y la segunda tampoco',
+    riesgoDeSecuela(con({ tipo: 'muscular', semanasAfuera: 3, edad: 30, historial: [{ type: 'muscular', week: 195 }] })) === 0);
+
+  // Y LA VENTANA: dos musculares viejas no te hacen cronico. Es lo que atrapo el banco de pruebas
+  // -- contando toda la carrera, un veterano se llevaba una secuela por temporada.
+  const viejas = [{ type: 'muscular', week: 10 }, { type: 'muscular', week: 30 }];
+  ok('las musculares de hace cinco anios no cuentan',
+    riesgoDeSecuela(con({ tipo: 'muscular', semanasAfuera: 3, edad: 30, historial: viejas })) === 0);
+  ok('las de esta temporada si',
+    riesgoDeSecuela(con({ tipo: 'muscular', semanasAfuera: 3, edad: 30, historial: dosPrevias })) > 0);
+}
+
+// --- EL CATALOGO DE LESIONES: que las graves sean raras -----------------------------------------
+{
+  const pesos = TIPOS_DE_LESION.reduce((a, t) => a + t.peso, 0);
+  ok('los pesos del sorteo suman 1', Math.abs(pesos - 1) < 0.001, pesos.toFixed(3));
+
+  // Diez mil sorteos con dados parejos: la fractura tiene que ser rarisima y el golpe lo mas comun.
+  const cuenta: Record<string, number> = {};
+  for (let i = 0; i < 10000; i++) {
+    const t = sortearTipoDeLesion(i / 10000);
+    cuenta[t.id] = (cuenta[t.id] ?? 0) + 1;
+  }
+  ok('la fractura es menos del 6% de las lesiones', cuenta.fractura / 10000 < 0.06,
+    `${((cuenta.fractura / 10000) * 100).toFixed(1)}%`);
+  ok('el golpe es la mas comun', cuenta.golpe > cuenta.muscular);
+
+  // EL TOPE DE FATIGA. Para tu propio club todos los pasos son dia de partido, asi que el contador
+  // crecia toda la temporada: al partido 20 el riesgo por partido era 32%.
+  ok('jugar cansado pesa', riesgoDeLesion(4) > riesgoDeLesion(0));
+  ok('pero tiene techo', riesgoDeLesion(40) === riesgoDeLesion(4));
+  ok('y el techo deja el riesgo lejos de lo seguro', riesgoDeLesion(40) <= 0.09,
+    `${(riesgoDeLesion(40) * 100).toFixed(1)}%`);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

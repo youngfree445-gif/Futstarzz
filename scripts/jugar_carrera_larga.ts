@@ -33,7 +33,9 @@ import {
   type RivalDePuesto,
 } from '../src/rivalDePuesto';
 import { evolucionDeLaLista, exigenciaPorLoQueValés } from '../src/listaDeTransferibles';
-import type { Club } from '../src/types';
+import { secuelaDeLaLesion } from '../src/secuela';
+import { sortearTipoDeLesion, riesgoDeLesion } from '../src/lesion';
+import type { Club, PlayerStats, InjuryType } from '../src/types';
 import type { NotaDePartido } from '../src/forma';
 
 const NOMBRE = process.argv[2] || 'Junior de Barranquilla';
@@ -54,7 +56,17 @@ const carrera = {
   clubId: club0.id,
   edad: 17,
   prestige: 50,     // el mismo con el que arranca una carrera de verdad (ver SetupScreen)
-  atributos: 62,               // promedio de los seis
+  // LOS SEIS ATRIBUTOS, no un promedio. Hasta acá esta carrera llevaba un solo número, y con eso la
+  // secuela de la lesión era invisible: redistribuir entre atributos que no existen no se ve. El
+  // promedio sigue estando (`media()`), pero ahora es una lectura y no la fuente.
+  atributos: { ritmo: 62, regate: 62, tiro: 62, pase: 62, defensa: 62, fisico: 62 } as PlayerStats,
+  // El cuerpo.
+  lesiones: [] as { type: InjuryType; weeksOut: number; temporada: number; week: number }[],
+  secuelas: [] as string[],
+  fechasAfuera: 0,
+  totalFechasAfuera: 0,
+  sinDescanso: 0,
+  lesionEnCurso: null as { type: InjuryType; weeksOut: number } | null,
   // El 5% del plantel de tu club, igual que crearPerfilInicial en SetupScreen. Ponerle un numero
   // fijo -- 800.000 era el que tenia antes -- hacia que en Envigado (plantel de 2M) el juvenil
   // pesara el 38% del equipo y arrancara con la exigencia al maximo, cuando en el juego arranca
@@ -71,6 +83,38 @@ const NOMBRES_DE_REFUERZO = [
   'Matías Ferreyra', 'Diego Sanabria', 'Lucas Ospina', 'Bruno Cardozo', 'Iván Mendoza',
   'Tomás Villalba', 'Kevin Restrepo', 'Andrés Quintero', 'Rodrigo Cabral', 'Nicolás Duarte',
 ];
+
+/** "-3 ritmo +2 pase", para la bitacora. */
+const resumen = (c: Partial<Record<keyof PlayerStats, number>>) =>
+  (Object.entries(c) as [keyof PlayerStats, number][])
+    .map(([k, v]) => `${v > 0 ? '+' : ''}${v} ${k}`).join(' ');
+
+/** El promedio de los seis, que es lo que las reglas viejas llaman "atributos". */
+const media = () => Object.values(carrera.atributos).reduce((x, y) => x + y, 0) / 6;
+
+/**
+ * EL SORTEO DE LA LESION, con el catalogo y las probabilidades DEL JUEGO -- no con unas inventadas
+ * aca. Es la unica forma de que lo que mide este banco de pruebas sea el juego y no una maqueta.
+ *
+ * El tipo se elige uniforme, igual que en handleFinishMatch, y de ahi sale el dato que obligo a
+ * reescribir la regla de la secuela: una de cada cuatro lesiones es fractura.
+ */
+const sorteoDeLesion = (partidosSinDescanso: number) => {
+  if (Math.random() >= riesgoDeLesion(partidosSinDescanso)) return null;
+  const tipo = sortearTipoDeLesion(Math.random());
+  const fechas = tipo.minWeeks + Math.floor(Math.random() * (tipo.maxWeeks - tipo.minWeeks + 1));
+  return { type: tipo.id, fechas };
+};
+
+/**
+ * CUANTOS PARTIDOS SEGUIDOS AGUANTAS ANTES DE PARAR.
+ *
+ * En el juego el descanso lo pide la energia: jugas hasta que no da y perdes una fecha. Aca no hay
+ * barra de energia, asi que se aproxima con un numero fijo, y se deja dicho que es una aproximacion.
+ * Con el tope de fatiga ya puesto (RIESGO_MAXIMO_POR_FATIGA) el numero exacto casi no mueve la
+ * aguja, que es justamente uno de los motivos para topearla.
+ */
+const PARTIDOS_ANTES_DE_DESCANSAR = 5;
 
 const bitacora: string[] = [];
 let paso = 0;
@@ -105,6 +149,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     if (!soyTitular && !meLlaman) {
       bancoEsteAnio++;
       carrera.banco++;
+      carrera.sinDescanso = 0;   // no te convocan = descansaste, igual que en el juego
       if (carrera.fichajeRival) {
         carrera.fichajeRival = anotarFechaDelRival(carrera.fichajeRival, jugarFechaDelRival(carrera.fichajeRival.nivel ?? 72));
       }
@@ -120,14 +165,37 @@ for (let t = 1; t <= TEMPORADAS; t++) {
       }
     }
 
+    // Seguis roto de antes? Entonces esta fecha la miras desde afuera.
+    if (carrera.fechasAfuera > 0) {
+      carrera.fechasAfuera--;
+      carrera.sinDescanso = 0;
+      if (carrera.fechasAfuera === 0 && carrera.lesionEnCurso) {
+        // AL CURARSE, Y SOLO ACA, se tira el dado de la secuela.
+        const l = carrera.lesionEnCurso;
+        const sec = secuelaDeLaLesion({
+          tipo: l.type, semanasAfuera: l.weeksOut, edad: carrera.edad, posicion: 'MC',
+          atributos: carrera.atributos, semanaActual: paso, historial: carrera.lesiones,
+        }, Math.random());
+        carrera.lesiones.push({ type: l.type, weeksOut: l.weeksOut, temporada: t, week: paso });
+        if (sec) {
+          for (const [k, v] of Object.entries(sec.cambios) as [keyof PlayerStats, number][]) {
+            carrera.atributos[k] = Math.max(30, Math.min(99, carrera.atributos[k] + v));
+          }
+          carrera.secuelas.push(`T${t} - ${carrera.edad}a - ${l.type} ${l.weeksOut}f - ${resumen(sec.cambios)}`);
+        }
+        carrera.lesionEnCurso = null;
+      }
+      continue;
+    }
+
     const rival = rivalesDeLiga[Math.floor(Math.random() * rivalesDeLiga.length)];
     const sim = simulateMatch(club, rival);
 
     // La marca personal aprieta lo que podés hacer en cancha: la misma regla que el partido real.
     // Y entrando desde el banco tenés un tercio del partido, así que un tercio de las chances.
-    const marca = factorDeMarcaPersonal(carrera.atributos, carrera.prestige);
+    const marca = factorDeMarcaPersonal(media(), carrera.prestige);
     const minutos = soyTitular ? 1 : 0.35;
-    const chanceDeGol = Math.min(0.85, (carrera.atributos / 140)) * marca * minutos;
+    const chanceDeGol = Math.min(0.85, (media() / 140)) * marca * minutos;
     const goles = Math.random() < chanceDeGol ? (Math.random() < 0.18 ? 2 : 1) : 0;
     const asis = Math.random() < chanceDeGol * 0.7 ? 1 : 0;
 
@@ -146,13 +214,25 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     // En el juego el prestigio sale del aporte de cada decision (ver prestigeAccum en
     // MatchSimulator): un buen partido suma y uno malo resta, juegues de titular o entrando.
     carrera.prestige = Math.max(5, Math.min(99, carrera.prestige + (nota - 6.2) * 0.55));
+
+    // Y recien ahora el cuerpo pasa la cuenta del partido jugado.
+    carrera.sinDescanso++;
+    if (carrera.sinDescanso >= PARTIDOS_ANTES_DE_DESCANSAR) carrera.sinDescanso = 0;
+    const nueva = sorteoDeLesion(carrera.sinDescanso);
+    if (nueva) {
+      carrera.lesionEnCurso = { type: nueva.type, weeksOut: nueva.fechas };
+      carrera.fechasAfuera = nueva.fechas;
+      carrera.totalFechasAfuera += nueva.fechas;
+    }
   }
 
   // --- CIERRE DE TEMPORADA: acá es donde viven las reglas que se están probando ----------------
   carrera.edad++;
   // Crece con lo que jugaste: el que no juega no mejora, que es la mitad del sentido del banco.
   const crecimiento = titularEsteAnio >= 20 ? 3 : titularEsteAnio >= 10 ? 1 : 0;
-  carrera.atributos = Math.min(99, carrera.atributos + crecimiento);
+  for (const k of Object.keys(carrera.atributos) as (keyof PlayerStats)[]) {
+    carrera.atributos[k] = Math.min(99, carrera.atributos[k] + crecimiento);
+  }
   carrera.prestige = Math.round(carrera.prestige);
   carrera.marketValue = Math.round(carrera.marketValue * (1 + crecimiento * 0.25 - (bancoEsteAnio > 20 ? 0.15 : 0)));
 
@@ -189,7 +269,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   carrera.fichajeRival = r.perfil.fichajeRival as RivalDePuesto | undefined;
   carrera.clubId = r.perfil.currentClubId;
 
-  const marca = factorDeMarcaPersonal(carrera.atributos, carrera.prestige);
+  const marca = factorDeMarcaPersonal(media(), carrera.prestige);
   const estado = r.vendidoA ? `VENDIDO a ${r.vendidoA.nombre}`
     : r.teQuedaste ? 'salió de la lista'
     : carrera.listaDeTransferibles ? `EN LA LISTA (${carrera.listaDeTransferibles.temporadas + 1}ª temporada)`
@@ -197,7 +277,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   bitacora.push(
     `  T${String(t).padStart(2)} · ${String(carrera.edad).padStart(2)}a · ${club.name.slice(0, 20).padEnd(20)} ` +
     `${String(titularEsteAnio).padStart(2)}T/${String(bancoEsteAnio).padStart(2)}B · ${String(golesEsteAnio).padStart(2)}g · ` +
-    `pres ${String(carrera.prestige).padStart(2)} · atr ${String(carrera.atributos).padStart(2)} · marca x${marca.toFixed(2)}` +
+    `pres ${String(carrera.prestige).padStart(2)} · atr ${String(Math.round(media())).padStart(2)} · marca x${marca.toFixed(2)}` +
     (carrera.fichajeRival ? ` · vs ${carrera.fichajeRival.nombre.split(' ')[0]} (${promedioDelRival(carrera.fichajeRival) ?? '-'})` : '') +
     (estado ? `  ${estado}` : ''));
 }
@@ -219,6 +299,21 @@ if (carrera.banco > carrera.titulares * 4 && carrera.titulares > 0) {
   raro(`demasiado banco: ${carrera.banco} suplencias contra ${carrera.titulares} titularidades`);
 }
 if (carrera.titulares > 0 && carrera.goles === 0) raro('jugó de titular toda la carrera y no marcó nunca');
+
+console.log(`
+--- EL CUERPO ---`);
+console.log(`   ${carrera.lesiones.length} lesiones - ${carrera.totalFechasAfuera} fechas afuera`);
+const porTipo = carrera.lesiones.reduce((m, l) => ({ ...m, [l.type]: (m[l.type] ?? 0) + 1 }), {} as Record<string, number>);
+console.log(`   ${Object.entries(porTipo).map(([x, v]) => `${v} ${x}`).join(' - ') || 'ninguna'}`);
+console.log(`   secuelas: ${carrera.secuelas.length}`);
+for (const x of carrera.secuelas) console.log(`     . ${x}`);
+console.log(`   atributos finales: ${(Object.entries(carrera.atributos) as [string, number][]).map(([x, v]) => `${x} ${v}`).join(' - ')}`);
+
+// UNA SECUELA POR CARRERA ES UNA HISTORIA; CUATRO SON UNA CINTA TRANSPORTADORA. Este invariante es
+// el que atrapo a la primera version de la regla, que dejaba una secuela cada dos temporadas.
+if (carrera.secuelas.length > Math.max(2, TEMPORADAS / 6)) {
+  raro(`${carrera.secuelas.length} secuelas en ${TEMPORADAS} temporadas: la lesion que cambia el estilo dejo de ser excepcional`);
+}
 
 console.log(`\n--- RAREZAS ENCONTRADAS ---`);
 if (!rarezas.length) console.log('   ninguna');
