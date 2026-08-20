@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats, PlayClipType } from '../types';
 import { factorDeFase, golEsperadoRestante, factorDeMarcaPersonal, avisoDeMarca } from '../dificultad';
+import { chanceDeAcertar } from '../decisionDelPartido';
 import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
@@ -28,6 +29,19 @@ const WHISTLE_SFX_ENABLED = false;
 // al azar entre varias, y a propósito no todas las opciones de éxito terminan en gol/asistencia --
 // varias son jugadas de mérito (recuperación, achique, manejo de tiempos) que solo suman prestigio/
 // fans, para que un partido "bueno" no sea sinónimo automático de gol.
+/**
+ * TODAS las decisiones del partido, por posicion y momento.
+ *
+ * Se exporta para el banco de pruebas de carrera larga: sin las decisiones de verdad no hay forma de
+ * medir cuanto prestigio deja una temporada, porque el prestigio ES la suma de estos efectos.
+ */
+export const POOLS_DE_DECISION: Record<Position, { early: MatchDecision[]; late: MatchDecision[] }> = {
+  get Delantero() { return { early: DELANTERO_EARLY, late: DELANTERO_LATE }; },
+  get Mediocampista() { return { early: MEDIOCAMPISTA_EARLY, late: MEDIOCAMPISTA_LATE }; },
+  get Defensor() { return { early: DEFENSOR_EARLY, late: DEFENSOR_LATE }; },
+  get Arquero() { return { early: ARQUERO_EARLY, late: ARQUERO_LATE }; },
+};
+
 const DELANTERO_EARLY: MatchDecision[] = [
   {
     prompt: "Recibes un pase filtrado al borde del área grande, el central rival te presiona fuertemente la espalda...",
@@ -1320,13 +1334,7 @@ function getPositionDecision(
   golesMios: number,
   golesRival: number,
 ): MatchDecision {
-  const pools: Record<Position, { early: MatchDecision[]; late: MatchDecision[] }> = {
-    Delantero: { early: DELANTERO_EARLY, late: DELANTERO_LATE },
-    Mediocampista: { early: MEDIOCAMPISTA_EARLY, late: MEDIOCAMPISTA_LATE },
-    Defensor: { early: DEFENSOR_EARLY, late: DEFENSOR_LATE },
-    Arquero: { early: ARQUERO_EARLY, late: ARQUERO_LATE },
-  };
-  const poolCompleto = min < 45 ? pools[pos].early : pools[pos].late;
+  const poolCompleto = min < 45 ? POOLS_DE_DECISION[pos].early : POOLS_DE_DECISION[pos].late;
   // Fuera las decisiones cuyo texto contradice el marcador de arriba. Se filtra ANTES de mirar los
   // repetidos: una decisión que no encaja con el partido no es candidata aunque sea la única nueva.
   const pool = poolCompleto.filter(d => !d.requiereDiferencia || d.requiereDiferencia(golesMios, golesRival));
@@ -2133,22 +2141,20 @@ export default function MatchSimulator({
     // El déficit pesa la mitad que el excedente: quedar corto de atributo te penaliza, pero no tanto
     // como para que arrancar la carrera se sienta injusto. Con esto un novato queda igual que antes
     // y toda la ganancia va a quien entrenó el atributo que la jugada pide.
-    const statDiff = playerAttrValue - choice.minVal;
-    const statBonus = statDiff >= 0 ? statDiff * 0.014 : statDiff * 0.007;
-    const randomNoise = (Math.random() - 0.5) * 0.06;
-    // Modo Superestrella: margen chico y parejo en TODAS las decisiones, no solo en las que ya
-    // dominás -- refleja que "ya tenés algo" sin volver la jugada trivial (el techo de 0.88 sigue
-    // siendo el mismo límite superior).
-    const starModeBonus = playerProfile.starModeEnabled ? 0.05 : 0;
-    // EL TECHO TAMBIEN BAJA CON LA MARCA, y sin esto la marca personal no servia para nada.
-    // Medido: con los atributos en 99 la cuenta antes del clamp da 1.09, asi que multiplicarla por
-    // 0.80 seguia dando 0.87 y el tope de 0.88 se comia el castigo entero. El mejor jugador del
-    // mundo terminaba acertando lo mismo que antes -- justo el caso para el que se escribio.
-    //
-    // Bajando el techo, la marca se siente donde tiene que sentirse: 0.88 para el que nadie marca,
-    // 0.70 para el que tiene un hombre encima los noventa minutos.
-    const techo = 0.88 * marcaFactor;
-    const adjustedChance = Math.max(0.15, Math.min(techo, (choice.successChance + statBonus + starModeBonus) * pressureMultiplier + randomNoise));
+    // LA CUENTA VIVE EN src/decisionDelPartido.ts, y no aca, porque el banco de pruebas de carrera
+    // larga tiene que usar EXACTAMENTE esta para poder contestar preguntas de balance. Mientras
+    // estuvo aca adentro, aquel tenia su propia formula inventada sobre la nota del partido -- dos
+    // fuentes contestando la misma pregunta, y la que yo miraba para decir si el juego estaba
+    // balanceado era la inventada.
+    const adjustedChance = chanceDeAcertar({
+      atributo: playerAttrValue,
+      minVal: choice.minVal,
+      successChance: choice.successChance,
+      presion: pressureMultiplier,
+      marcaFactor,
+      starMode: playerProfile.starModeEnabled,
+      ruido: Math.random() - 0.5,
+    });
 
     const isSuccess = Math.random() < adjustedChance;
 

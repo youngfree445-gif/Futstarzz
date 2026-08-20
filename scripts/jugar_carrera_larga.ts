@@ -35,6 +35,8 @@ import {
 import { evolucionDeLaLista, exigenciaPorLoQueValés } from '../src/listaDeTransferibles';
 import { secuelaDeLaLesion } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion } from '../src/lesion';
+import { chanceDeAcertar, MOMENTOS_POR_PARTIDO } from '../src/decisionDelPartido';
+import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import type { Club, PlayerStats, InjuryType } from '../src/types';
 import type { NotaDePartido } from '../src/forma';
 
@@ -116,6 +118,9 @@ const sorteoDeLesion = (partidosSinDescanso: number) => {
  */
 const PARTIDOS_ANTES_DE_DESCANSAR = 5;
 
+/** El puesto del jugador de prueba. Manda que bolsa de decisiones se juega. */
+const PUESTO = 'Mediocampista' as const;
+
 const bitacora: string[] = [];
 /** Temporadas seguidas sin arrancar un solo partido. Ver el bloque de cierre de temporada. */
 let temporadasSinArrancar = 0;
@@ -193,51 +198,81 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     const rival = rivalesDeLiga[Math.floor(Math.random() * rivalesDeLiga.length)];
     const sim = simulateMatch(club, rival);
 
-    // La marca personal aprieta lo que podés hacer en cancha: la misma regla que el partido real.
-    // Y entrando desde el banco tenés un tercio del partido, así que un tercio de las chances.
+    // --- EL PARTIDO, JUGADO CON LAS DECISIONES DE VERDAD ------------------------------------
+    //
+    // Hasta aca este bloque tenia su PROPIA cuenta de prestigio: una formula sobre la nota del
+    // partido -- (nota - 6.2) * 0.55 -- que no existe en ningun lado del juego. Y como el prestigio
+    // decide si sos titular, esa formula inventada decidia la carrera entera. Peor: era la que yo
+    // miraba para decir si el juego estaba balanceado.
+    //
+    // Ahora se juegan los CUATRO MOMENTOS del partido con el pool real de decisiones de tu puesto,
+    // con la misma chanceDeAcertar que usa MatchSimulator, y el prestigio es la suma de los efectos
+    // de esas jugadas -- que es literalmente como se mueve en el juego.
+    //
+    // La eleccion de opcion es la del jugador promedio: la del medio de las tres. No es la mejor ni
+    // la peor, y sobre todo no es una que "sabe" cual conviene, que seria medir a un jugador que no
+    // existe.
     const marca = factorDeMarcaPersonal(media(), carrera.prestige);
     const minutos = soyTitular ? 1 : 0.35;
-    const chanceDeGol = Math.min(0.85, (media() / 140)) * marca * minutos;
-    const goles = Math.random() < chanceDeGol ? (Math.random() < 0.18 ? 2 : 1) : 0;
-    const asis = Math.random() < chanceDeGol * 0.7 ? 1 : 0;
 
-    // La nota sale del aporte y del resultado, que es de donde sale en el juego.
-    //
-    // EL PISO DEL SUPLENTE ES MÁS ALTO QUE EL DEL TITULAR, y no es un mimo: es corregir un error de
-    // este mismo archivo. Con el mismo 5.6 para los dos, un suplente promediaba 5.8 y el prestigio
-    // se mueve con (nota - 6.2), así que CADA partido entrando desde el banco restaba prestigio.
-    // Un trinquete sin fondo: el suplente se hundía para siempre y no había forma de salir --
-    // medido, tres de cada cinco carreras de veinte temporadas terminaban con CERO titularidades.
-    //
-    // Eso lo inventó este banco de pruebas, no el juego. En el juego la nota sale de las decisiones
-    // del partido (prestigeAccum en MatchSimulator) y entrar desde el banco no penaliza nada: jugás
-    // media hora, tomás menos decisiones, tenés menos chances de sumar. "Hacer poco" en treinta
-    // minutos no puede valer menos que "hacer poco" en noventa.
-    //
-    // AVISO PARA EL QUE VENGA: este número es MUY sensible y conviene saberlo antes de tocarlo.
-    // Con 5.6 las seis carreras de prueba terminaban con cero titularidades; con 6.0, las seis
-    // terminan con prestigio 97-99. El modelo de prestigio de este archivo es un paseo aleatorio con
-    // deriva alrededor del 6.2, así que el SIGNO de esa deriva decide la carrera entera y no hay
-    // nada que devuelva al jugador hacia el medio.
-    //
-    // Se deja en 6.0 porque es lo más defendible frente al juego, no porque dé la curva más linda.
-    // Si algún día este banco de pruebas tiene que contestar preguntas de BALANCE y no sólo buscar
-    // estados imposibles, lo que hay que arreglar es la deriva, no este número.
+    // La presion: tabla, hinchada y cabeza no se modelan aca, asi que queda la marca sola, que es
+    // la parte que SI depende de lo que sos. Se deja dicho que es una aproximacion.
+    const presion = marca;
+    const momentos = Math.max(1, Math.round(MOMENTOS_POR_PARTIDO * minutos));
+
+    let prestigioDelPartido = 0;
+    let golesDeJugada = 0, asisDeJugada = 0, aciertos = 0;
+    for (let m = 0; m < momentos; m++) {
+      const bolsa = m < momentos / 2 ? POOLS_DE_DECISION[PUESTO].early : POOLS_DE_DECISION[PUESTO].late;
+      const decision = bolsa[Math.floor(Math.random() * bolsa.length)];
+
+      // EL PENAL Y EL TIRO LIBRE no tienen las tres opciones: van por el minijuego de puntería y
+      // reparten prestigio con su propia tabla (ver el bloque de kickMode en MatchSimulator). Un
+      // `choices: []` en el catalogo no es un catalogo roto -- es esto.
+      if (decision.kickMode) {
+        const esPenal = decision.kickMode === 'penalty';
+        const entra = Math.random() < (esPenal ? 0.72 : 0.34);
+        prestigioDelPartido += entra ? (esPenal ? 5 : 10) : (esPenal ? -8 : -2);
+        if (entra) { golesDeJugada++; aciertos++; }
+        continue;
+      }
+
+      const opcion = decision.choices[Math.min(1, decision.choices.length - 1)];
+      const chance = chanceDeAcertar({
+        atributo: carrera.atributos[opcion.requiredAttr as keyof PlayerStats],
+        minVal: opcion.minVal,
+        successChance: opcion.successChance,
+        presion,
+        marcaFactor: marca,
+        ruido: Math.random() - 0.5,
+      });
+      const acerto = Math.random() < chance;
+      if (acerto) aciertos++;
+      // Los efectos de exito y de fallo NO tienen la misma forma: solo el exito puede traer gol o
+      // asistencia. El tipo lo dice y conviene respetarlo en vez de castearlo.
+      prestigioDelPartido += (acerto ? opcion.effectOnSuccess.prestige : opcion.effectOnFail.prestige) ?? 0;
+      if (acerto) {
+        golesDeJugada += opcion.effectOnSuccess.goals ?? 0;
+        asisDeJugada += opcion.effectOnSuccess.assists ?? 0;
+      }
+    }
+
+    // Los goles ambientales que no salen de una decision tuya, con la marca apretando igual.
+    const chanceDeGol = Math.min(0.85, (media() / 140)) * marca * minutos * 0.5;
+    const goles = golesDeJugada + (Math.random() < chanceDeGol ? 1 : 0);
+    const asis = asisDeJugada + (Math.random() < chanceDeGol * 0.7 ? 1 : 0);
+
+    // La nota ya no decide el prestigio: solo alimenta la forma, que es para lo que existe.
     const gano = sim.homeGoals > sim.awayGoals;
-    const piso = soyTitular ? 5.6 : 6.0;
     const nota = Math.max(3.5, Math.min(10,
-      piso + goles * 1.3 + asis * 0.7 + (gano ? 0.5 : -0.3) + (Math.random() - 0.5) * 1.6));
+      5.8 + aciertos * 0.45 + goles * 0.9 + asis * 0.5 + (gano ? 0.4 : -0.3) + (Math.random() - 0.5) * 1.0));
 
     carrera.formaReciente = anotarNota(carrera.formaReciente, nota, paso);
     carrera.partidos++; carrera.goles += goles; carrera.asistencias += asis;
     golesEsteAnio += goles;
 
-    // EL PRESTIGIO SE MUEVE PARTIDO A PARTIDO, con la nota. La primera versión de este script lo
-    // movía una vez por temporada y le restaba 8 fijo por ser suplente -- un castigo que el juego no
-    // tiene y que yo invente. Con eso el jugador caia en espiral aunque metiera siete goles al anio.
-    // En el juego el prestigio sale del aporte de cada decision (ver prestigeAccum en
-    // MatchSimulator): un buen partido suma y uno malo resta, juegues de titular o entrando.
-    carrera.prestige = Math.max(5, Math.min(99, carrera.prestige + (nota - 6.2) * 0.55));
+    // EL PRESTIGIO ES LA SUMA DE LAS JUGADAS, igual que en handleFinishMatch.
+    carrera.prestige = Math.max(0, Math.min(100, carrera.prestige + prestigioDelPartido));
 
     // Y recien ahora el cuerpo pasa la cuenta del partido jugado.
     carrera.sinDescanso++;
