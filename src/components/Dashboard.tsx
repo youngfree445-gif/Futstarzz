@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNumeroQueCuenta } from '../animaciones';
+import { apodoDe } from '../apodo';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -1021,6 +1022,18 @@ export default function Dashboard({
   // El capital cuenta hasta su valor nuevo en vez de saltar: un número que pasa de 300.000 a
   // 432.120 en un frame se lee como un parpadeo, no como una ganancia. Ver src/animaciones.ts.
   const capitalQueCuenta = useNumeroQueCuenta(playerProfile.capital);
+
+  // El apodo se CALCULA, no se guarda: guardarlo sería congelar una foto de lo que fuiste. Un
+  // volante que se vuelve goleador se lo gana de nuevo.
+  const miApodo = apodoDe({
+    partidos: playerProfile.careerStats.partidosHistoricos,
+    goles: playerProfile.careerStats.golesHistoricos,
+    asistencias: playerProfile.careerStats.asistenciasHistoricos,
+    amarillas: playerProfile.careerStats.tarjetasAmarillasHistoricas,
+    rojas: playerProfile.careerStats.tarjetasRojasHistoricas,
+    posicion: playerProfile.position,
+    jugadas: playerProfile.jugadasPorAtributo,
+  });
 
   /**
    * LA PANTALLA DE CARRERA, EN CELULAR, ES UNA SOLA VISTA Y NO UN SCROLL DE SEIS.
@@ -2827,6 +2840,14 @@ export default function Dashboard({
             <h2 className="font-extrabold text-sm text-white truncate">
               {playerProfile.dorsal != null && <span className="text-gold-400">#{playerProfile.dorsal}</span>} {playerProfile.name}
             </h2>
+            {/* EL APODO, debajo del nombre y entre comillas, como lo escribiría un diario. No se
+                elige: se gana con lo que hacés en la cancha (ver src/apodo.ts), y por eso lleva el
+                porqué en el title -- un apodo sin explicación es un adorno. */}
+            {miApodo && (
+              <p className="text-2xs text-gold-400 font-bold truncate mt-0.5" title={miApodo.porque}>
+                "{miApodo.apodo}"
+              </p>
+            )}
             <div className="flex justify-between items-center gap-2 text-3xs text-slate-400 font-mono mt-1">
               <span className="truncate">{playerProfile.position}</span>
               <span className="shrink-0">{playerProfile.age} años{playerProfile.heightCm != null ? ` · ${playerProfile.heightCm}cm` : ''}</span>

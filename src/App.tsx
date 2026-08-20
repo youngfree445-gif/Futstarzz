@@ -5341,6 +5341,14 @@ export default function App() {
       // En hardcore la temporada se cierra mirando como rendiste, asi que hay que ir guardando las
       // notas: sin ellas applyHardcoreGrowthIfNewSeason no tiene con que decidir y todos los anios
       // darian lo mismo. Fuera de hardcore no se guarda nada.
+      // El acumulado de toda la carrera, sumando lo del partido que acaba de terminar.
+      jugadasPorAtributo: (() => {
+        const previo = { ...(playerProfile.jugadasPorAtributo ?? {}) };
+        for (const [k, v] of Object.entries(results.jugadasAcertadas ?? {})) {
+          previo[k as keyof PlayerStats] = (previo[k as keyof PlayerStats] ?? 0) + (v as number);
+        }
+        return previo;
+      })(),
       notasDeLaTemporada: playerProfile.hardcoreEnabled
         ? [...(playerProfile.notasDeLaTemporada ?? []), results.rating]
         : playerProfile.notasDeLaTemporada,

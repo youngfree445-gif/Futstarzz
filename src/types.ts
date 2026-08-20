@@ -277,6 +277,14 @@ export interface PlayerProfile {
   notasDeLaTemporada?: number[];
   /** Lo que dejó la última temporada en hardcore, para mostrarlo una vez. */
   ultimoInformeHardcore?: string;
+  /**
+   * Con qué atributo venís resolviendo las jugadas del partido.
+   *
+   * Se suma una por cada decisión ACERTADA, con el requiredAttr de la opción elegida. Es el dato del
+   * que sale el apodo (ver src/apodo.ts): el juego ya sabía cómo jugás y no lo estaba anotando en
+   * ningún lado. Opcional: las partidas viejas empiezan a contar desde su próxima jugada.
+   */
+  jugadasPorAtributo?: Partial<Record<keyof PlayerStats, number>>;
   // Dorsales usados club a club, para narrar "en tu club anterior usabas el 10". Se agrega una
   // entrada por cada traspaso (ver handleAcceptTransfer), no incluye el club actual. Opcional: las
   // partidas viejas no lo tienen.

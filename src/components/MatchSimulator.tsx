@@ -1415,6 +1415,8 @@ interface MatchSimulatorProps {
     cardReceived: 'none' | 'yellow' | 'red';
     prestigeChange: number;
     fansChange: number;
+    /** Con qué atributo acertaste cada jugada hoy. Alimenta el apodo (ver src/apodo.ts). */
+    jugadasAcertadas?: Partial<Record<keyof PlayerStats, number>>;
   }) => void;
 }
 
@@ -1430,6 +1432,9 @@ export default function MatchSimulator({
   const [scoreAway, setScoreAway] = useState(0);
   const isHome = useRef(isHomeProp);
 
+  // Las jugadas que acertaste HOY, por atributo. Se acumulan en un ref y no en estado: no se dibujan
+  // en ningún lado durante el partido, así que un setState por decisión sería un render de más.
+  const jugadasAcertadas = useRef<Partial<Record<keyof PlayerStats, number>>>({});
   const [playerGoals, setPlayerGoals] = useState(0);
   const [playerAssists, setPlayerAssists] = useState(0);
   const [playerCards, setPlayerCards] = useState<'none' | 'yellow' | 'red'>('none');
@@ -1899,6 +1904,7 @@ export default function MatchSimulator({
           rating: Number(rating.toFixed(1)),
           log: matchLog.map(item => `[${item.minute}'] ${item.text}`),
           cardReceived: playerCards,
+          jugadasAcertadas: jugadasAcertadas.current,
           prestigeChange: prestigeAccum + charla.prestigio,
           fansChange: fansAccum + charla.fans
         });
@@ -2145,6 +2151,11 @@ export default function MatchSimulator({
     const adjustedChance = Math.max(0.15, Math.min(techo, (choice.successChance + statBonus + starModeBonus) * pressureMultiplier + randomNoise));
 
     const isSuccess = Math.random() < adjustedChance;
+
+    // CON QUÉ RESOLVÉS. Se anota sólo cuando SALE BIEN: el apodo tiene que salir de lo que te
+    // funciona, no de lo que intentás. Un jugador que prueba diez caños y falla nueve no es "El
+    // Mago". Ver src/apodo.ts.
+    if (isSuccess) jugadasAcertadas.current[choice.requiredAttr] = (jugadasAcertadas.current[choice.requiredAttr] ?? 0) + 1;
 
     // Efecto de prestigio/fans de la decisión (éxito o fallo) se acumula durante todo el
     // partido y se aplica una sola vez al perfil real cuando termina (ver onFinishMatch).

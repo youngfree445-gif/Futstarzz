@@ -15,6 +15,7 @@ import {
 } from '../src/rivalDePuesto';
 import { elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, exigenciaPorLoQueValés, EXIGENCIA_MAXIMA, CREDITO_MAXIMO } from '../src/listaDeTransferibles';
 import { crecimientoDeLaTemporada, informeDeLaTemporada, PARTIDOS_MINIMOS } from '../src/modoHardcore';
+import { apodoDe, PARTIDOS_PARA_APODO } from '../src/apodo';
 
 let fallas = 0;
 let corridos = 0;
@@ -357,6 +358,36 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
 
   // Y que se le cuente al jugador que paso, porque sin entrenamiento es lo unico que explica su curva.
   ok('la temporada se explica', informeDeLaTemporada(con({}), { ...base }).length > 20);
+}
+
+// --- EL APODO: te lo gana la cancha, no lo elegis ----------------------------------------------
+//
+// El juego ya sabia con que atributo resolves las jugadas y nunca lo decia. Lo que se comprueba es
+// que el apodo salga de lo que HICISTE y que no salga cuando todavia no hay con que.
+{
+  const base = { partidos: 60, goles: 10, asistencias: 8, amarillas: 5, rojas: 0, posicion: 'MC' as string,
+    jugadas: { pase: 40, regate: 10, tiro: 10, ritmo: 10, defensa: 5, fisico: 5 } };
+  const con = (o: Partial<typeof base>) => apodoDe({ ...base, ...o });
+
+  ok('sin partidos no hay apodo', con({ partidos: PARTIDOS_PARA_APODO - 1 }) === null);
+  ok('el que resuelve con pase es El Profesor', con({})?.apodo === 'El Profesor', con({})?.apodo ?? 'ninguno');
+
+  // El goleador tiene su propia version del mismo apodo: la marca es la misma, el peso no.
+  const arquitecto = con({ goles: 30 });
+  ok('y si ademas hace goles, El Arquitecto', arquitecto?.apodo === 'El Arquitecto', arquitecto?.apodo ?? 'ninguno');
+
+  // Lo excepcional manda sobre lo caracteristico.
+  const maquina = con({ goles: 55 });
+  ok('gol por partido gana a todo lo demas', maquina?.apodo === 'La Máquina', maquina?.apodo ?? 'ninguno');
+  const carnicero = con({ amarillas: 40, rojas: 4 });
+  ok('el que rompe todo tiene el suyo', carnicero?.apodo === 'El Carnicero', carnicero?.apodo ?? 'ninguno');
+
+  // Y si nada te define, no se inventa: un apodo tibio es peor que ninguno.
+  const parejo = con({ jugadas: { pase: 12, regate: 12, tiro: 12, ritmo: 12, defensa: 12, fisico: 12 }, goles: 5, asistencias: 3, amarillas: 2 });
+  ok('sin nada que te defina, no hay apodo', parejo === null, parejo?.apodo ?? 'ninguno');
+
+  // Y siempre viene con el porque: sin eso es un adorno.
+  ok('el apodo explica que hiciste', (con({})?.porque ?? '').length > 15);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);
