@@ -24,6 +24,7 @@ import { clasicoPersonalContra, elClasicoDeTuCarrera, PARTIDOS_PARA_QUE_SEA_CLAS
 import { crecimientoDelPibe, destinoDelPibe, chanceDeLlegar, loQueDiceDeVos, NIVEL_INICIAL, NIVEL_PARA_LLEGAR, TEMPORADAS_PARA_DEFINIRSE, type Pibe } from '../src/elPibe';
 import { duenosDeLasCamisetas, podesPedirLaCamiseta, pesoDeLlevarla, VENTAJA_PARA_QUITARSELA } from '../src/laCamiseta';
 import { factorDeMarcaPersonal } from '../src/dificultad';
+import { pesoDeLaSituacion, prestigioDeLaJugada, queEstaPidiendoElPartido, CUANTO_VALE_UN_PUNTO, MINUTO_EN_QUE_IMPORTA } from '../src/decisionDelPartido';
 
 let fallas = 0;
 let corridos = 0;
@@ -726,6 +727,50 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   // Y a un jugador que todavia no es nadie, la camiseta no lo convierte en marcado.
   ok('al que nadie conoce, la camiseta no lo delata',
     factorDeMarcaPersonal(60, 60, pesoDeLlevarla(10)) === 1);
+}
+
+// --- EL REBALANCEO DEL PRESTIGIO ----------------------------------------------------------------
+//
+// Medido: un jugador promedio iba de 50 a 100 de prestigio en OCHO partidos, y la opcion arriesgada
+// pagaba mas que la conservadora SIEMPRE. O sea que el recurso central del juego se saturaba en
+// media temporada y la pantalla de partido tenia una respuesta correcta en vez de una decision.
+{
+  const sit = (o: any) => ({ successChance: 0.3, minuto: 80, golesMios: 1, golesRival: 0,
+    exito: true, ...o });
+
+  // 1. LA ESCALA. Un punto del catalogo vale un tercio.
+  ok('un punto vale un tercio', Math.abs(CUANTO_VALE_UN_PUNTO - 1 / 3) < 0.001);
+  ok('una jugada de 6 puntos deja 2', Math.abs(prestigioDeLaJugada(6, sit({ minuto: 10 })) - 2) < 0.001);
+
+  // 2. TEMPRANO EL PARTIDO NO PIDE NADA. Se juega y ya.
+  ok('antes del minuto 60 nada cambia', pesoDeLaSituacion(sit({ minuto: MINUTO_EN_QUE_IMPORTA - 1 })) === 1);
+  ok('con el partido roto tampoco', pesoDeLaSituacion(sit({ golesMios: 3, golesRival: 0 })) === 1);
+  ok('empatados tampoco', pesoDeLaSituacion(sit({ golesMios: 1, golesRival: 1 })) === 1);
+
+  // 3. GANANDO POR UNO, EL PARTIDO PIDE AGUANTARLA.
+  const riesgoQueFalla = pesoDeLaSituacion(sit({ successChance: 0.3, exito: false }));
+  const seguraQueSale = pesoDeLaSituacion(sit({ successChance: 0.7, exito: true }));
+  ok('ganando, perderla en una de riesgo se paga doble', riesgoQueFalla === 2);
+  ok('y aguantarla vale mas', seguraQueSale > 1, String(seguraQueSale));
+  // El caso que resume el arreglo entero: con el partido ganado, la conservadora rinde mas.
+  const arriesgadaGanando = prestigioDeLaJugada(4, sit({ successChance: 0.3, exito: true }));
+  const conservadoraGanando = prestigioDeLaJugada(2, sit({ successChance: 0.7, exito: true }));
+  ok('ganando 1-0 conviene la conservadora', conservadoraGanando > arriesgadaGanando,
+    `${conservadoraGanando.toFixed(2)} contra ${arriesgadaGanando.toFixed(2)}`);
+
+  // 4. PERDIENDO POR UNO SE INVIERTE. Esconderse no es prudencia.
+  const arriesgadaPerdiendo = prestigioDeLaJugada(4, sit({ golesMios: 0, golesRival: 1, successChance: 0.3, exito: true }));
+  const conservadoraPerdiendo = prestigioDeLaJugada(4, sit({ golesMios: 0, golesRival: 1, successChance: 0.7, exito: true }));
+  ok('perdiendo 0-1 conviene intentarla', arriesgadaPerdiendo > conservadoraPerdiendo,
+    `${arriesgadaPerdiendo.toFixed(2)} contra ${conservadoraPerdiendo.toFixed(2)}`);
+
+  // 5. Y EL JUGADOR TIENE QUE PODER VERLO. Una regla que cambia lo que paga cada opcion y que no se
+  //    puede ver no es una decision: es un impuesto escondido.
+  ok('el partido avisa cuando pide algo', !!queEstaPidiendoElPartido(80, 1, 0));
+  ok('y avisa distinto si vas perdiendo',
+    queEstaPidiendoElPartido(80, 0, 1) !== queEstaPidiendoElPartido(80, 1, 0));
+  ok('y se calla cuando no pide nada', queEstaPidiendoElPartido(20, 1, 0) === null);
+  ok('con el partido roto, se calla', queEstaPidiendoElPartido(80, 4, 0) === null);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

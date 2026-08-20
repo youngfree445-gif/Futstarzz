@@ -3,6 +3,7 @@ import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats, 
 import { factorDeFase, golEsperadoRestante, factorDeMarcaPersonal, avisoDeMarca } from '../dificultad';
 import { chanceDeAcertar } from '../decisionDelPartido';
 import { pesoDeLlevarla } from '../laCamiseta';
+import { prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO, queEstaPidiendoElPartido } from '../decisionDelPartido';
 import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
@@ -1915,7 +1916,9 @@ export default function MatchSimulator({
           log: matchLog.map(item => `[${item.minute}'] ${item.text}`),
           cardReceived: playerCards,
           jugadasAcertadas: jugadasAcertadas.current,
-          prestigeChange: prestigeAccum + charla.prestigio,
+          // Se redondea UNA sola vez, al cerrar el partido. Redondeando jugada a jugada, con la
+          // escala nueva las mas chicas se irian todas a cero.
+          prestigeChange: Math.round(prestigeAccum + charla.prestigio),
           fansChange: fansAccum + charla.fans
         });
       }, 1500);
@@ -2168,7 +2171,16 @@ export default function MatchSimulator({
     // Efecto de prestigio/fans de la decisión (éxito o fallo) se acumula durante todo el
     // partido y se aplica una sola vez al perfil real cuando termina (ver onFinishMatch).
     const effect = isSuccess ? choice.effectOnSuccess : choice.effectOnFail;
-    setPrestigeAccum(prev => prev + (effect.prestige || 0));
+    // EL PRESTIGIO PASA POR LAS DOS REGLAS DEL REBALANCEO (ver src/decisionDelPartido.ts): la escala
+    // -- un punto del catalogo vale un tercio -- y lo que el partido pedia en ese momento, que es lo
+    // que hace que la opcion arriesgada deje de ser SIEMPRE la que mas paga.
+    setPrestigeAccum(prev => prev + prestigioDeLaJugada(effect.prestige || 0, {
+      successChance: choice.successChance,
+      minuto: minute,
+      golesMios: isHome.current ? scoreHome : scoreAway,
+      golesRival: isHome.current ? scoreAway : scoreHome,
+      exito: isSuccess,
+    }));
     setFansAccum(prev => prev + (effect.fans || 0));
 
     // Tarjetas: solo en decisiones agresivas/temerarias marcadas con cardRiskOnFail, y solo si
@@ -2288,7 +2300,7 @@ export default function MatchSimulator({
       setRating(prev => Math.min(prev + ratingBonus, 10.0));
       const prestigeGain = isPenalty ? 5 : 10;
       const fansGain = isPenalty ? 12 : 28;
-      setPrestigeAccum(prev => prev + prestigeGain);
+      setPrestigeAccum(prev => prev + prestigeGain * CUANTO_VALE_UN_PUNTO);
       setFansAccum(prev => prev + fansGain);
       setMatchLog(prev => [...prev, { minute, text: `⚡ EVENTO DE DECISIÓN: ${successText}`, type: 'good' }]);
     } else {
@@ -2302,7 +2314,7 @@ export default function MatchSimulator({
       const ratingPenalty = isPenalty ? 1.5 : 0.6;
       setRating(prev => Math.max(prev - ratingPenalty, 3.0));
       const prestigeLoss = isPenalty ? -8 : -2;
-      setPrestigeAccum(prev => prev + prestigeLoss);
+      setPrestigeAccum(prev => prev + prestigeLoss * CUANTO_VALE_UN_PUNTO);
       setFansAccum(prev => prev + (isPenalty ? -6 : -1));
       setMatchLog(prev => [...prev, { minute, text: `⚠️ EVENTO DE DECISIÓN: ${failText}`, type: 'bad' }]);
     }
@@ -2756,6 +2768,22 @@ export default function MatchSimulator({
                     <h3 className="text-sm font-extrabold text-white leading-snug mt-1 mb-2">
                       {activeDecision.prompt}
                     </h3>
+                    {/* LO QUE PIDE EL PARTIDO. Del minuto 60 en adelante y con un gol de diferencia,
+                        lo que paga cada opcion cambia (ver pesoDeLaSituacion). Sin este cartel eso
+                        seria un impuesto escondido: elegis a ciegas y el numero sale distinto sin
+                        que sepas por que. */}
+                    {(() => {
+                      const pide = queEstaPidiendoElPartido(
+                        minute,
+                        isHome.current ? scoreHome : scoreAway,
+                        isHome.current ? scoreAway : scoreHome,
+                      );
+                      return pide ? (
+                        <p data-pide-el-partido className="text-2xs text-gold-400 font-bold leading-snug mb-2">
+                          {pide}
+                        </p>
+                      ) : null;
+                    })()}
                   </div>
 
                   {activeDecision.kickMode ? (

@@ -35,7 +35,7 @@ import {
 import { evolucionDeLaLista, exigenciaPorLoQueValés } from '../src/listaDeTransferibles';
 import { secuelaDeLaLesion } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion } from '../src/lesion';
-import { chanceDeAcertar, MOMENTOS_POR_PARTIDO } from '../src/decisionDelPartido';
+import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import type { Club, PlayerStats, InjuryType } from '../src/types';
 import type { NotaDePartido } from '../src/forma';
@@ -232,7 +232,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
       if (decision.kickMode) {
         const esPenal = decision.kickMode === 'penalty';
         const entra = Math.random() < (esPenal ? 0.72 : 0.34);
-        prestigioDelPartido += entra ? (esPenal ? 5 : 10) : (esPenal ? -8 : -2);
+        prestigioDelPartido += (entra ? (esPenal ? 5 : 10) : (esPenal ? -8 : -2)) * CUANTO_VALE_UN_PUNTO;
         if (entra) { golesDeJugada++; aciertos++; }
         continue;
       }
@@ -250,7 +250,16 @@ for (let t = 1; t <= TEMPORADAS; t++) {
       if (acerto) aciertos++;
       // Los efectos de exito y de fallo NO tienen la misma forma: solo el exito puede traer gol o
       // asistencia. El tipo lo dice y conviene respetarlo en vez de castearlo.
-      prestigioDelPartido += (acerto ? opcion.effectOnSuccess.prestige : opcion.effectOnFail.prestige) ?? 0;
+      // La MISMA cuenta que el partido de verdad, escala y situacion incluidas. El minuto sale del
+      // momento que se esta jugando, repartido como los reparte getDecisionMinutes.
+      prestigioDelPartido += prestigioDeLaJugada(
+        (acerto ? opcion.effectOnSuccess.prestige : opcion.effectOnFail.prestige) ?? 0,
+        {
+          successChance: opcion.successChance,
+          minuto: [16, 38, 61, 83][m] ?? 61,
+          golesMios: sim.homeGoals, golesRival: sim.awayGoals,
+          exito: acerto,
+        });
       if (acerto) {
         golesDeJugada += opcion.effectOnSuccess.goals ?? 0;
         asisDeJugada += opcion.effectOnSuccess.assists ?? 0;
@@ -272,7 +281,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     golesEsteAnio += goles;
 
     // EL PRESTIGIO ES LA SUMA DE LAS JUGADAS, igual que en handleFinishMatch.
-    carrera.prestige = Math.max(0, Math.min(100, carrera.prestige + prestigioDelPartido));
+    carrera.prestige = Math.max(0, Math.min(100, carrera.prestige + Math.round(prestigioDelPartido)));
 
     // Y recien ahora el cuerpo pasa la cuenta del partido jugado.
     carrera.sinDescanso++;
