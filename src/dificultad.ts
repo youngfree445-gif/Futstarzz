@@ -70,3 +70,44 @@ export function golEsperadoRestante(lambdaDelEquipo: number, golesTuyos: number,
   const yaPuestos = golesTuyos + asistenciasTuyas;
   return Math.max(PISO_DE_GOL_AMBIENTAL, lambdaDelEquipo - yaPuestos);
 }
+
+/**
+ * LA MARCA PERSONAL: cuanto mejor sos, más te cuesta.
+ *
+ * El juego no tenía ninguna curva de dificultad que creciera con el jugador. La chance de acertar
+ * una decisión es `(base + bonus de atributo) * presión`, y el bonus de atributo sólo sube: con los
+ * seis atributos cerca de 99 se llega al techo de 0.88 en casi cualquier jugada, y a partir de ahí
+ * la carrera es cuesta abajo. Los rivales se defienden igual contra un juvenil de 16 que contra el
+ * mejor jugador del mundo.
+ *
+ * En el fútbol pasa exactamente lo contrario: al que desequilibra le ponen a alguien encima. Ésta es
+ * esa marca. Devuelve un multiplicador de tus posibilidades -- 1 cuando nadie te conoce, hasta 0.80
+ * cuando sos el jugador al que hay que parar.
+ *
+ * Se mide con TU NIVEL y TU PRESTIGIO juntos, y no con uno solo: un juvenil con atributos altos
+ * todavía no tiene fama que justifique una marca especial, y un veterano famoso venido a menos
+ * tampoco la merece. Hace falta ser bueno Y que se sepa.
+ *
+ * El piso de 0.80 está elegido para que siga siendo una carrera y no un castigo: al mejor jugador
+ * del mundo una jugada del 88% le queda en 70%. Sigue siendo el mejor -- sólo que ya no es gratis.
+ */
+export const MARCA_MAXIMA = 0.80;
+
+export function factorDeMarcaPersonal(nivelPromedio: number, prestigio: number): number {
+  // Ninguno de los dos solo alcanza: se toma el menor, así que la marca aparece recién cuando el
+  // nivel Y la fama van juntos.
+  const cuantoTeConocen = Math.min(nivelPromedio, prestigio);
+  // Por debajo de 70 no te marca nadie: sos uno más.
+  if (cuantoTeConocen <= 70) return 1;
+  // De 70 a 99 la marca se aprieta de forma pareja hasta el piso.
+  const t = Math.min(1, (cuantoTeConocen - 70) / 29);
+  return 1 - (1 - MARCA_MAXIMA) * t;
+}
+
+/** El nombre de lo que te está pasando, para poder decírselo al jugador en vez de que lo sufra a ciegas. */
+export function avisoDeMarca(factor: number): string | null {
+  if (factor >= 0.99) return null;
+  if (factor <= 0.86) return 'Te sacaron un hombre encima: hoy cada jugada tuya va a costar el doble.';
+  if (factor <= 0.93) return 'El rival te marca de cerca: te dejan menos espacio que de costumbre.';
+  return 'Te empiezan a prestar atención: ya no te dejan solo.';
+}

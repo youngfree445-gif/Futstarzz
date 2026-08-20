@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats, PlayClipType } from '../types';
-import { factorDeFase, golEsperadoRestante } from '../dificultad';
+import { factorDeFase, golEsperadoRestante, factorDeMarcaPersonal, avisoDeMarca } from '../dificultad';
 import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
-import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
+import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain, Swords } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
 import { anioDeCarrera, rotuloDeTemporada } from '../dateSchedule';
@@ -1565,8 +1565,15 @@ export default function MatchSimulator({
   // racha no se vuelva una espiral sin salida, y eso no tiene nada que ver con que una final sea
   // más dura. Metida adentro, el escalón de fase desaparecía justo para el jugador que peor la
   // está pasando -- que es donde más se tiene que notar.
+  // LA MARCA PERSONAL. Cuanto mejor y más conocido sos, más te aprietan. Va junto al factor de
+  // fase y por la misma razón: no es una mala racha de la que se sale, es una condición del partido,
+  // así que no entra en el clamp que existe para que un mal momento no se vuelva una espiral.
+  // Ver factorDeMarcaPersonal en src/dificultad.ts.
+  const nivelPromedio = Object.values(playerProfile.attributes).reduce((a, b) => a + b, 0) / 6;
+  const marcaFactor = factorDeMarcaPersonal(nivelPromedio, playerProfile.prestige);
+
   const pressureMultiplier = Math.max(0.82, Math.min(1.35,
-    tablePositionFactor * fanSupportFactor * mentalHealthFactor)) * faseFactor;
+    tablePositionFactor * fanSupportFactor * mentalHealthFactor)) * faseFactor * marcaFactor;
   const teamName = currentClub.name;
 
   // Modelo tipo Poisson (estilo FIFA) para los goles "ambientales" del partido: en vez de una
@@ -2127,7 +2134,15 @@ export default function MatchSimulator({
     // dominás -- refleja que "ya tenés algo" sin volver la jugada trivial (el techo de 0.88 sigue
     // siendo el mismo límite superior).
     const starModeBonus = playerProfile.starModeEnabled ? 0.05 : 0;
-    const adjustedChance = Math.max(0.15, Math.min(0.88, (choice.successChance + statBonus + starModeBonus) * pressureMultiplier + randomNoise));
+    // EL TECHO TAMBIEN BAJA CON LA MARCA, y sin esto la marca personal no servia para nada.
+    // Medido: con los atributos en 99 la cuenta antes del clamp da 1.09, asi que multiplicarla por
+    // 0.80 seguia dando 0.87 y el tope de 0.88 se comia el castigo entero. El mejor jugador del
+    // mundo terminaba acertando lo mismo que antes -- justo el caso para el que se escribio.
+    //
+    // Bajando el techo, la marca se siente donde tiene que sentirse: 0.88 para el que nadie marca,
+    // 0.70 para el que tiene un hombre encima los noventa minutos.
+    const techo = 0.88 * marcaFactor;
+    const adjustedChance = Math.max(0.15, Math.min(techo, (choice.successChance + statBonus + starModeBonus) * pressureMultiplier + randomNoise));
 
     const isSuccess = Math.random() < adjustedChance;
 
@@ -2583,6 +2598,13 @@ export default function MatchSimulator({
           <p className="leading-relaxed text-2xs">
             Tus elecciones críticas están vinculadas a tus atributos actuales. Si no has entrenado lo suficiente tus atributos físicos o de pase, intenta ir por las opciones seguras para evitar pérdidas de prestigio.
           </p>
+          {/* La marca se DICE. Un jugador que de golpe falla más sin saber por qué cree que el juego
+              se rompió; sabiendo que le pusieron un hombre encima, lo lee como fútbol. */}
+          {avisoDeMarca(marcaFactor) && (
+            <p className="leading-relaxed text-2xs text-gold-400 mt-2 flex items-start gap-1.5">
+              <Swords size={13} className="shrink-0 mt-0.5" /> <span>{avisoDeMarca(marcaFactor)}</span>
+            </p>
+          )}
           {tablePositionFactor < 0.97 && (
             <p className="leading-relaxed text-2xs text-burgundy-400 mt-2 flex items-start gap-1.5">
               <AlertTriangle size={13} className="shrink-0 mt-0.5" /> <span>Rival mejor ubicado en la tabla: tus decisiones tienen menos margen de éxito hoy.</span>
