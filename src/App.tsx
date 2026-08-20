@@ -42,6 +42,7 @@ import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salida
 import { evaluarConvocatoria } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
 import { crecimientoDeLaTemporada, informeDeLaTemporada } from './modoHardcore';
+import { apodoDe, bautizoDe } from './apodo';
 import { estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, cronicaDelRival } from './rivalDePuesto';
 import {
   elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, AVISO_TE_QUEDAS,
@@ -1521,6 +1522,31 @@ export default function App() {
     }
     listaAnterior.current = ahora;
   }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore]);
+
+  /**
+   * EL BAUTIZO. El apodo se calcula solo (src/apodo.ts), pero que te lo PONGAN es un momento, y un
+   * momento hay que contarlo cuando pasa. Este efecto vigila el apodo vigente y avisa la primera
+   * vez que aparece uno nuevo.
+   *
+   * Guarda el apodo anunciado y no el apodo: si guardara el apodo, dejaria de ser un espejo de como
+   * jugas hoy. Asi el jugador que se reinventa se lo gana de nuevo, y la prensa lo cuenta de nuevo.
+   */
+  useEffect(() => {
+    if (!playerProfile) return;
+    const nuevo = apodoDe({
+      partidos: playerProfile.careerStats.partidosHistoricos,
+      goles: playerProfile.careerStats.golesHistoricos,
+      asistencias: playerProfile.careerStats.asistenciasHistoricos,
+      amarillas: playerProfile.careerStats.tarjetasAmarillasHistoricas,
+      rojas: playerProfile.careerStats.tarjetasRojasHistoricas,
+      posicion: playerProfile.position,
+      jugadas: playerProfile.jugadasPorAtributo,
+    });
+    if (!nuevo || nuevo.apodo === playerProfile.apodoAnunciado?.apodo) return;
+    const club = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    notify(`🗞 ${bautizoDe(playerProfile.name, nuevo, club?.name ?? 'el vestuario')}`);
+    setPlayerProfile(p => (p ? { ...p, apodoAnunciado: { apodo: nuevo.apodo, semana: p.currentWeek } } : p));
+  }, [playerProfile?.careerStats.partidosHistoricos, playerProfile?.jugadasPorAtributo]);
 
   // Los sfx se descargan al arrancar y no en el primer disparo: si se pidieran recién cuando entra
   // el gol, el sonido llegaría tarde (o directamente después del festejo) en conexiones lentas.

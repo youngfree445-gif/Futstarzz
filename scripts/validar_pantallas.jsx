@@ -347,6 +347,29 @@ for (const t of [
 caso('copas: fuera de la ventana no hay panel de selecciones', () =>
   dibujar(perfilDe(junior, { currentWeek: 20 }), 'tablas', null, 'data-torneo='));
 
+// --- EL APODO: que se dibuje, y que no se dibuje cuando no te lo ganaste ------------------------
+//
+// Se prueban las dos caras. La de arriba habria pasado igual con el apodo sin conectar: es la de
+// abajo -- que la ficha NO diga el apodo cuando no hay con que -- la que cuida que no se invente uno.
+const CON_APODO = {
+  partidos: 60,
+  jugadasPorAtributo: { pase: 44, regate: 10, tiro: 8, ritmo: 6, defensa: 4, fisico: 4 },
+};
+
+caso('apodo: la ficha lo dice', () =>
+  dibujar(perfilDe(junior, CON_APODO), 'carrera', 'data-apodo="El Arquitecto"'));
+
+caso('apodo: el feed te bautiza', () =>
+  dibujar(perfilDe(junior, { ...CON_APODO, apodoAnunciado: { apodo: 'El Arquitecto', semana: 9 } }),
+    'social', 'El Arquitecto'));
+
+caso('apodo: sin nada que te defina, no hay apodo', () =>
+  dibujar(perfilDe(junior, {
+    partidos: 60,
+    jugadasPorAtributo: { pase: 12, regate: 12, tiro: 12, ritmo: 12, defensa: 12, fisico: 12 },
+    careerStats: { ...perfilDe(junior).careerStats, golesHistoricos: 5, asistenciasHistoricos: 3, partidosHistoricos: 60 },
+  }), 'carrera', null, 'data-apodo'));
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`

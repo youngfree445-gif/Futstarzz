@@ -1250,3 +1250,40 @@ export function postsDeVentaForzada(
     .slice(0, 2)
     .map(x => x.v);
 }
+
+/**
+ * EL BAUTIZO: el día que la prensa te pone el apodo.
+ *
+ * Sale una sola vez por apodo -- quién lo dijo primero es media noticia, y repetirlo cada fecha lo
+ * gastaría. El "porqué" viene de src/apodo.ts y se cita tal cual: es lo que hace que el apodo se
+ * sienta ganado y no sorteado.
+ */
+export function postsDelBautizo(
+  nombre: string,
+  apodo: string,
+  porque: string,
+  club: string,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 91) * 51.9 + i * 23.7) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = [
+    { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+      content: `Ya está: en ${club} le dicen "${apodo}". ${porque}` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `El apodo de ${nombre} no salió de la nada. ${porque} Los apodos que duran son los que describen algo.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `"${apodo}" 🔥 Se lo ganó en la cancha, que es la única forma de ganarse un apodo.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `A partir de hoy no es ${nombre}, es "${apodo}" y no se discute.` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `Me gusta "${apodo}" para ${nombre}. Un apodo bien puesto le cuenta al que nunca lo vio jugar cómo juega.` },
+  ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}

@@ -22,7 +22,8 @@ import ReportarBug from './ReportarBug';
 import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
-import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion } from '../chutSocialVoces';
+import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo,
+} from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
@@ -2355,6 +2356,21 @@ export default function Dashboard({
           }))
       : [];
 
+    // EL BAUTIZO. Dura dos fechas y despues se apaga: quien lo dijo primero es media noticia, pero
+    // repetirlo toda la temporada lo gastaria. El apodo queda igual en la ficha, para siempre.
+    const elBautizo: SocialPost[] = playerProfile.apodoAnunciado && miApodo
+      && week - playerProfile.apodoAnunciado.semana >= 0
+      && week - playerProfile.apodoAnunciado.semana <= 2
+      ? postsDelBautizo(pName, miApodo.apodo, miApodo.porque, currentClub.name, week)
+          .map((c, i) => ({
+            id: `bautizo_${playerProfile.apodoAnunciado!.apodo}_${i}`,
+            author: c.author, role: c.role, content: c.content,
+            likes: 4000 + Math.floor(Math.random() * 14000),
+            commentsCount: 500 + Math.floor(Math.random() * 2600),
+            timestamp: 'Hace instantes', avatar: c.avatar,
+          }))
+      : [];
+
     // TU PUBLICACION y lo que le respondieron. Va primero de todo: lo dijiste vos.
     const miPost: SocialPost[] = playerProfile.miPublicacion?.semana === week
       ? [
@@ -2509,6 +2525,7 @@ export default function Dashboard({
     return [
       ...previaDeClasico,
       ...miPost,
+      ...elBautizo,
       ...llegadaDelRefuerzo,
       ...enLaLista,
       // La lista de convocados va arriba de casi todo: el dia que sale, es LA noticia.
@@ -2844,8 +2861,8 @@ export default function Dashboard({
                 elige: se gana con lo que hacés en la cancha (ver src/apodo.ts), y por eso lleva el
                 porqué en el title -- un apodo sin explicación es un adorno. */}
             {miApodo && (
-              <p className="text-2xs text-gold-400 font-bold truncate mt-0.5" title={miApodo.porque}>
-                "{miApodo.apodo}"
+              <p data-apodo={miApodo.apodo} className="text-2xs text-gold-400 font-bold truncate mt-0.5" title={miApodo.porque}>
+                “{miApodo.apodo}”
               </p>
             )}
             <div className="flex justify-between items-center gap-2 text-3xs text-slate-400 font-mono mt-1">

@@ -285,6 +285,14 @@ export interface PlayerProfile {
    * ningún lado. Opcional: las partidas viejas empiezan a contar desde su próxima jugada.
    */
   jugadasPorAtributo?: Partial<Record<keyof PlayerStats, number>>;
+  /**
+   * EL APODO QUE LA PRENSA YA ANUNCIÓ.
+   *
+   * El apodo en sí NO se guarda -- se calcula con apodoDe() cada vez que se dibuja, así cambia si
+   * vos cambiás. Esto guarda otra cosa: cuál fue el último que la prensa llegó a decir en voz alta,
+   * para no bautizarte dos veces con el mismo y para saber cuándo la noticia es nueva.
+   */
+  apodoAnunciado?: { apodo: string; semana: number };
   // Dorsales usados club a club, para narrar "en tu club anterior usabas el 10". Se agrega una
   // entrada por cada traspaso (ver handleAcceptTransfer), no incluye el club actual. Opcional: las
   // partidas viejas no lo tienen.

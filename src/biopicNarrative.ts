@@ -3,6 +3,7 @@
 // perfil -- cuanto más de las otras fases ya estén implementadas, más rico el material disponible
 // sin costo adicional (lesiones, cabeza a cabeza, Balón de Oro, etc.).
 import { PlayerProfile } from './types';
+import { apodoDe } from './apodo';
 
 export function generateBiopicNarrative(profile: PlayerProfile): string[] {
   const paragraphs: string[] = [];
@@ -13,6 +14,24 @@ export function generateBiopicNarrative(profile: PlayerProfile): string[] {
     `${stats.golesHistoricos} goles y ${stats.asistenciasHistoricos} asistencias repartidas en una carrera que empezó ` +
     `${profile.seasonHistory[0] ? `en ${profile.seasonHistory[0].clubName}` : 'desde abajo'}.`
   );
+
+  // EL APODO, apenas terminada la presentación. Es la primera cosa que un documental te diría de un
+  // jugador que no viste jugar, porque resume cómo jugaba en dos palabras. Se recalcula acá y no se
+  // lee de un campo guardado: es el apodo con el que se retira, que puede no ser con el que empezó.
+  const apodo = apodoDe({
+    partidos: stats.partidosHistoricos,
+    goles: stats.golesHistoricos,
+    asistencias: stats.asistenciasHistoricos,
+    amarillas: stats.tarjetasAmarillasHistoricas,
+    rojas: stats.tarjetasRojasHistoricas,
+    posicion: profile.position,
+    jugadas: profile.jugadasPorAtributo,
+  });
+  if (apodo) {
+    paragraphs.push(
+      `La prensa lo bautizó "${apodo.apodo}", y el apodo no era un capricho: ${apodo.porque.charAt(0).toLowerCase()}${apodo.porque.slice(1)}`
+    );
+  }
 
   const titulos = profile.seasonHistory.filter(s => s.titulo);
   if (titulos.length > 0) {
