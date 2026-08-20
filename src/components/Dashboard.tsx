@@ -38,7 +38,7 @@ import {
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
-  Table, Zap, DollarSign, Star, Heart, Flame, Swords, LogOut, ArrowRight, FastForward, CheckCircle,
+  Table, Zap, DollarSign, Star, Heart, Flame, Swords, LogOut, ArrowRight, FastForward, BarChart3, CheckCircle,
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users,
   Menu, X, Home
 } from 'lucide-react';
@@ -1020,6 +1020,24 @@ export default function Dashboard({
   // El capital cuenta hasta su valor nuevo en vez de saltar: un número que pasa de 300.000 a
   // 432.120 en un frame se lee como un parpadeo, no como una ganancia. Ver src/animaciones.ts.
   const capitalQueCuenta = useNumeroQueCuenta(playerProfile.capital);
+
+  /**
+   * LA PANTALLA DE CARRERA, EN CELULAR, ES UNA SOLA VISTA Y NO UN SCROLL DE SEIS.
+   *
+   * En escritorio la pestaña es una rejilla de tres columnas y se ve entera de un vistazo. En un
+   * teléfono esa misma rejilla se apila: ficha, atributos, vitrina, estadísticas, próximo partido,
+   * ranking, forma, rival, comparador. Nueve bloques, seis pantallas de scroll -- y el botón de
+   * jugar, que es a lo que venís, enterrado en el medio.
+   *
+   * Ahora el teléfono muestra UNA sección por vez y se cambia con una barra abajo, del tamaño del
+   * pulgar. Escritorio no se entera: todo lo de acá va detrás de `md:`.
+   *
+   * Arranca en PARTIDO a propósito. Lo primero que tiene que ver el que abre el juego es contra
+   * quién juega y el botón para hacerlo.
+   */
+  const [seccionMovil, setSeccionMovil] = useState<'partido' | 'ficha' | 'historia'>('partido');
+  const soloEn = (s: 'partido' | 'ficha' | 'historia') =>
+    seccionMovil === s ? 'block' : 'hidden md:block';
 
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
     if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
@@ -3053,10 +3071,39 @@ export default function Dashboard({
         >
 
           {activeTab === 'carrera' && (
-            <div className="space-y-4 animate-fade-in">
-              <div className="grid md:grid-cols-3 gap-4">
+            <div className="space-y-4 animate-fade-in pb-20 md:pb-0">
 
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
+              {/* LA BARRA DE ABAJO, SOLO EN CELULAR.
+                  Tres destinos, del ancho de un tercio de pantalla y 56px de alto: eso es un blanco
+                  de pulgar de verdad. Va fija abajo y no arriba porque es donde llega la mano, y por
+                  eso el contenido lleva pb-20: si no, el último panel queda tapado por la barra.
+                  En escritorio no existe -- ahí las tres columnas se ven juntas y no hay nada que
+                  elegir. */}
+              <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 flex">
+                {([
+                  { id: 'partido', texto: 'Partido', Icono: Swords },
+                  { id: 'ficha', texto: 'Ficha', Icono: Award },
+                  { id: 'historia', texto: 'Historia', Icono: BarChart3 },
+                ] as const).map(({ id, texto, Icono }) => (
+                  <button
+                    key={id}
+                    onClick={() => { setSeccionMovil(id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    aria-current={seccionMovil === id ? 'page' : undefined}
+                    className={`flex-1 h-14 flex flex-col items-center justify-center gap-0.5 font-black uppercase tracking-widest text-3xs transition-colors ${
+                      seccionMovil === id
+                        ? 'text-gold-400 border-t-2 border-gold-400 -mt-px bg-gold-950/25'
+                        : 'text-slate-500'
+                    }`}
+                  >
+                    <Icono size={17} />
+                    {texto}
+                  </button>
+                ))}
+              </nav>
+
+              <div className="grid md:grid-cols-3 gap-4 stagger">
+
+                <div className={`${soloEn('ficha')} bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
                     <Award size={15} className="text-gold-400" /> Atributos del Jugador
                   </h3>
@@ -3145,7 +3192,7 @@ export default function Dashboard({
                   </div>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col justify-between">
+                <div className={`${soloEn('historia')} bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg md:flex md:flex-col md:justify-between`}>
                   <div>
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
                       🏆 Estadísticas Históricas de Carrera
@@ -3241,7 +3288,7 @@ export default function Dashboard({
                   scrollear toda la pantalla principal. Acá arriba entra en el hueco que
                   dejó la tarjeta del partido al dejar de estirarse (self-start), y de paso
                   empareja el alto de las tres columnas en vez de dejar una corta. */}
-              <div className="space-y-4 self-start">
+              <div className={`${soloEn('partido')} order-first md:order-none space-y-4 self-start`}>
                 <div className="bg-gold-950/20 border border-gold-900/30 rounded-2xl p-4 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
@@ -3437,6 +3484,11 @@ export default function Dashboard({
               </div>
               </div>{/* fin tercera columna */}
 
+              {/* De acá para abajo, en celular, todo vive en la sección HISTORIA: son paneles de
+                  consulta, no de acción, y apilados debajo del partido eran cuatro pantallas más de
+                  scroll. En escritorio se ven siempre. */}
+              <div className={`${soloEn('historia')} space-y-4`}>
+
               {/* MOMENTO DE FORMA. Se muestra siempre que haya al menos un partido jugado, no sólo
                   cuando hay racha: media pantalla del juego son números que suben, y la forma tiene
                   que poder LEERSE antes de que sea noticia -- si sólo apareciera al llegar a la
@@ -3564,6 +3616,10 @@ export default function Dashboard({
                   </div>
                 </div>
               )}
+
+              </div>
+              {/* Fin de HISTORIA. La lesión queda AFUERA a propósito: si estás roto tenés que verlo
+                  al abrir la pantalla, no después de cambiar de sección. */}
 
               {playerProfile.activeInjury && (
                 <div className="bg-slate-900 border border-red-900/40 rounded-2xl p-5 shadow-lg">

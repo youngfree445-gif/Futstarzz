@@ -291,6 +291,23 @@ if (pasoDeFechaFifa == null) {
   }
 }
 
+// --- La pantalla de carrera en CELULAR --------------------------------------------------------
+//
+// En un telefono la pestana de carrera se apilaba entera: nueve bloques, seis pantallas de scroll,
+// y el boton de jugar enterrado en el medio. Ahora muestra UNA seccion por vez con una barra abajo.
+//
+// Se comprueban las dos mitades del arreglo, porque una sin la otra no sirve: que la barra exista, y
+// que las secciones que NO estan elegidas salgan ocultas. Si todas salieran visibles, el scroll
+// seguiria siendo el mismo y la barra seria decoracion.
+caso('celular: la carrera tiene barra de secciones', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', 'Historia');
+  if (!html.includes('md:hidden fixed bottom-0')) throw new Error('no esta la barra de abajo');
+  // Dos de las tres secciones tienen que estar ocultas en celular.
+  const ocultas = (html.match(/hidden md:block/g) ?? []).length;
+  if (ocultas < 2) throw new Error(`solo ${ocultas} seccion(es) oculta(s): deberian ser 2 o mas`);
+  return html;
+});
+
 // --- El panel del torneo de selecciones, en Copas y tablas -----------------------------------
 //
 // El agujero que cierra: el panel de copas tenia TRES ramas -- Conmebol, UEFA y "no estas en
