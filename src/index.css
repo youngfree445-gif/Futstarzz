@@ -288,3 +288,179 @@ body {
     opacity: 0.9;
   }
 }
+
+/* ===============================================================================================
+   CAPA DE ANIMACIÓN — lenguaje de transmisión, no de juego infantil
+   ===============================================================================================
+
+   La referencia es un scorebug de TV: cosas que se deslizan, cuentan, barren y laten. Nada rebota,
+   nada gira, nada estalla en confeti. La regla que separa "cool" de "infantil" es que el movimiento
+   tenga una CAUSA -- un gol, un número que cambia, un panel que llega -- y termine rápido.
+
+   Todo respeta prefers-reduced-motion al final del archivo: quien pidió menos movimiento ve la
+   pantalla quieta, no una versión lenta de lo mismo.
+
+   Curva única para todo: cubic-bezier(0.16, 1, 0.3, 1), la misma que ya usaban .btn-fx y fadeIn.
+   Una sola curva es lo que hace que una interfaz se sienta de una pieza. */
+
+/* --- 1. ENTRADA ESCALONADA DE PANELES -------------------------------------------------------
+   Los paneles de una pantalla no aparecen todos juntos: llegan de a uno, con 45ms de diferencia.
+   Es la diferencia entre "se dibujó la página" y "se armó la pantalla". */
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.995); }
+  to   { opacity: 1; transform: none; }
+}
+.stagger > * {
+  animation: panelIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 45ms; }
+.stagger > *:nth-child(3) { animation-delay: 90ms; }
+.stagger > *:nth-child(4) { animation-delay: 135ms; }
+.stagger > *:nth-child(5) { animation-delay: 180ms; }
+.stagger > *:nth-child(6) { animation-delay: 225ms; }
+
+/* --- 2. EL MARCADOR CUANDO CAE UN GOL --------------------------------------------------------
+   El número no cambia y ya: salta una vez, corto y seco, como el scorebug de una transmisión.
+   Sin rebote elástico -- eso es lo que lo volvería infantil. */
+@keyframes golPunch {
+  0%   { transform: scale(1); }
+  22%  { transform: scale(1.28); }
+  100% { transform: scale(1); }
+}
+.anim-gol {
+  animation: golPunch 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* El borde de la pantalla destella con el color del club. Una sola pasada, 700ms, y se va. */
+@keyframes golFlash {
+  0%   { opacity: 0; }
+  12%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.anim-gol-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  box-shadow: inset 0 0 120px 12px var(--color-gold-500, #c0a047);
+  animation: golFlash 0.7s ease-out forwards;
+}
+
+/* --- 3. RENGLÓN DE TRANSMISIÓN ----------------------------------------------------------------
+   Cada evento entra desde la izquierda con una barra de acento que lo precede y se disuelve.
+   Es el gesto de un ticker de noticias deportivas. */
+@keyframes eventoIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes eventoWipe {
+  from { transform: scaleY(1); opacity: .9; }
+  to   { transform: scaleY(1); opacity: 0; }
+}
+.anim-evento {
+  animation: eventoIn 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.anim-evento::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--color-gold-400, #c0a047);
+  transform-origin: top;
+  animation: eventoWipe 0.9s ease-out forwards;
+}
+
+/* --- 4. NÚMEROS QUE CUENTAN ------------------------------------------------------------------
+   Un capital que pasa de 300.000 a 432.120 de un frame se lee como un error de render. Contando,
+   se lee como una ganancia. La clase sólo marca el elemento; el conteo lo hace contarHasta() en
+   src/animaciones.ts, porque el valor lo tiene JS y no CSS. */
+.anim-cuenta {
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease-out;
+}
+.anim-cuenta.subiendo { color: var(--color-gold-300, #d4b86a); }
+
+/* --- 5. BARRAS QUE SE LLENAN -----------------------------------------------------------------
+   Energía, hinchada, mente. Se llenan desde donde estaban, no aparecen llenas. */
+.anim-barra {
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- 6. BARRIDO ESPECULAR EN TARJETA ---------------------------------------------------------
+   Una luz cruza la tarjeta al pasar el mouse. Es el gesto de una vitrina, y por eso se usa donde
+   hay algo ganado: trofeos, logros, la ficha del jugador. No en botones comunes. */
+@keyframes vitrinaSweep {
+  from { transform: translateX(-130%) skewX(-18deg); }
+  to   { transform: translateX(230%) skewX(-18deg); }
+}
+.anim-vitrina {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.anim-vitrina::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 42%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.11), transparent);
+  transform: translateX(-130%) skewX(-18deg);
+  pointer-events: none;
+  z-index: 2;
+}
+.anim-vitrina:hover::after {
+  animation: vitrinaSweep 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- 7. CORTINA DE ENTRADA AL PARTIDO --------------------------------------------------------
+   Una franja del color del club barre la pantalla al entrar a la cancha. Dura 550ms: es una
+   transición, no una intro que haya que aguantar cada vez. */
+@keyframes cortina {
+  0%   { transform: scaleX(0); transform-origin: left; }
+  45%  { transform: scaleX(1); transform-origin: left; }
+  55%  { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+.anim-cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  background: var(--color-gold-500, #c0a047);
+  animation: cortina 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- 8. LATIDO DEL RELOJ EN VIVO -------------------------------------------------------------
+   Sólo el separador de los dos puntos, como un reloj de estadio. Muy chico a propósito. */
+@keyframes latido {
+  0%, 45%  { opacity: 1; }
+  50%, 95% { opacity: .25; }
+  100%     { opacity: 1; }
+}
+.anim-latido { animation: latido 2s steps(1, end) infinite; }
+
+/* --- 9. FILA DE TABLA QUE CAMBIA DE PUESTO ---------------------------------------------------
+   Cuando tu club sube o baja en la tabla, la fila se marca un instante. Verde arriba, rojo abajo,
+   sin flechas parpadeando. */
+@keyframes subioPuesto { 0% { background: rgba(52,211,153,.16); } 100% { background: transparent; } }
+@keyframes bajoPuesto  { 0% { background: rgba(159,18,57,.18); }  100% { background: transparent; } }
+.anim-subio { animation: subioPuesto 1.6s ease-out forwards; }
+.anim-bajo  { animation: bajoPuesto 1.6s ease-out forwards; }
+
+/* --- QUIEN PIDIÓ MENOS MOVIMIENTO, NO VE MOVIMIENTO ------------------------------------------
+   No se ralentiza: se apaga. Una animación lenta sigue siendo una animación para quien tiene
+   sensibilidad al movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  .stagger > *,
+  .anim-gol, .anim-gol-flash, .anim-evento, .anim-evento::before,
+  .anim-vitrina:hover::after, .anim-cortina, .anim-latido,
+  .anim-subio, .anim-bajo {
+    animation: none !important;
+  }
+  .anim-barra { transition: none !important; }
+  .anim-gol-flash, .anim-cortina { display: none; }
+}

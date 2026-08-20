@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayerProfile, MatchEvent, MatchDecision, Position, Club, PlayerStats, PlayClipType } from '../types';
 import { factorDeFase, golEsperadoRestante } from '../dificultad';
+import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain } from 'lucide-react';
@@ -1445,6 +1446,12 @@ export default function MatchSimulator({
 
   // En automático el partido arranca ya acelerado: el jugador pidió simularlo, no verlo.
   useEffect(() => { if (autoSimular) setSpeedMultiplier(5); }, [autoSimular]);
+
+  // El marcador salta una vez cuando cae un gol, y la pantalla destella con el color del club.
+  // Es el gesto de un scorebug de transmisión: corto, seco y con causa. Ver la capa de animación
+  // en index.css.
+  const golpeDelMarcador = useClaseAlCambiar(scoreHome + scoreAway, 'anim-gol', 520);
+  const destelloDeGol = useClaseAlCambiar(scoreHome + scoreAway, 'anim-gol-flash', 720);
   const [decisionOutcomeText, setDecisionOutcomeText] = useState('');
   const [decisionWasSuccess, setDecisionWasSuccess] = useState(false);
   const [pendingClipType, setPendingClipType] = useState<PlayClipType | null>(null);
@@ -2364,6 +2371,8 @@ export default function MatchSimulator({
 
   return (
     <div id="match-simulator" className="min-h-screen bg-slate-950 text-white flex flex-col justify-between py-6 px-4">
+      {/* El destello de gol: una sola pasada del color del club por el borde de la pantalla. */}
+      {destelloDeGol && <div className={destelloDeGol} aria-hidden="true" />}
       
       {/* El boton de reportar bug, tambien ACA. El reporte es una foto del paso actual, asi que
           apenas el partido termina el estado avanza y lo que habia que fotografiar ya no esta.
@@ -2505,7 +2514,7 @@ export default function MatchSimulator({
           </div>
 
           <div className="shrink-0 flex flex-col items-center gap-0.5">
-            <div className="text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums">
+            <div className={`text-lg sm:text-2xl font-black font-mono tracking-wider bg-slate-950 px-3 sm:px-3.5 py-1 rounded-xl border border-gold-500/20 text-gold-400 shadow-[0_0_15px_rgba(168,132,46,0.1)] whitespace-nowrap tabular-nums ${golpeDelMarcador}`}>
               {scoreHome} - {scoreAway}
             </div>
             {/* La ronda, pegada al marcador: durante el partido se mira acá, no el encabezado. */}
@@ -2636,7 +2645,7 @@ export default function MatchSimulator({
             {matchLog.slice().sort((a, b) => a.minute - b.minute).reverse().map((log, index) => (
               <div 
                 key={index} 
-                className={`p-3 rounded-2xl border text-xs leading-relaxed transition-all ${
+                className={`anim-evento p-3 rounded-2xl border text-xs leading-relaxed transition-all ${
                   log.type === 'good'
                     ? 'bg-gold-950/20 border-gold-500/30 text-gold-300'
                     : log.type === 'bad'

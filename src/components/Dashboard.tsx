@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNumeroQueCuenta } from '../animaciones';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
 import { ULTIMATE_CLUBS_DATABASE, CLUBS_DATABASE, PRESS_QUESTIONS_POOL, getClubWithRoster, MAX_ACTIVE_SPONSORSHIPS, WORLD_CUP_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ACHIEVEMENTS_DATABASE, REAL_TRANSFER_POOL, REAL_LEAGUE_LEADERS, INJURY_LABELS, ROLES_DATABASE, AGENTS_DATABASE, INVESTMENTS_DATABASE } from '../data';
@@ -1015,6 +1016,10 @@ export default function Dashboard({
     }
     return sobran;
   }, [conmebolCup, conmebolCupId, currentClub.id, currentClub.name, playerProfile.currentWeek]);
+
+  // El capital cuenta hasta su valor nuevo en vez de saltar: un número que pasa de 300.000 a
+  // 432.120 en un frame se lee como un parpadeo, no como una ganancia. Ver src/animaciones.ts.
+  const capitalQueCuenta = useNumeroQueCuenta(playerProfile.capital);
 
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
     if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
@@ -2944,7 +2949,7 @@ export default function Dashboard({
               <DollarSign size={14} className="text-gold-400 font-bold" />
               <div>
                 <span className="text-3xs text-slate-500 block leading-none font-bold uppercase">Capital</span>
-                <span className="text-xs text-white font-black">${playerProfile.capital.toLocaleString()}</span>
+                <span className="text-xs text-white font-black anim-cuenta">${capitalQueCuenta.toLocaleString()}</span>
               </div>
             </div>
 
@@ -3110,7 +3115,7 @@ export default function Dashboard({
                         {misTrofeos.map(t => (
                           <li
                             key={t.id}
-                            className="flex items-center gap-2.5 bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2"
+                            className="anim-vitrina flex items-center gap-2.5 bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2"
                           >
                             <span className="text-base leading-none shrink-0" aria-hidden="true">
                               {/* 'copa' es la copa NACIONAL: ganarla es un título, así que no puede
