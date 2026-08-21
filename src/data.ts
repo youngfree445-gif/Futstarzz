@@ -4792,6 +4792,34 @@ export function getClubWithRoster(clubName: string, clubId?: string): any {
  * apuntar cada id a su team_name correcto.
  */
 const EQUIPO_SYNONYMS_POR_ID: Record<string, string> = {
+  // QUINCE CLUBES QUE NO LES FALTABA EL PLANTEL: LO TENIAN CON OTRO NOMBRE.
+  //
+  // Aparecian entre los 76 "sin plantel" y jugaban con cuatro figuras, teniendo veinte y pico de
+  // jugadores cargados bajo una variante del nombre. Van POR ID y no por nombre porque varios de
+  // estos son justo los que se prestan a confusion.
+  //
+  // Y UNO NO ENTRO A PROPOSITO, que es lo que hace que valga la pena verificar: "Independiente del
+  // Valle" (Ecuador) parecia resolverse con el equipo "Independiente" de la base -- 32 jugadores,
+  // nombre casi igual. Pero esos 32 son Imanol Machuca, Santiago Mele y Rodrigo Rey: el
+  // INDEPENDIENTE DE AVELLANEDA. El sinonimo hubiera metido el plantel argentino en un club
+  // ecuatoriano, que es exactamente como se rompio el juego dos veces. Queda sin plantel hasta
+  // conseguir el suyo.
+  'defensor_sporting': 'Defensor',
+  'montevideo_wanderers_uru': 'Wanderers',
+  'montevideo_city_torque_uru': 'Mdeo City Torque',
+  'cerro_uru': 'C.A. Cerro',
+  'progreso_uru': 'C.A. Progreso',
+  'técnico_universitario': 'Técnico U.',
+  'delfín': 'Delfín S.C.',
+  'libertad_fc': 'Libertad F.C.',
+  'manta_fc': 'Manta F.C.',
+  'san_antonio_bulo_bulo': 'San Antonio',
+  'virtus_entella': 'Entella',
+  'stade_lavallois': 'Stade Lavallois MFC',
+  'as_nancy': 'AS Nancy',
+  'red_star_fc': 'Red Star FC (FRANCE)',
+  'ea_guingamp': 'En Avant Guingamp',
+
   'everton': 'Everton Chile',
   'everton_eng': 'Everton',
   'athletic_club_esp': 'Athletic Club de Bilbao',
