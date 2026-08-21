@@ -34,10 +34,16 @@
 // QUIÉN LA TIENE
 // ---------------------------------------------------------------------------------------------
 //
-// No hay números de camiseta en la base de planteles (32.704 jugadores, ninguno con dorsal). Así que
-// el dueño se DEDUCE del plantel y de forma determinista: la 10 es del mejor jugador de creación del
-// club, la 9 del mejor delantero, la 1 del mejor arquero. Determinista a propósito -- quién lleva la
-// 10 de tu club es un hecho sobre el club, no un sorteo que cambia cada vez que abrís el juego.
+// AHORA HAY DORSALES DE VERDAD. La base de planteles se enriqueció con el número real de cada
+// jugador (ver scripts/enriquecer_dorsales.mjs): 9.495 de los 13.219 jugadores de clubes jugables lo
+// tienen, y 472 de 473 clubes no repiten ninguno. Así que la 10 de tu club es LA 10 DE TU CLUB, no
+// una deducción.
+//
+// La deducción sigue existiendo como respaldo, y hace falta: el 28% de los jugadores no tiene número
+// -- los que cambiaron de club, porque el dorsal viejo no vale en el club nuevo y no sabemos el
+// nuevo. En un plantel donde nadie declara la 10, se deduce como antes: el mejor jugador de creación
+// del club. Determinista a propósito -- quién lleva la 10 es un hecho sobre el club, no un sorteo
+// que cambia cada vez que abrís el juego.
 
 /** Las tres camisetas que significan algo. El resto son números. */
 export const CAMISETAS_CON_DUENO = [1, 9, 10] as const;
@@ -58,6 +64,8 @@ export interface JugadorDelPlantel {
   categoria_tactica?: string;
   posicion_especifica?: string;
   player_id?: string;
+  /** El dorsal REAL, si se conoce. Falta en el 28%: los que cambiaron de club. */
+  dorsal?: number;
 }
 
 /** Qué jugadores compiten por cada camiseta. */
@@ -89,6 +97,14 @@ export function duenosDeLasCamisetas(
   const resultado: Record<number, JugadorDelPlantel | null> = {};
 
   for (const numero of CAMISETAS_CON_DUENO) {
+    // EL QUE LA LLEVA DE VERDAD GANA A CUALQUIER DEDUCCIÓN. Si alguien del plantel declara ese
+    // número, es suyo y no hay nada que deducir -- deducir sobre un dato que existe es inventar.
+    const declarado = plantel.find(j => j.dorsal === numero);
+    if (declarado) {
+      resultado[numero] = declarado;
+      tomados.add(clave(declarado));
+      continue;
+    }
     const filtro = CANDIDATOS[numero];
     const candidatos = plantel.filter(j =>
       filtro(j) && !!j.media_valoracion && !tomados.has(clave(j)));
@@ -170,4 +186,30 @@ export function elDiaQueTeLaPonen(dorsal: number, club: string, deQuien: string 
   return deQuien
     ? `${numero} de ${club} es tuya. Se la sacaste a ${deQuien}, y a partir de hoy te van a mirar distinto: al que la lleva lo marcan más y le exigen más.`
     : `${numero} de ${club} es tuya. Nadie te la regaló y nadie te la va a perdonar: al que la lleva lo marcan más y le exigen más.`;
+}
+
+
+/**
+ * LOS DORSALES QUE YA ESTÁN OCUPADOS EN ESE PLANTEL, y por quién.
+ *
+ * Es lo que hace falta para que al fichar puedas elegir número sin pisarle el de nadie. Sólo cuenta
+ * los que el plantel DECLARA: al 28% que cambió de club no le sabemos el número, y suponerle uno
+ * sería bloquear un dorsal que a lo mejor está libre.
+ */
+export function dorsalesOcupados(plantel: JugadorDelPlantel[]): Map<number, string> {
+  const m = new Map<number, string>();
+  for (const j of plantel) {
+    if (j.dorsal != null && j.dorsal >= 1 && j.dorsal <= 99 && !m.has(j.dorsal)) {
+      m.set(j.dorsal, j.nombre_completo);
+    }
+  }
+  return m;
+}
+
+/** Los números de 1 a 99 que quedan libres, en orden. */
+export function dorsalesLibres(plantel: JugadorDelPlantel[]): number[] {
+  const ocupados = dorsalesOcupados(plantel);
+  const libres: number[] = [];
+  for (let n = 1; n <= 99; n++) if (!ocupados.has(n)) libres.push(n);
+  return libres;
 }

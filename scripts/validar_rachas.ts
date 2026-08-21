@@ -22,7 +22,7 @@ import { clubQueTeFormo, teLlamaLaCasa, temporadasEnLaCasa, EDAD_DEL_LLAMADO } f
 import { guardarDeclaracion, laHemerotecaTeRecuerda, SALDO_PARA_QUEDAR_GUARDADA, PASOS_PARA_QUE_ENVEJEZCA, CUANTAS_SE_GUARDAN } from '../src/hemeroteca';
 import { clasicoPersonalContra, elClasicoDeTuCarrera, PARTIDOS_PARA_QUE_SEA_CLASICO } from '../src/clasicoPersonal';
 import { crecimientoDelPibe, destinoDelPibe, chanceDeLlegar, loQueDiceDeVos, NIVEL_INICIAL, NIVEL_PARA_LLEGAR, TEMPORADAS_PARA_DEFINIRSE, type Pibe } from '../src/elPibe';
-import { duenosDeLasCamisetas, podesPedirLaCamiseta, pesoDeLlevarla, VENTAJA_PARA_QUITARSELA } from '../src/laCamiseta';
+import { duenosDeLasCamisetas, podesPedirLaCamiseta, pesoDeLlevarla, dorsalesOcupados, dorsalesLibres, VENTAJA_PARA_QUITARSELA } from '../src/laCamiseta';
 import { factorDeMarcaPersonal } from '../src/dificultad';
 import { pesoDeLaSituacion, prestigioDeLaJugada, queEstaPidiendoElPartido, chanceDeAcertar, CUANTO_VALE_UN_PUNTO, MINUTO_EN_QUE_IMPORTA } from '../src/decisionDelPartido';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, pisoDelOlvido, partidosQueCuentan, avisoDelOlvido, PISO_MAXIMO, PARTIDOS_PARA_QUE_NO_TE_OLVIDEN } from '../src/elOlvido';
@@ -1005,6 +1005,44 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
     estasSancionado(cumplirFechaDeSancion(dosSanciones, COPA), LIGA));
 
   ok('hacen falta dos amarillas, no una', AMARILLAS_PARA_SANCION === 2);
+}
+
+// --- LOS DORSALES DE VERDAD ---------------------------------------------------------------------
+//
+// La base de planteles ahora trae el numero real de cada jugador. Antes el juego decidia si un
+// dorsal estaba ocupado con un hash: (club.id.length + dorsal) % 7 === 0.
+{
+  const j = (n: string, d: number | undefined, media = 75) =>
+    ({ nombre_completo: n, media_valoracion: media, posicion_especifica: 'CM', dorsal: d });
+  const plantel = [j('Uno', 1), j('Diez', 10), j('Nueve', 9), j('SinNumero', undefined)];
+
+  const oc = dorsalesOcupados(plantel);
+  ok('los dorsales ocupados salen del plantel', oc.size === 3, String(oc.size));
+  ok('y se sabe de quien es cada uno', oc.get(10) === 'Diez');
+  // EL QUE NO DECLARA NUMERO NO RESERVA NINGUNO. Suponerle uno bloquearia un dorsal que a lo mejor
+  // esta libre, que es inventar en la otra direccion.
+  ok('el que no tiene numero no ocupa ninguno', ![...oc.values()].includes('SinNumero'));
+
+  const libres = dorsalesLibres(plantel);
+  ok('quedan libres los 96 restantes', libres.length === 96, String(libres.length));
+  ok('el 10 no esta libre', !libres.includes(10));
+  ok('el 23 si', libres.includes(23));
+
+  // Y LA CAMISETA USA EL DORSAL DECLARADO ANTES QUE CUALQUIER DEDUCCION: deducir sobre un dato que
+  // existe es inventar.
+  const conCrack = [
+    { nombre_completo: 'El Crack', media_valoracion: 95, posicion_especifica: 'AM', dorsal: 22 },
+    { nombre_completo: 'El Diez', media_valoracion: 70, posicion_especifica: 'AM', dorsal: 10 },
+  ];
+  ok('la 10 es del que la lleva, no del mejor',
+    duenosDeLasCamisetas(conCrack)[10]?.nombre_completo === 'El Diez',
+    duenosDeLasCamisetas(conCrack)[10]?.nombre_completo ?? 'nadie');
+  // Pero si NADIE la declara, se sigue deduciendo: el 28% de los jugadores no tiene numero.
+  const sinDiez = [
+    { nombre_completo: 'El Crack', media_valoracion: 95, posicion_especifica: 'AM' },
+    { nombre_completo: 'Otro', media_valoracion: 70, posicion_especifica: 'AM' },
+  ];
+  ok('sin nadie que la lleve, se deduce', duenosDeLasCamisetas(sinDiez)[10]?.nombre_completo === 'El Crack');
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

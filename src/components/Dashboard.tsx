@@ -7,6 +7,8 @@ import { loQueDiceDeVos } from '../elPibe';
 import { CAMISETAS_CON_DUENO } from '../laCamiseta';
 import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSecciones';
 import { BarraDeEstado } from './BarraDeEstado';
+import { SelectorDeDorsal } from './SelectorDeDorsal';
+import { dorsalesOcupados } from '../laCamiseta';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -4752,29 +4754,24 @@ export default function Dashboard({
                             </span>
                           ) : pendingTransferClubId === offer.club.id ? (
                             (() => {
-                              // Narrativo: si el dorsal elegido "choca" con alguien del plantel,
-                              // el club no te lo puede dar. Determinístico por club+dorsal, no hay
-                              // datos reales de dorsales ocupados en el juego.
-                              const dorsalOcupado = (offer.club.id.length + pendingTransferDorsal) % 7 === 0;
+                              // EL PLANTEL DE VERDAD, con sus dorsales de verdad. Lo que habia aca
+                              // era un hash inventado -- (club.id.length + dorsal) % 7 === 0 -- que
+                              // su propio comentario admitia: "no hay datos reales de dorsales
+                              // ocupados en el juego". Ahora los hay.
+                              const rosterDestino: any = getClubWithRoster(offer.club.name, offer.club.id);
+                              const plantelDestino = rosterDestino?.plantilla
+                                ? [...rosterDestino.plantilla.porteros, ...rosterDestino.plantilla.defensivos, ...rosterDestino.plantilla.ofensivos]
+                                : [];
+                              const tomados = dorsalesOcupados(plantelDestino);
+                              const dorsalOcupado = tomados.has(pendingTransferDorsal);
                               return (
-                                <div className="flex flex-col items-end gap-1.5 min-w-[160px]">
-                                  <label className="text-3xs text-slate-500 font-bold uppercase self-end">
-                                    Elegí tu dorsal en {offer.club.name}
-                                  </label>
-                                  <select
-                                    value={pendingTransferDorsal}
-                                    onChange={(e) => setPendingTransferDorsal(Number(e.target.value))}
-                                    className="w-24 py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white"
-                                  >
-                                    {Array.from({ length: 33 }, (_, i) => i + 1).map(n => (
-                                      <option key={n} value={n}>{n}</option>
-                                    ))}
-                                  </select>
-                                  {dorsalOcupado && (
-                                    <p className="text-3xs text-burgundy-400 text-right leading-snug">
-                                      Ese número ya lo tiene un jugador del plantel — elegí otro.
-                                    </p>
-                                  )}
+                                <div className="flex flex-col gap-2 w-full max-w-sm">
+                                  <SelectorDeDorsal
+                                    plantel={plantelDestino}
+                                    clubName={offer.club.name}
+                                    valor={pendingTransferDorsal}
+                                    onElegir={setPendingTransferDorsal}
+                                  />
                                   <button
                                     disabled={dorsalOcupado}
                                     onClick={() => {
