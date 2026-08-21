@@ -163,6 +163,17 @@ caso('el boton de reportar bug esta en el partido',
 caso('celular: la tira con lo tuyo esta en el partido',
   () => dibujar({}, 'data-tira-del-jugador'));
 
+// --- EL RELATO SE PINTA POR EQUIPO --------------------------------------------------------------
+//
+// Antes se pintaba por TIPO -- buena, mala, destacada -- y eso mezcla dos preguntas distintas: un
+// gol del rival era "malo" igual que una amarilla tuya, el mismo rojo para dos cosas que no se
+// parecen. Leyendo rapido no se distinguia quien habia hecho que.
+// Se dibuja el partido de un SUPLENTE porque renderToString congela el minuto 0: ahi el relato solo
+// tiene el silbatazo y el ambiente, que son neutrales a proposito -- no son de nadie. La linea que
+// dice que te dejaron en el banco SI es tuya, y es la unica jugada con duenio que existe al minuto 0.
+caso('el relato distingue de que equipo es cada jugada',
+  () => dibujar({ lineupStatus: 'substitute', subEntryMinute: 60 }, 'data-equipo="mio"'));
+
 // Y QUE LA TIRA DIGA LO QUE PASA. La primera version de este caso buscaba un decimal en el HTML
 // despues de la marca, y pasaba en verde con la tira VACIA: mas abajo esta la ficha del jugador, que
 // tiene la misma calificacion. Comprobado vaciando la tira a mano -- seguia diciendo OK.

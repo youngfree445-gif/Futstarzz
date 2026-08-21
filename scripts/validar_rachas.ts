@@ -29,6 +29,7 @@ import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, pisoDelOlvido, partidos
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import { repartirTarjetas, TOPE_DE_AMARILLAS, TOPE_DE_ROJAS } from '../src/lideresPorCompeticion';
 import { simularPartidoCompleto } from '../src/partidoSimulado';
+import { anotarTarjetaDelPartido, cumplirFechaDeSancion, estasSancionado, cuentaDe, AMARILLAS_PARA_SANCION } from '../src/sancion';
 
 let fallas = 0;
 let corridos = 0;
@@ -951,6 +952,59 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   let conTarjeta = 0;
   for (let i = 0; i < 400; i++) if (jugar({}).cardReceived !== 'none') conTarjeta++;
   ok('simular tambien te puede costar tarjeta', conTarjeta > 0, `${conTarjeta} de 400`);
+}
+
+// --- LAS AMARILLAS SE CUENTAN POR COMPETICION ---------------------------------------------------
+//
+// Antes habia UN contador para toda la carrera: cinco amarillas donde fuera -- liga, copa nacional,
+// Libertadores, seleccion -- y quedabas suspendido para el partido siguiente, fuera cual fuera. En
+// el futbol las amarillas de la Libertadores no te suspenden para la liga, y eso es lo que hace que
+// un jugador con una amarilla encima juegue distinto la copa que el campeonato.
+{
+  const LIGA = 'Liga BetPlay';
+  const COPA = 'Copa Libertadores';
+
+  // 1. DOS AMARILLAS SEGUIDAS EN LA MISMA COMPETICION Y TE PERDES EL PROXIMO DE ESA COMPETICION.
+  let t = anotarTarjetaDelPartido(undefined, LIGA, 'yellow').tarjetas;
+  ok('una amarilla sola no te sanciona', !estasSancionado(t, LIGA));
+  ok('pero avisa', cuentaDe(t, LIGA).amarillasSeguidas === 1);
+  t = anotarTarjetaDelPartido(t, LIGA, 'yellow').tarjetas;
+  ok('la segunda seguida si', estasSancionado(t, LIGA));
+  ok('y la cuenta arranca de cero', cuentaDe(t, LIGA).amarillasSeguidas === 0);
+
+  // 2. Y NO TE SANCIONA EN LA OTRA COMPETICION. Este es EL caso.
+  ok('la sancion de liga no te saca de la copa', !estasSancionado(t, COPA));
+
+  // 3. LAS AMARILLAS DE UNA COMPETICION NO SUMAN A LA OTRA.
+  let mixto = anotarTarjetaDelPartido(undefined, LIGA, 'yellow').tarjetas;
+  mixto = anotarTarjetaDelPartido(mixto, COPA, 'yellow').tarjetas;
+  ok('una amarilla en cada torneo no sanciona en ninguno',
+    !estasSancionado(mixto, LIGA) && !estasSancionado(mixto, COPA));
+
+  // 4. UN PARTIDO LIMPIO BORRA LA AMARILLA. Es la mitad de la regla: sin esto, "dos seguidas" seria
+  //    "dos alguna vez" y la amarilla vieja te perseguiria toda la temporada.
+  let limpio = anotarTarjetaDelPartido(undefined, LIGA, 'yellow').tarjetas;
+  const r = anotarTarjetaDelPartido(limpio, LIGA, 'none');
+  limpio = r.tarjetas;
+  ok('un partido limpio borra la amarilla', cuentaDe(limpio, LIGA).amarillasSeguidas === 0);
+  ok('y se avisa que se borro', (r.aviso ?? '').length > 10);
+  limpio = anotarTarjetaDelPartido(limpio, LIGA, 'yellow').tarjetas;
+  ok('asi que la siguiente vuelve a ser la primera', !estasSancionado(limpio, LIGA));
+
+  // 5. LA ROJA SANCIONA DE UNA, y tambien solo en su competicion.
+  const roja = anotarTarjetaDelPartido(undefined, COPA, 'red').tarjetas;
+  ok('la roja te saca del proximo de esa copa', estasSancionado(roja, COPA));
+  ok('pero no de la liga', !estasSancionado(roja, LIGA));
+
+  // 6. CUMPLIR LA FECHA BAJA LA CUENTA.
+  const cumplida = cumplirFechaDeSancion(roja, COPA);
+  ok('cumplida la fecha, volves a estar disponible', !estasSancionado(cumplida, COPA));
+  // Y cumplir en una competicion no toca la otra.
+  const dosSanciones = anotarTarjetaDelPartido(roja, LIGA, 'red').tarjetas;
+  ok('cumplir en la copa no te libera en la liga',
+    estasSancionado(cumplirFechaDeSancion(dosSanciones, COPA), LIGA));
+
+  ok('hacen falta dos amarillas, no una', AMARILLAS_PARA_SANCION === 2);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

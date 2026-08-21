@@ -125,7 +125,23 @@ export interface PlayerProfile {
   lastMatchGoals: number; // Fase 4: goles del último partido jugado -- usado para logros puntuales (ej. hat-trick), no se acumula, se pisa cada partido
   lastMatchWonShootout: boolean; // Fase 4: true si el último partido se definió por penales y tu equipo ganó -- usado para el logro de la tanda
   yellowCards: number; // amarillas acumuladas en la temporada (fuera de un partido puntual); al llegar a un umbral, sanción automática -- ver handleFinishMatch
-  suspendedMatches: number; // partidos de liga que te quedan por cumplir de sanción; startMatchflow los resuelve solo, sin pantalla de partido
+  /**
+   * Partidos de LIGA que te quedan de sanción.
+   *
+   * YA NO ES LA FUENTE: se deriva de `tarjetasPorCompeticion`, que es donde vive la cuenta de
+   * verdad. Sigue existiendo porque la resuelve todo el camino de "la fecha se juega sin vos" y
+   * porque las partidas viejas la tienen.
+   */
+  suspendedMatches: number;
+  /**
+   * LAS AMARILLAS SE CUENTAN POR COMPETICIÓN (ver src/sancion.ts).
+   *
+   * Antes había un solo contador para toda la carrera: cinco amarillas donde fuera y quedabas
+   * suspendido para el partido siguiente, fuera cual fuera. En el fútbol las amarillas de la
+   * Libertadores no te suspenden para la liga, y eso es lo que hace que un jugador con una amarilla
+   * encima juegue distinto la copa que el campeonato.
+   */
+  tarjetasPorCompeticion?: import('./sancion').TarjetasPorCompeticion;
   lastPressAnsweredWeek: number;
   /**
    * Saldo de la ultima respuesta en rueda de prensa (prestigio + aficion) y en que fecha fue.
@@ -701,6 +717,18 @@ export interface MatchEvent {
   minute: number;
   text: string;
   type: 'neutral' | 'good' | 'bad' | 'decision' | 'highlight';
+  /**
+   * DE QUÉ EQUIPO ES ESTA JUGADA.
+   *
+   * El relato se pintaba por TIPO (buena, mala, destacada), y eso mezcla dos preguntas distintas:
+   * un gol del rival era "malo" igual que una amarilla tuya, así que leyendo rápido no se
+   * distinguía quién había hecho qué. Con el equipo, la transmisión se lee de un vistazo: lo tuyo
+   * de un color, lo del rival de otro.
+   *
+   * `undefined` es lo neutral -- el pitazo inicial, el final, el arranque del segundo tiempo -- y
+   * está bien que lo sea: no son de nadie.
+   */
+  equipo?: 'mio' | 'rival';
 }
 
 // Tipo de highlight animado que dramatiza la jugada en Canvas antes de mostrar el texto narrado

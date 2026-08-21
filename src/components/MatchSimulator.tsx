@@ -1474,7 +1474,18 @@ export default function MatchSimulator({
   const [fansAccum, setFansAccum] = useState(0);
   const [rating, setRating] = useState(6.0);
 
-  const [matchLog, setMatchLog] = useState<MatchEvent[]>([]);
+  // EL RELATO ARRANCA CON EL SILBATAZO, no vacío. Se siembra acá y no sólo en el efecto de abajo
+  // porque un efecto no corre en un render de servidor: el panel de transmisión salía vacío en el
+  // primer pintado y, en el validador, no existía ninguna línea que comprobar.
+  const [matchLog, setMatchLog] = useState<MatchEvent[]>(() => {
+    const inicial: MatchEvent[] = [
+      { minute: 0, text: 'Silbatazo Inicial. ¡Rueda la pelota!', type: 'neutral' },
+    ];
+    if (lineupStatus === 'substitute') {
+      inicial.push({ minute: 0, text: '📋 El técnico te deja en el banco de suplentes para arrancar este partido.', type: 'neutral', equipo: 'mio' });
+    }
+    return inicial;
+  });
   const [activeDecision, setActiveDecision] = useState<MatchDecision | null>(null);
   // 'animating': el highlight en Canvas corre ANTES de mostrar el texto narrado (ver
   // PlayHighlightCanvas.tsx y handleChoice) -- solo se pasa por ahí si la decisión tiene clipType.
@@ -1802,9 +1813,15 @@ export default function MatchSimulator({
       { minute: 0, text: `Silbatazo Inicial en ${estadioContexto}. ¡Rueda la pelota! ${competicionContexto}`, type: 'neutral' },
     ];
     if (lineupStatus === 'substitute') {
-      kickoffLog.push({ minute: 0, text: `📋 El técnico te deja en el banco de suplentes para arrancar este partido.`, type: 'neutral' });
+      // Esta linea SI es tuya: habla de vos, no del partido. Va con el color de tu equipo.
+      kickoffLog.push({ minute: 0, text: `📋 El técnico te deja en el banco de suplentes para arrancar este partido.`, type: 'neutral', equipo: 'mio' });
     }
     kickoffLog.push({ minute: 4, text: `Ambiente ensordecedor en las tribunas. El recibimiento llena el aire de color.`, type: 'neutral' });
+    // SE PISA EL RELATO INICIAL, no se agrega: este efecto corre una sola vez y el estado ya trae
+    // las mismas lineas desde el primer render (ver el useState de matchLog). Sin sembrarlo ahi, el
+    // panel arrancaba VACIO hasta que React corriera el efecto -- y en un render de servidor, donde
+    // los efectos no corren nunca, el relato no existia en absoluto: por eso ningun caso podia
+    // comprobarlo.
     setMatchLog(kickoffLog);
     // Silbatazo inicial: desactivado por ahora a pedido (ver WHISTLE_SFX_ENABLED arriba). El resto
     // de los efectos del partido siguen sonando normalmente.
@@ -1891,14 +1908,14 @@ export default function MatchSimulator({
           setMatchLog(prev => [...prev, {
             minute: 90,
             text: `¡GOL AGÓNICO de ${teamName}! En pleno tiempo agregado, ${teammateName} la clava para el delirio total.`,
-            type: 'good'
+            type: 'good', equipo: 'mio'
           }]);
         } else {
           if (isHome.current) finalScoreAway++; else finalScoreHome++;
           setMatchLog(prev => [...prev, {
             minute: 90,
             text: `¡GOLPE DE GRACIA de ${opponentName}! Te la clavan en el último suspiro del partido.`,
-            type: 'bad'
+            type: 'bad', equipo: 'rival'
           }]);
         }
         setScoreHome(finalScoreHome);
@@ -2005,7 +2022,7 @@ export default function MatchSimulator({
         setMatchLog(prev => [...prev, {
           minute: currentMin,
           text: `¡GOL de ${teamName}! Combinación magistral en el área que finaliza ${teammateName} con un remate cruzado.`,
-          type: 'good'
+          type: 'good', equipo: 'mio'
         }]);
         // Bono chico: este gol es "ambiental" (del equipo, no tuyo), así que no debería empujar
         // tu rating casi tanto como una decisión propia con gol/asistencia real. Si estás en el
@@ -2019,7 +2036,7 @@ export default function MatchSimulator({
           text: goleadorRival
             ? `¡GOL de ${opponentName}! ${goleadorRival} aparece solo en el área y la manda al fondo de la red.`
             : `¡GOL de ${opponentName}! Desatención defensiva que el rival no perdona. Balón al fondo de la red.`,
-          type: 'bad'
+          type: 'bad', equipo: 'rival'
         }]);
         if (onField) setRating(prev => Math.max(prev - 0.2, 3.5));
       }
@@ -2051,7 +2068,7 @@ export default function MatchSimulator({
       setMatchLog(prev => [...prev, {
         minute: currentMin,
         text: jugadasDestacadas[Math.floor(Math.random() * jugadasDestacadas.length)],
-        type: 'highlight'
+        type: 'highlight', equipo: 'mio'
       }]);
       setRating(prev => Math.min(prev + 0.1, 10.0));
     } else if (dado < 0.18 && !onField) {
@@ -2118,23 +2135,23 @@ export default function MatchSimulator({
         setPlayerCards('red');
         setIsSentOff(true);
         setRating(prev => Math.max(prev - 2.0, 2.0));
-        setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro no duda.${cardSuffix}`, type: 'bad' }]);
+        setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro no duda.${cardSuffix}`, type: 'bad', equipo: 'mio' }]);
       } else if (playerCards === 'yellow') {
         // Ya amonestado. La falta se sanciona igual, pero la segunda amarilla es MUCHO más rara.
         if (foulRoll < P_SEGUNDA_AMARILLA) {
           setPlayerCards('red');
           setIsSentOff(true);
           setRating(prev => Math.max(prev - 2.0, 2.0));
-          setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} 🟨🟥 ¡SEGUNDA AMARILLA, EXPULSADO!`, type: 'bad' }]);
+          setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} 🟨🟥 ¡SEGUNDA AMARILLA, EXPULSADO!`, type: 'bad', equipo: 'mio' }]);
         } else if (foulRoll < P_AMARILLA) {
-          setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro te llama, te recuerda que estás amonestado y perdona la segunda.`, type: 'neutral' }]);
+          setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro te llama, te recuerda que estás amonestado y perdona la segunda.`, type: 'neutral', equipo: 'mio' }]);
         } else {
           setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro sanciona la falta pero no saca tarjeta.`, type: 'neutral' }]);
         }
       } else if (foulRoll < P_AMARILLA) {
         setPlayerCards('yellow');
         setRating(prev => Math.max(prev - 0.4, 2.5));
-        setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} 🟨 El árbitro te muestra tarjeta amarilla.`, type: 'bad' }]);
+        setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} 🟨 El árbitro te muestra tarjeta amarilla.`, type: 'bad', equipo: 'mio' }]);
       } else {
         setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro sanciona la falta pero no saca tarjeta.`, type: 'neutral' }]);
       }
@@ -2258,7 +2275,7 @@ export default function MatchSimulator({
 
       setMatchLog(prev => [...prev, {
         minute,
-        text: `⚡ EVENTO DE DECISIÓN: ${choice.successBonus}`,
+        text: `⚡ EVENTO DE DECISIÓN: ${choice.successBonus}`, equipo: 'mio',
         type: 'good'
       }]);
     } else {
@@ -2270,7 +2287,7 @@ export default function MatchSimulator({
 
       setMatchLog(prev => [...prev, {
         minute,
-        text: `⚠️ EVENTO DE DECISIÓN: ${choice.failPenalty}${cardLogSuffix}`,
+        text: `⚠️ EVENTO DE DECISIÓN: ${choice.failPenalty}${cardLogSuffix}`, equipo: 'mio',
         type: 'bad'
       }]);
     }
@@ -2323,7 +2340,7 @@ export default function MatchSimulator({
       const fansGain = isPenalty ? 12 : 28;
       setPrestigeAccum(prev => prev + prestigeGain * CUANTO_VALE_UN_PUNTO);
       setFansAccum(prev => prev + fansGain);
-      setMatchLog(prev => [...prev, { minute, text: `⚡ EVENTO DE DECISIÓN: ${successText}`, type: 'good' }]);
+      setMatchLog(prev => [...prev, { minute, text: `⚡ EVENTO DE DECISIÓN: ${successText}`, type: 'good', equipo: 'mio' }]);
     } else {
       const failText = missedRegardless
         ? (isPenalty ? 'El remate se fue desviado, afuera. Penal fallado.' : 'El disparo se estrelló en la barrera sin sorpresa.')
@@ -2337,7 +2354,7 @@ export default function MatchSimulator({
       const prestigeLoss = isPenalty ? -8 : -2;
       setPrestigeAccum(prev => prev + prestigeLoss * CUANTO_VALE_UN_PUNTO);
       setFansAccum(prev => prev + (isPenalty ? -6 : -1));
-      setMatchLog(prev => [...prev, { minute, text: `⚠️ EVENTO DE DECISIÓN: ${failText}`, type: 'bad' }]);
+      setMatchLog(prev => [...prev, { minute, text: `⚠️ EVENTO DE DECISIÓN: ${failText}`, type: 'bad', equipo: 'mio' }]);
     }
 
     // Penal/tiro libre: siempre es un remate al arco, mismo clip que 'gol' en las decisiones
@@ -2748,14 +2765,23 @@ export default function MatchSimulator({
             {matchLog.slice().sort((a, b) => a.minute - b.minute).reverse().map((log, index) => (
               <div 
                 key={index} 
+                data-equipo={log.equipo}
+                /* EL RELATO SE PINTA POR EQUIPO, no por tipo. Antes un gol del rival era "malo"
+                   igual que una amarilla tuya -- el mismo rojo para dos cosas que no se parecen --
+                   asi que leyendo rapido no se distinguia quien habia hecho que.
+
+                   Lo TUYO va del lado izquierdo y en el dorado del juego; lo del RIVAL va corrido a
+                   la derecha y en frio. La sangria no es adorno: es lo que hace que se lean como dos
+                   voces sin tener que leer una palabra. Lo neutral -- el pitazo, el entretiempo --
+                   queda al medio y gris, porque no es de nadie. */
                 className={`anim-evento p-3 rounded-2xl border text-xs leading-relaxed transition-all ${
-                  log.type === 'good'
-                    ? 'bg-gold-950/20 border-gold-500/30 text-gold-300'
-                    : log.type === 'bad'
-                    ? 'bg-red-950/20 border-red-500/30 text-red-300'
-                    : log.type === 'highlight'
-                    ? 'bg-burgundy-950/15 border-burgundy-500/20 text-burgundy-300'
-                    : 'bg-slate-950/40 border-slate-800 text-slate-300'
+                  log.equipo === 'mio'
+                    ? `mr-6 ${log.type === 'bad'
+                        ? 'bg-burgundy-950/25 border-burgundy-500/30 text-burgundy-200'
+                        : 'bg-gold-950/20 border-gold-500/30 text-gold-200'}`
+                    : log.equipo === 'rival'
+                    ? 'ml-6 bg-sky-950/25 border-sky-500/25 text-sky-200'
+                    : 'bg-slate-950/40 border-slate-800 text-slate-400'
                 }`}
               >
                 <div className="flex items-center gap-1.5 mb-1 font-mono text-2xs font-black">

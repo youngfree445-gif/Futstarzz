@@ -40,6 +40,7 @@ import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } 
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO, TIPOS_DE_LESION, sortearTipoDeLesion, riesgoDeLesion } from './lesion';
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
+import { anotarTarjetaDelPartido, cumplirFechaDeSancion, cuentaDe } from './sancion';
 import { simularPartidoCompleto } from './partidoSimulado';
 import { PartidoSimulandose } from './components/PartidoSimulandose';
 import { POOLS_DE_DECISION } from './components/MatchSimulator';
@@ -4317,6 +4318,9 @@ export default function App() {
       currentWeek: playerProfile.currentWeek + 1,
       playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
       datedResults: historialCon(resultadoDelClubSinVos(myClub, opponentClub.name, myGoals, rivalGoals)),
+      // Cumplir la fecha baja la cuenta EN TU LIGA, que es donde estabas sancionado.
+      tarjetasPorCompeticion: cumplirFechaDeSancion(
+        playerProfile.tarjetasPorCompeticion, getLeagueDisplay(myClub.league, myClub.division).name),
       suspendedMatches: playerProfile.suspendedMatches - 1,
       matchesWithoutRest: 0,
       leagueSeasons: updatedLeagueSeasons,
@@ -4477,6 +4481,9 @@ export default function App() {
       capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
       currentWeek: playerProfile.currentWeek + 1,
       playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
+      // Cumplir la fecha baja la cuenta EN TU LIGA, que es donde estabas sancionado.
+      tarjetasPorCompeticion: cumplirFechaDeSancion(
+        playerProfile.tarjetasPorCompeticion, getLeagueDisplay(myClub.league, myClub.division).name),
       suspendedMatches: playerProfile.suspendedMatches - 1,
       matchesWithoutRest: 0,
       leagueSeasons: updatedLeagueSeasons,
@@ -5374,7 +5381,16 @@ export default function App() {
       (decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0))
       * multiplicadorClasico);
 
-    let newYellowCards = playerProfile.yellowCards;
+    // LA COMPETICION DE HOY, y TU LIGA. Hacen falta ACA y no mas abajo porque las amarillas se
+    // cuentan por competicion: la de la Libertadores no te suspende para la liga (ver src/sancion.ts).
+    const clubDeHoy = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    const nombreDeMiLiga = clubDeHoy
+      ? getLeagueDisplay(clubDeHoy.league, clubDeHoy.division).name : 'Liga';
+    const competicionDeHoy = activeCompetitionName
+      ?? (activeWorldCupTeamId ? 'Selección'
+        : activeDomesticCup && clubDeHoy ? nombreCopaNacional(clubDeHoy.league)
+        : nombreDeMiLiga);
+
     let newSuspendedMatches = playerProfile.suspendedMatches;
     let disciplineFine = 0;
     const disciplineMessages: string[] = [];
@@ -5397,18 +5413,22 @@ export default function App() {
       }
     }
 
+    // LA DISCIPLINA, POR COMPETICION. Dos amarillas en dos partidos SEGUIDOS de la misma
+    // competicion y te perdes el proximo de ese torneo. Un partido limpio borra la amarilla que
+    // tenias encima, que es la mitad de la regla: sin eso, "dos seguidas" seria "dos alguna vez".
+    const disciplina = anotarTarjetaDelPartido(
+      playerProfile.tarjetasPorCompeticion, competicionDeHoy, cardReceived);
+    const tarjetasPorCompeticion = disciplina.tarjetas;
+    if (disciplina.aviso) disciplineMessages.push(disciplina.aviso);
+
     if (cardReceived === 'red') {
-      newSuspendedMatches += 1;
       disciplineFine = RED_CARD_FINE;
-      disciplineMessages.push(`🟥 Expulsión: la federación te suspende 1 partido y te multa con $${RED_CARD_FINE.toLocaleString()}.`);
-    } else if (cardReceived === 'yellow') {
-      newYellowCards += 1;
-      if (newYellowCards >= YELLOW_CARD_SUSPENSION_THRESHOLD) {
-        newYellowCards = 0;
-        newSuspendedMatches += 1;
-        disciplineMessages.push(`🟨 Acumulaste ${YELLOW_CARD_SUSPENSION_THRESHOLD} amarillas en la temporada: sanción automática de 1 partido.`);
-      }
+      disciplineMessages.push(`💸 La federación te multa con $${RED_CARD_FINE.toLocaleString()}.`);
     }
+
+    // `suspendedMatches` se DERIVA de la cuenta de tu liga: es lo que lee todo el camino de "la
+    // fecha se juega sin vos". No es una segunda cuenta -- es una lectura de la primera.
+    newSuspendedMatches = cuentaDe(tarjetasPorCompeticion, nombreDeMiLiga).partidosDeSancion;
 
     const { items: updatedShop, droppedNames } = checkSponsorControversyFallout(shopItems, netPrestigeChange);
     if (droppedNames.length > 0) {
@@ -5538,7 +5558,10 @@ export default function App() {
       capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange + (countryDuty?.prestige ?? 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
-      yellowCards: newYellowCards,
+      // Se conserva para el cartel de "x amarillas" y para las partidas viejas: lo que MANDA es
+      // tarjetasPorCompeticion.
+      yellowCards: cuentaDe(tarjetasPorCompeticion, competicionDeHoy).amarillasSeguidas,
+      tarjetasPorCompeticion,
       suspendedMatches: newSuspendedMatches,
       activeInjury: newActiveInjury,
       injuryHistory: newInjuryHistory,
