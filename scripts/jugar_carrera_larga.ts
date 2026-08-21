@@ -36,6 +36,7 @@ import { evolucionDeLaLista, exigenciaPorLoQueValés } from '../src/listaDeTrans
 import { secuelaDeLaLesion } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion } from '../src/lesion';
 import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
+import { olvidoDeLaTemporada, prestigioDespuesDelOlvido } from '../src/elOlvido';
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import type { Club, PlayerStats, InjuryType } from '../src/types';
 import type { NotaDePartido } from '../src/forma';
@@ -137,7 +138,10 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     + ajusteDeFormaEnElOnce(evaluarForma(carrera.formaReciente, paso))
     + exigenciaPorLoQueValés(carrera.marketValue, club.marketValue);
 
-  let titularEsteAnio = 0, bancoEsteAnio = 0, golesEsteAnio = 0;
+  // TRES contadores, no dos. `bancoEsteAnio` mezclaba "no me convocaron" con "entre desde el
+  // banco", y para el olvido esas dos cosas no se parecen en nada: una es no jugar y la otra es
+  // jugar media hora.
+  let titularEsteAnio = 0, bancoEsteAnio = 0, suplenteEsteAnio = 0, golesEsteAnio = 0;
 
   for (let j = 0; j < PARTIDOS_POR_TEMPORADA; j++) {
     paso++;
@@ -165,7 +169,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
 
     if (soyTitular) { titularEsteAnio++; carrera.titulares++; }
     else {
-      bancoEsteAnio++; carrera.banco++;
+      bancoEsteAnio++; suplenteEsteAnio++; carrera.banco++;
       // Entrando desde el banco jugás media hora: el rival del puesto arrancó ese partido.
       if (carrera.fichajeRival) {
         carrera.fichajeRival = anotarFechaDelRival(carrera.fichajeRival, jugarFechaDelRival(carrera.fichajeRival.nivel ?? 72));
@@ -301,6 +305,16 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   for (const k of Object.keys(carrera.atributos) as (keyof PlayerStats)[]) {
     carrera.atributos[k] = Math.min(99, carrera.atributos[k] + crecimiento);
   }
+
+  // EL DECLIVE FISICO, con la misma regla que applyAgingIfNewSeason: de los 32 en adelante se caen
+  // ritmo y fisico, dos puntos por temporada. Faltaba, y no era un detalle -- sin declive, el
+  // jugador de este banco de pruebas llegaba a los 37 con los atributos en 99 y jugando 38 partidos
+  // por temporada. Con eso NINGUNA regla de final de carrera se podia probar: ni el olvido, ni el
+  // retiro escalonado, ni el club que te formo. El banco simplemente no tenia veteranos.
+  if (carrera.edad >= 32) {
+    carrera.atributos.ritmo = Math.max(15, carrera.atributos.ritmo - 2);
+    carrera.atributos.fisico = Math.max(15, carrera.atributos.fisico - 2);
+  }
   carrera.prestige = Math.round(carrera.prestige);
   carrera.marketValue = Math.round(carrera.marketValue * (1 + crecimiento * 0.25 - (bancoEsteAnio > 20 ? 0.15 : 0)));
 
@@ -313,6 +327,20 @@ for (let t = 1; t <= TEMPORADAS; t++) {
       partidos: 0, goles: 0, asistencias: 0, sumaDeNotas: 0,
     };
   }
+
+  // EL OLVIDO. Va antes de la lista de transferibles a proposito: el club decide si te pone en la
+  // lista mirando el prestigio que tenes DESPUES de que la temporada te desgastara, no antes.
+  const datosDelOlvido = {
+    titularidades: titularEsteAnio,
+    suplencias: suplenteEsteAnio,
+    promedioDeNota: evaluarForma(carrera.formaReciente, paso).promedio,
+    edad: carrera.edad,
+    prestigioActual: carrera.prestige,
+    campeonatos: 0,
+    balonesDeOro: 0,
+  };
+  const olvidoDeEsteAnio = olvidoDeLaTemporada(datosDelOlvido);
+  carrera.prestige = prestigioDespuesDelOlvido(datosDelOlvido);
 
   const forma = evaluarForma(carrera.formaReciente, paso);
   const estorbo = estorboDelRival(carrera.fichajeRival, paso);
@@ -363,7 +391,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   bitacora.push(
     `  T${String(t).padStart(2)} · ${String(carrera.edad).padStart(2)}a · ${club.name.slice(0, 20).padEnd(20)} ` +
     `${String(titularEsteAnio).padStart(2)}T/${String(bancoEsteAnio).padStart(2)}B · ${String(golesEsteAnio).padStart(2)}g · ` +
-    `pres ${String(carrera.prestige).padStart(2)} · atr ${String(Math.round(media())).padStart(2)} · marca x${marca.toFixed(2)}` +
+    `pres ${String(carrera.prestige).padStart(2)}${olvidoDeEsteAnio >= 1 ? `(-${Math.round(olvidoDeEsteAnio)})` : ''} · atr ${String(Math.round(media())).padStart(2)} · marca x${marca.toFixed(2)}` +
     (carrera.fichajeRival ? ` · vs ${carrera.fichajeRival.nombre.split(' ')[0]} (${promedioDelRival(carrera.fichajeRival) ?? '-'})` : '') +
     (estado ? `  ${estado}` : ''));
 }

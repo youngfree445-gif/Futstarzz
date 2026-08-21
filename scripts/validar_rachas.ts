@@ -25,6 +25,7 @@ import { crecimientoDelPibe, destinoDelPibe, chanceDeLlegar, loQueDiceDeVos, NIV
 import { duenosDeLasCamisetas, podesPedirLaCamiseta, pesoDeLlevarla, VENTAJA_PARA_QUITARSELA } from '../src/laCamiseta';
 import { factorDeMarcaPersonal } from '../src/dificultad';
 import { pesoDeLaSituacion, prestigioDeLaJugada, queEstaPidiendoElPartido, CUANTO_VALE_UN_PUNTO, MINUTO_EN_QUE_IMPORTA } from '../src/decisionDelPartido';
+import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, pisoDelOlvido, partidosQueCuentan, avisoDelOlvido, PISO_MAXIMO, PARTIDOS_PARA_QUE_NO_TE_OLVIDEN } from '../src/elOlvido';
 
 let fallas = 0;
 let corridos = 0;
@@ -771,6 +772,62 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
     queEstaPidiendoElPartido(80, 0, 1) !== queEstaPidiendoElPartido(80, 1, 0));
   ok('y se calla cuando no pide nada', queEstaPidiendoElPartido(20, 1, 0) === null);
   ok('con el partido roto, se calla', queEstaPidiendoElPartido(80, 4, 0) === null);
+}
+
+// --- EL OLVIDO: el prestigio tambien baja --------------------------------------------------------
+//
+// La mitad que le faltaba al rebalanceo. Antes el prestigio solo bajaba a golpes puntuales, asi que
+// en una carrera larga terminaba en 100 y se quedaba ahi: la segunda mitad de toda carrera era un
+// tramite. El riesgo de esta regla es el opuesto -- que hunda al jugador en una espiral sin fondo --
+// y por eso la mitad de los casos son sobre el piso.
+{
+  const base = { titularidades: 30, suplencias: 0, promedioDeNota: 7.0, edad: 27,
+    prestigioActual: 80, campeonatos: 0, balonesDeOro: 0 };
+  const con = (o: any) => ({ ...base, ...o });
+
+  // 1. EL QUE JUEGA Y RINDE NO SE OLVIDA. No es que compense el desgaste: es que no hay nada que
+  //    olvidar. Y vale a cualquier edad, que es lo que hace que un veterano en forma siga siendo
+  //    alguien.
+  ok('treinta partidos rindiendo no cuestan nada', olvidoDeLaTemporada(con({})) === 0);
+  ok('y a los 37 tampoco, si segui jugando asi', olvidoDeLaTemporada(con({ edad: 37 })) === 0);
+
+  // 2. EL QUE NO JUEGA SE OLVIDA, y es lo que mas pesa.
+  const sinJugar = olvidoDeLaTemporada(con({ titularidades: 0, suplencias: 0, promedioDeNota: null }));
+  const jugandoMal = olvidoDeLaTemporada(con({ promedioDeNota: 5.0 }));
+  ok('una temporada sin jugar duele', sinJugar > 15, sinJugar.toFixed(1));
+  ok('y duele MAS que jugar mal', sinJugar > jugandoMal, `${sinJugar.toFixed(1)} contra ${jugandoMal.toFixed(1)}`);
+
+  // 3. ARRANCAR NO ES LO MISMO QUE ENTRAR. Sin esto, el que entra veinte minutos treinta y ocho
+  //    veces contaba igual que el titular de toda la temporada.
+  ok('una suplencia cuenta menos que una titularidad',
+    partidosQueCuentan({ titularidades: 0, suplencias: 20 }) < partidosQueCuentan({ titularidades: 20, suplencias: 0 }));
+  ok('un anio entero de suplente igual te desgasta',
+    olvidoDeLaTemporada(con({ titularidades: 0, suplencias: 38 })) > 0);
+
+  // 4. LA EDAD ACELERA LO QUE YA PASA, no inventa desgaste donde no lo hay.
+  const flojoJoven = olvidoDeLaTemporada(con({ titularidades: 10, promedioDeNota: 6.0, edad: 25 }));
+  const flojoViejo = olvidoDeLaTemporada(con({ titularidades: 10, promedioDeNota: 6.0, edad: 35 }));
+  ok('la misma temporada floja cuesta mas de viejo', flojoViejo > flojoJoven,
+    `${flojoViejo.toFixed(1)} contra ${flojoJoven.toFixed(1)}`);
+
+  // 5. EL PISO. Lo que ganaste queda; lo que sos se olvida. Y ademas es la proteccion que evita la
+  //    espiral: sin el, una mala temporada podria dejarte por debajo del umbral de convocatoria y
+  //    ya no habria forma de volver a jugar para recuperarte.
+  ok('el que no gano nada tiene el piso mas bajo', pisoDelOlvido(0, 0) < pisoDelOlvido(5, 0));
+  ok('un balon de oro pesa mas que un titulo', pisoDelOlvido(0, 1) > pisoDelOlvido(1, 0));
+  ok('pero nadie es intocable', pisoDelOlvido(50, 50) === PISO_MAXIMO);
+
+  const hundido = prestigioDespuesDelOlvido(con({
+    titularidades: 0, suplencias: 0, promedioDeNota: null, edad: 36, prestigioActual: 30 }));
+  ok('el olvido nunca te tira por debajo del piso', hundido >= pisoDelOlvido(0, 0), String(hundido));
+  // Y si ya venias por debajo del piso, no te empuja mas abajo todavia.
+  ok('estando bajo el piso, no baja mas',
+    prestigioDespuesDelOlvido(con({ titularidades: 0, suplencias: 0, promedioDeNota: null, prestigioActual: 12 })) === 12);
+
+  // 6. Y SIEMPRE SE EXPLICA. Un numero que baja solo sin motivo parece un bug.
+  const d = con({ titularidades: 2, suplencias: 0, promedioDeNota: 5.5 });
+  ok('el desgaste viene con su motivo', (avisoDelOlvido(d, olvidoDeLaTemporada(d)) ?? '').length > 30);
+  ok('y si no hubo desgaste, no se dice nada', avisoDelOlvido(con({}), 0) === null);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

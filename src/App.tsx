@@ -41,6 +41,7 @@ import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGI
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
 import { duenosDeLasCamisetas, podesPedirLaCamiseta, elDiaQueTeLaPonen, CAMISETAS_CON_DUENO, HINCHADA_POR_LA_CAMISETA } from './laCamiseta';
+import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, avisoDelOlvido } from './elOlvido';
 import { guardarDeclaracion } from './hemeroteca';
 import { crecimientoDelPibe, destinoDelPibe, NIVEL_INICIAL, type Pibe } from './elPibe';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
@@ -812,6 +813,41 @@ function avanzarAlPibeSolo(profile: PlayerProfile, newWeek: number): PlayerProfi
  * que es cuando se reparten de verdad. Y va de la mas pesada a la mas liviana: si te ganaste la 10,
  * no tiene sentido ofrecerte la 9.
  */
+/**
+ * EL OLVIDO, al cerrar la temporada.
+ *
+ * Va DESPUES de la camiseta y ANTES de la lista de transferibles: el club decide si te pone en la
+ * lista mirando el prestigio que te queda despues de que la temporada te desgastara, no el que
+ * tenias en enero.
+ *
+ * Y se cuenta siempre: un desgaste de quince puntos que aparece sin explicacion es exactamente el
+ * impuesto escondido que este juego viene evitando -- el numero cambia solo y parece un bug.
+ */
+function applyOlvidoIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
+
+  const datos = {
+    titularidades: profile.titularidadesEnLaTemporada ?? 0,
+    suplencias: profile.suplenciasEnLaTemporada ?? 0,
+    promedioDeNota: evaluarForma(profile.formaReciente ?? [], profile.currentWeek).promedio,
+    edad: profile.age,
+    prestigioActual: profile.prestige,
+    campeonatos: profile.careerStats.campeonatos,
+    balonesDeOro: (profile.ballonDorHistory ?? []).filter(b => b.rank === 1).length,
+  };
+  const olvido = olvidoDeLaTemporada(datos);
+  const aviso = avisoDelOlvido(datos, olvido);
+
+  return {
+    ...profile,
+    prestige: prestigioDespuesDelOlvido(datos),
+    // Los contadores arrancan de cero para la temporada nueva, y recien DESPUES de haberlos usado.
+    titularidadesEnLaTemporada: 0,
+    suplenciasEnLaTemporada: 0,
+    ...(aviso ? { ultimoOlvido: aviso } : {}),
+  };
+}
+
 function applyCamisetaIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
   // Si ya llevas una de las tres, no hay nada que disputar: ya la tenes.
@@ -1393,6 +1429,7 @@ function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, ne
   // ANTES del crecimiento: la camiseta se reparte en pretemporada, mirando lo que fuiste la
   // temporada que acaba de terminar, no lo que vas a ser en la que viene.
   next = applyCamisetaIfNewSeason(next, previousWeek, newWeek);
+  next = applyOlvidoIfNewSeason(next, previousWeek, newWeek);
   next = applyHardcoreGrowthIfNewSeason(next, previousWeek, newWeek);
   next = applyAgingIfNewSeason(next, previousWeek, newWeek);
   next = applyCoachChangeIfNewSeason(next, previousWeek, newWeek);
@@ -1678,6 +1715,14 @@ export default function App() {
     // El informe de la temporada en hardcore. Sin entrenamiento, esto es lo UNICO que le explica al
     // jugador por que sus atributos se movieron: sin el aviso, los numeros cambian solos y parece un
     // bug. Se cuenta una vez y se limpia.
+    // EL OLVIDO. Va primero de todo porque es la unica cosa del juego que te BAJA un numero sin que
+    // hayas hecho nada visible: sin el aviso, el prestigio se cae solo y parece un bug.
+    if (playerProfile.ultimoOlvido) {
+      notify(`📉 ${playerProfile.ultimoOlvido}`);
+      setPlayerProfile(p => (p ? { ...p, ultimoOlvido: undefined } : p));
+      return;
+    }
+
     // LA CAMISETA. Va primero porque cambia el numero que el jugador ve al lado de su nombre en
     // TODAS las pantallas: si cambia sin avisar, parece un bug.
     if (playerProfile.camisetaGanada) {
@@ -1729,7 +1774,7 @@ export default function App() {
       notify(`✅ ${AVISO_TE_QUEDAS}`);
     }
     listaAnterior.current = ahora;
-  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore, playerProfile?.ultimaSecuela, playerProfile?.destinoDelPibeReciente, playerProfile?.camisetaGanada]);
+  }, [playerProfile?.listaDeTransferibles, playerProfile?.ventaForzada, playerProfile?.ultimoInformeHardcore, playerProfile?.ultimaSecuela, playerProfile?.destinoDelPibeReciente, playerProfile?.camisetaGanada, playerProfile?.ultimoOlvido]);
 
   /**
    * EL BAUTIZO. El apodo se calcula solo (src/apodo.ts), pero que te lo PONGAN es un momento, y un
@@ -5614,6 +5659,13 @@ export default function App() {
       uefaCups: updatedUefaCups,
       worldCups: updatedWorldCups,
       eliminatorias: updatedEliminatorias,
+      // ARRANCAR NO ES LO MISMO QUE ENTRAR, y hasta aca no habia forma de distinguirlo al cerrar la
+      // temporada. Lo necesita el olvido (src/elOlvido.ts): al que entra veinte minutos lo recuerdan
+      // un tercio de lo que recuerdan al titular.
+      titularidadesEnLaTemporada: (playerProfile.titularidadesEnLaTemporada ?? 0)
+        + (activeLineupStatus === 'starter' ? 1 : 0),
+      suplenciasEnLaTemporada: (playerProfile.suplenciasEnLaTemporada ?? 0)
+        + (activeLineupStatus === 'starter' ? 0 : 1),
       careerStats: {
         goles: playerProfile.careerStats.goles + results.goles,
         asistencias: playerProfile.careerStats.asistencias + results.asistencias,

@@ -28,6 +28,19 @@
 //     ganando 1-0:    conservadora +2.52   arriesgada +2.28
 //     perdiendo 0-1:  conservadora +2.28   arriesgada +3.31
 //
+// Y LA OTRA MITAD, EL OLVIDO (src/elOlvido.ts): el prestigio ahora tambien baja al cerrar cada
+// temporada, segun cuanto jugaste y como. El que juega y rinde no pierde nada -- ni a los 37. El que
+// no juega pierde mucho:
+//
+//     30 partidos rindiendo, a cualquier edad    no pierde nada
+//     30 partidos flojos a los 35                -9.6
+//     todo el anio de suplente                   -7.4
+//     lesionado casi todo el anio                -17.6
+//     no jugo nunca, 33 anios                    -28.6
+//
+// Con un piso que depende de tu vitrina: lo que GANASTE queda, lo que SOS se olvida. El piso ademas
+// impide la espiral -- nunca te deja por debajo del umbral de convocatoria.
+//
 // LO QUE SIGUE SIN ESTAR BIEN, y queda anotado para el que venga: un delantero sube dos veces y
 // media mas rapido que un defensor (+3.03 contra +1.16, o 17 partidos contra 44). Eso no se arregla
 // con una escala: hay que tocar los efectos de las bolsas de DEFENSOR_EARLY y DEFENSOR_LATE, que es
@@ -35,6 +48,7 @@
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
 import { factorDeMarcaPersonal } from '../src/dificultad';
+import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, pisoDelOlvido } from '../src/elOlvido';
 
 const N = 20000;
 
@@ -96,3 +110,29 @@ medir('  conservadora', 70, 50, 'Mediocampista', 2, 1, 0);
 console.log('\nPERDIENDO 0-1 (el partido pide intentarla):');
 medir('  arriesgada', 70, 50, 'Mediocampista', 0, 0, 1);
 medir('  conservadora', 70, 50, 'Mediocampista', 2, 0, 1);
+
+// ==================================================================================================
+// EL OLVIDO: cuanto prestigio te saca una temporada. La otra mitad del rebalanceo.
+// ==================================================================================================
+console.log('\nEL OLVIDO -- cuanto te saca la temporada que cierra:');
+const casos: [string, number, number, number | null, number][] = [
+  // etiqueta,                          titular, suplente, nota, edad
+  ['30 partidos rindiendo, 27 años',         30, 0, 7.0, 27],
+  ['30 partidos rindiendo, 37 años',         30, 0, 7.0, 37],
+  ['30 partidos flojos, 27 años',            30, 0, 5.5, 27],
+  ['30 partidos flojos, 35 años',            30, 0, 5.5, 35],
+  ['media temporada (15), bien, 30 años',    15, 0, 7.0, 30],
+  ['todo el año de suplente (38)',            0, 38, 6.5, 30],
+  ['lesionado casi todo el año (4)',          4, 0, 6.5, 30],
+  ['no jugó nunca, 33 años',                  0, 0, null, 33],
+];
+for (const [etiqueta, tit, sup, nota, edad] of casos) {
+  const d = { titularidades: tit, suplencias: sup, promedioDeNota: nota, edad,
+    prestigioActual: 90, campeonatos: 0, balonesDeOro: 0 };
+  const o = olvidoDeLaTemporada(d);
+  console.log(`  ${etiqueta.padEnd(38)} ${o === 0 ? 'no pierde nada' : `-${o.toFixed(1)}`}   (de 90 queda ${prestigioDespuesDelOlvido(d)})`);
+}
+console.log('\n  El piso, segun la vitrina:');
+for (const [t, b] of [[0, 0], [3, 0], [8, 1], [15, 3]] as [number, number][]) {
+  console.log(`    ${t} titulos, ${b} balones de oro -> no baja de ${pisoDelOlvido(t, b)}`);
+}

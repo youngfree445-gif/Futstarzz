@@ -319,6 +319,17 @@ export interface PlayerProfile {
    * LA CAMISETA QUE TE GANASTE, para contarlo una vez y limpiarlo. Ver src/laCamiseta.ts.
    */
   camisetaGanada?: { dorsal: number; deQuien: string | null; semana: number };
+  /**
+   * TITULARIDADES Y SUPLENCIAS DE LA TEMPORADA EN CURSO, para el olvido (ver src/elOlvido.ts).
+   *
+   * Hacían falta separadas y no había ninguna: `careerStats.partidos` no distingue arrancar de
+   * entrar, y para "que se acuerden de vos" esas dos cosas no valen lo mismo. Se reinician al
+   * cerrar cada temporada, justo después de calcular el desgaste.
+   */
+  titularidadesEnLaTemporada?: number;
+  suplenciasEnLaTemporada?: number;
+  /** El desgaste recién ocurrido, para contarlo una vez y limpiarlo. */
+  ultimoOlvido?: string;
   // Cabeza a cabeza contra cada rival que enfrentaste, clave = nombre del rival tal como aparece en
   // el calendario (mismo valor que DatedResult.opponentName). No hay catálogo de "clásicos" fijo:
   // el rival más enfrentado en tu propia carrera es tu clásico de facto. Se actualiza en
