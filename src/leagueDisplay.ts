@@ -66,10 +66,30 @@ const SECOND_DIVISION_DISPLAY_INFO: Record<string, { flag: string; name: string 
   Portuguesa: { flag: '🇵🇹', name: 'Liga Portugal 2' },
 };
 
+/**
+ * LA TERCERA DIVISIÓN, que hoy sólo existe en Argentina (20 clubes; ninguna otra liga de la base
+ * tiene división 3).
+ *
+ * Sin esta tabla esos veinte caían al mapa de PRIMERA y salían rotulados "Liga Profesional
+ * Argentina" -- o sea que la primera argentina aparecía con CINCUENTA clubes en vez de treinta.
+ * Reportado mirando la lista de clubes: "en la liga argentina tienes 50 equipos en primera, son 30".
+ *
+ * Y el nombre lleva las dos competiciones a propósito: la tercera argentina son DOS ligas paralelas,
+ * y de estos veinte, ocho juegan la Primera B Metropolitana y seis el Torneo Federal A (según el
+ * ranking de Opta). Un solo nombre sería más prolijo y sería falso.
+ */
+const THIRD_DIVISION_DISPLAY_INFO: Record<string, { flag: string; name: string }> = {
+  Argentina: { flag: '🇦🇷', name: 'Primera B / Federal A' },
+};
+
 export function getLeagueDisplay(league: string | undefined, division?: number): { flag: string; name: string } {
   if (division === 2) {
     const segunda = SECOND_DIVISION_DISPLAY_INFO[league ?? ''];
     if (segunda) return segunda;
+  }
+  if (division != null && division >= 3) {
+    const tercera = THIRD_DIVISION_DISPLAY_INFO[league ?? ''];
+    if (tercera) return tercera;
   }
   return LEAGUE_DISPLAY_INFO[league ?? ''] ?? { flag: '🌍', name: 'Liga Doméstica' };
 }
