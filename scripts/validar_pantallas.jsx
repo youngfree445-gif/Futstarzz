@@ -471,6 +471,29 @@ caso('camiseta: la 10 se ve distinta', () =>
 caso('camiseta: un numero cualquiera no se disfraza de 10', () =>
   dibujar(perfilDe(junior, { dorsal: 27 }), 'carrera', null, 'data-camiseta'));
 
+// --- LA TIRA DE ESTADO DEL ENCABEZADO -----------------------------------------------------------
+//
+// Eran siete copias del mismo bloque de veinte lineas, y al unificarlas en un componente lo que hay
+// que cuidar es que no se caiga ninguna por el camino. Se buscan por su marca y no por el rotulo:
+// "Capital" y "Mente" aparecen en otros lados de la pantalla.
+caso('encabezado: estan las siete metricas', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', 'data-barra-de-estado');
+  const faltan = ['energia', 'capital', 'dt', 'plantel', 'hinchada', 'entorno', 'mente']
+    .filter(k => !html.includes(`data-medidor="${k}"`));
+  if (faltan.length) throw new Error(`faltan medidores: ${faltan.join(', ')}`);
+  return html;
+});
+
+// Y QUE EN ESCRITORIO NO ENVUELVA. Envolver a dos filas contra el borde derecho es exactamente lo
+// que se veia amontonado en la captura que lo reporto.
+caso('encabezado: en escritorio la tira no envuelve', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', 'md:flex-nowrap');
+  if (/data-barra-de-estado[^>]*md:flex-wrap/.test(html)) {
+    throw new Error('la tira volvio a envolver en escritorio');
+  }
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`

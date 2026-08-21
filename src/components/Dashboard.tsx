@@ -6,6 +6,7 @@ import { clasicoPersonalContra } from '../clasicoPersonal';
 import { loQueDiceDeVos } from '../elPibe';
 import { CAMISETAS_CON_DUENO } from '../laCamiseta';
 import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSecciones';
+import { BarraDeEstado } from './BarraDeEstado';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -3097,127 +3098,44 @@ export default function Dashboard({
             )}
           </div>
 
-          {/* En móvil las siete métricas iban en una grilla de 2 columnas: cuatro filas altas que, con
-              el header pegado arriba, se comían media pantalla. Ahí son una tira que se desliza en
-              horizontal (de ahí el shrink-0 de cada tarjeta), así el header ocupa una sola fila.
-              
-              En ESCRITORIO, en cambio, la tira NO se desliza: se envuelve. Con el deslizamiento, la
-              última métrica quedaba cortada contra el borde de la ventana y sólo se llegaba a ella
-              con scroll horizontal -- que en una barra de estado nadie busca, porque nada indica que
-              haya algo más a la derecha. Reportado con captura: "mira como lo último no entra".
-              
-              Envolver es preferible a encoger las tarjetas: el ancho de cada una lo fija su texto
-              ("Relación DT 52/100"), así que apretarlas parte las palabras. Si no entran en una
-              fila, bajan a la siguiente y se ven todas. */}
-          <div className="flex overflow-x-auto md:overflow-x-visible md:flex-wrap md:justify-end items-center gap-2 md:gap-y-1.5 md:gap-x-2 text-xs font-mono w-full md:w-auto min-w-0 -mx-1 px-1 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
-              <Zap size={14} className="text-burgundy-500" />
-              <div>
-                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>Energía</span>
-                  <span className="text-white">{playerProfile.energy}/100</span>
-                </div>
-                <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                  <div 
-                    className="bg-burgundy-500 h-full rounded-full transition-[width] duration-500 ease-out"
-                    style={{ width: `${playerProfile.energy}%` }}
-                  />
-                </div>
-              </div>
-            </div>
+          {/* LA TIRA DE ESTADO vive en src/components/BarraDeEstado.tsx.
+              Eran SIETE copias del mismo bloque de veinte lineas -- ciento cuarenta lineas para
+              mostrar siete numeros -- y por eso nunca mejoraba: cualquier cambio de forma habia que
+              hacerlo siete veces. Ahi esta explicado por que en escritorio se veia amontonada. */}
+          <BarraDeEstado
+            metricas={[
+              { clave: 'energia', rotulo: 'Energía', Icono: Zap,
+                colorIcono: 'text-burgundy-500', colorBarra: 'bg-burgundy-500',
+                valor: playerProfile.energy, texto: `${playerProfile.energy}/100` },
+              { clave: 'capital', rotulo: 'Capital', Icono: DollarSign,
+                colorIcono: 'text-gold-400', colorBarra: '',
+                valor: null, texto: `$${capitalQueCuenta.toLocaleString()}` },
 
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
-              <DollarSign size={14} className="text-gold-400 font-bold" />
-              <div>
-                <span className="text-3xs text-slate-500 block leading-none font-bold uppercase">Capital</span>
-                <span className="text-xs text-white font-black anim-cuenta">${capitalQueCuenta.toLocaleString()}</span>
-              </div>
-            </div>
+              // COMO TE VE EL FUTBOL. "DT" y no "Relacion DT": es el rotulo largo de la tira y el
+              // `title` deja el nombre completo a un hover. Los textos que EXPLICAN la metrica -- el
+              // de la renovacion, por ejemplo -- la siguen nombrando entera.
+              { clave: 'dt', rotulo: 'DT', nombreLargo: 'Relación con el DT', Icono: Star,
+                colorIcono: 'text-yellow-400', colorBarra: 'bg-yellow-500',
+                valor: playerProfile.prestige, texto: `${playerProfile.prestige}/100`,
+                abreGrupo: true },
+              { clave: 'plantel', rotulo: 'Plantel', nombreLargo: 'Relación con tus compañeros de plantel',
+                Icono: Users, colorIcono: 'text-sky-400', colorBarra: 'bg-sky-500',
+                valor: playerProfile.prestigeCompaneros ?? playerProfile.prestige,
+                texto: `${playerProfile.prestigeCompaneros ?? playerProfile.prestige}/100` },
+              { clave: 'hinchada', rotulo: 'Hinchada', Icono: Heart,
+                colorIcono: 'text-rose-500', colorBarra: 'bg-rose-500',
+                valor: playerProfile.fans, texto: `${playerProfile.fans}/100` },
 
-            {/* "DT" y no "Relación DT": son los dos rótulos largos de la tira y los que la
-                empujaban a un segundo renglón. El `title` deja el nombre completo a un hover de
-                distancia, y los textos que EXPLICAN la métrica -- el de la renovación, por
-                ejemplo -- la siguen nombrando entera, que es donde el espacio no falta. */}
-            <div title="Relación con el DT" className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
-              <Star size={14} className="text-yellow-400" />
-              <div>
-                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>DT</span>
-                  <span className="text-white">{playerProfile.prestige}/100</span>
-                </div>
-                <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                  <div
-                    className="bg-yellow-500 h-full rounded-full transition-[width] duration-500 ease-out"
-                    style={{ width: `${playerProfile.prestige}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div title="Relación con tus compañeros de plantel" className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
-              <Users size={14} className="text-sky-400" />
-              <div>
-                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>Plantel</span>
-                  <span className="text-white">{playerProfile.prestigeCompaneros ?? playerProfile.prestige}/100</span>
-                </div>
-                <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                  <div
-                    className="bg-sky-500 h-full rounded-full transition-[width] duration-500 ease-out"
-                    style={{ width: `${playerProfile.prestigeCompaneros ?? playerProfile.prestige}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
-              <Heart size={14} className="text-rose-500" />
-              <div>
-                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>Hinchada</span>
-                  <span className="text-white">{playerProfile.fans}/100</span>
-                </div>
-                <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                  <div
-                    className="bg-rose-500 h-full rounded-full transition-[width] duration-500 ease-out"
-                    style={{ width: `${playerProfile.fans}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
-              <Home size={14} className="text-emerald-400" />
-              <div>
-                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>Entorno</span>
-                  <span className="text-white">{playerProfile.entorno ?? 60}/100</span>
-                </div>
-                <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                  <div
-                    className="bg-emerald-500 h-full rounded-full transition-[width] duration-500 ease-out"
-                    style={{ width: `${playerProfile.entorno ?? 60}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="shrink-0 flex items-center gap-2 bg-slate-950 px-2 py-1 rounded-xl border border-slate-800">
-              <Brain size={14} className="text-sky-400" />
-              <div>
-                <div className="flex justify-between items-center text-3xs text-slate-400 font-bold uppercase leading-none min-w-[64px] gap-2">
-                  <span>Mente</span>
-                  <span className="text-white">{playerProfile.mentalHealth}/100</span>
-                </div>
-                <div className="w-16 bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                  <div
-                    className="bg-sky-400 h-full rounded-full transition-[width] duration-500 ease-out"
-                    style={{ width: `${playerProfile.mentalHealth}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+              // LO QUE EL FUTBOL TE VA COSTANDO. Son las dos que bajan solas sin que hagas nada mal.
+              { clave: 'entorno', rotulo: 'Entorno', nombreLargo: 'Familia y amigos', Icono: Home,
+                colorIcono: 'text-emerald-400', colorBarra: 'bg-emerald-500',
+                valor: playerProfile.entorno ?? 60, texto: `${playerProfile.entorno ?? 60}/100`,
+                abreGrupo: true },
+              { clave: 'mente', rotulo: 'Mente', Icono: Brain,
+                colorIcono: 'text-sky-400', colorBarra: 'bg-sky-400',
+                valor: playerProfile.mentalHealth, texto: `${playerProfile.mentalHealth}/100` },
+            ]}
+          />
         </header>
 
         {/* Un solo panel que cambia de contenido, en vez de once paneles ocultos: por eso lleva un
