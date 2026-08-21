@@ -44,6 +44,8 @@ import { anotarTarjetaDelPartido, cumplirFechaDeSancion, cuentaDe } from './sanc
 import { varaDeTitularidad, varaDeConvocatoria } from './fuerzaDelClub';
 import { simularPartidoCompleto } from './partidoSimulado';
 import { PartidoSimulandose } from './components/PartidoSimulandose';
+import { PortadaDeFichaje } from './components/PortadaDeFichaje';
+import { EntrevistaDeFichaje } from './components/EntrevistaDeFichaje';
 import { POOLS_DE_DECISION } from './components/MatchSimulator';
 import { duenosDeLasCamisetas, podesPedirLaCamiseta, elDiaQueTeLaPonen, CAMISETAS_CON_DUENO, HINCHADA_POR_LA_CAMISETA } from './laCamiseta';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, avisoDelOlvido } from './elOlvido';
@@ -1680,6 +1682,23 @@ export default function App() {
   // Fase 4 -- Logros: cola de notificaciones tipo Xbox pendientes de mostrar (AchievementToast en
   // App.tsx render). Se apilan si se desbloquea más de uno a la vez y se muestran de a una.
   const [achievementQueue, setAchievementQueue] = useState<Achievement[]>([]);
+
+  // LA CEREMONIA DEL FICHAJE: portada del diario -> entrevista obligatoria -> vestuario.
+  //
+  // Antes un traspaso era un toast que se leía una vez y se iba, para el momento que más cambia una
+  // carrera: elegías el dorsal y ya estabas en otro club, sin que pasara nada en el medio.
+  //
+  // El traspaso YA ESTÁ HECHO cuando esto se prende -- el perfil se guardó y el club es el nuevo. La
+  // ceremonia no decide nada del pase: es lo que pasa después de firmar. Por eso si el juego se
+  // cerrara en la mitad, el fichaje sigue en pie y lo único que se pierde es la entrevista.
+  const [ceremoniaDeFichaje, setCeremoniaDeFichaje] = useState<
+    { clubId: string; anteriorId: string | null; salario: number; prima: number; dorsal: number } | null
+  >(null);
+  const [pasoDeLaCeremonia, setPasoDeLaCeremonia] = useState<'portada' | 'entrevista'>('portada');
+  // Un contador, no un booleano: es lo que le pide al Dashboard abrir la pestaña del club nuevo al
+  // terminar. Con un booleano el segundo fichaje de la carrera no abriría nada, porque el valor no
+  // habría cambiado.
+  const [pedidoDeMiClub, setPedidoDeMiClub] = useState(0);
   // Cola de avisos tipo toast (reemplazo no bloqueante de alert() nativo) -- ver notify() más abajo
   // y NoticeToast en App.tsx render. Se apilan si se dispara más de uno a la vez y se muestran de a uno.
   //
@@ -2910,9 +2929,57 @@ export default function App() {
 
     setPlayerProfile(withAchievements);
     saveGameState(withAchievements, shopItems);
-    notify(agentCommission > 0
-      ? `🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}. Tu agente se llevó $${agentCommission.toLocaleString()} de comisión.`
-      : `🎉 ¡TRASPASO CONFIRMADO! Todo listo para presentarte en: ${targetClub.name}.`);
+    if (agentCommission > 0) {
+      notify(`Tu agente se llevó $${agentCommission.toLocaleString()} de comisión por el pase.`);
+    }
+
+    // Y acá arranca la ceremonia. El salario sale de la oferta que aceptaste -- el handler no lo
+    // recibe, sólo la prima -- y si por lo que sea no está, el del club, que es de dónde salió.
+    const laOferta = playerProfile.pendingTransferOffers?.find(o => o.clubId === clubId);
+    setCeremoniaDeFichaje({
+      clubId,
+      anteriorId: previousClub?.id ?? null,
+      salario: laOferta?.salaryOffer ?? targetClub.initialSalary,
+      prima: signOnBonus,
+      dorsal: newDorsal,
+    });
+    setPasoDeLaCeremonia('portada');
+  };
+
+  /**
+   * LO QUE DIJISTE EN LA PRESENTACIÓN, aplicado de una sola vez.
+   *
+   * Los efectos son los mismos que los de la rueda de prensa (fans y prestigio, acotados), y la
+   * declaración más fuerte va al archivo con la MISMA función que usa la conferencia
+   * (`guardarDeclaracion`). Si tuviera una regla propia habría dos hemerotecas que se pueden
+   * contradecir, que es exactamente el error que este juego ya cometió varias veces.
+   */
+  const handleTerminarEntrevistaDeFichaje = (
+    r: { fans: number; prestigio: number; declaracion: { texto: string } | null },
+  ) => {
+    setCeremoniaDeFichaje(null);
+    if (!playerProfile) return;
+    const acotado = (n: number) => Math.max(0, Math.min(100, n));
+    const club = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    const saldo = r.fans + r.prestigio;
+    const actualizado: PlayerProfile = {
+      ...playerProfile,
+      fans: acotado(playerProfile.fans + r.fans),
+      prestige: acotado(playerProfile.prestige + r.prestigio),
+      declaraciones: r.declaracion
+        ? guardarDeclaracion(playerProfile.declaraciones ?? [], {
+            texto: r.declaracion.texto,
+            saldo,
+            semana: playerProfile.currentWeek,
+            clubId: playerProfile.currentClubId,
+            clubName: club?.name ?? 'su club',
+          })
+        : (playerProfile.declaraciones ?? []),
+    };
+    setPlayerProfile(actualizado);
+    saveGameState(actualizado, shopItems);
+    // Y recién ahora, la pantalla del club nuevo: el pase termina donde empieza el trabajo.
+    setPedidoDeMiClub(n => n + 1);
   };
 
   // Última fecha real del año ya jugada, con liga+copas cerradas (ver temporadaRealTerminada en
@@ -5951,6 +6018,40 @@ export default function App() {
         />
       )}
 
+      {/* LA CEREMONIA DEL FICHAJE. Va tapando todo -- portada primero, entrevista después -- y no
+          tiene botón de cerrar: la entrevista es obligatoria y se sale por el final.
+
+          Se dibuja acá arriba y no dentro del dashboard porque el traspaso te cambia el club por
+          debajo: si esto viviera en la pestaña de Traspasos, la lista de ofertas se estaría
+          re-armando contra el club nuevo justo detrás de la portada. */}
+      {ceremoniaDeFichaje && playerProfile && (() => {
+        const club = CLUBS_DATABASE.find(c => c.id === ceremoniaDeFichaje.clubId);
+        if (!club) return null;
+        const anterior = CLUBS_DATABASE.find(c => c.id === ceremoniaDeFichaje.anteriorId) ?? null;
+        return (
+          <div className="fixed inset-0 z-[60] overflow-y-auto bg-slate-950">
+            {pasoDeLaCeremonia === 'portada' ? (
+              <PortadaDeFichaje
+                perfil={playerProfile}
+                club={club}
+                anterior={anterior}
+                salario={ceremoniaDeFichaje.salario}
+                prima={ceremoniaDeFichaje.prima}
+                dorsal={ceremoniaDeFichaje.dorsal}
+                onContinuar={() => setPasoDeLaCeremonia('entrevista')}
+              />
+            ) : (
+              <EntrevistaDeFichaje
+                perfil={playerProfile}
+                club={club}
+                anterior={anterior}
+                onTerminar={handleTerminarEntrevistaDeFichaje}
+              />
+            )}
+          </div>
+        );
+      })()}
+
       {/* Festejo de campeón. Se muestra recién en el dashboard: si apareciera sobre el resumen de
           post-partido taparía el resultado que acaba de coronar al equipo. */}
       {championInfo && screen === 'dashboard' && playerProfile && (
@@ -6059,6 +6160,7 @@ export default function App() {
           onSocialInteraction={handleSocialInteraction}
           onLogout={() => setScreen('welcome')}
           onResetGame={handleResetGame}
+          abrirEnMiClub={pedidoDeMiClub}
         />
       )}
 

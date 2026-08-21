@@ -353,6 +353,15 @@ interface DashboardProps {
    * lista de convocados: el caso pasaba en verde y la lista no se estaba dibujando.
    */
   initialTab?: SeccionKey;
+  /**
+   * EL PEDIDO DE ABRIR LA PESTAÑA DEL CLUB, al terminar la ceremonia de un fichaje.
+   *
+   * Es un contador y no un booleano ni una clave: lo que importa es que CAMBIÓ, no cuánto vale.
+   * Con un booleano el segundo fichaje de la carrera no abriría nada (el valor ya estaba en true),
+   * y con `initialTab` tampoco alcanzaba, porque ése se lee una sola vez al montar el dashboard y
+   * el dashboard nunca se desmonta.
+   */
+  abrirEnMiClub?: number;
 }
 
 /** Las tres columnas de Mi Carrera. En celular se ve una por vez (ver BarraDeSecciones). */
@@ -421,9 +430,17 @@ export default function Dashboard({
   onSocialInteraction,
   onLogout,
   onResetGame,
-  initialTab
+  initialTab,
+  abrirEnMiClub
 }: DashboardProps) {
   const [activeTab, setActiveTab] = useState<SeccionKey>(initialTab ?? 'carrera');
+
+  // Al terminar la presentación en el club nuevo, el juego te deja en la plantilla de tu club:
+  // el pase termina donde empieza el trabajo. Se dispara sólo cuando el contador cambia, así que
+  // no le pisa la pestaña a nadie que esté navegando.
+  useEffect(() => {
+    if (abrirEnMiClub) setActiveTab('mi_club');
+  }, [abrirEnMiClub]);
   // En móvil el menú arranca cerrado. La barra lateral es `w-full` en pantallas chicas, así que las
   // once pestañas se desplegaban enteras ARRIBA del contenido: había que hacer scroll por todas
   // antes de ver los atributos o el botón de jugar. En md+ no aplica -- la barra es una columna al

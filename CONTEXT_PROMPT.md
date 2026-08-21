@@ -70,6 +70,14 @@ corren su calendario y tabla en simultáneo de fondo.
   Dashboard.tsx: `MENTEE_MAX_AGE` (≤20, a quién podés apadrinar) y
   `MENTOR_MIN_AGE`/`MENTEE_SELF_MAX_AGE` (30+ / ≤23, quién te apadrina a vos).
   Los vínculos son con **compañeros**, así que se cortan al cambiar de club
+- `entrevistaDeFichaje.ts` + `components/PortadaDeFichaje.tsx` +
+  `components/EntrevistaDeFichaje.tsx` — **la ceremonia del fichaje**: portada de
+  diario (escudo difuminado sobre los colores del club) y entrevista obligatoria de
+  tres preguntas, y recién ahí caés en la pestaña de tu club nuevo. El traspaso ya
+  está hecho cuando la ceremonia arranca: no decide nada del pase, pasa después de
+  firmar. Lo que contestás va al archivo con la **misma** `guardarDeclaracion` que
+  usa la rueda de prensa, así no hay dos hemerotecas que se puedan contradecir.
+  Validador: `npm run validar:fichaje`
 - `palmares.ts` — la vitrina de trofeos, **derivada** del perfil (no se guarda
   aparte, así una partida vieja muestra su palmarés sin migrar nada). Ojo con la
   diferencia entre "no quedan partidos" y "no hay partidos": las ligas con
