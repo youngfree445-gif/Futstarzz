@@ -24,8 +24,9 @@ import { clasicoPersonalContra, elClasicoDeTuCarrera, PARTIDOS_PARA_QUE_SEA_CLAS
 import { crecimientoDelPibe, destinoDelPibe, chanceDeLlegar, loQueDiceDeVos, NIVEL_INICIAL, NIVEL_PARA_LLEGAR, TEMPORADAS_PARA_DEFINIRSE, type Pibe } from '../src/elPibe';
 import { duenosDeLasCamisetas, podesPedirLaCamiseta, pesoDeLlevarla, VENTAJA_PARA_QUITARSELA } from '../src/laCamiseta';
 import { factorDeMarcaPersonal } from '../src/dificultad';
-import { pesoDeLaSituacion, prestigioDeLaJugada, queEstaPidiendoElPartido, CUANTO_VALE_UN_PUNTO, MINUTO_EN_QUE_IMPORTA } from '../src/decisionDelPartido';
+import { pesoDeLaSituacion, prestigioDeLaJugada, queEstaPidiendoElPartido, chanceDeAcertar, CUANTO_VALE_UN_PUNTO, MINUTO_EN_QUE_IMPORTA } from '../src/decisionDelPartido';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, pisoDelOlvido, partidosQueCuentan, avisoDelOlvido, PISO_MAXIMO, PARTIDOS_PARA_QUE_NO_TE_OLVIDEN } from '../src/elOlvido';
+import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 
 let fallas = 0;
 let corridos = 0;
@@ -828,6 +829,52 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   const d = con({ titularidades: 2, suplencias: 0, promedioDeNota: 5.5 });
   ok('el desgaste viene con su motivo', (avisoDelOlvido(d, olvidoDeLaTemporada(d)) ?? '').length > 30);
   ok('y si no hubo desgaste, no se dice nada', avisoDelOlvido(con({}), 0) === null);
+}
+
+// --- QUE NINGUN PUESTO SEA UNA DESVENTAJA -------------------------------------------------------
+//
+// Elegir defensor no puede costarte la carrera. Medido antes de arreglarlo: un defensor tardaba 44
+// partidos en llegar al maximo de prestigio y un delantero 17, dos veces y media mas lento.
+//
+// Y la causa no era la que uno supondria. No eran los premios ni las probabilidades -- el defensor
+// acertaba igual de seguido (74% contra 71%) y cobraba casi lo mismo por acertar. Lo que lo hundia
+// era el CASTIGO: -6.07 contra -3.22, casi el doble.
+//
+// Este caso vigila el valor esperado de cada bolsa para que nadie pueda agregar una jugada nueva y
+// desnivelar un puesto sin enterarse. No pide que sean iguales: pide que ninguno quede afuera.
+{
+  const evDeLaBolsa = (puesto: string) => {
+    const p: any = (POOLS_DE_DECISION as any)[puesto];
+    const opciones = [...p.early, ...p.late]
+      .filter((d: any) => !d.kickMode)
+      .flatMap((d: any) => d.choices);
+    const total = opciones.reduce((suma: number, o: any) => {
+      // Un jugador de 70, sin marca y sin ruido: la referencia.
+      const chance = chanceDeAcertar({
+        atributo: 70, minVal: o.minVal, successChance: o.successChance,
+        presion: 1, marcaFactor: 1, ruido: 0,
+      });
+      return suma + chance * (o.effectOnSuccess.prestige ?? 0)
+        + (1 - chance) * (o.effectOnFail.prestige ?? 0);
+    }, 0);
+    return total / opciones.length;
+  };
+
+  const puestos = ['Delantero', 'Mediocampista', 'Defensor', 'Arquero'];
+  const evs = puestos.map(evDeLaBolsa);
+  const peor = Math.min(...evs);
+  const mejor = Math.max(...evs);
+
+  for (let i = 0; i < puestos.length; i++) {
+    ok(`${puestos[i]} rinde algo`, evs[i] > 0, `+${evs[i].toFixed(2)} por jugada`);
+  }
+  // El defensor era el que quedaba afuera, y por eso tiene su propio caso con nombre.
+  ok('el defensor no es una desventaja', evDeLaBolsa('Defensor') >= 1.3,
+    `+${evDeLaBolsa('Defensor').toFixed(2)}`);
+  // Y ninguno puede quedar a menos del 70% del mejor: un puesto que rinde la mitad es un puesto que
+  // nadie deberia elegir, y el juego no deberia tener puestos asi.
+  ok('ningun puesto rinde menos del 70% del mejor', peor / mejor >= 0.7,
+    `${(peor / mejor * 100).toFixed(0)}%`);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);

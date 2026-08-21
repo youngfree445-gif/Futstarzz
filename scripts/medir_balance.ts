@@ -41,10 +41,16 @@
 // Con un piso que depende de tu vitrina: lo que GANASTE queda, lo que SOS se olvida. El piso ademas
 // impide la espiral -- nunca te deja por debajo del umbral de convocatoria.
 //
-// LO QUE SIGUE SIN ESTAR BIEN, y queda anotado para el que venga: un delantero sube dos veces y
-// media mas rapido que un defensor (+3.03 contra +1.16, o 17 partidos contra 44). Eso no se arregla
-// con una escala: hay que tocar los efectos de las bolsas de DEFENSOR_EARLY y DEFENSOR_LATE, que es
-// un trabajo de catalogo y no de formula.
+// EL PUESTO YA NO ES UNA DESVENTAJA. Antes un defensor tardaba 44 partidos y un delantero 17. La
+// causa no era la que uno supondria: el defensor acertaba igual de seguido (74% contra 71%) y
+// cobraba casi lo mismo por acertar, pero el CASTIGO por fallar era casi el doble (-6.07 contra
+// -3.22). Se arreglo del lado del premio y no del castigo -- bajarle el castigo hubiera hecho que
+// defender deje de dar miedo, que es lo mejor que tiene la posicion.
+//
+//     Delantero 24    Mediocampista 21    Defensor 26    Arquero 21   (partidos de 50 a 100)
+//
+// Y hay un caso en validar:rachas que lo vigila, para que nadie desnivele un puesto agregando una
+// jugada sin enterarse.
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
 import { factorDeMarcaPersonal } from '../src/dificultad';
@@ -99,8 +105,21 @@ console.log('\nEligiendo SIEMPRE la primera opcion (la mas arriesgada):');
 medir('  jugador promedio (atributos 70)', 70, 50, 'Mediocampista', 0);
 console.log('\nEligiendo SIEMPRE la tercera (la mas conservadora):');
 medir('  jugador promedio (atributos 70)', 70, 50, 'Mediocampista', 2);
-console.log('\nPor puesto, jugador promedio, opcion del medio:');
-for (const p of ['Delantero', 'Mediocampista', 'Defensor', 'Arquero']) medir(`  ${p}`, 70, 50, p, 1);
+// POR PUESTO, PROMEDIANDO LAS TRES OPCIONES.
+//
+// Medir siempre "la del medio" es un proxy tramposo: cada bolsa ordena sus opciones distinto, asi
+// que el resultado depende de como quedo ordenada cada jugada y no de como paga el puesto. Con las
+// tres promediadas, lo que sale es cuanto rinde la posicion para un jugador que no siempre elige lo
+// mismo -- que es cualquier jugador.
+console.log('\nPor puesto, promediando las tres opciones:');
+for (const pos of ['Delantero', 'Mediocampista', 'Defensor', 'Arquero']) {
+  let total = 0;
+  for (const cual of [0, 1, 2] as const) {
+    for (let i = 0; i < N; i++) total += unPartido(70, 50, pos, cual);
+  }
+  const media = total / (N * 3);
+  console.log(`  ${pos.padEnd(42)} +${media.toFixed(2)} por partido   de 50 a 100 en ${Math.ceil(50 / media)} partidos`);
+}
 
 // LO QUE EL PARTIDO PIDE. Aca se ve si la eleccion de la pantalla de partido es una decision de
 // verdad o tiene una respuesta fija. Antes del rebalanceo, la arriesgada pagaba mas SIEMPRE.
