@@ -1,0 +1,264 @@
+{
+  "fuente": "https://www.transfermarkt.co/nec-nijmegen/startseite/verein/467/saison_id/2025",
+  "teamName": "NEC Nijmegen",
+  "players": [
+    {
+      "nombre": "Gonzalo Crettaz",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Jasper Cillessen",
+      "pos": "Portero",
+      "edad": 37,
+      "valor": 300000
+    },
+    {
+      "nombre": "Rijk Janse",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 50000
+    },
+    {
+      "nombre": "Freek Entius",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Martijn Overmars",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Ahmetcan Kaplan",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Philippe Sandler",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Deveron Fonville",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Brayann Pereira",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Eli Dasa",
+      "pos": "Defensa central",
+      "edad": 33,
+      "valor": 700000
+    },
+    {
+      "nombre": "Jetro Willems",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Bram Nuytinck",
+      "pos": "Defensa central",
+      "edad": 36,
+      "valor": 200000
+    },
+    {
+      "nombre": "Douwe Vernooij",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Yassin Moslih",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Mees Rensen",
+      "pos": "Defensa central",
+      "edad": 16,
+      "valor": 0
+    },
+    {
+      "nombre": "Calvin Verdonk",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Thomas Ouwejan",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 700000
+    },
+    {
+      "nombre": "Yousri Sbai",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Darko Nejasmic",
+      "pos": "Pivote",
+      "edad": 27,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Dirk Proper",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Merijn van de Wiel",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Kodai Sano",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 12000000
+    },
+    {
+      "nombre": "Isak Hansen-Aarøen",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 600000
+    },
+    {
+      "nombre": "Sam de Laat",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 75000
+    },
+    {
+      "nombre": "Noé Lebreton",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Willum Thór Willumsson",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Vito van Crooij",
+      "pos": "Mediocentro ofensivo",
+      "edad": 30,
+      "valor": 900000
+    },
+    {
+      "nombre": "Tjaronn Chery",
+      "pos": "Mediocentro ofensivo",
+      "edad": 38,
+      "valor": 400000
+    },
+    {
+      "nombre": "Argyris Darelas",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 325000
+    },
+    {
+      "nombre": "Başar Önal",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 7000000
+    },
+    {
+      "nombre": "Virgil Misidjan",
+      "pos": "Extremo izquierdo",
+      "edad": 32,
+      "valor": 400000
+    },
+    {
+      "nombre": "Luc Nieuwenhuijs",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Kevin Kers",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Sami Ouaissa",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 8000000
+    },
+    {
+      "nombre": "Sontje Hansen",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 3500000
+    },
+    {
+      "nombre": "Rober González",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 700000
+    },
+    {
+      "nombre": "Lars Olden Larsen",
+      "pos": "Mediapunta",
+      "edad": 27,
+      "valor": 600000
+    },
+    {
+      "nombre": "Kento Shiogai",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 8000000
+    },
+    {
+      "nombre": "Koki Ogawa",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Danilo",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Youssef El Kachati",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 650000
+    },
+    {
+      "nombre": "Bryan Linssen",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jesaja Mustapha",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

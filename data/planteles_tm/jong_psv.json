@@ -1,0 +1,324 @@
+{
+  "fuente": "https://www.transfermarkt.co/psv-eindhoven-ii/startseite/verein/9715/saison_id/2025",
+  "teamName": "Jong PSV",
+  "players": [
+    {
+      "nombre": "Nick Olij",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Niek Schiks",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 500000
+    },
+    {
+      "nombre": "Tijn Smolenaars",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Khadim Ngom",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 50000
+    },
+    {
+      "nombre": "Stijn Kuijsten",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Kane Aerts",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Jorvimar Martina",
+      "pos": "Defensa",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Adamo Nagalo",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 2800000
+    },
+    {
+      "nombre": "Fabian Merién",
+      "pos": "Defensa central",
+      "edad": 17,
+      "valor": 750000
+    },
+    {
+      "nombre": "Wessel Kuhn",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 500000
+    },
+    {
+      "nombre": "Madi Monamay",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Michael Bresser",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Sven van der Plas",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Floris Bos",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Sébas Ditmer",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Brent Jonkers",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Rens Boon",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Raf van de Riet",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "Rivas Manuhutu",
+      "pos": "Lateral izquierdo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Eus Waayers",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 350000
+    },
+    {
+      "nombre": "Essien Bassey",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Alseny Cissé",
+      "pos": "Lateral derecho",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Yiandro Raap",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 250000
+    },
+    {
+      "nombre": "Peter Quispel",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Boet Mulders",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Paul Wanner",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 22000000
+    },
+    {
+      "nombre": "Noah Fernandez",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Tygo Land",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Joël van den Berg",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Sol Sidibé",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Jordy Bawuah",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 500000
+    },
+    {
+      "nombre": "Tim van den Heuvel",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jaden de Guzmán",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Benjamin Khaderi",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Philip Holseter-Karlsen",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Isaac Babadi",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Nicolas Verkooijen",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 600000
+    },
+    {
+      "nombre": "Jim Koller",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 500000
+    },
+    {
+      "nombre": "Gino Verhulst",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Shuryjano Cornecion",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Anton Martynyuk",
+      "pos": "Mediocentro ofensivo",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Ayodele Thomas",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Amir Bouhamdi",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jairo Beerens",
+      "pos": "Extremo izquierdo",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Esmir Bajraktarevic",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 8000000
+    },
+    {
+      "nombre": "Tay Abed",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Fabio Kluit",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 250000
+    },
+    {
+      "nombre": "Manuel Bahaty",
+      "pos": "Extremo derecho",
+      "edad": 18,
+      "valor": 250000
+    },
+    {
+      "nombre": "Myron Boadu",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Robin van Duiven",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 700000
+    },
+    {
+      "nombre": "Sami Bouhoudane",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 400000
+    },
+    {
+      "nombre": "Austyn Jones",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Liam van Nistelrooy",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 0
+    }
+  ]
+}

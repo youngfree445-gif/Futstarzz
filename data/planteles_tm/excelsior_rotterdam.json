@@ -1,0 +1,204 @@
+{
+  "fuente": "https://www.transfermarkt.co/sbv-excelsior-rotterdam/startseite/verein/798/saison_id/2025",
+  "teamName": "Excelsior Rotterdam",
+  "players": [
+    {
+      "nombre": "Stijn van Gassel",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Calvin Raatsie",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Tijmen Holla",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 75000
+    },
+    {
+      "nombre": "Casper Widell",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Rick Meissen",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 800000
+    },
+    {
+      "nombre": "Lewis Schouten",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 700000
+    },
+    {
+      "nombre": "Stan Henderikx",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Guilliano Cairo",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Arthur Zagré",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Simon Janssen",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Ilias Bronkhorst",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 700000
+    },
+    {
+      "nombre": "Nolan Martens",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 450000
+    },
+    {
+      "nombre": "Hamdi Akujobi",
+      "pos": "Lateral derecho",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Adam Carlén",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Stijn Middendorp",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 225000
+    },
+    {
+      "nombre": "Gijs van den Berg",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Lennard Hartjes",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 800000
+    },
+    {
+      "nombre": "Chris-Kévin Nadje",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Mathijs Tielemans",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Irakli Yegoian",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 1800000
+    },
+    {
+      "nombre": "Noah Naujoks",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Noa el Hamdaoui",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Gyan de Regt",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 900000
+    },
+    {
+      "nombre": "Stefan Mitrović",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 800000
+    },
+    {
+      "nombre": "Emil Hansson",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 750000
+    },
+    {
+      "nombre": "Zach Booth",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Derensili Sanches Fernandes",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 900000
+    },
+    {
+      "nombre": "Miliano Jonathans",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 750000
+    },
+    {
+      "nombre": "Do-young Yoon",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 700000
+    },
+    {
+      "nombre": "Szymon Wlodarczyk",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 750000
+    },
+    {
+      "nombre": "Jerolldino Bergraaf",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "Mike van Duinen",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Nesto Groen",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 100000
+    }
+  ]
+}

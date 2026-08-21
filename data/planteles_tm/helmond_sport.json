@@ -1,0 +1,192 @@
+{
+  "fuente": "https://www.transfermarkt.co/helmond-sport/startseite/verein/500/saison_id/2025",
+  "teamName": "Helmond Sport",
+  "players": [
+    {
+      "nombre": "Menno Bergsen",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Hugo Wentges",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Kevin Aben",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Ward van Sleeuwen",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Wessel van der Heijden",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Flor Van den Eynden",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 325000
+    },
+    {
+      "nombre": "Brian Koglin",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 300000
+    },
+    {
+      "nombre": "Dennis Vos",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Tijn Landheer",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Thomas Poll",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Amir Absalem",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 300000
+    },
+    {
+      "nombre": "Amine Et-Taïbi",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 400000
+    },
+    {
+      "nombre": "Sem Dekkers",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Justin Ogenia",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 200000
+    },
+    {
+      "nombre": "Lion Semic",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 175000
+    },
+    {
+      "nombre": "Rayen van Bree",
+      "pos": "Lateral derecho",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Alen Dizdarevic",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Pol Llonch",
+      "pos": "Pivote",
+      "edad": 33,
+      "valor": 125000
+    },
+    {
+      "nombre": "Noah Makanza",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 450000
+    },
+    {
+      "nombre": "Dayen Geerts",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 150000
+    },
+    {
+      "nombre": "Michel Ludwig",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Helgi Fródi Ingason",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 250000
+    },
+    {
+      "nombre": "Khalid El Arnouki",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Lennerd Daneels",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 325000
+    },
+    {
+      "nombre": "Tarik Essakkati",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "André Leipold",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 225000
+    },
+    {
+      "nombre": "Onesime Zimuangana",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Labinot Bajrami",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 450000
+    },
+    {
+      "nombre": "Maik Lukowicz",
+      "pos": "Delantero centro",
+      "edad": 31,
+      "valor": 275000
+    },
+    {
+      "nombre": "Julian Geerts",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Jaden Janssen",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "fuente": "https://www.transfermarkt.co/roda-jc-kerkrade/startseite/verein/192/saison_id/2025",
+  "teamName": "Roda JC Kerkrade",
+  "players": [
+    {
+      "nombre": "Justin Treichel",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 450000
+    },
+    {
+      "nombre": "Ben Zich",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 125000
+    },
+    {
+      "nombre": "Jordy Steins",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 25000
+    },
+    {
+      "nombre": "Martin Stojcevic",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Casper Van Hemelryck-Bray",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Dario Van den Buijs",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 350000
+    },
+    {
+      "nombre": "Marco Tol",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 325000
+    },
+    {
+      "nombre": "Jonathan Foss",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Juul Timmermans",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Keanu Van Mieghem",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Koen Jansen",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Tim Köther",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 225000
+    },
+    {
+      "nombre": "Deni Aslachanov",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Jay Kruiver",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Reda El Meliani",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Yaya Stevelmans",
+      "pos": "Lateral derecho",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Joshua Nisbet",
+      "pos": "Pivote",
+      "edad": 27,
+      "valor": 650000
+    },
+    {
+      "nombre": "Joey Müller",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Lucas Beerten",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jérôme Déom",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Ilias Splinter",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Joshua Schwirten",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 225000
+    },
+    {
+      "nombre": "Mitchel Paulissen",
+      "pos": "Mediocentro ofensivo",
+      "edad": 33,
+      "valor": 125000
+    },
+    {
+      "nombre": "Ryan Leijten",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 125000
+    },
+    {
+      "nombre": "Noah Crabu",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Tomas Kalinauskas",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 450000
+    },
+    {
+      "nombre": "Cain Seedorf",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 275000
+    },
+    {
+      "nombre": "Luca Maiorano",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Ilias Takidine",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 125000
+    },
+    {
+      "nombre": "Michael Breij",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 400000
+    },
+    {
+      "nombre": "Iman Griffith",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Daniel Lajud",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 225000
+    },
+    {
+      "nombre": "Jack Cooper-Love",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Rasmus Wiedesheim-Paul",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 350000
+    },
+    {
+      "nombre": "Anthony van den Hurk",
+      "pos": "Delantero centro",
+      "edad": 33,
+      "valor": 225000
+    },
+    {
+      "nombre": "Filip Janssen",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 0
+    }
+  ]
+}

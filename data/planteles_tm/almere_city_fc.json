@@ -1,0 +1,222 @@
+{
+  "fuente": "https://www.transfermarkt.co/almere-city-fc/startseite/verein/723/saison_id/2025",
+  "teamName": "Almere City FC",
+  "players": [
+    {
+      "nombre": "Jonas Wendlinger",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 225000
+    },
+    {
+      "nombre": "Tristan Kuijsten",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Joël van der Wilt",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 25000
+    },
+    {
+      "nombre": "Malcolm Mateyo",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Emmanuel van de Blaak",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 500000
+    },
+    {
+      "nombre": "Joey Jacobs",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Théo Barbet",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Misha Engel",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "James Lawrence",
+      "pos": "Defensa central",
+      "edad": 33,
+      "valor": 225000
+    },
+    {
+      "nombre": "Jaden Pinas",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Niko Takahashi",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 600000
+    },
+    {
+      "nombre": "Teun Bijleveld",
+      "pos": "Lateral izquierdo",
+      "edad": 28,
+      "valor": 225000
+    },
+    {
+      "nombre": "Twan van der Zeeuw",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 125000
+    },
+    {
+      "nombre": "Boyd Reith",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 350000
+    },
+    {
+      "nombre": "Amoah Sam",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Tiziano Vianello",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jereno van Gom",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Job Kalisvaart",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 325000
+    },
+    {
+      "nombre": "Enzo Cornelisse",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 275000
+    },
+    {
+      "nombre": "Guus Beaumont",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 125000
+    },
+    {
+      "nombre": "Milan de Haan",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 550000
+    },
+    {
+      "nombre": "Hamza el Dahri",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 275000
+    },
+    {
+      "nombre": "Jamie Jacobs",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 275000
+    },
+    {
+      "nombre": "Olivier de Nijs",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 225000
+    },
+    {
+      "nombre": "Junior Kadile",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Marley Dors",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Ruben Providence",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Emmanuel Poku",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 800000
+    },
+    {
+      "nombre": "Byron Burgering",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Joyce Nsingi",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Aymane Bais",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Thomas Robinet",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 800000
+    },
+    {
+      "nombre": "Julian Rijkhoff",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 750000
+    },
+    {
+      "nombre": "Ferdy Druijf",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 300000
+    },
+    {
+      "nombre": "Bas Huisman",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Immanuel Ghogli",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 100000
+    }
+  ]
+}

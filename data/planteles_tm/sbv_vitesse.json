@@ -1,0 +1,234 @@
+{
+  "fuente": "https://www.transfermarkt.co/vitesse-arnheim/startseite/verein/499/saison_id/2025",
+  "teamName": "SBV Vitesse",
+  "players": [
+    {
+      "nombre": "Connor van den Berg",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Maximilian Brüll",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 125000
+    },
+    {
+      "nombre": "Jens Heylen",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Jayden Siecker",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Dylan Tevreden",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Valon Zumberi",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 350000
+    },
+    {
+      "nombre": "Omar Achouitar",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Marcus Steffen",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Chiel Olde Keizer",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 75000
+    },
+    {
+      "nombre": "Michel Driezen",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Justin Bakker",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Hylke van der Mast",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Lishairo Brudet",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Xiamaro Thenu",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Alexander Büttner",
+      "pos": "Lateral izquierdo",
+      "edad": 37,
+      "valor": 100000
+    },
+    {
+      "nombre": "Tom Vlietstra",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Solomon Bonnah",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 275000
+    },
+    {
+      "nombre": "Nathan Markelo",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Jordy de Beer",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Jillian Bernardina",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Fabian Huetink",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Marco Schikora",
+      "pos": "Pivote",
+      "edad": 31,
+      "valor": 300000
+    },
+    {
+      "nombre": "Youssef Ouallil",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 50000
+    },
+    {
+      "nombre": "Mathijs Marschalk",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 350000
+    },
+    {
+      "nombre": "Moustafa Moustafa",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Sem Pepers",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Teun Bosch",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Koen te Veluwe",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Adam Tahaui",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 500000
+    },
+    {
+      "nombre": "Ricardo-Felipe Schwarz",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Yuval Ranon",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Dillon Hoogewerf",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 375000
+    },
+    {
+      "nombre": "Nino Zonneveld",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 325000
+    },
+    {
+      "nombre": "Maxwell Rodrigues",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Naoufal Bannis",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 325000
+    },
+    {
+      "nombre": "João Pinto",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 275000
+    },
+    {
+      "nombre": "Elias Huth",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Mehdi Bouhekan",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    }
+  ]
+}

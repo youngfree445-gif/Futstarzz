@@ -1,0 +1,240 @@
+{
+  "fuente": "https://www.transfermarkt.co/top-oss/startseite/verein/1228/saison_id/2025",
+  "teamName": "TOP Oss",
+  "players": [
+    {
+      "nombre": "Mike Havekotte",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 300000
+    },
+    {
+      "nombre": "Sil Milder",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 25000
+    },
+    {
+      "nombre": "Devin Remie",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 25000
+    },
+    {
+      "nombre": "Christian Gaander",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Denyor Cicilia",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Xander Lambrix",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 700000
+    },
+    {
+      "nombre": "Leonel Miguel",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Thomas Cox",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Maxim Mariani",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Dion Markx",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 10000
+    },
+    {
+      "nombre": "Jules Van Bost",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Julian Kras",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Julian Kuijpers",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Bryan van Hove",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 275000
+    },
+    {
+      "nombre": "Maurilio de Lannoy",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 225000
+    },
+    {
+      "nombre": "Ilounga Pata",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 200000
+    },
+    {
+      "nombre": "Tristan Dekker",
+      "pos": "Lateral derecho",
+      "edad": 28,
+      "valor": 125000
+    },
+    {
+      "nombre": "Jillian Bernardina",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Jahlani Fonteni",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Delano Vianello",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 350000
+    },
+    {
+      "nombre": "Merijn van de Wiel",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Marcelencio Esajas",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Mitchell van Rooijen",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Lars Mol",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Omar Mohamedhoesein",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Tijn Vergeldt",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Mart Remans",
+      "pos": "Mediocentro ofensivo",
+      "edad": 28,
+      "valor": 275000
+    },
+    {
+      "nombre": "Kas de Wit",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Justin Mathieu",
+      "pos": "Mediocentro ofensivo",
+      "edad": 30,
+      "valor": 100000
+    },
+    {
+      "nombre": "Nico Clara Pinto",
+      "pos": "Mediocentro ofensivo",
+      "edad": 23,
+      "valor": 50000
+    },
+    {
+      "nombre": "Mauresmo Hinoke",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Fofin Turay",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Joshua Zimmerman",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Mert Erkan",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 225000
+    },
+    {
+      "nombre": "Luciano Slagveer",
+      "pos": "Extremo derecho",
+      "edad": 32,
+      "valor": 175000
+    },
+    {
+      "nombre": "Conner van Kilsdonk",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Tijmen Wildeboer",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Siriné Doucouré",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Yaid Marhoum",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 75000
+    }
+  ]
+}

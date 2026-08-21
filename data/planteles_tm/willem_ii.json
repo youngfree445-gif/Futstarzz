@@ -1,0 +1,246 @@
+{
+  "fuente": "https://www.transfermarkt.co/willem-ii-tilburg/startseite/verein/403/saison_id/2025",
+  "teamName": "Willem II",
+  "players": [
+    {
+      "nombre": "Thomas Didillon-Hödl",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 700000
+    },
+    {
+      "nombre": "Wouter van der Steen",
+      "pos": "Portero",
+      "edad": 36,
+      "valor": 75000
+    },
+    {
+      "nombre": "Karst de Leeuw",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Vince van der Bas",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Boet van der Linden",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Tygo Kotte",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Raffael Behounek",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 600000
+    },
+    {
+      "nombre": "Finn Stam",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 450000
+    },
+    {
+      "nombre": "Justin Hoogma",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 450000
+    },
+    {
+      "nombre": "Jens Mathijsen",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 225000
+    },
+    {
+      "nombre": "Junior Poortvliet",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Nathan Tjoe-A-On",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 450000
+    },
+    {
+      "nombre": "Rúnar Thór Sigurgeirsson",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Per van Loon",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Amine Et-Taïbi",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 400000
+    },
+    {
+      "nombre": "Alessandro Ciranni",
+      "pos": "Lateral derecho",
+      "edad": 30,
+      "valor": 275000
+    },
+    {
+      "nombre": "Kayen Scheepens",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 75000
+    },
+    {
+      "nombre": "Mickaël Tirpan",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 0
+    },
+    {
+      "nombre": "Feliciano de Ruijter",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Calvin Twigt",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 800000
+    },
+    {
+      "nombre": "Amine Lachkar",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 500000
+    },
+    {
+      "nombre": "Anass Zarrouk",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 250000
+    },
+    {
+      "nombre": "Gijs Besselink",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 600000
+    },
+    {
+      "nombre": "Julian van Esdonk",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Ringo Meerveld",
+      "pos": "Mediocentro ofensivo",
+      "edad": 23,
+      "valor": 5000000
+    },
+    {
+      "nombre": "Jari Schuurman",
+      "pos": "Mediocentro ofensivo",
+      "edad": 29,
+      "valor": 450000
+    },
+    {
+      "nombre": "Uriël van Aalst",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Mounir El Allouchi",
+      "pos": "Mediocentro ofensivo",
+      "edad": 31,
+      "valor": 325000
+    },
+    {
+      "nombre": "Max de Waal",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Dani Mathieu",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 75000
+    },
+    {
+      "nombre": "Mika de Jonge",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Pieter van Maarschalkerwaard",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Armin Culum",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "Nick Doodeman",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 600000
+    },
+    {
+      "nombre": "Samuel Bamba",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Emilio Kehrer",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Lasse Abildgaard",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 125000
+    },
+    {
+      "nombre": "Devin Haen",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Siegert Baartmans",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Thomas Verheydt",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 125000
+    }
+  ]
+}

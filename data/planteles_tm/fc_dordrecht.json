@@ -1,0 +1,264 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-dordrecht/startseite/verein/1455/saison_id/2025",
+  "teamName": "FC Dordrecht",
+  "players": [
+    {
+      "nombre": "Celton Biai",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 550000
+    },
+    {
+      "nombre": "Tim Coremans",
+      "pos": "Portero",
+      "edad": 35,
+      "valor": 100000
+    },
+    {
+      "nombre": "Tijn Baltussen",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 25000
+    },
+    {
+      "nombre": "Boaz Kroll",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Thomas Artic",
+      "pos": "Portero",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Deveron Fonville",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Augustin Drakpe",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 750000
+    },
+    {
+      "nombre": "Jan Plug",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 700000
+    },
+    {
+      "nombre": "Sem Valk",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Yannis M'Bemba",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 225000
+    },
+    {
+      "nombre": "Björn Hardley",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Joshua Kieboom",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Jan Smolarczyk",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Lars van de Giessen",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "John Hilton",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 350000
+    },
+    {
+      "nombre": "Mica Pinto",
+      "pos": "Lateral izquierdo",
+      "edad": 33,
+      "valor": 350000
+    },
+    {
+      "nombre": "Lucas Woudenberg",
+      "pos": "Lateral izquierdo",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jurre van Aken",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 275000
+    },
+    {
+      "nombre": "Lorenzo Codutti",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 125000
+    },
+    {
+      "nombre": "Daniel van Vianen",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Lawson Sunderland",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Martin Vetkal",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 275000
+    },
+    {
+      "nombre": "Terrance Joe",
+      "pos": "Centrocampista",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Seung-gyun Bae",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Senne Vugts",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 200000
+    },
+    {
+      "nombre": "Guus Huitzing",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Robin van Asten",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 500000
+    },
+    {
+      "nombre": "Argyris Darelas",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 325000
+    },
+    {
+      "nombre": "Joep van der Sluijs",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 225000
+    },
+    {
+      "nombre": "Matteo Malasomma",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 125000
+    },
+    {
+      "nombre": "Igor da Silva",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 75000
+    },
+    {
+      "nombre": "Nicolás Rossi",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 275000
+    },
+    {
+      "nombre": "Joshua Pynadath",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Marouane Afaker",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 175000
+    },
+    {
+      "nombre": "Do-young Yoon",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 700000
+    },
+    {
+      "nombre": "Nick Venema",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Sem Verdonk",
+      "pos": "Extremo derecho",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Yannick Eduardo",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Stéphano Carrillo",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 700000
+    },
+    {
+      "nombre": "Noah Bischof",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Joey de Bie",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jayson Ezeb",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 75000
+    },
+    {
+      "nombre": "Yunus Younous",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

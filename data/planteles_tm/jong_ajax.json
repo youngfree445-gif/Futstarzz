@@ -1,0 +1,306 @@
+{
+  "fuente": "https://www.transfermarkt.co/ajax-amsterdam-ii/startseite/verein/8817/saison_id/2025",
+  "teamName": "Jong Ajax",
+  "players": [
+    {
+      "nombre": "Joeri Heerkens",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Paul Reverson",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 350000
+    },
+    {
+      "nombre": "Charlie Setford",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Aymean El Hani",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Valentijn van der Velde",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Marley Álvarez Pérez",
+      "pos": "Defensa",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Ahmetcan Kaplan",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 7000000
+    },
+    {
+      "nombre": "Aaron Bouwman",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 3500000
+    },
+    {
+      "nombre": "Marvyn Muzungu",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 500000
+    },
+    {
+      "nombre": "Mylo van der Lans",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 450000
+    },
+    {
+      "nombre": "Jinairo Johnson",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Kennynho Kasanwirjo",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jahyendrow Amour",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Sesynijo Tilborg",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Lucas Jetten",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 600000
+    },
+    {
+      "nombre": "Ethan Butera",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 500000
+    },
+    {
+      "nombre": "Sinclair de Falco",
+      "pos": "Lateral izquierdo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Gerald Alders",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 700000
+    },
+    {
+      "nombre": "Avery Appiah",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 275000
+    },
+    {
+      "nombre": "Ryan van de Pavert",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Luuk Beekman",
+      "pos": "Lateral derecho",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Leroy Fränkel",
+      "pos": "Lateral derecho",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Jorthy Mokio",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 8000000
+    },
+    {
+      "nombre": "Youri Regeer",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 5000000
+    },
+    {
+      "nombre": "Mark Verkuijl",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 275000
+    },
+    {
+      "nombre": "Nnamdi Koka",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Sean Steur",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 7000000
+    },
+    {
+      "nombre": "Mohamed Abdalla",
+      "pos": "Mediocentro",
+      "edad": 16,
+      "valor": 600000
+    },
+    {
+      "nombre": "Nassef Chourak",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 350000
+    },
+    {
+      "nombre": "Tijn Peters",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Luca Messori",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 250000
+    },
+    {
+      "nombre": "Damian van der Vaart",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Hasan Ayyıldız",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Rayane Bounida",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 5000000
+    },
+    {
+      "nombre": "Abdellah Ouazane",
+      "pos": "Mediocentro ofensivo",
+      "edad": 17,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Levi Acheampong",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Thijmen Romers",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Daniel Skaarud",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 500000
+    },
+    {
+      "nombre": "Pharell Nash",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 500000
+    },
+    {
+      "nombre": "Kayden Wolff",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Maximilian Ibrahimović",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "David Kalokoh",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Zakaria Ouazane",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jan Faberski",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 500000
+    },
+    {
+      "nombre": "Don O'Niel",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 400000
+    },
+    {
+      "nombre": "Lasse Abildgaard",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 125000
+    },
+    {
+      "nombre": "Don-Angelo Konadu",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 800000
+    },
+    {
+      "nombre": "Emre Ünüvar",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 600000
+    },
+    {
+      "nombre": "Skye Vink",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Paulo Da Silva",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "fuente": "https://www.transfermarkt.co/ado-den-haag/startseite/verein/1268/saison_id/2025",
+  "teamName": "ADO Den Haag",
+  "players": [
+    {
+      "nombre": "Kilian Nikièma",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 700000
+    },
+    {
+      "nombre": "Antoine Lejoly",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Sem Eekhout",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Connor Radford",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Caleb Kramer",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Matteo Waem",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 800000
+    },
+    {
+      "nombre": "Pascal Mulder",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Milan Hokke",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "Diogo Tomas",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Taneli Hämäläinen",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Philippe Lanquetin",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Devyn Payne",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Sekou Sylla",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 400000
+    },
+    {
+      "nombre": "Steven van der Sloot",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 650000
+    },
+    {
+      "nombre": "Mees Kreekels",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 225000
+    },
+    {
+      "nombre": "Sanyika Bergtop",
+      "pos": "Lateral derecho",
+      "edad": 18,
+      "valor": 50000
+    },
+    {
+      "nombre": "Jari Vlak",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 900000
+    },
+    {
+      "nombre": "Juho Kilo",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 750000
+    },
+    {
+      "nombre": "Mylian Jiménez",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Joey Brandt",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Evan Rottier",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 600000
+    },
+    {
+      "nombre": "Finn de Bruin",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 175000
+    },
+    {
+      "nombre": "Cameron Peupion",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 450000
+    },
+    {
+      "nombre": "Illaijh de Ruijter",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 400000
+    },
+    {
+      "nombre": "Nigel Thomas",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Lorenzo Maasland",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Dani van Loenen",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Cheveyo Balentien",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Jalen Hawkins",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Daryl van Mieghem",
+      "pos": "Extremo derecho",
+      "edad": 36,
+      "valor": 150000
+    },
+    {
+      "nombre": "Luka Reischl",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 800000
+    },
+    {
+      "nombre": "Jesse Bal",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 400000
+    },
+    {
+      "nombre": "Bryan Fiabema",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Ruben Silva-Richards",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Elias Mohammad",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Maikey Houwaart",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    }
+  ]
+}

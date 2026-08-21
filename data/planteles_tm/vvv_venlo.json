@@ -1,0 +1,246 @@
+{
+  "fuente": "https://www.transfermarkt.co/vvv-venlo/startseite/verein/1426/saison_id/2025",
+  "teamName": "VVV-Venlo",
+  "players": [
+    {
+      "nombre": "Youri Schoonderwaldt",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Trevor Doornbusch",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 50000
+    },
+    {
+      "nombre": "Pepijn Vallen",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Emiel Koops",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Zidane Taylan",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Gabin Blancquart",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 450000
+    },
+    {
+      "nombre": "Luuk Verheij",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Tijn Joosten",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 175000
+    },
+    {
+      "nombre": "Dylan Timber",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 100000
+    },
+    {
+      "nombre": "Thomas Reinders",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Yousri el Anbri",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 75000
+    },
+    {
+      "nombre": "Lars de Blok",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Philip Heise",
+      "pos": "Lateral izquierdo",
+      "edad": 35,
+      "valor": 150000
+    },
+    {
+      "nombre": "Sylian Mokono",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Yousri Sbai",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Michael Davis",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Diego van Zutphen",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Tim Braem",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Joshua Eijgenraam",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Driess Saddiki",
+      "pos": "Pivote",
+      "edad": 29,
+      "valor": 200000
+    },
+    {
+      "nombre": "Joep Kluskens",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Kyan Korsten",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Jay de Graef",
+      "pos": "Centrocampista",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Jari Horsten",
+      "pos": "Centrocampista",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Mohammed Odriss",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Navarone Foor",
+      "pos": "Mediocentro",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jorn Triep",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Resley Kessels",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Raf Vullers",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Nassim Ait Mouhou",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 275000
+    },
+    {
+      "nombre": "Layee Kromah",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Naïm Matoug",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 225000
+    },
+    {
+      "nombre": "Lasse Wehmeyer",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Thomas Janssen",
+      "pos": "Extremo derecho",
+      "edad": 18,
+      "valor": 50000
+    },
+    {
+      "nombre": "Evangelos Soferis",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Dean Zandbergen",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Bjorn van Zijl",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Diego van Oorschot",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Devy Hendrikx",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Roel van den Broek",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 0
+    }
+  ]
+}

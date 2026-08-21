@@ -1,0 +1,234 @@
+{
+  "fuente": "https://www.transfermarkt.co/mvv-maastricht/startseite/verein/384/saison_id/2025",
+  "teamName": "MVV Maastricht",
+  "players": [
+    {
+      "nombre": "Sem Westerveld",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 400000
+    },
+    {
+      "nombre": "Tom Poitoux",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Sep van der Heijden",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 25000
+    },
+    {
+      "nombre": "Nicola Rijnbout",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Ruud Geerinck",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Victor Goffings",
+      "pos": "Portero",
+      "edad": 16,
+      "valor": 0
+    },
+    {
+      "nombre": "Wout Coomans",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Ilias Breugelmans",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 325000
+    },
+    {
+      "nombre": "Finn Dicke",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Adam Zaian",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Simon Francis",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Lucas Curto",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Amjad Majdoub",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Lars Schenk",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Mitch van Kempen",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Djairo Tehubijuluw",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Antoine Beydts",
+      "pos": "Lateral izquierdo",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Lenn-Minh Tran",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 325000
+    },
+    {
+      "nombre": "Kanou Sy",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 175000
+    },
+    {
+      "nombre": "Robert Klaasen",
+      "pos": "Pivote",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Adriano Mansala-Mpudi",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Stan Van Dessel",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 450000
+    },
+    {
+      "nombre": "Nabil El Basri",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 325000
+    },
+    {
+      "nombre": "Marko Kleinen",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Ferre Slegers",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 500000
+    },
+    {
+      "nombre": "Lirim Jashari",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Amine Amgar",
+      "pos": "Mediocentro ofensivo",
+      "edad": 17,
+      "valor": 75000
+    },
+    {
+      "nombre": "Ricardo da Costa Pinto",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Ilano Silva Timas",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 350000
+    },
+    {
+      "nombre": "Thijme Verheijen",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Mats Kuipers",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Camil Mmaee",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "Delano Asante",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 225000
+    },
+    {
+      "nombre": "Ayman Kassimi",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Sven Braken",
+      "pos": "Delantero centro",
+      "edad": 33,
+      "valor": 175000
+    },
+    {
+      "nombre": "Luca Foubert",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Travis de Jong",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jaël Pawirodihardjo",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 125000
+    }
+  ]
+}

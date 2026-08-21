@@ -1,0 +1,360 @@
+{
+  "fuente": "https://www.transfermarkt.co/az-alkmaar-ii/startseite/verein/11368/saison_id/2025",
+  "teamName": "Jong AZ",
+  "players": [
+    {
+      "nombre": "Rome-Jayden Owusu-Oduro",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 6000000
+    },
+    {
+      "nombre": "Kiyani Zeggen",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "Hobie Verhulst",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jur Schipper",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 125000
+    },
+    {
+      "nombre": "Daniël Deen",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Koen Schilder",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 25000
+    },
+    {
+      "nombre": "Eliav Adjedj",
+      "pos": "Defensa",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Amani Imhangbe",
+      "pos": "Defensa",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Rion Ichihara",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Billy van Duijl",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Maxim Dekker",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 650000
+    },
+    {
+      "nombre": "Andrea Natali",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mathijs Menu",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Rayan Atikallah",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Joeri Oud",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Iain de Jongh",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Kevin van Ouytsel",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Rodrigo Promes",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Timme Elffers",
+      "pos": "Defensa central",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Mateo Chávez",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Frej Elkjær",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jeremiah Esajas",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 275000
+    },
+    {
+      "nombre": "Saviola Simons",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Elijah Dijkstra",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 6000000
+    },
+    {
+      "nombre": "Sem Dekkers",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Jesper Zwart",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 250000
+    },
+    {
+      "nombre": "Kiani Inge",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Kasper Boogaard",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Nick Twisk",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Enoch Mastoras",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 250000
+    },
+    {
+      "nombre": "Julian Sijbrands",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Yordi van der Velde",
+      "pos": "Centrocampista",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Onne de Flart",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Dave Kwakman",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Rio Robbemond",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Bogdan Budko",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Hessel de Wit",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 150000
+    },
+    {
+      "nombre": "Bram van Driel",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Yassin Hamdi",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Matej Sin",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Julian Oerip",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "Tómas Johannessen",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Adam Ouaziz",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Ro-Zangelo Daal",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Wassim Bouziane",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 450000
+    },
+    {
+      "nombre": "Kevin Toppenberg",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Deacon van der Klaauw",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Tycho de Wit",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Rayan Zekri",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Ayoub Oufkir",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Jasper Hartog",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mexx Meerdink",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 8000000
+    },
+    {
+      "nombre": "Bendegúz Kovács",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Lequincio Zeefuik",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 850000
+    },
+    {
+      "nombre": "Sem van Duijn",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 800000
+    },
+    {
+      "nombre": "Sydney Osazuwa",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 800000
+    },
+    {
+      "nombre": "Yoël van den Ban",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Anthony Smits",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 225000
+    },
+    {
+      "nombre": "Rodrigo Macedo",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 0
+    }
+  ]
+}

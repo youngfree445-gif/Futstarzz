@@ -1,0 +1,222 @@
+{
+  "fuente": "https://www.transfermarkt.co/sc-cambuur-leeuwarden/startseite/verein/133/saison_id/2025",
+  "teamName": "SC Cambuur",
+  "players": [
+    {
+      "nombre": "Thijs Jansen",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 650000
+    },
+    {
+      "nombre": "Jasper Meijster",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 25000
+    },
+    {
+      "nombre": "Matthijs Kalisvaart",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 25000
+    },
+    {
+      "nombre": "Jannick Coehoorn",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Buddy Vogelzang",
+      "pos": "Defensa",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Ismaël Baouf",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Jamal Amofa",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 600000
+    },
+    {
+      "nombre": "Jorn Berkhout",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Toni Jonker",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 75000
+    },
+    {
+      "nombre": "Jelte Priem",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Tomas Galvez",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 750000
+    },
+    {
+      "nombre": "Bram Marsman",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Rik Mulders",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 600000
+    },
+    {
+      "nombre": "Diyae Jermoumi",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 150000
+    },
+    {
+      "nombre": "Nicky Souren",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Ethan Apkakou",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 250000
+    },
+    {
+      "nombre": "Daan Visser",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Amar Bakkati",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Mark Diemers",
+      "pos": "Mediocentro",
+      "edad": 32,
+      "valor": 600000
+    },
+    {
+      "nombre": "Jochem Nap",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Tony Rölke",
+      "pos": "Mediocentro ofensivo",
+      "edad": 23,
+      "valor": 325000
+    },
+    {
+      "nombre": "Sybrand Veldhuis",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Wessel van der Goot",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Wiebe van der Heide",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Oscar Sjöstrand",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Fabian Kvam",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 275000
+    },
+    {
+      "nombre": "Yoram van der Veen",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Danyello Look",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Ichem Ferrah",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Remco Balk",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 650000
+    },
+    {
+      "nombre": "Iwan Henstra",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 225000
+    },
+    {
+      "nombre": "Wiebe Kooistra",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jort van der Sande",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 400000
+    },
+    {
+      "nombre": "Nicolas Binder",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Kian Visser",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 125000
+    },
+    {
+      "nombre": "Yme Bruinsma",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    }
+  ]
+}

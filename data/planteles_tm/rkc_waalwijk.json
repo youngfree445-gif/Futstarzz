@@ -1,0 +1,216 @@
+{
+  "fuente": "https://www.transfermarkt.co/rkc-waalwijk/startseite/verein/235/saison_id/2025",
+  "teamName": "RKC Waalwijk",
+  "players": [
+    {
+      "nombre": "Mark Spenkelink",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Yanick van Osch",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 175000
+    },
+    {
+      "nombre": "Tom Bramel",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Luuk Vogels",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 25000
+    },
+    {
+      "nombre": "Xander Mulder",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Liam van Gelderen",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Roshon van Eijma",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 375000
+    },
+    {
+      "nombre": "Loek Postma",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 350000
+    },
+    {
+      "nombre": "Luuk Wouters",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Juan Familia-Castillo",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Nazjir Held",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Jordi Altena",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 600000
+    },
+    {
+      "nombre": "Faissal Al Mazyani",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Navajo Bakboord",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 175000
+    },
+    {
+      "nombre": "Bjarn Zorgdrager",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Daniël van Kaam",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 375000
+    },
+    {
+      "nombre": "Godfried Roemeratoe",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Marcel Schaapman",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 50000
+    },
+    {
+      "nombre": "Daouda Weidmann",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 750000
+    },
+    {
+      "nombre": "Tim van de Loo",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 450000
+    },
+    {
+      "nombre": "Harrie Kuster",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 650000
+    },
+    {
+      "nombre": "Jean-Paul Boëtius",
+      "pos": "Mediocentro ofensivo",
+      "edad": 32,
+      "valor": 325000
+    },
+    {
+      "nombre": "Rein van Hedel",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Richard van der Venne",
+      "pos": "Mediocentro ofensivo",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Melle Witteveen",
+      "pos": "Mediocentro ofensivo",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Chris Lokesa",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Yoram van der Veen",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Denilho Cleonise",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Ryan Fage",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Roy Kuijpers",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Owen Panneflek",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Jesper Uneken",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 800000
+    },
+    {
+      "nombre": "Tim van der Leij",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Michiel Kramer",
+      "pos": "Delantero centro",
+      "edad": 37,
+      "valor": 75000
+    },
+    {
+      "nombre": "Quentin van Beekveld",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "fuente": "https://www.transfermarkt.co/de-graafschap-doetinchem/startseite/verein/642/saison_id/2025",
+  "teamName": "De Graafschap",
+  "players": [
+    {
+      "nombre": "Ties Wieggers",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 325000
+    },
+    {
+      "nombre": "Sten Kremers",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Jonah te Fruchte",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Sam Bouwman",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Rick Jonkers",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Rowan Besselink",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Stijn Bultman",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 350000
+    },
+    {
+      "nombre": "Joran Hardeman",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Thomas Kok",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Nic Hartgers",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Silvan Bröker",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Levi Schoppema",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 275000
+    },
+    {
+      "nombre": "Kaya Symons",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 275000
+    },
+    {
+      "nombre": "Othniël Raterink",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Nolan Martens",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 450000
+    },
+    {
+      "nombre": "Tygo Grotenhuis",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Tim Braem",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Milan Smits",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Kenji Tang",
+      "pos": "Centrocampista",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Timo Jansen",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Teun Gijselhart",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 650000
+    },
+    {
+      "nombre": "Jason Meerstadt",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 325000
+    },
+    {
+      "nombre": "Reuven Niemeijer",
+      "pos": "Mediocentro ofensivo",
+      "edad": 31,
+      "valor": 450000
+    },
+    {
+      "nombre": "Fedde de Jong",
+      "pos": "Mediocentro ofensivo",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Denzel Eijken",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 25000
+    },
+    {
+      "nombre": "Nart Ahmeti-Grainca",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Ibrahim El Kadiri",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 450000
+    },
+    {
+      "nombre": "Chahid el Allachi",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Arjen van der Heide",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Jevon Simons",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Nathan Kaninda",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Bouke Boersma",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Nils Eggens",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 275000
+    },
+    {
+      "nombre": "Kyano Kwint",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 275000
+    },
+    {
+      "nombre": "Dimitrios Theodoridis",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Mees Rijks",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 200000
+    }
+  ]
+}

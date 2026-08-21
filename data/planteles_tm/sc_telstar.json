@@ -1,0 +1,216 @@
+{
+  "fuente": "https://www.transfermarkt.co/sc-telstar/startseite/verein/1434/saison_id/2025",
+  "teamName": "SC Telstar",
+  "players": [
+    {
+      "nombre": "Ronald Koeman Jr.",
+      "pos": "Portero",
+      "edad": 31,
+      "valor": 700000
+    },
+    {
+      "nombre": "Daan Reiziger",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 100000
+    },
+    {
+      "nombre": "Tyrick Bodak",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 25000
+    },
+    {
+      "nombre": "Finn Mulder",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Guus Offerhaus",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 800000
+    },
+    {
+      "nombre": "Neville Ogidi Nwankwo",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 800000
+    },
+    {
+      "nombre": "Danny Bakker",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 450000
+    },
+    {
+      "nombre": "Devon Koswal",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 450000
+    },
+    {
+      "nombre": "Dion Malone",
+      "pos": "Defensa central",
+      "edad": 37,
+      "valor": 75000
+    },
+    {
+      "nombre": "Jaylan van Schooneveld",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 25000
+    },
+    {
+      "nombre": "Abdelraffie Benzzine",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Yamano Olfers",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Jeff Hardeveld",
+      "pos": "Lateral izquierdo",
+      "edad": 31,
+      "valor": 450000
+    },
+    {
+      "nombre": "Nigel Ogidi Nwankwo",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 125000
+    },
+    {
+      "nombre": "Amin Bouchouari",
+      "pos": "Lateral izquierdo",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Gerald Alders",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 700000
+    },
+    {
+      "nombre": "Adil Lechkar",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Cedric Hatenboer",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Nils Rossen",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 700000
+    },
+    {
+      "nombre": "Rayyan Koubini",
+      "pos": "Centrocampista",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Tyrone Owusu",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 600000
+    },
+    {
+      "nombre": "Rojendro Oudsten",
+      "pos": "Mediocentro",
+      "edad": 18,
+      "valor": 100000
+    },
+    {
+      "nombre": "Remi van Ekeris",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Tyrese Noslin",
+      "pos": "Interior derecho",
+      "edad": 23,
+      "valor": 750000
+    },
+    {
+      "nombre": "Jochem Ritmeester van de Kamp",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Patrick Brouwer",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 750000
+    },
+    {
+      "nombre": "Dylan Mertens",
+      "pos": "Mediocentro ofensivo",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Mohamed Hamdaoui",
+      "pos": "Extremo izquierdo",
+      "edad": 33,
+      "valor": 0
+    },
+    {
+      "nombre": "Sem van Duijn",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 800000
+    },
+    {
+      "nombre": "Milan Zonneveld",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 450000
+    },
+    {
+      "nombre": "Soufiane Hetli",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 450000
+    },
+    {
+      "nombre": "Nökkvi Thórisson",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Jelani Seedorf",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Kay Tejan",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Sebastiaan Hagedoorn",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 100000
+    }
+  ]
+}

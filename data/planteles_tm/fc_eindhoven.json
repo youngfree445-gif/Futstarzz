@@ -1,0 +1,222 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-eindhoven/startseite/verein/3892/saison_id/2025",
+  "teamName": "FC Eindhoven",
+  "players": [
+    {
+      "nombre": "Jort Borgmans",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jorn Brondeel",
+      "pos": "Portero",
+      "edad": 32,
+      "valor": 175000
+    },
+    {
+      "nombre": "Nino Fancito",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 25000
+    },
+    {
+      "nombre": "Niek Janssen",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Roel van Zutphen",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Jens Elbers",
+      "pos": "Defensa",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Owen Renfrum",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 325000
+    },
+    {
+      "nombre": "Farouq Limouri",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "John Neeskens",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Luc Netten",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Hyman Ali",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Terrence Douglas",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 325000
+    },
+    {
+      "nombre": "Siem de Moes",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Niels van Berkel",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Clint Essers",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Marlon van de Wetering",
+      "pos": "Lateral derecho",
+      "edad": 18,
+      "valor": 175000
+    },
+    {
+      "nombre": "Daan Huisman",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 400000
+    },
+    {
+      "nombre": "Xander Blomme",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Ruben van Eijndhoven",
+      "pos": "Centrocampista",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Mac van Tilburg",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Sven Simons",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 450000
+    },
+    {
+      "nombre": "Dyon Dorenbosch",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Boris van Schuppen",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Thijs Muller",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Zakaria Haddaoui",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Théo Mununga",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Niek Munsters",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Lennon Smulders",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Tyrese Simons",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 325000
+    },
+    {
+      "nombre": "Hugo Deenen",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Edoly Lukoki",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 225000
+    },
+    {
+      "nombre": "Sven Blummel",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 325000
+    },
+    {
+      "nombre": "Rangelo Janga",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 175000
+    },
+    {
+      "nombre": "Kevin van Veen",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 100000
+    },
+    {
+      "nombre": "Amir Bryson",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Milan Hoek",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

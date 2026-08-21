@@ -1,0 +1,264 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-den-bosch/startseite/verein/404/saison_id/2025",
+  "teamName": "FC Den Bosch",
+  "players": [
+    {
+      "nombre": "Pepijn van de Merbel",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mees Bakker",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 100000
+    },
+    {
+      "nombre": "Tjemme Bijlsma",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 75000
+    },
+    {
+      "nombre": "Silver Elum",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Bart van Dee",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Roel van Balsfoort",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Shafeeq Toussaint",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Quintin Hunting",
+      "pos": "Defensa",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Teun van Grunsven",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 450000
+    },
+    {
+      "nombre": "Reda Akmum",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Stan Maas",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Luc van Koeverden",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Damian van Dijk",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Mink Nipius",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Hugo van Haaften",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Kai de Rooij",
+      "pos": "Defensa central",
+      "edad": 16,
+      "valor": 0
+    },
+    {
+      "nombre": "Nick de Groot",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Sheddy Barglan",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jeffry Fortes",
+      "pos": "Lateral derecho",
+      "edad": 37,
+      "valor": 75000
+    },
+    {
+      "nombre": "Jayden Ettienne",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Sergio Oerlemans",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Kevin Felida",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Bohao Wang",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 175000
+    },
+    {
+      "nombre": "Mees Laros",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 600000
+    },
+    {
+      "nombre": "Thijs van Leeuwen",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Zaid el Bakkali",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Djesi Bodo",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Danny Verbeek",
+      "pos": "Mediocentro ofensivo",
+      "edad": 35,
+      "valor": 50000
+    },
+    {
+      "nombre": "Amine Boushaba",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Sufyan van Daalen",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Billy Mills",
+      "pos": "Mediocentro ofensivo",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Ilias Boumassaoudi",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 450000
+    },
+    {
+      "nombre": "Chahid el Allachi",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Genrich Sillé",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Hicham Acheffay",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 75000
+    },
+    {
+      "nombre": "Iliass el Filali",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Jack de Vries",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Emian-Johar Semedo",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 225000
+    },
+    {
+      "nombre": "Kévin Monzialo",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 900000
+    },
+    {
+      "nombre": "Sebastian Karlsson Grach",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Denzel Kuijpers",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Josias Siby",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Rafi Wolters",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

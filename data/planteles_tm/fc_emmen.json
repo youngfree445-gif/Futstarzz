@@ -1,0 +1,264 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-emmen/startseite/verein/1283/saison_id/2025",
+  "teamName": "FC Emmen",
+  "players": [
+    {
+      "nombre": "Luca Unbehaun",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 350000
+    },
+    {
+      "nombre": "Koen Bucker",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 125000
+    },
+    {
+      "nombre": "Aaron Wanki",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Dylano Hof",
+      "pos": "Portero",
+      "edad": 16,
+      "valor": 0
+    },
+    {
+      "nombre": "Kevin Norder",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Pascal Mulder",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Dennis Vos",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Joshua Mukeh",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Gijs Bolk",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Christian Østergaard",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Philip Søndergaard",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 150000
+    },
+    {
+      "nombre": "Juliën Mesbahi",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jorginho Soares",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 125000
+    },
+    {
+      "nombre": "Ties Oostra",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Lukas Larsen",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Tim Geypens",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Luca Everink",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Daniël Beukers",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Steyn de Haan",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Casper Staring",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 350000
+    },
+    {
+      "nombre": "Luca Denk",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 225000
+    },
+    {
+      "nombre": "Alessandro Hojabrpour",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Thom Bijkerk",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Rodney Kongolo",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 350000
+    },
+    {
+      "nombre": "Torben Rhein",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Adam Claridge",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Julius Kade",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Djenahro Nunumete",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 225000
+    },
+    {
+      "nombre": "Dim Otten",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Alaa Bakir",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Freddy Quispel",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 225000
+    },
+    {
+      "nombre": "Filimon Gerezgiher",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Noam Emeran",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jalen Hawkins",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Vicente Besuijen",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Nelson Amadin",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Romano Postema",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Franck Evina",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Agon Sadiku",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 225000
+    },
+    {
+      "nombre": "Chiel Sunder",
+      "pos": "Delantero centro",
+      "edad": 17,
+      "valor": 150000
+    },
+    {
+      "nombre": "Stan van Manen",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Antonio Satriano",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 75000
+    },
+    {
+      "nombre": "Liam Marheineke",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}
