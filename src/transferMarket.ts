@@ -229,16 +229,66 @@ function agentReqPrestigeAdjustment(agent: Agent | null | undefined): number {
 // Se llama una vez por semana (no en cada render) desde el punto donde ya se avanza currentWeek,
 // para que las ofertas de la ventana se mantengan estables mientras el jugador las compara -- ver
 // pendingTransferOffers/transferOffersGeneratedWeek en PlayerProfile.
+/**
+ * CADA CUANTAS FECHAS CAMBIA LA MESA DE OFERTAS.
+ *
+ * Antes se recalculaba TODAS las fechas, lo cual sonaba a variedad y era lo contrario: como
+ * `generateTransferOffers` no tiene ni una pizca de azar -- ordena por requisito y se queda con los
+ * tres mejores -- recalcular daba siempre EXACTAMENTE los mismos tres clubes, fecha tras fecha,
+ * hasta que tu prestigio saltara un escalón. Reportado jugando: "los traspasos siempre son las
+ * mismas opciones".
+ *
+ * Ahora la mesa se arma una vez cada seis fechas y se queda quieta hasta la siguiente. Que tarde en
+ * cambiar es parte de lo que la hace valer: una oferta que se renueva cada fecha no es una oferta,
+ * es un catálogo.
+ */
+export const FECHAS_ENTRE_OFERTAS = 6;
+
+/**
+ * QUIÉN ENTRA A LA MESA DE TRES.
+ *
+ * No los tres de requisito más alto -- eso es lo que los hacía siempre iguales. Se sortea entre los
+ * clubes que te pueden fichar, con el requisito pesando: los grandes aparecen más seguido, pero
+ * cualquiera que te alcance puede tocar la puerta.
+ *
+ * El sorteo va SEMBRADO con el período, no con Math.random: así la mesa es la misma cada vez que
+ * abrís la pestaña dentro del mismo período -- si se re-sorteara en cada render, las ofertas
+ * bailarían mientras las mirás -- y cambia sola cuando el período avanza.
+ */
+function elegirLaMesa(candidatas: TransferOffer[], semilla: number, cuantas: number): TransferOffer[] {
+  const barajado = candidatas
+    .map((o, i) => {
+      const x = Math.sin((semilla + 1) * 37.7 + i * 13.1) * 43758.5453;
+      const azar = x - Math.floor(x);
+      // El requisito pesa, pero no manda: un club exigente sale más seguido y uno modesto también
+      // puede aparecer. Sin el azar serían siempre los mismos tres.
+      return { o, orden: o.reqPrestige * 0.6 + azar * 40 };
+    })
+    .sort((a, b) => b.orden - a.orden);
+  return barajado.slice(0, cuantas).map(x => x.o);
+}
+
 export function refreshTransferOffersIfNeeded(
   profile: PlayerProfile,
   currentClub: Club,
   allClubs: Club[]
 ): Pick<PlayerProfile, 'pendingTransferOffers' | 'transferOffersGeneratedWeek'> {
-  if (profile.transferOffersGeneratedWeek === profile.currentWeek && profile.pendingTransferOffers) {
+  const periodo = Math.floor(profile.currentWeek / FECHAS_ENTRE_OFERTAS);
+  const periodoGuardado = Math.floor((profile.transferOffersGeneratedWeek ?? -999) / FECHAS_ENTRE_OFERTAS);
+  if (periodo === periodoGuardado && profile.pendingTransferOffers) {
     return { pendingTransferOffers: profile.pendingTransferOffers, transferOffersGeneratedWeek: profile.transferOffersGeneratedWeek };
   }
-  const offers = generateTransferOffers(profile, currentClub, allClubs, profile.currentWeek)
-    .sort((a, b) => (b.possible === a.possible ? b.reqPrestige - a.reqPrestige : b.possible ? 1 : -1))
-    .slice(0, 3);
+
+  const todas = generateTransferOffers(profile, currentClub, allClubs, profile.currentWeek);
+
+  // LA VUELTA A CASA NO SE SORTEA. Es la única oferta que no depende de lo que valés, así que
+  // tampoco puede depender de la suerte: si el club que te formó te llama, está en la mesa.
+  const casa = todas.filter(o => o.esVueltaACasa);
+  const resto = todas.filter(o => !o.esVueltaACasa && o.possible);
+  // Y si no hay ninguna alcanzable todavía, se muestran las más cercanas para que la pestaña no
+  // quede vacía -- es lo que hacía antes y está bien.
+  const fuente = resto.length ? resto : todas.filter(o => !o.esVueltaACasa);
+
+  const offers = [...casa, ...elegirLaMesa(fuente, periodo, Math.max(1, 3 - casa.length))];
   return { pendingTransferOffers: offers, transferOffersGeneratedWeek: profile.currentWeek };
 }
