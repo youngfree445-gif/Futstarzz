@@ -485,11 +485,29 @@ caso('encabezado: estan las siete metricas', () => {
 });
 
 // Y QUE EN ESCRITORIO NO ENVUELVA. Envolver a dos filas contra el borde derecho es exactamente lo
-// que se veia amontonado en la captura que lo reporto.
+// que se veia amontonado en la primera captura que lo reporto.
 caso('encabezado: en escritorio la tira no envuelve', () => {
   const html = dibujar(perfilDe(junior, {}), 'carrera', 'md:flex-nowrap');
   if (/data-barra-de-estado[^>]*md:flex-wrap/.test(html)) {
     throw new Error('la tira volvio a envolver en escritorio');
+  }
+  return html;
+});
+
+// LA REGLA QUE FALTABA, Y QUE HABRIA ATRAPADO LA SEGUNDA CAPTURA.
+//
+// Un validador que dibuja HTML no puede medir anchos, asi que no puede comprobar "entra en la
+// pantalla". Pero SI puede comprobar la combinacion estructural que garantiza que no entre: una
+// tira que no envuelve, compartiendo fila con la fecha. Con eso solo hay dos finales -- envolver
+// desparejo o quedar CORTADA -- y los dos se reportaron con captura.
+//
+// La tira tiene que tener su propia fila, o sea que el header no puede ser una fila en escritorio.
+caso('encabezado: la tira no comparte fila con la fecha', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', null);
+  const header = html.match(/<header class="([^"]*)"/);
+  if (!header) throw new Error('no encuentro el encabezado');
+  if (header[1].includes('md:flex-row')) {
+    throw new Error('la tira comparte fila con la fecha: no entran, y la ultima queda cortada');
   }
   return html;
 });

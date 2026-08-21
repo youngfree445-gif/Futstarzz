@@ -3073,7 +3073,13 @@ export default function Dashboard({
         {/* NO es sticky. Se probó pegada arriba para que el capital siguiera a la vista en
             Entrenamiento, y en uso real tapaba contenido al bajar: molestaba más de lo que
             resolvía. Se queda arriba de todo y se va con el scroll, como cualquier encabezado. */}
-        <header className="bg-slate-900 border-b border-slate-800 px-3 py-2 md:px-8 flex flex-col md:flex-row gap-2 md:gap-4 justify-between items-center">
+        {/* EL ENCABEZADO SON DOS FILAS TAMBIEN EN ESCRITORIO, y esto se aprendio a los golpes.
+              La fecha ("martes 19 de enero de 2027") mas las siete metricas no entran en una sola
+              fila ni en una pantalla ancha. Compartiendo fila solo hay dos finales posibles, y los
+              dos se reportaron con captura: envolver a dos filas desparejas contra el borde derecho
+              (se ve amontonado) o no envolver y que la ultima quede CORTADA (no se ve completo).
+              Con la tira en su propia fila, entran las siete con aire de sobra. */}
+        <header className="bg-slate-900 border-b border-slate-800 px-3 py-2 md:px-8 flex flex-col gap-2 md:gap-2.5">
 
           {/* shrink-0 + nowrap en la fecha: sin esto el bloque se encogía contra la tira de
               métricas y "miércoles 11 de marzo de 2026" se partía en tres renglones, que era lo

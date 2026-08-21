@@ -28,9 +28,19 @@
 //   2. ENVOLVÍA CON `justify-end`. Cuando una fila envuelta se alinea a la derecha, la última fila
 //      queda corta y desalineada: es la forma más rápida de que algo parezca roto.
 //
-// Ahora las siete entran en UNA fila en escritorio y la tira no envuelve nunca. El rótulo va arriba
-// del número en vez de al lado, que es lo que hace que cada pastilla mida lo que mide su contenido
-// más corto y no lo que mide el rótulo más largo del conjunto.
+// El primer intento fue apretar las pastillas -- el rótulo arriba del número en vez de al lado, así
+// cada una mide lo que mide su contenido y no lo que mide el rótulo más largo del conjunto -- y
+// dejarlas sin envolver. NO ALCANZÓ, y falló peor: dejó de envolver y la última quedó CORTADA
+// contra el borde. Reportado con captura otra vez, y encima el código viejo tenía escrita esa misma
+// advertencia, que es lo que hace que valga la pena dejar esto anotado.
+//
+// LO QUE FALTABA ERA MÁS SIMPLE: la fecha y las siete métricas no entran en la misma fila, y punto.
+// Compartiendo fila sólo hay dos finales, y los dos son el error reportado -- envolver desparejo o
+// cortar. Ahora la tira tiene SU PROPIA FILA, también en escritorio, y ahí entra con aire de sobra.
+//
+// Y las pastillas CRECEN para repartirse esa fila, con un tope. Uniformes y llenando el ancho se
+// leen como un tablero; pegadas a un costado con el resto vacío se leen como que algo no entró, que
+// es de donde salió este arreglo.
 //
 // ---------------------------------------------------------------------------------------------
 // Y ESTÁN AGRUPADAS, QUE ES LO QUE SACA LO DE "AMONTONADO"
@@ -73,8 +83,11 @@ function Medidor({ m }: { m: MetricaDeEstado }) {
     <div
       title={m.nombreLargo}
       data-medidor={m.clave}
-      className={`shrink-0 flex items-center gap-2 bg-slate-950 px-2.5 py-1.5 rounded-xl border border-slate-800 ${
-        m.abreGrupo ? 'md:ml-3 md:border-l-slate-700' : ''
+      // En escritorio cada pastilla CRECE para repartirse la fila (`md:flex-1`), con un tope para
+      // que con pocas metricas no queden tres cajas gigantes. Uniformes y llenando el ancho se leen
+      // como un tablero; pegadas a un costado con el resto vacio se leen como que algo no entro.
+      className={`shrink-0 md:flex-1 md:max-w-[200px] flex items-center gap-2 bg-slate-950 px-2.5 py-1.5 rounded-xl border border-slate-800 ${
+        m.abreGrupo ? 'md:ml-3' : ''
       }`}
     >
       <m.Icono size={14} className={m.colorIcono} />
@@ -107,7 +120,7 @@ export function BarraDeEstado({ metricas }: { metricas: readonly MetricaDeEstado
       // En ESCRITORIO NO ENVUELVE. Antes envolvía a dos filas desparejas contra el borde derecho, que
       // es lo que se veía amontonado. Entran las siete en una fila porque cada pastilla ahora mide lo
       // que mide su contenido.
-      className="flex md:flex-nowrap overflow-x-auto md:overflow-x-visible items-stretch gap-2 text-xs font-mono w-full md:w-auto md:shrink-0 -mx-1 px-1 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="flex md:flex-nowrap overflow-x-auto md:overflow-x-visible items-stretch gap-2 text-xs font-mono w-full -mx-1 px-1 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {metricas.map(m => <Medidor key={m.clave} m={m} />)}
     </div>
