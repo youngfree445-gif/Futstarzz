@@ -2324,16 +2324,34 @@ export function daysUntilNextFixture(clubName: string, date: string): number | n
  * La carrera sigue en la MISMA FECHA: se busca el primer partido del club nuevo que no haya pasado
  * todavía. Si su calendario ya terminó, se queda con el último: es preferible a saltar a otro año.
  */
+/**
+ * En qué paso caés al fichar por otro club: su primera fecha de hoy en adelante.
+ *
+ * SE PREGUNTA CON fixturesAtStep, que es quien DEFINE qué es un paso. La versión anterior armaba su
+ * propia lista con `fixturesForClub` y devolvía el índice ahí adentro -- y las dos listas no
+ * coinciden: `fixturesAtStep` numera temporada por temporada (getIndice(temporada)) y aquélla
+ * numeraba de corrido sobre todas las temporadas cargadas.
+ *
+ * O sea DOS FORMAS DE NUMERAR EL MISMO PASO, y por lo tanto un paso que significa dos cosas
+ * distintas según quién pregunte. Medido: fichar por Gimnasia de Jujuy un 8 de junio devolvía el
+ * paso 29, y el paso 29 de ese club es el 6 de junio -- la carrera VIAJABA DOS DÍAS AL PASADO.
+ *
+ * Lo encontró el simulador de carreras, y recién ahora: el bug estaba desde siempre, pero hasta que
+ * el mercado empezó a ofrecer clubes del ascenso argentino nadie fichaba por uno.
+ */
 export function pasoAlCambiarDeClub(clubNuevo: string, fechaDeHoy: string | null): number | null {
   if (!fechaDeHoy) return null;
-  const fechas: string[] = [];
-  for (const f of fixturesForClub(clubNuevo)) {
-    if (f.date < inicioDeCarrera(clubNuevo)) continue;
-    if (fechas[fechas.length - 1] !== f.date) fechas.push(f.date);
+  if (!hasDatedSchedule(clubNuevo)) return null;
+  // Se camina el calendario del club nuevo hasta la primera fecha que no sea anterior a hoy. El
+  // tope existe para no colgarse si un club tuviera un calendario raro; con 32 temporadas de ~45
+  // fechas, 1600 pasos cubren cualquier carrera.
+  const TOPE = 1600;
+  for (let paso = 1; paso <= TOPE; paso++) {
+    const s = fixturesAtStep(clubNuevo, paso);
+    if (!s) return paso > 1 ? paso - 1 : null;
+    if (s.date >= fechaDeHoy) return paso;
   }
-  if (!fechas.length) return null;
-  const i = fechas.findIndex(d => d >= fechaDeHoy);
-  return (i < 0 ? fechas.length : i + 1);
+  return null;
 }
 
 export function pasoDeFecha(clubName: string, date: string): number | null {

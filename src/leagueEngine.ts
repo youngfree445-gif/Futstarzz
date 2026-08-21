@@ -1,5 +1,6 @@
 import { repartesDosTitulos } from './reglamentos';
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, PlayoffMatch, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
+import { fuerzaParaElMercado } from './fuerzaDelClub';
 import type { DomesticCupState } from './copaNacional';
 import { participantesConmebol, type CampeonesConmebol, type PosicionesFinales } from './copasConmebol';
 import { participantesUefa, type CampeonesUefa } from './copasUefa';
@@ -207,11 +208,15 @@ const REFERENCE_SQUAD_VALUE = 1_000_000_000;
 // exactamente lo mismo. La fuerza ya distinguía a los dos para simular partidos (58 contra 85), sólo
 // que el mercado no la estaba mirando.
 export function clubStrength(club: Club): number {
-  const repScore = club.reputation * 11;                              // 11-55
-  // Raíz cuadrada: sigue premiando al plantel caro, pero sin que la distancia entre el 5º y el
-  // último se vuelva un abismo. Con proporción lineal pura el colista terminaba con 8 puntos.
-  const valueRatio = Math.sqrt(Math.min(1, club.marketValue / REFERENCE_SQUAD_VALUE));
-  return repScore + valueRatio * 30;                                  // +0-30
+  // AHORA SALE DEL RANKING MUNDIAL DE OPTA, con la cuenta vieja de respaldo para los 124 clubes que
+  // no estan enlazados. Devuelve el MISMO rango de siempre (11 a 85) a proposito: lo que cambia es
+  // de donde sale el numero, no cuanto vale, asi que nada de lo que lo lee se entera.
+  //
+  // Lo que se gana: `reputation` va del 1 al 5 y con eso Junior, Millonarios, el Real Madrid y el
+  // City eran todos 5. El valor de plantel tapaba parte del problema, pero un club enorme de una
+  // liga barata seguia midiendo poco. Opta los puntua a todos en la misma escala, sacada de
+  // resultados y no de plata.
+  return fuerzaParaElMercado(club);
 }
 
 function poissonSample(lambda: number): number {

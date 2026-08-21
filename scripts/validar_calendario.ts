@@ -10,6 +10,7 @@
 //      como un congelamiento al abrir.
 
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
+import { clubesJugables } from '../src/clubesJugables';
 import { fechaDelPaso, fixturesForClub, pasoAlCambiarDeClub } from '../src/dateSchedule';
 import { clubesDeLiga, esClubJugable } from '../src/clubesJugables';
 import { leagueKeyFor } from '../src/leagueEngine';
@@ -247,6 +248,31 @@ console.log(`  ${paresMirados} cambios de club probados`);
 console.log(`  hacia ATRAS en el tiempo: ${atras}${atras ? '   ' + peorAtras : ''}`);
 console.log(`  hueco de mas de un mes (el club nuevo no juega antes): ${huecoLargo}${huecoLargo ? '   ' + peorHueco : ''}`);
 console.log(`  antes de pasoAlCambiarDeClub: ${atrasViejo} iban al pasado y el salto medio era de ${Math.round(saltoViejoTotal / Math.max(1, viejoMirados))} dias`);
+
+// Y AHORA TODOS LOS CLUBES, NO CUARENTA.
+//
+// El barrido de arriba mira PARES (de que club a cual) porque le interesa el hueco: cuanto esperas
+// hasta el proximo partido del club nuevo. Para eso una muestra alcanza.
+//
+// Pero "no ir al pasado" no depende del par: depende SOLO del club de destino. Y con cuarenta
+// clubes de muestra el caso pasaba en verde mientras Gimnasia de Jujuy mandaba la carrera dos dias
+// atras -- lo encontro el simulador de carreras cuando el mercado empezo a ofrecer clubes del
+// ascenso argentino. Un caso que prueba el 7% de los clubes no esta probando la regla.
+let alPasado = 0, combinaciones = 0, ejemploPasado = '';
+for (const c of clubesJugables()) {
+  for (const hoy of ['2026-06-08', '2026-08-05', '2026-12-02', '2027-03-11']) {
+    const paso = pasoAlCambiarDeClub(c.name, hoy);
+    if (paso == null) continue;
+    combinaciones++;
+    const f = fechaDelPaso(c.name, paso);
+    if (f && f < hoy) {
+      alPasado++;
+      if (!ejemploPasado) ejemploPasado = `${c.name}: ${hoy} -> paso ${paso} = ${f}`;
+    }
+  }
+}
+console.log(`  TODOS los clubes como destino: ${combinaciones} combinaciones, ${alPasado} al pasado${alPasado ? '   ' + ejemploPasado : ''}`);
+atras += alPasado;
 
 const problemas = pocoDescanso.length + saturadas.length + sinResolver + tapados + atras;
 console.log(`\n${problemas === 0 ? 'Sin problemas de descanso.' : `${problemas} hallazgos de descanso (ver arriba).`}`);

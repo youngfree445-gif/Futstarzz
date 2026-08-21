@@ -41,6 +41,7 @@ import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGI
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
 import { anotarTarjetaDelPartido, cumplirFechaDeSancion, cuentaDe } from './sancion';
+import { varaDeTitularidad, varaDeConvocatoria } from './fuerzaDelClub';
 import { simularPartidoCompleto } from './partidoSimulado';
 import { PartidoSimulandose } from './components/PartidoSimulandose';
 import { POOLS_DE_DECISION } from './components/MatchSimulator';
@@ -3174,8 +3175,12 @@ export default function App() {
     // El refuerzo sube la vara de la titularidad, no la de la convocatoria: por eso `estorbo` entra
     // SOLO aca. Un fichaje te puede mandar al banco, nunca dejarte fuera de la lista -- eso seria
     // perder fechas enteras por algo que no hiciste, y el peor caso tiene que seguir siendo jugable.
-    const starterThreshold = 25 + reputation * 11 + estorbo; // ~36 (reputation 1) a ~80 (reputation 5)
-    const notCalledThreshold = Math.max(0, reputation * 7 - 15); // 0 (reputation <=2) a 20 (reputation 5)
+    // LAS DOS VARAS SALEN DEL RANKING MUNDIAL (ver src/fuerzaDelClub.ts), con el mismo rango de
+    // siempre: 36 a 80 para ser titular, 0 a 20 para que ni te convoquen. Lo que cambia es que entre
+    // Junior y Boca ahora hay distancia -- los dos eran reputacion 5 y pedian exactamente lo mismo.
+    const clubDeLaVara = CLUBS_DATABASE.find(c => c.id === playerProfile?.currentClubId);
+    const starterThreshold = (clubDeLaVara ? varaDeTitularidad(clubDeLaVara) : 25 + reputation * 11) + estorbo;
+    const notCalledThreshold = clubDeLaVara ? varaDeConvocatoria(clubDeLaVara) : Math.max(0, reputation * 7 - 15);
 
     if (prestige >= starterThreshold) return 'starter';
     if (prestige <= notCalledThreshold) {

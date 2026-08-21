@@ -37,6 +37,7 @@ import { secuelaDeLaLesion } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion } from '../src/lesion';
 import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido } from '../src/elOlvido';
+import { varaDeTitularidad, varaDeConvocatoria } from '../src/fuerzaDelClub';
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import type { Club, PlayerStats, InjuryType } from '../src/types';
 import type { NotaDePartido } from '../src/forma';
@@ -132,8 +133,10 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   const rivalesDeLiga = clubesDeLiga(leagueKeyFor(club)).filter(c => c.id !== club.id);
   if (!rivalesDeLiga.length) { raro(`${club.name} no tiene rivales en su liga: la temporada ${t} no se puede jugar`); break; }
 
-  // La vara de titularidad, con todo lo que la mueve. Es la misma cuenta que decideLineupStatus.
-  const umbral = () => 25 + club.reputation * 11
+  // La vara de titularidad, con todo lo que la mueve. Es la misma cuenta que decideLineupStatus --
+  // que desde que se conecto el ranking de Opta sale de varaDeTitularidad y no de reputation. Si el
+  // banco de pruebas siguiera con la formula vieja mediria un juego que ya no existe.
+  const umbral = () => varaDeTitularidad(club)
     + estorboDelRival(carrera.fichajeRival, paso)
     + ajusteDeFormaEnElOnce(evaluarForma(carrera.formaReciente, paso))
     + exigenciaPorLoQueValés(carrera.marketValue, club.marketValue);
@@ -156,7 +159,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     // esa puerta no habría forma de empezar una carrera en un club grande.
     const vara = umbral();
     const soyTitular = carrera.prestige >= vara;
-    const meLlaman = carrera.prestige > Math.max(0, club.reputation * 7 - 15);
+    const meLlaman = carrera.prestige > varaDeConvocatoria(club);
     if (!soyTitular && !meLlaman) {
       bancoEsteAnio++;
       carrera.banco++;
@@ -300,8 +303,19 @@ for (let t = 1; t <= TEMPORADAS; t++) {
 
   // --- CIERRE DE TEMPORADA: acá es donde viven las reglas que se están probando ----------------
   carrera.edad++;
-  // Crece con lo que jugaste: el que no juega no mejora, que es la mitad del sentido del banco.
-  const crecimiento = titularEsteAnio >= 20 ? 3 : titularEsteAnio >= 10 ? 1 : 0;
+  // CRECE ENTRENANDO, no solo jugando, y esto se corrigio despues de una espiral.
+  //
+  // La version anterior daba atributos SOLO por titularidades: "el que no juega no mejora". Eso es
+  // la regla del modo hardcore (ver src/modoHardcore.ts), no la del juego normal -- en el juego
+  // normal los atributos suben ENTRENANDO, que es algo que hacés vos y no depende de que el DT te
+  // ponga.
+  //
+  // La diferencia no era academica. Un jugador que no arrancaba nunca se quedaba clavado en 62 de
+  // atributos toda la carrera, y con el olvido restandole ocho puntos de prestigio por temporada, la
+  // carrera se hundia sin fondo: 52 -> 42 -> 25 -> 17 -> 6. Cuatro de cada seis corridas terminaban
+  // sin UNA titularidad en veinte temporadas. En el juego real ese jugador habria entrenado.
+  const porEntrenar = 2;
+  const crecimiento = porEntrenar + (titularEsteAnio >= 20 ? 2 : titularEsteAnio >= 10 ? 1 : 0);
   for (const k of Object.keys(carrera.atributos) as (keyof PlayerStats)[]) {
     carrera.atributos[k] = Math.min(99, carrera.atributos[k] + crecimiento);
   }
