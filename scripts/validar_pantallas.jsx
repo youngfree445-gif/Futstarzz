@@ -300,13 +300,35 @@ if (pasoDeFechaFifa == null) {
 // que las secciones que NO estan elegidas salgan ocultas. Si todas salieran visibles, el scroll
 // seguiria siendo el mismo y la barra seria decoracion.
 caso('celular: la carrera tiene barra de secciones', () => {
-  const html = dibujar(perfilDe(junior, {}), 'carrera', 'Historia');
-  if (!html.includes('md:hidden fixed bottom-0')) throw new Error('no esta la barra de abajo');
+  const html = dibujar(perfilDe(junior, {}), 'carrera', 'data-barra-de-secciones');
   // Dos de las tres secciones tienen que estar ocultas en celular.
   const ocultas = (html.match(/hidden md:block/g) ?? []).length;
   if (ocultas < 2) throw new Error(`solo ${ocultas} seccion(es) oculta(s): deberian ser 2 o mas`);
   return html;
 });
+
+// --- LAS OTRAS DOS PESTANIAS LARGAS, con atajos en vez de pestanias ----------------------------
+//
+// Copas y Tablas y Traspasos tambien se vuelven un scroll de varias pantallas en el telefono, pero
+// no se arreglan escondiendo columnas: ahi queres poder comparar la tabla con el cuadro de la copa.
+// Llevan atajos que te bajan al bloque, y por eso lo que se comprueba es que CADA atajo tenga a
+// donde ir -- un boton que apunta a un id que no existe no hace nada y nadie se entera.
+const anclasDe = (html) => new Set(
+  [...html.matchAll(/id="([a-z-]+)"/g)].map(m => m[1]));
+
+for (const [pestania, esperados] of [
+  ['tablas', ['tabla-posiciones', 'tabla-goleadores']],
+  ['traspasos', ['traspasos-ofertas', 'traspasos-radar', 'traspasos-agente']],
+]) {
+  caso(`celular: los atajos de ${pestania} tienen a donde ir`, () => {
+    const html = dibujar(perfilDe(junior, {}), pestania, 'data-barra-de-atajos');
+    const anclas = anclasDe(html);
+    for (const id of esperados) {
+      if (!anclas.has(id)) throw new Error(`el atajo apunta a #${id} y ese bloque no existe`);
+    }
+    return html;
+  });
+}
 
 // --- El panel del torneo de selecciones, en Copas y tablas -----------------------------------
 //

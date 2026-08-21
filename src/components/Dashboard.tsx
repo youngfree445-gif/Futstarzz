@@ -5,6 +5,7 @@ import { laHemerotecaTeRecuerda } from '../hemeroteca';
 import { clasicoPersonalContra } from '../clasicoPersonal';
 import { loQueDiceDeVos } from '../elPibe';
 import { CAMISETAS_CON_DUENO } from '../laCamiseta';
+import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSecciones';
 import { estorboDelRival, promedioDelRival } from '../rivalDePuesto';
 import { PlayerProfile, Club, ShopItem, TableTeam, Position, PlayerStats, TwoLegTie, PlayoffMatch } from '../types';
 // Corregido: Importamos ULTIMATE_CLUBS_DATABASE y getClubWithRoster en lugar de soccerDatabase (que solo tenía 3 clubes de prueba hardcodeados)
@@ -350,6 +351,9 @@ interface DashboardProps {
    */
   initialTab?: SeccionKey;
 }
+
+/** Las tres columnas de Mi Carrera. En celular se ve una por vez (ver BarraDeSecciones). */
+type SeccionDeCarrera = 'partido' | 'ficha' | 'historia';
 
 type SeccionKey =
   | 'carrera' | 'mi_club' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos'
@@ -1058,9 +1062,8 @@ export default function Dashboard({
    * Arranca en PARTIDO a propósito. Lo primero que tiene que ver el que abre el juego es contra
    * quién juega y el botón para hacerlo.
    */
-  const [seccionMovil, setSeccionMovil] = useState<'partido' | 'ficha' | 'historia'>('partido');
-  const soloEn = (s: 'partido' | 'ficha' | 'historia') =>
-    seccionMovil === s ? 'block' : 'hidden md:block';
+  const [seccionMovil, setSeccionMovil] = useState<SeccionDeCarrera>('partido');
+  const soloEn = (s: SeccionDeCarrera) => soloEnSeccion(seccionMovil, s);
 
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
     if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
@@ -3233,33 +3236,18 @@ export default function Dashboard({
           {activeTab === 'carrera' && (
             <div className="space-y-4 animate-fade-in pb-20 md:pb-0">
 
-              {/* LA BARRA DE ABAJO, SOLO EN CELULAR.
-                  Tres destinos, del ancho de un tercio de pantalla y 56px de alto: eso es un blanco
-                  de pulgar de verdad. Va fija abajo y no arriba porque es donde llega la mano, y por
-                  eso el contenido lleva pb-20: si no, el último panel queda tapado por la barra.
-                  En escritorio no existe -- ahí las tres columnas se ven juntas y no hay nada que
-                  elegir. */}
-              <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 flex">
-                {([
+              {/* La barra vive en src/components/BarraDeSecciones.tsx: la usan tres pestañas y
+                  copiarla tres veces era pedir que se desparejaran. */}
+              <BarraDeSecciones<SeccionDeCarrera>
+                etiqueta="Secciones de Mi Carrera"
+                activa={seccionMovil}
+                onCambiar={setSeccionMovil}
+                destinos={[
                   { id: 'partido', texto: 'Partido', Icono: Swords },
                   { id: 'ficha', texto: 'Ficha', Icono: Award },
                   { id: 'historia', texto: 'Historia', Icono: BarChart3 },
-                ] as const).map(({ id, texto, Icono }) => (
-                  <button
-                    key={id}
-                    onClick={() => { setSeccionMovil(id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    aria-current={seccionMovil === id ? 'page' : undefined}
-                    className={`flex-1 h-14 flex flex-col items-center justify-center gap-0.5 font-black uppercase tracking-widest text-3xs transition-colors ${
-                      seccionMovil === id
-                        ? 'text-gold-400 border-t-2 border-gold-400 -mt-px bg-gold-950/25'
-                        : 'text-slate-500'
-                    }`}
-                  >
-                    <Icono size={17} />
-                    {texto}
-                  </button>
-                ))}
-              </nav>
+                ] as const}
+              />
 
               <div className="grid md:grid-cols-3 gap-4 stagger">
 
@@ -4681,7 +4669,15 @@ export default function Dashboard({
           )}
 
           {activeTab === 'traspasos' && (
-            <div className="space-y-6 animate-fade-in max-w-4xl">
+            <div className="space-y-6 animate-fade-in max-w-4xl pb-20 md:pb-0">
+              <BarraDeAtajos
+                etiqueta="Atajos de Traspasos"
+                atajos={[
+                  { ancla: 'traspasos-ofertas', texto: 'Ofertas', Icono: RefreshCw },
+                  { ancla: 'traspasos-radar', texto: 'Radar', Icono: Table },
+                  { ancla: 'traspasos-agente', texto: 'Agente', Icono: Award },
+                ]}
+              />
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
                   Oficina de Contratos y Representaciones
@@ -4746,7 +4742,7 @@ export default function Dashboard({
                   sólo entraban tres y había que scrollear para comparar. Compactadas y de a dos,
                   entran seis en el mismo alto, que es justo lo que hace falta acá: verlas juntas
                   para elegir. */}
-              <div className="grid xl:grid-cols-2 gap-2.5 items-start">
+              <div id="traspasos-ofertas" className="scroll-mt-4 grid xl:grid-cols-2 gap-2.5 items-start">
                 {transferOffers.map(offer => {
                   const getLeagueFlagText = (lg: string) => {
                     switch (lg) {
@@ -4914,7 +4910,7 @@ export default function Dashboard({
                   .filter((p): p is typeof p & { club: Club } => !!p.club);
                 if (radar.length === 0) return null;
                 return (
-                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                  <div id="traspasos-radar" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
                       🎯 Quién te está mirando
                     </h3>
@@ -4962,7 +4958,7 @@ export default function Dashboard({
                 );
               })()}
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div id="traspasos-agente" className="scroll-mt-4 grid md:grid-cols-2 gap-4">
                 <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                     🤝 Representante
@@ -5312,7 +5308,18 @@ export default function Dashboard({
           )}
 
           {activeTab === 'tablas' && (
-            <div className="space-y-6 animate-fade-in max-w-4xl">
+            <div className="space-y-6 animate-fade-in max-w-4xl pb-20 md:pb-0">
+              {/* ATAJOS, NO PESTAÑAS. Acá querés poder comparar la tabla con el cuadro de la copa,
+                  asi que esconder una para ver la otra seria peor que el scroll. Los atajos que no
+                  tienen a donde ir no se dibujan: la copa continental no siempre existe. */}
+              <BarraDeAtajos
+                etiqueta="Atajos de Copas y Tablas"
+                atajos={[
+                  { ancla: 'tabla-posiciones', texto: 'Tabla', Icono: Table },
+                  { ancla: 'tabla-goleadores', texto: 'Cracks', Icono: BarChart3 },
+                  ...(conmebolCup ? [{ ancla: 'tabla-copa', texto: 'Copa', Icono: Trophy }] : []),
+                ]}
+              />
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
                   Panel de Competiciones Oficiales
@@ -5324,7 +5331,7 @@ export default function Dashboard({
                 </p>
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
+              <div id="tabla-posiciones" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 flex-wrap">
                   <div>
                     <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 flex items-center gap-2">
@@ -5393,7 +5400,7 @@ export default function Dashboard({
                 )}
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
+              <div id="tabla-goleadores" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
                   <Award size={13} /> ESTADÍSTICAS DE JUGADORES · {tituloDeLideres.toUpperCase()}
                 </h3>
@@ -5507,7 +5514,7 @@ export default function Dashboard({
                 </div>
               )}
 
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
+              <div id="tabla-copa" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 {conmebolCup ? (
                   <>
                     <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 border-b border-slate-800 pb-2 flex items-center gap-2">
