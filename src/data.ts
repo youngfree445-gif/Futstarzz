@@ -4804,6 +4804,38 @@ const EQUIPO_SYNONYMS_POR_ID: Record<string, string> = {
   // INDEPENDIENTE DE AVELLANEDA. El sinonimo hubiera metido el plantel argentino en un club
   // ecuatoriano, que es exactamente como se rompio el juego dos veces. Queda sin plantel hasta
   // conseguir el suyo.
+  // DIECISIETE MAS, encontrados con una sonda en vez de con el parecido del nombre.
+  //
+  // Estos no se podian encontrar comparando nombres: la base los tiene con el nombre SIN LICENCIA
+  // -- Atalanta es "Bergamo Calcio", Inter es "Lombardia FC", Lazio es "Latium" -- o abreviado
+  // ("IDV", "S. Ameliano", "D. Concepcion"). Ningun parecido de texto los une.
+  //
+  // COMO SE ENCONTRARON: con una lista de jugadores de cada club, buscando en que equipo de la base
+  // esta la mayoria. Diecisiete de los jugadores de Lazio estan en "Latium": eso no es coincidencia,
+  // eso ES el Lazio.
+  //
+  // Y DOS SE DESCARTARON CON LA MISMA SONDA, que es lo que la hace confiable. "Universitario de
+  // Vinto" daba cuatro coincidencias con "Blooming" y "Deportivo Tachira" cuatro con "Puerto
+  // Cabello": son clubes DISTINTOS y esas cuatro son jugadores que pasaron de uno al otro. Se
+  // aceptaron solo los casos donde ademas el nombre corrobora.
+  'atalanta': 'Bergamo Calcio',
+  'inter': 'Lombardia FC',
+  'lazio': 'Latium',
+  'cd_nacional': 'Nacional da Madeira',
+  'estoril_praia': 'Estoril',
+  'vitoria_sc': 'Vitória de Guimarães',
+  'r_racing_club': 'Racing de Santander',
+  'r_valladolid_cf': 'Real Valladolid',
+  'lafc': 'Los Angeles FC',
+  'new_england': 'New England Revolution',
+  'philadelphia': 'Philadelphia Union',
+  'san_jose': 'San Jose Earthquakes',
+  'deportes_concepción': 'D. Concepción',
+  'sportivo_ameliano': 'S. Ameliano',
+  'recoleta': 'Recoleta F.C.',
+  'idv_ecu': 'IDV',
+  'gualberto_villarroel': 'GV San José',
+
   'defensor_sporting': 'Defensor',
   'montevideo_wanderers_uru': 'Wanderers',
   'montevideo_city_torque_uru': 'Mdeo City Torque',
