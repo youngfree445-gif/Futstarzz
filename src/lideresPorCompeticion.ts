@@ -177,25 +177,63 @@ function limpiarNombre(figura: string): string {
  * quedaría vacío. Las amarillas caen sobre todo en defensores y volantes, que es donde caen de
  * verdad, y las rojas son raras a propósito: una cada tantos partidos, no una por fecha.
  */
+/**
+ * EL TOPE DE AMARILLAS DE UNA TEMPORADA, y por qué existe uno de verdad.
+ *
+ * Reportado jugando: al cerrar la temporada aparecían jugadores con veinte y pico de amarillas.
+ * La cuenta explica por qué -- el reparto elige entre los DEFENSORES Y VOLANTES de `starPlayers`,
+ * que son cinco o seis nombres, y les da dos amarillas por partido durante treinta y ocho fechas.
+ * Setenta y seis amarillas repartidas entre cinco jugadores dan quince cada uno, y al más castigado
+ * lo dejan arriba de veinticinco.
+ *
+ * Y NO ES SOLO QUE SE VEA FEO: es que en el fútbol eso no puede pasar. Al llegar al tope de
+ * acumulación te suspenden Y LA CUENTA SE REINICIA, así que nadie termina un torneo con veinticinco.
+ * El tope no es un maquillaje sobre el número: es la regla que faltaba modelar.
+ *
+ * Doce es lo que lleva un central muy amonestado en una temporada larga de verdad.
+ */
+export const TOPE_DE_AMARILLAS = 12;
+/** Y las rojas: tres en una temporada ya es una barbaridad. */
+export const TOPE_DE_ROJAS = 3;
+
 export function repartirTarjetas(
   figuras: readonly string[],
   clubName: string,
   aleatorio: () => number = Math.random,
+  /**
+   * Lo que cada jugador YA lleva en esta competición. Al que llegó al tope no se le dan más: en el
+   * fútbol de verdad ya cumplió la suspensión y su cuenta arrancó de cero.
+   */
+  yaTiene?: Record<string, { amarillas: number; rojas: number }>,
 ): { nombre: string; clubName: string; amarillas: number; rojas: number }[] {
   if (!figuras.length) return [];
   const propensos = figuras.filter(f => /\((CB|LB|RB|CDM|CM|LM|RM)\)/.test(f));
   const candidatos = (propensos.length ? propensos : figuras).map(limpiarNombre);
+
   const salida: { nombre: string; clubName: string; amarillas: number; rojas: number }[] = [];
   // Un partido de fútbol reparte dos o tres amarillas por equipo. Se modela así y no con una
   // probabilidad por jugador, que daba equipos con nueve amonestados.
   const cuantas = aleatorio() < 0.35 ? 1 : aleatorio() < 0.85 ? 2 : 3;
+  // LAS DE ESTE MISMO PARTIDO CUENTAN. La primera versión filtraba una sola vez antes del bucle, así
+  // que un jugador con once amarillas seguía siendo candidato para las tres de la fecha y terminaba
+  // en catorce. Lo atrapó el caso, que medía el peor de una temporada entera: daba 13.
+  const enEstePartido: Record<string, number> = {};
   for (let i = 0; i < cuantas; i++) {
-    const quien = candidatos[Math.floor(aleatorio() * candidatos.length)];
+    const conLugar = candidatos.filter(n =>
+      (yaTiene?.[n]?.amarillas ?? 0) + (enEstePartido[n] ?? 0) < TOPE_DE_AMARILLAS);
+    // Si TODOS llegaron al tope, la fecha no reparte más amarillas. Es lo correcto y no un caso
+    // raro: con cinco candidatos y treinta y ocho fechas, pasa sobre el final de la temporada.
+    if (!conLugar.length) break;
+    const quien = conLugar[Math.floor(aleatorio() * conLugar.length)];
+    enEstePartido[quien] = (enEstePartido[quien] ?? 0) + 1;
     salida.push({ nombre: quien, clubName, amarillas: 1, rojas: 0 });
   }
   if (aleatorio() < 0.06) {
-    const quien = candidatos[Math.floor(aleatorio() * candidatos.length)];
-    salida.push({ nombre: quien, clubName, amarillas: 0, rojas: 1 });
+    const sinRojas = candidatos.filter(n => (yaTiene?.[n]?.rojas ?? 0) < TOPE_DE_ROJAS);
+    if (sinRojas.length) {
+      const quien = sinRojas[Math.floor(aleatorio() * sinRojas.length)];
+      salida.push({ nombre: quien, clubName, amarillas: 0, rojas: 1 });
+    }
   }
   return salida;
 }

@@ -2989,9 +2989,31 @@ export default function MatchSimulator({
                   <span className="text-xs sm:text-sm font-bold font-mono text-white block leading-none whitespace-nowrap">{(5.2 + (minute * 0.08)).toFixed(1)}km</span>
                   <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1 leading-tight whitespace-nowrap">Distancia</span>
                 </div>
-                <div className="bg-slate-950/60 p-2 sm:p-3 rounded-xl border border-slate-800 text-center">
-                  <Square size={14} className="text-slate-600 mx-auto mb-1" />
-                  <span className="text-xs sm:text-sm font-bold font-mono text-white block leading-none whitespace-nowrap">Ninguna</span>
+                {/* LA TARJETA, LEIDA DEL PARTIDO. Decia "Ninguna" ESCRITO A MANO: te sacaban
+                    amarilla, el relato la contaba, el perfil la acumulaba, y esta celda seguia
+                    diciendo que no habias visto ninguna. Reportado jugando. */}
+                <div
+                  data-tarjeta-del-partido={playerCards}
+                  className={`p-2 sm:p-3 rounded-xl border text-center ${
+                    playerCards === 'red' ? 'bg-burgundy-950/40 border-burgundy-500/40'
+                      : playerCards === 'yellow' ? 'bg-yellow-950/30 border-yellow-500/40'
+                      : 'bg-slate-950/60 border-slate-800'
+                  }`}
+                >
+                  <Square
+                    size={14}
+                    className={`mx-auto mb-1 ${
+                      playerCards === 'red' ? 'text-burgundy-500 fill-burgundy-500'
+                        : playerCards === 'yellow' ? 'text-yellow-400 fill-yellow-400'
+                        : 'text-slate-600'
+                    }`}
+                  />
+                  <span className={`text-xs sm:text-sm font-bold font-mono block leading-none whitespace-nowrap ${
+                    playerCards === 'red' ? 'text-burgundy-400'
+                      : playerCards === 'yellow' ? 'text-yellow-400' : 'text-white'
+                  }`}>
+                    {playerCards === 'red' ? 'Roja' : playerCards === 'yellow' ? 'Amarilla' : 'Ninguna'}
+                  </span>
                   <span className="text-4xs text-slate-500 uppercase font-mono font-bold block mt-1 leading-tight whitespace-nowrap">Tarjetas</span>
                 </div>
               </div>

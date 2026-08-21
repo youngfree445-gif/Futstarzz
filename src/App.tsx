@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import { PlayerProfile, ShopItem, PlayerStats, Position, Club, PenaltyShootoutResult, PlayoffBracket, TwoLegBracket, TwoLegTie, SeasonHistory, Achievement, DatedResult, CupTitle, InjuryType, ActiveInjury, Agent } from './types';
 import {
   INITIAL_LIFESTYLE_ITEMS, LOBBY_RANDOM_EVENTS, OPPONENT_CLUBS_POOL, ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE,
@@ -40,6 +40,9 @@ import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } 
 import { forzandoLaVuelta, lesionTeDejaAfuera, riesgoDeRecaida, PENALIDAD_ENERGIA_LESIONADO, TIPOS_DE_LESION, sortearTipoDeLesion, riesgoDeLesion } from './lesion';
 import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
+import { simularPartidoCompleto } from './partidoSimulado';
+import { PartidoSimulandose } from './components/PartidoSimulandose';
+import { POOLS_DE_DECISION } from './components/MatchSimulator';
 import { duenosDeLasCamisetas, podesPedirLaCamiseta, elDiaQueTeLaPonen, CAMISETAS_CON_DUENO, HINCHADA_POR_LA_CAMISETA } from './laCamiseta';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, avisoDelOlvido } from './elOlvido';
 import { guardarDeclaracion } from './hemeroteca';
@@ -3182,6 +3185,43 @@ export default function App() {
     return 'substitute';
   }
 
+  /**
+   * Resuelve el partido simulado y se lo pasa a handleFinishMatch, igual que si vinieras de la
+   * pantalla.
+   *
+   * Va por handleFinishMatch y no por un camino propio A PROPOSITO: ahi viven las tarjetas, las
+   * lesiones, el cabeza a cabeza, el apodo, la temporada y otras quince cosas. Un camino paralelo
+   * seria la version corta de "dos fuentes contestando la misma pregunta", y esta vez con quince
+   * preguntas.
+   */
+  const resolverPartidoSimulado = useCallback(() => {
+    if (!playerProfile) return;
+    const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+    const rival = CLUBS_DATABASE.find(c => c.id === activeOppositionClubId);
+    if (!myClub) return;
+
+    // El marcador sale del MISMO simulateMatch que usa el resto del mundo corriendo de fondo.
+    const sim = rival
+      ? (activeIsHome ? simulateMatch(myClub, rival) : simulateMatch(rival, myClub))
+      : { homeGoals: 1, awayGoals: 1 };
+    const golesMiEquipo = activeIsHome ? sim.homeGoals : sim.awayGoals;
+    const golesRival = activeIsHome ? sim.awayGoals : sim.homeGoals;
+
+    const bolsas = POOLS_DE_DECISION[playerProfile.position as keyof typeof POOLS_DE_DECISION]
+      ?? POOLS_DE_DECISION.Mediocampista;
+
+    handleFinishMatch(simularPartidoCompleto({
+      perfil: playerProfile,
+      golesMiEquipo,
+      golesRival,
+      bolsaTemprana: bolsas.early,
+      bolsaTardia: bolsas.late,
+      esTitular: activeLineupStatus !== 'substitute',
+      salaryEarned: myClub.initialSalary,
+    }));
+    setSimularEstePartido(false);
+  }, [playerProfile, activeOppositionClubId, activeIsHome, activeLineupStatus]);
+
   const startMatchflow = () => {
     if (!playerProfile) return;
 
@@ -5552,6 +5592,14 @@ export default function App() {
           ?? temporadaDe(playerProfile, playerProfile.currentWeek);
         const clave = claveDeCompeticion(nombreComp, temporadaHoy);
 
+        // LO QUE CADA UNO YA LLEVA EN ESTA COMPETICION. Sin esto, el reparto le podia dar la
+        // amarilla numero veintiseis al mismo central, que es lo que se veia al cerrar la
+        // temporada: el reparto elige entre cinco o seis nombres y son treinta y ocho fechas.
+        // Ver TOPE_DE_AMARILLAS en src/lideresPorCompeticion.ts.
+        const tarjetasHastaHoy: Record<string, { amarillas: number; rojas: number }> =
+          Object.fromEntries(Object.entries(playerProfile.lideresPorCompeticion?.[clave] ?? {})
+            .map(([nombre, l]) => [nombre, { amarillas: l.amarillas ?? 0, rojas: l.rojas ?? 0 }]));
+
         const rivalClub = CLUBS_DATABASE.find(c => c.id === activeOppositionClubId);
         // Los goles del rival se reparten entre sus figuras: el motor simula marcadores, no
         // goleadores, y sin este reparto la tabla sería un ranking de un solo nombre -- el tuyo.
@@ -5569,8 +5617,9 @@ export default function App() {
         // siempre vos con una sola.
         const tarjeta: 'none' | 'yellow' | 'red' = results.cardReceived || 'none';
         const tarjetasAjenas = [
-          ...(rivalClub ? repartirTarjetas(rivalClub.starPlayers ?? [], rivalClub.name) : []),
-          ...repartirTarjetas((myClub.starPlayers ?? []).filter(f => !f.startsWith(playerProfile.name)), myClub.name),
+          // Lo que cada uno YA lleva en esta competicion: al que llego al tope no se le dan mas.
+          ...(rivalClub ? repartirTarjetas(rivalClub.starPlayers ?? [], rivalClub.name, Math.random, tarjetasHastaHoy) : []),
+          ...repartirTarjetas((myClub.starPlayers ?? []).filter(f => !f.startsWith(playerProfile.name)), myClub.name, Math.random, tarjetasHastaHoy),
         ];
         // Portería menos vencida: cada arquero suma un partido y los goles que le hicieron.
         const miArquero = arqueroDe(myClub.starPlayers ?? []);
@@ -5596,8 +5645,8 @@ export default function App() {
               return [
                 ...(local ? repartirGoles(local.starPlayers ?? [], local.name, p.homeGoals) : []),
                 ...(visita ? repartirGoles(visita.starPlayers ?? [], visita.name, p.awayGoals) : []),
-                ...(local ? repartirTarjetas(local.starPlayers ?? [], local.name) : []),
-                ...(visita ? repartirTarjetas(visita.starPlayers ?? [], visita.name) : []),
+                ...(local ? repartirTarjetas(local.starPlayers ?? [], local.name, Math.random, tarjetasHastaHoy) : []),
+                ...(visita ? repartirTarjetas(visita.starPlayers ?? [], visita.name, Math.random, tarjetasHastaHoy) : []),
                 ...(local && arqueroDe(local.starPlayers ?? [])
                   ? [{ nombre: arqueroDe(local.starPlayers ?? [])!, clubName: local.name, partidosDeArquero: 1, golesRecibidos: p.awayGoals }] : []),
                 ...(visita && arqueroDe(visita.starPlayers ?? [])
@@ -5985,7 +6034,24 @@ export default function App() {
         />
       )}
 
-      {screen === 'match' && playerProfile && (
+      {/* SIMULAR ES SIMULAR. Antes este mismo boton te metia igual a la pantalla del partido con la
+          velocidad al maximo: seguias mirando los noventa minutos sin tocar nada, que es lo peor de
+          las dos opciones. Ahora el partido se resuelve solo y aparece el resultado.
+
+          El motor es EL MISMO -- las decisiones reales de tu puesto, la misma chanceDeAcertar, la
+          misma escala de prestigio y el mismo riesgo de tarjeta (ver src/partidoSimulado.ts). Si
+          simular usara una cuenta aparte habria dos juegos, y el jugador elegiria el que le
+          conviene. */}
+      {screen === 'match' && playerProfile && simularEstePartido && (
+        <PartidoSimulandose
+          key={matchInstance}
+          rival={activeOpposition}
+          escudoUrl={CLUBS_DATABASE.find(c => c.id === activeOppositionClubId)?.badgeImageUrl ?? null}
+          onResolver={resolverPartidoSimulado}
+        />
+      )}
+
+      {screen === 'match' && playerProfile && !simularEstePartido && (
         <MatchSimulator
           key={matchInstance}
           playerProfile={playerProfile}

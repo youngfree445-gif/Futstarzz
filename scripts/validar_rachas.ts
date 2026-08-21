@@ -27,6 +27,8 @@ import { factorDeMarcaPersonal } from '../src/dificultad';
 import { pesoDeLaSituacion, prestigioDeLaJugada, queEstaPidiendoElPartido, chanceDeAcertar, CUANTO_VALE_UN_PUNTO, MINUTO_EN_QUE_IMPORTA } from '../src/decisionDelPartido';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, pisoDelOlvido, partidosQueCuentan, avisoDelOlvido, PISO_MAXIMO, PARTIDOS_PARA_QUE_NO_TE_OLVIDEN } from '../src/elOlvido';
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
+import { repartirTarjetas, TOPE_DE_AMARILLAS, TOPE_DE_ROJAS } from '../src/lideresPorCompeticion';
+import { simularPartidoCompleto } from '../src/partidoSimulado';
 
 let fallas = 0;
 let corridos = 0;
@@ -875,6 +877,80 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   // nadie deberia elegir, y el juego no deberia tener puestos asi.
   ok('ningun puesto rinde menos del 70% del mejor', peor / mejor >= 0.7,
     `${(peor / mejor * 100).toFixed(0)}%`);
+}
+
+// --- EL TOPE DE TARJETAS DE UNA TEMPORADA -------------------------------------------------------
+//
+// Reportado jugando: al cerrar la temporada aparecian jugadores con veinte y pico de amarillas. El
+// reparto elige entre los defensores y volantes de starPlayers -- cinco o seis nombres -- y da dos
+// amarillas por partido durante treinta y ocho fechas. Setenta y seis entre cinco dan quince cada
+// uno, y al mas castigado lo dejan arriba de veinticinco.
+{
+  const plantel = ['Juan Perez (CB)', 'Luis Gomez (CDM)', 'Ana Ruiz (CM)', 'Pepe Diaz (LB)'];
+
+  // Una temporada entera de una liga larga, con el tope funcionando.
+  const llevan: Record<string, { amarillas: number; rojas: number }> = {};
+  for (let fecha = 0; fecha < 38; fecha++) {
+    for (const l of repartirTarjetas(plantel, 'Junior', Math.random, llevan)) {
+      const n = l.nombre;
+      llevan[n] = llevan[n] ?? { amarillas: 0, rojas: 0 };
+      llevan[n].amarillas += l.amarillas;
+      llevan[n].rojas += l.rojas;
+    }
+  }
+  const peorAmarillas = Math.max(...Object.values(llevan).map(x => x.amarillas));
+  const peorRojas = Math.max(...Object.values(llevan).map(x => x.rojas));
+  ok('nadie pasa el tope de amarillas en una temporada', peorAmarillas <= TOPE_DE_AMARILLAS,
+    String(peorAmarillas));
+  ok('ni el de rojas', peorRojas <= TOPE_DE_ROJAS, String(peorRojas));
+  // Y que el tope no apague el reparto: sin amarillas en toda la temporada tampoco sirve.
+  ok('pero si se reparten tarjetas', peorAmarillas >= 5, String(peorAmarillas));
+
+  // SIN EL TOPE se desmadra, que es lo que se veia. Este caso deja el numero viejo a la vista.
+  const sinTope: Record<string, number> = {};
+  for (let fecha = 0; fecha < 38; fecha++) {
+    for (const l of repartirTarjetas(plantel, 'Junior')) {
+      sinTope[l.nombre] = (sinTope[l.nombre] ?? 0) + l.amarillas;
+    }
+  }
+  ok('sin el tope, el reparto se desmadra', Math.max(...Object.values(sinTope)) > TOPE_DE_AMARILLAS,
+    String(Math.max(...Object.values(sinTope))));
+}
+
+// --- SIMULAR ES JUGAR SIN MIRAR, NO SALTEAR EL PARTIDO ------------------------------------------
+//
+// Lo importante: simular tiene que salir del MISMO motor que jugar. Si fuera una cuenta aparte
+// habria dos juegos, y el jugador elegiria el que le conviene.
+{
+  const perfil: any = {
+    name: 'Camilo', position: 'Mediocampista', prestige: 60, dorsal: 27,
+    attributes: { ritmo: 70, regate: 70, tiro: 70, pase: 70, defensa: 70, fisico: 70 },
+  };
+  const bolsas = (POOLS_DE_DECISION as any).Mediocampista;
+  const jugar = (o: any) => simularPartidoCompleto({
+    perfil, golesMiEquipo: 2, golesRival: 1,
+    bolsaTemprana: bolsas.early, bolsaTardia: bolsas.late,
+    esTitular: true, salaryEarned: 1000, ...o,
+  });
+
+  const r = jugar({});
+  ok('el resultado sale del marcador', r.resultado === 'W');
+  ok('no podes hacer mas goles que tu equipo', r.goles <= 2, `${r.goles} de 2`);
+  ok('la nota queda en rango', r.rating >= 3 && r.rating <= 10, String(r.rating));
+  ok('el partido deja relato', r.log.length > 0, `${r.log.length} lineas`);
+
+  // EL SUPLENTE JUEGA MENOS. Si simulara igual que el titular, entrar desde el banco no costaria
+  // nada y la titularidad dejaria de significar algo.
+  const titular = jugar({});
+  const suplente = jugar({ esTitular: false });
+  ok('el suplente decide menos jugadas que el titular', suplente.log.length < titular.log.length,
+    `${suplente.log.length} contra ${titular.log.length}`);
+
+  // Y LO MAS IMPORTANTE: simular tiene que poder costarte una tarjeta. Si no, simular seria
+  // estrictamente mas seguro que jugar y la respuesta correcta pasaria a ser simularlo todo.
+  let conTarjeta = 0;
+  for (let i = 0; i < 400; i++) if (jugar({}).cardReceived !== 'none') conTarjeta++;
+  ok('simular tambien te puede costar tarjeta', conTarjeta > 0, `${conTarjeta} de 400`);
 }
 
 console.log(fallas === 0 ? `\nLos ${corridos} casos pasan.` : `\n${fallas} FALLAS`);
