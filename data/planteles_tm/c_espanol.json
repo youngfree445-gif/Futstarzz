@@ -1,0 +1,216 @@
+{
+  "fuente": "https://www.transfermarkt.co/central-espanol-fc/startseite/verein/10960/saison_id/2025",
+  "teamName": "C. Español",
+  "players": [
+    {
+      "nombre": "Emiliano Márquez",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Rodolfo",
+      "pos": "Portero",
+      "edad": 35,
+      "valor": 100000
+    },
+    {
+      "nombre": "Samuel Rodríguez",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 25000
+    },
+    {
+      "nombre": "Ignacio Rodríguez",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 500000
+    },
+    {
+      "nombre": "Matías González",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 500000
+    },
+    {
+      "nombre": "Logan Ponce",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Mateo Urrutia",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 50000
+    },
+    {
+      "nombre": "Alejandro Villoldo",
+      "pos": "Defensa central",
+      "edad": 37,
+      "valor": 25000
+    },
+    {
+      "nombre": "Ernesto Aramburú",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 25000
+    },
+    {
+      "nombre": "Juan Herrera",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "César Nunes",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Juan Ignacio Dupont",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Lautaro Gandulfo",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Luciano Fernández",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mateo Cantera",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 125000
+    },
+    {
+      "nombre": "Guillermo Gandolfo",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Marcos Montiel",
+      "pos": "Pivote",
+      "edad": 31,
+      "valor": 300000
+    },
+    {
+      "nombre": "Isaac Méndez",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 200000
+    },
+    {
+      "nombre": "Davi Melo",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Franco Muñoz",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 350000
+    },
+    {
+      "nombre": "Lucas Pino",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 450000
+    },
+    {
+      "nombre": "Facundo Yocco",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 50000
+    },
+    {
+      "nombre": "Máximo Alonso",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Exequiel Mereles",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Mariano Aguilera",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 500000
+    },
+    {
+      "nombre": "Fernando Camarda",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Facundo Sosa",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Francisco Montoro",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Santiago Sequeira",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Jonathan Dellarossa",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 125000
+    },
+    {
+      "nombre": "Facundo Borges",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Nicolás Campos",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Ignacio Gonella",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Matías Kusmanis",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 25000
+    },
+    {
+      "nombre": "Raúl Tarragona",
+      "pos": "Delantero centro",
+      "edad": 39,
+      "valor": 10000
+    }
+  ]
+}

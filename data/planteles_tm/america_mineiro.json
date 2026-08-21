@@ -1,0 +1,210 @@
+{
+  "fuente": "https://www.transfermarkt.co/america-mineiro/startseite/verein/2863/saison_id/2025",
+  "teamName": "América Mineiro",
+  "players": [
+    {
+      "nombre": "Gustavo",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 200000
+    },
+    {
+      "nombre": "Cássio",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 75000
+    },
+    {
+      "nombre": "Bruno Brígido",
+      "pos": "Portero",
+      "edad": 35,
+      "valor": 50000
+    },
+    {
+      "nombre": "William",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Italo Brito",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Luca Sosa",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 600000
+    },
+    {
+      "nombre": "Ricardo Silva",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 200000
+    },
+    {
+      "nombre": "Rafa Barcelos",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Manoel",
+      "pos": "Defensa central",
+      "edad": 36,
+      "valor": 100000
+    },
+    {
+      "nombre": "Emerson",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 25000
+    },
+    {
+      "nombre": "Thallyson",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Dalbert",
+      "pos": "Lateral izquierdo",
+      "edad": 32,
+      "valor": 400000
+    },
+    {
+      "nombre": "Tobias Ostchega",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Alex Silva",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Fábio",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Heitor",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Val Soares",
+      "pos": "Pivote",
+      "edad": 29,
+      "valor": 400000
+    },
+    {
+      "nombre": "Gustavo Barreto",
+      "pos": "Pivote",
+      "edad": 30,
+      "valor": 300000
+    },
+    {
+      "nombre": "Alê",
+      "pos": "Pivote",
+      "edad": 36,
+      "valor": 100000
+    },
+    {
+      "nombre": "Jorge Jiménez",
+      "pos": "Pivote",
+      "edad": 33,
+      "valor": 0
+    },
+    {
+      "nombre": "Felipe Amaral",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 500000
+    },
+    {
+      "nombre": "Eduardo Person",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 150000
+    },
+    {
+      "nombre": "Gabriel Domingos",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Otávio Gonçalves",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Yago Souza",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 900000
+    },
+    {
+      "nombre": "Fernando Elizari",
+      "pos": "Mediocentro ofensivo",
+      "edad": 35,
+      "valor": 250000
+    },
+    {
+      "nombre": "Paulo Victor",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Matías Segovia",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 700000
+    },
+    {
+      "nombre": "Rodrigo Piñeiro",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 275000
+    },
+    {
+      "nombre": "Gabriel Barros",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Guilherme Parede",
+      "pos": "Extremo derecho",
+      "edad": 30,
+      "valor": 0
+    },
+    {
+      "nombre": "Willian Bigode",
+      "pos": "Mediapunta",
+      "edad": 39,
+      "valor": 100000
+    },
+    {
+      "nombre": "Gonzalo Mastriani",
+      "pos": "Delantero centro",
+      "edad": 33,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Marcelo Maçola",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 0
+    }
+  ]
+}

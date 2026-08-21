@@ -1,0 +1,216 @@
+{
+  "fuente": "https://www.transfermarkt.co/club-deportivo-oriente-petrolero/startseite/verein/6985/saison_id/2025",
+  "teamName": "Oriente Petrolero",
+  "players": [
+    {
+      "nombre": "Alejandro Torres",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 250000
+    },
+    {
+      "nombre": "Joel Bernal",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 10000
+    },
+    {
+      "nombre": "Arnold Alba",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Manuel Reyes",
+      "pos": "Defensa",
+      "edad": 18,
+      "valor": 100000
+    },
+    {
+      "nombre": "Fran López",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Andrés Ariza",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 175000
+    },
+    {
+      "nombre": "Jefferson Virreira",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 100000
+    },
+    {
+      "nombre": "Mizael Monteiro",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Dieguito Rodriguez",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 450000
+    },
+    {
+      "nombre": "Manuel Bonilla",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Dico Roca",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 175000
+    },
+    {
+      "nombre": "Jhon Velasco",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Enrique Taborga",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 125000
+    },
+    {
+      "nombre": "Marco Velasco",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 325000
+    },
+    {
+      "nombre": "Roberto Diez",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 275000
+    },
+    {
+      "nombre": "Jorge Lovera",
+      "pos": "Pivote",
+      "edad": 29,
+      "valor": 225000
+    },
+    {
+      "nombre": "Octavio Perdomo",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 125000
+    },
+    {
+      "nombre": "Luis Sabja",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 75000
+    },
+    {
+      "nombre": "Fabricio Sosa",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Héctor Villalba",
+      "pos": "Centrocampista",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Julio Herrera",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jamir Berdecio",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 325000
+    },
+    {
+      "nombre": "Franz Gonzales",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 225000
+    },
+    {
+      "nombre": "Samuel Galindo",
+      "pos": "Mediocentro",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Omar Siles",
+      "pos": "Interior izquierdo",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Celin Padilla",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Nahuel Roldán",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 200000
+    },
+    {
+      "nombre": "José Flores",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 225000
+    },
+    {
+      "nombre": "Leonardo Vaca",
+      "pos": "Extremo derecho",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Máximo Mamani",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Braian Mamani",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Joffré Escobar",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 200000
+    },
+    {
+      "nombre": "Matias Roskopf",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 150000
+    },
+    {
+      "nombre": "Nabil Nacif",
+      "pos": "Delantero centro",
+      "edad": 16,
+      "valor": 125000
+    },
+    {
+      "nombre": "Adrián Peña",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 100000
+    }
+  ]
+}

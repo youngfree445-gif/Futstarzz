@@ -1,0 +1,216 @@
+{
+  "fuente": "https://www.transfermarkt.co/atletico-clube-goianiense/startseite/verein/15172/saison_id/2025",
+  "teamName": "Atlético Goianiense",
+  "players": [
+    {
+      "nombre": "Paulo Vítor",
+      "pos": "Portero",
+      "edad": 37,
+      "valor": 100000
+    },
+    {
+      "nombre": "Vladimir",
+      "pos": "Portero",
+      "edad": 37,
+      "valor": 50000
+    },
+    {
+      "nombre": "Paulo Henrique",
+      "pos": "Portero",
+      "edad": 32,
+      "valor": 0
+    },
+    {
+      "nombre": "Léo",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Natã",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 900000
+    },
+    {
+      "nombre": "Adriano Martins",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 600000
+    },
+    {
+      "nombre": "Junior Barreto",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 600000
+    },
+    {
+      "nombre": "Tito",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Marcão",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Guilherme Lopes",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 800000
+    },
+    {
+      "nombre": "Yuri",
+      "pos": "Lateral izquierdo",
+      "edad": 30,
+      "valor": 250000
+    },
+    {
+      "nombre": "Gustavo Daniel",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Ewerthon",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Warley",
+      "pos": "Lateral derecho",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Felipe Guimarães",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Leandro Vilela",
+      "pos": "Pivote",
+      "edad": 31,
+      "valor": 200000
+    },
+    {
+      "nombre": "Geovane",
+      "pos": "Pivote",
+      "edad": 37,
+      "valor": 100000
+    },
+    {
+      "nombre": "Daniel Peixoto",
+      "pos": "Pivote",
+      "edad": 29,
+      "valor": 0
+    },
+    {
+      "nombre": "Netinho",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Henrique Freitas",
+      "pos": "Pivote",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Cauã Marley",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Cristiano",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Igor Henrique",
+      "pos": "Mediocentro",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Matheusinho",
+      "pos": "Mediocentro ofensivo",
+      "edad": 28,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Guilherme",
+      "pos": "Mediocentro ofensivo",
+      "edad": 35,
+      "valor": 200000
+    },
+    {
+      "nombre": "Gustavo Maia",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Kahiser Lenis",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 200000
+    },
+    {
+      "nombre": "Marrony",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 700000
+    },
+    {
+      "nombre": "Bruno José",
+      "pos": "Extremo derecho",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Léo Tocantins",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Lima",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Gustavo Coutinho",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 1500000
+    },
+    {
+      "nombre": "João Pedro",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 800000
+    },
+    {
+      "nombre": "Daniel Lima",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 500000
+    },
+    {
+      "nombre": "Geovany Soares",
+      "pos": "Delantero",
+      "edad": 26,
+      "valor": 0
+    }
+  ]
+}

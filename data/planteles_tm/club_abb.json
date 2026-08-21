@@ -1,0 +1,198 @@
+{
+  "fuente": "https://www.transfermarkt.co/club-abb/startseite/verein/93043/saison_id/2025",
+  "teamName": "Club ABB",
+  "players": [
+    {
+      "nombre": "Jairo Cuéllar",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Santiago Paz",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 75000
+    },
+    {
+      "nombre": "Aldair Riascos",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 25000
+    },
+    {
+      "nombre": "Santiago Delgadillo",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 10000
+    },
+    {
+      "nombre": "Fabio Zamora",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 250000
+    },
+    {
+      "nombre": "Pablo Vaca",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Augusto Seimandi",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 200000
+    },
+    {
+      "nombre": "Sebastián Reyes",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 175000
+    },
+    {
+      "nombre": "Sebastián Claure",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 125000
+    },
+    {
+      "nombre": "Denilson Gutiérrez",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 100000
+    },
+    {
+      "nombre": "Jean Riascos",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Zinedinne La Fuente",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 75000
+    },
+    {
+      "nombre": "Denilson Valda",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Carlos Jemio",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 50000
+    },
+    {
+      "nombre": "Marco Salazar",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Jhon Flores",
+      "pos": "Centrocampista",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Layonel Figueroa",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Andres Guillermo",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 175000
+    },
+    {
+      "nombre": "Alejandro Chumacero",
+      "pos": "Mediocentro",
+      "edad": 35,
+      "valor": 75000
+    },
+    {
+      "nombre": "Alejandro Bejarano",
+      "pos": "Mediocentro",
+      "edad": 42,
+      "valor": 10000
+    },
+    {
+      "nombre": "Rodderyck Perozo",
+      "pos": "Interior izquierdo",
+      "edad": 32,
+      "valor": 125000
+    },
+    {
+      "nombre": "Gary Rea",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Freddy Abastoflor",
+      "pos": "Extremo izquierdo",
+      "edad": 33,
+      "valor": 50000
+    },
+    {
+      "nombre": "Esteban Condori",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Emanuel Paniagua",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 175000
+    },
+    {
+      "nombre": "Alejandro Camacho",
+      "pos": "Extremo derecho",
+      "edad": 18,
+      "valor": 50000
+    },
+    {
+      "nombre": "José Briceño",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Juan Fajardo",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 175000
+    },
+    {
+      "nombre": "Jair Catuy",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Jairo Rojas",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 75000
+    },
+    {
+      "nombre": "Bryan Espinoza",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 75000
+    },
+    {
+      "nombre": "Jeffrey Minah",
+      "pos": "Delantero",
+      "edad": 23,
+      "valor": 0
+    }
+  ]
+}

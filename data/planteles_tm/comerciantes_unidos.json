@@ -1,0 +1,174 @@
+{
+  "fuente": "https://www.transfermarkt.co/comerciantes-unidos/startseite/verein/47107/saison_id/2025",
+  "teamName": "Comerciantes Unidos",
+  "players": [
+    {
+      "nombre": "Matías Córdova",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "José Charún",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 25000
+    },
+    {
+      "nombre": "Diego López",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Juan Cubas",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Paolo Fuentes",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 350000
+    },
+    {
+      "nombre": "Piero Guzmán",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Flavio Alcedo",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Juan Rodríguez",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 225000
+    },
+    {
+      "nombre": "Miguel Hilario",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Daniel Lino",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 325000
+    },
+    {
+      "nombre": "Alexis Cossio",
+      "pos": "Lateral izquierdo",
+      "edad": 31,
+      "valor": 250000
+    },
+    {
+      "nombre": "Fabio Rojas",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 275000
+    },
+    {
+      "nombre": "Yimy Gamero",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 325000
+    },
+    {
+      "nombre": "Agustín Rodríguez",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "José Parodi",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 250000
+    },
+    {
+      "nombre": "Alexis Arias",
+      "pos": "Mediocentro",
+      "edad": 30,
+      "valor": 400000
+    },
+    {
+      "nombre": "Thiago Salinas",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 175000
+    },
+    {
+      "nombre": "Rodrigo Vilca",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 400000
+    },
+    {
+      "nombre": "Óscar Pinto",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 325000
+    },
+    {
+      "nombre": "Josuee Herrera",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Mathías Carpio",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Marco Guevara",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Jhon Sánchez",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Wilter Ayoví",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 450000
+    },
+    {
+      "nombre": "Fabrizzio Cubas",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Matías Sen",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 275000
+    },
+    {
+      "nombre": "Maximiliano Pérez",
+      "pos": "Delantero centro",
+      "edad": 31,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jean Carlo Olivares",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 175000
+    }
+  ]
+}

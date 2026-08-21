@@ -1,0 +1,180 @@
+{
+  "fuente": "https://www.transfermarkt.co/universidad-de-concepcion/startseite/verein/5622/saison_id/2025",
+  "teamName": "Universidad de Concepción",
+  "players": [
+    {
+      "nombre": "José Sanhueza",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 225000
+    },
+    {
+      "nombre": "Jorge Broun",
+      "pos": "Portero",
+      "edad": 40,
+      "valor": 100000
+    },
+    {
+      "nombre": "Diego Matamala",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Miguel Barbieri",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 350000
+    },
+    {
+      "nombre": "David Retamal",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 350000
+    },
+    {
+      "nombre": "Bastián Ubal",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Moisés González",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 350000
+    },
+    {
+      "nombre": "Esteban Páez",
+      "pos": "Defensa central",
+      "edad": 17,
+      "valor": 100000
+    },
+    {
+      "nombre": "Osvaldo González",
+      "pos": "Defensa central",
+      "edad": 42,
+      "valor": 10000
+    },
+    {
+      "nombre": "Antonio Díaz",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Yerco Oyanedel",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Patricio Romero",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jorge Espejo",
+      "pos": "Lateral derecho",
+      "edad": 26,
+      "valor": 600000
+    },
+    {
+      "nombre": "Benjamín Sáez",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Cristhofer Mesías",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 500000
+    },
+    {
+      "nombre": "Bryan Ogaz",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Francisco Herrera",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Facundo Mater",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 700000
+    },
+    {
+      "nombre": "Jeison Fuentealba",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 700000
+    },
+    {
+      "nombre": "Luis Rojas",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Pablo Parra",
+      "pos": "Mediocentro ofensivo",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Iam González",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Harol Salgado",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Rodrigo Olivares",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Cristóbal Zambrano",
+      "pos": "Extremo derecho",
+      "edad": 18,
+      "valor": 25000
+    },
+    {
+      "nombre": "Daniel Barrea",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Rogelio Funes Mori",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 400000
+    },
+    {
+      "nombre": "Cecilio Waterman",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 250000
+    },
+    {
+      "nombre": "Diego Sabando",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 25000
+    }
+  ]
+}

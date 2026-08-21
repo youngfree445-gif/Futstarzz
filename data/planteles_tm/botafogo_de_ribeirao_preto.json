@@ -1,0 +1,216 @@
+{
+  "fuente": "https://www.transfermarkt.co/botafogo-fc/startseite/verein/9030/saison_id/2025",
+  "teamName": "Botafogo de Ribeirão Preto",
+  "players": [
+    {
+      "nombre": "Victor Souza",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Jordan",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Brenno Klippel",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Wallace",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 350000
+    },
+    {
+      "nombre": "Guilherme Mariano",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Vilar",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 150000
+    },
+    {
+      "nombre": "Carlão",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 100000
+    },
+    {
+      "nombre": "Darlan",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Badaró",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Patrick Brey",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 450000
+    },
+    {
+      "nombre": "Felipe Vieira",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Pedro Souza",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "Gabriel Inocêncio",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Jonathan",
+      "pos": "Lateral derecho",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Ericson",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 50000
+    },
+    {
+      "nombre": "Leandro Maciel",
+      "pos": "Pivote",
+      "edad": 30,
+      "valor": 600000
+    },
+    {
+      "nombre": "Matheus Sales",
+      "pos": "Pivote",
+      "edad": 31,
+      "valor": 550000
+    },
+    {
+      "nombre": "Marco Antônio",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Thiaguinho",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Erik Rebello",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Everton Morelli",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 1000000
+    },
+    {
+      "nombre": "João Costa",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Yuri Felipe",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Rafael Gava",
+      "pos": "Mediocentro ofensivo",
+      "edad": 33,
+      "valor": 350000
+    },
+    {
+      "nombre": "Arthur Caíke",
+      "pos": "Extremo izquierdo",
+      "edad": 34,
+      "valor": 300000
+    },
+    {
+      "nombre": "Zé Hugo",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Jefferson Nem",
+      "pos": "Extremo izquierdo",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Márcio Maranhão",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Wesley Santos",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Kelvin",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jadson",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Luizão",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Hygor",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 100000
+    },
+    {
+      "nombre": "Guilherme Queiróz",
+      "pos": "Delantero centro",
+      "edad": 36,
+      "valor": 0
+    },
+    {
+      "nombre": "Thalles",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "fuente": "https://www.transfermarkt.co/universitario-de-vinto/startseite/verein/92977/saison_id/2025",
+  "teamName": "Universitario de Vinto",
+  "players": [
+    {
+      "nombre": "Bruno Poveda",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 450000
+    },
+    {
+      "nombre": "Paolo Garcia",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 50000
+    },
+    {
+      "nombre": "Jesús Careaga",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 0
+    },
+    {
+      "nombre": "Brayan Calderón",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 150000
+    },
+    {
+      "nombre": "Julio Lazarte",
+      "pos": "Lateral izquierdo",
+      "edad": 18,
+      "valor": 275000
+    },
+    {
+      "nombre": "Agustín Jara",
+      "pos": "Lateral izquierdo",
+      "edad": 34,
+      "valor": 125000
+    },
+    {
+      "nombre": "Esdras Mendoza",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "Guilder Cuellar",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "José Pinto",
+      "pos": "Lateral derecho",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Gustavo Visalla",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 25000
+    },
+    {
+      "nombre": "Alvaro Cuestas",
+      "pos": "Lateral derecho",
+      "edad": 31,
+      "valor": 25000
+    },
+    {
+      "nombre": "Paolo Alcócer",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 100000
+    },
+    {
+      "nombre": "José Abrego",
+      "pos": "Centrocampista",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Ezequiel Straccia",
+      "pos": "Pivote",
+      "edad": 35,
+      "valor": 25000
+    },
+    {
+      "nombre": "Pablo Postigo",
+      "pos": "Centrocampista",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Fabio Gil",
+      "pos": "Centrocampista",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Jose Rivero",
+      "pos": "Centrocampista",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Nicolás Barreto",
+      "pos": "Centrocampista",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Diego Vargas",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 400000
+    },
+    {
+      "nombre": "Daniel Camacho",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 375000
+    },
+    {
+      "nombre": "Hernán Rodríguez",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 325000
+    },
+    {
+      "nombre": "Marco Gomez",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 100000
+    },
+    {
+      "nombre": "Didí Torrico",
+      "pos": "Mediocentro",
+      "edad": 38,
+      "valor": 25000
+    },
+    {
+      "nombre": "Sergio Pardo",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Hugo Dorrego",
+      "pos": "Interior derecho",
+      "edad": 33,
+      "valor": 75000
+    },
+    {
+      "nombre": "Mario Fernandez",
+      "pos": "Interior izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Yeferson Mamani",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 75000
+    },
+    {
+      "nombre": "Fabricio Vasquez",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 275000
+    },
+    {
+      "nombre": "Joel Calicho",
+      "pos": "Extremo izquierdo",
+      "edad": 31,
+      "valor": 200000
+    },
+    {
+      "nombre": "José Veizaga",
+      "pos": "Extremo izquierdo",
+      "edad": 29,
+      "valor": 0
+    },
+    {
+      "nombre": "Felipe Pasadore",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Rodrigo Llano",
+      "pos": "Delantero centro",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Diego Saavedra",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 25000
+    },
+    {
+      "nombre": "Oswaldo Blanco",
+      "pos": "Delantero centro",
+      "edad": 36,
+      "valor": 0
+    },
+    {
+      "nombre": "Johan Gómez",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 0
+    }
+  ]
+}

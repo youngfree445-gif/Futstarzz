@@ -1,0 +1,198 @@
+{
+  "fuente": "https://www.transfermarkt.co/dijon-fco/startseite/verein/2969/saison_id/2025",
+  "teamName": "Dijon FCO",
+  "players": [
+    {
+      "nombre": "Lenny Montfort",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Paul Delecroix",
+      "pos": "Portero",
+      "edad": 37,
+      "valor": 100000
+    },
+    {
+      "nombre": "Enzo Ketterle",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Elydjah Mendy",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 800000
+    },
+    {
+      "nombre": "Waly Diouf",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 400000
+    },
+    {
+      "nombre": "Lenny Lacroix",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Abdoul Diaby Malick",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Quentin Bernard",
+      "pos": "Defensa central",
+      "edad": 36,
+      "valor": 100000
+    },
+    {
+      "nombre": "Axel Bargain",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Fady Khatir",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Boubacar Diallo",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Ismaïl Diallo",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 900000
+    },
+    {
+      "nombre": "Zoran Moco",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 400000
+    },
+    {
+      "nombre": "César Obongo",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 150000
+    },
+    {
+      "nombre": "Paul Bellon",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Brandon Ndezi",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 500000
+    },
+    {
+      "nombre": "Ben-Chayeel Hamada",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Samy Chouchane",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jordan Marié",
+      "pos": "Mediocentro",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Hugo Vargas-Ríos",
+      "pos": "Mediocentro",
+      "edad": 31,
+      "valor": 150000
+    },
+    {
+      "nombre": "Ylan Aka",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 75000
+    },
+    {
+      "nombre": "Loris Dupont",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Alessio Martinez",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Adel Lembezat",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 400000
+    },
+    {
+      "nombre": "Michaël Barreto",
+      "pos": "Mediocentro ofensivo",
+      "edad": 35,
+      "valor": 150000
+    },
+    {
+      "nombre": "Florian Rombogouera",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 25000
+    },
+    {
+      "nombre": "Yanis Barka",
+      "pos": "Mediapunta",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Julien Domingues",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 400000
+    },
+    {
+      "nombre": "Alexis Ntamack",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Julio Tavarès",
+      "pos": "Delantero centro",
+      "edad": 37,
+      "valor": 75000
+    },
+    {
+      "nombre": "Tyris Dong",
+      "pos": "Delantero centro",
+      "edad": 17,
+      "valor": 50000
+    },
+    {
+      "nombre": "Jallal Yansané",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    }
+  ]
+}

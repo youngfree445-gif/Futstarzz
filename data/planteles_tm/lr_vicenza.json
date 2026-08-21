@@ -1,0 +1,186 @@
+{
+  "fuente": "https://www.transfermarkt.co/lr-vicenza/startseite/verein/1137/saison_id/2025",
+  "teamName": "LR Vicenza",
+  "players": [
+    {
+      "nombre": "Ramon Büsken",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Marcel Pieper",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Matthias Bräuer",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Johann Tschirbs",
+      "pos": "Defensa",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Tim Johan Heger",
+      "pos": "Defensa",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Lennard Maßmann",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 0
+    },
+    {
+      "nombre": "Leon Niehues",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Pierre Miguel de Faria Alves Pinto",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Noah Kosthorst",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Bennet Wesselkämper",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Fynn Fellmann",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Daniel Peters",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Kubilay Yilmaz",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Matti Koch",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Gabriel Cavar",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Pascal Petruschka",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Luca Meyer",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Josha Häusler",
+      "pos": "Centrocampista",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Adrian Wanner",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Colin van den Berg",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Dicle Sahin",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Krenar Krasniqi",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Tugay Gündogan",
+      "pos": "Mediocentro ofensivo",
+      "edad": 30,
+      "valor": 0
+    },
+    {
+      "nombre": "Sören Wald",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Fabian Kerellaj",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Montasar Hammami",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Lamin Touray",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Bennet van den Berg",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Luca De Angelis",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Ralf Lamaj",
+      "pos": "Delantero",
+      "edad": 36,
+      "valor": 0
+    }
+  ]
+}

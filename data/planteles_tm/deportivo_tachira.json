@@ -1,0 +1,192 @@
+{
+  "fuente": "https://www.transfermarkt.co/deportivo-tachira/startseite/verein/13297/saison_id/2025",
+  "teamName": "Deportivo Táchira",
+  "players": [
+    {
+      "nombre": "Alejandro Araque",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 150000
+    },
+    {
+      "nombre": "Edwin Vargas",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Juan David Sánchez",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 600000
+    },
+    {
+      "nombre": "Guillermo Fratta",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 350000
+    },
+    {
+      "nombre": "Adrián Montañez",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 150000
+    },
+    {
+      "nombre": "Wilder Wilches",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Lautaro Lusnig",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Edicson Tamiche",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 150000
+    },
+    {
+      "nombre": "Delvin Alfonzo",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 375000
+    },
+    {
+      "nombre": "Franco Provenzano",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Pablo Camacho",
+      "pos": "Lateral derecho",
+      "edad": 35,
+      "valor": 50000
+    },
+    {
+      "nombre": "Carlos Méndez",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Óscar Hernández",
+      "pos": "Pivote",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Manuel Roa",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Jeferson Caraballo",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 600000
+    },
+    {
+      "nombre": "Carlos Calzadilla",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 450000
+    },
+    {
+      "nombre": "Agustín Pérez",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Brayan Palmezano",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 550000
+    },
+    {
+      "nombre": "Carlos Sosa",
+      "pos": "Mediocentro ofensivo",
+      "edad": 31,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jairo Villalpando",
+      "pos": "Mediocentro ofensivo",
+      "edad": 26,
+      "valor": 325000
+    },
+    {
+      "nombre": "Gustavo Lozano",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 250000
+    },
+    {
+      "nombre": "Adalberto Peñaranda",
+      "pos": "Extremo izquierdo",
+      "edad": 29,
+      "valor": 350000
+    },
+    {
+      "nombre": "Heiderber Ramírez",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 375000
+    },
+    {
+      "nombre": "Luis Zuñiga",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Jesús Duarte",
+      "pos": "Mediapunta",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Juan Aguilar",
+      "pos": "Mediapunta",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Rodrigo Pollero",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 550000
+    },
+    {
+      "nombre": "José Balza",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 325000
+    },
+    {
+      "nombre": "Valentín Adamo",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Alexander Rondón Oliveros",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Alexander Rondón",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 200000
+    }
+  ]
+}

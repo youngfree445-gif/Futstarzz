@@ -1,0 +1,114 @@
+{
+  "fuente": "https://www.transfermarkt.co/ac-ajaccio/startseite/verein/1147/saison_id/2025",
+  "teamName": "AC Ajaccio",
+  "players": [
+    {
+      "nombre": "Enzo Hoyau",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Pierre-François Carsillo",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Maxime Pischedda",
+      "pos": "Portero",
+      "edad": 16,
+      "valor": 0
+    },
+    {
+      "nombre": "Dominique Nicolaï",
+      "pos": "Defensa",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Cédric Avinel",
+      "pos": "Defensa central",
+      "edad": 39,
+      "valor": 0
+    },
+    {
+      "nombre": "Jean-Dominique Leca",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Nicolas Borodine",
+      "pos": "Lateral izquierdo",
+      "edad": 32,
+      "valor": 0
+    },
+    {
+      "nombre": "Thibault Campanini",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Yohann Campanini",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 0
+    },
+    {
+      "nombre": "Wolo Leblanc Touré",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Aurélien Mirman",
+      "pos": "Centrocampista",
+      "edad": 35,
+      "valor": 0
+    },
+    {
+      "nombre": "Yanis Gouider",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Riad Nouri",
+      "pos": "Extremo derecho",
+      "edad": 41,
+      "valor": 0
+    },
+    {
+      "nombre": "Lucas Libbra",
+      "pos": "Extremo derecho",
+      "edad": 30,
+      "valor": 0
+    },
+    {
+      "nombre": "Andy Delort",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 0
+    },
+    {
+      "nombre": "Jean-David Uras",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Anthony Fosse",
+      "pos": "Delantero",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Fernando Peláez Flecha",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

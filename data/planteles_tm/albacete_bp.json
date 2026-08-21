@@ -1,0 +1,246 @@
+{
+  "fuente": "https://www.transfermarkt.co/albacete-balompie/startseite/verein/1532/saison_id/2025",
+  "teamName": "Albacete BP",
+  "players": [
+    {
+      "nombre": "Raúl Lizoain",
+      "pos": "Portero",
+      "edad": 35,
+      "valor": 150000
+    },
+    {
+      "nombre": "Diego Mariño",
+      "pos": "Portero",
+      "edad": 36,
+      "valor": 100000
+    },
+    {
+      "nombre": "Mario Ramos",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Ángel Yeray Cantero",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Jesús Vallejo",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Pepe Sánchez",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 600000
+    },
+    {
+      "nombre": "Lluís López",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 500000
+    },
+    {
+      "nombre": "Javi Moreno",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jon García",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 50000
+    },
+    {
+      "nombre": "Vicente Vidal",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Antonio Velilla",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Carlos Neva",
+      "pos": "Lateral izquierdo",
+      "edad": 30,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Jonathan Gómez",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 800000
+    },
+    {
+      "nombre": "Dani Bernabéu",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 400000
+    },
+    {
+      "nombre": "José Salas",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Lorenzo Aguado",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Fran Gámez",
+      "pos": "Lateral derecho",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jota Domingo",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Martín Fernández",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Edward Cedeño",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Riki Rodríguez",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Agus Medina",
+      "pos": "Mediocentro",
+      "edad": 31,
+      "valor": 900000
+    },
+    {
+      "nombre": "Antonio Pacheco",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 700000
+    },
+    {
+      "nombre": "Javi Villar",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Ale Meléndez",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 400000
+    },
+    {
+      "nombre": "Capi",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 400000
+    },
+    {
+      "nombre": "Víctor San Bartolomé",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Alberto Morientes",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Jon Morcillo",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 2000000
+    },
+    {
+      "nombre": "José Carlos Lazo",
+      "pos": "Extremo izquierdo",
+      "edad": 30,
+      "valor": 500000
+    },
+    {
+      "nombre": "Rubén Moreno",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Victor Valverde",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 600000
+    },
+    {
+      "nombre": "Antonio Puertas",
+      "pos": "Extremo derecho",
+      "edad": 34,
+      "valor": 500000
+    },
+    {
+      "nombre": "Fran Gómez",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Álex Rubio",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Dani Escriche",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jefté Betancor",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 500000
+    },
+    {
+      "nombre": "Samuel Obeng",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 500000
+    },
+    {
+      "nombre": "Higinio Marín",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Fabio García",
+      "pos": "Delantero",
+      "edad": 18,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "fuente": "https://www.transfermarkt.co/ss-arezzo/startseite/verein/4255/saison_id/2025",
+  "teamName": "Arezzo",
+  "players": [
+    {
+      "nombre": "Giacomo Venturi",
+      "pos": "Portero",
+      "edad": 34,
+      "valor": 275000
+    },
+    {
+      "nombre": "Luca Trombini",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 200000
+    },
+    {
+      "nombre": "Amoris Galli",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Matteo Gilli",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mauro Coppolaro",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 300000
+    },
+    {
+      "nombre": "Marco Chiosa",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Nicolò Gigli",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 150000
+    },
+    {
+      "nombre": "Matteo Arena",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 125000
+    },
+    {
+      "nombre": "Matías Casarosa",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Samuele Righetti",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Lorenzo Coccia",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Gianluca Di Chiara",
+      "pos": "Lateral izquierdo",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Fabio Tito",
+      "pos": "Lateral izquierdo",
+      "edad": 32,
+      "valor": 150000
+    },
+    {
+      "nombre": "Alessandro Renzi",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Filippo De Col",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Vincenzo Oscurato",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Lorenzo Errunghi",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Mattia Viviani",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 100000
+    },
+    {
+      "nombre": "Gabriele Ferrara",
+      "pos": "Pivote",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Luca Chierico",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 600000
+    },
+    {
+      "nombre": "Eklu Shaka Mawuli",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 300000
+    },
+    {
+      "nombre": "Filippo Guccione",
+      "pos": "Mediocentro",
+      "edad": 33,
+      "valor": 225000
+    },
+    {
+      "nombre": "Gennaro Iaccarino",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Artur Ioniță",
+      "pos": "Mediocentro",
+      "edad": 35,
+      "valor": 175000
+    },
+    {
+      "nombre": "Marco Meli",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 150000
+    },
+    {
+      "nombre": "Ettore Sani",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 75000
+    },
+    {
+      "nombre": "Jacopo Dezi",
+      "pos": "Mediocentro",
+      "edad": 34,
+      "valor": 0
+    },
+    {
+      "nombre": "Francesco Perrotta",
+      "pos": "Interior izquierdo",
+      "edad": 21,
+      "valor": 75000
+    },
+    {
+      "nombre": "Matteo Cortesi",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 400000
+    },
+    {
+      "nombre": "Camillo Tavernelli",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 700000
+    },
+    {
+      "nombre": "Muhamed Varela Djamanca",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Samuele Sussi",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Emiliano Pattarello",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Alessandro Arena",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 220000
+    },
+    {
+      "nombre": "Francesco Dell'Aquila",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 50000
+    },
+    {
+      "nombre": "Pietro Cianci",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 500000
+    },
+    {
+      "nombre": "Mario Ravasio",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mattia Concetti",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    }
+  ]
+}

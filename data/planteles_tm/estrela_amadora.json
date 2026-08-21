@@ -1,0 +1,300 @@
+{
+  "fuente": "https://www.transfermarkt.co/cf-estrela-amadora/startseite/verein/2431/saison_id/2025",
+  "teamName": "Estrela Amadora",
+  "players": [
+    {
+      "nombre": "Diogo Pinto",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Dudu",
+      "pos": "Portero",
+      "edad": 27,
+      "valor": 150000
+    },
+    {
+      "nombre": "David Grilo",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 100000
+    },
+    {
+      "nombre": "Renan Ribeiro",
+      "pos": "Portero",
+      "edad": 36,
+      "valor": 100000
+    },
+    {
+      "nombre": "Stefan Lekovic",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Luan Patrick",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Otávio",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Bernardo Schappo",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 750000
+    },
+    {
+      "nombre": "Atanas Chernev",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 700000
+    },
+    {
+      "nombre": "Issiar Dramé",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Semeu Commey",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 225000
+    },
+    {
+      "nombre": "Ni",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Georgiy Tunguliyadi",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Sidny Lopes Cabral",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Bruno Langa",
+      "pos": "Lateral izquierdo",
+      "edad": 28,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Nilton",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 800000
+    },
+    {
+      "nombre": "Guilherme Montóia",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 750000
+    },
+    {
+      "nombre": "Yahya Kalley",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Ryan Carlos",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Jefferson Encada",
+      "pos": "Lateral derecho",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Max Scholze",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Oumar Ngom",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Kevin Höög Jansson",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Eddy Doué",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 400000
+    },
+    {
+      "nombre": "Paulo Moreira",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Robinho",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Tom Moustier",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Assane Ndiaye",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Alex Sola",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Ianis Stoica",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Jovane Cabral",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Simão Pedro",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 700000
+    },
+    {
+      "nombre": "Jorge Meireles",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 600000
+    },
+    {
+      "nombre": "Alisson Souza",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Fábio Ronaldo",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Billal Brahimi",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Abraham Marcus",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Mathew Gbomadu",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Pape Führer",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Sydney van Hooijdonk",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Kikas",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 800000
+    },
+    {
+      "nombre": "Alan Godoy",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "João Resende",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Gonzalo Calçada",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "João Gastão",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 200000
+    },
+    {
+      "nombre": "Chilohem Onuoha",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Leandro Antonetti",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Rodrigo Pinho",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 150000
+    },
+    {
+      "nombre": "Henrique Poniewas",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

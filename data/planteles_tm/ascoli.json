@@ -1,0 +1,240 @@
+{
+  "fuente": "https://www.transfermarkt.co/ascoli-calcio-1898-fc/startseite/verein/408/saison_id/2025",
+  "teamName": "Ascoli",
+  "players": [
+    {
+      "nombre": "Samuele Vitale",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 500000
+    },
+    {
+      "nombre": "Davide Barosi",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 150000
+    },
+    {
+      "nombre": "Rok Bržan",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 25000
+    },
+    {
+      "nombre": "Rocco Dente",
+      "pos": "Portero",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Marcos Curado",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 400000
+    },
+    {
+      "nombre": "Manuel Nicoletti",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 200000
+    },
+    {
+      "nombre": "Nicholas Rizzo",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Francesco Cozzoli",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Damiano Menna",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 100000
+    },
+    {
+      "nombre": "Andrea Caucci",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Ruben Zagari",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Daniele Di Teodoro",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Abdoul Guiebre",
+      "pos": "Lateral izquierdo",
+      "edad": 28,
+      "valor": 500000
+    },
+    {
+      "nombre": "Mattia Di Salvatore",
+      "pos": "Lateral izquierdo",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Manuel Alagna",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Gabriele Pagliai",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Samuele Damiani",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 500000
+    },
+    {
+      "nombre": "Giovanni Corradini",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Augusto Bando",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 175000
+    },
+    {
+      "nombre": "Moses Odjer",
+      "pos": "Pivote",
+      "edad": 29,
+      "valor": 100000
+    },
+    {
+      "nombre": "Tommaso Milanese",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Luca Lo Scalzo",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 200000
+    },
+    {
+      "nombre": "Emanuele Ndoj",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 200000
+    },
+    {
+      "nombre": "Gianluca Carpani",
+      "pos": "Mediocentro",
+      "edad": 32,
+      "valor": 100000
+    },
+    {
+      "nombre": "Alex Rama",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Lorenzo Cosimi",
+      "pos": "Interior derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Andrea Rizzo Pinna",
+      "pos": "Mediocentro ofensivo",
+      "edad": 26,
+      "valor": 500000
+    },
+    {
+      "nombre": "Francesco De Witt",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 125000
+    },
+    {
+      "nombre": "Simone D'Uffizi",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 600000
+    },
+    {
+      "nombre": "Enrico Oviszach",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Andrea Silipo",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Ferdinando Del Sole",
+      "pos": "Extremo derecho",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Filippo Palazzino",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 75000
+    },
+    {
+      "nombre": "Kevin Gorica",
+      "pos": "Mediapunta",
+      "edad": 19,
+      "valor": 200000
+    },
+    {
+      "nombre": "Mattia Gagliardi",
+      "pos": "Mediapunta",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Gabriele Gori",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 600000
+    },
+    {
+      "nombre": "Mohammed Amine Chakir",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 200000
+    },
+    {
+      "nombre": "Francesco Galuppini",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Simone Corazza",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 150000
+    }
+  ]
+}

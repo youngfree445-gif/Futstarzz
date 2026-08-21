@@ -1,0 +1,162 @@
+{
+  "fuente": "https://www.transfermarkt.co/estudiantes-de-merida-futbol-club/startseite/verein/14555/saison_id/2025",
+  "teamName": "Estudiantes de Mérida",
+  "players": [
+    {
+      "nombre": "Eddie Roberts",
+      "pos": "Portero",
+      "edad": 32,
+      "valor": 150000
+    },
+    {
+      "nombre": "Tito Rojas",
+      "pos": "Portero",
+      "edad": 38,
+      "valor": 10000
+    },
+    {
+      "nombre": "Christopher Rodríguez",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Jean Fran Gutiérrez",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 250000
+    },
+    {
+      "nombre": "Luis Caicedo",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 100000
+    },
+    {
+      "nombre": "Michael Maldonado",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 25000
+    },
+    {
+      "nombre": "José Montilla",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Héctor Acosta",
+      "pos": "Lateral derecho",
+      "edad": 26,
+      "valor": 275000
+    },
+    {
+      "nombre": "Geovan Montes",
+      "pos": "Lateral derecho",
+      "edad": 30,
+      "valor": 175000
+    },
+    {
+      "nombre": "Luis Vera",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Wilken Ramírez",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Cristhian Rivas",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 450000
+    },
+    {
+      "nombre": "Jesús Lobo",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Andrés D'Agostino",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 50000
+    },
+    {
+      "nombre": "Andrés Montero",
+      "pos": "Mediocentro ofensivo",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Ender Albarrán",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 75000
+    },
+    {
+      "nombre": "Ángelo Peña",
+      "pos": "Mediocentro ofensivo",
+      "edad": 36,
+      "valor": 50000
+    },
+    {
+      "nombre": "Manuel Paez",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "César Magallán",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 450000
+    },
+    {
+      "nombre": "Romeesh Ivey",
+      "pos": "Extremo izquierdo",
+      "edad": 32,
+      "valor": 400000
+    },
+    {
+      "nombre": "Yohandry Lacruz",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 100000
+    },
+    {
+      "nombre": "Cristian Caicedo",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Darwin Matheus",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 75000
+    },
+    {
+      "nombre": "Ronaldo Chacón",
+      "pos": "Mediapunta",
+      "edad": 28,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jesús Hernández",
+      "pos": "Delantero centro",
+      "edad": 33,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jhon Moreno",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 75000
+    }
+  ]
+}
