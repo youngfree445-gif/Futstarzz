@@ -2638,6 +2638,35 @@ export default function MatchSimulator({
         </div>
       </div>
 
+      {/* TU PARTIDO, SOLO EN CELULAR.
+          El encabezado de arriba muestra el minuto y el marcador -- o sea, cómo va TU EQUIPO. Lo
+          tuyo (calificación, goles, asistencias) vive en la tercera columna, que en un teléfono cae
+          debajo de la narración y del consejo del técnico: abajo del pliegue durante los noventa
+          minutos. Se jugaba el partido entero sin ver la única cifra que el juego mide sobre vos.
+
+          Es una tira y no una tarjeta a propósito: tiene que caber en el mismo vistazo que el
+          marcador, sin empujar la narración fuera de la pantalla. En escritorio no existe -- ahí la
+          ficha entera se ve a la derecha y esto sería el mismo dato dos veces. */}
+      <div
+        data-tira-del-jugador={rating.toFixed(1)}
+        className="lg:hidden w-full max-w-4xl mx-auto mt-3 grid grid-cols-3 divide-x divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900"
+      >
+        {([
+          { rotulo: 'Nota', valor: rating.toFixed(1), color: 'text-gold-400' },
+          { rotulo: 'Goles', valor: String(playerGoals), color: 'text-white' },
+          { rotulo: 'Asist.', valor: String(playerAssists), color: 'text-burgundy-400' },
+        ] as const).map(({ rotulo, valor, color }) => (
+          <div key={rotulo} className="px-3 py-2 text-center">
+            <span className="block text-4xs uppercase font-mono font-bold tracking-widest text-slate-500">
+              {rotulo}
+            </span>
+            <span className={`block text-lg font-black font-mono leading-tight ${color}`}>
+              {valor}
+            </span>
+          </div>
+        ))}
+      </div>
+
       <div className="w-full max-w-6xl mx-auto my-6 grid lg:grid-cols-[240px_minmax(0,1fr)_300px] gap-5 flex-1">
 
         {/* Consejo profesional: en su propia columna angosta a la izquierda, en vez de apilado

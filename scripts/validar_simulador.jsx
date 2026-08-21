@@ -67,7 +67,11 @@ const dibujar = (props, esperado) => {
   return html;
 };
 
+// El numero de casos se CUENTA, no se escribe a mano: el mensaje final decia "17 estados" con el
+// 17 escrito ahi mismo, y al agregar dos casos habria pasado a mentir sin que nada fallara.
+let corridos = 0;
 const caso = (nombre, fn) => {
+  corridos++;
   try {
     const html = fn();
     console.log(`OK    ${nombre.padEnd(42)} ${Math.round(html.length / 1024)} KB`);
@@ -147,7 +151,33 @@ caso('jugando lesionado', () => {
 caso('el boton de reportar bug esta en el partido',
   () => dibujar({}, 'title="Reportar un bug"'));
 
+// --- LO TUYO TIENE QUE VERSE EN EL TELEFONO ----------------------------------------------------
+//
+// El encabezado del partido muestra el minuto y el marcador: como va TU EQUIPO. Lo tuyo -- la
+// calificacion, los goles, las asistencias -- vive en la tercera columna, que en un telefono cae
+// debajo de la narracion y del consejo del tecnico. Se jugaba el partido entero sin ver la unica
+// cifra que el juego mide sobre vos.
+//
+// La tira lleva marca propia para no comprobarla por su texto: "Nota" y "Goles" aparecen en varios
+// lados de esta pantalla y buscarlos daria un OK que no significa nada.
+caso('celular: la tira con lo tuyo esta en el partido',
+  () => dibujar({}, 'data-tira-del-jugador'));
+
+// Y QUE LA TIRA DIGA LO QUE PASA. La primera version de este caso buscaba un decimal en el HTML
+// despues de la marca, y pasaba en verde con la tira VACIA: mas abajo esta la ficha del jugador, que
+// tiene la misma calificacion. Comprobado vaciando la tira a mano -- seguia diciendo OK.
+//
+// Ahora la calificacion viaja EN la marca (data-tira-del-jugador="6.0"), que no puede confundirse
+// con nada mas de la pantalla.
+caso('celular: la tira muestra la calificacion de verdad', () => {
+  const html = dibujar({});
+  if (!/data-tira-del-jugador="[0-9]+\.[0-9]"/.test(html)) {
+    throw new Error('la tira no lleva la calificacion');
+  }
+  return html;
+});
+
 console.log(fallas === 0
-  ? `\nEl simulador se dibuja en 17 estados, con la charla del entretiempo incluida.`
+  ? `\nEl simulador se dibuja en ${corridos} estados, con la charla del entretiempo incluida.`
   : `\n${fallas} FALLAS -- el simulador no se puede dibujar`);
 process.exit(fallas === 0 ? 0 : 1);
