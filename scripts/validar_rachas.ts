@@ -731,7 +731,7 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
 
 // --- EL REBALANCEO DEL PRESTIGIO ----------------------------------------------------------------
 //
-// Medido: un jugador promedio iba de 50 a 100 de prestigio en OCHO partidos, y la opcion arriesgada
+// Medido ANTES de esto: un jugador promedio iba de 50 a 100 de prestigio en OCHO partidos, y la arriesgada
 // pagaba mas que la conservadora SIEMPRE. O sea que el recurso central del juego se saturaba en
 // media temporada y la pantalla de partido tenia una respuesta correcta en vez de una decision.
 {

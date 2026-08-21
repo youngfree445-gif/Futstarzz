@@ -98,8 +98,8 @@ export function factorDeMarcaPersonal(nivelPromedio: number, prestigio: number, 
   // nivel Y la fama van juntos.
   //
   // LA CAMISETA APRIETA, Y SE SUMA DESPUES DEL MINIMO. Sumarla al prestigio no servía de nada: el
-  // mínimo casi siempre lo pone el nivel -- el prestigio se satura en ocho partidos, medido con
-  // `npm run medir:balance` -- así que la 10 no cambiaba ni un decimal. Lo encontró el caso
+  // mínimo casi siempre lo pone el nivel, porque el prestigio termina arriba en cualquier carrera
+  // larga -- así que la 10 no cambiaba ni un decimal. Lo encontró el caso
   // "con la 10 te marcan más", que daba 0.876 contra 0.876.
   //
   // Sumándola acá, la camiseta te aprieta siempre, que es lo que hace en el fútbol. Y es toda la

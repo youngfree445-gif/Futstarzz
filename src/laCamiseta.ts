@@ -4,10 +4,13 @@
 // POR QUÉ ÉSTA Y NO OTRA
 // ---------------------------------------------------------------------------------------------
 //
-// Medido con `npm run medir:balance`: un jugador promedio va de 50 a 100 de prestigio en OCHO
-// partidos. O sea que el recurso central del juego se satura en media temporada y después deja de
-// significar nada -- y todo lo que construimos encima (la titularidad, el mercado, la lista de
-// transferibles, la selección) se apoya en un número que ya está en el techo.
+// Esta mecánica nació de una medición: el prestigio -- el recurso central del juego, del que dependen
+// la titularidad, el mercado, la lista de transferibles y la selección -- se saturaba en media
+// temporada. Un jugador promedio iba de 50 a 100 en OCHO partidos.
+//
+// Eso ya se rebalanceó (son 22, ver CUANTO_VALE_UN_PUNTO en decisionDelPartido.ts), pero el
+// razonamiento sigue en pie y por eso queda escrito: aun con la escala arreglada, el prestigio
+// tiene techo y en una carrera larga termina arriba igual. Es un recurso que se acumula.
 //
 // Lo que le falta al juego no es otra barra: es algo ESCASO. Algo que no se pueda inflar porque hay
 // exactamente uno por plantel, y para tenerlo tiene que dejar de tenerlo otro.
