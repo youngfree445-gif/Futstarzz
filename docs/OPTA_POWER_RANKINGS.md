@@ -35,6 +35,26 @@ python scripts/extraer_opta.py dv.js          # -> opta.json (15.984 equipos)
 npx vite-node scripts/cruzar_opta.ts opta.json data/opta_power_rankings.json
 ```
 
+### Y una tercera, encontrada después de dar el trabajo por terminado
+
+**Había dos "Dijon" en Francia**: uno con `domesticLeagueName: null` y rating 75.5 (puesto 95 del
+mundo) y el Dijon FCO de Ligue 2, con 72.7 y puesto 936. El cruce tomaba el primero que apareciera y
+se quedaba con el equivocado — el de `null` es el **femenino**, que Opta no clasifica y que por eso
+el filtro por nombre de liga no tocaba.
+
+Se notó mirando la lista de clubes sin plantel: *un club de la segunda francesa no puede ser el
+número 95 del mundo*. El arreglo son dos líneas — descartar los que no declaran liga, y desempatar
+por liga también en las dos primeras pasadas, no sólo en la de contención.
+
+Y quedó una medición útil para la próxima: **comparar el ranking contra el rating**. Si el orden de
+uno contradice al otro, hay matches mal hechos. Después del arreglo quedan 154 pares "fuera de
+orden" sobre 572, pero **ninguno grave**: son clubes separados por menos de dos puntos de rating,
+donde el ranking y el rating vienen de fotos con horas de diferencia. La fuente cruda tiene el mismo
+5,5% de ruido.
+
+**Ojo con `currentGlobalRank`: se corta en 9999.** Para los clubes por debajo de ese puesto hay que
+usar `rank`, que llega hasta 13.791.
+
 ### Dos trampas que ya costaron una vuelta
 
 1. **El bundle es UTF-8.** Un primer intento lo leyó como latin-1 porque la consola de Windows
