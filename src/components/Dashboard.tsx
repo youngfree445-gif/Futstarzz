@@ -3966,7 +3966,7 @@ export default function Dashboard({
                   desprolijo. Pedido: "que no sobrepasen la línea verde para que se vea más
                   simétrico". */}
               <div className="order-3 lg:order-none grid lg:grid-cols-3 gap-4">
-              <div className="order-2 lg:order-none lg:col-span-2 grid sm:grid-cols-2 gap-2.5 content-start auto-rows-min">
+              <div data-panel-de-entreno="ejercicios" className="order-2 lg:order-none lg:col-span-2 grid sm:grid-cols-2 gap-2.5 content-start auto-rows-min">
                 {[
                   { key: 'ritmo', label: 'Velocidad / Ritmo', img: trainingRitmoImg, desc: 'Mejora la aceleración explosiva y los desmarques por las bandas.' },
                   { key: 'regate', label: 'Dribbling / Regate', img: trainingRegateImg, desc: 'Aumenta el control de balón en conducción y el mano a mano.' },
@@ -4026,51 +4026,16 @@ export default function Dashboard({
               {/* Columna derecha: clínica y especialización, que antes vivían abajo de todo.
                   flex-col y no space-y a secas: así el último panel crece y las dos columnas cierran
                   a la misma altura en vez de quedar uno más largo que el otro. */}
-              {/* `contents` en celular: la columna deja de existir como caja y sus dos tarjetas
-                  pasan a ser hijas de la grilla, que es lo que les permite ordenarse por separado.
-                  Desde `lg` vuelve a ser la columna de siempre. */}
-              <div className="contents lg:flex lg:flex-col lg:gap-4">
+              {/* `contents` en celular: el envoltorio deja de existir como caja y la clínica pasa a
+                  ser hija de la grilla, que es lo que le permite ordenarse por separado. Desde `lg`
+                  es la tercera columna, al lado de los ejercicios. */}
+              <div className="contents lg:block">
 
-              {/* SECCIÓN ROL FAVORITO */}
-              <div className="order-4 lg:order-none bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
-                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
-                  <Sparkles size={15} className="text-gold-400" /> Especialización
-                </h3>
-                {playerProfile.careerStats.partidosHistoricos < 15 ? (
-                  <p className="text-3xs text-slate-500 leading-relaxed">
-                    Todavía estás construyendo tu trayectoria. A partir de los 15 partidos jugados vas
-                    a poder elegir un rol favorito que redistribuye tus atributos en cancha.
-                  </p>
-                ) : (
-                  <>
-                    <p className="text-3xs text-slate-400 leading-relaxed mb-3">
-                      Elegí un estilo de juego para tu posición ({playerProfile.position}). Cada rol le
-                      da más peso a ciertos atributos y menos a otros en el resultado del partido -- no
-                      suma ni resta puntos, solo cambia cómo rinden los que ya tienes.
-                    </p>
-                    <div className="grid sm:grid-cols-2 gap-2">
-                      {ROLES_DATABASE.filter(r => r.position === playerProfile.position).map(role => (
-                        <button
-                          key={role.id}
-                          onClick={() => onSelectRole(playerProfile.favoriteRole === role.id ? null : role.id)}
-                          className={`btn-fx-subtle text-left py-2.5 px-3 rounded-xl border transition-all ${
-                            playerProfile.favoriteRole === role.id
-                              ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
-                              : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
-                          }`}
-                        >
-                          <span className="text-2xs font-bold block">{role.label}</span>
-                          <span className="text-3xs text-slate-500 block mt-0.5 leading-relaxed">{role.description}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
 
-              {/* SECCIÓN CLÍNICA DE FISIOTERAPIA -- flex-1: es el panel que absorbe el alto sobrante,
-                  así la columna derecha termina a la misma altura que la grilla de atributos. */}
-              <div className="order-1 lg:order-none bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex-1">
+              {/* LA CLÍNICA, AL LADO DE LOS EJERCICIOS. Es la tercera columna de la grilla: comprar
+                  energía y gastarla entrenando son la misma decisión, y tenerlas separadas obligaba
+                  a bajar para comprar y volver a subir para entrenar. */}
+              <div data-panel-de-entreno="clinica" className="order-1 lg:order-none bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   <Heart size={15} className="text-rose-500" /> Clínica de Fisioterapia
                 </h3>
@@ -4116,6 +4081,49 @@ export default function Dashboard({
 
               </div>{/* fin columna derecha */}
               </div>{/* fin de las dos columnas */}
+
+              {/* LA ESPECIALIZACIÓN, ABAJO Y A LO ANCHO.
+
+                  Era la tarjeta de arriba de la columna derecha, y ahí pasaban dos cosas malas: el
+                  quinto rol quedaba cortado por abajo, y al lado de la grilla de ejercicios --que
+                  es más alta-- sobraba media pantalla vacía. Reportado con un círculo rojo encima.
+
+                  Abajo y a lo ancho los cinco roles entran en una fila y no queda hueco. */}
+              <div data-panel-de-entreno="especializacion" className="order-4 lg:order-none bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+                  <Sparkles size={15} className="text-gold-400" /> Especialización
+                </h3>
+                {playerProfile.careerStats.partidosHistoricos < 15 ? (
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Todavía estás construyendo tu trayectoria. A partir de los 15 partidos jugados vas
+                    a poder elegir un rol favorito que redistribuye tus atributos en cancha.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-3xs text-slate-400 leading-relaxed mb-3">
+                      Elegí un estilo de juego para tu posición ({playerProfile.position}). Cada rol le
+                      da más peso a ciertos atributos y menos a otros en el resultado del partido -- no
+                      suma ni resta puntos, solo cambia cómo rinden los que ya tienes.
+                    </p>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
+                      {ROLES_DATABASE.filter(r => r.position === playerProfile.position).map(role => (
+                        <button
+                          key={role.id}
+                          onClick={() => onSelectRole(playerProfile.favoriteRole === role.id ? null : role.id)}
+                          className={`btn-fx-subtle text-left py-2.5 px-3 rounded-xl border transition-all ${
+                            playerProfile.favoriteRole === role.id
+                              ? 'border-gold-500 bg-gold-950/30 text-white shadow-sm'
+                              : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700 hover:text-white'
+                          }`}
+                        >
+                          <span className="text-2xs font-bold block">{role.label}</span>
+                          <span className="text-3xs text-slate-500 block mt-0.5 leading-relaxed">{role.description}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
 
               {/* LOS AVISOS: PRIMEROS EN CELULAR, ABAJO EN ESCRITORIO.
 

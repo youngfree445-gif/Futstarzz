@@ -52,6 +52,15 @@ export interface BarraDeSeccionesProps<T extends string> {
   etiqueta: string;
 }
 
+// NO SE VUELVE ARRIBA AL CAMBIAR DE COLUMNA.
+//
+// Antes sí: la barra estaba pegada abajo y al elegir otra columna se hacía scroll al tope, con el
+// argumento de que si no aterrizabas a mitad de la columna nueva.
+//
+// Desde que la barra viaja CON el contenido eso dejó de ser cierto y pasó a ser un estorbo: está
+// justo arriba de lo que elegís, así que al tocarla no te moviste de lugar -- y el scroll te
+// mandaba al principio de la pantalla, lejos de lo que acababas de pedir. Reportado en el plantel:
+// "si escojo para ver portero, defensas o atacantes, siempre la página me lleva para arriba".
 export function BarraDeSecciones<T extends string>({
   destinos, activa, onCambiar, etiqueta,
 }: BarraDeSeccionesProps<T>) {
@@ -65,12 +74,7 @@ export function BarraDeSecciones<T extends string>({
         <button
           key={id}
           type="button"
-          onClick={() => {
-            onCambiar(id);
-            // Al cambiar de columna se vuelve arriba: si no, aterrizás a mitad de la columna nueva,
-            // a la altura a la que habías bajado en la anterior, que nunca es donde querías estar.
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          onClick={() => onCambiar(id)}
           aria-current={activa === id ? 'page' : undefined}
           className={`flex-1 min-w-0 ${BOTON_ALTO} flex items-center justify-center gap-1.5 rounded-xl font-black uppercase tracking-wider text-4xs transition-colors ${
             activa === id

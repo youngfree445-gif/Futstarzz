@@ -45,6 +45,7 @@
  * negro, sin importar lo bien que funcione el motor por debajo.
  */
 import { renderToString } from 'react-dom/server';
+import { readFileSync } from 'fs';
 import React from 'react';
 import Dashboard from '../src/components/Dashboard';
 import { ULTIMATE_CLUBS_DATABASE, INITIAL_LIFESTYLE_ITEMS } from '../src/data';
@@ -717,10 +718,11 @@ caso('entreno: en celular la clinica va antes que los ejercicios', () => {
     return o[1] === 'first' ? -1 : Number(o[1]);
   };
   const aviso = ordenDe('el aviso de fatiga', /class="[^"]*p-4 rounded-xl border border-red-500\/30[^"]*"/);
-  const clinica = ordenDe('la clinica', /class="[^"]*bg-slate-900[^"]*shadow-lg flex-1"/);
-  const ejercicios = ordenDe('los ejercicios', /class="[^"]*lg:col-span-2 grid sm:grid-cols-2[^"]*"/);
-  if (!(aviso < clinica && clinica < ejercicios)) {
-    throw new Error(`en celular el orden queda aviso ${aviso}, clinica ${clinica}, ejercicios ${ejercicios}`);
+  const clinica = ordenDe('la clinica', /data-panel-de-entreno="clinica"[^>]*/);
+  const ejercicios = ordenDe('los ejercicios', /data-panel-de-entreno="ejercicios"[^>]*/);
+  const especializacion = ordenDe('la especializacion', /data-panel-de-entreno="especializacion"[^>]*/);
+  if (!(aviso < clinica && clinica < ejercicios && ejercicios < especializacion)) {
+    throw new Error(`en celular el orden queda aviso ${aviso}, clinica ${clinica}, ejercicios ${ejercicios}, especializacion ${especializacion}`);
   }
   return html;
 });
@@ -798,6 +800,36 @@ caso('celular: la ficha y las salidas van al final, no arriba', () => {
     throw new Error('la ficha dejo de ser la columna izquierda en escritorio');
   }
   return html;
+});
+
+
+caso('entreno: la especializacion va a lo ancho, no en una columna', () => {
+  // Estaba arriba de la columna derecha: el quinto rol quedaba cortado por abajo y al lado de la
+  // grilla de ejercicios --que es mas alta-- sobraba media pantalla. Reportado con un circulo rojo.
+  const html = dibujar(perfilDe(junior, {}), 'entrenamiento', 'data-panel-de-entreno="especializacion"');
+  const grilla = html.match(/<div class="[^"]*grid lg:grid-cols-3[^"]*"/);
+  if (!grilla) throw new Error('no encuentro la grilla de entreno');
+  const desde = html.indexOf(grilla[0]);
+  const espe = html.indexOf('data-panel-de-entreno="especializacion"');
+  const clinica = html.indexOf('data-panel-de-entreno="clinica"');
+  if (!(clinica > desde)) throw new Error('la clinica dejo de estar dentro de la grilla, al lado de los ejercicios');
+  if (!(espe > clinica)) throw new Error('la especializacion volvio a estar arriba de la clinica');
+  return html;
+});
+
+caso('plantel: elegir un puesto no te manda al principio de la pantalla', () => {
+  // SE LEE EL CODIGO, NO EL HTML, y esto vale anotarlo: la primera version de este caso miraba el
+  // HTML buscando "scrollTo" y pasaba en verde con el bug puesto a proposito, porque renderToString
+  // NO emite los manejadores de eventos -- un onClick no existe en el HTML. Un caso que no puede
+  // fallar es peor que no tenerlo.
+  //
+  // La barra viaja CON el contenido, asi que al tocarla no te moviste de lugar: un scroll al tope te
+  // lleva lejos de lo que acabas de pedir. Reportado: "siempre la pagina me lleva para arriba".
+  const fuente = readFileSync('src/components/BarraDeSecciones.tsx', 'utf8');
+  if (/window\.scrollTo/.test(fuente)) {
+    throw new Error('la barra de secciones volvio a hacer scroll al tope al elegir');
+  }
+  return dibujar(perfilDe(junior, {}), 'mi_club', 'data-barra-de-secciones');
 });
 
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
