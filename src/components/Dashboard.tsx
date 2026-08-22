@@ -3188,9 +3188,9 @@ export default function Dashboard({
                 ] as const}
               />
 
-              <div className="grid md:grid-cols-3 gap-4 stagger">
+              <div className="grid md:grid-cols-6 gap-4 stagger">
 
-                <div className={`${soloEn('ficha')} bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
+                <div className={`${soloEn('ficha')} md:col-span-3 md:order-1 bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
                     <Award size={15} className="text-gold-400" /> Atributos del Jugador
                   </h3>
@@ -3288,7 +3288,7 @@ export default function Dashboard({
                   </div>
                 </div>
 
-                <div className={`${soloEn('historia')} bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg md:flex md:flex-col md:justify-between`}>
+                <div className={`${soloEn('historia')} md:col-span-2 md:order-4 bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg md:flex md:flex-col md:justify-between`}>
                   <div>
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
                       🏆 Estadísticas Históricas de Carrera
@@ -3372,6 +3372,42 @@ export default function Dashboard({
                   </div>
                 </div>
 
+                {/* EL RIVAL DE CARRERA sube a la grilla: en escritorio es una de las tres tarjetas
+                    de la fila de abajo, con las estadisticas historicas y el ranking. Abajo del
+                    todo quedaba a dos pantallas de scroll de lo unico con lo que se compara. */}
+              {/* EL RIVAL DE CARRERA (ver rivalDeCarrera.ts). Va pegado al momento de forma
+                  porque son la misma pregunta a dos escalas: la forma dice cómo venís estas
+                  cinco fechas, y esto dice cómo vas contra el que arrancó cuando vos. */}
+              {miRival && (
+                <div className={`${soloEn('rival')} md:col-span-2 md:order-3 md:self-start bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3`}>
+                  <h3 className="font-black text-xs text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                    <Swords size={14} /> Rival de carrera
+                  </h3>
+                  <p className={`text-2xs font-bold leading-relaxed ${
+                    miRival.quien === 'vos' ? 'text-emerald-400'
+                    : miRival.quien === 'el' ? 'text-burgundy-400' : 'text-gold-400'
+                  }`}>
+                    {rotuloDeLaComparacion(miRival.quien, miRival.rival)}
+                  </p>
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    {[
+                      { label: 'Partidos', mio: playerProfile.careerStats.partidosHistoricos, suyo: miRival.rival.partidos },
+                      { label: 'Goles', mio: playerProfile.careerStats.golesHistoricos, suyo: miRival.rival.goles },
+                      { label: 'Asistencias', mio: playerProfile.careerStats.asistenciasHistoricos, suyo: miRival.rival.asistencias },
+                    ].map(f => (
+                      <div key={f.label} className="p-2 bg-slate-950 border border-slate-850 rounded-xl">
+                        <p className="text-3xs uppercase font-mono text-slate-500 font-bold truncate">{f.label}</p>
+                        <p className="text-sm font-black text-white">{f.mio}</p>
+                        <p className="text-3xs font-mono text-slate-500">él: {f.suyo}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-3xs text-slate-500 font-mono leading-relaxed">
+                    {miRival.rival.nombre} · {miRival.rival.clubName} · promedio {miRival.rival.promedio}
+                  </p>
+                </div>
+              )}
+
                 {/* self-start: que la tarjeta mida lo que ocupa su contenido y NADA MÁS.
 
                     Es hija directa de un grid, y los items de grid se estiran por defecto hasta la
@@ -3393,8 +3429,8 @@ export default function Dashboard({
 
                   `order-first` sigue por el mismo motivo de siempre en celular, y en escritorio conserva
                   su lugar en la grilla de tres. */}
-              <div data-hub-del-partido="true" className="order-first md:order-none space-y-4 self-start">
-                <div className="bg-gold-950/20 border border-gold-900/30 rounded-2xl p-4 shadow-xl flex flex-col relative overflow-hidden">
+              <div data-hub-del-partido="true" className="order-first md:order-none space-y-4 self-start md:contents">
+                <div className="md:col-span-3 md:order-2 md:self-start bg-gold-950/20 border border-gold-900/30 rounded-2xl p-4 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
@@ -3567,7 +3603,7 @@ export default function Dashboard({
                   )}
                 </div>
 
-              <div className={`${soloEn('ranking')} bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
+              <div className={`${soloEn('ranking')} md:col-span-2 md:order-5 md:self-start bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
                 <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
                   🌎 Ranking mundial
                 </h3>
@@ -3706,38 +3742,6 @@ export default function Dashboard({
                 </div>
               )}
 
-              {/* EL RIVAL DE CARRERA (ver rivalDeCarrera.ts). Va pegado al momento de forma
-                  porque son la misma pregunta a dos escalas: la forma dice cómo venís estas
-                  cinco fechas, y esto dice cómo vas contra el que arrancó cuando vos. */}
-              {miRival && (
-                <div className={`${soloEn('rival')} bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3`}>
-                  <h3 className="font-black text-xs text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <Swords size={14} /> Rival de carrera
-                  </h3>
-                  <p className={`text-2xs font-bold leading-relaxed ${
-                    miRival.quien === 'vos' ? 'text-emerald-400'
-                    : miRival.quien === 'el' ? 'text-burgundy-400' : 'text-gold-400'
-                  }`}>
-                    {rotuloDeLaComparacion(miRival.quien, miRival.rival)}
-                  </p>
-                  <div className="grid grid-cols-3 gap-2 text-center">
-                    {[
-                      { label: 'Partidos', mio: playerProfile.careerStats.partidosHistoricos, suyo: miRival.rival.partidos },
-                      { label: 'Goles', mio: playerProfile.careerStats.golesHistoricos, suyo: miRival.rival.goles },
-                      { label: 'Asistencias', mio: playerProfile.careerStats.asistenciasHistoricos, suyo: miRival.rival.asistencias },
-                    ].map(f => (
-                      <div key={f.label} className="p-2 bg-slate-950 border border-slate-850 rounded-xl">
-                        <p className="text-3xs uppercase font-mono text-slate-500 font-bold truncate">{f.label}</p>
-                        <p className="text-sm font-black text-white">{f.mio}</p>
-                        <p className="text-3xs font-mono text-slate-500">él: {f.suyo}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-3xs text-slate-500 font-mono leading-relaxed">
-                    {miRival.rival.nombre} · {miRival.rival.clubName} · promedio {miRival.rival.promedio}
-                  </p>
-                </div>
-              )}
 
               {/* EL BAJÓN ANÍMICO (ver animo.ts).
                   Sólo aparece cuando estás adentro: un panel que está siempre se vuelve otra

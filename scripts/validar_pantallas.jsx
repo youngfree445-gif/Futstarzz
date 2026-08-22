@@ -648,6 +648,54 @@ caso('celular: la lesion y el bajon nunca quedan detras de un segmento', () => {
   return html;
 });
 
+
+// --- EL REPARTO DE LA GRILLA EN ESCRITORIO --------------------------------------------------
+//
+// Mi Carrera en PC son dos filas sobre seis columnas:
+//
+//     fila 1:  atributos (3)  +  partido (3)
+//     fila 2:  rival (2)  +  estadisticas (2)  +  ranking (2)
+//
+// Lo que hay que proteger no es el diseño sino la ARITMETICA: cada fila tiene que sumar seis. Si
+// alguien le cambia el ancho a una tarjeta, las filas dejan de cerrar y la grilla se desarma sola
+// -- una tarjeta baja media fila y queda un hueco al lado. Eso no lo ve tsc ni se nota en celular,
+// donde todo va apilado.
+
+const ANCHO_ESPERADO = { 1: 3, 2: 3, 3: 2, 4: 2, 5: 2 };
+
+caso('escritorio: cada tarjeta conserva su ancho en la grilla', () => {
+  const html = dibujar(perfilDe(junior, { currentWeek: 40 }), 'carrera', 'md:grid-cols-6');
+  const vistos = {};
+  for (const m of html.matchAll(/class="([^"]*md:order-(\d+)[^"]*)"/g)) {
+    const orden = Number(m[2]);
+    const ancho = Number((m[1].match(/md:col-span-(\d+)/) || [])[1]);
+    if (!ancho) throw new Error(`la tarjeta de orden ${orden} no declara ancho`);
+    if (ANCHO_ESPERADO[orden] !== ancho) {
+      throw new Error(`la tarjeta de orden ${orden} mide ${ancho} y tiene que medir ${ANCHO_ESPERADO[orden]}`);
+    }
+    vistos[orden] = ancho;
+  }
+  // La fila 1 tiene que estar entera SIEMPRE: atributos y partido no son opcionales.
+  for (const orden of [1, 2]) {
+    if (!vistos[orden]) throw new Error(`falta la tarjeta de orden ${orden} en la fila de arriba`);
+  }
+  if (vistos[1] + vistos[2] !== 6) throw new Error('la primera fila no llena las seis columnas');
+  return html;
+});
+
+caso('escritorio: el bloque del partido no ocupa una columna propia', () => {
+  // Lleva `md:contents`: en PC no genera caja, asi que la tarjeta del partido y el ranking pasan a
+  // ser celdas sueltas de la grilla en vez de ir apilados en una tercera columna. Sin eso el
+  // ranking no puede bajar a la fila de abajo.
+  const html = dibujar(perfilDe(junior, {}), 'carrera', null);
+  const hub = html.match(/<div[^>]*data-hub-del-partido[^>]*>/);
+  if (!hub) throw new Error('no encuentro el bloque del partido');
+  if (!/md:contents/.test(hub[0])) {
+    throw new Error('el bloque del partido volvio a ser una columna: el ranking queda pegado abajo del partido');
+  }
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`
