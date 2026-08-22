@@ -40,13 +40,16 @@ import { User, Sparkles, Dumbbell, Table, Menu, X } from 'lucide-react';
 export const BOTON_ALTO = 'h-14';
 
 /**
- * El colchón que necesita el contenido para que la barra no le tape el final.
+ * El colchón que necesita el ÚLTIMO bloque de la pantalla para que no se lo coman los botones fijos.
  *
- * Se exporta para que quien arma una pestaña no tenga que deducirlo del alto de los botones. Va en
- * el contenedor del panel, UNA vez -- no pestaña por pestaña, que es como antes se olvidaba en ocho
- * de las once.
+ * Va en la columna de la ficha, que desde que bajó al pie es lo último que hay en celular. Antes iba
+ * en el panel de contenido -- y cuando la ficha pasó a ser lo último, la barra y los flotantes se
+ * comieron "Guardar & Salir" y "Reiniciar Datos de Carrera".
+ *
+ * Son 28 y no 20 porque acá abajo hay DOS cosas encimadas: la barra (56px) y los botones de música y
+ * sonido, que viven por arriba de ella.
  */
-export const COLCHON = 'pb-20 md:pb-0';
+export const COLCHON_DE_LA_FICHA = 'pb-28 md:pb-3';
 
 export interface SeccionDeLaApp<T extends string> {
   key: T;

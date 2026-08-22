@@ -796,6 +796,12 @@ caso('celular: la ficha y las salidas van al final, no arriba', () => {
   if (!/order-last/.test(aside[0])) {
     throw new Error('la ficha volvio a quedar arriba de todo en celular');
   }
+  // Y TIENE QUE DEJAR HUECO ABAJO. Al bajar al pie pasó a ser lo último de la pantalla, y ahí abajo
+  // hay dos cosas fijas encimadas: la barra de la app y los botones de música y sonido. Sin el
+  // colchón se comían "Guardar & Salir" y "Reiniciar Datos de Carrera" -- reportado con captura.
+  if (!/pb-2[0-9]|pb-3[0-9]/.test(aside[0])) {
+    throw new Error('la ficha no deja hueco abajo: la barra y los botones flotantes le tapan el final');
+  }
   if (!/md:order-none/.test(aside[0])) {
     throw new Error('la ficha dejo de ser la columna izquierda en escritorio');
   }

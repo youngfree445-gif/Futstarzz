@@ -6,7 +6,7 @@ import { clasicoPersonalContra } from '../clasicoPersonal';
 import { loQueDiceDeVos } from '../elPibe';
 import { CAMISETAS_CON_DUENO } from '../laCamiseta';
 import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSecciones';
-import { BarraDeApp, COLCHON } from './BarraDeApp';
+import { BarraDeApp, COLCHON_DE_LA_FICHA } from './BarraDeApp';
 import { HexagonoDeAtributos } from './HexagonoDeAtributos';
 import { ResumenDeCompeticiones } from './ResumenDeCompeticiones';
 import { tablaDeFondo } from '../ligasDeFondo';
@@ -2989,7 +2989,16 @@ export default function Dashboard({
           Ahora es lo último: identidad y salidas al pie, que es donde se buscan. La navegación de
           verdad ya vive en la barra de abajo (ver BarraDeApp). En escritorio es la columna
           izquierda de siempre. */}
-      <aside className="order-last md:order-none w-full md:w-64 bg-slate-950 border-t md:border-t-0 md:border-r border-slate-800 flex flex-col justify-between p-3 z-20">
+      {/* EL COLCHÓN DE ABAJO ES DE ESTE BLOQUE, no del panel.
+
+          Estaba en el panel de contenido, que era lo último de la pantalla. Al bajar la ficha al
+          pie dejó de serlo, y entonces la barra de abajo y los botones flotantes de música y sonido
+          se comieron el final de esta columna: "Guardar & Salir" y "Reiniciar Datos de Carrera" no
+          se veían. Reportado con captura.
+
+          `pb-28` y no `pb-20` porque acá abajo hay DOS cosas encimadas, no una: la barra (56px) y
+          los botones flotantes, que viven por arriba de ella. */}
+      <aside className={`order-last md:order-none w-full md:w-64 bg-slate-950 border-t md:border-t-0 md:border-r border-slate-800 flex flex-col justify-between p-3 ${COLCHON_DE_LA_FICHA} z-20`}>
         <div className="space-y-4">
 
           <div className="p-3 flex items-center gap-3 border-b border-slate-800">
@@ -3206,7 +3215,7 @@ export default function Dashboard({
             (fixed bottom-4), así que sin este colchón el último bloque de cada pestaña queda tapado
             justo cuando terminás de bajar. En escritorio sobra ancho y no hace falta. */}
         <div
-          className={`p-3 md:p-6 md:pb-8 flex-1 ${COLCHON}`}
+          className="p-3 md:p-6 md:pb-8 flex-1"
           id="panel-seccion"
           role="tabpanel"
           aria-labelledby={`tab-${activeTab}`}
