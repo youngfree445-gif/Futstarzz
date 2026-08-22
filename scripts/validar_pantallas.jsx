@@ -653,15 +653,15 @@ caso('celular: la lesion y el bajon nunca quedan detras de un segmento', () => {
 //
 // Mi Carrera en PC son dos filas sobre seis columnas:
 //
-//     fila 1:  atributos (3)  +  partido (3)
-//     fila 2:  rival (2)  +  estadisticas (2)  +  ranking (2)
+//     fila 1:  atributos (3)  +  partido y ranking (3)
+//     fila 2:  rival (3)      +  estadisticas (3)
 //
 // Lo que hay que proteger no es el diseño sino la ARITMETICA: cada fila tiene que sumar seis. Si
 // alguien le cambia el ancho a una tarjeta, las filas dejan de cerrar y la grilla se desarma sola
 // -- una tarjeta baja media fila y queda un hueco al lado. Eso no lo ve tsc ni se nota en celular,
 // donde todo va apilado.
 
-const ANCHO_ESPERADO = { 1: 3, 2: 3, 3: 2, 4: 2, 5: 2 };
+const ANCHO_ESPERADO = { 1: 3, 2: 3, 3: 3, 4: 3 };
 
 caso('escritorio: cada tarjeta conserva su ancho en la grilla', () => {
   const html = dibujar(perfilDe(junior, { currentWeek: 40 }), 'carrera', 'md:grid-cols-6');
@@ -683,16 +683,17 @@ caso('escritorio: cada tarjeta conserva su ancho en la grilla', () => {
   return html;
 });
 
-caso('escritorio: el bloque del partido no ocupa una columna propia', () => {
-  // Lleva `md:contents`: en PC no genera caja, asi que la tarjeta del partido y el ranking pasan a
-  // ser celdas sueltas de la grilla en vez de ir apilados en una tercera columna. Sin eso el
-  // ranking no puede bajar a la fila de abajo.
+caso('escritorio: el partido y el ranking comparten celda', () => {
+  // Y esto es lo que tapa EL HUECO. La tarjeta del partido es corta y la de atributos es larga, asi
+  // que si el partido ocupara solo su celda quedaba media pantalla vacia debajo -- reportado con
+  // captura y un circulo rojo encima. El ranking se apila ahi adentro y llena el alto.
   const html = dibujar(perfilDe(junior, {}), 'carrera', null);
   const hub = html.match(/<div[^>]*data-hub-del-partido[^>]*>/);
   if (!hub) throw new Error('no encuentro el bloque del partido');
-  if (!/md:contents/.test(hub[0])) {
-    throw new Error('el bloque del partido volvio a ser una columna: el ranking queda pegado abajo del partido');
+  if (/md:contents/.test(hub[0])) {
+    throw new Error('el partido dejo de ser una celda: el ranking se le va a otra fila y vuelve el hueco');
   }
+  if (!/md:col-span-3/.test(hub[0])) throw new Error('el bloque del partido no declara su ancho');
   return html;
 });
 
@@ -775,6 +776,27 @@ caso('copas: la posicion de la tira es la misma que la de la tabla', () => {
   if (!puesto) throw new Error(`la linea no dice un puesto: ${linea[0].slice(0, 120)}`);
   const n = Number(puesto[1]);
   if (!(n >= 1 && n <= 40)) throw new Error(`la tira dice que vas ${n}º, que no es un puesto de una liga`);
+  return html;
+});
+
+
+// --- LA COLUMNA DE LA FICHA VA AL FINAL EN CELULAR ------------------------------------------
+//
+// En el telefono la raiz es una columna, asi que la barra lateral -- ficha profesional, menu de
+// escritorio, reportar un bug, guardar y salir -- caia ARRIBA DE TODO en las once pestañas.
+// Entrabas a Entrenamiento y lo primero que veias era tu propia ficha. Reportado: "me toca bajar
+// para de nuevo entrenar, no es nada comodo".
+
+caso('celular: la ficha y las salidas van al final, no arriba', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', null);
+  const aside = html.match(/<aside[^>]*>/);
+  if (!aside) throw new Error('no encuentro la columna de la ficha');
+  if (!/order-last/.test(aside[0])) {
+    throw new Error('la ficha volvio a quedar arriba de todo en celular');
+  }
+  if (!/md:order-none/.test(aside[0])) {
+    throw new Error('la ficha dejo de ser la columna izquierda en escritorio');
+  }
   return html;
 });
 

@@ -43,7 +43,7 @@ export default function SoundSettings({ hidden = false }: SoundSettingsProps) {
 
   // Abajo a la derecha: el widget de música ocupa la izquierda.
   return (
-    <div className="fixed bottom-4 right-4 z-90 print:hidden">
+    <div className="fixed bottom-20 md:bottom-4 right-4 z-90 print:hidden">
       {!open && (
         <button
           type="button"

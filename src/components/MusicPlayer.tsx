@@ -362,7 +362,7 @@ export default function MusicPlayer({ hidden = false }: MusicPlayerProps) {
         </div>
       )}
 
-      <div className="fixed bottom-4 left-4 z-90 print:hidden">
+      <div className="fixed bottom-20 md:bottom-4 left-4 z-90 print:hidden">
         {!open && (
           <button
             type="button"

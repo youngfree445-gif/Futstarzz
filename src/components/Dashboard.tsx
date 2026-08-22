@@ -2954,7 +2954,18 @@ export default function Dashboard({
         </div>
       )}
 
-      <aside className="w-full md:w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-3 z-20">
+      {/* LA COLUMNA DE LA IZQUIERDA VA AL FINAL EN CELULAR.
+
+          En el teléfono la raíz es una columna, así que esto -- la ficha profesional, el menú de
+          escritorio, reportar un bug, guardar y salir -- caía ARRIBA DE TODO, en todas las
+          pestañas. Entrabas a Entrenamiento y lo primero que veías era tu propia ficha; cualquier
+          re-render te devolvía ahí y había que bajar de nuevo para tocar el botón que acababas de
+          tocar. Reportado tal cual: "me toca bajar para de nuevo entrenar, no es nada cómodo".
+
+          Ahora es lo último: identidad y salidas al pie, que es donde se buscan. La navegación de
+          verdad ya vive en la barra de abajo (ver BarraDeApp). En escritorio es la columna
+          izquierda de siempre. */}
+      <aside className="order-last md:order-none w-full md:w-64 bg-slate-950 border-t md:border-t-0 md:border-r border-slate-800 flex flex-col justify-between p-3 z-20">
         <div className="space-y-4">
 
           <div className="p-3 flex items-center gap-3 border-b border-slate-800">
@@ -3294,7 +3305,7 @@ export default function Dashboard({
                   </div>
                 </div>
 
-                <div className={`${soloEn('historia')} md:col-span-2 md:order-4 bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg md:flex md:flex-col md:justify-between`}>
+                <div className={`${soloEn('historia')} md:col-span-3 md:order-4 bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg md:flex md:flex-col md:justify-between`}>
                   <div>
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
                       🏆 Estadísticas Históricas de Carrera
@@ -3385,7 +3396,7 @@ export default function Dashboard({
                   porque son la misma pregunta a dos escalas: la forma dice cómo venís estas
                   cinco fechas, y esto dice cómo vas contra el que arrancó cuando vos. */}
               {miRival && (
-                <div className={`${soloEn('rival')} md:col-span-2 md:order-3 md:self-start bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3`}>
+                <div className={`${soloEn('rival')} md:col-span-3 md:order-3 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3`}>
                   <h3 className="font-black text-xs text-slate-400 uppercase tracking-wider flex items-center gap-2">
                     <Swords size={14} /> Rival de carrera
                   </h3>
@@ -3435,8 +3446,8 @@ export default function Dashboard({
 
                   `order-first` sigue por el mismo motivo de siempre en celular, y en escritorio conserva
                   su lugar en la grilla de tres. */}
-              <div data-hub-del-partido="true" className="order-first md:order-none space-y-4 self-start md:contents">
-                <div className="md:col-span-3 md:order-2 md:self-start bg-gold-950/20 border border-gold-900/30 rounded-2xl p-4 shadow-xl flex flex-col relative overflow-hidden">
+              <div data-hub-del-partido="true" className="order-first md:order-none md:col-span-3 md:order-2 space-y-4 self-start">
+                <div className="bg-gold-950/20 border border-gold-900/30 rounded-2xl p-4 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
@@ -3609,7 +3620,7 @@ export default function Dashboard({
                   )}
                 </div>
 
-              <div className={`${soloEn('ranking')} md:col-span-2 md:order-5 md:self-start bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
+              <div className={`${soloEn('ranking')} bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
                 <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
                   🌎 Ranking mundial
                 </h3>
