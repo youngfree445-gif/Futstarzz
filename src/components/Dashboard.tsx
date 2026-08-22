@@ -7,6 +7,7 @@ import { loQueDiceDeVos } from '../elPibe';
 import { CAMISETAS_CON_DUENO } from '../laCamiseta';
 import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSecciones';
 import { BarraDeApp, COLCHON } from './BarraDeApp';
+import { HexagonoDeAtributos } from './HexagonoDeAtributos';
 import { BarraDeEstado } from './BarraDeEstado';
 import { SelectorDeDorsal } from './SelectorDeDorsal';
 import { dorsalesOcupados } from '../laCamiseta';
@@ -52,7 +53,7 @@ import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
   Table, Zap, DollarSign, Star, Heart, Flame, Swords, LogOut, ArrowRight, FastForward, BarChart3, CheckCircle,
   ShieldAlert, Sparkles, MessageCircle, TrendingUp, HelpCircle, Brain, Calendar, Handshake, Trophy, Lock, Users,
-  Menu, X, Home
+  Menu, X, Home, Globe
 } from 'lucide-react';
 import ClubBadge from './ClubBadge';
 import SeasonComparisonChart from './SeasonComparisonChart';
@@ -366,7 +367,13 @@ interface DashboardProps {
 }
 
 /** Las tres columnas de Mi Carrera. En celular se ve una por vez (ver BarraDeSecciones). */
-type SeccionDeCarrera = 'ficha' | 'historia';
+/**
+ * Los cuatro segmentos de Mi Carrera en celular.
+ *
+ * Lo que se HACE no está acá: el partido, la lesión y el bajón se ven siempre, porque tienen
+ * botones y una decisión detrás de una pestaña es una decisión que el jugador no toma.
+ */
+type SeccionDeCarrera = 'ficha' | 'rival' | 'ranking' | 'historia';
 
 type SeccionKey =
   | 'carrera' | 'mi_club' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos'
@@ -3175,6 +3182,8 @@ export default function Dashboard({
                 onCambiar={setSeccionMovil}
                 destinos={[
                   { id: 'ficha', texto: 'Atributos', Icono: Award },
+                  { id: 'rival', texto: 'Rival', Icono: Swords },
+                  { id: 'ranking', texto: 'Ranking', Icono: Globe },
                   { id: 'historia', texto: 'Historia', Icono: BarChart3 },
                 ] as const}
               />
@@ -3198,7 +3207,15 @@ export default function Dashboard({
                     </p>
                   )}
 
-                  <div className="space-y-2.5">
+                  {/* EL HEXÁGONO Y LAS BARRAS, JUNTOS Y NO EN VEZ DE. Contestan preguntas distintas: las barras
+                      dicen cuánto tenés de cada cosa y el hexágono dice qué CLASE de jugador sos. Un central y
+                      un delantero de la misma media tienen barras casi iguales y siluetas opuestas.
+                      Ver src/components/HexagonoDeAtributos.tsx. */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-[38%] max-w-[150px] shrink-0 text-slate-500">
+                      <HexagonoDeAtributos atributos={playerProfile.attributes} />
+                    </div>
+                    <div className="flex-1 min-w-0 space-y-2.5">
                     {Object.entries(playerProfile.attributes).map(([key, val]) => (
                       <div key={key}>
                         <div className="flex justify-between text-2xs text-slate-300 font-mono uppercase font-bold">
@@ -3213,6 +3230,7 @@ export default function Dashboard({
                         </div>
                       </div>
                     ))}
+                    </div>
                   </div>
 
                   {/* Vitrina de trofeos. Va acá, debajo de los atributos, porque era el espacio
@@ -3549,7 +3567,7 @@ export default function Dashboard({
                   )}
                 </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
+              <div className={`${soloEn('ranking')} bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg`}>
                 <h3 className="text-2xs uppercase tracking-widest text-slate-400 font-black flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-3">
                   🌎 Ranking mundial
                 </h3>
@@ -3581,7 +3599,16 @@ export default function Dashboard({
               {/* De acá para abajo, en celular, todo vive en la sección HISTORIA: son paneles de
                   consulta, no de acción, y apilados debajo del partido eran cuatro pantallas más de
                   scroll. En escritorio se ven siempre. */}
-              <div className={`${soloEn('historia')} space-y-4`}>
+              {/* ESTE BLOQUE YA NO SE ESCONDE ENTERO: cada panel dice a qué segmento pertenece.
+
+                  Antes era una sola columna "Historia" con siete cosas adentro, y entre ellas dos
+                  que hay que PODER TOCAR -- el bajón anímico y la lesión, que tienen botones. Que
+                  una decisión viva detrás de una pestaña es la forma más silenciosa de que el
+                  jugador no se entere de que podía hacer algo.
+
+                  La regla es la misma que la del partido: lo accionable está siempre; lo que se
+                  consulta va detrás de un segmento. */}
+              <div className="space-y-4">
 
               {/* MOMENTO DE FORMA. Se muestra siempre que haya al menos un partido jugado, no sólo
                   cuando hay racha: media pantalla del juego son números que suben, y la forma tiene
@@ -3596,7 +3623,7 @@ export default function Dashboard({
                 const borde = forma.estado === 'en_racha' ? 'border-emerald-900/40'
                   : forma.estado === 'en_baja' ? 'border-red-900/40' : 'border-slate-800';
                 return (
-                  <div className={`bg-slate-900 border ${borde} rounded-2xl p-5 shadow-lg`}>
+                  <div className={`${soloEn('ficha')} bg-slate-900 border ${borde} rounded-2xl p-5 shadow-lg`}>
                     <h3 className={`text-xs font-black uppercase tracking-widest ${color} mb-2 flex items-center gap-2`}>
                       {forma.estado === 'en_racha' ? '🔥' : forma.estado === 'en_baja' ? '🥶' : '📈'} Momento de forma
                     </h3>
@@ -3642,7 +3669,7 @@ export default function Dashboard({
                   Se muestra con NÚMEROS y no con un cartel de "hay competencia": el problema tiene
                   que tener cara. Si no jugaste dos fechas y él metió tres, eso se ve acá. */}
               {playerProfile.fichajeRival && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                <div className={`${soloEn('rival')} bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg`}>
                   <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
                     <Swords size={15} className="text-gold-400" /> Te pelea el puesto
                   </h3>
@@ -3683,7 +3710,7 @@ export default function Dashboard({
                   porque son la misma pregunta a dos escalas: la forma dice cómo venís estas
                   cinco fechas, y esto dice cómo vas contra el que arrancó cuando vos. */}
               {miRival && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
+                <div className={`${soloEn('rival')} bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3`}>
                   <h3 className="font-black text-xs text-slate-400 uppercase tracking-wider flex items-center gap-2">
                     <Swords size={14} /> Rival de carrera
                   </h3>
@@ -3718,7 +3745,7 @@ export default function Dashboard({
                   resolver. Va pegado al de Entorno porque son la misma familia -- lo de afuera
                   de la cancha -- y porque visitar a los tuyos es la prevención de esto mismo. */}
               {estaEnBajon(playerProfile) && (
-                <div className="bg-burgundy-950/30 border border-burgundy-500/40 rounded-2xl p-5 shadow-lg space-y-3">
+                <div data-panel-accionable="bajon" className="bg-burgundy-950/30 border border-burgundy-500/40 rounded-2xl p-5 shadow-lg space-y-3">
                   <h3 className="font-black text-xs text-burgundy-300 uppercase tracking-wider flex items-center gap-2">
                     <Brain size={14} /> Bajón anímico
                   </h3>
@@ -3760,7 +3787,7 @@ export default function Dashboard({
                   al abrir la pantalla, no después de cambiar de sección. */}
 
               {playerProfile.activeInjury && (
-                <div className="bg-slate-900 border border-red-900/40 rounded-2xl p-5 shadow-lg">
+                <div data-panel-accionable="lesion" className="bg-slate-900 border border-red-900/40 rounded-2xl p-5 shadow-lg">
                   <h3 className="text-xs font-black uppercase tracking-widest text-red-400 mb-2 flex items-center gap-2">
                     🩹 Lesionado
                   </h3>
@@ -3824,7 +3851,7 @@ export default function Dashboard({
               )}
 
               {playerProfile.age >= 32 && (
-                <div className="bg-slate-900 border border-burgundy-900/40 rounded-2xl p-5 shadow-lg">
+                <div className={`${soloEn('historia')} bg-slate-900 border border-burgundy-900/40 rounded-2xl p-5 shadow-lg`}>
                   <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 mb-2 flex items-center gap-2">
                     🎖️ Fase Veterana de la Carrera
                   </h3>

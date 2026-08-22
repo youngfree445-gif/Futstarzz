@@ -576,6 +576,78 @@ caso('celular: el partido NO se esconde detras de un segmento', () => {
   return html;
 });
 
+
+// --- EL HEXAGONO DE ATRIBUTOS ---------------------------------------------------------------
+//
+// La escala es FIJA de 0 a 99, no normalizada contra el maximo del propio jugador. Es la decision
+// que hace util al grafico: normalizando, un juvenil de 55 y un crack de 95 dibujan el mismo
+// hexagono y lo unico que existe para mostrar -- cuanto creciste -- desaparece.
+
+caso('el hexagono se dibuja y lleva los seis atributos', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', 'data-hexagono-de-atributos');
+  // El perfil del validador tiene ritmo 55, regate 60, tiro 63, defensa 45, pase 65, fisico 50.
+  // El marcador los lista en el orden de los ejes: ritmo, tiro, pase, regate, defensa, fisico.
+  if (!html.includes('data-hexagono-de-atributos="55-63-65-60-45-50"')) {
+    throw new Error('el hexagono no esta dibujando los atributos del jugador');
+  }
+  return html;
+});
+
+caso('el hexagono de un crack es mas grande que el de un juvenil', () => {
+  const chico = { ritmo: 40, regate: 40, tiro: 40, defensa: 40, pase: 40, fisico: 40 };
+  const grande = { ritmo: 95, regate: 95, tiro: 95, defensa: 95, pase: 95, fisico: 95 };
+  const area = attrs => {
+    const html = dibujar(perfilDe(junior, { attributes: attrs }), 'carrera', null);
+    // El poligono del jugador es el que lleva la clase del relleno dorado.
+    const m = html.match(/<polygon points="([^"]+)"[^>]*fill-gold/);
+    if (!m) throw new Error('no encuentro el poligono del jugador');
+    const ps = m[1].split(' ').map(p => p.split(',').map(Number));
+    // Formula del area de un poligono por coordenadas.
+    let a = 0;
+    for (let i = 0; i < ps.length; i++) {
+      const [x1, y1] = ps[i], [x2, y2] = ps[(i + 1) % ps.length];
+      a += x1 * y2 - x2 * y1;
+    }
+    return Math.abs(a / 2);
+  };
+  const aChico = area(chico), aGrande = area(grande);
+  if (!(aGrande > aChico * 4)) {
+    throw new Error(`un 95 dibuja ${aGrande.toFixed(0)} y un 40 dibuja ${aChico.toFixed(0)}: la escala se esta normalizando`);
+  }
+  return dibujar(perfilDe(junior, {}), 'carrera', null);
+});
+
+caso('un defensor y un delantero dibujan siluetas distintas', () => {
+  const forma = attrs => {
+    const html = dibujar(perfilDe(junior, { attributes: attrs }), 'carrera', null);
+    return html.match(/<polygon points="([^"]+)"[^>]*fill-gold/)[1];
+  };
+  const central = forma({ ritmo: 60, regate: 45, tiro: 40, defensa: 88, pase: 65, fisico: 85 });
+  const nueve = forma({ ritmo: 85, regate: 84, tiro: 90, defensa: 35, pase: 60, fisico: 63 });
+  if (central === nueve) throw new Error('los dos puestos dibujan el mismo hexagono');
+  return dibujar(perfilDe(junior, {}), 'carrera', null);
+});
+
+
+// --- LO ACCIONABLE NO SE ESCONDE ------------------------------------------------------------
+//
+// Mi Carrera tiene cuatro segmentos en celular, y la regla de que panel va detras de cual es esta:
+// lo que se CONSULTA (atributos, rival, ranking, historia) se elige; lo que se HACE esta siempre.
+// El partido, la lesion y el bajon animico tienen botones, y una decision detras de una pestaña es
+// una decision que el jugador no toma porque no se entera de que existe.
+
+caso('celular: la lesion y el bajon nunca quedan detras de un segmento', () => {
+  const enfermo = perfilDe(junior, {
+    activeInjury: { type: 'muscular', weeksRemaining: 4, startedWeek: 5 },
+    mentalHealth: 12,
+  });
+  const html = dibujar(enfermo, 'carrera', 'data-panel-accionable');
+  for (const m of html.matchAll(/<div[^>]*data-panel-accionable="([^"]+)"[^>]*>/g)) {
+    if (/hidden/.test(m[0])) throw new Error(`el panel "${m[1]}" se escondio detras de un segmento`);
+  }
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`
