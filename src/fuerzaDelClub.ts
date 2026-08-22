@@ -110,10 +110,36 @@ function aEscala(fuerza: number, desde: number, hasta: number): number {
 }
 
 /**
- * La fuerza que mira el MERCADO. Mismo rango que antes (11 a 85) para no mover nada de lo que la lee.
+ * LA FUERZA CON LA QUE SE JUEGA UN PARTIDO Y SE MIRA EL MERCADO. Rango 11 a 85, el de siempre.
+ *
+ * ---------------------------------------------------------------------------------------------
+ * ACÁ VA LINEAL Y EN LAS VARAS VA POR PERCENTIL, y no es una incoherencia: son dos preguntas.
+ * ---------------------------------------------------------------------------------------------
+ *
+ * Las varas preguntan "¿qué tan grande es este club COMPARADO CON EL MUNDO?", y ahí el percentil es
+ * lo correcto (ver la nota de `percentilDe`: con el rating crudo, conectar Opta habría subido la
+ * dificultad de todo el juego 7,6 puntos sin que nadie lo pidiera).
+ *
+ * Un partido pregunta otra cosa: "¿cuánto MÁS FUERTE es uno que el otro?". Y para eso el percentil
+ * miente, porque está apretado arriba. Medido en la Premier:
+ *
+ *     Arsenal   opta 100,0  ->  percentil 85,0
+ *     Sunderland opta 90,0  ->  percentil 81,1     <- diecisiete clubes en cuatro puntos
+ *     Burnley   opta  65,7  ->  percentil 14,9     <- y uno solo cae cincuenta
+ *
+ * Con eso `simulateMatch` veía diecisiete equipos idénticos: la tabla salía a cara o cruz. Sobre
+ * seis temporadas simuladas, la correlación entre fuerza y puesto final era 0,45 y el favorito no
+ * salía campeón NUNCA (0 de 6, con Sunderland y Brentford campeones). Con la escala lineal pasa a
+ * 0,67 y Arsenal gana 2 de 6.
+ *
+ * Y donde no estaba roto casi no se mueve: Alemana 0,86 -> 0,80 pero el Bayern pasa de 4 a 5
+ * títulos de 6; Española 0,77 -> 0,75 con el Barça de 2 a 5; Italiana 0,83 -> 0,82. La colombiana
+ * baja de 0,91 a 0,62, que es lo correcto: sus clubes tienen ratings de Opta muy parejos, o sea que
+ * ES una liga pareja, y el percentil la estaba separando más de lo que la realidad la separa.
  */
 export function fuerzaParaElMercado(club: Club): number {
-  return aEscala(fuerzaDelClub(club), 11, 85);
+  const r = fuerzaDelClub(club);
+  return 11 + Math.max(0, Math.min(1, (r - RATING_MINIMO) / (RATING_MAXIMO - RATING_MINIMO))) * (85 - 11);
 }
 
 /**

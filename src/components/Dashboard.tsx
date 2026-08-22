@@ -9,6 +9,7 @@ import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSeccion
 import { BarraDeApp, COLCHON } from './BarraDeApp';
 import { HexagonoDeAtributos } from './HexagonoDeAtributos';
 import { ResumenDeCompeticiones } from './ResumenDeCompeticiones';
+import { tablaDeFondo } from '../ligasDeFondo';
 import { BarraDeEstado } from './BarraDeEstado';
 import { SelectorDeDorsal } from './SelectorDeDorsal';
 import { dorsalesOcupados } from '../laCamiseta';
@@ -608,11 +609,34 @@ export default function Dashboard({
   const allLeagueKeys = Array.from(new Set(ULTIMATE_CLUBS_DATABASE.map(c => leagueKeyFor(c)))).sort();
   const selectedLeagueKey = tablesLeagueOverride ?? myLeagueKey;
   const selectedLeagueClubs = clubesDeLiga(selectedLeagueKey);
+  // LA TABLA DE LA LIGA QUE ESTÁS MIRANDO, con tres orígenes y en este orden:
+  //
+  //   1. Si es LA TUYA, la de tu partida: ahí mandan tus resultados de verdad.
+  //   2. Si es una en la que JUGASTE antes, la guardada: es tu historia, aunque haya quedado
+  //      congelada el día que te fuiste.
+  //   3. Si nunca la tocaste, se juega de fondo (ver src/ligasDeFondo.ts). Antes este caso devolvía
+  //      una tabla nueva con los veinte equipos en cero, y encima no se guardaba: la próxima vez se
+  //      volvía a crear igual de vacía. Reportado: "puedo ver las tablas de otras ligas pero todas
+  //      me salen en 0".
+  //
+  // El caso 3 es DETERMINISTA y no ocupa un byte del save: el marcador de cada partido de fondo sale
+  // de `fecha|local|visitante`, así que la tabla de la Premier de tu carrera es idéntica la mires
+  // cuando la mires. El useMemo es sólo para no rehacer 380 partidos en cada render.
+  const tablaDeFondoDeHoy = useMemo(() => {
+    if (selectedLeagueKey === myLeagueKey) return null;
+    if (playerProfile.leagueSeasons[selectedLeagueKey]) return null;
+    if (!selectedLeagueClubs.length) return null;
+    const hoy = fechaDelPasoCal(currentClub.name, playerProfile.currentWeek);
+    if (!hoy) return null;
+    return tablaDeFondo(selectedLeagueClubs, hoy, temporadaDeCarrera(currentClub.name, playerProfile.currentWeek));
+  }, [selectedLeagueKey, myLeagueKey, selectedLeagueClubs, currentClub.name, playerProfile.currentWeek, playerProfile.leagueSeasons]);
+
   const selectedLeagueTable = selectedLeagueKey === myLeagueKey
     ? myLeagueTable
-    : selectedLeagueClubs.length > 0
-    ? sortTable(getOrCreateSeasonForLeague(selectedLeagueClubs, playerProfile.leagueSeasons[selectedLeagueKey], playerProfile.currentWeek).table)
-    : [];
+    : tablaDeFondoDeHoy
+      ?? (selectedLeagueClubs.length > 0
+        ? sortTable(getOrCreateSeasonForLeague(selectedLeagueClubs, playerProfile.leagueSeasons[selectedLeagueKey], playerProfile.currentWeek).table)
+        : []);
   // Estadísticas de jugadores de la liga seleccionada: usamos datos REALES (REAL_LEAGUE_LEADERS)
   // cuando existen para esa liga (7 grandes europeas + 8 latinoamericanas curadas); el resto se
   // genera de forma determinística a partir del gf/gc real de la tabla -- ver
