@@ -366,7 +366,7 @@ interface DashboardProps {
 }
 
 /** Las tres columnas de Mi Carrera. En celular se ve una por vez (ver BarraDeSecciones). */
-type SeccionDeCarrera = 'partido' | 'ficha' | 'historia';
+type SeccionDeCarrera = 'ficha' | 'historia';
 
 type SeccionKey =
   | 'carrera' | 'mi_club' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos'
@@ -1083,7 +1083,7 @@ export default function Dashboard({
    * Arranca en PARTIDO a propósito. Lo primero que tiene que ver el que abre el juego es contra
    * quién juega y el botón para hacerlo.
    */
-  const [seccionMovil, setSeccionMovil] = useState<SeccionDeCarrera>('partido');
+  const [seccionMovil, setSeccionMovil] = useState<SeccionDeCarrera>('ficha');
   const soloEn = (s: SeccionDeCarrera) => soloEnSeccion(seccionMovil, s);
 
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
@@ -3174,8 +3174,7 @@ export default function Dashboard({
                 activa={seccionMovil}
                 onCambiar={setSeccionMovil}
                 destinos={[
-                  { id: 'partido', texto: 'Partido', Icono: Swords },
-                  { id: 'ficha', texto: 'Ficha', Icono: Award },
+                  { id: 'ficha', texto: 'Atributos', Icono: Award },
                   { id: 'historia', texto: 'Historia', Icono: BarChart3 },
                 ] as const}
               />
@@ -3367,7 +3366,16 @@ export default function Dashboard({
                   scrollear toda la pantalla principal. Acá arriba entra en el hueco que
                   dejó la tarjeta del partido al dejar de estirarse (self-start), y de paso
                   empareja el alto de las tres columnas en vez de dejar una corta. */}
-              <div className={`${soloEn('partido')} order-first md:order-none space-y-4 self-start`}>
+              {/* EL PARTIDO NO SE ESCONDE DETRÁS DE UNA PESTAÑA.
+
+                  Era una de las tres columnas, así que en el teléfono había que elegir "Partido" para
+                  verlo. Pero es lo que venís a hacer: abrís el juego para jugar la fecha, no para mirarte
+                  los atributos. Ahora está siempre, arriba de todo, y los segmentos eligen entre lo OTRO
+                  -- que es lo que se consulta, no lo que se hace.
+
+                  `order-first` sigue por el mismo motivo de siempre en celular, y en escritorio conserva
+                  su lugar en la grilla de tres. */}
+              <div data-hub-del-partido="true" className="order-first md:order-none space-y-4 self-start">
                 <div className="bg-gold-950/20 border border-gold-900/30 rounded-2xl p-4 shadow-xl flex flex-col relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 

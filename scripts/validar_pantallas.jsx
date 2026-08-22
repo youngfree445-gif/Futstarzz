@@ -561,6 +561,21 @@ caso('celular: en hardcore no aparece Entreno en la barra', () => {
   return html;
 });
 
+
+caso('celular: el partido NO se esconde detras de un segmento', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', 'data-hub-del-partido');
+  // El bloque del partido no puede llevar la clase con la que se esconden las columnas: es lo que
+  // venis a hacer, y tener que elegir una pestaña para llegar a el es la definicion de un scroll
+  // de mas.
+  const hub = html.match(/<div[^>]*data-hub-del-partido[^>]*>/);
+  if (!hub) throw new Error('no encuentro el bloque del partido');
+  if (/hidden/.test(hub[0])) throw new Error('el partido volvio a esconderse detras de un segmento');
+  // Y la barra de segmentos no puede seguir ofreciendolo: seria un boton para ir a donde ya estas.
+  const barra = html.match(/data-barra-de-secciones[\s\S]{0,1200}?<\/nav>/);
+  if (barra && />Partido</.test(barra[0])) throw new Error('la barra sigue ofreciendo "Partido"');
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`
