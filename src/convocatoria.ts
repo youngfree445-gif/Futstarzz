@@ -42,7 +42,8 @@ import { PlayerProfile, Club } from './types';
 import { NATIONALITY_TO_WORLD_CUP_TEAM_ID, ALL_NATIONAL_TEAMS_DATABASE } from './data';
 import { CONFEDERACION_POR_SELECCION, esJugable } from './eliminatorias';
 import { cicloDeEliminatorias } from './dateSchedule';
-import { ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES } from './leagueEngine';
+import { ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES,
+  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES } from './leagueEngine';
 
 /** Todo lo que se sabe de tu situación con la selección en un momento dado. */
 export interface EstadoDeConvocatoria {
@@ -110,6 +111,62 @@ export function evaluarConvocatoria(perfil: PlayerProfile, anio: number): Estado
   };
 }
 
+
+/**
+ * ¿ENTRÁS EN LA LISTA DEL MUNDIAL?
+ *
+ * ---------------------------------------------------------------------------------------------
+ * POR QUÉ ESTA FUNCIÓN EXISTE (y no es la condición suelta que había)
+ * ---------------------------------------------------------------------------------------------
+ *
+ * La condición del Mundial estaba escrita DOS VECES, palabra por palabra: una en App.tsx, que es
+ * la que decide si te lleva, y otra en Dashboard.tsx, que es la que dibuja la tarjeta del próximo
+ * partido. Es el mismo error que este archivo ya había arreglado para las eliminatorias, y por el
+ * mismo motivo: dos copias de una condición se desincronizan, y ahí el juego te anuncia un partido
+ * que después no te deja jugar, o al revés.
+ *
+ * ---------------------------------------------------------------------------------------------
+ * EL MODO SUPERESTRELLA VA AL MUNDIAL
+ * ---------------------------------------------------------------------------------------------
+ *
+ * Y esto es lo que cambia de verdad. El modo superestrella ya entraba a las ELIMINATORIAS sin
+ * condiciones (corte 0 y 0, más arriba en este archivo) y al Mundial no entraba nunca: la condición
+ * suelta pedía 82 de prestigio y 40 partidos sin mirar el modo. O sea que el juego te metía en la
+ * selección para los partidos que a nadie le importan y te dejaba afuera del torneo.
+ *
+ * Los 40 partidos eran el muro, no el prestigio. Medido sobre los 613 clubes jugables: sólo 33
+ * tienen 40 fechas antes de que se abra la ventana del Mundial en la temporada 1 -- los europeos de
+ * temporada corrida --, y la mediana es 29. Desde Junior, desde Boca o desde Chivas era
+ * matemáticamente imposible ir al primer Mundial por bueno que fueras, y el modo que existe
+ * justamente para que seas una estrella desde el día uno no cambiaba nada.
+ *
+ * Ahora sí: en modo superestrella los dos cortes se levantan, igual que en las eliminatorias. Lo
+ * que NO se levanta es tener selección y que tu selección esté en el torneo -- eso no es un corte
+ * de mérito, es si existe el partido.
+ */
+export function convocadoAlMundial(perfil: Pick<PlayerProfile, 'prestige' | 'careerStats' | 'starModeEnabled'>): boolean {
+  if (perfil.starModeEnabled) return true;
+  return perfil.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
+    && perfil.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
+}
+
+/**
+ * Por qué no vas al Mundial, en una frase. null si vas.
+ *
+ * Misma idea que motivoDeAusencia para las eliminatorias: los dos cortes son cosas que el jugador
+ * PUEDE mover, así que decirlas convierte la ausencia en un objetivo en vez de un muro.
+ */
+export function motivoDeAusenciaDelMundial(
+  perfil: Pick<PlayerProfile, 'prestige' | 'careerStats' | 'starModeEnabled'>,
+): string | null {
+  if (convocadoAlMundial(perfil)) return null;
+  const faltas: string[] = [];
+  const p = WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD - perfil.prestige;
+  const j = WORLD_CUP_CALLUP_MIN_MATCHES - perfil.careerStats.partidosHistoricos;
+  if (p > 0) faltas.push(`${p} de prestigio`);
+  if (j > 0) faltas.push(`${j} partido(s) de carrera`);
+  return `Te falta ${faltas.join(' y ')} para entrar en la lista del Mundial.`;
+}
 /**
  * Por qué NO estás en la lista, en una frase.
  *

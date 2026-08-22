@@ -33,7 +33,7 @@ import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal, postsDelPibe,
 } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
-import { evaluarConvocatoria, laNomina, motivoDeAusencia } from '../convocatoria';
+import { evaluarConvocatoria, laNomina, motivoDeAusencia, convocadoAlMundial, motivoDeAusenciaDelMundial } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, SALIDAS, SalidaDelBajon } from '../animo';
 import { rachasDelProximoPartido } from '../rachas';
@@ -1198,9 +1198,9 @@ export default function Dashboard({
       // Las 48 de siempre: para dibujar la tarjeta alcanza, y esta pantalla no tiene de donde
       // sacar las clasificadas de esta carrera (eso lo sabe App).
       WORLD_CUP_TEAMS_DATABASE);
-    const isEligible = !!hoy
-      && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
-      && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
+    // La MISMA regla que usa App para llevarte (ver convocadoAlMundial en convocatoria.ts). Estaba
+    // copiada acá palabra por palabra, que es como se llega a anunciar un partido que no se juega.
+    const isEligible = !!hoy && convocadoAlMundial(playerProfile);
     if (isEligible && hoy) {
       const wcState = getOrCreateWorldCupState(
         temporadaDeCarrera(currentClub.name, playerProfile.currentWeek), hoy.equipos,
@@ -3466,7 +3466,14 @@ export default function Dashboard({
                         </div>
                         <div className="min-w-0">
                           <span className="text-3xs text-slate-500 uppercase font-mono block truncate">Fecha FIFA</span>
-                          <span className="text-white font-bold text-sm truncate block">No fuiste convocado esta ventana</span>
+                          <span className="text-white font-bold text-sm block leading-tight">No fuiste convocado esta ventana</span>
+                          {/* Y POR QUE, igual que el dia libre de al lado. Los dos cortes son cosas que
+                              podes mover, asi que decirlas convierte la ausencia en un objetivo. */}
+                          {motivoDeAusenciaDelMundial(playerProfile) && (
+                            <span className="text-3xs text-slate-500 block leading-snug mt-0.5">
+                              {motivoDeAusenciaDelMundial(playerProfile)}
+                            </span>
+                          )}
                         </div>
                       </div>
                     ) : hoySinPartido ? (

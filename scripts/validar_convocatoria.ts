@@ -15,10 +15,14 @@
  * regla se comporte como dice, y sobre todo que la NOMINA se pueda armar de verdad: si las
  * selecciones no tuvieran figuras cargadas, la lista saldria vacia y el aviso quedaria en la nada.
  */
-import { evaluarConvocatoria, motivoDeAusencia, laNomina } from '../src/convocatoria';
+import { evaluarConvocatoria, motivoDeAusencia, laNomina, convocadoAlMundial, motivoDeAusenciaDelMundial } from '../src/convocatoria';
+import { readFileSync } from 'fs';
+import { CLUBS_DATABASE } from '../src/data';
+import { fixturesAtStep, hasDatedSchedule, torneoDeSeleccionesDelDia } from '../src/dateSchedule';
 import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from '../src/data';
 import { CONFEDERACION_POR_SELECCION, esJugable } from '../src/eliminatorias';
-import { ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES } from '../src/leagueEngine';
+import { ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES,
+  WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES } from '../src/leagueEngine';
 import { PlayerProfile } from '../src/types';
 
 let fallas = 0;
@@ -166,6 +170,73 @@ const anio = 2027;
   chequear('y se le sigue diciendo cuanto le falta', normal.faltaPrestigio === 10);
 }
 
+
+
+// ==================================================================================================
+// EL MUNDIAL
+// ==================================================================================================
+//
+// El corte del Mundial es mas alto que el de las eliminatorias (82 y 40 contra 62 y 25) y hasta aca
+// NO miraba el modo de juego. O sea que el modo superestrella -- que entra a las eliminatorias con
+// corte cero -- quedaba afuera del Mundial siempre: el juego te metia en la seleccion para los
+// partidos que a nadie le importan y te dejaba afuera del torneo.
+
+const alMundial = (o: Partial<{ prestige: number; partidos: number; estrella: boolean }>) =>
+  convocadoAlMundial({
+    prestige: o.prestige ?? 50,
+    careerStats: { partidosHistoricos: o.partidos ?? 0 } as any,
+    starModeEnabled: o.estrella ?? false,
+  } as any);
+
+chequear('mundial: superestrella va, sin prestigio y sin partidos', alMundial({ estrella: true }));
+chequear('mundial: el corte normal sigue siendo 82 y 40',
+  alMundial({ prestige: WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, partidos: WORLD_CUP_CALLUP_MIN_MATCHES }));
+chequear('mundial: un punto menos de prestigio deja afuera',
+  !alMundial({ prestige: WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD - 1, partidos: WORLD_CUP_CALLUP_MIN_MATCHES }));
+chequear('mundial: un partido menos deja afuera',
+  !alMundial({ prestige: WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, partidos: WORLD_CUP_CALLUP_MIN_MATCHES - 1 }));
+chequear('mundial: al que no va se le dice cuanto le falta',
+  (motivoDeAusenciaDelMundial({ prestige: 50, careerStats: { partidosHistoricos: 10 } as any, starModeEnabled: false } as any) ?? '').includes('32'));
+chequear('mundial: al que va no se le explica nada',
+  motivoDeAusenciaDelMundial({ prestige: 50, careerStats: { partidosHistoricos: 0 } as any, starModeEnabled: true } as any) === null);
+
+// EL PEDIDO CONCRETO: una superestrella en Junior tiene que poder ir al PRIMER Mundial.
+//
+// El muro no era el prestigio, eran los 40 partidos. Se mide de verdad: cuantas fechas tiene Junior
+// antes de que se abra la ventana del Mundial en la temporada 1. Si fueran 40 o mas, este caso no
+// probaria nada -- por eso primero se comprueba que el muro exista.
+{
+  const fechasAntesDelMundial = (nombre: string) => {
+    let n = 0;
+    for (let paso = 1; paso <= 400; paso++) {
+      const f = fixturesAtStep(nombre, paso);
+      if (!f) break;
+      if (f.date.slice(0, 4) !== '2026') continue;
+      if (torneoDeSeleccionesDelDia(nombre, paso) === 'mundial') break;
+      n++;
+    }
+    return n;
+  };
+  const junior = fechasAntesDelMundial('Junior de Barranquilla');
+  chequear('el muro existe: Junior no llega a 40 fechas antes del Mundial 1',
+    junior < WORLD_CUP_CALLUP_MIN_MATCHES, `${junior} fechas`);
+  chequear('y aun asi una superestrella en Junior va al Mundial 1', alMundial({ estrella: true }));
+
+  // Y cuantos clubes SI llegaban por las suyas, que es lo que hacia el modo inutil fuera de Europa.
+  const jugables = (CLUBS_DATABASE as any[]).filter(c => hasDatedSchedule(c.name));
+  const llegan = jugables.filter(c => fechasAntesDelMundial(c.name) >= WORLD_CUP_CALLUP_MIN_MATCHES).length;
+  chequear('sin el modo, el primer Mundial es cosa de unos pocos clubes',
+    llegan > 0 && llegan < jugables.length / 4, `${llegan} de ${jugables.length} clubes`);
+}
+
+// LA REGLA VIVE UNA SOLA VEZ. Estaba copiada palabra por palabra en App.tsx y en Dashboard.tsx --
+// el que te lleva y el que dibuja la tarjeta del proximo partido --, que es como se llega a que el
+// juego anuncie un partido y despues no te deje jugarlo.
+for (const archivo of ['src/App.tsx', 'src/components/Dashboard.tsx']) {
+  const texto = readFileSync(archivo, 'utf8');
+  const copias = texto.split('prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD').length - 1;
+  chequear(`${archivo} no tiene su propia copia del corte del Mundial`, copias === 0);
+}
 
 console.log(fallas === 0
   ? `\nLa lista de convocados cumple: los cortes valen, la ausencia se explica y la nomina sale con nombres reales.`

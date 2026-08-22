@@ -53,7 +53,7 @@ import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, avisoDelOlvido } from '
 import { guardarDeclaracion } from './hemeroteca';
 import { crecimientoDelPibe, destinoDelPibe, NIVEL_INICIAL, type Pibe } from './elPibe';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
-import { evaluarConvocatoria } from './convocatoria';
+import { evaluarConvocatoria, convocadoAlMundial } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
 import { crecimientoDeLaTemporada, informeDeLaTemporada } from './modoHardcore';
 import { apodoDe, bautizoDe } from './apodo';
@@ -3520,9 +3520,10 @@ export default function App() {
       // quien contesta cual es y con quienes se juega.
       const hoy = torneoDeSeleccionesDeHoyEnApp(playerProfile, myClubForSchedule?.name ?? '');
       const wcTeamId = hoy?.miSeleccionId;
-      const isEligible = !!hoy
-        && playerProfile.prestige >= WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD
-        && playerProfile.careerStats.partidosHistoricos >= WORLD_CUP_CALLUP_MIN_MATCHES;
+      // La regla vive UNA vez, en convocatoria.ts, porque esta misma condicion estaba copiada
+      // palabra por palabra en Dashboard.tsx -- el que dibuja la tarjeta del proximo partido. Dos
+      // copias se desincronizan y el juego termina anunciando un partido que no te deja jugar.
+      const isEligible = !!hoy && convocadoAlMundial(playerProfile);
 
       const upcoming = isEligible && hoy
         ? getUpcomingWorldCupMatch(
