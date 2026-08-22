@@ -512,6 +512,55 @@ caso('encabezado: la tira no comparte fila con la fecha', () => {
   return html;
 });
 
+
+// --- LAS BARRAS DE NAVEGACION DEL CELULAR ---------------------------------------------------
+//
+// La regla: abajo y fija va UNA sola barra, la de la app. La de secciones de cada pestaña pasa a ir
+// dentro del contenido. Antes las dos eran `fixed bottom-0` y se tapaban entre si -- cual ganaba
+// dependia del orden del DOM, que es la clase de cosa que se ve rota en un telefono y no en el
+// codigo.
+
+caso('celular: la barra de la app tiene sus cinco destinos', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', 'data-barra-de-app');
+  const faltan = ['carrera', 'mi_club', 'entrenamiento', 'tablas', 'menu']
+    .filter(k => !html.includes(`data-destino-de-app="${k}"`));
+  if (faltan.length) throw new Error(`faltan destinos: ${faltan.join(', ')}`);
+  return html;
+});
+
+caso('celular: hay UNA sola barra pegada abajo', () => {
+  const html = dibujar(perfilDe(junior, {}), 'carrera', null);
+  // La de la app SI es fija.
+  const app = html.match(/<nav[^>]*data-barra-de-app[^>]*>/);
+  if (!app) throw new Error('no encuentro la barra de la app');
+  if (!/fixed/.test(app[0])) throw new Error('la barra de la app dejo de estar pegada abajo');
+  // La de secciones NO puede serlo.
+  const secciones = html.match(/<nav[^>]*data-barra-de-secciones[^>]*>/);
+  if (secciones && /fixed/.test(secciones[0])) {
+    throw new Error('la barra de secciones volvio a ser fija: se tapa con la de la app');
+  }
+  return html;
+});
+
+caso('celular: la barra de atajos tampoco es fija', () => {
+  for (const pestaña of ['traspasos', 'tablas']) {
+    const html = dibujar(perfilDe(junior, { currentWeek: 40 }), pestaña, null);
+    const atajos = html.match(/<nav[^>]*data-barra-de-atajos[^>]*>/);
+    if (atajos && /fixed/.test(atajos[0])) {
+      throw new Error(`en ${pestaña} la barra de atajos es fija y se tapa con la de la app`);
+    }
+  }
+  return dibujar(perfilDe(junior, { currentWeek: 40 }), 'traspasos', null);
+});
+
+caso('celular: en hardcore no aparece Entreno en la barra', () => {
+  const html = dibujar(perfilDe(junior, { hardcoreEnabled: true }), 'carrera', 'data-barra-de-app');
+  if (html.includes('data-destino-de-app="entrenamiento"')) {
+    throw new Error('la barra ofrece Entrenamiento en un modo donde no existe');
+  }
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`

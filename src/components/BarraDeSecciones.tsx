@@ -1,4 +1,4 @@
-// LA BARRA DE ABAJO, SÓLO EN CELULAR.
+// LA BARRA DE LA PESTAÑA, dentro del contenido y sólo en celular.
 //
 // ---------------------------------------------------------------------------------------------
 // QUÉ PROBLEMA RESUELVE
@@ -8,33 +8,35 @@
 // juntas y no hay nada que elegir; en un teléfono las columnas se apilan y la pestaña se convierte
 // en un scroll de varias pantallas donde lo que buscabas siempre está abajo.
 //
-// La solución que ya funcionaba en Mi Carrera: en celular se muestra UNA columna por vez y se
-// cambia con una barra fija abajo. Esto es esa barra, sacada de ahí para poder usarla en las otras
-// pestañas que tienen el mismo problema, en vez de copiarla tres veces.
+// Esta barra muestra UNA columna por vez y deja elegir cuál.
 //
 // ---------------------------------------------------------------------------------------------
-// LAS TRES DECISIONES QUE HAY QUE RESPETAR AL USARLA
+// POR QUÉ YA NO VA PEGADA ABAJO (y esto es la regla, no una preferencia)
 // ---------------------------------------------------------------------------------------------
 //
-//   1. VA ABAJO, NO ARRIBA. Es donde llega el pulgar. Una barra de navegación arriba en un teléfono
-//      obliga a estirar la mano en cada cambio.
-//   2. 56px DE ALTO Y UN TERCIO DE ANCHO. Es un blanco de pulgar de verdad; más chico se falla.
-//   3. EL CONTENIDO NECESITA COLCHÓN ABAJO. La barra es `fixed`, así que tapa el final de lo que
-//      estés leyendo. Quien la use tiene que poner `pb-20` en su contenido -- por eso `BOTON_ALTO`
-//      y `COLCHON` se exportan: para que el que arma la pestaña no tenga que adivinar el número.
+// Antes era `fixed bottom-0`. Al agregar la barra de la APP -- que también va abajo, porque es la
+// navegación principal del teléfono -- quedaban DOS barras fijas peleando por el mismo borde, y la
+// que ganaba dependía del orden del DOM.
 //
-// Y una cosa que NO hace: no existe en escritorio. Ahí las columnas se ven juntas y una barra para
-// elegir entre cosas que ya están todas a la vista sería ruido.
-
+// La jerarquía ahora es explícita:
+//
+//     abajo y fija  ->  navegación de la APP    (ver BarraDeApp: Carrera, Club, Entreno, Tablas, Menú)
+//     en el flujo   ->  navegación de la PESTAÑA (ésta: las columnas de la pestaña en la que estás)
+//
+// Que ésta viaje con el contenido además es lo correcto por otro motivo: elige entre cosas que
+// están JUSTO ABAJO, así que tiene que estar al lado de ellas y no en la otra punta de la pantalla.
+//
+// ---------------------------------------------------------------------------------------------
+// LO QUE SÍ SE MANTIENE
+// ---------------------------------------------------------------------------------------------
+//
+//   . 44px de alto mínimo: sigue siendo un blanco de pulgar de verdad.
+//   . No existe en escritorio. Ahí las columnas se ven juntas y una barra para elegir entre cosas
+//     que ya están todas a la vista sería ruido.
 import React from 'react';
 
-/** Alto de cada botón. Es lo que hace que se pueda tocar con el pulgar sin apuntar. */
-export const BOTON_ALTO = 'h-14';
-/**
- * El colchón que tiene que llevar el contenido de la pestaña para que la barra no le tape el final.
- * Se exporta para que quien use la barra no tenga que deducirlo del alto de los botones.
- */
-export const COLCHON = 'pb-20 md:pb-0';
+/** Alto mínimo de cada botón: un blanco de pulgar de verdad. */
+export const BOTON_ALTO = 'min-h-[44px]';
 
 export interface DestinoDeLaBarra<T extends string> {
   id: T;
@@ -57,7 +59,7 @@ export function BarraDeSecciones<T extends string>({
     <nav
       aria-label={etiqueta}
       data-barra-de-secciones={etiqueta}
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 flex"
+      className="md:hidden flex gap-1 p-1 rounded-2xl bg-slate-900 border border-slate-800"
     >
       {destinos.map(({ id, texto, Icono }) => (
         <button
@@ -70,14 +72,14 @@ export function BarraDeSecciones<T extends string>({
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           aria-current={activa === id ? 'page' : undefined}
-          className={`flex-1 ${BOTON_ALTO} flex flex-col items-center justify-center gap-0.5 font-black uppercase tracking-widest text-3xs transition-colors ${
+          className={`flex-1 min-w-0 ${BOTON_ALTO} flex items-center justify-center gap-1.5 rounded-xl font-black uppercase tracking-wider text-4xs transition-colors ${
             activa === id
-              ? 'text-gold-400 border-t-2 border-gold-400 -mt-px bg-gold-950/25'
-              : 'text-slate-500'
+              ? 'bg-gold-500 text-slate-950'
+              : 'text-slate-400 hover:text-white'
           }`}
         >
-          <Icono size={17} />
-          {texto}
+          <Icono size={14} />
+          <span className="truncate">{texto}</span>
         </button>
       ))}
     </nav>
@@ -123,7 +125,7 @@ export function BarraDeAtajos({ atajos, etiqueta }: { atajos: readonly AtajoDeLa
     <nav
       aria-label={etiqueta}
       data-barra-de-atajos={etiqueta}
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 flex"
+      className="md:hidden flex gap-1 p-1 rounded-2xl bg-slate-900 border border-slate-800"
     >
       {atajos.map(({ ancla, texto, Icono }) => (
         <button
@@ -132,10 +134,10 @@ export function BarraDeAtajos({ atajos, etiqueta }: { atajos: readonly AtajoDeLa
           onClick={() => {
             document.getElementById(ancla)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }}
-          className={`flex-1 ${BOTON_ALTO} flex flex-col items-center justify-center gap-0.5 font-black uppercase tracking-widest text-3xs text-slate-400 transition-colors active:text-gold-400`}
+          className={`flex-1 min-w-0 ${BOTON_ALTO} flex items-center justify-center gap-1.5 rounded-xl font-black uppercase tracking-wider text-4xs text-slate-400 transition-colors active:text-gold-400`}
         >
-          <Icono size={17} />
-          {texto}
+          <Icono size={14} />
+          <span className="truncate">{texto}</span>
         </button>
       ))}
     </nav>

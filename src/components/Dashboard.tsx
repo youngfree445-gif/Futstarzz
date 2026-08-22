@@ -6,6 +6,7 @@ import { clasicoPersonalContra } from '../clasicoPersonal';
 import { loQueDiceDeVos } from '../elPibe';
 import { CAMISETAS_CON_DUENO } from '../laCamiseta';
 import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSecciones';
+import { BarraDeApp, COLCHON } from './BarraDeApp';
 import { BarraDeEstado } from './BarraDeEstado';
 import { SelectorDeDorsal } from './SelectorDeDorsal';
 import { dorsalesOcupados } from '../laCamiseta';
@@ -2997,31 +2998,18 @@ export default function Dashboard({
             </div>
           </div>
 
-          {/* Botón de menú, sólo en móvil. La ficha del jugador de arriba NO se colapsa a propósito:
-              es identidad, no navegación, y esconderla detrás de un menú saca de la vista lo que el
-              jugador quiere ver primero. */}
-          <button
-            type="button"
-            onClick={() => setNavAbiertoEnMovil(v => !v)}
-            aria-expanded={navAbiertoEnMovil}
-            aria-controls="nav-principal"
-            className="btn-fx-subtle md:hidden w-full min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest bg-slate-900 border border-slate-800 text-slate-300 transition-all cursor-pointer"
-          >
-            {navAbiertoEnMovil ? <X size={16} /> : <Menu size={16} />}
-            {navAbiertoEnMovil ? 'Cerrar menú' : 'Menú'}
-            <span className="ml-auto text-3xs font-mono text-gold-400 normal-case tracking-normal">
-              {SECCIONES.find(s => s.key === activeTab)?.label}
-            </span>
-          </button>
+          {/* La lista completa es la navegación de ESCRITORIO (`hidden md:block`). En celular las
+              secciones viven en la barra de abajo (ver BarraDeApp), que además tiene su propia hoja
+              para las siete que no entran; tener las dos era el mismo menú dos veces.
 
-          {/* Las pestañas salen de SECCIONES y no una por una: el tamaño táctil, el foco y los roles
+              Y salen de SECCIONES y no una por una: el tamaño táctil, el foco y los roles
               de accesibilidad se tocan en un solo lugar en vez de en once botones copiados. */}
           <nav
             id="nav-principal"
             role="tablist"
             aria-orientation="vertical"
             aria-label="Secciones de la carrera"
-            className={`space-y-1 ${navAbiertoEnMovil ? 'block' : 'hidden'} md:block`}
+            className="space-y-1 hidden md:block"
           >
             {/* min-h-[44px]: los botones quedaban en ~36px de alto, por debajo de la guía de zona
                 táctil. En escritorio no se nota; con el pulgar, sí. */}
@@ -3170,14 +3158,14 @@ export default function Dashboard({
             (fixed bottom-4), así que sin este colchón el último bloque de cada pestaña queda tapado
             justo cuando terminás de bajar. En escritorio sobra ancho y no hace falta. */}
         <div
-          className="p-3 pb-24 md:p-6 md:pb-8 flex-1"
+          className={`p-3 md:p-6 md:pb-8 flex-1 ${COLCHON}`}
           id="panel-seccion"
           role="tabpanel"
           aria-labelledby={`tab-${activeTab}`}
         >
 
           {activeTab === 'carrera' && (
-            <div className="space-y-4 animate-fade-in pb-20 md:pb-0">
+            <div className="space-y-4 animate-fade-in">
 
               {/* La barra vive en src/components/BarraDeSecciones.tsx: la usan tres pestañas y
                   copiarla tres veces era pedir que se desparejaran. */}
@@ -4619,7 +4607,7 @@ export default function Dashboard({
           )}
 
           {activeTab === 'traspasos' && (
-            <div className="space-y-6 animate-fade-in max-w-4xl pb-20 md:pb-0">
+            <div className="space-y-6 animate-fade-in max-w-4xl">
               <BarraDeAtajos
                 etiqueta="Atajos de Traspasos"
                 atajos={[
@@ -5253,7 +5241,7 @@ export default function Dashboard({
           )}
 
           {activeTab === 'tablas' && (
-            <div className="space-y-6 animate-fade-in max-w-4xl pb-20 md:pb-0">
+            <div className="space-y-6 animate-fade-in max-w-4xl">
               {/* ATAJOS, NO PESTAÑAS. Acá querés poder comparar la tabla con el cuadro de la copa,
                   asi que esconder una para ver la otra seria peor que el scroll. Los atajos que no
                   tienen a donde ir no se dibujan: la copa continental no siempre existe. */}
@@ -6039,6 +6027,17 @@ export default function Dashboard({
         </div>
 
       </main>
+
+      {/* LA BARRA DE LA APP, sólo en celular. Es la ÚNICA barra fija del juego: la de secciones de
+          cada pestaña ahora va dentro del contenido (ver BarraDeSecciones), porque dos barras
+          pegadas al mismo borde se tapaban entre sí y cuál ganaba dependía del orden del DOM. */}
+      <BarraDeApp<SeccionKey>
+        secciones={SECCIONES.filter(sec => !(playerProfile.hardcoreEnabled && sec.key === 'entrenamiento'))}
+        activa={activeTab}
+        onCambiar={setActiveTab}
+        abierta={navAbiertoEnMovil}
+        onAbrir={setNavAbiertoEnMovil}
+      />
 
       {/* EL PANEL DEL REPORTE DE BUG.
           El texto se muestra ADEMÁS de copiarse: el portapapeles falla sin contexto seguro (http en
