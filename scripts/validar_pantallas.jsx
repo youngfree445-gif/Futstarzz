@@ -696,6 +696,45 @@ caso('escritorio: el bloque del partido no ocupa una columna propia', () => {
   return html;
 });
 
+
+// --- ENTRENO EN CELULAR ---------------------------------------------------------------------
+//
+// El orden en el telefono es: aviso de estado fisico, clinica, ejercicios, especializacion. En
+// escritorio no cambia nada -- son las mismas dos columnas de siempre, y el aviso sigue abajo.
+// Todo se hace con `order`, asi que lo unico que puede romperse en silencio es que alguien saque
+// una clase.
+
+caso('entreno: en celular la clinica va antes que los ejercicios', () => {
+  // Se busca cada bloque por lo que ES, no por donde aparece: el orden del DOM ya no es el orden
+  // visual -- de eso se trata `order` -- asi que leer el HTML de arriba a abajo no prueba nada.
+  const html = dibujar(perfilDe(junior, { energy: 12 }), 'entrenamiento', 'Clínica de Fisioterapia');
+  const ordenDe = (etiqueta, patron) => {
+    const m = html.match(patron);
+    if (!m) throw new Error(`no encuentro el bloque de ${etiqueta}`);
+    const o = m[0].match(/order-(first|\d+)/);
+    if (!o) throw new Error(`el bloque de ${etiqueta} no declara orden para celular`);
+    return o[1] === 'first' ? -1 : Number(o[1]);
+  };
+  const aviso = ordenDe('el aviso de fatiga', /class="[^"]*p-4 rounded-xl border border-red-500\/30[^"]*"/);
+  const clinica = ordenDe('la clinica', /class="[^"]*bg-slate-900[^"]*shadow-lg flex-1"/);
+  const ejercicios = ordenDe('los ejercicios', /class="[^"]*lg:col-span-2 grid sm:grid-cols-2[^"]*"/);
+  if (!(aviso < clinica && clinica < ejercicios)) {
+    throw new Error(`en celular el orden queda aviso ${aviso}, clinica ${clinica}, ejercicios ${ejercicios}`);
+  }
+  return html;
+});
+
+caso('entreno: las fotos de los ejercicios no se ven en celular', () => {
+  const html = dibujar(perfilDe(junior, {}), 'entrenamiento', null);
+  const fotos = [...html.matchAll(/<img[^>]*class="([^"]*)"[^>]*>/g)]
+    .filter(m => /w-12 h-12 rounded-xl object-cover/.test(m[1]));
+  if (!fotos.length) throw new Error('no encuentro las fotos de los ejercicios');
+  for (const f of fotos) {
+    if (!/hidden sm:block/.test(f[1])) throw new Error('una foto de ejercicio se ve en celular');
+  }
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`

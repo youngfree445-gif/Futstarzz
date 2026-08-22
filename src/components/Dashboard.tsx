@@ -3895,8 +3895,11 @@ export default function Dashboard({
             /* Sin max-w-4xl: la pestaña usa el ancho que haya. Con el tope de 4xl, en una pantalla
                normal sobraba media pantalla vacía a la derecha mientras la clínica y la
                especialización quedaban abajo de todo, fuera de la vista. Ahora van AL LADO. */
-            <div className="space-y-4 animate-fade-in">
-              <div>
+            /* EN CELULAR SE REORDENA, en escritorio no. La raíz pasa a ser una columna flex sólo
+               hasta `lg`, que es lo que permite mover los bloques con `order` sin tocar el orden
+               del DOM -- ni el de escritorio, que ya estaba resuelto en dos columnas. */
+            <div className="flex flex-col gap-4 lg:block lg:space-y-4 animate-fade-in">
+              <div className="order-2 lg:order-none">
                 <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
                   Complejo de Preparación Física y Técnica
                 </h2>
@@ -3921,8 +3924,8 @@ export default function Dashboard({
                   medía lo suyo y las dos terminaban a alturas distintas, que es lo que se veía como
                   desprolijo. Pedido: "que no sobrepasen la línea verde para que se vea más
                   simétrico". */}
-              <div className="grid lg:grid-cols-3 gap-4">
-              <div className="lg:col-span-2 grid sm:grid-cols-2 gap-2.5 content-start auto-rows-min">
+              <div className="order-3 lg:order-none grid lg:grid-cols-3 gap-4">
+              <div className="order-2 lg:order-none lg:col-span-2 grid sm:grid-cols-2 gap-2.5 content-start auto-rows-min">
                 {[
                   { key: 'ritmo', label: 'Velocidad / Ritmo', img: trainingRitmoImg, desc: 'Mejora la aceleración explosiva y los desmarques por las bandas.' },
                   { key: 'regate', label: 'Dribbling / Regate', img: trainingRegateImg, desc: 'Aumenta el control de balón en conducción y el mano a mano.' },
@@ -3936,8 +3939,10 @@ export default function Dashboard({
                   const puede = !alMaximo && playerProfile.energy >= 20 && playerProfile.capital >= trainingCost;
                   return (
                     <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-xl hover:border-gold-500/20 transition-all flex items-center gap-2.5 p-2.5">
+                      {/* La foto no se ve en celular: son seis miniaturas que no dicen nada que el
+                          rótulo no diga, y ahí el ancho es todo. En escritorio se queda. */}
                       <img src={item.img} alt="" title={item.desc} loading="lazy" decoding="async"
-                           className="w-12 h-12 rounded-xl object-cover shrink-0" />
+                           className="hidden sm:block w-12 h-12 rounded-xl object-cover shrink-0" />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline justify-between gap-2">
                           <h4 className="font-bold text-xs text-white truncate" title={item.desc}>{item.label}</h4>
@@ -3980,10 +3985,13 @@ export default function Dashboard({
               {/* Columna derecha: clínica y especialización, que antes vivían abajo de todo.
                   flex-col y no space-y a secas: así el último panel crece y las dos columnas cierran
                   a la misma altura en vez de quedar uno más largo que el otro. */}
-              <div className="flex flex-col gap-4">
+              {/* `contents` en celular: la columna deja de existir como caja y sus dos tarjetas
+                  pasan a ser hijas de la grilla, que es lo que les permite ordenarse por separado.
+                  Desde `lg` vuelve a ser la columna de siempre. */}
+              <div className="contents lg:flex lg:flex-col lg:gap-4">
 
               {/* SECCIÓN ROL FAVORITO */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
+              <div className="order-4 lg:order-none bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   <Sparkles size={15} className="text-gold-400" /> Especialización
                 </h3>
@@ -4021,7 +4029,7 @@ export default function Dashboard({
 
               {/* SECCIÓN CLÍNICA DE FISIOTERAPIA -- flex-1: es el panel que absorbe el alto sobrante,
                   así la columna derecha termina a la misma altura que la grilla de atributos. */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex-1">
+              <div className="order-1 lg:order-none bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex-1">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
                   <Heart size={15} className="text-rose-500" /> Clínica de Fisioterapia
                 </h3>
@@ -4068,26 +4076,35 @@ export default function Dashboard({
               </div>{/* fin columna derecha */}
               </div>{/* fin de las dos columnas */}
 
-              {/* LOS AVISOS VAN ABAJO, no arriba.
-                  Arriba empujaban toda la grilla hacia abajo y obligaban a scrollear justo cuando
-                  el aviso decía que no podías entrenar -- o sea, cuando menos falta hacía verlos
-                  primero. Debajo de los paneles ocupan el hueco que quedaba vacío y no mueven nada
-                  de lugar cuando aparecen o desaparecen. Pedido: "el anuncio de fatiga crítica
-                  ponlo debajo de los paneles". */}
+              {/* LOS AVISOS: PRIMEROS EN CELULAR, ABAJO EN ESCRITORIO.
+
+                  Las dos mitades son pedidos del jugador, y se contradicen -- por eso conviven en
+                  vez de que una pise a la otra:
+
+                    1. "el anuncio de fatiga crítica ponlo debajo de los paneles", porque arriba
+                       empujaba toda la grilla hacia abajo y obligaba a scrollear justo cuando el
+                       aviso decía que no podías entrenar. Eso sigue valiendo EN ESCRITORIO, donde
+                       la grilla es ancha y el aviso se come una franja entera.
+                    2. El rediseño de celular los pone arriba de todo. Ahí lo de antes no aplica:
+                       la columna es una sola, el aviso mide cuatro renglones y no empuja nada que
+                       no fuera a estar abajo igual -- y es lo primero que necesitás saber antes de
+                       gastar energía.
+
+                  De ahí `order-first lg:order-none`, en vez de moverlos de lugar en el DOM. */}
               {playerProfile.energy < 20 ? (
-                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
+                <div className="order-first lg:order-none p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
                   <ShieldAlert size={18} /> Tu estado físico es de fatiga crítica. Entrena en la Clínica o descansa.
                 </div>
               ) : null}
 
               {playerProfile.capital < trainingCost && (
-                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
+                <div className="order-first lg:order-none p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
                   <ShieldAlert size={18} /> No tienes los ${trainingCost.toLocaleString()} que cuesta entrenar en las instalaciones de {currentClub.name}.
                 </div>
               )}
 
               {playerProfile.yearsAtClub >= 5 && (
-                <div className="p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
+                <div className="order-first lg:order-none p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
                   <ShieldAlert size={18} /> Zona de confort: llevas {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde menos (+1 en vez de +3). Un traspaso te devuelve la ambición fresca.
                 </div>
               )}
