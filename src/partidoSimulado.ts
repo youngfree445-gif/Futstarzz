@@ -36,13 +36,57 @@
 // más paga ni la más segura: elige la que un jugador con tus números tiene más posibilidades de
 // terminar bien, que es lo que haría cualquiera que se conoce.
 
-import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from './decisionDelPartido';
+import { chanceDeAcertar, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from './decisionDelPartido';
+import {
+  ocasionesDelPartido, minutosDeLasOcasiones, teMandanACalentar, elDtTeSaca, esRecienLlegado,
+  minutoDeTuUltimaPelota, MINUTO_DEL_AVISO, MINUTO_DEL_CAMBIO,
+  PRESTIGIO_AL_SALIR, HINCHADA_AL_SALIR,
+} from './elVestuario';
 import { factorDeMarcaPersonal } from './dificultad';
 import { pesoDeLlevarla } from './laCamiseta';
 import type { PlayerProfile, PlayerStats } from './types';
 
-/** Los minutos en que se decide algo. Los mismos que reparte getDecisionMinutes en la pantalla. */
-export const MINUTOS_DE_DECISION = [16, 38, 61, 83];
+/**
+ * LA NOTA DEL PARTIDO SIMULADO.
+ *
+ * Los fallos entran acá desde que el técnico puede sacarte por jugar mal, y eso arregla un agujero
+ * viejo: la cuenta sólo SUMABA. Con cuatro decisiones erradas la nota simulada seguía dando 5,7 --
+ * el piso 6,0 menos el ajuste por perder -- mientras el mismo partido jugado daba 3,2. O sea que
+ * simular te protegía de una nota mala, y de ahí de la mala forma, y de ahí del banco.
+ *
+ * El castigo por fallo es 0,7 y no el 1,2 de la pantalla porque toda esta cuenta es una versión
+ * comprimida de la de allá (el acierto vale 0,45 contra 0,5; el gol 1,35 contra 1,5). Comprimir
+ * sólo un lado es lo que había roto el piso.
+ *
+ * Y LA BASE SUBE DE 6,0 A 6,8, que es lo que hace que esto no sea un rebalanceo encubierto. Con
+ * los dos lados del debe y el haber contados, la constante tiene que sentarse donde cae el
+ * promedio o el juego entero se pone más difícil de callado -- la nota alimenta la forma, la forma
+ * mueve la vara del once, y la vara decide la carrera. Medido sobre 40.000 partidos por nivel:
+ *
+ *     jugador          media antes    media ahora    partidos por debajo de 5,2
+ *     nivel 62         7,87           7,59           6,5%
+ *     nivel 75         8,27           8,32           1,7%
+ *     nivel 88         8,30           8,29           2,1%
+ *
+ * O sea: al que juega bien no le cambia nada, y al que juega mal le puede pasar algo. Antes el
+ * mínimo posible era 5,7 y la columna de la derecha era 0,0% en las tres filas -- el técnico no
+ * tenía con qué sacarte ni queriendo.
+ */
+export const NOTA_BASE = 6.8;
+export const NOTA_POR_ACIERTO = 0.45;
+export const NOTA_POR_FALLO = -0.7;
+export const NOTA_POR_GOL = 0.9;
+export const NOTA_POR_ASISTENCIA = 0.5;
+
+export function notaDelPartido(d: {
+  aciertos: number; fallos: number; goles: number; asistencias: number;
+  /** +0,4 ganando, -0,3 perdiendo, 0 empatando. Se pasa 0 mientras el partido no terminó. */
+  ajustePorResultado: number;
+}): number {
+  return Math.max(3.0, Math.min(10,
+    NOTA_BASE + d.aciertos * NOTA_POR_ACIERTO + d.fallos * NOTA_POR_FALLO
+    + d.goles * NOTA_POR_GOL + d.asistencias * NOTA_POR_ASISTENCIA + d.ajustePorResultado));
+}
 
 /** Un partido resuelto, con la misma forma que espera onFinishMatch. */
 export interface ResultadoSimulado {
@@ -109,16 +153,49 @@ export function simularPartidoCompleto(d: DatosDelPartido): ResultadoSimulado {
   const nivel = Object.values(attrs).reduce((a, b) => a + b, 0) / 6;
   const marca = factorDeMarcaPersonal(nivel, d.perfil.prestige, pesoDeLlevarla(d.perfil.dorsal));
 
-  // El suplente entra alrededor del minuto 60: le tocan las decisiones tardías nada más.
-  const momentos = d.esTitular ? MOMENTOS_POR_PARTIDO : Math.max(1, Math.round(MOMENTOS_POR_PARTIDO * 0.35));
+  // CUÁNTAS VECES TE LLEGA, según el vestuario. La MISMA regla que la pantalla (ver
+  // ocasionesDelPartido en src/elVestuario.ts): si simular repartiera pelotas con otra cuenta,
+  // llevarse mal con el plantel se arreglaría tocando el botón de simular.
+  const momentos = ocasionesDelPartido({
+    companeros: d.perfil.prestigeCompaneros ?? d.perfil.prestige,
+    esTitular: d.esTitular,
+    recienLlegado: esRecienLlegado(d.perfil),
+  });
+  // Los minutos salen de la misma regla, así que el titular integrado sigue jugando 16, 38, 61 y 83.
+  const minutos = minutosDeLasOcasiones(momentos, dado);
 
-  let prestigio = 0, fans = 0, golesMios = 0, asistencias = 0, aciertos = 0;
+  let prestigio = 0, fans = 0, golesMios = 0, asistencias = 0, aciertos = 0, fallos = 0;
   let tarjeta: 'none' | 'yellow' | 'red' = 'none';
+  let teSacaron = false;
   const jugadas: Partial<Record<keyof PlayerStats, number>> = {};
   const log: string[] = [];
 
-  for (let m = 0; m < momentos; m++) {
-    const minuto = MINUTOS_DE_DECISION[d.esTitular ? m : MINUTOS_DE_DECISION.length - momentos + m] ?? 61;
+  /** Cómo venís jugando ahora mismo. El partido todavía no terminó, así que no hay ajuste por resultado. */
+  const notaHasta = () => notaDelPartido({ aciertos, fallos, goles: golesMios, asistencias, ajustePorResultado: 0 });
+
+  for (let m = 0; m < minutos.length; m++) {
+    const minuto = minutos[m];
+
+    // EL TÉCNICO TE SACA SI VENÍS JUGANDO MAL, igual que en la pantalla. Y con la misma cortesía:
+    // si al minuto del aviso venís en riesgo, te dan UNA última pelota antes del cambio. Se acomoda,
+    // no se recorta.
+    if (d.esTitular && !teSacaron && minuto > MINUTO_DEL_AVISO && teMandanACalentar(notaHasta())) {
+      const cuando = minutoDeTuUltimaPelota(minutos);
+      if (cuando != null && !minutos.includes(cuando)) {
+        minutos.splice(m, 0, cuando);
+        log.push(`${MINUTO_DEL_AVISO}' ⚠️ El técnico manda a calentar a otro. Te queda una pelota.`);
+        m--;
+        continue;
+      }
+    }
+    if (d.esTitular && !teSacaron && minuto > MINUTO_DEL_CAMBIO && elDtTeSaca(notaHasta(), dado())) {
+      teSacaron = true;
+      prestigio += PRESTIGIO_AL_SALIR;
+      fans += HINCHADA_AL_SALIR;
+      log.push(`${MINUTO_DEL_CAMBIO}' 🔄 El técnico no está conforme con tu partido y te saca.`);
+      break;
+    }
+
     const bolsa = minuto < 45 ? d.bolsaTemprana : d.bolsaTardia;
     if (!bolsa.length) continue;
     const jugada = bolsa[Math.floor(dado() * bolsa.length)];
@@ -151,6 +228,7 @@ export function simularPartidoCompleto(d: DatosDelPartido): ResultadoSimulado {
       presion: marca, marcaFactor: marca, starMode: d.perfil.starModeEnabled, ruido: dado() - 0.5,
     });
     const acerto = dado() < chance;
+    if (!acerto) fallos++;
     if (acerto) {
       aciertos++;
       jugadas[elegida.requiredAttr] = (jugadas[elegida.requiredAttr] ?? 0) + 1;
@@ -179,10 +257,11 @@ export function simularPartidoCompleto(d: DatosDelPartido): ResultadoSimulado {
     log.push(`${minuto}' ${acerto ? '✅' : '❌'} ${jugada.prompt.slice(0, 70)}…`);
   }
 
-  // La nota: el piso más lo que hiciste. La misma forma que la de la pantalla.
-  const rating = Math.max(3.0, Math.min(10,
-    6.0 + aciertos * 0.45 + golesMios * 0.9 + asistencias * 0.5
-    + (d.golesMiEquipo > d.golesRival ? 0.4 : d.golesMiEquipo < d.golesRival ? -0.3 : 0)));
+  // La nota final: la misma función que miró el técnico durante el partido, ahora con el resultado.
+  const rating = notaDelPartido({
+    aciertos, fallos, goles: golesMios, asistencias,
+    ajustePorResultado: d.golesMiEquipo > d.golesRival ? 0.4 : d.golesMiEquipo < d.golesRival ? -0.3 : 0,
+  });
 
   const resultado: 'W' | 'D' | 'L' = d.golesMiEquipo > d.golesRival ? 'W'
     : d.golesMiEquipo < d.golesRival ? 'L' : 'D';

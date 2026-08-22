@@ -4,6 +4,11 @@ import { factorDeFase, golEsperadoRestante, factorDeMarcaPersonal, avisoDeMarca 
 import { chanceDeAcertar } from '../decisionDelPartido';
 import { pesoDeLlevarla } from '../laCamiseta';
 import { prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO, queEstaPidiendoElPartido } from '../decisionDelPartido';
+import {
+  ocasionesDelPartido, minutosDeLasOcasiones, loQueDiceElVestuario, esRecienLlegado,
+  teMandanACalentar, elDtTeSaca, minutoDeTuUltimaPelota,
+  MINUTO_DEL_AVISO, MINUTO_DEL_CAMBIO, PRESTIGIO_AL_SALIR, HINCHADA_AL_SALIR,
+} from '../elVestuario';
 import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
@@ -1368,12 +1373,20 @@ function getPositionDecision(
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
-// Minutos de los 4 momentos clave por partido (antes eran solo 2 fijos: 24 y 71). Se reparten en
-// las 4 fases del partido para que ningún tramo del relato quede vacío, con jitter random de
-// unos minutos para que no se sientan como un reloj perfecto partido tras partido.
-function getDecisionMinutes(): number[] {
-  const jitter = () => Math.floor(Math.random() * 7) - 3; // -3 a +3
-  return [16 + jitter(), 38 + jitter(), 61 + jitter(), 83 + jitter()];
+// CUÁNTAS VECES TE LLEGA LA PELOTA, Y CUÁNDO.
+//
+// Antes eran cuatro fijas para todo el mundo: el recién llegado que no le caía bien a nadie recibía
+// las mismas cuatro pelotas decisivas que el referente del plantel. Ahora las cuenta el vestuario
+// (ver ocasionesDelPartido en src/elVestuario.ts) y los minutos los reparte la misma regla.
+//
+// Para un titular integrado siguen siendo las cuatro de siempre, en los minutos de siempre: 16, 38,
+// 61 y 83. Eso es un requisito, no una casualidad -- esto agrega relieve, no dificultad.
+function getDecisionMinutes(perfil: PlayerProfile, esTitular: boolean): number[] {
+  return minutosDeLasOcasiones(ocasionesDelPartido({
+    companeros: perfil.prestigeCompaneros ?? perfil.prestige,
+    esTitular,
+    recienLlegado: esRecienLlegado(perfil),
+  }));
 }
 
 // El jugador ya no ve el % de éxito exacto de una decisión (comparar 65% vs 35% a ojo le sacaba toda
@@ -1484,6 +1497,15 @@ export default function MatchSimulator({
     if (lineupStatus === 'substitute') {
       inicial.push({ minute: 0, text: '📋 El técnico te deja en el banco de suplentes para arrancar este partido.', type: 'neutral', equipo: 'mio' });
     }
+    // LO QUE DICE EL VESTUARIO. Que te lleguen dos pelotas en vez de cuatro sin que nadie lo nombre
+    // no se lee como "el plantel no te busca": se lee como que el juego está roto. Misma regla que
+    // el cartel de lo que pide el partido.
+    const vestuario = loQueDiceElVestuario({
+      companeros: playerProfile.prestigeCompaneros ?? playerProfile.prestige,
+      esTitular: lineupStatus !== 'substitute',
+      recienLlegado: esRecienLlegado(playerProfile),
+    });
+    if (vestuario) inicial.push({ minute: 0, text: `🤝 ${vestuario}`, type: 'neutral', equipo: 'mio' });
     return inicial;
   });
   const [activeDecision, setActiveDecision] = useState<MatchDecision | null>(null);
@@ -1502,7 +1524,9 @@ export default function MatchSimulator({
   const [decisionOutcomeText, setDecisionOutcomeText] = useState('');
   const [decisionWasSuccess, setDecisionWasSuccess] = useState(false);
   const [pendingClipType, setPendingClipType] = useState<PlayClipType | null>(null);
-  const decisionMinutes = useRef(getDecisionMinutes());
+  const decisionMinutes = useRef(getDecisionMinutes(playerProfile, lineupStatus !== 'substitute'));
+  // Cuantas te tocaban de entrada, para que la remontada sume SOBRE eso y no sobre un numero fijo.
+  const ocasionesDeHoy = useRef(decisionMinutes.current.length);
   const usedPrompts = useRef(new Set<string>());
   // Acciones extra ya concedidas por ir perdiendo (ver el bloque de remontada en el tick del
   // partido). Se cuentan para no encadenar jugadas sin fin mientras el marcador siga en contra.
@@ -1515,6 +1539,14 @@ export default function MatchSimulator({
   const [onField, setOnField] = useState(lineupStatus !== 'substitute');
   const [wasSubbedOff, setWasSubbedOff] = useState(false);
   const hasEnteredAsSubRef = useRef(false);
+  // ¿Ya te avisaron que el técnico manda a calentar a alguien? Va en un ref y no en estado porque
+  // se lee dentro del tick del partido, donde una variable de estado llegaría con el valor viejo de
+  // la clausura -- el mismo motivo por el que charlaDecididaRef es un ref.
+  const avisoDeCambioRef = useRef(false);
+  // Y el mismo candado para el cambio. El minuto 45 ya necesitó uno (charlaDecididaRef): este tick
+  // puede pasar dos veces por el mismo minuto, y sin la marca el castigo por salir se cobraría dos
+  // veces -- `wasSubbedOff` es estado y en la segunda vuelta todavía llega en false.
+  const cambioDecididoRef = useRef(false);
 
   // LA CHARLA DEL ENTRETIEMPO (ver tecnico.ts). El texto en estado pausa el reloj igual que una
   // decision; la respuesta va a un ref y no a estado porque se lee al minuto 90 dentro de un
@@ -1856,12 +1888,6 @@ export default function MatchSimulator({
       }]);
     }
 
-    // Sustitución por bajo rendimiento: si venís jugando mal (rating flojo) al llegar al minuto 70,
-    // el técnico puede decidir sacarte para meter a otro jugador -- no aplica si entraste de
-    // suplente vos mismo (no te van a sacar a los pocos minutos de haber entrado), NI si todavía
-    // te queda alguna de las 4 decisiones del partido por delante (la última cae ~min 83): el piso
-    // de "4 decisiones por partido, incluso yendo perdiendo" ya prometido al jugador no puede
-    // perforarse por esta sustitución (bug reportado: te sacaban al 70' y te quedabas con 3).
     // ENTRETIEMPO. Solo si estas en la cancha: desde el banco el tecnico no te da una instruccion
     // personal, y expulsado tampoco tiene sentido.
     if (currentMin === 45 && onField && !isSentOff && !charlaDecididaRef.current) {
@@ -1877,20 +1903,53 @@ export default function MatchSimulator({
         setCharlaDelDT(instruccionDelEntretiempo(mios, suyos).texto);
       }
     }
-    const hasPendingDecision = decisionMinutes.current.some(m => m >= currentMin);
-    if (currentMin === 70 && onField && !wasSubbedOff && lineupStatus !== 'substitute' && !isSentOff && !hasPendingDecision) {
-      const RATING_SUB_THRESHOLD = 5.2;
-      if (rating < RATING_SUB_THRESHOLD) {
-        const subChance = 0.45;
-        if (Math.random() < subChance) {
-          setWasSubbedOff(true);
-          setOnField(false);
-          setMatchLog(prev => [...prev, {
-            minute: currentMin,
-            text: `🔄 El técnico no está conforme con tu partido y decide sacarte de la cancha. Terminas el resto del encuentro en el banco.`,
-            type: 'bad'
-          }]);
-        }
+    // EL TECNICO TE SACA SI ESTAS JUGANDO MAL. Ver src/elVestuario.ts.
+    //
+    // Esto ESTABA ESCRITO Y ESTABA MUERTO. La version anterior pedia que no quedara ninguna decision
+    // pendiente para animarse a sacarte, y la cuarta cae entre el 80 y el 86 SIEMPRE: al minuto 70
+    // siempre quedaba una. Medido: 0 sustituciones en 200.000 partidos. El jugador tenia razon
+    // cuando dijo que eso no pasaba nunca.
+    //
+    // La salida no fue quitarte las decisiones que faltaban -- eso era justo lo que el codigo viejo
+    // trataba de evitar, y con razon. Es ADELANTARTE UNA: si venis en riesgo, el minuto 68 es tu
+    // ultima pelota antes del cambio. Se acomoda, no se recorta.
+    const enRiesgo = onField && !wasSubbedOff && lineupStatus !== 'substitute' && !isSentOff;
+
+    // 62': el tecnico manda a calentar a alguien. Es un aviso de verdad y no una notificacion de
+    // algo ya decidido, porque todavia te queda una pelota para cambiarle la cara al partido.
+    if (currentMin === MINUTO_DEL_AVISO && enRiesgo && !avisoDeCambioRef.current && teMandanACalentar(rating)) {
+      avisoDeCambioRef.current = true;
+      const suplente = getTeammateSample();
+      setMatchLog(prev => [...prev, {
+        minute: currentMin,
+        text: `⚠️ El técnico manda a calentar a ${suplente} y no te saca los ojos de encima. Te quedan minutos para cambiarle la cara a tu partido.`,
+        type: 'bad', equipo: 'mio'
+      }]);
+      // Tu ultima pelota, si no tenias ya una agendada por ahi.
+      const cuando = minutoDeTuUltimaPelota(decisionMinutes.current);
+      if (cuando != null && !decisionMinutes.current.includes(cuando)) {
+        decisionMinutes.current = [...decisionMinutes.current, cuando].sort((a, b) => a - b);
+      }
+    }
+
+    // 72': el cambio. Cuanto peor venis jugando, mas probable -- pero nunca seguro, porque un
+    // tecnico puede bancarte, y ese 15% es lo que hace que el minuto 68 valga la pena.
+    if (currentMin === MINUTO_DEL_CAMBIO && enRiesgo && !cambioDecididoRef.current) {
+      cambioDecididoRef.current = true;
+      if (elDtTeSaca(rating, Math.random())) {
+        setWasSubbedOff(true);
+        setOnField(false);
+        // Las que quedaban ya no son tuyas: te fuiste del partido.
+        decisionMinutes.current = decisionMinutes.current.filter(m => m <= currentMin);
+        // Y cuesta. Es lo que cierra el bucle: te saca hoy, te pide mas para el once el sabado que
+        // viene. Va en unidades finales -- no es una jugada del catalogo, es su juicio del partido.
+        setPrestigeAccum(prev => prev + PRESTIGIO_AL_SALIR);
+        setFansAccum(prev => prev + HINCHADA_AL_SALIR);
+        setMatchLog(prev => [...prev, {
+          minute: currentMin,
+          text: `🔄 El técnico no está conforme con tu partido y te saca. Mirás el resto del encuentro desde el banco.`,
+          type: 'bad', equipo: 'mio'
+        }]);
       }
     }
 
@@ -1983,8 +2042,12 @@ export default function MatchSimulator({
       const golesMios = isHome.current ? scoreHome : scoreAway;
       const golesDelRival = isHome.current ? scoreAway : scoreHome;
       const enDesventaja = golesDelRival - golesMios;
-      // El objetivo es el TOTAL del partido: 5 acciones si perdés por 2, 6 si perdés por 3 o más.
-      const objetivo = enDesventaja >= 3 ? 6 : enDesventaja >= 2 ? 5 : 0;
+      // El objetivo es el TOTAL del partido: una accion extra si perdes por 2, dos si perdes por 3
+      // o mas. Se cuenta SOBRE LAS TUYAS y no sobre un 5 fijo: con un numero fijo, ir perdiendo le
+      // devolvia al que el vestuario no busca las pelotas que el vestuario le habia sacado, y la
+      // regla de los companeros se apagaba sola en los partidos que peor venian.
+      const objetivo = enDesventaja >= 3 ? ocasionesDeHoy.current + 2
+        : enDesventaja >= 2 ? ocasionesDeHoy.current + 1 : 0;
 
       if (objetivo > 0 && decisionMinutes.current.length < objetivo) {
         // Se busca el primer minuto libre a partir de dos minutos más adelante. Sin verificar que

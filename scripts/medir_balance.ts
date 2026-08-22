@@ -53,18 +53,20 @@
 // jugada sin enterarse.
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
+import { ocasionesDelPartido, minutosDeLasOcasiones } from '../src/elVestuario';
 import { factorDeMarcaPersonal } from '../src/dificultad';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido, pisoDelOlvido } from '../src/elOlvido';
 
 const N = 20000;
 
 function unPartido(nivel: number, prestigio: number, puesto: string, cual: 0 | 1 | 2,
-  golesMios = 0, golesRival = 0) {
+  golesMios = 0, golesRival = 0, ocasiones = MOMENTOS_POR_PARTIDO) {
   const marca = factorDeMarcaPersonal(nivel, prestigio);
+  const minutos = minutosDeLasOcasiones(ocasiones);
   let suma = 0;
-  for (let m = 0; m < MOMENTOS_POR_PARTIDO; m++) {
+  for (let m = 0; m < ocasiones; m++) {
     const p: any = (POOLS_DE_DECISION as any)[puesto];
-    const bolsa = m < 2 ? p.early : p.late;
+    const bolsa = m < ocasiones / 2 ? p.early : p.late;
     const d: any = bolsa[Math.floor(Math.random() * bolsa.length)];
     if (d.kickMode) {
       const esPenal = d.kickMode === 'penalty';
@@ -78,7 +80,7 @@ function unPartido(nivel: number, prestigio: number, puesto: string, cual: 0 | 1
     });
     const acerto = Math.random() < chance;
     suma += prestigioDeLaJugada((acerto ? o.effectOnSuccess.prestige : o.effectOnFail.prestige) ?? 0, {
-      successChance: o.successChance, minuto: [16, 38, 61, 83][m] ?? 61,
+      successChance: o.successChance, minuto: minutos[m] ?? 61,
       golesMios, golesRival, exito: acerto,
     });
   }
@@ -86,9 +88,9 @@ function unPartido(nivel: number, prestigio: number, puesto: string, cual: 0 | 1
 }
 
 function medir(etiqueta: string, nivel: number, prestigio: number, puesto: string, cual: 0 | 1 | 2,
-  golesMios = 0, golesRival = 0) {
+  golesMios = 0, golesRival = 0, ocasiones = MOMENTOS_POR_PARTIDO) {
   let total = 0;
-  for (let i = 0; i < N; i++) total += unPartido(nivel, prestigio, puesto, cual, golesMios, golesRival);
+  for (let i = 0; i < N; i++) total += unPartido(nivel, prestigio, puesto, cual, golesMios, golesRival, ocasiones);
   const media = total / N;
   const partidosPara50 = media > 0 ? Math.ceil(50 / media) : Infinity;
   console.log(`${etiqueta.padEnd(44)} ${media >= 0 ? '+' : ''}${media.toFixed(2)} por partido   ` +
@@ -154,4 +156,25 @@ for (const [etiqueta, tit, sup, nota, edad] of casos) {
 console.log('\n  El piso, segun la vitrina:');
 for (const [t, b] of [[0, 0], [3, 0], [8, 1], [15, 3]] as [number, number][]) {
   console.log(`    ${t} titulos, ${b} balones de oro -> no baja de ${pisoDelOlvido(t, b)}`);
+}
+
+// ==================================================================================================
+// LO QUE CUESTA CAERLE MAL AL PLANTEL
+// ==================================================================================================
+//
+// `prestigeCompaneros` existia, se movia y se mostraba en pantalla, y no hacia NADA. Ahora decide
+// cuantas pelotas decisivas te llegan (ver ocasionesDelPartido en src/elVestuario.ts), y esta tabla
+// es la que dice cuanto pesa eso de verdad: son los mismos partidos, el mismo catalogo y el mismo
+// jugador -- lo unico que cambia es como te trata el vestuario.
+console.log('');
+console.log('LO QUE CUESTA CAERLE MAL AL PLANTEL (jugador promedio, atributos 70):');
+for (const [rotulo, companeros, nuevo] of [
+  ['  el vestuario no te busca (companeros 15)', 15, false],
+  ['  el plantel desconfia (companeros 35)', 35, false],
+  ['  recien llegado, relacion normal (50)', 50, true],
+  ['  uno mas del grupo (companeros 50)', 50, false],
+  ['  el equipo te busca a vos (companeros 85)', 85, false],
+] as [string, number, boolean][]) {
+  const ocasiones = ocasionesDelPartido({ companeros, esTitular: true, recienLlegado: nuevo });
+  medir(`${rotulo} -> ${ocasiones} pelotas`, 70, 50, 'Mediocampista', 1, 0, 0, ocasiones);
 }

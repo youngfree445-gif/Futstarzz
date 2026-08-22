@@ -42,6 +42,7 @@ import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
 import { anotarTarjetaDelPartido, cumplirFechaDeSancion, cuentaDe } from './sancion';
 import { varaDeTitularidad, varaDeConvocatoria } from './fuerzaDelClub';
+import { porQueVasAlBanco } from './elVestuario';
 import { simularPartidoCompleto } from './partidoSimulado';
 import { PartidoSimulandose } from './components/PartidoSimulandose';
 import { PortadaDeFichaje } from './components/PortadaDeFichaje';
@@ -4334,6 +4335,18 @@ export default function App() {
         return;
       }
 
+      // EL BANCO DEJA DE SER MUDO. La regla no cambia -- sigue siendo tu relación con el DT contra
+      // lo que pide el club (varaDeTitularidad, del ranking mundial) -- pero antes te encontrabas de
+      // suplente sin que nadie te dijera cuánto te faltaba. Un número invisible que te saca del once
+      // se lee como un bug, que es exactamente la lección que ya había dejado el refuerzo que te tapa.
+      if (lineupStatus === 'substitute') {
+        notify(porQueVasAlBanco({
+          prestigio: playerProfile.prestige,
+          vara: varaDeTitularidad(myClub),
+          clubName: myClub.name,
+          estorbo: estorboTotal,
+        }));
+      }
       setActiveLineupStatus(lineupStatus === 'substitute' ? 'substitute' : 'starter');
       setActiveSubEntryMinute(lineupStatus === 'substitute' ? 46 + Math.floor(Math.random() * 30) : null);
     } else {

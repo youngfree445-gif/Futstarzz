@@ -70,6 +70,14 @@ corren su calendario y tabla en simultáneo de fondo.
   Dashboard.tsx: `MENTEE_MAX_AGE` (≤20, a quién podés apadrinar) y
   `MENTOR_MIN_AGE`/`MENTEE_SELF_MAX_AGE` (30+ / ≤23, quién te apadrina a vos).
   Los vínculos son con **compañeros**, así que se cortan al cambiar de club
+- `elVestuario.ts` — **cuánto partido es tuyo**, en tres puertas: cuántas pelotas
+  decisivas te llegan (`prestigeCompaneros` existía y no hacía nada; ahora da de 2 a
+  5 ocasiones), por qué arrancás en el banco (la regla no cambió, antes era muda) y
+  cuándo el DT te saca por jugar mal. Lo último **estaba escrito y estaba muerto**:
+  pedía que no quedara ninguna decisión pendiente al minuto 70 y la cuarta cae entre
+  el 80 y el 86 siempre — 0 sustituciones en 200.000 partidos. Un titular integrado
+  sigue recibiendo 4 pelotas en los minutos 16, 38, 61 y 83: eso es un requisito del
+  validador, no una casualidad. Validador: `npm run validar:vestuario`
 - `entrevistaDeFichaje.ts` + `components/PortadaDeFichaje.tsx` +
   `components/EntrevistaDeFichaje.tsx` — **la ceremonia del fichaje**: portada de
   diario (escudo difuminado sobre los colores del club) y entrevista obligatoria de

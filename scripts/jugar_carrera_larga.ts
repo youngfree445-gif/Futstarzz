@@ -35,9 +35,11 @@ import {
 import { evolucionDeLaLista, exigenciaPorLoQueValés } from '../src/listaDeTransferibles';
 import { secuelaDeLaLesion } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion } from '../src/lesion';
-import { chanceDeAcertar, MOMENTOS_POR_PARTIDO, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
+import { chanceDeAcertar, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido } from '../src/elOlvido';
 import { varaDeTitularidad, varaDeConvocatoria } from '../src/fuerzaDelClub';
+import { ocasionesDelPartido, teMandanACalentar, elDtTeSaca, PRESTIGIO_AL_SALIR } from '../src/elVestuario';
+import { notaDelPartido } from '../src/partidoSimulado';
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import type { Club, PlayerStats, InjuryType } from '../src/types';
 import type { NotaDePartido } from '../src/forma';
@@ -52,6 +54,7 @@ if (!club0) {
   process.exit(1);
 }
 
+let vecesQueTeSacaron = 0;
 const rarezas: string[] = [];
 const raro = (q: string) => { if (!rarezas.includes(q)) rarezas.push(q); };
 
@@ -60,6 +63,14 @@ const carrera = {
   clubId: club0.id,
   edad: 17,
   prestige: 50,     // el mismo con el que arranca una carrera de verdad (ver SetupScreen)
+  // LA RELACION CON EL PLANTEL, que arranca en 50 igual que en el juego (ver SetupScreen). Decide
+  // cuantas pelotas decisivas te llegan por partido (ver ocasionesDelPartido en elVestuario.ts),
+  // asi que sin ella este banco de pruebas media a un jugador al que siempre le llegan cuatro.
+  companeros: 50,
+  // Temporadas en el club actual. En la primera sos el nuevo y la jugada todavia no te busca.
+  aniosEnElClub: 0,
+  // Cuantos clubes dejaste atras. Separa al fichaje del juvenil que debuta en su casa.
+  clubesAnteriores: 0,
   // LOS SEIS ATRIBUTOS, no un promedio. Hasta acá esta carrera llevaba un solo número, y con eso la
   // secuela de la lesión era invisible: redistribuir entre atributos que no existen no se ve. El
   // promedio sigue estando (`media()`), pero ahora es una lectura y no la fuente.
@@ -225,11 +236,29 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     // La presion: tabla, hinchada y cabeza no se modelan aca, asi que queda la marca sola, que es
     // la parte que SI depende de lo que sos. Se deja dicho que es una aproximacion.
     const presion = marca;
-    const momentos = Math.max(1, Math.round(MOMENTOS_POR_PARTIDO * minutos));
+    // CUANTAS VECES TE LLEGA, por la regla del vestuario y no por un 4 fijo.
+    const momentos = ocasionesDelPartido({
+      companeros: carrera.companeros,
+      esTitular: soyTitular,
+      // El pibe de las inferiores NO es el nuevo del vestuario: recién llegado es el que te fichan.
+      recienLlegado: carrera.aniosEnElClub === 0 && carrera.clubesAnteriores > 0,
+    });
 
     let prestigioDelPartido = 0;
-    let golesDeJugada = 0, asisDeJugada = 0, aciertos = 0;
+    let golesDeJugada = 0, asisDeJugada = 0, aciertos = 0, fallos = 0;
+    let teSacaron = false;
     for (let m = 0; m < momentos; m++) {
+      // EL TECNICO TE SACA SI VENIS JUGANDO MAL (ver elVestuario.ts). Se mira antes de la ultima
+      // pelota del partido, que es donde cae el cambio: si te sacan, esa jugada ya no es tuya.
+      if (soyTitular && !teSacaron && m === momentos - 1 && momentos > 1) {
+        const notaHasta = notaDelPartido({ aciertos, fallos, goles: golesDeJugada, asistencias: asisDeJugada, ajustePorResultado: 0 });
+        if (teMandanACalentar(notaHasta) && elDtTeSaca(notaHasta, Math.random())) {
+          teSacaron = true;
+          prestigioDelPartido += PRESTIGIO_AL_SALIR;
+          vecesQueTeSacaron++;
+          break;
+        }
+      }
       const bolsa = m < momentos / 2 ? POOLS_DE_DECISION[PUESTO].early : POOLS_DE_DECISION[PUESTO].late;
       const decision = bolsa[Math.floor(Math.random() * bolsa.length)];
 
@@ -254,7 +283,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
         ruido: Math.random() - 0.5,
       });
       const acerto = Math.random() < chance;
-      if (acerto) aciertos++;
+      if (acerto) aciertos++; else fallos++;
       // Los efectos de exito y de fallo NO tienen la misma forma: solo el exito puede traer gol o
       // asistencia. El tipo lo dice y conviene respetarlo en vez de castearlo.
       // La MISMA cuenta que el partido de verdad, escala y situacion incluidas. El minuto sale del
@@ -280,8 +309,13 @@ for (let t = 1; t <= TEMPORADAS; t++) {
 
     // La nota ya no decide el prestigio: solo alimenta la forma, que es para lo que existe.
     const gano = sim.homeGoals > sim.awayGoals;
-    const nota = Math.max(3.5, Math.min(10,
-      5.8 + aciertos * 0.45 + goles * 0.9 + asis * 0.5 + (gano ? 0.4 : -0.3) + (Math.random() - 0.5) * 1.0));
+    // LA MISMA CUENTA QUE EL PARTIDO SIMULADO, no una tercera formula. Esta tenia la suya --
+    // 5.8 + aciertos*0.45 sin castigo por fallo-- y era la que alimentaba la forma, que decide el
+    // once. Otra vez dos fuentes contestando la misma pregunta.
+    const nota = notaDelPartido({
+      aciertos, fallos, goles, asistencias: asis,
+      ajustePorResultado: (gano ? 0.4 : -0.3) + (Math.random() - 0.5) * 1.0,
+    });
 
     carrera.formaReciente = anotarNota(carrera.formaReciente, nota, paso);
     carrera.partidos++; carrera.goles += goles; carrera.asistencias += asis;
@@ -377,6 +411,16 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   carrera.prestige = r.perfil.prestige;
   carrera.listaDeTransferibles = r.perfil.listaDeTransferibles;
   carrera.fichajeRival = r.perfil.fichajeRival as RivalDePuesto | undefined;
+  // LA MUDANZA CUESTA EN EL VESTUARIO, igual que en handleAcceptTransfer: el plantel nuevo no te
+  // conoce y volves a ser el nuevo. Sin esto, un jugador que cambia de club todos los años seguiria
+  // recibiendo las pelotas de un referente.
+  if (r.perfil.currentClubId !== carrera.clubId) {
+    carrera.companeros = Math.round(carrera.companeros * 0.9);
+    carrera.aniosEnElClub = 0;
+    carrera.clubesAnteriores++;
+  } else {
+    carrera.aniosEnElClub++;
+  }
   carrera.clubId = r.perfil.currentClubId;
 
   // EL JUGADOR TAMBIEN DECIDE, y hasta ahora este banco de pruebas no lo dejaba.
@@ -391,6 +435,9 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   if (titularEsteAnio === 0) temporadasSinArrancar++; else temporadasSinArrancar = 0;
   if (temporadasSinArrancar >= 2 && destino && !r.vendidoA) {
     carrera.clubId = destino.id;
+    carrera.companeros = Math.round(carrera.companeros * 0.9);
+    carrera.aniosEnElClub = 0;
+    carrera.clubesAnteriores++;
     carrera.prestige = Math.max(5, carrera.prestige - 3);   // bajar de categoria cuesta algo
     carrera.fichajeRival = undefined;
     temporadasSinArrancar = 0;
@@ -416,6 +463,7 @@ for (const l of bitacora) console.log(l);
 console.log(`\n--- LA CARRERA ---`);
 console.log(`   ${carrera.partidos} partidos · ${carrera.goles} goles · ${carrera.asistencias} asistencias`);
 console.log(`   ${carrera.titulares} de titular · ${carrera.banco} en el banco`);
+console.log(`   ${vecesQueTeSacaron} veces te saco el tecnico por jugar mal`);
 console.log(`   terminó en ${(CLUBS_DATABASE as Club[]).find(c => c.id === carrera.clubId)?.name} con prestigio ${carrera.prestige}`);
 
 // --- INVARIANTES: lo que una carrera no puede hacer ---------------------------------------------
