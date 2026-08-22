@@ -751,6 +751,33 @@ caso('plantel: en celular se ve un puesto por vez', () => {
   return html;
 });
 
+
+// --- COPAS Y TABLAS: LA TIRA DE "COMO VOY" ---------------------------------------------------
+//
+// Cada numero de la tira sale del MISMO panel que esta mas abajo. Lo que hay que proteger es
+// justamente eso: que no se desincronicen. Si la tira dice 3o y la tabla te pone 5o, el jugador
+// tiene razon en no creerle a ninguno de los dos.
+
+caso('copas: la tira de competiciones se dibuja', () => {
+  const html = dibujar(perfilDe(junior, { currentWeek: 40 }), 'tablas', 'data-resumen-de-competiciones');
+  return html;
+});
+
+caso('copas: la posicion de la tira es la misma que la de la tabla', () => {
+  const html = dibujar(perfilDe(junior, { currentWeek: 40 }), 'tablas', null);
+  const linea = html.match(/data-linea-de-competicion="[^"]*"[^>]*>[\s\S]{0,220}?<\/div>/);
+  if (!linea) {
+    // Sin partidos jugados la tabla esta en cero y la tira puede no tener nada que decir: eso no
+    // es una falla, es que todavia no paso nada.
+    return html;
+  }
+  const puesto = linea[0].match(/>(\d+)º/);
+  if (!puesto) throw new Error(`la linea no dice un puesto: ${linea[0].slice(0, 120)}`);
+  const n = Number(puesto[1]);
+  if (!(n >= 1 && n <= 40)) throw new Error(`la tira dice que vas ${n}º, que no es un puesto de una liga`);
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`

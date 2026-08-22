@@ -8,6 +8,7 @@ import { CAMISETAS_CON_DUENO } from '../laCamiseta';
 import { BarraDeSecciones, BarraDeAtajos, soloEnSeccion } from './BarraDeSecciones';
 import { BarraDeApp, COLCHON } from './BarraDeApp';
 import { HexagonoDeAtributos } from './HexagonoDeAtributos';
+import { ResumenDeCompeticiones } from './ResumenDeCompeticiones';
 import { BarraDeEstado } from './BarraDeEstado';
 import { SelectorDeDorsal } from './SelectorDeDorsal';
 import { dorsalesOcupados } from '../laCamiseta';
@@ -5314,16 +5315,38 @@ export default function Dashboard({
                   ...(conmebolCup ? [{ ancla: 'tabla-copa', texto: 'Copa', Icono: Trophy }] : []),
                 ]}
               />
-              <div>
-                <h2 className="text-xl font-black uppercase tracking-tight text-white mb-2">
-                  Panel de Competiciones Oficiales
-                </h2>
-                {/* Genérico a propósito: este panel lo ve tanto un club sudamericano como uno
-                    europeo, así que no puede nombrar una copa puntual ni un año fijo. */}
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Monitorea las fases de tus competiciones y la situación clasificatoria actual.
-                </p>
-              </div>
+              {/* DÓNDE VAS EN CADA TORNEO, arriba de todo.
+
+                  Cada número de acá sale del MISMO panel que está más abajo -- la posición de la
+                  tabla de posiciones, los goles del listado de goleadores -- y no se vuelve a
+                  deducir por las suyas: dos fuentes contestando la misma pregunta es como este
+                  juego se rompió varias veces. Ver ResumenDeCompeticiones. */}
+              {(() => {
+                const iMio = myLeagueTable.findIndex(t => t.clubId === currentClub.id);
+                const mio = iMio >= 0 ? myLeagueTable[iMio] : null;
+                const goles = lideresDeHoy?.goleadores ?? [];
+                const iGol = goles.findIndex(g => g.esVos);
+                const lineas = [
+                  ...(mio ? [{
+                    rotulo: getLeagueDisplay(currentClub.league, currentClub.division).name,
+                    valor: `${iMio + 1}º (${mio.puntos} pts)`,
+                    destacado: iMio === 0,
+                  }] : []),
+                  ...(iGol >= 0 ? [{
+                    rotulo: iGol === 0 ? 'Bota de oro' : 'Goleadores',
+                    valor: `${iGol + 1}º (${goles[iGol].goles}G)`,
+                    destacado: iGol === 0,
+                  }] : []),
+                ];
+                return (
+                  <ResumenDeCompeticiones
+                    nota={playerProfile.lastMatchRating ?? null}
+                    titulo="Centro de Competición y Copas"
+                    bajada={`${rotuloDeTemporada(currentClub.name, playerProfile.currentWeek)} · ${currentClub.name} · ${misTrofeos.reduce((n, t) => n + t.anios.length, 0)} títulos oficiales`}
+                    lineas={lineas}
+                  />
+                );
+              })()}
 
               <div id="tabla-posiciones" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 flex-wrap">
