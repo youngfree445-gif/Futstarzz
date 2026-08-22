@@ -75,7 +75,10 @@ corren su calendario y tabla en simultáneo de fondo.
   5 ocasiones), por qué arrancás en el banco (la regla no cambió, antes era muda) y
   cuándo el DT te saca por jugar mal. Lo último **estaba escrito y estaba muerto**:
   pedía que no quedara ninguna decisión pendiente al minuto 70 y la cuarta cae entre
-  el 80 y el 86 siempre — 0 sustituciones en 200.000 partidos. Un titular integrado
+  el 80 y el 86 siempre — 0 sustituciones en 200.000 partidos. **Y cómo se gana o se
+  pierde esa relación**: el vestuario paga el REPARTO (la proporción entre lo que
+  serviste y lo que definiste), no la cantidad de asistencias, así un central y un
+  nueve cobran parecido; meter dos o más sin dar ninguna la baja. Un titular integrado
   sigue recibiendo 4 pelotas en los minutos 16, 38, 61 y 83: eso es un requisito del
   validador, no una casualidad. Validador: `npm run validar:vestuario`
 - `entrevistaDeFichaje.ts` + `components/PortadaDeFichaje.tsx` +

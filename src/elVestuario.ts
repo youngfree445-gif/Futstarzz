@@ -286,3 +286,132 @@ export function minutoDeTuUltimaPelota(minutosAgendados: number[]): number | nul
  */
 export const PRESTIGIO_AL_SALIR = -3;
 export const HINCHADA_AL_SALIR = -2;
+
+// ==================================================================================================
+// LO QUE EL VESTUARIO VIO DE VOS ESTE PARTIDO
+// ==================================================================================================
+//
+// Hasta acá la relación con el plantel sólo la movían cuatro eventos al azar de los cuarenta y siete
+// del juego, y la mentoría una vez por temporada. O sea que el número que decide cuántas pelotas te
+// llegan dependía de que te tocara la carta correcta. No había forma de GANARSE al vestuario
+// jugando, que es la única forma en que se gana un vestuario de verdad.
+//
+// LA REGLA, en una línea: el vestuario quiere al que la comparte y desconfía del que la esconde.
+//
+//   . SE MIDE EL REPARTO, NO EL GOL. El gol te lo aplaude la tribuna y te lo paga el DT (sube el
+//     prestigio en la jugada). El que te devuelve el pase la próxima vez es el que recibió uno
+//     tuyo. Y se mira la PROPORCIÓN entre lo que serviste y lo que definiste, no cuántas
+//     asistencias juntaste: así un central que dio 0,44 y ningún gol cobra lo mismo que un nueve
+//     que dio 1,4 y metió 0,2, porque los dos repartieron todo lo que tuvieron.
+//   . EL RESULTADO PONE EL CLIMA. Ganar levanta el vestuario entero y perder lo enfría, hagas lo que
+//     hagas. Es chico a propósito: es el ánimo del grupo, no tu mérito.
+//   . ACAPARAR SE PAGA. Si metés dos o más y no diste ninguna, dejaste de pasarla. Y esto es lo que
+//     le da filo a la regla: un hat-trick sin asistencias te sube el prestigio con el técnico, te
+//     sube la hinchada... y te BAJA el vestuario. Las tres barras dejan de moverse juntas, que es
+//     exactamente cuando un número empieza a ser una decisión.
+//
+// Un gol solo NUNCA es acaparar: el nueve que define una vez la jugada que le armaron no le sacó la
+// pelota a nadie.
+
+/** Lo que mueve ganar, empatar y perder. Chico: es el clima del grupo, no tu mérito. */
+export const VESTUARIO_POR_GANAR = 1;
+export const VESTUARIO_POR_PERDER = -1;
+
+/**
+ * LO QUE VALE REPARTIR, y por qué se mide el REPARTO y no la cantidad de asistencias.
+ *
+ * La primera versión pagaba +2 por asistencia. Medido sobre 30.000 partidos por caso, eso daba de
+ * 22 a 421 partidos para ganarse el vestuario según el puesto y según qué opción tocabas: un
+ * delantero eligiendo siempre la del medio lo ganaba en 26 partidos y el mismo delantero eligiendo
+ * siempre la arriesgada no lo ganaba nunca. O sea que la moneda no medía si compartías: medía en
+ * qué bolsa te tocó jugar.
+ *
+ * Ahora mira la PROPORCIÓN entre lo que serviste y lo que definiste, que además es lo que de verdad
+ * ve un vestuario. Un central que da 0,44 asistencias y ningún gol repartió todo lo que tuvo; un
+ * nueve que da 1,4 y mete 0,2 también. Los dos reparten, y los dos cobran igual.
+ */
+export const VESTUARIO_POR_REPARTIR = 2;
+export const VESTUARIO_POR_DAR_ALGUNA = 1;
+
+/** A partir de cuántos goles sin dar ninguna asistencia el vestuario empieza a mirarte raro. */
+export const GOLES_PARA_SER_ACAPARADOR = 2;
+/** Y cuánto baja por cada gol de más, con tope. */
+export const VESTUARIO_POR_ACAPARAR = -1;
+export const TOPE_DE_ACAPARAR = -3;
+
+/**
+ * EL TECHO POR PARTIDO, en las dos direcciones.
+ *
+ * Sin esto, un partido de cuatro asistencias movía la relación 8 puntos de un saque y en media
+ * temporada el vestuario quedaba clavado en 100. El techo lo convierte en una pendiente que se sube
+ * y se baja durante toda la carrera, que es de lo que se trata.
+ */
+export const TOPE_POR_PARTIDO = 4;
+
+/**
+ * CON CUÁNTO VESTUARIO LLEGÁS A UN CLUB NUEVO.
+ *
+ * El traspaso ya multiplicaba la relación por 0,9, que para un referente de 100 la dejaba en 90 --
+ * o sea, en el escalón más alto igual. Con eso, ganarse el vestuario se hacía UNA vez en la carrera
+ * y después el número no volvía a significar nada.
+ *
+ * Ahora hay un techo al llegar: por más ídolo que fueras allá, acá todavía no le pasaste la pelota a
+ * nadie. 55 cae apenas encima del escalón medio, así que un fichaje arranca con las cuatro de
+ * siempre menos la de ser nuevo -- tres -- y se gana las otras jugando. Es lo que hace que cambiar
+ * de club cueste algo más que un número de camiseta.
+ *
+ * Lo que NO se toca es el piso: si llegás con menos de esto, llegás con lo que tenías. El techo
+ * baja al que venía arriba, no sube al que venía abajo.
+ */
+export const VESTUARIO_AL_LLEGAR = 55;
+
+/** La relación con el plantel nuevo, el día que firmás. */
+export function vestuarioAlCambiarDeClub(actual: number): number {
+  return Math.min(VESTUARIO_AL_LLEGAR, Math.round(actual * 0.9));
+}
+
+export interface LoQueHicisteEnElPartido {
+  goles: number;
+  asistencias: number;
+  resultado: 'W' | 'D' | 'L';
+}
+
+/** Cuánto se movió tu relación con el plantel después de este partido. */
+export function loQueElVestuarioVio(d: LoQueHicisteEnElPartido): number {
+  const clima = d.resultado === 'W' ? VESTUARIO_POR_GANAR
+    : d.resultado === 'L' ? VESTUARIO_POR_PERDER : 0;
+
+  // ACAPARAR. Metiste dos o más y no diste ninguna: dejaste de pasarla. Un gol solo nunca cuenta --
+  // el nueve que define una vez la jugada que le armaron no le sacó la pelota a nadie.
+  if (d.asistencias === 0 && d.goles >= GOLES_PARA_SER_ACAPARADOR) {
+    const castigo = Math.max(TOPE_DE_ACAPARAR, (d.goles - 1) * VESTUARIO_POR_ACAPARAR);
+    return acotar(clima + castigo);
+  }
+
+  // REPARTIR. Serviste más de lo que definiste, o al menos diste una.
+  const reparto = d.asistencias === 0 ? 0
+    : d.asistencias > d.goles ? VESTUARIO_POR_REPARTIR
+    : VESTUARIO_POR_DAR_ALGUNA;
+  return acotar(clima + reparto);
+}
+
+const acotar = (n: number) => Math.max(-TOPE_POR_PARTIDO, Math.min(TOPE_POR_PARTIDO, n));
+
+/**
+ * Y lo que el vestuario DICE, que es la mitad que hace que la regla exista para el jugador.
+ *
+ * Sólo habla cuando pasó algo que se nota. Un +1 por ganar no merece un cartel: si el juego avisara
+ * en cada partido, el aviso dejaría de significar nada y taparía los que sí importan.
+ */
+export function loQueDijoElVestuario(d: LoQueHicisteEnElPartido): string | null {
+  if (d.asistencias === 0 && d.goles >= GOLES_PARA_SER_ACAPARADOR) {
+    return d.goles >= 3
+      ? `Metiste ${d.goles} y no diste ninguna. En el vestuario están contentos con el resultado y algo incómodos con vos.`
+      : 'Dos goles y ni un pase decisivo. Alguno del plantel se quedó con la mano levantada.';
+  }
+  if (d.asistencias >= 2) {
+    return `${d.asistencias} asistencias. En este vestuario ya saben que si te la dan, vuelve.`;
+  }
+  if (d.asistencias === 1) return 'Tu asistencia no la va a olvidar el que la empujó.';
+  return null;
+}

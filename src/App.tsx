@@ -42,7 +42,7 @@ import { secuelaDeLaLesion, PISO_DE_ATRIBUTO } from './secuela';
 import { clubQueTeFormo, esLaCasaQueEspera, volvisteACasa } from './clubQueTeFormo';
 import { anotarTarjetaDelPartido, cumplirFechaDeSancion, cuentaDe } from './sancion';
 import { varaDeTitularidad, varaDeConvocatoria } from './fuerzaDelClub';
-import { porQueVasAlBanco } from './elVestuario';
+import { porQueVasAlBanco, loQueElVestuarioVio, loQueDijoElVestuario, vestuarioAlCambiarDeClub } from './elVestuario';
 import { simularPartidoCompleto } from './partidoSimulado';
 import { PartidoSimulandose } from './components/PartidoSimulandose';
 import { PortadaDeFichaje } from './components/PortadaDeFichaje';
@@ -2912,7 +2912,7 @@ export default function App() {
       dorsalHistory,
       capital: playerProfile.capital + signOnBonus - agentCommission,
       prestige: Math.round(playerProfile.prestige * 0.9),
-      prestigeCompaneros: Math.round(prestigeCompanerosActual * 0.9),
+      prestigeCompaneros: vestuarioAlCambiarDeClub(prestigeCompanerosActual),
       yearsAtClub: 0,
       // Club nuevo, vestuario nuevo: ni el referente ni el ahijado te siguen en el traspaso.
       mentorName: null,
@@ -5466,6 +5466,11 @@ export default function App() {
       (decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0))
       * multiplicadorClasico);
 
+    // EL VESTUARIO JUZGA EL PARTIDO. La asistencia es su moneda; acaparar se paga.
+    const loDelVestuario = { goles: results.goles, asistencias: results.asistencias, resultado: results.resultado as 'W' | 'D' | 'L' };
+    const cambioDelVestuario = loQueElVestuarioVio(loDelVestuario);
+    const dichoDelVestuario = loQueDijoElVestuario(loDelVestuario);
+
     // LA COMPETICION DE HOY, y TU LIGA. Hacen falta ACA y no mas abajo porque las amarillas se
     // cuentan por competicion: la de la Libertadores no te suspende para la liga (ver src/sancion.ts).
     const clubDeHoy = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
@@ -5643,6 +5648,16 @@ export default function App() {
       capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange + (countryDuty?.prestige ?? 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
+      // LO QUE EL VESTUARIO VIO DE VOS HOY (ver loQueElVestuarioVio en src/elVestuario.ts).
+      //
+      // Va acá, en la única puerta por la que pasan los dos caminos del partido -- el jugado y el
+      // simulado --, para que llevarse bien con el plantel no dependa de cuál botón tocaste.
+      //
+      // Y no se mueve con el mismo número que el prestigio a propósito: el técnico te paga el gol y
+      // el vestuario te paga el pase. Cuando las dos barras dejan de moverse juntas es cuando meter
+      // tres sin dar ninguna pasa a ser una decisión y no un premio.
+      prestigeCompaneros: Math.max(0, Math.min(100,
+        (playerProfile.prestigeCompaneros ?? playerProfile.prestige) + cambioDelVestuario)),
       // Se conserva para el cartel de "x amarillas" y para las partidas viejas: lo que MANDA es
       // tarjetasPorCompeticion.
       yellowCards: cuentaDe(tarjetasPorCompeticion, competicionDeHoy).amarillasSeguidas,
@@ -5852,6 +5867,10 @@ export default function App() {
     setPlayerProfile(withAchievements);
     setShopItems(updatedShop);
     saveGameState(withAchievements, updatedShop);
+    // Y lo que dijo el vestuario, si pasó algo que se note. Sólo habla cuando hay algo que decir:
+    // un aviso en cada partido dejaría de significar nada y taparía a los que sí importan.
+    if (dichoDelVestuario) notify(`🤝 ${dichoDelVestuario}`);
+
     if (disciplineMessages.length > 0) {
       notify(disciplineMessages.join('\n'));
     }

@@ -38,7 +38,7 @@ import { sortearTipoDeLesion, riesgoDeLesion } from '../src/lesion';
 import { chanceDeAcertar, prestigioDeLaJugada, CUANTO_VALE_UN_PUNTO } from '../src/decisionDelPartido';
 import { olvidoDeLaTemporada, prestigioDespuesDelOlvido } from '../src/elOlvido';
 import { varaDeTitularidad, varaDeConvocatoria } from '../src/fuerzaDelClub';
-import { ocasionesDelPartido, teMandanACalentar, elDtTeSaca, PRESTIGIO_AL_SALIR } from '../src/elVestuario';
+import { ocasionesDelPartido, teMandanACalentar, elDtTeSaca, PRESTIGIO_AL_SALIR, loQueElVestuarioVio, vestuarioAlCambiarDeClub } from '../src/elVestuario';
 import { notaDelPartido } from '../src/partidoSimulado';
 import { POOLS_DE_DECISION } from '../src/components/MatchSimulator';
 import type { Club, PlayerStats, InjuryType } from '../src/types';
@@ -321,6 +321,13 @@ for (let t = 1; t <= TEMPORADAS; t++) {
     carrera.partidos++; carrera.goles += goles; carrera.asistencias += asis;
     golesEsteAnio += goles;
 
+    // Y EL VESTUARIO JUZGA EL PARTIDO, igual que en handleFinishMatch: la asistencia es su moneda
+    // y acaparar se paga. Sin esto la relacion con el plantel se quedaba clavada en 50 toda la
+    // carrera y la regla de las ocasiones no se podia medir.
+    carrera.companeros = Math.max(0, Math.min(100, carrera.companeros + loQueElVestuarioVio({
+      goles, asistencias: asis, resultado: gano ? 'W' : 'L',
+    })));
+
     // EL PRESTIGIO ES LA SUMA DE LAS JUGADAS, igual que en handleFinishMatch.
     carrera.prestige = Math.max(0, Math.min(100, carrera.prestige + Math.round(prestigioDelPartido)));
 
@@ -415,7 +422,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   // conoce y volves a ser el nuevo. Sin esto, un jugador que cambia de club todos los años seguiria
   // recibiendo las pelotas de un referente.
   if (r.perfil.currentClubId !== carrera.clubId) {
-    carrera.companeros = Math.round(carrera.companeros * 0.9);
+    carrera.companeros = vestuarioAlCambiarDeClub(carrera.companeros);
     carrera.aniosEnElClub = 0;
     carrera.clubesAnteriores++;
   } else {
@@ -435,7 +442,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   if (titularEsteAnio === 0) temporadasSinArrancar++; else temporadasSinArrancar = 0;
   if (temporadasSinArrancar >= 2 && destino && !r.vendidoA) {
     carrera.clubId = destino.id;
-    carrera.companeros = Math.round(carrera.companeros * 0.9);
+    carrera.companeros = vestuarioAlCambiarDeClub(carrera.companeros);
     carrera.aniosEnElClub = 0;
     carrera.clubesAnteriores++;
     carrera.prestige = Math.max(5, carrera.prestige - 3);   // bajar de categoria cuesta algo
@@ -452,6 +459,7 @@ for (let t = 1; t <= TEMPORADAS; t++) {
   bitacora.push(
     `  T${String(t).padStart(2)} · ${String(carrera.edad).padStart(2)}a · ${club.name.slice(0, 20).padEnd(20)} ` +
     `${String(titularEsteAnio).padStart(2)}T/${String(bancoEsteAnio).padStart(2)}B · ${String(golesEsteAnio).padStart(2)}g · ` +
+    `vest ${String(carrera.companeros).padStart(3)} · ` +
     `pres ${String(carrera.prestige).padStart(2)}${olvidoDeEsteAnio >= 1 ? `(-${Math.round(olvidoDeEsteAnio)})` : ''} · atr ${String(Math.round(media())).padStart(2)} · marca x${marca.toFixed(2)}` +
     (carrera.fichajeRival ? ` · vs ${carrera.fichajeRival.nombre.split(' ')[0]} (${promedioDelRival(carrera.fichajeRival) ?? '-'})` : '') +
     (estado ? `  ${estado}` : ''));

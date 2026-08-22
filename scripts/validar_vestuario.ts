@@ -24,7 +24,8 @@
 import {
   ocasionesDelPartido, minutosDeLasOcasiones, esRecienLlegado, loQueDiceElVestuario,
   porQueVasAlBanco, teMandanACalentar, chanceDeQueTeSaquen, elDtTeSaca, minutoDeTuUltimaPelota,
-  OCASIONES_BASE, OCASIONES_MINIMAS, OCASIONES_MAXIMAS,
+  loQueElVestuarioVio, loQueDijoElVestuario, vestuarioAlCambiarDeClub,
+  OCASIONES_BASE, OCASIONES_MINIMAS, OCASIONES_MAXIMAS, TOPE_POR_PARTIDO, VESTUARIO_AL_LLEGAR,
   NOTA_DE_AVISO, NOTA_DE_SALIDA, MINUTO_DEL_AVISO, MINUTO_DEL_CAMBIO, MINUTO_DE_TU_ULTIMA,
   PRESTIGIO_AL_SALIR, HINCHADA_AL_SALIR,
 } from '../src/elVestuario';
@@ -281,6 +282,84 @@ caso('la condicion vieja del cambio era imposible de cumplir', () => {
   for (let i = 0; i < 10000; i++) if (elDtTeSaca(4.6, Math.random())) sacado++;
   if (sacado < 500) throw new Error(`con nota 4.6 solo te sacan ${sacado} de 10000 veces: la regla nueva tambien esta muerta`);
   console.log(`      (con nota 4,6 el tecnico te saca ${(sacado / 100).toFixed(0)} de cada 100 partidos)`);
+});
+
+
+// ==================================================================================================
+// 7. LO QUE EL VESTUARIO VIO DE VOS
+// ==================================================================================================
+
+const vio = (goles: number, asistencias: number, resultado: 'W' | 'D' | 'L' = 'W') =>
+  loQueElVestuarioVio({ goles, asistencias, resultado });
+
+caso('repartir suma y acaparar resta', () => {
+  // Dos asistencias y ningun gol: repartiste todo lo que tuviste.
+  if (!(vio(0, 2) > 0)) throw new Error(`dos asistencias dan ${vio(0, 2)}`);
+  // Hat-trick sin dar ninguna: el vestuario se enfria aunque el equipo gane.
+  if (!(vio(3, 0) < 0)) throw new Error(`un hat-trick sin asistencias da ${vio(3, 0)}, y tiene que restar`);
+  // Y un gol solo NO es acaparar.
+  if (vio(1, 0) < vio(0, 0)) throw new Error('meter un gol solo cuenta como acaparar');
+});
+
+caso('cuantos mas metas sin dar ninguna, peor', () => {
+  if (!(vio(4, 0) <= vio(3, 0))) throw new Error('cuatro goles sin asistencias no es peor que tres');
+  if (!(vio(3, 0) < vio(2, 0))) throw new Error('tres goles sin asistencias no es peor que dos');
+});
+
+caso('dar una asistencia borra el reproche', () => {
+  // El mismo hat-trick, pero habiendo dado una: ya no acaparaste.
+  if (!(vio(3, 1) > vio(3, 0))) throw new Error('dar una asistencia en un hat-trick no cambia nada');
+  if (!(vio(3, 1) > 0)) throw new Error(`hat-trick con asistencia da ${vio(3, 1)}`);
+});
+
+caso('el que sirve mas de lo que define cobra mas', () => {
+  // Dos asistencias y un gol contra un gol y una asistencia: el primero reparte mas.
+  if (!(vio(1, 2) > vio(2, 1))) throw new Error('servir mas de lo que definis no paga mas');
+});
+
+caso('el resultado pone el clima, y es chico', () => {
+  if (!(vio(0, 1, 'W') > vio(0, 1, 'L'))) throw new Error('ganar no vale mas que perder');
+  // Chico: no puede dar vuelta el juicio sobre lo que hiciste. Repartir ganando y repartir
+  // perdiendo tienen que quedar los dos del lado positivo.
+  if (!(vio(0, 2, 'L') > 0)) throw new Error('dos asistencias en una derrota quedan en negativo');
+});
+
+caso('un partido no puede mover el vestuario mas alla del tope', () => {
+  for (let g = 0; g <= 8; g++) {
+    for (let a = 0; a <= 8; a++) {
+      for (const r of ['W', 'D', 'L'] as const) {
+        const n = vio(g, a, r);
+        if (Math.abs(n) > TOPE_POR_PARTIDO) throw new Error(`${g}g/${a}a (${r}) mueve ${n}`);
+      }
+    }
+  }
+});
+
+caso('el vestuario habla cuando pasa algo, y se calla cuando no', () => {
+  if (!loQueDijoElVestuario({ goles: 3, asistencias: 0, resultado: 'W' })) throw new Error('el hat-trick acaparador no dice nada');
+  if (!loQueDijoElVestuario({ goles: 0, asistencias: 2, resultado: 'W' })) throw new Error('dos asistencias no dicen nada');
+  // Un partido sin gol ni asistencia no merece cartel: si avisara siempre, el aviso no significaria nada.
+  if (loQueDijoElVestuario({ goles: 0, asistencias: 0, resultado: 'W' })) throw new Error('habla de un partido en el que no paso nada');
+});
+
+caso('llegar a un club nuevo te baja del escalon mas alto', () => {
+  // El idolo que se va: alla no le paso la pelota a nadie todavia.
+  igual(vestuarioAlCambiarDeClub(100), VESTUARIO_AL_LLEGAR, 'idolo que cambia de club');
+  igual(vestuarioAlCambiarDeClub(90), VESTUARIO_AL_LLEGAR, 'referente que cambia de club');
+  // Pero el techo baja al que venia arriba, no sube al que venia abajo.
+  if (vestuarioAlCambiarDeClub(30) > 30) throw new Error('cambiar de club le MEJORO el vestuario al que venia mal');
+  for (let v = 0; v <= 100; v++) {
+    if (vestuarioAlCambiarDeClub(v) > v) throw new Error(`con ${v} el traspaso lo sube a ${vestuarioAlCambiarDeClub(v)}`);
+  }
+});
+
+// Y EL CASO QUE UNE LAS DOS MITADES: que ganarse el vestuario CAMBIE el partido.
+caso('ganarse el vestuario te devuelve pelotas', () => {
+  const reciénLlegado = titular(VESTUARIO_AL_LLEGAR, true);
+  const ganado = titular(100, false);
+  if (!(ganado > reciénLlegado)) {
+    throw new Error(`llegar da ${reciénLlegado} pelotas y ganarse el vestuario da ${ganado}: no sirve de nada`);
+  }
 });
 
 console.log(fallas === 0
