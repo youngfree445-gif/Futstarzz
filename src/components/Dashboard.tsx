@@ -375,6 +375,9 @@ interface DashboardProps {
  */
 type SeccionDeCarrera = 'ficha' | 'rival' | 'ranking' | 'historia';
 
+/** Los tres grupos del plantel. En celular se ve uno por vez. */
+type PuestoDelPlantel = 'porteros' | 'defensas' | 'ofensivos';
+
 type SeccionKey =
   | 'carrera' | 'mi_club' | 'entrenamiento' | 'chutsocial' | 'prensa' | 'traspasos'
   | 'tienda' | 'patrocinios' | 'tablas' | 'calendario' | 'logros';
@@ -1091,6 +1094,8 @@ export default function Dashboard({
    * quién juega y el botón para hacerlo.
    */
   const [seccionMovil, setSeccionMovil] = useState<SeccionDeCarrera>('ficha');
+  const [puestoMovil, setPuestoMovil] = useState<PuestoDelPlantel>('porteros');
+  const soloEnPuesto = (p: PuestoDelPlantel) => soloEnSeccion(puestoMovil, p);
   const soloEn = (s: SeccionDeCarrera) => soloEnSeccion(seccionMovil, s);
 
   const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
@@ -5990,8 +5995,23 @@ export default function Dashboard({
                   </div>
                 )}
 
+                {/* EL FILTRO POR PUESTO, sólo en celular. Un plantel son 28 nombres en una columna:
+                    llegar al último delantero eran cuatro pantallas de scroll. En escritorio los
+                    tres grupos se ven al lado y no hay nada que elegir, así que la barra no existe
+                    ahí (ver BarraDeSecciones). */}
+                <BarraDeSecciones<PuestoDelPlantel>
+                  etiqueta="Puestos del plantel"
+                  activa={puestoMovil}
+                  onCambiar={setPuestoMovil}
+                  destinos={[
+                    { id: 'porteros', texto: 'Porteros', Icono: ShieldAlert },
+                    { id: 'defensas', texto: 'Defensas', Icono: Users },
+                    { id: 'ofensivos', texto: 'Ofensivos', Icono: Swords },
+                  ] as const}
+                />
+
                 <div className="grid md:grid-cols-3 gap-3">
-                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2">
+                  <div className={`${soloEnPuesto('porteros')} bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2`}>
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-1.5 flex justify-between items-center">
                       <span>🧤 Porteros (GK)</span>
                       <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.porteros.length}</span>
@@ -6019,7 +6039,7 @@ export default function Dashboard({
                     </div>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2">
+                  <div className={`${soloEnPuesto('defensas')} bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2`}>
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-1.5 flex justify-between items-center">
                       <span>🧱 Defensivos (DF)</span>
                       <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.defensivos.length}</span>
@@ -6047,7 +6067,7 @@ export default function Dashboard({
                     </div>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2">
+                  <div className={`${soloEnPuesto('ofensivos')} bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-md space-y-2`}>
                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-1.5 flex justify-between items-center">
                       <span>🎯 Ofensivos (OF)</span>
                       <span className="text-3xs font-mono text-gold-400 font-normal">{plantilla.ofensivos.length}</span>

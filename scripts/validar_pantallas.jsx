@@ -735,6 +735,22 @@ caso('entreno: las fotos de los ejercicios no se ven en celular', () => {
   return html;
 });
 
+
+caso('plantel: en celular se ve un puesto por vez', () => {
+  const html = dibujar(perfilDe(junior, {}), 'mi_club', 'data-barra-de-secciones="Puestos del plantel"');
+  // Arranca en porteros: esa tarjeta se ve y las otras dos estan escondidas hasta que las elijas.
+  const tarjeta = rot => {
+    const m = html.match(new RegExp(`<div class="[^"]*"[^>]*>\s*<h3[^>]*>\s*<span>[^<]*${rot}`));
+    return m ? m[0] : null;
+  };
+  const escondidas = ['Defensas', 'Ofensivos'].filter(r => {
+    const t = tarjeta(r);
+    return t && !/hidden/.test(t);
+  });
+  if (escondidas.length) throw new Error(`en celular se ven a la vez: ${escondidas.join(', ')}`);
+  return html;
+});
+
 const total = CLUBES.length * PASOS.length + PESTAÑAS.length + LESIONES.length + FORMAS.length + CONVOCATORIAS.length;
 console.log(fallas === 0
   ? `\nEl Dashboard se dibuja en ${total} combinaciones de club, paso, pestaña, lesion, forma, animo, rachas, rival y convocatoria.`
