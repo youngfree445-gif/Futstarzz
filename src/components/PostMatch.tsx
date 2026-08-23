@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { playSfx } from '../audio';
 import { PlayerProfile, Club } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from '../data';
 import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
@@ -34,6 +35,15 @@ interface PostMatchProps {
 }
 
 export default function PostMatch({ playerProfile, matchResults, opponentName, representingTeamId, desenlaceDeCopa, onContinue }: PostMatchProps) {
+  // LA TRIBUNA DE DESPUÉS DEL PARTIDO.
+  //
+  // El estadio se apaga con el pitazo final, así que esta pantalla quedaba en silencio absoluto
+  // justo después de noventa minutos de cancha llena -- y el silencio se nota más que el sonido.
+  // Suena la hinchada saliendo, una vez, al abrir.
+  useEffect(() => {
+    playSfx('post_partido');
+  }, []);
+
   const currentClub = representingTeamId
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;

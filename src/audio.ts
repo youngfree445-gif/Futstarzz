@@ -166,7 +166,19 @@ export function playSfx(name: SfxName) {
   el.volume = Math.min(1, Math.max(0, prefs.sfxVolume * (SFX_GAIN[name] ?? 1)));
   // Rebobinar permite re-disparar el mismo efecto antes de que termine (goles seguidos, varios
   // clicks): sin esto el segundo play() sobre un audio ya sonando se ignora.
-  el.currentTime = 0;
+  //
+  // VA EN try/catch, y no es paranoia: asignar `currentTime` sobre un elemento que todavía no
+  // cargó los metadatos TIRA (InvalidStateError), y ese throw es SÍNCRONO -- el .catch() de play()
+  // no lo agarra. Con los placeholders .wav no pasaba nunca porque pesaban cuatro kilos y ya
+  // estaban listos; con los mp3 reales (medio mega el festejo) en una conexión lenta o en la
+  // primera vuelta sí puede pasar, y entonces la excepción sale disparada en medio del tick del
+  // partido y se lleva puesto lo que venía después.
+  try {
+    el.currentTime = 0;
+  } catch {
+    // Todavía no está listo para rebobinar: se lo deja sonar desde donde esté, que es mejor que
+    // no sonar.
+  }
 
   // play() devuelve una promesa que rechaza si el autoplay está bloqueado. Sin catch queda como
   // "unhandled rejection" en consola en cada click previo al primer gesto del usuario.

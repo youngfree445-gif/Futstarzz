@@ -15,6 +15,7 @@
 // haber visto el nombre del rival, se lee como que el juego se salteó una fecha.
 
 import React, { useEffect, useRef } from 'react';
+import { playSfx } from '../audio';
 
 export function PartidoSimulandose({
   rival, escudoUrl, onResolver,
@@ -32,6 +33,19 @@ export function PartidoSimulandose({
     const t = setTimeout(onResolver, 650);
     return () => clearTimeout(t);
   }, [onResolver]);
+
+  // SIMULAR NO PUEDE SER MUDO.
+  //
+  // Esta pantalla nunca tuvo un solo sonido, así que tocar "Simular" daba un partido en silencio
+  // absoluto mientras el jugado sonaba a cancha llena. Reportado tal cual: "hay partidos donde no
+  // se escucha".
+  //
+  // No va el ambiente: dura menos de un segundo y arrancar un estadio para apagarlo enseguida suena
+  // peor que el silencio. Va el silbato, que es lo que de verdad pasa -- se juega el partido, no lo
+  // ves.
+  useEffect(() => {
+    playSfx('whistle_end');
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center gap-4 px-6">

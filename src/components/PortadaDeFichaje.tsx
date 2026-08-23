@@ -26,7 +26,8 @@
 // Si el club no declara colores, se cae al dorado del juego. No es un caso raro: muchos de los 697
 // no los tienen.
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { playSfx } from '../audio';
 import type { Club, PlayerProfile } from '../types';
 
 /** Los colores del club, o el dorado del juego si el club no declara ninguno. */
@@ -46,6 +47,11 @@ export function PortadaDeFichaje({
   dorsal: number;
   onContinuar: () => void;
 }) {
+  // La portada del fichaje también es una tapa de diario: abre con la misma tribuna.
+  useEffect(() => {
+    playSfx('post_partido');
+  }, []);
+
   const { primario, secundario } = coloresDe(club);
   const escudo = club.badgeImageUrl ?? club.badgeLogoUrl ?? null;
   const hoy = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' });

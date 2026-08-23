@@ -226,6 +226,42 @@ caso('los archivos del grito existen', () => {
   void CHANCE_DEL_MORSE;
 });
 
+
+// ==================================================================================================
+// LAS PANTALLAS QUE NO PUEDEN QUEDAR MUDAS
+// ==================================================================================================
+//
+// Reportado: "hay partidos donde no se escucha". Eran los SIMULADOS: esa pantalla no tenia un solo
+// playSfx, asi que tocar "Simular" daba un partido en silencio absoluto mientras el jugado sonaba a
+// cancha llena. Y lo mismo pasaba con las tres tapas de diario, justo despues de noventa minutos de
+// estadio -- ahi el silencio se nota mas que el sonido.
+
+caso('simular un partido no es mudo', () => {
+  const pantalla = readFileSync('src/components/PartidoSimulandose.tsx', 'utf8');
+  if (!/playSfx\(/.test(pantalla)) throw new Error('la pantalla de simular no dispara ningun sonido');
+});
+
+caso('las tres tapas de diario suenan al abrir', () => {
+  for (const [archivo, que] of [
+    ['src/components/PostMatch.tsx', 'la de despues del partido'],
+    ['src/components/NewSeasonOverlay.tsx', 'la de arranque de temporada'],
+    ['src/components/PortadaDeFichaje.tsx', 'la del fichaje'],
+  ]) {
+    const fuente = readFileSync(archivo, 'utf8');
+    if (!/playSfx\('post_partido'\)/.test(fuente)) throw new Error(`${que} abre en silencio`);
+  }
+});
+
+caso('rebobinar un efecto no puede tirar en medio del partido', () => {
+  // Asignar `currentTime` sobre un audio que todavia no cargo los metadatos TIRA, y ese throw es
+  // sincrono: el .catch() de play() no lo agarra y la excepcion se lleva puesto el tick del
+  // partido. Con los placeholders .wav no pasaba (pesaban cuatro kilos); con los mp3 reales si.
+  const audio = readFileSync('src/audio.ts', 'utf8');
+  if (!/try \{[\s\S]{0,120}?currentTime = 0;[\s\S]{0,80}?\} catch/.test(audio)) {
+    throw new Error('el rebobinado no esta protegido: una excepcion ahi corta el partido');
+  }
+});
+
 console.log(fallas === 0
   ? '\nEl estadio suena durante el partido, se intercala y se apaga cuando tiene que apagarse.'
   : `\n${fallas} FALLAS`);

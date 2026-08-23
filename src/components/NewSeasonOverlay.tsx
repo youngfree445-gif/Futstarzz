@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { playSfx } from '../audio';
 import { X } from 'lucide-react';
 
 // Gacetilla de arranque de temporada, mismo estilo "tapa de diario" que PostMatch. Se muestra al
@@ -18,6 +19,12 @@ interface NewSeasonOverlayProps {
 }
 
 export default function NewSeasonOverlay({ info, onClose }: NewSeasonOverlayProps) {
+  // La misma tribuna que la tapa de después del partido: es la otra pantalla de diario del juego y
+  // no tiene por qué abrir en silencio.
+  useEffect(() => {
+    playSfx('post_partido');
+  }, []);
+
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
