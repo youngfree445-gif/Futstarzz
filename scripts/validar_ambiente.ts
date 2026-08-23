@@ -20,7 +20,7 @@
  *   4. Que el peso total no se escape: se bajan al empezar un partido, y en un telefono con datos
  *      eso se paga.
  */
-import { readFileSync, existsSync, statSync } from 'fs';
+import { readFileSync, existsSync, statSync, readdirSync } from 'fs';
 import { pistaDeLaCancha, hinchadasDe } from '../src/ambienteDelPartido';
 import { hayRelatoEnIngles, relatoNumero, suenaElMorse, RELATOS, CHANCE_DEL_MORSE } from '../src/relatoDelGol';
 
@@ -259,6 +259,45 @@ caso('rebobinar un efecto no puede tirar en medio del partido', () => {
   const audio = readFileSync('src/audio.ts', 'utf8');
   if (!/try \{[\s\S]{0,120}?currentTime = 0;[\s\S]{0,80}?\} catch/.test(audio)) {
     throw new Error('el rebobinado no esta protegido: una excepcion ahi corta el partido');
+  }
+});
+
+
+caso('NADA suena por fuera del boton de volumen', () => {
+  // La invariante que hace que el boton sirva: todo el audio del juego pasa por src/audio.ts (que
+  // corta en seco si esta muteado) o por src/ambienteDelPartido.ts (que lee el mismo volumen en
+  // cada latido). El dia que alguien agregue un `new Audio()` en un componente, ese sonido se le
+  // escapa al boton y el jugador aprieta silencio y sigue escuchando algo -- que es peor que no
+  // tener boton.
+  const raiz = 'src';
+  const permitidos = ['src/audio.ts', 'src/ambienteDelPartido.ts'];
+  const sospechosos: string[] = [];
+  const recorrer = (dir: string) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const ruta = `${dir}/${e.name}`;
+      if (e.isDirectory()) { recorrer(ruta); continue; }
+      if (!/\.(ts|tsx)$/.test(e.name)) continue;
+      if (permitidos.includes(ruta)) continue;
+      const t = readFileSync(ruta, 'utf8');
+      if (/new Audio\(/.test(t)) sospechosos.push(`${ruta} crea un Audio propio`);
+      // `.play()` a secas: se excluye el de los videos y el de una promesa cualquiera mirando que
+      // sea sobre un elemento de audio.
+      if (/audio[A-Za-z]*\.play\(\)/.test(t)) sospechosos.push(`${ruta} reproduce audio por su cuenta`);
+    }
+  };
+  recorrer(raiz);
+  if (sospechosos.length) throw new Error(sospechosos.join('; '));
+});
+
+caso('el boton apaga TODO: los 15 efectos y el estadio', () => {
+  const audio = readFileSync('src/audio.ts', 'utf8');
+  // Un solo portero al principio de playSfx: si esta muteado o el volumen es cero, no suena nada.
+  if (!/if \(prefs\.sfxMuted \|\| prefs\.sfxVolume <= 0\) return;/.test(audio)) {
+    throw new Error('playSfx dejo de mirar el mute: algun efecto sonaria en silencio');
+  }
+  // Y el ambiente, que no pasa por playSfx, mira lo mismo.
+  if (!/isSfxMuted\(\)\) return 0;/.test(FUENTE)) {
+    throw new Error('el estadio no se apaga con el boton');
   }
 });
 
