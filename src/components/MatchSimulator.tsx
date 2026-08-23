@@ -1869,7 +1869,12 @@ export default function MatchSimulator({
     // La semilla es EL CLUB LOCAL, no el tuyo: la hinchada que se escucha es la de la cancha donde
     // se juega. De visitante suena el estadio del rival, que es la mitad de lo que hace que jugar
     // afuera se sienta distinto.
-    arrancarAmbiente(isHome.current ? currentClub.id : (opponentClubId ?? currentClub.id));
+    // Y la LIGA de esa cancha decide de qué región es la hinchada: una tribuna sudamericana tiene
+    // bombo y trompeta y una europea es la masa cantando. Una murga en Old Trafford sonaba raro.
+    const clubDeLaCancha = isHome.current
+      ? currentClub
+      : (CLUBS_DATABASE.find(c => c.id === opponentClubId) ?? currentClub);
+    arrancarAmbiente(clubDeLaCancha.id, clubDeLaCancha.league);
 
     // Y SE APAGA SIEMPRE. Al desmontar la pantalla, pase lo que pase en el medio: si el jugador
     // sale a mitad de partido, cierra el navegador o el componente se remonta, el estadio no puede
@@ -2355,6 +2360,8 @@ export default function MatchSimulator({
         playSfx('crowd_cheer');
       } else {
         // Decisión exitosa sin gol ni asistencia (defensiva/táctica): confirmación seca, sin estadio.
+        // El golpe a la pelota va ANTES del resultado: primero pegás, después se ve si salió.
+        playSfx('pase');
         playSfx('success');
       }
 
@@ -2378,6 +2385,8 @@ export default function MatchSimulator({
       setDecisionWasSuccess(false);
       setRating(prev => Math.max(prev - 1.2, 3.0));
       // Si además salió tarjeta ya sonó el 'card' arriba: encimarle el 'fail' queda a barullo.
+      // También en la que sale mal: la pelota se golpeó igual.
+      playSfx('pase');
       if (!cardLogSuffix) playSfx('fail');
 
       setMatchLog(prev => [...prev, {

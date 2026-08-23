@@ -49,14 +49,55 @@
 
 import { getSfxVolume, isSfxMuted } from './audio';
 
-/** Las pistas de ambiente. Van en public/sfx/ambiente/ y se sirven con la base de cada destino. */
-const PISTAS = [
-  'sfx/ambiente/estadio_1.mp3',
-  'sfx/ambiente/estadio_2.mp3',
-  'sfx/ambiente/estadio_3.mp3',
-  'sfx/ambiente/estadio_4.mp3',
-  'sfx/ambiente/estadio_5.mp3',
+// ---------------------------------------------------------------------------------------------
+// LAS HINCHADAS, POR REGIÓN
+// ---------------------------------------------------------------------------------------------
+//
+// Una cancha sudamericana y una europea no suenan igual, y no es un matiz: en Sudamérica hay bombo
+// y trompeta todo el partido, y en Europa el ruido base es la masa cantando. Sonaba raro escuchar
+// una murga en Old Trafford.
+//
+// Cada club sortea entre las de SU región más las generales, que son multitudes sin acento y
+// funcionan en cualquier lado. Así una liga chica --que no tiene grabación propia-- no se queda sin
+// sonido, y las regiones que sí la tienen suenan como corresponde.
+const LATAM = ['sfx/ambiente/latam_1.mp3', 'sfx/ambiente/latam_2.mp3'];
+const EUROPA = ['sfx/ambiente/europa_1.mp3', 'sfx/ambiente/europa_2.mp3'];
+const GENERALES = [
+  'sfx/ambiente/general_1.mp3',
+  'sfx/ambiente/general_2.mp3',
+  'sfx/ambiente/general_3.mp3',
+  'sfx/ambiente/general_4.mp3',
+  'sfx/ambiente/general_5.mp3',
 ];
+
+/** Todas, para quien necesite recorrerlas (el validador comprueba que los archivos existan). */
+export const PISTAS = [...LATAM, ...EUROPA, ...GENERALES];
+
+/**
+ * De qué región es una liga.
+ *
+ * Se mira el nombre de la liga (`Club.league`, que guarda el país) y no la confederación, porque es
+ * el dato que TODOS los clubes tienen. Lo que no está en ninguna de las dos listas -- "Resto del
+ * Mundo", Estados Unidos, una liga suelta -- cae en las generales, que es la respuesta honesta:
+ * no tenemos una grabación de esa hinchada.
+ */
+const LIGAS_LATAM = new Set([
+  'Argentina', 'Brasileña', 'Colombiana', 'Mexicana', 'Chilena', 'Ecuatoriana',
+  'Peruana', 'Uruguaya', 'Boliviana', 'Venezolana', 'Paraguaya',
+]);
+const LIGAS_EUROPA = new Set([
+  'Italiana', 'Inglesa', 'Española', 'Holandesa', 'Francesa', 'Alemana', 'Portuguesa',
+  'Belga', 'Griega', 'Checa', 'Noruega', 'Danesa', 'Turca', 'Austríaca', 'Escocesa',
+  'Suiza', 'Azerí', 'Chipriota', 'Kazaja', 'Húngara', 'Serbia', 'Croata', 'Búlgara',
+  'Sueca', 'Rumana', 'Israelí',
+]);
+
+/** Las pistas que le pueden tocar a una cancha: las de su región más las generales. */
+export function hinchadasDe(liga: string | null | undefined): string[] {
+  if (liga && LIGAS_LATAM.has(liga)) return [...LATAM, ...GENERALES];
+  if (liga && LIGAS_EUROPA.has(liga)) return [...EUROPA, ...GENERALES];
+  return GENERALES;
+}
 
 /**
  * Cuánto suena el ambiente respecto del volumen general.
@@ -78,14 +119,14 @@ const SEGUNDOS_PARA_VOLVER = 1.8;
 
 interface Sonando {
   el: HTMLAudioElement;
-  pista: number;
+  pista: string;
 }
 
 let actual: Sonando | null = null;
 let entrando: Sonando | null = null;
 let latido: number | null = null;
 /** La pista de ESTE partido. Se elige una vez al arrancar y no cambia hasta el pitazo final. */
-let laDeHoy = 0;
+let laDeHoy = GENERALES[0];
 /** Multiplicador temporal para agacharse cuando suena un gol. Vuelve a 1 solo. */
 let agachado = 1;
 let volviendo: number | null = null;
@@ -106,15 +147,16 @@ function volumenObjetivo(): number {
  * Sin semilla (un amistoso, una selección, lo que sea que no tenga club) cae en la primera, que es
  * una cancha genérica y correcta.
  */
-export function pistaDeLaCancha(semilla: string | null | undefined): number {
-  if (!semilla) return 0;
+export function pistaDeLaCancha(semilla: string | null | undefined, liga?: string | null): string {
+  const posibles = hinchadasDe(liga);
+  if (!semilla) return posibles[0];
   let h = 0;
   for (let i = 0; i < semilla.length; i++) h = (h * 31 + semilla.charCodeAt(i)) | 0;
-  return Math.abs(h) % PISTAS.length;
+  return posibles[Math.abs(h) % posibles.length];
 }
 
-function crear(pista: number, volumen: number): Sonando {
-  const el = new Audio(`${import.meta.env.BASE_URL}${PISTAS[pista]}`);
+function crear(pista: string, volumen: number): Sonando {
+  const el = new Audio(`${import.meta.env.BASE_URL}${pista}`);
   el.volume = volumen;
   el.preload = 'auto';
   // Nada de `loop`: el encadenado lo maneja el latido, y una pista en bucle nunca dispararía el
@@ -170,11 +212,11 @@ export function ambienteSonando(): boolean {
  * Tiene que salir de un gesto del jugador (tocar "Disputar Partido" lo es): antes del primer gesto
  * el navegador bloquea cualquier reproducción y no hay forma de esquivarlo.
  */
-export function arrancarAmbiente(semillaDeLaCancha?: string | null) {
+export function arrancarAmbiente(semillaDeLaCancha?: string | null, ligaDeLaCancha?: string | null) {
   if (actual || typeof window === 'undefined') return;
   // La semilla sólo se lee al ARRANCAR. Si la pestaña se esconde y vuelve, se retoma la misma
   // hinchada: cambiar de cancha por haber mirado otra solapa sería lo peor de los dos mundos.
-  if (semillaDeLaCancha !== undefined) laDeHoy = pistaDeLaCancha(semillaDeLaCancha);
+  if (semillaDeLaCancha !== undefined) laDeHoy = pistaDeLaCancha(semillaDeLaCancha, ligaDeLaCancha);
   agachado = 1;
   actual = crear(laDeHoy, volumenObjetivo());
   latido = window.setInterval(tick, LATIDO);

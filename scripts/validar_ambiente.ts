@@ -21,7 +21,7 @@
  *      eso se paga.
  */
 import { readFileSync, existsSync, statSync } from 'fs';
-import { pistaDeLaCancha } from '../src/ambienteDelPartido';
+import { pistaDeLaCancha, hinchadasDe, PISTAS as TODAS } from '../src/ambienteDelPartido';
 
 let fallas = 0;
 const caso = (etiqueta: string, fn: () => void) => {
@@ -87,20 +87,55 @@ caso('la misma cancha suena SIEMPRE con la misma hinchada', () => {
 });
 
 caso('canchas distintas no suenan todas igual', () => {
-  // Con cinco pistas y muchos clubes, el reparto no tiene que caer todo en una sola: eso seria
-  // tener cinco archivos y usar uno.
-  const clubes = ['junior_de_barranquilla', 'boca_juniors', 'river_plate', 'arsenal', 'fc_barcelona',
-    'real_madrid', 'liverpool_eng', 'atletico_nacional', 'millonarios_fc', 'santos', 'inter',
-    'ajax', 'psv', 'sl_benfica', 'chelsea', 'juventus', 'napoli', 'as_monaco', 'club_brugge', 'psg'];
-  const usadas = new Set(clubes.map(c => pistaDeLaCancha(c)));
-  console.log(`      (${clubes.length} clubes reparten en ${usadas.size} de ${PISTAS.length} hinchadas)`);
-  if (usadas.size < 3) throw new Error(`${clubes.length} clubes caen en solo ${usadas.size} pistas`);
+  const clubes: [string, string][] = [
+    ['junior_de_barranquilla','Colombiana'], ['boca_juniors','Argentina'], ['river_plate','Argentina'],
+    ['santos','Brasileña'], ['atletico_nacional','Colombiana'], ['millonarios_fc','Colombiana'],
+    ['arsenal','Inglesa'], ['fc_barcelona','Española'], ['real_madrid','Española'],
+    ['liverpool_eng','Inglesa'], ['inter','Italiana'], ['ajax','Holandesa'],
+  ];
+  const usadas = new Set(clubes.map(([id, liga]) => pistaDeLaCancha(id, liga)));
+  console.log(`      (${clubes.length} clubes reparten en ${usadas.size} hinchadas distintas)`);
+  if (usadas.size < 4) throw new Error(`${clubes.length} clubes caen en solo ${usadas.size} pistas`);
+});
+
+// EL REPARTO POR REGION. Una murga en Old Trafford sonaba raro: cada liga sortea entre las de SU
+// region mas las generales, que son multitudes sin acento y funcionan en cualquier lado.
+caso('una cancha europea nunca suena a hinchada sudamericana, ni al reves', () => {
+  for (let i = 0; i < 400; i++) {
+    const euro = pistaDeLaCancha(`club_${i}`, 'Inglesa');
+    if (euro.includes('latam')) throw new Error(`una cancha inglesa sono con ${euro}`);
+    const latam = pistaDeLaCancha(`club_${i}`, 'Argentina');
+    if (latam.includes('europa')) throw new Error(`una cancha argentina sono con ${latam}`);
+  }
+});
+
+caso('cada region puede sonar con SU hinchada, no solo con las generales', () => {
+  for (const [liga, marca] of [['Argentina','latam'], ['Inglesa','europa']] as [string,string][]) {
+    const suyas = hinchadasDe(liga).filter(p => p.includes(marca));
+    if (!suyas.length) throw new Error(`${liga} no tiene ninguna hinchada propia para sortear`);
+    const salieron = new Set(Array.from({ length: 400 }, (_, i) => pistaDeLaCancha(`c${i}`, liga)));
+    if (![...salieron].some(p => p.includes(marca))) {
+      throw new Error(`${liga} tiene hinchadas propias pero nunca le tocan`);
+    }
+  }
+});
+
+caso('una liga que no esta en ninguna lista cae en las generales', () => {
+  // "Resto del Mundo", Estados Unidos, una liga suelta: la respuesta honesta es que no tenemos una
+  // grabacion de esa hinchada, no inventarle una region.
+  for (const liga of ['Resto del Mundo', 'Estadounidense', 'Japonesa', '']) {
+    for (let i = 0; i < 60; i++) {
+      const p = pistaDeLaCancha(`club_${i}`, liga);
+      if (!p.includes('general')) throw new Error(`${liga || '(vacia)'} sono con ${p}`);
+    }
+  }
 });
 
 caso('sin club, la hinchada es una generica y no revienta', () => {
   for (const v of [null, undefined, '']) {
-    const p = pistaDeLaCancha(v as string | null | undefined);
-    if (!(p >= 0 && p < PISTAS.length)) throw new Error(`con ${String(v)} devuelve la pista ${p}`);
+    const p = pistaDeLaCancha(v as string | null | undefined, null);
+    if (!PISTAS.includes(p)) throw new Error(`con ${String(v)} devuelve "${p}", que no es una pista`);
+    if (!p.includes('general')) throw new Error(`sin club deberia sonar una generica y suena ${p}`);
   }
 });
 
