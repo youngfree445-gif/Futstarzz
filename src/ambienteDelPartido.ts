@@ -14,15 +14,25 @@
 // caso.
 //
 // ---------------------------------------------------------------------------------------------
-// SE INTERCALAN LAS PISTAS, Y ESO ES LO QUE LO HACE NO SONAR A BUCLE
+// UNA HINCHADA POR PARTIDO, Y SIEMPRE LA MISMA PARA EL MISMO CLUB
 // ---------------------------------------------------------------------------------------------
 //
-// Una sola pista repitiéndose se delata en el segundo pase: el oído encuentra el punto de corte y a
-// partir de ahí ya no puede dejar de escucharlo. Con varias pistas que se van alternando en orden
-// salteado, el mismo audio tarda muchísimo más en repetirse y el partido suena vivo.
+// La primera versión iba intercalando pistas distintas durante el partido, para que el bucle no se
+// delatara. Suena razonable y está mal: una hinchada tiene CARÁCTER, y cambiar de pista en el
+// minuto 40 es cambiarle la identidad a la cancha en la mitad del partido. Es lo único que una
+// transmisión de verdad nunca hace.
 //
-// Y no se corta: cuando a la pista que suena le quedan unos segundos, arranca la siguiente y se
-// cruzan con un fundido. Un corte seco entre dos multitudes es lo más obvio que puede pasar.
+// Ahora la pista se elige UNA vez por partido, y se elige con una semilla del club local. Dos
+// consecuencias, las dos buenas:
+//
+//   . Junior suena siempre a Junior y el mismo rival suena siempre igual. Eso es una diferencia
+//     entre canchas que el jugador puede reconocer, no un azar que lo confunde.
+//   . El repertorio se nota igual, porque lo que cambia es DE CANCHA EN CANCHA en vez de dentro del
+//     mismo partido, que es como pasa en la realidad.
+//
+// ¿Y la costura del bucle, que era el problema original? La resuelve el mismo cruce que ya estaba:
+// en vez de encadenar dos pistas distintas, encadena la pista CONSIGO MISMA. Misma máquina, sin la
+// costura y sin perder la identidad.
 //
 // ---------------------------------------------------------------------------------------------
 // LAS TRES REGLAS QUE NO SE PUEDEN ROMPER
@@ -74,8 +84,8 @@ interface Sonando {
 let actual: Sonando | null = null;
 let entrando: Sonando | null = null;
 let latido: number | null = null;
-let orden: number[] = [];
-let siguienteDelOrden = 0;
+/** La pista de ESTE partido. Se elige una vez al arrancar y no cambia hasta el pitazo final. */
+let laDeHoy = 0;
 /** Multiplicador temporal para agacharse cuando suena un gol. Vuelve a 1 solo. */
 let agachado = 1;
 let volviendo: number | null = null;
@@ -87,29 +97,20 @@ function volumenObjetivo(): number {
 }
 
 /**
- * El orden en que se van a escuchar las pistas: mezclado, pero SIN que la última de una vuelta sea
- * la primera de la siguiente. Sin esa condición, un barajado honesto igual repite pistas seguidas y
- * es justo lo que esto existe para evitar.
+ * QUÉ HINCHADA SUENA EN ESTA CANCHA.
+ *
+ * Sale de una semilla -- el id del club local -- y no de un sorteo, para que la misma cancha suene
+ * siempre igual. Si fuera al azar, tu propio estadio cambiaría de hinchada cada fecha y la idea se
+ * caería sola: lo que hace que esto valga es que se pueda RECONOCER.
+ *
+ * Sin semilla (un amistoso, una selección, lo que sea que no tenga club) cae en la primera, que es
+ * una cancha genérica y correcta.
  */
-function barajar(anterior: number | null): number[] {
-  const n = PISTAS.length;
-  const ids = Array.from({ length: n }, (_, i) => i);
-  for (let i = n - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [ids[i], ids[j]] = [ids[j], ids[i]];
-  }
-  if (anterior != null && n > 1 && ids[0] === anterior) {
-    [ids[0], ids[1]] = [ids[1], ids[0]];
-  }
-  return ids;
-}
-
-function proximaPista(anterior: number | null): number {
-  if (siguienteDelOrden >= orden.length) {
-    orden = barajar(anterior);
-    siguienteDelOrden = 0;
-  }
-  return orden[siguienteDelOrden++];
+export function pistaDeLaCancha(semilla: string | null | undefined): number {
+  if (!semilla) return 0;
+  let h = 0;
+  for (let i = 0; i < semilla.length; i++) h = (h * 31 + semilla.charCodeAt(i)) | 0;
+  return Math.abs(h) % PISTAS.length;
 }
 
 function crear(pista: number, volumen: number): Sonando {
@@ -153,7 +154,8 @@ function tick() {
   const queda = dura - (actual.el.currentTime || 0);
   // `dura === 0` mientras el navegador todavía no leyó los metadatos: ahí no se decide nada.
   if (dura > 0 && queda <= CRUCE) {
-    entrando = crear(proximaPista(actual.pista), 0);
+    // La MISMA pista otra vez: el cruce ya no cambia de hinchada, sólo tapa la costura del bucle.
+    entrando = crear(actual.pista, 0);
   }
 }
 
@@ -168,12 +170,13 @@ export function ambienteSonando(): boolean {
  * Tiene que salir de un gesto del jugador (tocar "Disputar Partido" lo es): antes del primer gesto
  * el navegador bloquea cualquier reproducción y no hay forma de esquivarlo.
  */
-export function arrancarAmbiente() {
+export function arrancarAmbiente(semillaDeLaCancha?: string | null) {
   if (actual || typeof window === 'undefined') return;
-  orden = barajar(null);
-  siguienteDelOrden = 0;
+  // La semilla sólo se lee al ARRANCAR. Si la pestaña se esconde y vuelve, se retoma la misma
+  // hinchada: cambiar de cancha por haber mirado otra solapa sería lo peor de los dos mundos.
+  if (semillaDeLaCancha !== undefined) laDeHoy = pistaDeLaCancha(semillaDeLaCancha);
   agachado = 1;
-  actual = crear(proximaPista(null), volumenObjetivo());
+  actual = crear(laDeHoy, volumenObjetivo());
   latido = window.setInterval(tick, LATIDO);
 }
 

@@ -1865,7 +1865,11 @@ export default function MatchSimulator({
     // Arranca acá y no antes por dos motivos: las pistas pesan y no se bajan hasta que hace falta,
     // y para sonar necesitan un gesto del jugador -- tocar "Disputar Partido" lo es. Antes del
     // primer gesto el navegador bloquea cualquier reproducción y no hay forma de esquivarlo.
-    arrancarAmbiente();
+    //
+    // La semilla es EL CLUB LOCAL, no el tuyo: la hinchada que se escucha es la de la cancha donde
+    // se juega. De visitante suena el estadio del rival, que es la mitad de lo que hace que jugar
+    // afuera se sienta distinto.
+    arrancarAmbiente(isHome.current ? currentClub.id : (opponentClubId ?? currentClub.id));
 
     // Y SE APAGA SIEMPRE. Al desmontar la pantalla, pase lo que pase en el medio: si el jugador
     // sale a mitad de partido, cierra el navegador o el componente se remonta, el estadio no puede

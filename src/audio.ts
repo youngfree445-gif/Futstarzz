@@ -21,7 +21,10 @@ export type SfxName =
   | 'crowd_boo'
   | 'click'
   | 'success'
-  | 'fail';
+  | 'fail'
+  // Los dos que no son del partido en sí: la gala del campeón y la pantalla de después.
+  | 'campeon'
+  | 'post_partido';
 
 // Los archivos van en public/sfx/ y se sirven desde la raíz del build. Ojo: acá NO se puede usar
 // una ruta absoluta ('/sfx/...') porque los tres destinos tienen bases distintas -- GitHub Pages
@@ -30,18 +33,25 @@ export type SfxName =
 // Extensión configurable por efecto a propósito: los placeholders generados son .wav (se generan
 // sin dependencias, ver public/sfx/README.md) pero al reemplazarlos por sonidos reales lo normal es
 // bajar .mp3, que pesa mucho menos. Cambiar la extensión acá alcanza; no hay nada más que tocar.
+//
+// SEIS YA SON SONIDOS DE VERDAD (.mp3) y cuatro siguen siendo el placeholder generado (.wav). No es
+// una inconsistencia a medio arreglar: es que de esos cuatro todavía no hay grabación. Cuando
+// aparezca, se cambia la extensión acá y no hay nada más que tocar -- que es exactamente para lo
+// que esta tabla existe.
 const SFX_FILES: Record<SfxName, string> = {
-  goal: 'sfx/goal.wav',
+  goal: 'sfx/goal.mp3',
   card: 'sfx/card.wav',
-  whistle: 'sfx/whistle.wav',
+  whistle: 'sfx/whistle.mp3',
   // El final del partido son TRES pitidos, como en la cancha: un archivo aparte y no tres playSfx
   // seguidos, porque el mismo efecto no puede solaparse consigo mismo (se reinicia, ver playSfx).
-  whistle_end: 'sfx/whistle_end.wav',
-  crowd_cheer: 'sfx/crowd_cheer.wav',
+  whistle_end: 'sfx/whistle_end.mp3',
+  crowd_cheer: 'sfx/crowd_cheer.mp3',
   crowd_boo: 'sfx/crowd_boo.wav',
   click: 'sfx/click.wav',
   success: 'sfx/success.wav',
-  fail: 'sfx/fail.wav'
+  fail: 'sfx/fail.wav',
+  campeon: 'sfx/campeon.mp3',
+  post_partido: 'sfx/post_partido.mp3'
 };
 
 // Volumen relativo por efecto: los archivos vienen masterizados a distinto nivel y el silbato o el
@@ -53,7 +63,11 @@ const SFX_GAIN: Partial<Record<SfxName, number>> = {
   click: 0.35,
   card: 0.7,
   crowd_cheer: 0.85,
-  crowd_boo: 0.85
+  crowd_boo: 0.85,
+  // Los sonidos reales vienen bastante más calientes que los placeholders generados: el festejo de
+  // la gala y el de la pantalla de después son multitudes enteras y a volumen pleno tapan todo.
+  campeon: 0.7,
+  post_partido: 0.6
 };
 
 const STORAGE_KEY = 'futstarzz_audio_prefs';

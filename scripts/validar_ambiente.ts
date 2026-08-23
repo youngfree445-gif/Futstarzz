@@ -21,6 +21,7 @@
  *      eso se paga.
  */
 import { readFileSync, existsSync, statSync } from 'fs';
+import { pistaDeLaCancha } from '../src/ambienteDelPartido';
 
 let fallas = 0;
 const caso = (etiqueta: string, fn: () => void) => {
@@ -62,39 +63,56 @@ caso('el estadio se apaga por los tres caminos', () => {
   }
 });
 
-caso('obedece al mismo boton de silencio que los efectos', () => {
-  if (!/isSfxMuted\(\)/.test(FUENTE) || !/getSfxVolume\(\)/.test(FUENTE)) {
-    throw new Error('el ambiente tiene su propio volumen: el boton de silencio no lo apagaria');
+caso('el volumen del ambiente lo maneja el de los efectos', () => {
+  // No tiene control propio a proposito: el jugador movio UNA perilla, no dos. Y el boton de
+  // silencio tiene que apagar el estadio igual que apaga el gol.
+  if (!/getSfxVolume\(\)/.test(FUENTE)) throw new Error('el ambiente no lee el volumen de los efectos');
+  if (!/isSfxMuted\(\)/.test(FUENTE)) throw new Error('el boton de silencio no apagaria el estadio');
+  // Y se relee en cada latido, no una sola vez al arrancar: mover la perilla a mitad de partido
+  // tiene que oirse en el momento.
+  if (!/function tick\(\)[\s\S]{0,200}?volumenObjetivo\(\)/.test(FUENTE)) {
+    throw new Error('el volumen se lee una vez al arrancar: mover la perilla no haria nada');
   }
 });
 
-caso('el barajado no repite pista dos veces seguidas', () => {
-  // Se reimplementa la regla del modulo y se corre muchas veces: lo que se comprueba es que la
-  // condicion "la primera de la vuelta nueva no puede ser la ultima de la anterior" alcance.
-  const n = PISTAS.length;
-  const barajar = (anterior: number | null) => {
-    const ids = Array.from({ length: n }, (_, i) => i);
-    for (let i = n - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [ids[i], ids[j]] = [ids[j], ids[i]];
-    }
-    if (anterior != null && n > 1 && ids[0] === anterior) [ids[0], ids[1]] = [ids[1], ids[0]];
-    return ids;
-  };
-  for (let intento = 0; intento < 3000; intento++) {
-    let anterior: number | null = null;
-    const oidas: number[] = [];
-    for (let vuelta = 0; vuelta < 6; vuelta++) {
-      const orden = barajar(anterior);
-      oidas.push(...orden);
-      anterior = orden[orden.length - 1];
-    }
-    for (let i = 1; i < oidas.length; i++) {
-      if (oidas[i] === oidas[i - 1]) throw new Error(`la pista ${oidas[i]} sono dos veces seguidas`);
+caso('la misma cancha suena SIEMPRE con la misma hinchada', () => {
+  // Es lo que hace que la idea valga: si fuera al azar, tu propio estadio cambiaria de hinchada
+  // cada fecha y no habria nada que reconocer.
+  for (const club of ['junior_de_barranquilla', 'boca_juniors', 'arsenal', 'fc_barcelona']) {
+    const a = pistaDeLaCancha(club);
+    for (let i = 0; i < 50; i++) {
+      if (pistaDeLaCancha(club) !== a) throw new Error(`${club} cambio de hinchada entre dos llamadas`);
     }
   }
 });
 
+caso('canchas distintas no suenan todas igual', () => {
+  // Con cinco pistas y muchos clubes, el reparto no tiene que caer todo en una sola: eso seria
+  // tener cinco archivos y usar uno.
+  const clubes = ['junior_de_barranquilla', 'boca_juniors', 'river_plate', 'arsenal', 'fc_barcelona',
+    'real_madrid', 'liverpool_eng', 'atletico_nacional', 'millonarios_fc', 'santos', 'inter',
+    'ajax', 'psv', 'sl_benfica', 'chelsea', 'juventus', 'napoli', 'as_monaco', 'club_brugge', 'psg'];
+  const usadas = new Set(clubes.map(c => pistaDeLaCancha(c)));
+  console.log(`      (${clubes.length} clubes reparten en ${usadas.size} de ${PISTAS.length} hinchadas)`);
+  if (usadas.size < 3) throw new Error(`${clubes.length} clubes caen en solo ${usadas.size} pistas`);
+});
+
+caso('sin club, la hinchada es una generica y no revienta', () => {
+  for (const v of [null, undefined, '']) {
+    const p = pistaDeLaCancha(v as string | null | undefined);
+    if (!(p >= 0 && p < PISTAS.length)) throw new Error(`con ${String(v)} devuelve la pista ${p}`);
+  }
+});
+
+caso('la pista se repite en bucle hasta el final del partido', () => {
+  // El cruce encadena la pista CONSIGO MISMA: sin esto, al terminar el audio el estadio se callaba
+  // y el resto del partido iba en silencio.
+  if (!/entrando = crear\(actual\.pista, 0\)/.test(FUENTE)) {
+    throw new Error('el ambiente no se re-encadena: al terminar la pista el estadio se calla');
+  }
+  // Y no puede usar `loop`, que empalma en seco.
+  if (/\.loop\s*=\s*true/.test(FUENTE)) throw new Error('usa loop nativo: la costura se escucha');
+});
 caso('el ambiente no se descarga al abrir el juego', () => {
   // Vive fuera de SFX_FILES a proposito: preloadSfx() recorre esa lista al arrancar, y meter ahi
   // cuatro megas de estadio le cobraria la espera a todo el mundo, juegue o no un partido.
