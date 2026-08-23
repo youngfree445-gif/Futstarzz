@@ -15,6 +15,7 @@ import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain, Swords } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
+import { arrancarAmbiente, pararAmbiente, agacharAmbiente } from '../ambienteDelPartido';
 import { anioDeCarrera, rotuloDeTemporada } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
@@ -1858,6 +1859,29 @@ export default function MatchSimulator({
     // Silbatazo inicial: desactivado por ahora a pedido (ver WHISTLE_SFX_ENABLED arriba). El resto
     // de los efectos del partido siguen sonando normalmente.
     if (WHISTLE_SFX_ENABLED) playSfx('whistle');
+
+    // EL ESTADIO, SONANDO DEBAJO DE TODO (ver src/ambienteDelPartido.ts).
+    //
+    // Arranca acá y no antes por dos motivos: las pistas pesan y no se bajan hasta que hace falta,
+    // y para sonar necesitan un gesto del jugador -- tocar "Disputar Partido" lo es. Antes del
+    // primer gesto el navegador bloquea cualquier reproducción y no hay forma de esquivarlo.
+    arrancarAmbiente();
+
+    // Y SE APAGA SIEMPRE. Al desmontar la pantalla, pase lo que pase en el medio: si el jugador
+    // sale a mitad de partido, cierra el navegador o el componente se remonta, el estadio no puede
+    // quedar sonando solo. Es la clase de cosa por la que se cierra un juego y no se vuelve.
+    return () => pararAmbiente();
+  }, []);
+
+  // Y tampoco suena en una pestaña escondida: si te fuiste a otra solapa no querés escuchar un
+  // estadio de fondo. Vuelve al volver, sin reiniciar la pista.
+  useEffect(() => {
+    const alCambiarDeSolapa = () => {
+      if (document.hidden) pararAmbiente();
+      else arrancarAmbiente();
+    };
+    document.addEventListener('visibilitychange', alCambiarDeSolapa);
+    return () => document.removeEventListener('visibilitychange', alCambiarDeSolapa);
   }, []);
 
   // El reloj del partido. `speedMultiplier` está en las dependencias, así que tocar x2/x4/Saltar
@@ -2027,6 +2051,9 @@ export default function MatchSimulator({
       }]);
       setIsPlaying(false);
       if (WHISTLE_SFX_ENABLED) playSfx('whistle_end');
+      // El estadio se apaga con el pitazo final y no al desmontar la pantalla: el resumen del
+      // partido no tiene por qué seguir sonando a cancha llena.
+      pararAmbiente();
       return;
     }
 
@@ -2314,6 +2341,7 @@ export default function MatchSimulator({
         else setScoreAway(prev => prev + choice.effectOnSuccess.goals);
         playSfx('goal');
         playSfx('crowd_cheer');
+        agacharAmbiente();
       } else if (choice.effectOnSuccess.assists > 0) {
         setPlayerAssists(prev => prev + choice.effectOnSuccess.assists);
         if (isHome.current) setScoreHome(prev => prev + 1);
@@ -2397,6 +2425,7 @@ export default function MatchSimulator({
       if (isHome.current) setScoreHome(prev => prev + 1); else setScoreAway(prev => prev + 1);
       playSfx('goal');
       playSfx('crowd_cheer');
+      agacharAmbiente();
       const ratingBonus = isPenalty ? 1.3 : 2.0;
       setRating(prev => Math.min(prev + ratingBonus, 10.0));
       const prestigeGain = isPenalty ? 5 : 10;

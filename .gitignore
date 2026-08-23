@@ -53,3 +53,7 @@ _sim/
 # Tauri (app de escritorio): artefactos de compilacion, pesan cientos de MB
 src-tauri/target/
 dist-desktop/
+
+
+# Los audios en crudo: pesan 10 MB y de ellos salen las pistas de public/sfx/ambiente/
+"audios de partido"/
