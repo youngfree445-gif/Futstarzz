@@ -25,6 +25,12 @@ export type SfxName =
   // El golpe a la pelota: suena en cada jugada resuelta, que es lo que más veces pasa en un
   // partido. Por eso va bajo -- ver SFX_GAIN.
   | 'pase'
+  // El relator gritando el gol. Están en inglés, así que sólo suenan donde corresponde
+  // (ver src/relatoDelGol.ts).
+  | 'relato_gol_1'
+  | 'relato_gol_2'
+  // El guiño: el gol en morse, que suena alguna que otra vez.
+  | 'gol_morse'
   // Los dos que no son del partido en sí: la gala del campeón y la pantalla de después.
   | 'campeon'
   | 'post_partido';
@@ -54,6 +60,9 @@ const SFX_FILES: Record<SfxName, string> = {
   success: 'sfx/success.wav',
   fail: 'sfx/fail.wav',
   pase: 'sfx/pase.mp3',
+  relato_gol_1: 'sfx/relato_gol_1.mp3',
+  relato_gol_2: 'sfx/relato_gol_2.mp3',
+  gol_morse: 'sfx/gol_morse.mp3',
   campeon: 'sfx/campeon.mp3',
   post_partido: 'sfx/post_partido.mp3'
 };
@@ -72,6 +81,12 @@ const SFX_GAIN: Partial<Record<SfxName, number>> = {
   // la gala y el de la pantalla de después son multitudes enteras y a volumen pleno tapan todo.
   // El golpe a la pelota suena varias veces por partido: al volumen del gol cansaría enseguida.
   pase: 0.45,
+  // El relator va POR ENCIMA del festejo: si compite con la multitud no se entiende lo que
+  // dice, y entonces no es un relato, es ruido con acento.
+  relato_gol_1: 1,
+  relato_gol_2: 1,
+  // El morse va por debajo: es un guiño encima del festejo, no un anuncio.
+  gol_morse: 0.55,
   campeon: 0.7,
   post_partido: 0.6
 };

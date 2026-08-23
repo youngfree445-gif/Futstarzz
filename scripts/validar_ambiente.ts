@@ -21,7 +21,8 @@
  *      eso se paga.
  */
 import { readFileSync, existsSync, statSync } from 'fs';
-import { pistaDeLaCancha, hinchadasDe, PISTAS as TODAS } from '../src/ambienteDelPartido';
+import { pistaDeLaCancha, hinchadasDe } from '../src/ambienteDelPartido';
+import { hayRelatoEnIngles, relatoNumero, suenaElMorse, RELATOS, CHANCE_DEL_MORSE } from '../src/relatoDelGol';
 
 let fallas = 0;
 const caso = (etiqueta: string, fn: () => void) => {
@@ -163,6 +164,66 @@ caso('el peso de las pistas no se escapa', () => {
   // Se bajan al empezar un partido. Mas de esto en un telefono con datos ya es una espera que se
   // nota antes del primer minuto.
   if (mb > 6) throw new Error(`${mb.toFixed(1)} MB de ambiente: hay que recortar las pistas`);
+});
+
+
+// ==================================================================================================
+// EL GRITO DEL GOL
+// ==================================================================================================
+//
+// Los dos relatos grabados estan EN INGLES, asi que soltarlos en cualquier gol seria un relator
+// ingles gritando en el Metropolitano. La regla no es "hay relato o no", es DONDE.
+
+caso('el relator en ingles suena en Inglaterra y en Estados Unidos', () => {
+  for (const liga of ['Inglesa', 'Estadounidense']) {
+    if (!hayRelatoEnIngles(liga)) throw new Error(`no hay relato en ${liga}`);
+  }
+});
+
+caso('y NO suena en el resto del mundo', () => {
+  for (const liga of ['Colombiana', 'Argentina', 'Española', 'Italiana', 'Brasileña', 'Resto del Mundo', '']) {
+    if (hayRelatoEnIngles(liga)) throw new Error(`un relator ingles grito un gol en la liga ${liga || '(vacia)'}`);
+  }
+  // Y sin liga -- una seleccion, un amistoso -- tampoco: no se puede saber donde se juega.
+  if (hayRelatoEnIngles(null) || hayRelatoEnIngles(undefined)) throw new Error('grita sin saber donde se juega');
+});
+
+caso('los dos relatos se alternan, no se sortean', () => {
+  // Con dos grabaciones y un sorteo, la mitad de las veces el segundo gol suena igual que el
+  // primero. Alternando hacen falta cuatro goles para que alguno se repita.
+  const seguidos = Array.from({ length: 8 }, (_, i) => relatoNumero(i));
+  for (let i = 1; i < seguidos.length; i++) {
+    if (seguidos[i] === seguidos[i - 1]) throw new Error(`el gol ${i + 1} suena igual que el anterior`);
+  }
+  if (new Set(seguidos).size !== RELATOS.length) throw new Error('no se usan los dos relatos');
+});
+
+caso('el morse suena alguna que otra vez, no siempre ni nunca', () => {
+  let veces = 0;
+  const N = 200000;
+  for (let i = 0; i < N; i++) if (suenaElMorse(Math.random())) veces++;
+  const cada = N / veces;
+  console.log(`      (el morse sale 1 de cada ${cada.toFixed(1)} goles)`);
+  // Ni un tic en todos los goles ni una rareza que nadie escucha nunca.
+  if (cada < 3) throw new Error(`sale 1 de cada ${cada.toFixed(1)}: es un tic, no un guiño`);
+  if (cada > 25) throw new Error(`sale 1 de cada ${cada.toFixed(1)}: no lo va a escuchar nadie`);
+  if (suenaElMorse(0.999)) throw new Error('suena hasta con el dado en el techo');
+  if (!suenaElMorse(0)) throw new Error('no suena ni con el dado en el piso');
+});
+
+caso('el morse y el relator nunca suenan juntos', () => {
+  // Ocupan el mismo segundo y medio despues de que la pelota entra: encimados no se entiende
+  // ninguno de los dos. Se comprueba en la pantalla, que es donde se decide.
+  const juntos = /hayRelatoEnIngles[\s\S]{0,140}?else if \(suenaElMorse/;
+  if (!juntos.test(PANTALLA)) throw new Error('el morse no esta encadenado al relato con un else: pueden sonar los dos');
+});
+
+caso('los archivos del grito existen', () => {
+  for (const f of ['relato_gol_1.mp3', 'relato_gol_2.mp3', 'gol_morse.mp3', 'pase.mp3']) {
+    if (!existsSync(`public/sfx/${f}`)) throw new Error(`falta public/sfx/${f}`);
+  }
+  if (!/CHANCE_DEL_MORSE/.test(readFileSync('src/relatoDelGol.ts', 'utf8'))) throw new Error('la regla del morse no existe');
+  void CHANCE_DEL_MORSE;
 });
 
 console.log(fallas === 0

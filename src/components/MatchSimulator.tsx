@@ -16,6 +16,7 @@ import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLe
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
 import { arrancarAmbiente, pararAmbiente, agacharAmbiente } from '../ambienteDelPartido';
+import { hayRelatoEnIngles, relatoNumero, suenaElMorse } from '../relatoDelGol';
 import { anioDeCarrera, rotuloDeTemporada } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
 import { applySquadRetirements, displayName } from '../worldRetirements';
@@ -1565,6 +1566,14 @@ export default function MatchSimulator({
     ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
     : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
 
+  // LA CANCHA DONDE SE JUEGA. De acá salen dos cosas: qué hinchada suena de fondo y en qué idioma
+  // se grita el gol. Las dos miran el estadio y no tu club, que es como funciona una transmisión.
+  const clubDeLaCancha = isHome.current
+    ? currentClub
+    : (CLUBS_DATABASE.find(c => c.id === opponentClubId) ?? currentClub);
+  // Cuántos goles tuyos ya gritó el relator en este partido: los dos relatos se alternan.
+  const golesGritados = useRef(0);
+
   // Nombre real de la competencia que se está jugando esta semana. Antes acá se asumía siempre
   // "Copa Libertadores" para cualquier semana que no fuera liga doméstica ni Mundial, así que un
   // club europeo en Champions/Europa veía el cartel incorrecto (bug reportado: "estoy jugando la
@@ -1871,9 +1880,6 @@ export default function MatchSimulator({
     // afuera se sienta distinto.
     // Y la LIGA de esa cancha decide de qué región es la hinchada: una tribuna sudamericana tiene
     // bombo y trompeta y una europea es la masa cantando. Una murga en Old Trafford sonaba raro.
-    const clubDeLaCancha = isHome.current
-      ? currentClub
-      : (CLUBS_DATABASE.find(c => c.id === opponentClubId) ?? currentClub);
     arrancarAmbiente(clubDeLaCancha.id, clubDeLaCancha.league);
 
     // Y SE APAGA SIEMPRE. Al desmontar la pantalla, pase lo que pase en el medio: si el jugador
@@ -2351,6 +2357,10 @@ export default function MatchSimulator({
         playSfx('goal');
         playSfx('crowd_cheer');
         agacharAmbiente();
+        // Donde se juega en Inglaterra o Estados Unidos lo grita un relator; si no, alguna que
+        // otra vez suena el morse. Nunca los dos: se pisan en el mismo segundo (ver relatoDelGol).
+        if (hayRelatoEnIngles(clubDeLaCancha.league)) playSfx(relatoNumero(golesGritados.current++));
+        else if (suenaElMorse(Math.random())) playSfx('gol_morse');
       } else if (choice.effectOnSuccess.assists > 0) {
         setPlayerAssists(prev => prev + choice.effectOnSuccess.assists);
         if (isHome.current) setScoreHome(prev => prev + 1);
@@ -2439,6 +2449,11 @@ export default function MatchSimulator({
       playSfx('goal');
       playSfx('crowd_cheer');
       agacharAmbiente();
+      // Y si se juega en Inglaterra o Estados Unidos, lo grita un relator (ver relatoDelGol.ts).
+      // Donde se juega en Inglaterra o Estados Unidos lo grita un relator; si no, alguna que
+      // otra vez suena el morse. Nunca los dos: se pisan en el mismo segundo (ver relatoDelGol).
+      if (hayRelatoEnIngles(clubDeLaCancha.league)) playSfx(relatoNumero(golesGritados.current++));
+      else if (suenaElMorse(Math.random())) playSfx('gol_morse');
       const ratingBonus = isPenalty ? 1.3 : 2.0;
       setRating(prev => Math.min(prev + ratingBonus, 10.0));
       const prestigeGain = isPenalty ? 5 : 10;
