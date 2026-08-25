@@ -1104,6 +1104,16 @@ export function getEuropaParticipants(
   return participantesUefa('europa', year, posiciones, campeones, allClubs);
 }
 
+/**
+ * QUE PIERNA LE TOCA A ESTA LLAVE. Sale de la llave misma, no de la ronda.
+ *
+ * Es la respuesta única a una pregunta que estaba escrita en tres lados con la misma fórmula de
+ * promedio ("¿todas las llaves tienen la ida?"), y esa fórmula miente en cuanto una va por delante.
+ */
+function piernaDeLaLlave(tie: TwoLegTie): 'first' | 'second' {
+  return tie.firstLegGoalsA === null ? 'first' : 'second';
+}
+
 function resolveOneLegOfTie(tie: TwoLegTie, legToPlay: 'first' | 'second', clubs: Club[], forced?: ForcedResult): TwoLegTie {
   if (tie.played) return tie;
 
@@ -1226,8 +1236,22 @@ function seedTwoLegBracket(rankedClubIds: string[]): TwoLegBracket {
 function resolveTwoLegRound(bracket: TwoLegBracket, clubs: Club[], forced?: ForcedResult): TwoLegBracket {
   const roundIdx = bracket.tiesByRound.length - 1;
   const currentRound = bracket.tiesByRound[roundIdx];
-  const legToPlay: 'first' | 'second' = currentRound.every(t => t.firstLegGoalsA !== null) ? 'second' : 'first';
-  const newRound = currentRound.map(tie => resolveOneLegOfTie(tie, legToPlay, clubs, forced));
+  // CADA LLAVE SIGUE LA SUYA. La pierna no se adivina mirando el promedio de la ronda.
+  //
+  // Antes se decidía una sola para todas: "si TODAS tienen la ida jugada, hoy es la vuelta". El
+  // problema es que la llave del jugador puede ir por delante del resto -- el cuadro de la copa
+  // nacional sólo avanza los días que él juega -- y entonces resolveOneLegOfTie devolvía su llave
+  // SIN TOCAR (ver sus dos guardas) y el resultado del partido se tiraba en silencio. El jugador
+  // disputaba la misma llave tres veces hasta que la ronda se emparejaba sola.
+  //
+  // Medido en Colombia, Brasil, México y Bolivia. Pedido textual: "es inaceptable eso de que se
+  // jueguen varias veces la misma ronda".
+  //
+  // Con cada llave siguiendo la suya, la del jugador nunca se descarta. Y cuando la ronda va
+  // pareja -- que es el caso normal -- todas eligen la misma pierna y el resultado es idéntico al
+  // de antes: esto sólo cambia el caso que estaba roto.
+  const newRound = currentRound.map(tie =>
+    resolveOneLegOfTie(tie, piernaDeLaLlave(tie), clubs, forced));
 
   const tiesByRound = [...bracket.tiesByRound.slice(0, roundIdx), newRound];
   const roundComplete = newRound.every(t => t.played);
@@ -1712,9 +1736,10 @@ export function resolveUefaCupWeek(
 function findUpcomingTwoLegMatch(ties: TwoLegTie[], clubId: string): { opponentId: string; isHome: boolean } | null {
   const tie = ties.find(t => (t.clubAId === clubId || t.clubBId === clubId) && !t.played);
   if (!tie) return null;
-  const legToPlay: 'first' | 'second' = ties.every(t => t.firstLegGoalsA !== null) ? 'second' : 'first';
-  if (legToPlay === 'first' && tie.firstLegGoalsA !== null) return null;
-  if (legToPlay === 'second' && tie.firstLegGoalsA === null) return null;
+  // La pierna sale de TU llave, igual que al resolverla (ver piernaDeLaLlave). Con la regla vieja
+  // -- el promedio de la ronda -- tu partido dejaba de ofrecerse en cuanto tu llave iba por
+  // delante, y el día de copa se te pasaba sin jugar.
+  const legToPlay = piernaDeLaLlave(tie);
   if (legToPlay === 'first') {
     return tie.clubAId === clubId ? { opponentId: tie.clubBId, isHome: true } : { opponentId: tie.clubAId, isHome: false };
   }
@@ -1763,8 +1788,8 @@ export function getUpcomingUefaCupMatch(cup: UefaCupState, clubId: string): { op
  * -- medido con el Junior contra Boca, fechas 43 y 45 -- mientras el segundo partido era la vuelta.
  * Dos respuestas para la misma pregunta: una sola, acá.
  */
-function piernaQueSeJuega(llaves: TwoLegTie[] | undefined | null): 'Ida' | 'Vuelta' {
-  return (llaves ?? []).every(t => t.firstLegGoalsA !== null) ? 'Vuelta' : 'Ida';
+function piernaQueSeJuega(mia: TwoLegTie): 'Ida' | 'Vuelta' {
+  return piernaDeLaLlave(mia) === 'second' ? 'Vuelta' : 'Ida';
 }
 
 export function rondaDeCopaUefa(cup: UefaCupState, clubId: string): string | null {
@@ -1780,7 +1805,7 @@ export function rondaDeCopaUefa(cup: UefaCupState, clubId: string): string | nul
   const nombre = cup.stage === 'playoff' ? 'Playoff' : roundLabelByMatchCount(llaves?.length ?? 0);
   // La final de la Champions es a partido único, así que no lleva pierna.
   if (mia.partidoUnico) return nombre;
-  return `${nombre} (${piernaQueSeJuega(llaves)})`;
+  return `${nombre} (${piernaQueSeJuega(mia)})`;
 }
 
 /** La misma pregunta para las copas de Conmebol, que tienen fase de grupos en vez de fase de liga. */
@@ -1792,7 +1817,7 @@ export function rondaDeCopaContinental(cup: CupState, clubId: string): string | 
   if (!mia) return null;
   const nombre = roundLabelByMatchCount(llaves?.length ?? 0);
   if (mia.partidoUnico) return nombre;
-  return `${nombre} (${piernaQueSeJuega(llaves)})`;
+  return `${nombre} (${piernaQueSeJuega(mia)})`;
 }
 
 export function isClubStillInUefaCup(cup: UefaCupState, clubId: string): boolean {

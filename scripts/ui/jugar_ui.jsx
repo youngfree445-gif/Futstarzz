@@ -285,8 +285,20 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       await click(enDecision().find(esConfirmar) ?? opciones[0]);
       await dormir(120); continue;
     }
-    // El partido se está resolviendo.
-    if (simulando()) { await dormir(150); continue; }
+    // El partido se está resolviendo. Acá la pantalla dice contra QUIEN se juega de verdad, que es
+    // el dato que hay que comparar con lo que anunció la tarjeta: si no coinciden, el resultado le
+    // entra a otro torneo (o a otra llave) y el cuadro no avanza.
+    if (simulando()) {
+      const enCancha = (texto(document.body).match(/vs\s+(.+?)\s+Jugás igual/) ?? [])[1];
+      const ult = bitacora[bitacora.length - 1];
+      if (enCancha && ult && ult.rival && enCancha.trim() !== ult.rival) {
+        ult.rivalDelPartido = enCancha.trim();
+        appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
+          '      !! f' + ult.paso + ': la tarjeta decía ' + ult.rival + ' y se juega contra ' + enCancha.trim() + String.fromCharCode(10));
+      }
+      await dormir(150);
+      continue;
+    }
 
     // EL PARTIDO JUGADO, no simulado. Se llega acá cuando la tarjeta no ofrece "Simular partido"
     // (por ejemplo arrancando en el banco), y el banco tiene que saber jugarlo o se cuelga los
@@ -339,6 +351,14 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     if (volver) {
       const cuerpo = texto(document.body);
       const marcador = (cuerpo.match(/(\d+)\s*[-–]\s*(\d+)/) ?? []).slice(1, 3).join('-');
+      // CONTRA QUIEN SE JUGO DE VERDAD. La tarjeta anuncia un rival y el partido puede ser contra
+      // otro: es la clase de desfase que ya se cobró varios bugs, y sin mirarlo no se ve.
+      const ultimo = bitacora[bitacora.length - 1];
+      if (ultimo && ultimo.rival && !cuerpo.includes(ultimo.rival)) {
+        ultimo.rivalDelPartido = 'OTRO (la tarjeta decía ' + ultimo.rival + ')';
+        appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
+          '      !! el partido NO fue contra ' + ultimo.rival + ' (fecha ' + ultimo.paso + ')' + String.fromCharCode(10));
+      }
       if (bitacora.length) bitacora[bitacora.length - 1].marcador = marcador;
       await click(volver); await dormir(80); continue;
     }

@@ -5012,9 +5012,21 @@ export default function App() {
       // cruceDeCopaNacionalHoy es la MISMA función con la que la tarjeta anuncia el cruce, así que
       // la pregunta se contesta una sola vez y no puede quedar desfasada. Se exige además que el
       // rival de hoy sea el de la llave: en un día que no es de copa no hay nada que mover.
-      const cruceDeHoy = cruceDeCopaNacionalHoy(playerProfile, myClub, CLUBS_DATABASE, playerProfile.currentWeek);
-      const esDiaDeCopaNacional = !!cruceDeHoy && cruceDeHoy.rivalId === activeOppositionClubId;
-      if (!activeDomesticCup && !esDiaDeCopaNacional) return;
+      // HOY TIENE QUE SER DIA DE COPA, y eso lo dice el calendario -- no que el rival coincida.
+      //
+      // Acá hubo un intento de deducirlo comparando el rival de hoy con el de la llave, y salió
+      // caro: en la liga colombiana te cruzás con el América dos veces al año, así que un partido
+      // de LIGA contra el mismo club que te tocó en la copa le entraba a la copa como si fuera la
+      // ida. La llave quedaba con una pierna jugada que nadie jugó, y cuando llegaba el día de copa
+      // de verdad el cuadro ya no cerraba. Reportado como "se juegan varias veces la misma ronda".
+      //
+      // El día lo manda el calendario, que es la única fuente que sabe qué se juega hoy.
+      const pasoDeHoy = hasDatedLeagueSchedule(myClub.name)
+        ? fixturesAtStep(myClub.name, playerProfile.currentWeek) : null;
+      const fixtureDeHoy = pasoDeHoy ? pickDatedPrimary(pasoDeHoy.fixtures) : null;
+      const hoyEsDiaDeCopa = !!fixtureDeHoy
+        && (fixtureDeHoy.competition.kind === 'domestic_cup' || fixtureDeHoy.competition.kind === 'continental_cup');
+      if (!activeDomesticCup && !hoyEsDiaDeCopa) return;
       // MISMA clave que al armar el partido (ver temporadaDeCopa allá): con calendario real manda
       // la temporada del calendario, no el contador de 52 semanas. Si las dos no coinciden, el
       // resultado se guarda en una edición distinta de la que se jugó y el cuadro no avanza nunca.
@@ -5074,6 +5086,20 @@ export default function App() {
         ? resuelta
         : terminarTorneoSinElJugador(resuelta, c => resolverPasoCopaNacional(c, CLUBS_DATABASE));
       updatedDomesticCups = { ...(playerProfile.domesticCups ?? {}), [cupKey]: terminada };
+
+      // Y SE GUARDA ACA MISMO, sin esperar al perfil grande del final de la función.
+      //
+      // El resultado de la copa viajaba dentro de `updatedProfile`, que se arma sobre el perfil que
+      // esta función tenía en su closure. Cuando ese perfil venía de un render anterior al que
+      // sembró el cuadro, la escritura final se llevaba puesto el avance de la llave: el jugador
+      // disputaba el mismo cruce dos o tres veces y recién a la tercera quedaba anotado.
+      //
+      // La actualización funcional toma SIEMPRE el estado vigente, y el guardado explícito deja el
+      // cuadro en disco antes de que nada más pueda pisarlo. Es el mismo remedio que ya se le puso
+      // al sembrado en startMatchflow.
+      const cupResuelta = terminada;
+      setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cupResuelta } }));
+      saveGameState({ ...playerProfile, domesticCups: { ...(playerProfile.domesticCups ?? {}), [cupKey]: cupResuelta } }, shopItems);
 
       if (resuelta.championId === myClub.id) {
         salioCampeon = true;
