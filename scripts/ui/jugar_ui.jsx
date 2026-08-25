@@ -216,6 +216,8 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     Alemana: 'Alemania', Inglesa: 'Inglaterra', Española: 'España', Italiana: 'Italia',
     Francesa: 'Francia', Holandesa: 'Holanda', Portuguesa: 'Portugal', Colombiana: 'Colombia',
     Brasileña: 'Brasil', Argentina: 'Argentina', Mexicana: 'México', Uruguaya: 'Uruguay',
+    Ecuatoriana: 'Ecuador', Chilena: 'Chile', Peruana: 'Perú', Paraguaya: 'Paraguay',
+    Boliviana: 'Bolivia', Venezolana: 'Venezuela', Estadounidense: 'EE.UU.',
   };
   const etiqueta = PAIS[liga] ?? liga;
   const botonLiga = botones().find(b => texto(b).endsWith(etiqueta));
@@ -301,6 +303,12 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       // Los palos del arco, cuando la decisión es un penal o un tiro libre.
       const palos = enCancha().filter(b => /Izquierda|Derecha|Centro|Palo|Ángulo/i.test(texto(b)));
       if (palos.length) { await click(palos[0]); await dormir(60); continue; }
+      // LA CHARLA DEL ENTRETIEMPO. El reloj del partido se para mientras el DT habla
+      // (charlaDelDT en MatchSimulator), y sin contestarle el banco se queda ahí para siempre:
+      // era la causa de casi todos los cuelgues del barrido -- la mitad de las ligas no llegaba al
+      // final de la temporada por esto. Se le hace caso al técnico, que es lo que haría cualquiera.
+      const charla = botonQueDice(/Salir a hacer lo que pide|Jugar a tu manera/i);
+      if (charla) { await click(charla); await dormir(60); continue; }
       // El partido queda PAUSADO cuando se abre un panel (narración, táctica). Sin apretar esto
       // el reloj no vuelve a correr y el banco se queda mirando el minuto 12 para siempre.
       const volverAlPartido = botonQueDice(/Volver al Partido/i);

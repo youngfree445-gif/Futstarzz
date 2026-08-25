@@ -123,12 +123,20 @@ for (const [clave, cup] of Object.entries(guardada?.uefaCups ?? {})) {
 for (const [clave, cuadro] of Object.entries(guardada?.playoffsDeLiga ?? {})) {
   torneos.push([`cuadrangular ${clave}`, cuadro?.championId]);
 }
+// SI LA CORRIDA SE CORTO, no se le puede exigir un campeon a nadie.
+//
+// El banco se cuelga de vez en cuando en un partido jugado a mano (jsdom no implementa <canvas>) y
+// ahi la temporada queda a medias. Sin esta distincion el informe decia "uefa champions SIN
+// CAMPEON" y parecia un torneo roto, cuando lo que pasó es que el partido 24 de la Serie A nunca
+// llegó a jugarse. Culpar al juego de una limitacion del banco es peor que no medir nada.
+const seCorto = avisos.some(a => /^ATASCO/.test(a));
 if (!torneos.length) console.log('  (la partida no guardó ningún torneo)');
 for (const [nombre, campeon] of torneos) {
   const ok = !!campeon;
-  console.log(`  ${ok ? '✓' : '✗'} ${nombre.padEnd(42)} ${ok ? nombreDe(campeon) : 'SIN CAMPEON'}`);
-  if (!ok) problemas.push(`${nombre} terminó SIN CAMPEÓN`);
+  console.log(`  ${ok ? '✓' : seCorto ? '~' : '✗'} ${nombre.padEnd(42)} ${ok ? nombreDe(campeon) : (seCorto ? 'sin coronar (la corrida se cortó antes)' : 'SIN CAMPEON')}`);
+  if (!ok && !seCorto) problemas.push(`${nombre} terminó SIN CAMPEÓN`);
 }
+if (seCorto) console.log('  ! la corrida NO llegó al final de la temporada: lo de arriba no es un veredicto.');
 
 const sinCartel = bitacora.filter(p => !p.competicion).length;
 if (sinCartel) problemas.push(`${sinCartel} fechas sin cartel de competición legible en la tarjeta.`);

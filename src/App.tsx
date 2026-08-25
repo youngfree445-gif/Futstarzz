@@ -86,7 +86,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -3834,9 +3834,21 @@ export default function App() {
       // otra lo hereda igual cuando aquélla no tiene nada ese día (el orden de abajo sigue intacto),
       // así que ninguna se queda a medio camino. Es el mismo reparto que usa
       // scripts/jugar_carrera.ts, que por eso jugaba las diez fechas de Copa BetPlay del Junior.
+      // EL DIA ES DE LA COPA NACIONAL TAMBIEN CUANDO EL PARTIDO ES REAL, no solo cuando es reserva.
+      //
+      // Esto pedia `esReservaDeCuadro` porque antes las fechas REALES de copa nacional las jugaba el
+      // calendario y nunca llegaban acá. Desde que el cuadro se quedó con la copa (ver más arriba)
+      // sí llegan, y con la pregunta vieja la continental se las quedaba: medido con el Junior, en
+      // sus dos fechas de Copa BetPlay del 23 y el 29 de julio la tarjeta anunciaba "Copa
+      // Libertadores · Octavos (Ida)" y el resultado se le aplicaba a la copa que no era. La
+      // Libertadores repetía esa misma ida tres veces hasta que le tocaba un día suyo.
       const laNacionalTieneCruceHoy = duenoDelDiaDeCopa(
         playerProfile, myClub, playerProfile.currentWeek,
-        !!realPrimary?.esReservaDeCuadro && realPrimary.competition.kind === 'domestic_cup',
+        // Por NOMBRE y no por tipo: la Superliga de Colombia y la Supercopa de España también son
+        // `domestic_cup` y no son la copa del país. Preguntando por el tipo, los dos partidos de
+        // Superliga del Junior en enero salían rotulados "Copa BetPlay".
+        realPrimary?.competition.kind === 'domestic_cup'
+          && realPrimary.competition.name === nombreCopaNacional(myClub.league),
       ) === 'nacional';
 
       let foundOpponentId: string | null = null;
@@ -4078,6 +4090,18 @@ export default function App() {
           if (playerProfile.domesticCups?.[cupKey] !== cup) {
             const cupGuardada = cup;
             setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cupGuardada } }));
+            // Y AL DISCO EN EL ACTO, no sólo al estado de React.
+            //
+            // El cuadro se sembraba con setPlayerProfile y el resultado del partido se guardaba
+            // desde handleFinishMatch, que arma su perfil sobre el que tenía cuando se montó la
+            // pantalla. Entre las dos cosas el cuadro recién sembrado se perdía, así que la partida
+            // guardada no lo tenía y al día siguiente se volvía a sembrar de cero: la MISMA llave
+            // servida tres o cuatro veces seguidas contra el mismo rival. Medido en Colombia,
+            // Brasil, México y Bolivia.
+            //
+            // Escribirlo acá es seguro porque el sorteo es determinista (ver copaNacionalDelPaso):
+            // no hay azar que se pueda perder ni volver a tirar distinto.
+            saveGameState({ ...playerProfile, domesticCups: { ...(playerProfile.domesticCups ?? {}), [cupKey]: cupGuardada } }, shopItems);
           }
           cupNacional = cup;
 
@@ -4977,7 +5001,20 @@ export default function App() {
     let updatedPlayoffs = playerProfile.playoffsDeLiga;
     (() => {
       const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-      if (!myClub || !activeDomesticCup || !activeOppositionClubId) return;
+      if (!myClub || !activeOppositionClubId) return;
+      // QUE HOY ERA DIA DE COPA NACIONAL SE DEDUCE, no se lee de un estado de React.
+      //
+      // Acá decía `!activeDomesticCup`, que lo pone startMatchflow con setState. Este bloque corre
+      // 650 ms después, desde el temporizador del partido, y con el estado viejo la condición daba
+      // false: el resultado se descartaba en silencio y el cuadro no avanzaba. Síntoma medido en
+      // cuatro países -- la misma llave de dieciseisavos servida tres o cuatro veces seguidas.
+      //
+      // cruceDeCopaNacionalHoy es la MISMA función con la que la tarjeta anuncia el cruce, así que
+      // la pregunta se contesta una sola vez y no puede quedar desfasada. Se exige además que el
+      // rival de hoy sea el de la llave: en un día que no es de copa no hay nada que mover.
+      const cruceDeHoy = cruceDeCopaNacionalHoy(playerProfile, myClub, CLUBS_DATABASE, playerProfile.currentWeek);
+      const esDiaDeCopaNacional = !!cruceDeHoy && cruceDeHoy.rivalId === activeOppositionClubId;
+      if (!activeDomesticCup && !esDiaDeCopaNacional) return;
       // MISMA clave que al armar el partido (ver temporadaDeCopa allá): con calendario real manda
       // la temporada del calendario, no el contador de 52 semanas. Si las dos no coinciden, el
       // resultado se guarda en una edición distinta de la que se jugó y el cuadro no avanza nunca.
@@ -4995,8 +5032,18 @@ export default function App() {
       //
       // copaNacionalDelPaso es el mismo sorteo determinista que usa la tarjeta: no inventa un
       // cuadro distinto del que se anuncio.
-      const cup = playerProfile.domesticCups?.[cupKey]
+      const guardadaHoy = playerProfile.domesticCups?.[cupKey]
         ?? copaNacionalDelPaso(playerProfile, myClub, CLUBS_DATABASE, playerProfile.currentWeek);
+      // Y SE ARMA LA RONDA SIGUIENTE ANTES DE BUSCAR LA LLAVE, igual que hace startMatchflow al
+      // ofrecer el partido.
+      //
+      // Sin esto los dos lados miraban rondas distintas: la pantalla te ofrecía el cruce de la ronda
+      // NUEVA (prepararRondaCopaNacional la arma al leer) y acá se buscaba en el cuadro guardado,
+      // cuya última ronda es la que acabás de terminar. El resultado entraba contra una llave ya
+      // jugada, el motor lo descartaba, y la ronda nueva no avanzaba: el jugador disputaba el mismo
+      // partido tres veces hasta que el cuadro se ponía al día por otro lado. Medido en Colombia,
+      // Brasil, México y Bolivia.
+      const cup = prepararRondaCopaNacional(guardadaHoy);
       if (!cup || cup.championId) return;
       const tie = cruceActual(cup, myClub.id);
       // Solo si el rival de hoy es el de su llave: en las semanas sin cruce el partido es un

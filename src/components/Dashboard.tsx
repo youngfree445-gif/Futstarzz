@@ -1491,10 +1491,17 @@ export default function Dashboard({
     // De quién es el día: lo estrena la copa que lo PIDIÓ, y la otra lo hereda si aquélla no tiene
     // cruce. Mismo criterio y mismos datos que App.tsx (ver laNacionalTieneCruceHoy allá); si acá
     // se contestara distinto, el cartel volvería a prometer un torneo y el partido sería de otro.
-    const laNacionalTieneCruceHoy = esReservaDeCopa && duenoDelDiaDeCopa(
-      playerProfile, currentClub, playerProfile.currentWeek,
-      realDeLaSemana?.competition.kind === 'domestic_cup',
-    ) === 'nacional';
+    // Igual que en App.tsx: un dia de copa nacional es suyo aunque el partido sea REAL y no una
+    // reserva. Con la pregunta vieja la continental se quedaba con las fechas de Copa BetPlay.
+    // Por NOMBRE y no por tipo: la Superliga de Colombia también es `domestic_cup` y no es la Copa
+    // BetPlay. Ver la misma nota en App.tsx.
+    const elDiaLoPidioLaNacional = realDeLaSemana?.competition.kind === 'domestic_cup'
+      && realDeLaSemana.competition.name === nombreCopaNacional(currentClub.league);
+    const laNacionalTieneCruceHoy = (esReservaDeCopa || elDiaLoPidioLaNacional)
+      && duenoDelDiaDeCopa(
+        playerProfile, currentClub, playerProfile.currentWeek,
+        elDiaLoPidioLaNacional,
+      ) === 'nacional';
     // EL DÍA ES DEL CUADRO AUNQUE EL CALENDARIO TRAIGA UN PARTIDO REAL.
     //
     // Desde que las copas europeas las maneja el motor y no el calendario (ver clubEnCopaContinental
