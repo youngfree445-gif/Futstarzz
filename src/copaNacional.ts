@@ -11,7 +11,7 @@
 // y penales si termina igualado.
 
 import type { Club, TwoLegBracket, TwoLegTie } from './types';
-import { reglamentoDe } from './reglamentos';
+import { esPartidoUnicoDeCopa, reglamentoDe } from './reglamentos';
 import { roundLabelByMatchCount } from './leagueEngine';
 
 export interface DomesticCupState {
@@ -58,13 +58,16 @@ function sortear(clubIds: string[], year: number): string[] {
   return arr;
 }
 
-function armarRonda(clubIds: string[]): TwoLegTie[] {
+function armarRonda(clubIds: string[], league: string): TwoLegTie[] {
   const ties: TwoLegTie[] = [];
+  // Cuantos partidos dura ESTA ronda lo dice el reglamento del pais, no una regla global.
+  const unico = esPartidoUnicoDeCopa(league)(Math.floor(clubIds.length / 2));
   for (let i = 0; i < clubIds.length; i += 2) {
     ties.push({
       clubAId: clubIds[i], clubBId: clubIds[i + 1],
       firstLegGoalsA: null, firstLegGoalsB: null, secondLegGoalsA: null, secondLegGoalsB: null,
       played: false, winnerId: null,
+      ...(unico ? { partidoUnico: true } : {}),
     });
   }
   return ties;
@@ -111,7 +114,7 @@ export function crearCopaNacional(
     league,
     year,
     participants: sorteados,
-    bracket: { tiesByRound: [armarRonda(sorteados)], championId: null },
+    bracket: { tiesByRound: [armarRonda(sorteados, league)], championId: null },
     championId: null,
   };
 }

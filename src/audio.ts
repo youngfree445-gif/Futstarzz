@@ -133,6 +133,17 @@ function savePrefs() {
 // solaparse consigo mismo (se reinicia), que para estos sonidos es lo esperable igual.
 const pool = new Map<SfxName, HTMLAudioElement>();
 
+/**
+ * Las COPIAS que están sonando de cada efecto, para no dejar crecer la cuenta sin límite.
+ *
+ * Sólo se llena cuando un efecto vuelve a dispararse mientras el anterior todavía suena (ver
+ * playSfx): en el caso normal no se crea ningún elemento de más.
+ */
+const sonando = new Map<SfxName, HTMLAudioElement[]>();
+
+/** Cuántas veces puede encimarse un MISMO efecto. Más que esto no es riqueza, es barro. */
+const MAX_COPIAS = 3;
+
 // Un archivo que falta (404) o un codec no soportado dispara el error en cada intento. Se marca el
 // efecto como roto tras el primer fallo para no reintentar ni spamear la consola: el juego tiene
 // que sonar incompleto, no trabarse.
@@ -160,13 +171,35 @@ function getElement(name: SfxName): HTMLAudioElement | null {
 export function playSfx(name: SfxName) {
   if (prefs.sfxMuted || prefs.sfxVolume <= 0) return;
 
-  const el = getElement(name);
-  if (!el) return;
+  const base = getElement(name);
+  if (!base) return;
 
-  el.volume = Math.min(1, Math.max(0, prefs.sfxVolume * (SFX_GAIN[name] ?? 1)));
-  // Rebobinar permite re-disparar el mismo efecto antes de que termine (goles seguidos, varios
-  // clicks): sin esto el segundo play() sobre un audio ya sonando se ignora.
+  const volumen = Math.min(1, Math.max(0, prefs.sfxVolume * (SFX_GAIN[name] ?? 1)));
+
+  // LOS SONIDOS SE SUPERPONEN, NO SE PISAN.
   //
+  // Antes había UN <audio> por efecto y volver a dispararlo lo rebobinaba. Con los placeholders de
+  // cuatro kilos no se notaba, pero los archivos reales duran de verdad -- el festejo son casi
+  // veinte segundos, el golpe a la pelota varios -- así que el segundo disparo CORTABA el primero
+  // a mitad y dejaba un hueco. Reportado tal cual: "se cortan y de la nada hay un silencio incómodo
+  // cuando alguien pone un pase o hace un tiro y no es gol".
+  //
+  // Ahora, si el efecto ya está sonando, se reproduce una COPIA encima. Es lo que hace una
+  // transmisión: el segundo pase no apaga al primero, se encima.
+  //
+  // Con tope: pasadas unas pocas copias simultáneas del MISMO efecto deja de sumarse, porque a
+  // partir de ahí no es riqueza sino barro (y son elementos de audio de verdad, no salen gratis).
+  const yaSuena = !base.paused && !base.ended && base.currentTime > 0;
+  let el = base;
+  if (yaSuena) {
+    const vivas = (sonando.get(name) ?? []).filter(c => !c.paused && !c.ended);
+    if (vivas.length >= MAX_COPIAS) { sonando.set(name, vivas); return; }
+    el = base.cloneNode(true) as HTMLAudioElement;
+    vivas.push(el);
+    sonando.set(name, vivas);
+  }
+
+  el.volume = volumen;
   // VA EN try/catch, y no es paranoia: asignar `currentTime` sobre un elemento que todavía no
   // cargó los metadatos TIRA (InvalidStateError), y ese throw es SÍNCRONO -- el .catch() de play()
   // no lo agarra. Con los placeholders .wav no pasaba nunca porque pesaban cuatro kilos y ya
@@ -216,5 +249,8 @@ export function setSfxMuted(muted: boolean) {
       el.pause();
       el.currentTime = 0;
     });
+    // Y las copias encimadas, que si no siguen sonando solas con el juego en silencio.
+    sonando.forEach(copias => copias.forEach(c => { c.pause(); c.currentTime = 0; }));
+    sonando.clear();
   }
 }

@@ -1,4 +1,4 @@
-import { repartesDosTitulos } from './reglamentos';
+import { repartesDosTitulos, esPartidoUnicoDeCopa } from './reglamentos';
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, PlayoffMatch, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 import { fuerzaParaElMercado } from './fuerzaDelClub';
 import type { DomesticCupState } from './copaNacional';
@@ -745,7 +745,7 @@ function resolveCupStep(
     // Ver la nota de resolverPasoCopaNacional: armar la ronda no gasta una fecha del calendario.
     const ultima = cup.knockout!.tiesByRound[cup.knockout!.tiesByRound.length - 1];
     const puesto = ultima.length && ultima.every(t => t.played)
-      ? siguienteRondaTwoLeg(cup.knockout!, true)
+      ? siguienteRondaTwoLeg(cup.knockout!, SOLO_LA_FINAL)
       : cup.knockout!;
     const resuelto = resolveTwoLegRound(puesto, allClubs, forced);
 
@@ -766,7 +766,7 @@ function resolveCupStep(
     // copa. Es lo mismo que hace prepararPlayoffDeLiga con los cuadrangulares.
     const cerrada = resuelto.tiesByRound[resuelto.tiesByRound.length - 1];
     const conLaProxima = !resuelto.championId && cerrada.length > 1 && cerrada.every(t => t.played)
-      ? siguienteRondaTwoLeg(resuelto, true)
+      ? siguienteRondaTwoLeg(resuelto, SOLO_LA_FINAL)
       : resuelto;
     // Y SI ESA FUE LA FINAL, la copa termina ACA MISMO. Coronar no gasta una fecha, por lo mismo
     // que no la gasta armar la ronda siguiente.
@@ -1249,7 +1249,20 @@ function resolveTwoLegRound(bracket: TwoLegBracket, clubs: Club[], forced?: Forc
 }
 
 /** Arma la ronda siguiente del knockout de liga a partir de los ganadores de la última ya jugada. */
-function siguienteRondaTwoLeg(bracket: TwoLegBracket, finalAPartidoUnico = false): TwoLegBracket {
+/**
+ * Dada la cantidad de llaves que tendra la ronda nueva, ¿esa ronda se juega a partido unico?
+ *
+ * Es una funcion y no un booleano porque cada copa hace lo suyo: la Champions solo define la FINAL
+ * en un partido, la FA Cup juega TODAS sus rondas asi, y la Copa del Rey todas menos la semifinal.
+ * Antes esto era un `finalAPartidoUnico: boolean` y por eso las copas nacionales terminaron todas
+ * a ida y vuelta, en paises donde eso no existe.
+ */
+export type EsPartidoUnico = (llavesEnLaRonda: number) => boolean;
+
+/** La regla de las copas continentales: solo la final, y a cancha neutral. */
+export const SOLO_LA_FINAL: EsPartidoUnico = llaves => llaves === 1;
+
+function siguienteRondaTwoLeg(bracket: TwoLegBracket, esPartidoUnico?: EsPartidoUnico): TwoLegBracket {
   const roundIdx = bracket.tiesByRound.length - 1;
   const currentRound = bracket.tiesByRound[roundIdx];
   if (bracket.championId || !currentRound.every(t => t.played)) return bracket;
@@ -1258,14 +1271,15 @@ function siguienteRondaTwoLeg(bracket: TwoLegBracket, finalAPartidoUnico = false
   // de la UEFA -- las cuatro se juegan en cancha neutral y a un solo partido, la Champions desde
   // siempre y la Libertadores desde 2019. Las copas nacionales siguen definiendo con global, que es
   // como las modela el resto del motor y como se juegan de verdad.
-  const esLaFinal = winners.length === 2;
+  const llavesDeLaRonda = Math.floor(winners.length / 2);
+  const unico = esPartidoUnico?.(llavesDeLaRonda) ?? false;
   const nextRound: TwoLegTie[] = [];
   for (let i = 0; i < winners.length; i += 2) {
     nextRound.push({
       clubAId: winners[i], clubBId: winners[i + 1],
       firstLegGoalsA: null, firstLegGoalsB: null, secondLegGoalsA: null, secondLegGoalsB: null,
       played: false, winnerId: null,
-      ...(finalAPartidoUnico && esLaFinal ? { partidoUnico: true } : {}),
+      ...(unico ? { partidoUnico: true } : {}),
     });
   }
   return { tiesByRound: [...bracket.tiesByRound, nextRound], championId: null };
@@ -1406,7 +1420,15 @@ export function prepararRondaCopaNacional(cup: DomesticCupState): DomesticCupSta
   if (cup.championId) return cup;
   const ultima = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1];
   if (!ultima?.length || !ultima.every(t => t.played)) return cup;
-  return { ...cup, bracket: siguienteRondaTwoLeg(cup.bracket) };
+  // CADA PAIS JUEGA SU COPA COMO LA JUEGA DE VERDAD.
+  //
+  // El cuadro armaba TODAS las rondas a ida y vuelta, en todos lados. Medido jugando ocho ligas a
+  // la vez: la Coupe de France, la FA Cup, la Coppa Italia y la Copa Argentina -- que son a partido
+  // unico de punta a punta -- duraban el doble de partidos que en la realidad, y a la Copa do
+  // Brasil se le jugaba una final sola cuando la suya es a ida y vuelta.
+  //
+  // El formato de cada copa vive en el reglamento (copaPiernas en reglamentos.ts), no acá.
+  return { ...cup, bracket: siguienteRondaTwoLeg(cup.bracket, esPartidoUnicoDeCopa(cup.league)) };
 }
 
 export function resolverPasoCopaNacional(
@@ -1427,7 +1449,7 @@ export function resolverPasoCopaNacional(
   // JUGADA como ultima, asi que la pantalla la muestra. La ronda nueva recien aparece cuando el
   // jugador avanza, que es cuando corresponde.
   const listaCompleta = cup.bracket.tiesByRound[cup.bracket.tiesByRound.length - 1].every(t => t.played);
-  const puesta = listaCompleta ? siguienteRondaTwoLeg(cup.bracket) : cup.bracket;
+  const puesta = listaCompleta ? siguienteRondaTwoLeg(cup.bracket, esPartidoUnicoDeCopa(cup.league)) : cup.bracket;
   const bracket = resolveTwoLegRound(puesta, allClubs, forced);
   return { ...cup, bracket, championId: bracket.championId };
 }
@@ -1458,6 +1480,43 @@ function resolveUefaLeaguePhaseStep(
     return { ...f, played: true, homeGoals, awayGoals };
   });
   return { fixtures: newFixtures, table: newTable };
+}
+
+/**
+ * ARMA la etapa siguiente SIN JUGAR NADA, si la actual ya terminó. Devuelve el mismo objeto cuando
+ * no hay nada que armar.
+ *
+ * Existe por un partido que el jugador nunca llegaba a jugar. El paso que cierra la fase de liga
+ * hace dos cosas juntas -- siembra el playoff y resuelve la primera pierna -- y el guardián que
+ * frena la copa antes de un partido del jugador (ver getOrCreateUefaCupState) no puede verlo
+ * venir: pregunta por el próximo partido ANTES de resolver, y en ese momento el playoff todavía no
+ * existe, así que contesta "no hay" y deja pasar. Resultado medido jugando: terminabas la fase de
+ * liga, llegabas a tu día de copa y el juego ya te había jugado la ida del playoff de fondo --
+ * salías eliminado sin haber jugado, con el cartel "Partido Amistoso" encima.
+ *
+ * Armar no gasta una fecha, igual que en resolveUefaCupStep: acá se separa el sembrado del juego
+ * para poder mirar entre uno y otro, no para agregar un paso.
+ */
+function armarSiguienteEtapaUefa(cup: UefaCupState): UefaCupState {
+  if (cup.stage === 'league_phase') {
+    if (!cup.fixtures.every(f => f.played)) return cup;
+    const ranked = sortTable(cup.table).map(t => t.clubId!);
+    const playoffPool = ranked.slice(UEFA_TOP_DIRECT, UEFA_PLAYOFF_ZONE_END);
+    if (playoffPool.length >= 2) {
+      return { ...cup, stage: 'playoff', playoff: seedSingleTwoLegRound(playoffPool) };
+    }
+    return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(ranked.slice(0, UEFA_TOP_DIRECT)) };
+  }
+  if (cup.stage === 'playoff' && cup.playoff) {
+    if (!cup.playoff.every(t => t.played)) return cup;
+    const ranked = sortTable(cup.table).map(t => t.clubId!);
+    const ganadores = cup.playoff.map(t => t.winnerId!).filter(Boolean);
+    return {
+      ...cup, stage: 'knockout',
+      knockout: seedTwoLegBracket([...ranked.slice(0, UEFA_TOP_DIRECT), ...ganadores]),
+    };
+  }
+  return cup;
 }
 
 function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: ForcedResult): UefaCupState {
@@ -1508,7 +1567,7 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
       return { ...cup, stage: 'done', championId: cup.knockout.championId };
     }
     const completa = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1].every(t => t.played);
-    const puesto = completa ? siguienteRondaTwoLeg(cup.knockout, true) : cup.knockout;
+    const puesto = completa ? siguienteRondaTwoLeg(cup.knockout, SOLO_LA_FINAL) : cup.knockout;
     const resuelto = resolveTwoLegRound(puesto, allClubs, forced);
 
     // Y LA RONDA SIGUIENTE SE ARMA ACA MISMO, al cerrar la anterior. Armarla recien al empezar el
@@ -1519,7 +1578,7 @@ function resolveUefaCupStep(cup: UefaCupState, allClubs: Club[], forced?: Forced
     // tenia corregido.
     const cerrada = resuelto.tiesByRound[resuelto.tiesByRound.length - 1];
     const conLaProxima = !resuelto.championId && cerrada.length > 1 && cerrada.every(t => t.played)
-      ? siguienteRondaTwoLeg(resuelto, true)
+      ? siguienteRondaTwoLeg(resuelto, SOLO_LA_FINAL)
       : resuelto;
     // Coronar tampoco gasta una fecha.
     if (conLaProxima.championId) {
@@ -1601,10 +1660,26 @@ export function getOrCreateUefaCupState(
 
   while (cup.startedAtStep + cup.stepsConsumed < totalStepsAvailable) {
     if (cup.stage === 'done') {
+      // LA EDICIÓN NUEVA ARRANCA HOY, no donde quedó el contador de la anterior.
+      //
+      // Cuando al calendario se le acaban las fechas de copa, terminarCopaUefa fuerza los pasos que
+      // falten para que la edición corone (hasta 25), y cada paso forzado suma a stepsConsumed. Con
+      // eso la edición siguiente nacía con su fecha de arranque en el FUTURO: durante media
+      // temporada la copa se quedaba muda -- `stage: done`, sin partidos -- mientras el jugador veía
+      // días de Champions apartados en el calendario. Medido jugando (npm run jugar:ui): la
+      // Champions de la segunda temporada no arrancaba hasta la fecha 129, ya en marzo.
+      //
+      // El tope es el día de copa que corre: una edición no puede empezar después de hoy.
       cup = freshUefaCupState(
-        cupId, cup.year + 1, allClubs, cup.startedAtStep + cup.stepsConsumed, posiciones, campeones);
+        cupId, cup.year + 1, allClubs,
+        Math.min(cup.startedAtStep + cup.stepsConsumed, totalStepsAvailable),
+        posiciones, campeones);
       continue;
     }
+    // La etapa que viene se ARMA antes de mirar, para que el guardián de abajo pueda ver el
+    // partido del jugador en la ronda nueva. Ver armarSiguienteEtapaUefa: sin esto la copa le
+    // jugaba de fondo la ida del playoff y llegaba a su fecha ya eliminado.
+    cup = armarSiguienteEtapaUefa(cup);
     if (playerClubId && getUpcomingUefaCupMatch(cup, playerClubId)) break;
     cup = { ...resolveUefaCupStep(cup, allClubs), stepsConsumed: cup.stepsConsumed + 1 };
   }
@@ -1668,14 +1743,71 @@ export function getUpcomingUefaCupMatch(cup: UefaCupState, clubId: string): { op
 // eliminatoria ida/vuelta). Mismo motivo: getUpcomingUefaCupMatch===null no distingue "entre
 // fechas de la fase de liga" de "quedaste eliminado en el playoff/knockout" o "no clasificaste
 // directamente a esta edición".
+/**
+ * EN QUÉ RONDA ESTÁS. "Fase de liga", "Playoff (Ida)", "Octavos de Final (Vuelta)", "Final".
+ *
+ * Existe porque la tarjeta del próximo partido y la pantalla del partido rotulaban las copas
+ * continentales con la FECHA ("17 feb") en vez de la ronda, mientras la copa nacional -- que sí
+ * tiene esto resuelto -- decía "Octavos de Final". Jugando la Champions eso deja al jugador sin
+ * saber nunca si el partido que va a jugar define algo: sale una seguidilla de nombres grandes sin
+ * contexto. Reportado tal cual: "me metía a muchos partidos de Champions y ninguno era lógico".
+ *
+ * Devuelve null si el club no tiene cruce en la ronda en curso: rotular igual sería inventar.
+ */
+/**
+ * QUE PIERNA SE JUEGA HOY, con el MISMO criterio que usa findUpcomingTwoLegMatch para elegir el
+ * partido.
+ *
+ * Se miraba si MI llave tenía la ida cargada, y el motor mira si la tienen TODAS las llaves de la
+ * ronda. Cuando no coincidían, la tarjeta anunciaba "Octavos de Final (Ida)" dos fechas seguidas
+ * -- medido con el Junior contra Boca, fechas 43 y 45 -- mientras el segundo partido era la vuelta.
+ * Dos respuestas para la misma pregunta: una sola, acá.
+ */
+function piernaQueSeJuega(llaves: TwoLegTie[] | undefined | null): 'Ida' | 'Vuelta' {
+  return (llaves ?? []).every(t => t.firstLegGoalsA !== null) ? 'Vuelta' : 'Ida';
+}
+
+export function rondaDeCopaUefa(cup: UefaCupState, clubId: string): string | null {
+  if (cup.stage === 'league_phase') return 'Fase de liga';
+  if (cup.stage === 'done') return null;
+
+  const llaves = cup.stage === 'playoff'
+    ? cup.playoff
+    : cup.knockout?.tiesByRound[cup.knockout.tiesByRound.length - 1];
+  const mia = llaves?.find(t => t.clubAId === clubId || t.clubBId === clubId);
+  if (!mia) return null;
+
+  const nombre = cup.stage === 'playoff' ? 'Playoff' : roundLabelByMatchCount(llaves?.length ?? 0);
+  // La final de la Champions es a partido único, así que no lleva pierna.
+  if (mia.partidoUnico) return nombre;
+  return `${nombre} (${piernaQueSeJuega(llaves)})`;
+}
+
+/** La misma pregunta para las copas de Conmebol, que tienen fase de grupos en vez de fase de liga. */
+export function rondaDeCopaContinental(cup: CupState, clubId: string): string | null {
+  if (cup.stage === 'groups') return 'Fase de grupos';
+  if (cup.stage === 'done') return null;
+  const llaves = cup.knockout?.tiesByRound[cup.knockout.tiesByRound.length - 1];
+  const mia = llaves?.find(t => t.clubAId === clubId || t.clubBId === clubId);
+  if (!mia) return null;
+  const nombre = roundLabelByMatchCount(llaves?.length ?? 0);
+  if (mia.partidoUnico) return nombre;
+  return `${nombre} (${piernaQueSeJuega(llaves)})`;
+}
+
 export function isClubStillInUefaCup(cup: UefaCupState, clubId: string): boolean {
   if (!cup.participants.includes(clubId)) return false;
   if (cup.stage === 'league_phase') return true;
   if (cup.stage === 'playoff') {
     if (!cup.playoff) return true;
     const inPlayoff = cup.playoff.some(t => t.clubAId === clubId || t.clubBId === clubId);
-    // Top 8 de la fase de liga: pasó directo a octavos, no juega el playoff pero sigue vivo.
-    if (!inPlayoff) return true;
+    // No estar en el playoff quiere decir dos cosas opuestas: pasaste directo a octavos (top 8) o
+    // terminaste del 25º para abajo, que es quedar afuera. Acá las dos contestaban "sigue vivo", y
+    // el club que terminó último de la fase de liga seguía viendo la copa como propia hasta que el
+    // cuadro de octavos lo dejaba afuera sin decirle nunca por qué.
+    if (!inPlayoff) {
+      return sortTable(cup.table).slice(0, UEFA_TOP_DIRECT).some(t => t.clubId === clubId);
+    }
     const roundDone = cup.playoff.every(t => t.played);
     if (!roundDone) return true;
     return cup.playoff.some(t => t.winnerId === clubId);

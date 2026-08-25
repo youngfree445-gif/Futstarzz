@@ -1603,7 +1603,15 @@ export default function MatchSimulator({
   // Año de la temporada en curso, calculado desde la semana real de la carrera. Antes estaba
   // hardcodeado "2026" en el encabezado y en el relato del partido, así que en la temporada 20 de
   // una carrera larga el partido seguía anunciándose como 2026.
-  const seasonYear = anioDeCarrera(currentClub.name, playerProfile.currentWeek);
+  // EL RELOJ DE LA CARRERA ES EL DE TU CLUB, no el del equipo que representás hoy.
+  //
+  // En un partido de selección currentClub es "Selección de Alemania", que no tiene calendario de
+  // liga. temporadaDeCarrera no la ubica y devuelve el tope (MAX_TEMPORADAS = 32), así que el año
+  // salía CAREER_START_YEAR + 31 = 2057: todos los partidos de Mundial, Eurocopa, Copa América y
+  // eliminatorias se rotulaban "2057" ya en la primera temporada de una carrera que arranca en
+  // 2026. El club sí tiene calendario, y es el que marca en qué año de la carrera estás.
+  const clubDeLaCarrera = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId) ?? currentClub;
+  const seasonYear = anioDeCarrera(clubDeLaCarrera.name, playerProfile.currentWeek);
   /**
    * Cómo se llama la temporada en pantalla: "2025/26" en Europa, "2026" en Sudamérica.
    *
@@ -1611,7 +1619,7 @@ export default function MatchSimulator({
    * siendo el mismo campeonato -- y el rótulo de acá abajo lo empeoraba armando "26/27" a mano a
    * partir de ese año, así que en enero el Barcelona jugaba la 25/26 y la pantalla decía 26/27.
    */
-  const rotuloTemporada = rotuloDeTemporada(currentClub.name, playerProfile.currentWeek);
+  const rotuloTemporada = rotuloDeTemporada(clubDeLaCarrera.name, playerProfile.currentWeek);
 
   // En Colombia y Argentina el año tiene DOS ligas -- Apertura y Clausura -- cada una con su propio
   // campeón. El rótulo decía solo "Primera División Dimayor", así que en pantalla no había forma de
@@ -1915,6 +1923,30 @@ export default function MatchSimulator({
     return () => clearTimeout(timer);
   }, [isPlaying, minute, activeDecision, charlaDelDT, speedMultiplier]);
 
+  /**
+   * COMO SUENA UN GOL. Cualquiera, no sólo el tuyo.
+   *
+   * Antes el festejo, el grito del relator y el morse vivían pegados a las tres ramas en las que
+   * marcabas VOS. Los goles de tus compañeros y los del rival -- que son la mayoría de los goles de
+   * un partido -- entraban al marcador en silencio absoluto: sólo cambiaba el texto de la crónica.
+   * Pedido: "los gritos de gol sólo suenan si yo hago gol, me gustaría que fuera con cada gol".
+   *
+   * La hinchada que suena es la de la CANCHA, así que festeja el gol del local y chifla el del
+   * visitante -- que es lo que se oye en una transmisión, y no un festejo idéntico para los dos.
+   */
+  const sonarGol = (esDeMiEquipo: boolean) => {
+    playSfx('goal');
+    const loGritaLaCancha = esDeMiEquipo === isHome.current;
+    playSfx(loGritaLaCancha ? 'crowd_cheer' : 'crowd_boo');
+    agacharAmbiente();
+    // El relator y el morse son para los goles de tu equipo: son el subrayado de la buena noticia.
+    // Donde se juega en Inglaterra o Estados Unidos lo grita un relator; si no, alguna que otra vez
+    // suena el morse. Nunca los dos: se pisan en el mismo segundo (ver relatoDelGol).
+    if (!esDeMiEquipo) return;
+    if (hayRelatoEnIngles(clubDeLaCancha.league)) playSfx(relatoNumero(golesGritados.current++));
+    else if (suenaElMorse(Math.random())) playSfx('gol_morse');
+  };
+
   const triggerRandomMatchEvent = (currentMin: number) => {
     // Entrada del suplente: recién ahora empezás a jugar de verdad, el técnico te manda a la cancha.
     if (!onField && !wasSubbedOff && subEntryMinute != null && currentMin >= subEntryMinute && !hasEnteredAsSubRef.current) {
@@ -2124,6 +2156,7 @@ export default function MatchSimulator({
 
       if (teamScores) {
         if (isHome.current) setScoreHome(prev => prev + 1); else setScoreAway(prev => prev + 1);
+        sonarGol(true);
         setMatchLog(prev => [...prev, {
           minute: currentMin,
           text: `¡GOL de ${teamName}! Combinación magistral en el área que finaliza ${teammateName} con un remate cruzado.`,
@@ -2135,6 +2168,7 @@ export default function MatchSimulator({
         if (onField) setRating(prev => Math.min(prev + 0.15, 10.0));
       } else {
         if (isHome.current) setScoreAway(prev => prev + 1); else setScoreHome(prev => prev + 1);
+        sonarGol(false);
         const goleadorRival = getRivalAttacker();
         setMatchLog(prev => [...prev, {
           minute: currentMin,
@@ -2354,20 +2388,13 @@ export default function MatchSimulator({
         setPlayerGoals(prev => prev + choice.effectOnSuccess.goals);
         if (isHome.current) setScoreHome(prev => prev + choice.effectOnSuccess.goals);
         else setScoreAway(prev => prev + choice.effectOnSuccess.goals);
-        playSfx('goal');
-        playSfx('crowd_cheer');
-        agacharAmbiente();
-        // Donde se juega en Inglaterra o Estados Unidos lo grita un relator; si no, alguna que
-        // otra vez suena el morse. Nunca los dos: se pisan en el mismo segundo (ver relatoDelGol).
-        if (hayRelatoEnIngles(clubDeLaCancha.league)) playSfx(relatoNumero(golesGritados.current++));
-        else if (suenaElMorse(Math.random())) playSfx('gol_morse');
+        sonarGol(true);
       } else if (choice.effectOnSuccess.assists > 0) {
         setPlayerAssists(prev => prev + choice.effectOnSuccess.assists);
         if (isHome.current) setScoreHome(prev => prev + 1);
         else setScoreAway(prev => prev + 1);
-        // Una asistencia también termina en gol del equipo: mismo festejo, sin el golpe del 'goal'
-        // que se reserva para cuando la mete el jugador.
-        playSfx('crowd_cheer');
+        // Una asistencia también termina en gol del equipo, y suena como tal.
+        sonarGol(true);
       } else {
         // Decisión exitosa sin gol ni asistencia (defensiva/táctica): confirmación seca, sin estadio.
         // El golpe a la pelota va ANTES del resultado: primero pegás, después se ve si salió.
@@ -2446,14 +2473,7 @@ export default function MatchSimulator({
       setDecisionWasSuccess(true);
       setPlayerGoals(prev => prev + 1);
       if (isHome.current) setScoreHome(prev => prev + 1); else setScoreAway(prev => prev + 1);
-      playSfx('goal');
-      playSfx('crowd_cheer');
-      agacharAmbiente();
-      // Y si se juega en Inglaterra o Estados Unidos, lo grita un relator (ver relatoDelGol.ts).
-      // Donde se juega en Inglaterra o Estados Unidos lo grita un relator; si no, alguna que
-      // otra vez suena el morse. Nunca los dos: se pisan en el mismo segundo (ver relatoDelGol).
-      if (hayRelatoEnIngles(clubDeLaCancha.league)) playSfx(relatoNumero(golesGritados.current++));
-      else if (suenaElMorse(Math.random())) playSfx('gol_morse');
+      sonarGol(true);
       const ratingBonus = isPenalty ? 1.3 : 2.0;
       setRating(prev => Math.min(prev + ratingBonus, 10.0));
       const prestigeGain = isPenalty ? 5 : 10;

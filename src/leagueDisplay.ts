@@ -140,3 +140,36 @@ const DOMESTIC_CUP_NAMES: Record<string, string> = {
 export function getDomesticCupName(league: string | undefined): string {
   return DOMESTIC_CUP_NAMES[league ?? ''] ?? 'Copa Nacional';
 }
+
+// --- COMO SE LLAMA UNA RONDA -------------------------------------------------------------------
+//
+// Las rondas del calendario vienen de Transfermarkt, en inglés y con formatos distintos según la
+// copa ("Round of 16", "Quarter-Finals", "1. Round"). Se traducen las habituales y el resto pasa
+// tal cual: es preferible mostrar "Group Stage" que no mostrar nada.
+//
+// Vive acá y no en App.tsx porque la tarjeta del próximo partido la necesita igual, y era
+// justamente eso lo que faltaba: en las copas que manda el calendario -- la Libertadores del
+// Junior, la Copa do Brasil del Flamengo -- la tarjeta rotulaba el partido con la FECHA ("9 abr")
+// en vez de con la ronda, y el dato estaba ahí sin usarse.
+const RONDAS_EN_ESPANOL: Record<string, string> = {
+  'final': 'Final',
+  'semi-finals': 'Semifinal', 'semi-final': 'Semifinal', 'semifinals': 'Semifinal',
+  'quarter-finals': 'Cuartos de Final', 'quarter-final': 'Cuartos de Final',
+  'round of 16': 'Octavos de Final', 'last 16': 'Octavos de Final',
+  'round of 32': 'Dieciseisavos', 'last 32': 'Dieciseisavos',
+  'round of 64': 'Treintaidosavos',
+  'group stage': 'Fase de Grupos', 'first round': 'Primera Ronda', 'second round': 'Segunda Ronda',
+  'third round': 'Tercera Ronda', 'preliminary round': 'Ronda Preliminar',
+};
+
+/** "Round of 16 (Ida)" -> "Octavos de Final (Ida)". Devuelve null si no hay ronda que mostrar. */
+export function rondaEnEspanol(ronda?: string | null): string | null {
+  if (!ronda) return null;
+  const limpia = ronda.trim();
+  if (!limpia) return null;
+  // "Final (Vuelta)" -> se traduce "Final" y se conserva el paréntesis.
+  const conParentesis = /^(.*?)\s*\(([^)]*)\)\s*$/.exec(limpia);
+  const base = (conParentesis ? conParentesis[1] : limpia).trim();
+  const sufijo = conParentesis ? ` (${conParentesis[2].trim()})` : '';
+  return `${RONDAS_EN_ESPANOL[base.toLowerCase()] ?? base}${sufijo}`;
+}

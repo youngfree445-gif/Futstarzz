@@ -354,6 +354,30 @@ function ligaDe(
   return LIGA_POR_CLUB[clubId] ?? todosLosClubes.find(c => c.id === clubId)?.league ?? null;
 }
 
+/**
+ * Cómo se llama cada copa europea EN EL CALENDARIO por fechas (src/realCalendarDates.ts).
+ *
+ * SIN el prefijo "UEFA", y eso no es una preferencia de estilo: es el nombre con el que hay que
+ * comparar para contar sus días.
+ *
+ * El calendario viejo por semanas (realCalendar.ts) las llamaba "UEFA Champions League" y ese
+ * nombre se quedó en el motor cuando se migró a fechas reales, donde la competición se llama
+ * "Champions League" a secas. Como `fechasDeCopaTranscurridas` cuenta los días comparando el
+ * nombre contra el del calendario, la comparación no daba nunca: el reloj de la copa se quedaba
+ * clavado y el cuadro jamás llegaba al día. De ahí salían las dos Champions a la vez -- diez
+ * partidos que ponía el calendario y unos pocos que ponía el cuadro, con dos carteles distintos en
+ * la misma temporada -- y que el torneo se apagara en febrero sin cuartos, ni semis, ni final.
+ *
+ * Las de Conmebol nunca lo sufrieron porque sus dos nombres sí coinciden ("Copa Libertadores").
+ *
+ * El nombre que se MUESTRA en pantalla sigue siendo "UEFA Champions League": es otra cosa y vive
+ * aparte a propósito.
+ */
+export const NOMBRE_UEFA_EN_EL_CALENDARIO: Readonly<Record<'champions' | 'europa', string>> = {
+  champions: 'Champions League',
+  europa: 'Europa League',
+};
+
 /** Campeones vigentes de las copas europeas, para darles su plaza en la Champions siguiente. */
 export interface CampeonesUefa {
   champions?: string | null;

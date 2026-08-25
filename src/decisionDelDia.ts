@@ -31,13 +31,15 @@
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
 import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
-import { pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { resolverClubDeCalendario } from './clubAliases';
+import { esPartidoUnicoDeCopa } from './reglamentos';
 import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from './data';
-import { CONFEDERACION_POR_SELECCION, seleccionesDeLaCopaAmerica, seleccionesDeLaEurocopa, torneoContinentalDe } from './eliminatorias';
+import { CONFEDERACION_POR_SELECCION, crearEliminatoria, ponerAlDiaLaEliminatoria, proximoPartidoDeEliminatoria, seleccionesDeLaCopaAmerica, seleccionesDeLaEurocopa, tablaDeEliminatoria, torneoContinentalDe, zonaDe, type EliminatoriaState } from './eliminatorias';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
 import { type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
+import { evaluarConvocatoria } from './convocatoria';
 
 /**
  * La clave con la que se guarda la edición de copa nacional que le toca al club en este paso.
@@ -176,6 +178,49 @@ export interface CruceDeCuadrangular {
  * despues. Cuando el cuadro todavia no esta sembrado devuelve null, y quien pregunte tiene que
  * decir "rival por definir" en vez de inventar uno -- que es lo que ya hace la tarjeta.
  */
+/**
+ * ¿ESTE CLUB ESTA EN EL CUADRANGULAR DE HOY?
+ *
+ * Separada de cuadrangularDeHoy a proposito. Aquella devuelve null por DOS motivos que no son lo
+ * mismo -- "no clasificaste" y "no pude leer el cuadro" -- y tratar los dos igual salio caro: la
+ * tarjeta daba el dia por libre, App resolvia el cuadrangular de fondo con las llaves del jugador
+ * simuladas, y el jugador terminaba CAMPEON DEL APERTURA sin haber jugado un solo partido. Medido
+ * con el Junior en una temporada completa.
+ *
+ * Devuelve `false` solo cuando se puede AFIRMAR que no esta: hay cuadro y su nombre no aparece en
+ * ninguna llave. Si no se puede leer el cuadro devuelve `true`, que es el lado seguro -- que salga
+ * a jugar un partido de mas es reparable; que le regalen un titulo que no jugo, no.
+ */
+export function estaEnElCuadrangular(
+  perfil: PlayerProfile,
+  club: Club,
+  paso: number,
+  fecha: string,
+  tabla: readonly TableTeam[] = [],
+): boolean {
+  const guardado = perfil.playoffsDeLiga?.[clavePlayoffDeLiga(club, paso, fecha)]
+    ?? (tabla.length
+      ? prepararPlayoffDeLiga(undefined, [...tabla], fechasDePlayoffDelTorneo(club.name, fecha))
+      : undefined);
+  if (!guardado) return true;   // no se puede leer: se juega, no se regala
+
+  // YA HAY CAMPEON: el torneo termino y las fechas que le sobran al calendario no son de nadie.
+  //
+  // Es el caso mas comun de los tres, y el que ensuciaba la tarjeta: el cuadro de ocho se define en
+  // seis fechas y el calendario aparta alguna de mas, asi que despues de la final quedaban dias
+  // rotulados "Rival por definir" con el boton de jugar debajo. Medido con Boca: cuatro fechas asi
+  // en mayo y junio, con el Apertura ya ganado por Argentinos Juniors.
+  if (guardado.championId) return false;
+
+  const ultima = guardado.tiesByRound[guardado.tiesByRound.length - 1];
+  if (!ultima?.length) return true;
+  const mia = ultima.find(t => t.clubAId === club.id || t.clubBId === club.id);
+  // No aparece en la ronda en curso: quedo eliminado antes. El cuadrangular sigue sin el.
+  if (!mia) return false;
+  // Esta en la ronda: juega, salvo que ya la haya perdido.
+  return !mia.played || mia.winnerId === club.id;
+}
+
 export function cuadrangularDeHoy(
   perfil: PlayerProfile,
   club: Club,
@@ -244,14 +289,27 @@ export function copaNacionalDelPaso(
   const fecha = fechaDelPaso(club.name, paso);
   if (!fecha) return null;
 
-  // El cuadro se dimensiona a las FECHAS QUE QUEDAN: cada ronda son dos partidos, asi que con N
-  // fechas entran floor(N/2) rondas y 2^rondas clubes. Y TU CLUB entra siempre -- el recorte a la
-  // potencia de dos se llevaba puestos a los de menor reputacion, que se quedaban sin jugar la copa
-  // ninguna temporada.
+  // El cuadro se dimensiona a las FECHAS QUE QUEDAN, contando lo que dura cada ronda EN ESTE PAIS.
+  //
+  // Antes la cuenta era floor(fechas / 2), o sea daba por hecho que toda ronda son dos partidos. En
+  // la FA Cup, la Coppa Italia o la Copa Argentina -- partido unico de punta a punta -- eso achicaba
+  // el cuadro a la mitad sin motivo: con seis fechas armaba un cuadro de 8 clubes cuando entraban
+  // 64. Recortar el torneo es justo lo que esta casa no hace.
+  //
+  // Se cuenta desde la FINAL hacia atras: la final es la ronda de 1 llave, la semi de 2, y asi.
   const quedan = fechasDeCopaNacionalRestantes(club.name, temporada, fecha);
+  const unico = esPartidoUnicoDeCopa(club.league);
+  let rondas = 0;
+  let diasLibres = quedan;
+  for (let llaves = 1; rondas < 6; llaves *= 2) {
+    const cuesta = unico(llaves) ? 1 : 2;
+    if (diasLibres < cuesta) break;
+    diasLibres -= cuesta;
+    rondas++;
+  }
   const delPais = clubes.filter(c => c.league === club.league);
   const cupo = Math.min(
-    2 ** Math.max(1, Math.min(6, Math.floor(quedan / 2))),
+    2 ** Math.max(1, rondas),
     tamanoDelCuadro(delPais.length),
   );
   const continuan = [
@@ -509,4 +567,75 @@ function nombreDelParonDeSelecciones(perfil: PlayerProfile, clubName: string): s
   if (torneo === 'eurocopa') return 'la Eurocopa';
   if (torneo === 'copaamerica') return 'la Copa America';
   return 'la Eurocopa y la Copa America';
+}
+
+// --- LA ELIMINATORIA DEL DIA -------------------------------------------------------------------
+//
+// Mismo motivo que todo lo de arriba: App.tsx armaba el cruce de eliminatorias y Dashboard.tsx NO,
+// asi que la tarjeta caia al calendario y anunciaba "vs Por definir · Local" -- el rival de relleno
+// que el calendario apartaba para la fecha FIFA (RIVAL_POR_SORTEAR) -- en las 52 fechas de una
+// carrera de siete temporadas. Ninguna mostraba contra quien se jugaba.
+//
+// Ahora la respuesta vive una sola vez y la usan los dos.
+
+/** El cruce de eliminatorias de hoy, con todo lo que hace falta para anunciarlo y para jugarlo. */
+export interface CruceDeEliminatorias {
+  /** Clave de la edicion en perfil.eliminatorias. */
+  clave: string;
+  /** El estado YA puesto al dia: hay que guardarlo. */
+  estado: EliminatoriaState;
+  miSeleccionId: string;
+  rivalId: string;
+  rival: Club | null;
+  soyLocal: boolean;
+  fecha: number;
+  zona: string | null;
+  mundial: number;
+  /** Posiciones en la tabla de la zona, para el marcador del partido. */
+  miPos: number | null;
+  suPos: number | null;
+  total: number | null;
+}
+
+export function cruceDeEliminatoriasHoy(
+  perfil: PlayerProfile,
+  clubName: string,
+): CruceDeEliminatorias | null {
+  const teamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
+  if (!teamId) return null;
+  const conf = CONFEDERACION_POR_SELECCION[teamId];
+  const anio = anioDeCarrera(clubName, perfil.currentWeek);
+  const ciclo = cicloDeEliminatorias(anio);
+  // La regla de la nomina vive en convocatoria.ts y no se repite: es la misma que decide si el
+  // diario te anuncia en la lista.
+  if (!ciclo || !conf || !evaluarConvocatoria(perfil, anio).convocado) return null;
+
+  const clave = `${conf}-${ciclo.mundial}`;
+  const estado = ponerAlDiaLaEliminatoria(
+    perfil.eliminatorias?.[clave] ?? crearEliminatoria(conf, ciclo.mundial, ALL_NATIONAL_TEAMS_DATABASE),
+    ALL_NATIONAL_TEAMS_DATABASE,
+    pasosDeEliminatoriasTranscurridos(clubName, perfil.currentWeek),
+    teamId,
+  );
+  const proximo = proximoPartidoDeEliminatoria(estado, teamId);
+  if (!proximo) return null;
+
+  const tabla = tablaDeEliminatoria(estado, teamId);
+  const miIdx = tabla?.findIndex(r => r.clubId === teamId) ?? -1;
+  const suIdx = tabla?.findIndex(r => r.clubId === proximo.opponentId) ?? -1;
+
+  return {
+    clave,
+    estado,
+    miSeleccionId: teamId,
+    rivalId: proximo.opponentId,
+    rival: ALL_NATIONAL_TEAMS_DATABASE.find(t => t.id === proximo.opponentId) ?? null,
+    soyLocal: proximo.isHome,
+    fecha: proximo.fecha,
+    zona: zonaDe(estado, teamId),
+    mundial: ciclo.mundial,
+    miPos: miIdx >= 0 ? miIdx + 1 : null,
+    suPos: suIdx >= 0 ? suIdx + 1 : null,
+    total: tabla?.length ?? null,
+  };
 }

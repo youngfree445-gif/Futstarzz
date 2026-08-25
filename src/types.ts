@@ -22,6 +22,8 @@ export interface Club {
   badgeColor: string; // Tailwind bg class for aesthetic rendering
   badgeLogoUrl?: string; // Real or illustrative badge icon/emoji/flag
   badgeImageUrl?: string | null; // Escudo real (hotlink a Wikimedia Commons) -- ver ClubBadge.tsx para el fallback si falta o no carga
+  /** Es una SELECCION, no un club. Cambia el respaldo del escudo: bandera en vez de iniciales. */
+  esSeleccion?: boolean;
   hasSecondDivision?: boolean; // Flag to represent division state
   division?: 1 | 2 | 3; // Corregido: Ahora soporta división 3 sin errores
   themeColor?: { primary: string; secondary: string }; // Color real de camiseta (hex) -- si existe, la app entera se repinta con estos colores mientras jugás en este club (ver applyClubTheme en App.tsx). Si falta, se mantiene el dorado/borgoña por defecto.

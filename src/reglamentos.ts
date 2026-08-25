@@ -84,6 +84,26 @@ export interface ReglamentoDeLiga {
    * queda sin copa en silencio.
    */
   copaNacional?: string;
+  /**
+   * CUANTOS PARTIDOS DURA CADA RONDA DE LA COPA NACIONAL.
+   *
+   * Estaba sin modelar y el cuadro las jugaba TODAS a ida y vuelta, en todos los países. O sea que
+   * la FA Cup, la Coppa Italia, la DFB-Pokal, la Coupe de France y la Copa Argentina -- que se
+   * juegan a partido único de punta a punta -- duraban el doble de partidos que en la realidad, y
+   * a la Copa do Brasil y a la Copa BetPlay, que sí definen su final a ida y vuelta, se les jugaba
+   * una final sola.
+   *
+   * `rondas` es el caso normal; `semifinal` y `final` son las excepciones que cada reglamento hace.
+   * Sin este dato el país se comporta como partido único, que es lo más común en el mundo.
+   */
+  copaPiernas?: {
+    /** Rondas normales: 1 = partido único, 2 = ida y vuelta. */
+    rondas: 1 | 2;
+    /** Sólo si la SEMIFINAL difiere (España y Portugal la juegan a doble partido). */
+    semifinal?: 1 | 2;
+    /** La final. Casi siempre 1; Brasil, Colombia y Ecuador la definen a ida y vuelta. */
+    final?: 1 | 2;
+  };
 }
 
 /**
@@ -98,11 +118,15 @@ export const REGLAMENTOS: Readonly<Record<string, ReglamentoDeLiga>> = {
   Colombiana: {
     torneosPorAnio: 2, primerTorneoDelAnio: 'Apertura',
     definicion: 'cuadrangular', clubesDelCuadro: 8, copaNacional: 'Copa BetPlay',
+    // Dimayor: ida y vuelta en todas las rondas, final incluida.
+    copaPiernas: { rondas: 2, final: 2 },
   },
   // AFA: Apertura y Clausura, cada uno con fase final entre los ocho mejores.
   Argentina: {
     torneosPorAnio: 2, primerTorneoDelAnio: 'Apertura',
     definicion: 'cuadrangular', clubesDelCuadro: 8, copaNacional: 'Copa Argentina',
+    // AFA: partido unico de punta a punta, en cancha neutral.
+    copaPiernas: { rondas: 1, final: 1 },
   },
   // Liga MX: Apertura (julio-diciembre) y Clausura (enero-mayo), cada uno definido por la Liguilla.
   //
@@ -115,6 +139,8 @@ export const REGLAMENTOS: Readonly<Record<string, ReglamentoDeLiga>> = {
   Mexicana: {
     torneosPorAnio: 2, primerTorneoDelAnio: 'Clausura',
     definicion: 'cuadrangular', clubesDelCuadro: 8, copaNacional: 'Copa MX',
+    // Fase final a partido unico.
+    copaPiernas: { rondas: 1, final: 1 },
   },
 
   // --- Un campeón por año, definido por tabla ------------------------------------------------
@@ -122,21 +148,49 @@ export const REGLAMENTOS: Readonly<Record<string, ReglamentoDeLiga>> = {
   // Para éstas el reglamento sólo aporta el nombre de la copa, pero igual llevan registro: que una
   // liga esté acá y diga "un torneo, por tabla" es una afirmación, y el validador la puede exigir.
   // Sin registro no se distingue "es de un torneo" de "nadie la cargó todavía".
-  Brasileña: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa do Brasil' },
-  Inglesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'FA Cup' },
-  Española: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa del Rey' },
-  Italiana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Coppa Italia' },
-  Alemana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'DFB-Pokal' },
-  Francesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Coupe de France' },
-  Holandesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'KNVB Beker' },
-  Portuguesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Taça de Portugal' },
-  Chilena: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Chile' },
-  Ecuatoriana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Ecuador' },
+  Brasileña: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa do Brasil',
+    // CBF: ida y vuelta desde la tercera fase, y la final tambien.
+    copaPiernas: { rondas: 2, final: 2 } },
+  Inglesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'FA Cup',
+    // Partido unico; ya no hay replays. Final en Wembley.
+    copaPiernas: { rondas: 1, final: 1 } },
+  Española: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa del Rey',
+    // RFEF: partido unico salvo la SEMIFINAL, que va a doble partido.
+    copaPiernas: { rondas: 1, semifinal: 2, final: 1 } },
+  Italiana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Coppa Italia',
+    // Partido unico en todas las rondas desde 2021/22.
+    copaPiernas: { rondas: 1, final: 1 } },
+  Alemana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'DFB-Pokal',
+    // Partido unico; la final siempre en el Olympiastadion.
+    copaPiernas: { rondas: 1, final: 1 } },
+  Francesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Coupe de France',
+    // Partido unico de punta a punta.
+    copaPiernas: { rondas: 1, final: 1 } },
+  Holandesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'KNVB Beker',
+    // Partido unico; final en De Kuip.
+    copaPiernas: { rondas: 1, final: 1 } },
+  Portuguesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Taça de Portugal',
+    // Partido unico salvo la SEMIFINAL, a doble partido. Final en Jamor.
+    copaPiernas: { rondas: 1, semifinal: 2, final: 1 } },
+  Chilena: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Chile',
+    // Ida y vuelta en las rondas, final a partido unico.
+    copaPiernas: { rondas: 2, final: 1 } },
+  Ecuatoriana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Ecuador',
+    // Ida y vuelta, final incluida.
+    copaPiernas: { rondas: 2, final: 2 } },
   Boliviana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Bolivia' },
-  Uruguaya: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Uruguay' },
-  Venezolana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Venezuela' },
-  Estadounidense: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'US Open Cup' },
-  Paraguaya: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Paraguay' },
+  Uruguaya: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Uruguay',
+    // Partido unico.
+    copaPiernas: { rondas: 1, final: 1 } },
+  Venezolana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Venezuela',
+    // Ida y vuelta, final incluida.
+    copaPiernas: { rondas: 2, final: 2 } },
+  Estadounidense: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'US Open Cup',
+    // Partido unico, en cancha del que sale sorteado.
+    copaPiernas: { rondas: 1, final: 1 } },
+  Paraguaya: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Paraguay',
+    // Partido unico.
+    copaPiernas: { rondas: 1, final: 1 } },
   Peruana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa de la Liga' },
 };
 
@@ -360,4 +414,25 @@ const REGLAS: Record<string, ReglasAscenso> = {
 /** Reglas de esa liga, o null si no tiene sistema implementado. */
 export function reglasDeLiga(league: string): ReglasAscenso | null {
   return REGLAS[league] ?? null;
+}
+
+/**
+ * COMO SE JUEGA CADA RONDA DE LA COPA NACIONAL DE ESTE PAIS.
+ *
+ * Vive acá y no en copaNacional.ts por la razón de siempre en este archivo: éste es un módulo HOJA
+ * que no importa nada, así que lo pueden leer tanto copaNacional como leagueEngine. Puesta en
+ * copaNacional, leagueEngine tenía que importarla y ahí se cerraba un ciclo de verdad -- hasta
+ * ahora sólo tomaba de allá un `import type`, que se borra al compilar.
+ *
+ * Sin dato cargado se asume PARTIDO UNICO, que es lo más común en el mundo y sobre todo es lo que
+ * no inventa partidos: agregar una vuelta que no existe alarga el torneo, quitarla no.
+ */
+export function esPartidoUnicoDeCopa(league: string): (llavesEnLaRonda: number) => boolean {
+  const piernas = reglamentoDe(league).copaPiernas;
+  return llaves => {
+    if (!piernas) return true;
+    if (llaves === 1) return (piernas.final ?? 1) === 1;
+    if (llaves === 2) return (piernas.semifinal ?? piernas.rondas) === 1;
+    return piernas.rondas === 1;
+  };
 }

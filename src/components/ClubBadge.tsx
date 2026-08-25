@@ -70,7 +70,15 @@ export default function ClubBadge({ club, size = 32, colorFallback = true, class
     );
   }
 
-  const fallbackText = colorFallback ? getInitials(club.name) : (club.badgeLogoUrl || '⚽');
+  // UNA SELECCION SIN ESCUDO SE DIBUJA CON SU BANDERA, nunca con iniciales.
+  //
+  // "Selección de Alemania" daba "SDA", y "Selección de la República Democrática del Congo" daba
+  // algo peor todavía. Las iniciales funcionan para un club -- son las que usa la hinchada -- pero
+  // de un país lo que se reconoce es la bandera, que además ya estaba cargada en badgeLogoUrl.
+  // Sólo caen acá las seis selecciones cuyo escudo no está en public/badges/selecciones.
+  const fallbackText = club.esSeleccion
+    ? (club.badgeLogoUrl || '🏳️')
+    : colorFallback ? getInitials(club.name) : (club.badgeLogoUrl || '⚽');
   // El emoji del club puede tener hasta 3 caracteres (ej. '🦈🔴⚪'), que a veces no entran en
   // una sola línea al tamaño de fuente base y se parten en dos -- lo compensamos con una
   // fuente más chica cuando hay más de 2 caracteres, además de forzar nowrap.

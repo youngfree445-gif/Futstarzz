@@ -317,8 +317,9 @@ caso('celular: la carrera tiene barra de secciones', () => {
 const anclasDe = (html) => new Set(
   [...html.matchAll(/id="([a-z-]+)"/g)].map(m => m[1]));
 
+// Copas y Tablas ya no tiene ATAJOS sino PESTAÑAS (Liga / Copa / Cracks), y muestra una sola
+// seccion por vez -- en celular y en escritorio. Su caso propio esta mas abajo.
 for (const [pestania, esperados] of [
-  ['tablas', ['tabla-posiciones', 'tabla-goleadores']],
   ['traspasos', ['traspasos-ofertas', 'traspasos-radar', 'traspasos-agente']],
 ]) {
   caso(`celular: los atajos de ${pestania} tienen a donde ir`, () => {
@@ -330,6 +331,31 @@ for (const [pestania, esperados] of [
     return html;
   });
 }
+
+// --- Copas y Tablas: una seccion por vez -----------------------------------------------------
+//
+// Antes las tres se dibujaban una debajo de la otra con atajos que hacian scroll, y en escritorio
+// eso era una pantalla de varios metros. Ahora son pestañas de verdad: Liga, Copa y Cracks, y solo
+// se dibuja la elegida. El caso comprueba las dos mitades -- que este la que toca, y que NO esten
+// las otras dos -- porque dibujarlas todas y esconderlas con CSS seria pasar el caso sin arreglar
+// nada.
+caso('copas: abre en Liga y no dibuja las otras dos secciones', () => {
+  const html = dibujar(perfilDe(junior, {}), 'tablas', 'tabla-posiciones');
+  if (html.includes('id="tabla-goleadores"')) throw new Error('dibuja Cracks sin haberla elegido');
+  if (html.includes('id="tabla-copa"')) throw new Error('dibuja Copa sin haberla elegido');
+  return html;
+});
+
+// Y cada pestaña lleva el NOMBRE del torneo, no una categoria generica: es lo que deja ver de un
+// vistazo todo lo que el club esta jugando.
+caso('copas: las pestañas llevan el nombre de cada torneo', () => {
+  const html = dibujar(perfilDe(junior, {}), 'tablas', 'Secciones de Copas y Tablas');
+  for (const texto of ['Primera División Dimayor', 'Cracks']) {
+    if (!html.includes(`>${texto}</span>`)) throw new Error(`falta la pestaña ${texto}`);
+  }
+  if (html.includes('>Liga</span>')) throw new Error('la pestaña dice "Liga" y no el nombre del torneo');
+  return html;
+});
 
 // --- El panel del torneo de selecciones, en Copas y tablas -----------------------------------
 //

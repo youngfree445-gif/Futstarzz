@@ -113,9 +113,19 @@ const CRUCE = 2.5;
 /** Cada cuánto se revisa si hay que cruzar, en milisegundos. */
 const LATIDO = 250;
 
-/** Cuánto baja el ambiente cuando pasa algo importante, y cuánto tarda en volver. */
-const AGACHADA = 0.35;
-const SEGUNDOS_PARA_VOLVER = 1.8;
+/**
+ * Cuánto baja el ambiente cuando pasa algo importante, y cuánto tarda en volver.
+ *
+ * SE AGACHA, NO SE APAGA. Estaba en 0.35, y como el ambiente ya sale al 0.35 del volumen general,
+ * agacharse lo dejaba en el 12% de lo que el jugador puso: un agujero de silencio de casi dos
+ * segundos en medio del partido. Ahora baja a la mitad y vuelve más rápido -- se nota que el
+ * estadio le hace lugar al gol, sin que la cancha desaparezca.
+ *
+ * Importa más desde que suena CADA gol y no sólo los tuyos (ver sonarGol en MatchSimulator): lo que
+ * pasaba una vez por partido ahora puede pasar cuatro.
+ */
+const AGACHADA = 0.6;
+const SEGUNDOS_PARA_VOLVER = 1.2;
 
 interface Sonando {
   el: HTMLAudioElement;

@@ -78,6 +78,7 @@ import privateJetImg from './assets/shop/private_jet.jpg';
 import foodCartImg from './assets/shop/food_cart.jpg';
 import foodTruckImg from './assets/shop/food_truck.jpg';
 import restaurantImg from './assets/shop/restaurant.jpg';
+import { ESCUDO_DE_SELECCION } from './escudosDeSeleccion';
 import restaurantChainImg from './assets/shop/restaurant_chain.jpg';
 import esportsTeamImg from './assets/shop/esports_team.jpg';
 import footballAcademyImg from './assets/shop/football_academy.jpg';
@@ -5742,7 +5743,15 @@ function buildNationalTeam(team: (typeof WORLD_CUP_2026_TEAMS_SEED)[number]): Cl
     starPlayers: team.starPlayers,
     description: `Selección masculina absoluta de ${team.countryName}.`,
     badgeColor: 'border-l-4 border-slate-500 bg-slate-900/40 text-slate-100',
-    badgeLogoUrl: team.badgeLogoUrl
+    badgeLogoUrl: team.badgeLogoUrl,
+    // EL ESCUDO DE LA SELECCION. Faltaba, y por eso en la tarjeta del partido, en el marcador y en
+    // las tablas las selecciones salian con las INICIALES de su nombre: "SDA" para Selección de
+    // Alemania. badgeLogoUrl es una bandera emoji y ClubBadge solo dibuja badgeImageUrl como
+    // imagen. Los archivos estan en public/badges/selecciones (ver generar_escudos_seleccion.mjs).
+    badgeImageUrl: ESCUDO_DE_SELECCION[team.id] ?? null,
+    // Para que ClubBadge sepa que, si no hay escudo, el respaldo honesto es la BANDERA y no unas
+    // iniciales: las seis selecciones sin escudo cargado se ven como bandera, no como "SDCDM".
+    esSeleccion: true,
   };
 }
 

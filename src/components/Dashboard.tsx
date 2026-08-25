@@ -24,16 +24,17 @@ import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, p
 import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
-import { getLeagueDisplay } from '../leagueDisplay';
+import { getLeagueDisplay, rondaEnEspanol } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
 import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
+import { estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
+import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal, postsDelPibe,
 } from '../chutSocialVoces';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
@@ -49,7 +50,7 @@ import {
   isClubStillInCup, isClubStillInUefaCup, partidosQueLeQuedanEnLaCopa,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isApeturaClausuraLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
-  CAREER_START_YEAR, roundLabelByMatchCount, crucePlayoffDeLiga, rondaDelPlayoff
+  CAREER_START_YEAR, roundLabelByMatchCount, crucePlayoffDeLiga, rondaDelPlayoff, rondaDeCopaUefa, rondaDeCopaContinental
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -446,6 +447,14 @@ export default function Dashboard({
   initialTab,
   abrirEnMiClub
 }: DashboardProps) {
+  /**
+   * QUE SE MIRA EN "Copas y Tablas": una sola cosa por vez.
+   *
+   * Antes se dibujaban las tres una debajo de la otra con unos atajos arriba que hacian scroll. En
+   * un monitor eso ya era una pantalla de varios metros, y en un telefono peor. Pedido: pestañas de
+   * verdad -- Liga, Copa, Cracks -- que muestren SOLO lo elegido, en PC y en celular.
+   */
+  const [seccionElegida, setSeccionDeTablas] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<SeccionKey>(initialTab ?? 'carrera');
 
   // Al terminar la presentación en el club nuevo, el juego te deja en la plantilla de tu club:
@@ -732,7 +741,7 @@ export default function Dashboard({
     ? 'europa'
     : null;
   const uefaCup = uefaCupId
-    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false, uefaCupId === 'europa' ? 'UEFA Europa League' : 'UEFA Champions League'), cupPosiciones, cupCampeonesUefa, currentClub.id)
+    ? getOrCreateUefaCupState(uefaCupId, ULTIMATE_CLUBS_DATABASE, playerProfile.uefaCups[uefaCupId], fechasDeCopaTranscurridas(currentClub.name, playerProfile.currentWeek, false, NOMBRE_UEFA_EN_EL_CALENDARIO[uefaCupId]), cupPosiciones, cupCampeonesUefa, currentClub.id)
     : null;
 
   // QUÉ COPA SE JUEGA HOY, cuando el día que trae el calendario es una RESERVA.
@@ -757,6 +766,8 @@ export default function Dashboard({
           nombre: conmebolCupId === 'sudamericana' ? 'Copa Sudamericana'
             : conmebolCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Libertadores',
           rivalId: upcoming.opponentId, soyLocal: upcoming.isHome,
+          // En qué ronda estás. Sin esto la tarjeta rotulaba la copa con la FECHA del partido.
+          ronda: rondaDeCopaContinental(conmebolCup, currentClub.id),
         };
       }
     }
@@ -766,6 +777,7 @@ export default function Dashboard({
         return {
           nombre: uefaCupId === 'europa' ? 'UEFA Europa League' : 'UEFA Champions League',
           rivalId: upcoming.opponentId, soyLocal: upcoming.isHome,
+          ronda: rondaDeCopaUefa(uefaCup, currentClub.id),
         };
       }
     }
@@ -798,6 +810,14 @@ export default function Dashboard({
     // van a contar en la tabla de otra copa.
     if (fx.esReservaDeCuadro && (fx.competition.kind === 'continental_cup' || fx.competition.kind === 'domestic_cup')) {
       return copaContinentalDeHoy?.nombre ?? nombreCopaNacional(currentClub.league);
+    }
+    // Día con partido REAL de copa continental: desde que el cuadro del motor manda las copas
+    // europeas, el rival de ese día lo pone él, así que su tabla de goleadores tiene que ser la
+    // MISMA que la de los días reservados. Con el nombre del calendario ("Champions League") y el
+    // del motor ("UEFA Champions League") quedaban dos tablas distintas para la misma copa, y los
+    // goles del torneo se repartían entre las dos.
+    if (fx.competition.kind === 'continental_cup' && copaContinentalDeHoy) {
+      return copaContinentalDeHoy.nombre;
     }
     return fx.competition.name;
   })();
@@ -898,6 +918,58 @@ export default function Dashboard({
     const NOMBRE = { mundial: 'COPA MUNDIAL FIFA', eurocopa: 'EUROCOPA', copaamerica: 'COPA AMÉRICA' } as const;
     return { ...hoy, estado, nombre: NOMBRE[hoy.torneo] };
   })();
+
+  /** La copa nacional de esta temporada, si la hay: es un torneo mas para mostrar. */
+  const copaNacionalDeLaTemporada = playerProfile.domesticCups?.[claveDeCopaNacional(currentClub, playerProfile.currentWeek)] ?? null;
+
+  /**
+   * UNA PESTAÑA POR TORNEO QUE SE ESTA JUGANDO, con el nombre de cada uno.
+   *
+   * No son categorias genericas ("Liga", "Copa"): son los torneos de verdad -- Bundesliga, UEFA
+   * Champions League, DFB-Pokal, Copa Mundial FIFA -- porque lo que el jugador quiere ver de un
+   * vistazo es TODO lo que su club esta disputando esta temporada. La lista se arma sola: el club
+   * que no juega copa continental no tiene esa pestaña, y en la ventana del Mundial aparece la del
+   * Mundial.
+   */
+  const seccionesDeTablas: { id: string; texto: string; Icono: React.ComponentType<{ size?: number }> }[] = [
+    { id: 'liga', texto: getLeagueDisplay(currentClub.league, currentClub.division).name, Icono: Table },
+    ...(conmebolCup ? [{
+      id: 'continental',
+      texto: conmebolCupId === 'libertadores' ? 'Copa Libertadores'
+        : conmebolCupId === 'concacaf' ? 'Concacaf Champions Cup' : 'Copa Sudamericana',
+      Icono: Trophy,
+    }] : []),
+    ...(!conmebolCup && uefaCup ? [{
+      id: 'continental',
+      texto: uefaCupId === 'europa' ? 'UEFA Europa League' : 'UEFA Champions League',
+      Icono: Trophy,
+    }] : []),
+    ...(copaNacionalDeLaTemporada ? [{
+      id: 'nacional', texto: nombreCopaNacional(currentClub.league), Icono: Trophy,
+    }] : []),
+    ...(torneoDeSelecciones ? [{
+      id: 'selecciones',
+      texto: torneoDeSelecciones.torneo === 'mundial' ? 'Copa Mundial FIFA'
+        : torneoDeSelecciones.torneo === 'eurocopa' ? 'Eurocopa' : 'Copa América',
+      Icono: Globe,
+    }] : []),
+    { id: 'cracks', texto: 'Cracks', Icono: BarChart3 },
+  ];
+
+  /**
+   * QUE SECCION SE VE.
+   *
+   * Si el jugador todavia no eligio: en ventana de Mundial, Eurocopa o Copa America las ligas estan
+   * PARADAS, asi que abrir en la tabla de liga seria abrir en lo unico que no esta pasando -- se
+   * abre en el torneo de selecciones. Fuera de eso, la liga.
+   *
+   * Y si lo que eligio ya no existe -- se acabo la copa, cambio de club, se cerro la ventana del
+   * Mundial -- se vuelve a la liga en vez de quedar en una pestaña vacia.
+   */
+  const seccionPorDefecto = torneoDeSelecciones ? 'selecciones' : 'liga';
+  const seccionDeTablas = seccionesDeTablas.some(x => x.id === seccionElegida)
+    ? seccionElegida!
+    : seccionPorDefecto;
 
   const nombreDeSeleccion = (id: string | null) =>
     (id ? torneoDeSelecciones?.equipos.find(t => t.id === id)?.name : '') || '';
@@ -1226,6 +1298,13 @@ export default function Dashboard({
      */
     rivalPorDefinir: boolean;
   } | null = null;
+  // ¿Hoy es fecha FIFA de ELIMINATORIAS? Lo dice el calendario, igual que en App.tsx.
+  const esFechaDeEliminatorias = (() => {
+    if (nextWeekInWorldCupBreak || !hasDatedLeagueSchedule(currentClub.name)) return false;
+    const paso = fixturesAtStep(currentClub.name, playerProfile.currentWeek);
+    return pickDatedPrimary(paso?.fixtures ?? [])?.competition.id === 'eliminatorias';
+  })();
+
   if (nextWeekInWorldCupBreak) {
     // Los tres torneos de selecciones pasan por aca. Cual es y con quienes se juega lo contesta
     // torneoDeSeleccionesDeHoy -- el MISMO que usa App al ofrecer el partido, para que la tarjeta no
@@ -1257,6 +1336,31 @@ export default function Dashboard({
           rivalTotal: null
         };
       }
+    }
+  } else if (esFechaDeEliminatorias) {
+    // FECHA FIFA DE ELIMINATORIAS.
+    //
+    // El cruce lo contesta cruceDeEliminatoriasHoy, el MISMO que usa App al armar el partido. Acá
+    // no había nada: el día caía al camino del calendario, cuyo rival para una fecha FIFA es el
+    // cartel de relleno "Por definir" (el sorteo lo hace el motor al llegar), y encima venía
+    // marcado como local. Medido jugando siete temporadas: las 52 fechas de eliminatorias, todas
+    // "vs Por definir · Local". Nunca se veía contra quién se jugaba.
+    const cruce = cruceDeEliminatoriasHoy(playerProfile, currentClub.name);
+    if (cruce) {
+      nextMatchOpponent = {
+        club: cruce.rival ?? undefined,
+        name: cruce.rival?.name ?? '',
+        isHome: cruce.soyLocal,
+        rivalPorDefinir: false,
+        competition: `Eliminatorias ${cruce.mundial}${cruce.zona ? ` · ${cruce.zona}` : ''}`,
+        jornada: `Fecha ${cruce.fecha}`,
+        rivalPos: cruce.suPos,
+        rivalTotal: cruce.total,
+      };
+    } else {
+      // No estás en la nómina (o tu zona descansa esta fecha): App da el día por libre, así que la
+      // tarjeta no puede ofrecer un partido que no existe.
+      hoySinPartido = true;
     }
   } else if (nextWeekIsCup && !hasDatedLeagueSchedule(currentClub.name)) {
     // Este bloque decide la copa por el reparto de semanas del motor y por en qué copa te tiene
@@ -1324,7 +1428,11 @@ export default function Dashboard({
     && hasDatedLeagueSchedule(currentClub.name)
     && !!fixturesAtStep(currentClub.name, playerProfile.currentWeek);
 
-  if (!nextMatchOpponent && !nextWeekInWorldCupBreak && (upcomingLeagueFixtures.length > 0 || hayPartidoReal)) {
+  // `!esFechaDeEliminatorias` es lo que impide que este bloque le pase por encima a la fecha FIFA.
+  // Sin él, un día de eliminatorias sin partido para vos volvía a caer al calendario y la tarjeta
+  // anunciaba otra vez "vs Por definir · Local" -- el rival de relleno de la fecha reservada.
+  if (!nextMatchOpponent && !nextWeekInWorldCupBreak && !esFechaDeEliminatorias
+      && (upcomingLeagueFixtures.length > 0 || hayPartidoReal)) {
     const next = upcomingLeagueFixtures[0];
 
     // El rival que se anuncia tiene que ser el MISMO que va a salir al arrancar el partido. App.tsx
@@ -1387,7 +1495,38 @@ export default function Dashboard({
       playerProfile, currentClub, playerProfile.currentWeek,
       realDeLaSemana?.competition.kind === 'domestic_cup',
     ) === 'nacional';
-    const continentalDeLaSemana = esReservaDeCopa && !laNacionalTieneCruceHoy ? copaContinentalDeHoy : null;
+    // EL DÍA ES DEL CUADRO AUNQUE EL CALENDARIO TRAIGA UN PARTIDO REAL.
+    //
+    // Desde que las copas europeas las maneja el motor y no el calendario (ver clubEnCopaContinental
+    // en App.tsx), un día de Champions ya no se juega contra el rival que trae el calendario sino
+    // contra el que dice el cuadro. Sin esto la tarjeta seguía leyendo el calendario: anunciaba
+    // "Juventus · 16 sep" y el partido era contra otro, que es exactamente el bug que ya pasó con la
+    // Copa MX ("la tarjeta anunciaba a León y el partido era contra Cruz Azul").
+    //
+    // Sólo para las europeas: las de Conmebol siguen mandadas por el calendario donde lo tienen.
+    //
+    // No se pregunta si el club clasificó: se pregunta si el día es de copa europea. Un club sin
+    // plaza este año tampoco juega los partidos que trae el calendario -- ese día es de la copa
+    // nacional o de descanso -- y es la misma respuesta que da App.tsx.
+    const diaDeCopaEuropeaDelCuadro = realDeLaSemana?.competition.kind === 'continental_cup'
+      && !realDeLaSemana.esReservaDeCuadro
+      && Object.values(NOMBRE_UEFA_EN_EL_CALENDARIO).includes(realDeLaSemana.competition.name);
+    // Y la copa NACIONAL, por lo mismo: el calendario trae sus partidos reales y el motor lleva su
+    // cuadro, y hasta acá corrían los dos a la vez. Ver la nota en App.tsx (tres finales de Coppa
+    // Italia en una temporada, una de ellas antes de la semifinal).
+    // LA COPA NACIONAL, no cualquier torneo doméstico: la Superliga de Colombia y la Supercopa de
+    // España también son `domestic_cup` y son otra cosa. Se compara con el nombre del reglamento.
+    const diaDeCopaNacionalDelCuadro = realDeLaSemana?.competition.kind === 'domestic_cup'
+      && !realDeLaSemana.esReservaDeCuadro
+      && realDeLaSemana.competition.name === nombreCopaNacional(currentClub.league);
+    // Y cualquier copa continental que lleve el cuadro del motor (la Libertadores de Boca, que el
+    // calendario le mezclaba con partidos de Sudamericana que no le tocaban).
+    const diaDeCopaContinentalDelCuadro = realDeLaSemana?.competition.kind === 'continental_cup'
+      && !realDeLaSemana.esReservaDeCuadro
+      && !!conmebolCup;
+    const elDiaEsDeCopa = esReservaDeCopa || diaDeCopaEuropeaDelCuadro || diaDeCopaNacionalDelCuadro
+      || diaDeCopaContinentalDelCuadro;
+    const continentalDeLaSemana = elDiaEsDeCopa && !laNacionalTieneCruceHoy ? copaContinentalDeHoy : null;
     // El cruce sale de cruceDeCopaNacionalHoy, que es LA MISMA funcion que usa App.tsx: la clave de
     // la edicion, la ronda, el rival y la localia salen todos de ahi.
     //
@@ -1396,13 +1535,13 @@ export default function Dashboard({
     // JUGADA. Reportado jugando con Tigres: la tarjeta anunciaba a Leon, al que acababa de
     // eliminar, mientras el partido era contra Cruz Azul.
     const cupBracketDeLaSemana = (!continentalDeLaSemana
-      && ((!realDeLaSemana && legadoEsCopaConBracketReal) || esReservaDeCopa))
+      && ((!realDeLaSemana && legadoEsCopaConBracketReal) || elDiaEsDeCopa))
       ? cruceDeCopaNacionalHoy(playerProfile, currentClub, ULTIMATE_CLUBS_DATABASE, playerProfile.currentWeek)
       : null;
 
     // Dia de copa sin cruce en NINGUNA copa: hoy no se juega. Se decide con las mismas dos
     // respuestas que usa App.tsx, asi que no puede discrepar de lo que el partido va a hacer.
-    hoySinPartido = esReservaDeCopa && !continentalDeLaSemana && !cupBracketDeLaSemana;
+    hoySinPartido = elDiaEsDeCopa && !continentalDeLaSemana && !cupBracketDeLaSemana;
 
     // PLAYOFF DE LIGA: el rival lo pone el CUADRO, no el calendario.
     //
@@ -1425,6 +1564,22 @@ export default function Dashboard({
           playerProfile.leagueSeasons?.[myLeagueKey]?.table ?? [])
       : null;
 
+    // NO CLASIFICASTE AL CUADRANGULAR: eso no es "rival por definir", es que hoy no jugás.
+    //
+    // El cuadrangular lo juegan los ocho primeros. Al club que terminó noveno el calendario le sigue
+    // apartando esos días -- son días de su liga -- y la tarjeta los rotulaba "Rival por definir"
+    // con el botón de jugar debajo. Medido con el Junior: diez fechas así en una temporada, en las
+    // dos ventanas de cuadrangular (mayo-junio y diciembre). El torneo se juega igual, sin vos (ver
+    // playoffDelDiaSinElJugador), así que lo honesto es decir que no hay partido.
+    //
+    // Se distingue de "todavía no se puede sembrar": con la tabla vacía el cuadro no se puede armar
+    // y ahí sí no se sabe nada todavía, así que se conserva el cartel.
+    const fueraDelCuadrangular = !!realDeLaSemana?.esPlayoff && !playoffDeLaSemana
+      && !estaEnElCuadrangular(
+        playerProfile, currentClub, playerProfile.currentWeek, realDeLaSemana.date,
+        playerProfile.leagueSeasons?.[myLeagueKey]?.table ?? []);
+    if (fueraDelCuadrangular) hoySinPartido = true;
+
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
     // calendario real, así que todos los accesos van con ?.
     const opponentId = playoffDeLaSemana?.rivalId ?? continentalDeLaSemana?.rivalId
@@ -1443,7 +1598,7 @@ export default function Dashboard({
       // la tabla de la fase regular todavía está vacía. En una carrera normal no pasa -- el
       // cuadrangular llega después de 17 o 19 jornadas -- pero si pasara, el rival del calendario es
       // el del cuadrangular REAL, que no es el que vas a jugar, y anunciarlo sería peor.
-      : realDeLaSemana?.esPlayoff
+      : realDeLaSemana?.esPlayoff && !fueraDelCuadrangular
       ? RIVAL_SIN_SORTEAR
       : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
     const isHome = playoffDeLaSemana
@@ -1453,6 +1608,11 @@ export default function Dashboard({
       : cupBracketDeLaSemana
       ? cupBracketDeLaSemana.soyLocal
       : realDeLaSemana ? realDeLaSemana.isHome : (next?.isHome ?? true);
+    // La ronda que trae el calendario, sólo para partidos que NO son de liga (una liga no tiene
+    // "octavos"; ahí lo que se muestra es la fecha).
+    const rondaDeLaCopaDelCalendario = realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
+      ? rondaEnEspanol((realDeLaSemana.match as { round?: string }).round)
+      : null;
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
 
     nextMatchOpponent = hoySinPartido ? null : {
@@ -1474,10 +1634,23 @@ export default function Dashboard({
         // hueco del rival con el botón de jugar debajo, que era el contrasentido reportado.
         : realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
         ? realDeLaSemana.competition.name
-        : currentClub.league,
+        // EL NOMBRE DE LA LIGA, no la nacionalidad. La tarjeta decía "Alemana", "Colombiana" o
+        // "Brasileña" -- que es la CLAVE interna de la liga, no cómo se llama el torneo. El resto
+        // del juego ya usaba getLeagueDisplay ("Bundesliga", "Liga BetPlay", "Brasileirão"); era
+        // esta tarjeta, la que más se mira, la única que mostraba el dato crudo.
+        : getLeagueDisplay(currentClub.league, currentClub.division).name,
       // El calendario por fechas no trae número de jornada (ESPN no lo publica), pero sí la fecha
       // exacta, que dice más: "8 feb" en vez de "Jornada 12".
-      jornada: cupBracketDeLaSemana ? cupBracketDeLaSemana.ronda
+      // La RONDA le gana a la fecha cuando hay una: en una copa, "Octavos de Final (Vuelta)" dice
+      // lo único que importa antes de jugar, y "17 feb" no dice nada. La continental faltaba acá
+      // -- sólo la nacional aportaba ronda -- así que la Champions se anunciaba con la fecha y el
+      // jugador no sabía nunca en qué instancia estaba.
+      jornada: continentalDeLaSemana?.ronda ? continentalDeLaSemana.ronda
+        : cupBracketDeLaSemana ? cupBracketDeLaSemana.ronda
+        // Copa que manda el CALENDARIO (la Libertadores del Junior, la Copa do Brasil del Flamengo):
+        // la ronda viene en el propio partido y no se usaba. La tarjeta decía "9 abr" para un
+        // partido de fase de grupos de la Libertadores, que es justo el dato que no sirve.
+        : rondaDeLaCopaDelCalendario ? rondaDeLaCopaDelCalendario
         : pasoConFecha ? formatDateShort(pasoConFecha.date)
         : realDeLiga && 'round' in realDeLiga.match ? realDeLiga.match.round
         : next ? `Jornada ${next.matchweek}` : '',
@@ -5356,17 +5529,39 @@ export default function Dashboard({
 
           {activeTab === 'tablas' && (
             <div className="space-y-6 animate-fade-in max-w-4xl">
-              {/* ATAJOS, NO PESTAÑAS. Acá querés poder comparar la tabla con el cuadro de la copa,
-                  asi que esconder una para ver la otra seria peor que el scroll. Los atajos que no
-                  tienen a donde ir no se dibujan: la copa continental no siempre existe. */}
-              <BarraDeAtajos
-                etiqueta="Atajos de Copas y Tablas"
-                atajos={[
-                  { ancla: 'tabla-posiciones', texto: 'Tabla', Icono: Table },
-                  { ancla: 'tabla-goleadores', texto: 'Cracks', Icono: BarChart3 },
-                  ...(conmebolCup ? [{ ancla: 'tabla-copa', texto: 'Copa', Icono: Trophy }] : []),
-                ]}
-              />
+              {/* PESTAÑAS, UNA COSA POR VEZ, y en escritorio también.
+                  Acá había ATAJOS -- botones que hacían scroll hasta cada panel -- con el argumento
+                  de que se querría comparar la tabla de liga con el cuadro de la copa. En la
+                  práctica no: las tres cosas juntas hacen una pantalla de varios metros donde lo
+                  que buscás siempre queda abajo, y eso pasa igual en un monitor que en un teléfono.
+                  Pedido explícito: "si está en liga, sólo la tabla de liga; si tocás cracks, sólo
+                  cracks; si tocás copa, sólo la copa -- para PC y celular". */}
+              {/* UNA PESTAÑA POR TORNEO, con su nombre. No dice "Liga" y "Copa" en genérico: dice
+                  "Bundesliga", "UEFA Champions League", "DFB-Pokal", "Copa Mundial FIFA". Así se ve
+                  de un vistazo TODO lo que tu club está jugando esta temporada, que es justo lo que
+                  no se veía cuando los tres paneles vivían apilados uno debajo del otro.
+                  La barra scrollea de costado: en un teléfono cinco torneos no entran de frente. */}
+              <nav
+                aria-label="Secciones de Copas y Tablas"
+                className="flex gap-1 p-1 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto"
+              >
+                {seccionesDeTablas.map(({ id, texto, Icono }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setSeccionDeTablas(id)}
+                    aria-current={seccionDeTablas === id ? 'page' : undefined}
+                    className={`flex-1 min-w-fit shrink-0 min-h-[44px] px-3 flex items-center justify-center gap-1.5 rounded-xl font-black uppercase tracking-wider text-3xs transition-colors cursor-pointer ${
+                      seccionDeTablas === id
+                        ? 'bg-gold-500 text-slate-950'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <Icono size={14} />
+                    <span className="truncate">{texto}</span>
+                  </button>
+                ))}
+              </nav>
               {/* DÓNDE VAS EN CADA TORNEO, arriba de todo.
 
                   Cada número de acá sale del MISMO panel que está más abajo -- la posición de la
@@ -5400,6 +5595,7 @@ export default function Dashboard({
                 );
               })()}
 
+              {seccionDeTablas === 'liga' && (
               <div id="tabla-posiciones" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 flex-wrap">
                   <div>
@@ -5468,7 +5664,9 @@ export default function Dashboard({
                   <p className="text-2xs text-slate-500">Todavía no hay datos de la tabla para esta liga.</p>
                 )}
               </div>
+              )}
 
+              {seccionDeTablas === 'cracks' && (
               <div id="tabla-goleadores" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
                   <Award size={13} /> ESTADÍSTICAS DE JUGADORES · {tituloDeLideres.toUpperCase()}
@@ -5534,11 +5732,13 @@ export default function Dashboard({
                   );
                 })()}
               </div>
+              )}
 
               {/* EL TORNEO DE SELECCIONES va PRIMERO y solo mientras se juega: cuando hay Mundial o
                   continental, es lo unico que esta pasando -- las ligas estan paradas -- asi que es
-                  lo que el jugador viene a mirar. Fuera de la ventana no se dibuja. */}
-              {torneoDeSelecciones && (
+                  lo que el jugador viene a mirar. Fuera de la ventana no se dibuja.
+                  Vive en la pestaña de COPA porque eso es: un torneo, no una tabla de liga. */}
+              {seccionDeTablas === 'selecciones' && torneoDeSelecciones && (
                 <div data-torneo={torneoDeSelecciones.torneo}
                   className="bg-slate-900 border border-gold-500/30 rounded-2xl p-5 shadow-lg space-y-4">
                   <h3 className="text-xs font-black uppercase tracking-widest text-gold-400 border-b border-slate-800 pb-2 flex items-center gap-2">
@@ -5583,6 +5783,38 @@ export default function Dashboard({
                 </div>
               )}
 
+              {/* LA COPA NACIONAL, que hasta acá no se veía en ninguna parte.
+                  Se jugaba -- hay cuadro, hay rondas y hay campeón -- pero esta pestaña sólo
+                  mostraba la liga, los goleadores y la copa continental, así que el jugador
+                  disputaba la DFB-Pokal o la Copa Colombia sin poder mirar nunca el cuadro. */}
+              {seccionDeTablas === 'nacional' && copaNacionalDeLaTemporada && (
+                <div id="tabla-copa-nacional" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 border-b border-slate-800 pb-2 flex items-center gap-2">
+                    🏆 {nombreCopaNacional(currentClub.league).toUpperCase()}
+                    {copaNacionalDeLaTemporada.championId
+                      ? ' · TERMINADA'
+                      : ` · ${rondaActual(copaNacionalDeLaTemporada).toUpperCase()}`}
+                  </h3>
+                  {copaNacionalDeLaTemporada.championId ? (
+                    <p className="text-2xs text-slate-300">
+                      🏆 Campeón: <strong className="text-white">{clubNameById(copaNacionalDeLaTemporada.championId)}</strong>
+                    </p>
+                  ) : (
+                    <p className="text-3xs text-slate-500 font-mono">
+                      {sigueEnCopa(copaNacionalDeLaTemporada, currentClub.id)
+                        ? `${currentClub.name} sigue en carrera.`
+                        : `${currentClub.name} quedó eliminado de esta edición.`}
+                    </p>
+                  )}
+                  <CuadroEliminatoria
+                    rondas={rondasDeIdaYVuelta(copaNacionalDeLaTemporada.bracket?.tiesByRound)}
+                    miId={currentClub.id}
+                    campeonId={copaNacionalDeLaTemporada.championId ?? null}
+                  />
+                </div>
+              )}
+
+              {seccionDeTablas === 'continental' && (
               <div id="tabla-copa" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                 {conmebolCup ? (
                   <>
@@ -5681,6 +5913,7 @@ export default function Dashboard({
                   <p className="text-2xs text-slate-500">Tu club no está clasificado a ningún torneo continental esta temporada.</p>
                 )}
               </div>
+              )}
             </div>
           )}
 

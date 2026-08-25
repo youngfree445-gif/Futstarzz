@@ -57,3 +57,8 @@ dist-desktop/
 
 # Los audios en crudo: pesan 10 MB y de ellos salen las pistas de public/sfx/ambiente/
 audios de partido/
+
+# Lo que ESCRIBE el banco que juega la UI (npm run jugar:ui). Las herramientas se versionan;
+# sus bitácoras y su progreso, no: son la salida de una corrida, no código.
+scripts/ui/barrido/
+scripts/ui/ultima_bitacora.json

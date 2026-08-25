@@ -20,6 +20,7 @@ import { CUPOS_CONCACAF, VENTANA_CONCACAF } from './copaConcacaf';
 import { FECHAS_KNOCKOUT_POR_COPA } from './fechasConmebol';
 // copaNacional sólo importa ./types, así que no hay ciclo posible en esta dirección.
 import { nombreCopaNacional } from './copaNacional';
+import { NOMBRE_UEFA_EN_EL_CALENDARIO } from './copasUefa';
 
 export interface DatedFixture {
   competition: DatedCompetition;
@@ -731,13 +732,21 @@ const FECHAS_DE_COPA_CONTINENTAL = 15;
 /**
  * Las de la UEFA son MAS, porque la Champions es mas larga que la Libertadores.
  *
- * Una Champions completa son 17: ocho de fase de liga, dos de playoff, tres rondas de ida y vuelta
- * -- octavos, cuartos y semis -- y la final, que se juega a partido unico en cancha neutral. Con
- * las 13 de la bolsa comun se quedaba en octavos y no coronaba a nadie NUNCA. No se habia visto
- * porque el validador que juega temporadas enteras no simulaba copas europeas; en cuanto se le
- * enseno, salio a la primera.
+ * Una Champions completa son 17 partidos: ocho de fase de liga, dos de playoff, tres rondas de ida
+ * y vuelta -- octavos, cuartos y semis -- y la final, que se juega a partido unico en cancha
+ * neutral. Con las 13 de la bolsa comun se quedaba en octavos y no coronaba a nadie NUNCA. No se
+ * habia visto porque el validador que juega temporadas enteras no simulaba copas europeas; en
+ * cuanto se le enseno, salio a la primera.
+ *
+ * SON 18 Y NO 17 POR EL DIA DE LA BISAGRA. El reloj de la copa cuenta los dias de copa que ya
+ * PASARON (ver fechasDeCopaTranscurridas), asi que el dia en que se cierra la fase de liga el
+ * cuadro todavia no puede sembrar la eliminatoria: ese dia el jugador no tiene partido de copa y se
+ * lo lleva la copa nacional. Con 17 justos, esa fecha perdida se le come la FINAL. Medido jugando
+ * con el Bayern (npm run jugar:ui): ocho partidos de fase de liga, un dia muerto, dos de playoff
+ * que un top 8 no juega, y despues octavos, cuartos y semis -- llegaba a la final sin fecha donde
+ * jugarla. Se agranda la bolsa en vez de recortar el torneo, que es la regla de esta casa.
  */
-const FECHAS_DE_COPA_UEFA = 17;
+const FECHAS_DE_COPA_UEFA = 18;
 
 /** Las dos copas de la UEFA, por id de calendario. */
 const esCopaUefa = (id: string) => id === 'ucl' || id === 'uel';
@@ -2103,7 +2112,20 @@ export function fechasDeCopaTranscurridas(
   // dias anteriores a ella son pasos que la copa modelada no juega. Se ubica con la misma ventana
   // que reconoce el grupo (ver rivalesDeGrupoEnElCalendario) y, si no se puede ubicar, se cuenta
   // desde el principio como antes.
-  const desdeFecha = nombreDeLaCopa
+  // LAS COPAS EUROPEAS NO TIENEN FASE PREVIA que descontar, y preguntarlo salía peor que mal.
+  //
+  // primeraFechaDeGrupos reconoce una fase de grupos POR SU FORMA: seis partidos contra tres
+  // rivales, dos veces cada uno. En la Champions eso no lo cumple la fase de liga -- son ocho
+  // rivales distintos, uno por partido -- sino la ELIMINATORIA: octavos, cuartos y semis, cada una
+  // a ida y vuelta, son exactamente seis partidos contra tres rivales dos veces. Así que daba por
+  // "fase previa" toda la fase de liga y el reloj de la copa marcaba CERO hasta marzo.
+  //
+  // Con el reloj en cero, el cuadro nunca podía adelantar: el jugador terminaba sus ocho partidos
+  // de fase de liga y la copa se quedaba ahí para siempre, sin octavos, sin cuartos, sin final y
+  // sin campeón. Medido con el Bayern (npx vite-node scripts/ui/reloj_de_copa.ts): 0 en los ocho.
+  const esCopaEuropea = !!nombreDeLaCopa
+    && (Object.values(NOMBRE_UEFA_EN_EL_CALENDARIO) as string[]).includes(nombreDeLaCopa);
+  const desdeFecha = nombreDeLaCopa && !esCopaEuropea
     ? primeraFechaDeGrupos(clubName, nombreDeLaCopa, t.temporada)
     : null;
 

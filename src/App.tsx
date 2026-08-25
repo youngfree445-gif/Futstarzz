@@ -33,7 +33,7 @@ import {
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
-  type TorneoDeSelecciones, simulatePenaltyShootout, roundLabelByMatchCount, tercerosDeGrupo, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
+  type TorneoDeSelecciones, simulatePenaltyShootout, roundLabelByMatchCount, rondaDeCopaUefa, tercerosDeGrupo, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
 import { esClasico, CLASICO_MULTIPLICADOR_GANAR, CLASICO_MULTIPLICADOR_PERDER } from './clasicos';
@@ -86,9 +86,9 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
-import { getLeagueDisplay } from './leagueDisplay';
+import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
 import SoundSettings from './components/SoundSettings';
@@ -377,16 +377,7 @@ function rivalDeLigaDelPaso(leagueClubs: Club[], clubName: string, paso: number)
  * 16", "Quarter-Finals", "1. Round"). Se traducen las habituales y el resto pasa tal cual: es
  * preferible mostrar "Group Stage" que no mostrar nada.
  */
-const RONDAS_EN_ESPANOL: Record<string, string> = {
-  'final': 'Final',
-  'semi-finals': 'Semifinal', 'semi-final': 'Semifinal', 'semifinals': 'Semifinal',
-  'quarter-finals': 'Cuartos de Final', 'quarter-final': 'Cuartos de Final',
-  'round of 16': 'Octavos de Final', 'last 16': 'Octavos de Final',
-  'round of 32': 'Dieciseisavos', 'last 32': 'Dieciseisavos',
-  'round of 64': 'Treintaidosavos',
-  'group stage': 'Fase de Grupos', 'first round': 'Primera Ronda', 'second round': 'Segunda Ronda',
-  'third round': 'Tercera Ronda', 'preliminary round': 'Ronda Preliminar',
-};
+// El mapa de rondas vive en leagueDisplay.ts: la tarjeta del proximo partido lo necesita igual.
 
 /**
  * Las 48 selecciones que juegan el Mundial de ese año.
@@ -447,7 +438,7 @@ function rotuloDeRonda(competicion: string, ronda?: string): string {
   const conParentesis = /^(.*?)\s*\(([^)]*)\)\s*$/.exec(limpia);
   const base = (conParentesis ? conParentesis[1] : limpia).trim();
   const sufijo = conParentesis ? ` (${conParentesis[2].trim()})` : '';
-  const traducida = RONDAS_EN_ESPANOL[base.toLowerCase()] ?? base;
+  const traducida = rondaEnEspanol(base) ?? base;
   return `${competicion} · ${traducida}${sufijo}`;
 }
 
@@ -1275,9 +1266,18 @@ function cerrarCuadrangularesVencidos(profile: PlayerProfile, newWeek: number): 
 }
 
 import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
+import { NOMBRE_UEFA_EN_EL_CALENDARIO } from './copasUefa';
 
-/** El nombre con el que el calendario rotula cada copa continental. */
-const NOMBRE_DE_COPA_UEFA: Record<'champions' | 'europa', string> = {
+/**
+ * El nombre con el que el calendario rotula cada copa continental.
+ *
+ * Decía "UEFA Champions League" y el calendario dice "Champions League": ver
+ * NOMBRE_UEFA_EN_EL_CALENDARIO en copasUefa.ts, que es de dónde sale ahora y por qué.
+ */
+const NOMBRE_DE_COPA_UEFA = NOMBRE_UEFA_EN_EL_CALENDARIO;
+
+/** Y cómo se llama cada una EN PANTALLA, que es otra cosa: acá sí va el "UEFA" adelante. */
+const NOMBRE_VISIBLE_DE_COPA_UEFA: Record<'champions' | 'europa', string> = {
   champions: 'UEFA Champions League',
   europa: 'UEFA Europa League',
 };
@@ -3268,6 +3268,28 @@ export default function App() {
    * seria la version corta de "dos fuentes contestando la misma pregunta", y esta vez con quince
    * preguntas.
    */
+  /**
+   * EL PUENTE AL RESULTADO, SIEMPRE FRESCO.
+   *
+   * Acá vivía el bug más caro de todos, y explicaba media docena de sintomas que parecían
+   * distintos: la eliminatoria que repetía la misma fecha toda la carrera, la Copa BetPlay que
+   * servía la misma llave cuatro veces, la vuelta de octavos de Libertadores que salía otra vez
+   * como ida.
+   *
+   * `resolverPartidoSimulado` está memoizado (useCallback) y llama a `handleFinishMatch`, que lee
+   * MUCHO estado de React -- activeDomesticCup, activeCupId, activeUefaCupId, activeEliminatoriaKey.
+   * Como handleFinishMatch no estaba en las dependencias, el callback se quedaba con la versión de
+   * un render anterior: la de ANTES de que startMatchflow marcara "hoy es día de copa". Y
+   * handleFinishMatch empieza con `if (!activeDomesticCup) return;`, así que el resultado del
+   * partido se descartaba en silencio y el cuadro no avanzaba nunca.
+   *
+   * Y NO se arregla metiéndolo en las dependencias: PartidoSimulandose tiene `onResolver` en las
+   * deps de su efecto, y si el callback cambia de identidad, la limpieza del efecto le corta el
+   * temporizador -- el partido no se resolvería nunca. Una ref da las dos cosas: identidad estable
+   * y contenido siempre al día.
+   */
+  const finishRef = useRef<(results: any, shootoutOverride?: PenaltyShootoutResult) => void>(() => {});
+
   const resolverPartidoSimulado = useCallback(() => {
     if (!playerProfile) return;
     const myClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
@@ -3284,7 +3306,7 @@ export default function App() {
     const bolsas = POOLS_DE_DECISION[playerProfile.position as keyof typeof POOLS_DE_DECISION]
       ?? POOLS_DE_DECISION.Mediocampista;
 
-    handleFinishMatch(simularPartidoCompleto({
+    finishRef.current(simularPartidoCompleto({
       perfil: playerProfile,
       golesMiEquipo,
       golesRival,
@@ -3404,10 +3426,36 @@ export default function App() {
       const laCubreElCalendario = (re: RegExp) =>
         usaFechasReales && competitionsForClubInSeason(myClub.name, temporadaActual).some(c => re.test(c.name));
 
+      // LAS COPAS EUROPEAS NO PREGUNTAN POR EL CALENDARIO: el cuadro del motor manda siempre.
+      //
+      // Esta es la diferencia de fondo con Conmebol, y es deliberada. El calendario trae los 189
+      // partidos REALES de la Champions 2025/26, pero de esos sólo son tuyos los que tu club jugó
+      // de verdad ese año: al Dortmund, diez (ocho de fase de liga y el playoff con el Atalanta).
+      // Los octavos, cuartos, semis y la final están cargados, y son de otros clubes. O sea que
+      // dejando mandar al calendario la copa NO es un torneo: son diez partidos con nombre de
+      // Champions que se juegan siempre igual, ganes o pierdas, y después el torneo desaparece en
+      // febrero. Medido jugando (npm run jugar:ui): siete temporadas seguidas sin que apareciera
+      // una sola vez cuartos, semifinal o final.
+      //
+      // Ahora el reparto es: el calendario pone los DÍAS -- le aparta 17 por temporada, que es
+      // justo lo que necesita una Champions completa (ver FECHAS_DE_COPA_UEFA) -- y el motor pone
+      // el TORNEO: la tabla, el cuadro, quién te toca, cuándo quedás afuera y quién sale campeón.
+      // Los rivales de la fase de liga ya no son los que le tocaron al Dortmund en la vida real;
+      // a cambio la copa se puede jugar y se puede ganar.
+      // Con el año y la tabla del año anterior, igual que el Dashboard y que la rama que resuelve
+      // el partido: si se pregunta sin ellos, la respuesta son siempre los 36 de la edición real de
+      // 2025/26 y el club juega la Champions para siempre, haya salido primero o decimoquinto.
+      const campeonesUefaHoy = {
+        champions: playerProfile.campeonesContinentales?.[`champions-${temporadaActual - 1}`] ?? null,
+        europa: playerProfile.campeonesContinentales?.[`europa-${temporadaActual - 1}`] ?? null,
+      };
+      const enCopaUefa =
+        getChampionsParticipants(CLUBS_DATABASE, temporadaActual, playerProfile.posicionesFinales, campeonesUefaHoy).includes(myClub.id)
+        || getEuropaParticipants(CLUBS_DATABASE, temporadaActual, playerProfile.posicionesFinales, campeonesUefaHoy).includes(myClub.id);
+
       return (getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/libertadores/i))
         || (getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/sudamericana/i))
-        || (getChampionsParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/champions/i))
-        || (getEuropaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/europa/i));
+        || enCopaUefa;
     })();
 
     // Fecha RESERVADA para COPA. Es una sola bolsa de días para todas: cuando llega, se pregunta en
@@ -3429,6 +3477,21 @@ export default function App() {
     const esReservaDeCopa = !!realPrimary?.esReservaDeCuadro
       && (realPrimary.competition.kind === 'domestic_cup'
         || realPrimary.competition.kind === 'continental_cup');
+
+    // ¿HOY EL CALENDARIO TRAE UN PARTIDO DE COPA EUROPEA?
+    //
+    // El calendario carga la Champions y la Europa League enteras -- 189 partidos cada una, con sus
+    // octavos, cuartos, semis y final -- y las vuelve a emitir todas las temporadas corriéndoles el
+    // año. Ninguno de esos partidos se juega ya: las copas europeas las lleva el cuadro del motor
+    // (ver clubEnCopaContinental), que es quien sabe si tu club sigue vivo y contra quién le toca.
+    //
+    // Sin esta pregunta quedaba una puerta abierta: un club que ESTE año no clasificó a Europa no
+    // entra por clubEnCopaContinental, así que la rama del calendario se quedaba con el día y le
+    // servía los partidos reales del Dortmund 2025/26 igual, en un torneo que la partida ya daba
+    // por terminado. Medido jugando: en la tercera temporada, sin plaza, volvían los diez partidos
+    // de siempre con el estado de la copa en "done".
+    const esDiaDeCopaUefaDelCalendario = realPrimary?.competition.kind === 'continental_cup'
+      && Object.values(NOMBRE_UEFA_EN_EL_CALENDARIO).includes(realPrimary.competition.name);
 
     // Si hoy es día de copa lo dice el CALENDARIO, y nadie más. Antes acá había un ternario con
     // isCupWeek de respaldo -- un reparto aritmético que decidía "2 de cada 5 semanas son de copa"
@@ -3467,50 +3530,26 @@ export default function App() {
       && realPrimary?.competition.id === 'eliminatorias';
 
     if (esFechaFifa) {
-      const teamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[playerProfile.nationality];
-      const conf = teamId ? CONFEDERACION_POR_SELECCION[teamId] : undefined;
-      const anio = anioDeCarrera(myClubForSchedule!.name, playerProfile.currentWeek);
-      const ciclo = cicloDeEliminatorias(anio);
-      // La regla vive en src/convocatoria.ts y NO se repite acá. Antes estaba escrita inline en
-      // este mismo punto, pero ahora hay un segundo lugar que necesita la misma respuesta: el feed,
-      // que anuncia la lista ANTES de la fecha. Con dos copias se desincronizarían tarde o temprano
-      // y el diario te pondría en una nómina a la que el juego después no te lleva -- un anuncio que
-      // miente rompe más confianza que un anuncio que falta.
+      // EL CRUCE LO CONTESTA decisionDelDia, NO ESTE ARCHIVO.
       //
-      // (El umbral de ELIMINATORIAS es más bajo que el del Mundial a propósito: a la selección se
-      // entra por eliminatorias y después vas al Mundial, no al revés.)
-      const convocado = evaluarConvocatoria(playerProfile, anio).convocado;
-
-      if (convocado && ciclo) {
-        const clave = `${conf}-${ciclo.mundial}`;
-        const guardada = playerProfile.eliminatorias?.[clave];
-        const puesta = ponerAlDiaLaEliminatoria(
-          guardada ?? crearEliminatoria(conf!, ciclo.mundial, ALL_NATIONAL_TEAMS_DATABASE),
-          ALL_NATIONAL_TEAMS_DATABASE,
-          pasosDeEliminatoriasTranscurridos(myClubForSchedule!.name, playerProfile.currentWeek),
-          teamId,
-        );
-        const proximo = proximoPartidoDeEliminatoria(puesta, teamId!);
-        if (proximo) {
-          const rival = ALL_NATIONAL_TEAMS_DATABASE.find(t => t.id === proximo.opponentId);
-          opName = rival?.name ?? '';
-          opClubId = proximo.opponentId;
-          isHomeThisMatch = proximo.isHome;
-          foundWorldCupTeamId = teamId!;
-          foundEliminatoriaKey = clave;
-          const zona = zonaDe(puesta, teamId!);
-          setActiveCompetitionName(`Eliminatorias ${ciclo.mundial}${zona ? ` · ${zona}` : ''} · Fecha ${proximo.fecha}`);
-          setActiveCupId(null); setActiveUefaCupId(null); setActiveDomesticCup(false);
-          setActiveGlobalScoreLabel(null); setActiveTorneoLabel(null);
-          // La posicion en la tabla de la eliminatoria: es lo que se mira en una eliminatoria.
-          const tabla = tablaDeEliminatoria(puesta, teamId!);
-          const miIdx = tabla?.findIndex(r => r.clubId === teamId) ?? -1;
-          const suIdx = tabla?.findIndex(r => r.clubId === proximo.opponentId) ?? -1;
-          setActiveMyTablePosition(miIdx >= 0 ? miIdx + 1 : null);
-          setActiveRivalTablePosition(suIdx >= 0 ? suIdx + 1 : null);
-          setActiveLeagueTeamCount(tabla?.length ?? null);
-          setPlayerProfile(p => ({ ...p, eliminatorias: { ...(p.eliminatorias ?? {}), [clave]: puesta } }));
-        }
+      // Estaba escrito acá adentro y el Dashboard no tenía copia: la tarjeta caía al calendario y
+      // anunciaba "vs Por definir · Local" en TODAS las fechas de eliminatorias. Ahora la pregunta
+      // se hace una vez y la contestan igual los dos, que es la regla de esta casa.
+      const cruce = cruceDeEliminatoriasHoy(playerProfile, myClubForSchedule!.name);
+      if (cruce) {
+        opName = cruce.rival?.name ?? '';
+        opClubId = cruce.rivalId;
+        isHomeThisMatch = cruce.soyLocal;
+        foundWorldCupTeamId = cruce.miSeleccionId;
+        foundEliminatoriaKey = cruce.clave;
+        setActiveCompetitionName(`Eliminatorias ${cruce.mundial}${cruce.zona ? ` · ${cruce.zona}` : ''} · Fecha ${cruce.fecha}`);
+        setActiveCupId(null); setActiveUefaCupId(null); setActiveDomesticCup(false);
+        setActiveGlobalScoreLabel(null); setActiveTorneoLabel(null);
+        // La posicion en la tabla de la eliminatoria: es lo que se mira en una eliminatoria.
+        setActiveMyTablePosition(cruce.miPos);
+        setActiveRivalTablePosition(cruce.suPos);
+        setActiveLeagueTeamCount(cruce.total);
+        setPlayerProfile(p => ({ ...p, eliminatorias: { ...(p.eliminatorias ?? {}), [cruce.clave]: cruce.estado } }));
       }
     }
 
@@ -3588,6 +3627,40 @@ export default function App() {
         notify(`📅 FECHA FIFA: ${nombreDelParonDeSelecciones(playerProfile, myClubForSchedule?.name ?? '')} paraliza la actividad de clubes. Esta fecha no hay partido de liga ni de copa para tu club.`);
         return;
       }
+    } else if (esFechaFifa) {
+      // FECHA FIFA DE ELIMINATORIAS: el partido ya quedó armado más arriba y NADIE lo pisa.
+      //
+      // Esta rama no existía, y por eso la eliminatoria era el bug más raro del juego: el bloque de
+      // arriba resolvía bien el cruce (rival de ALL_NATIONAL_TEAMS_DATABASE, localía, zona, fecha,
+      // tabla) y después la cadena seguía de largo hasta el `else` final -- el de LIGA -- que
+      // pisaba `opName` y `opClubId` con un club de tu liga. Resultado: salías a jugar por tu
+      // selección contra el Werder Bremen. Reportado tal cual: "en eliminatorias no juegas con
+      // otras selecciones sino con equipos".
+      //
+      // Con partido, no hay nada que hacer acá: lo de arriba ya está puesto y esta rama sólo evita
+      // que las de abajo lo toquen. Sin partido -- no convocado, o entre fechas -- se descansa,
+      // igual que en el parón del Mundial: tu club tampoco juega en una fecha FIFA.
+      if (!foundWorldCupTeamId) {
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, true, true, playerProfile);
+        const updated = {
+          ...playerProfile,
+          energy: Math.min(100, playerProfile.energy + 20),
+          currentWeek: playerProfile.currentWeek + 1,
+          playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
+          matchesWithoutRest: 0,
+          continentalCups: restSync.continentalCups,
+          uefaCups: restSync.uefaCups,
+        };
+        const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
+        if (isPastRetirementAge(aged)) {
+          resolveRetirementCheckpoint(aged);
+          return;
+        }
+        setPlayerProfile(aged);
+        saveGameState(aged, shopItems);
+        notify('📅 FECHA FIFA: no estás en la nómina de tu selección para esta fecha de Eliminatorias. Tu club tampoco juega.');
+        return;
+      }
     } else if (
       isCup && usaCalendarioReal && realPrimary
       // El partido real tiene que ser DE COPA. Sin este chequeo, un club que juega copa según el
@@ -3597,14 +3670,44 @@ export default function App() {
       // Una fecha RESERVADA no trae rival: el calendario sólo apartó el día. El cruce lo pone el
       // cuadro, así que cede el paso a la rama de abajo.
       && !realPrimary.esReservaDeCuadro
-      // Si es copa NACIONAL y viene del calendario semanal LEGADO (sin datedPrimary, es decir sin
-      // fecha real verdadera) para un país que ya tiene el bracket real de copaNacional.ts, cede el
-      // paso: ese legado es un calendario semanal fijo de 2024 sin eliminación (todo "round":
-      // "Schedule", nunca hay Final ni campeón), y capturaba el partido antes de que el bracket real
-      // (con ida/vuelta, sorteo y coronación) llegara a ejecutarse nunca. Bug reportado: el jugador
-      // veía "Copa Colombia" contra un rival fijo semanal en vez del cruce real del cuadro.
-      && !(realPrimary.competition.kind === 'domestic_cup' && !datedPrimary
-        && tieneCopaNacionalReal(CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.league ?? ''))
+      // LA COPA NACIONAL TAMPOCO LA MANDA EL CALENDARIO, por el mismo motivo que las europeas.
+      //
+      // El calendario trae los partidos REALES de la copa (los del Inter en la Coppa Italia
+      // 2025/26) y el motor lleva su propio cuadro con los días reservados. Corrían los DOS a la
+      // vez, y jugando se veía tal cual: Inter jugó "Coppa Italia · Octavos" (calendario), después
+      // "Cuartos" (calendario), después una FINAL contra el Atalanta en la fecha 36, después una
+      // "Semifinal (Ida)" contra el Como (cuadro), otra Final contra el Atalanta, la "Semifinal
+      // (Vuelta)", y una TERCERA final contra la Lazio. Tres finales y una final antes de la
+      // semifinal, porque eran dos torneos distintos entrelazados.
+      //
+      // Ahora manda el cuadro: él sabe quién sigue vivo, en qué ronda va y quién sale campeón. El
+      // calendario aporta los días, que es lo que sabe hacer.
+      // Y ojo: cede LA COPA NACIONAL, no cualquier torneo doméstico. La Superliga de Colombia y la
+      // Supercopa de España también son `domestic_cup` en el calendario y NO son la copa del país:
+      // con la guarda ancha, el día de Superliga del Junior se lo quedaba el cuadro y salía un
+      // partido de Libertadores contra otro rival. Se compara con el nombre que el reglamento le da
+      // a la copa nacional, que es la misma llave con la que el calendario le reserva fechas.
+      && !(realPrimary.competition.kind === 'domestic_cup'
+        && realPrimary.competition.name === nombreCopaNacional(
+          CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.league ?? ''))
+      // Y la copa del día tiene que ser una que MANDE el calendario.
+      //
+      // Las europeas ya no: las lleva el cuadro del motor (ver esDiaDeCopaUefaDelCalendario). Sin
+      // esta guarda esta rama se quedaba con el día igual y había TRES respuestas distintas para el
+      // mismo partido -- la tarjeta anunciaba al rival del cuadro, el partido salía contra el del
+      // calendario, y el resultado se le aplicaba al cuadro como si fuera de su propio cruce. Es la
+      // misma clase de bug que "la tarjeta anunciaba a León y el partido era contra Cruz Azul",
+      // multiplicada por tres.
+      && !esDiaDeCopaUefaDelCalendario
+      // Y NINGUNA copa continental que ya lleve el cuadro del motor.
+      //
+      // El caso que lo destapó es Boca: el motor lo tiene en la Libertadores (y se la juega bien,
+      // fase de grupos con sus seis fechas), pero el calendario ADEMÁS le trae partidos reales de
+      // Copa Sudamericana. Los dos torneos corrían a la vez y el del calendario no lo hacía avanzar
+      // nadie, así que servía SIEMPRE el mismo cruce: veinte veces "Copa Sudamericana · visitante
+      // vs Recoleta" en una sola temporada. Quién baja a la Sudamericana lo decide el motor
+      // (ver repescadosDeLaLibertadores), no una fecha suelta del calendario.
+      && !(realPrimary.competition.kind === 'continental_cup' && clubEnCopaContinental)
     ) {
       // Partido de copa tomado del calendario REAL: rival, ronda y torneo salen de las fechas de
       // Transfermarkt, no de un sorteo generado. El estado interno de la copa (tabla, bracket) lo
@@ -3659,7 +3762,11 @@ export default function App() {
       } else {
         setActiveGlobalScoreLabel(null);
       }
-    } else if (isCup && (!usaFechasReales || clubEnCopaContinental || esReservaDeCopa)) {
+    } else if (isCup && (!usaFechasReales || clubEnCopaContinental || esReservaDeCopa
+      // Día de copa europea que el calendario ya no manda: entra igual acá. Si tu club clasificó,
+      // el cuadro pone el cruce; si no clasificó, no hay copa europea y el día se lo lleva la copa
+      // nacional, que es lo que corresponde a un miércoles sin Europa.
+      || esDiaDeCopaUefaDelCalendario)) {
       // Copa armada por el cuadro del motor. Corre en tres casos:
       //
       //   1. El club no tiene fechas reales cargadas (el caso de siempre).
@@ -3793,8 +3900,18 @@ export default function App() {
       // Si el club no juega Libertadores/Sudamericana (ligas sudamericanas), probamos Champions/Europa League.
       let foundUefaOpponentId: string | null = null;
       if (!foundOpponentId && !laNacionalTieneCruceHoy) {
-        const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE));
-        const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE));
+        // LA PLAZA SE GANA EN LA TABLA, y hay que preguntarlo igual que en el resto del juego.
+        //
+        // Acá se preguntaba sin año ni posiciones, o sea siempre por los 36 de la edición real
+        // 2025/26: el Dashboard (que sí pasa el año y la tabla del año anterior) podía contestar
+        // "este año no jugás la Champions" mientras esta pantalla te metía igual a jugarla. Y al
+        // revés: un club que se ganó la plaza terminando arriba no la veía nunca.
+        const campeonesUefa = {
+          champions: playerProfile.campeonesContinentales?.[`champions-${year - 1}`] ?? null,
+          europa: playerProfile.campeonesContinentales?.[`europa-${year - 1}`] ?? null,
+        };
+        const championsIds = new Set(getChampionsParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, campeonesUefa));
+        const europaIds = new Set(getEuropaParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, campeonesUefa));
         const qualifiedUefaCupId: 'champions' | 'europa' | null = championsIds.has(myClub.id)
           ? 'champions'
           : europaIds.has(myClub.id)
@@ -3823,11 +3940,21 @@ export default function App() {
               cupTeamCount = sortedUefa.length || null;
             }
 
-            // Champions/Europa van a ida y vuelta desde octavos, igual que la Conmebol de arriba:
-            // mismo cálculo de global que la copa nacional.
-            if (uefaCup.stage === 'knockout') {
-              const miLlaveUefa = uefaCup.knockout?.tiesByRound[uefaCup.knockout.tiesByRound.length - 1]
-                ?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+            // EL CARTEL DICE LA RONDA, igual que en la Conmebol de arriba. Sin esto el partido
+            // salía rotulado "UEFA Champions League" a secas: ni la instancia ni la pierna. En una
+            // eliminatoria eso es justo lo único que hace falta saber antes de entrar.
+            const rondaUefa = rondaDeCopaUefa(uefaCup, myClub.id);
+            if (rondaUefa) {
+              setActiveCompetitionName(`${NOMBRE_VISIBLE_DE_COPA_UEFA[qualifiedUefaCupId]} · ${rondaUefa}`);
+            }
+
+            // Champions/Europa van a ida y vuelta desde el playoff, igual que la Conmebol de
+            // arriba: mismo cálculo de global que la copa nacional.
+            if (uefaCup.stage === 'knockout' || uefaCup.stage === 'playoff') {
+              const llavesUefa = uefaCup.stage === 'playoff'
+                ? uefaCup.playoff
+                : uefaCup.knockout?.tiesByRound[uefaCup.knockout.tiesByRound.length - 1];
+              const miLlaveUefa = llavesUefa?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
               if (miLlaveUefa) {
                 const soyA = miLlaveUefa.clubAId === myClub.id;
                 const idaJugada = miLlaveUefa.firstLegGoalsA !== null && miLlaveUefa.firstLegGoalsB !== null;
@@ -4858,7 +4985,18 @@ export default function App() {
       // El año del título sale de la MISMA temporada con la que se armó la clave, para que el
       // trofeo no quede fechado en una edición distinta de la que se jugó.
       const temporadaDeCopa = Number(cupKey.slice(cupKey.lastIndexOf('-') + 1));
-      const cup = playerProfile.domesticCups?.[cupKey];
+      // SI NO ESTA GUARDADA, SE REARMA -- mismo caso que la eliminatoria.
+      //
+      // No se puede depender de que el cuadro que armo startMatchflow antes del partido haya
+      // llegado hasta acá: cuando no llegaba, `cup` era undefined, el resultado no se aplicaba a
+      // ninguna llave y el cuadro se quedaba clavado. Medido jugando con el Junior: la MISMA llave
+      // de dieciseisavos contra el América de Cali servida cuatro veces seguidas (fechas 43, 45, 47
+      // y 48) en una copa que se define a ida y vuelta, o sea en dos.
+      //
+      // copaNacionalDelPaso es el mismo sorteo determinista que usa la tarjeta: no inventa un
+      // cuadro distinto del que se anuncio.
+      const cup = playerProfile.domesticCups?.[cupKey]
+        ?? copaNacionalDelPaso(playerProfile, myClub, CLUBS_DATABASE, playerProfile.currentWeek);
       if (!cup || cup.championId) return;
       const tie = cruceActual(cup, myClub.id);
       // Solo si el rival de hoy es el de su llave: en las semanas sin cruce el partido es un
@@ -5336,7 +5474,15 @@ export default function App() {
     // cuadro del Mundial. Sin el corte, un partido de eliminatoria le movería el Mundial.
     let updatedEliminatorias = playerProfile.eliminatorias;
     if (activeEliminatoriaKey && activeWorldCupTeamId) {
-      const guardada = playerProfile.eliminatorias?.[activeEliminatoriaKey];
+      // SI NO ESTA GUARDADA, SE REARMA. No se puede depender de que el estado que escribió
+      // startMatchflow antes del partido haya llegado hasta acá: cuando no llegaba, `guardada` era
+      // undefined, el resultado no se aplicaba a ninguna tabla y la eliminatoria se quedaba clavada
+      // -- el jugador veía la MISMA fecha contra el MISMO rival todas las fechas FIFA de la
+      // carrera, porque cada día se rearmaba desde cero y caía siempre en el mismo partido.
+      // Medido jugando: "elim SIN GUARDAR" en las cinco fechas seguidas contra San Marino.
+      const clubDeLaCarrera = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+      const guardada = playerProfile.eliminatorias?.[activeEliminatoriaKey]
+        ?? cruceDeEliminatoriasHoy(playerProfile, clubDeLaCarrera?.name ?? '')?.estado;
       if (guardada) {
         updatedEliminatorias = {
           ...(playerProfile.eliminatorias ?? {}),
@@ -5880,6 +6026,9 @@ export default function App() {
     setPendingMatchResults(null);
     setScreen('post_match');
   };
+  // La ref se pone al día en CADA render, así el partido simulado siempre resuelve con el estado de
+  // hoy y no con el de un render anterior. Ver la nota en finishRef, arriba.
+  finishRef.current = handleFinishMatch;
 
   const handleContinueFromShootout = (result: PenaltyShootoutResult, myClubWon: boolean) => {
     if (!pendingMatchResults || !activePenaltyShootout || !activeOppositionClubId) return;

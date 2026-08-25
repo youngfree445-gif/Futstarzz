@@ -8,6 +8,8 @@
 // pool era realmente "el mejor del mundo". Reportado: "estos datos no son ciertos, ni en el juego
 // ni en la realidad".
 import { PlayerProfile } from './types';
+import { anioDeCarrera } from './dateSchedule';
+import { CLUBS_DATABASE } from './data';
 
 export interface WorldRankingEntry {
   name: string;
@@ -29,48 +31,48 @@ function hashName(name: string): number {
  * nombres). El score base refleja ese consenso: Tier S 96-99, Tier A 91-95, Tier B 86-90,
  * Tier C 80-85, veteranos fuera de las top 5 ligas 75-79.
  */
-const ELITE_WORLD_POOL: { name: string; clubName: string; baseScore: number }[] = [
+const ELITE_WORLD_POOL: { name: string; clubName: string; baseScore: number; nacio: number }[] = [
   // Tier S
-  { name: 'Ousmane Dembélé', clubName: 'PSG', baseScore: 99 },
-  { name: 'Lamine Yamal', clubName: 'Barcelona', baseScore: 98 },
-  { name: 'Vitinha', clubName: 'PSG', baseScore: 96 },
-  { name: 'Kylian Mbappé', clubName: 'Real Madrid', baseScore: 97 },
-  { name: 'Mohamed Salah', clubName: 'Liverpool', baseScore: 96 },
+  { name: 'Ousmane Dembélé', clubName: 'PSG', baseScore: 99, nacio: 1997 },
+  { name: 'Lamine Yamal', clubName: 'Barcelona', baseScore: 98, nacio: 2007 },
+  { name: 'Vitinha', clubName: 'PSG', baseScore: 96, nacio: 2000 },
+  { name: 'Kylian Mbappé', clubName: 'Real Madrid', baseScore: 97, nacio: 1998 },
+  { name: 'Mohamed Salah', clubName: 'Liverpool', baseScore: 96, nacio: 1992 },
   // Tier A
-  { name: 'Raphinha', clubName: 'Barcelona', baseScore: 94 },
-  { name: 'Achraf Hakimi', clubName: 'PSG', baseScore: 93 },
-  { name: 'Cole Palmer', clubName: 'Chelsea', baseScore: 92 },
-  { name: 'Gianluigi Donnarumma', clubName: 'Manchester City', baseScore: 92 },
-  { name: 'Harry Kane', clubName: 'Bayern Munich', baseScore: 94 },
-  { name: 'Pedri', clubName: 'Barcelona', baseScore: 93 },
-  { name: 'Erling Haaland', clubName: 'Manchester City', baseScore: 95 },
-  { name: 'Vinícius Jr.', clubName: 'Real Madrid', baseScore: 93 },
+  { name: 'Raphinha', clubName: 'Barcelona', baseScore: 94, nacio: 1996 },
+  { name: 'Achraf Hakimi', clubName: 'PSG', baseScore: 93, nacio: 1998 },
+  { name: 'Cole Palmer', clubName: 'Chelsea', baseScore: 92, nacio: 2002 },
+  { name: 'Gianluigi Donnarumma', clubName: 'Manchester City', baseScore: 92, nacio: 1999 },
+  { name: 'Harry Kane', clubName: 'Bayern Munich', baseScore: 94, nacio: 1993 },
+  { name: 'Pedri', clubName: 'Barcelona', baseScore: 93, nacio: 2002 },
+  { name: 'Erling Haaland', clubName: 'Manchester City', baseScore: 95, nacio: 2000 },
+  { name: 'Vinícius Jr.', clubName: 'Real Madrid', baseScore: 93, nacio: 2000 },
   // Tier B
-  { name: 'Nuno Mendes', clubName: 'PSG', baseScore: 89 },
-  { name: 'Khvicha Kvaratskhelia', clubName: 'PSG', baseScore: 90 },
-  { name: 'Désiré Doué', clubName: 'PSG', baseScore: 89 },
-  { name: 'Viktor Gyökeres', clubName: 'Sporting CP', baseScore: 88 },
-  { name: 'Scott McTominay', clubName: 'Napoli', baseScore: 87 },
-  { name: 'João Neves', clubName: 'PSG', baseScore: 88 },
-  { name: 'Lautaro Martínez', clubName: 'Inter de Milán', baseScore: 89 },
-  { name: 'Jude Bellingham', clubName: 'Real Madrid', baseScore: 90 },
-  { name: 'Florian Wirtz', clubName: 'Bayer Leverkusen', baseScore: 88 },
-  { name: 'Bruno Guimarães', clubName: 'Newcastle', baseScore: 87 },
-  { name: 'Trent Alexander-Arnold', clubName: 'Real Madrid', baseScore: 88 },
-  { name: 'Virgil van Dijk', clubName: 'Liverpool', baseScore: 89 },
-  { name: 'Declan Rice', clubName: 'Arsenal', baseScore: 88 },
+  { name: 'Nuno Mendes', clubName: 'PSG', baseScore: 89, nacio: 2002 },
+  { name: 'Khvicha Kvaratskhelia', clubName: 'PSG', baseScore: 90, nacio: 2001 },
+  { name: 'Désiré Doué', clubName: 'PSG', baseScore: 89, nacio: 2005 },
+  { name: 'Viktor Gyökeres', clubName: 'Sporting CP', baseScore: 88, nacio: 1998 },
+  { name: 'Scott McTominay', clubName: 'Napoli', baseScore: 87, nacio: 1996 },
+  { name: 'João Neves', clubName: 'PSG', baseScore: 88, nacio: 2004 },
+  { name: 'Lautaro Martínez', clubName: 'Inter de Milán', baseScore: 89, nacio: 1997 },
+  { name: 'Jude Bellingham', clubName: 'Real Madrid', baseScore: 90, nacio: 2003 },
+  { name: 'Florian Wirtz', clubName: 'Bayer Leverkusen', baseScore: 88, nacio: 2003 },
+  { name: 'Bruno Guimarães', clubName: 'Newcastle', baseScore: 87, nacio: 1997 },
+  { name: 'Trent Alexander-Arnold', clubName: 'Real Madrid', baseScore: 88, nacio: 1998 },
+  { name: 'Virgil van Dijk', clubName: 'Liverpool', baseScore: 89, nacio: 1991 },
+  { name: 'Declan Rice', clubName: 'Arsenal', baseScore: 88, nacio: 1999 },
   // Tier C
-  { name: 'Serhou Guirassy', clubName: 'Borussia Dortmund', baseScore: 84 },
-  { name: 'Alexis Mac Allister', clubName: 'Liverpool', baseScore: 85 },
-  { name: 'Fabián Ruiz', clubName: 'PSG', baseScore: 84 },
-  { name: 'Denzel Dumfries', clubName: 'Inter de Milán', baseScore: 83 },
-  { name: 'Michael Olise', clubName: 'Bayern Munich', baseScore: 85 },
-  { name: 'Aurélien Tchouaméni', clubName: 'Real Madrid', baseScore: 84 },
-  { name: 'Jan Oblak', clubName: 'Atlético Madrid', baseScore: 83 },
-  { name: 'Christian Pulisic', clubName: 'AC Milan', baseScore: 82 },
+  { name: 'Serhou Guirassy', clubName: 'Borussia Dortmund', baseScore: 84, nacio: 1996 },
+  { name: 'Alexis Mac Allister', clubName: 'Liverpool', baseScore: 85, nacio: 1998 },
+  { name: 'Fabián Ruiz', clubName: 'PSG', baseScore: 84, nacio: 1996 },
+  { name: 'Denzel Dumfries', clubName: 'Inter de Milán', baseScore: 83, nacio: 1996 },
+  { name: 'Michael Olise', clubName: 'Bayern Munich', baseScore: 85, nacio: 2001 },
+  { name: 'Aurélien Tchouaméni', clubName: 'Real Madrid', baseScore: 84, nacio: 2000 },
+  { name: 'Jan Oblak', clubName: 'Atlético Madrid', baseScore: 83, nacio: 1993 },
+  { name: 'Christian Pulisic', clubName: 'AC Milan', baseScore: 82, nacio: 1998 },
   // Veteranos icónicos, fuera de las top 5 ligas europeas
-  { name: 'Lionel Messi', clubName: 'Inter Miami', baseScore: 79 },
-  { name: 'Robert Lewandowski', clubName: 'Chicago Fire', baseScore: 77 },
+  { name: 'Lionel Messi', clubName: 'Inter Miami', baseScore: 79, nacio: 1987 },
+  { name: 'Robert Lewandowski', clubName: 'Chicago Fire', baseScore: 77, nacio: 1988 },
 ];
 
 // Variación semanal leve (±2) para que el ranking respire sin depender de Math.random() puro ni
@@ -149,13 +151,107 @@ function playerScore(profile: PlayerProfile, liga: string): number {
   return Math.round(65 + compuestoConEscaparate * 34);
 }
 
-export function generateWorldRanking(profile: PlayerProfile, myClubName: string, currentWeek: number, miLiga = ''): WorldRankingEntry[] {
-  const pool: WorldRankingEntry[] = ELITE_WORLD_POOL.map(p => ({
-    name: p.name,
-    clubName: p.clubName,
-    score: Math.max(0, Math.min(100, p.baseScore + weeklyDrift(p.name, currentWeek))),
+/**
+ * LOS CRACKS ENVEJECEN. Sin esto el ranking -- y con él el Balón de Oro -- quedaba congelado en 2025
+ * para siempre.
+ *
+ * Medido jugando cuatro galas seguidas: Dembélé en 2026, Dembélé en 2027, Vitinha en 2028 y Dembélé
+ * otra vez en 2029. En una carrera de quince años seguiría ganándolo a los 38, y el jugador nunca
+ * vería llegar a su propia generación. El pool son 37 futbolistas REALES con su nivel de 2025; lo
+ * único que faltaba era que pasara el tiempo.
+ *
+ * La curva es sencilla a propósito -- nadie está simulando la carrera de Mbappé --, pero hace las
+ * dos cosas que importan: el que hoy tiene 18 mejora unos años, y el que pasa los 30 se apaga hasta
+ * salir de la conversación.
+ */
+const PICO = 25;
+const EMPIEZA_A_CAER = 30;
+const SE_RETIRA = 38;
+
+function porLaEdad(baseScore: number, nacio: number, anio: number): number | null {
+  const edad = anio - nacio;
+  if (edad >= SE_RETIRA) return null;                       // colgó los botines: sale del ranking
+  if (edad > EMPIEZA_A_CAER) return baseScore - (edad - EMPIEZA_A_CAER) * 2.5;
+  if (edad < PICO) return baseScore + Math.min(6, (PICO - edad) * 0.8);   // todavía creciendo
+  return baseScore;
+}
+
+/** Cuántos nombres tiene que tener el ranking para que siga siendo "los mejores del mundo". */
+const TAMANO_DEL_RANKING = 30;
+
+/**
+ * EL RELEVO GENERACIONAL.
+ *
+ * Los 37 del pool son futbolistas reales y se van retirando con los años (ver porLaEdad). Sin
+ * reemplazo, a los quince años de carrera el ranking mundial tenía quince nombres y era una lista
+ * de veteranos en decadencia: el jugador llegaba a lo más alto del fútbol y ahí no había nadie.
+ *
+ * LOS QUE ENTRAN SON INVENTADOS, y tiene que ser así. La tentación era tomarlos de los planteles de
+ * los clubes de élite, pero `starPlayers` es una foto de 2025: en 2040 el "mejor del mundo" habría
+ * sido Eric Dier, que para entonces hace años que colgó los botines. Un nombre nuevo es honesto --
+ * es la generación que llegó mientras vos jugabas -- y un nombre real fuera de época es un error de
+ * datos con cara de bug.
+ *
+ * Nacen ACOTADOS entre 84 y 96: son cracks de verdad y el mejor de una camada puede pelearle el
+ * primer puesto a un veterano en decadencia, pero ninguno aparece de la nada valiendo 99.
+ */
+const NOMBRES_DE_LA_CAMADA = [
+  'Mateo', 'Lucas', 'Enzo', 'Thiago', 'Youssef', 'Rafael', 'Nicolás', 'Ibrahim', 'Tomás', 'Kylian',
+  'Diego', 'Amadou', 'Gabriel', 'Léo', 'Marco', 'Andrés', 'Emre', 'Noah', 'Julián', 'Kai',
+  'Santiago', 'Malik', 'Felipe', 'Jonas', 'Iker', 'Omar', 'Bruno', 'Aleks', 'Tiago', 'Samuel',
+];
+const APELLIDOS_DE_LA_CAMADA = [
+  'Ferreyra', 'Okafor', 'Kovačić', 'Nakamura', 'Silva', 'Bakayoko', 'Ronsson', 'Mendoza', 'Adeyemi',
+  'Petrov', 'Rossi', 'Vermeulen', 'Diarra', 'Castillo', 'Lindqvist', 'Ba', 'Moretti', 'Oyelaran',
+  'Sørensen', 'Quintero', 'Haugen', 'Traoré', 'Novak', 'Espinoza', 'Yıldız', 'Bergmann', 'Cissé',
+  'Duarte', 'Vasilev', 'Ntumba',
+];
+
+function crackDeLaCamada(anio: number, i: number): WorldRankingEntry {
+  // La semilla lleva el AÑO: la camada de 2035 no es la de 2030. Y es un hash, no azar: la lista no
+  // se reordena sola al abrir la pantalla dos veces.
+  // Tres hashes distintos y no uno desplazado: con `semilla >> 5` los bits que quedaban eran casi
+  // los mismos para todos y TODA la camada salía apellidada igual ("Youssef Ba", "Thiago Ba",
+  // "Tomás Ba"...). Cada campo pide su propia semilla.
+  const semilla = hashName(`camada_${anio}_${i}`);
+  const nombre = NOMBRES_DE_LA_CAMADA[hashName(`nombre_${anio}_${i}`) % NOMBRES_DE_LA_CAMADA.length];
+  const apellido = APELLIDOS_DE_LA_CAMADA[hashName(`apellido_${anio}_${i}`) % APELLIDOS_DE_LA_CAMADA.length];
+  const club = CLUBS_DATABASE.filter(c => (c.reputation ?? 0) >= 4);
+  return {
+    name: `${nombre} ${apellido}`,
+    clubName: club.length ? club[hashName(`club_${anio}_${i}`) % club.length].name : '',
+    score: 84 + (semilla % 13),
     isPlayer: false,
-  }));
+  };
+}
+
+function relevoGeneracional(cuantos: number, anio: number, yaEstan: Set<string>): WorldRankingEntry[] {
+  const nuevos: WorldRankingEntry[] = [];
+  for (let i = 0; nuevos.length < cuantos && i < cuantos * 4; i++) {
+    const c = crackDeLaCamada(anio, i);
+    if (yaEstan.has(c.name)) continue;
+    yaEstan.add(c.name);
+    nuevos.push(c);
+  }
+  return nuevos;
+}
+
+export function generateWorldRanking(profile: PlayerProfile, myClubName: string, currentWeek: number, miLiga = ''): WorldRankingEntry[] {
+  const anio = anioDeCarrera(myClubName, currentWeek);
+  const pool: WorldRankingEntry[] = ELITE_WORLD_POOL.flatMap(p => {
+    const conEdad = porLaEdad(p.baseScore, p.nacio, anio);
+    if (conEdad === null) return [];
+    return [{
+      name: p.name,
+      clubName: p.clubName,
+      score: Math.max(0, Math.min(100, conEdad + weeklyDrift(p.name, currentWeek))),
+      isPlayer: false,
+    }];
+  });
+
+  // A medida que los reales se retiran, entra la camada siguiente.
+  pool.push(...relevoGeneracional(
+    TAMANO_DEL_RANKING - pool.length, anio, new Set(pool.map(p => p.name))));
 
   pool.push({ name: profile.name, clubName: myClubName, score: playerScore(profile, miLiga), isPlayer: true });
 
