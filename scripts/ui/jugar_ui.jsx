@@ -273,6 +273,25 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       const ahora = Date.now();
       const donde = pantalla();
       gastoPorPantalla.set(donde, (gastoPorPantalla.get(donde) ?? 0) + (ahora - relojDeLaVuelta));
+      // Y EL RECORRIDO DE PANTALLAS de la fecha en curso: cuando una tarjeta se anuncia y el partido
+      // no ocurre, esto es lo unico que dice por donde se fue el dia.
+      const enCurso = bitacora[bitacora.length - 1];
+      if (enCurso) {
+        enCurso.pantallas = enCurso.pantallas ?? [];
+        if (enCurso.pantallas[enCurso.pantallas.length - 1] !== donde) enCurso.pantallas.push(donde);
+        // QUE EL PARTIDO SE JUGO SE MARCA ACA, no dentro de la rama de post-partido.
+        //
+        // Llegar a la pantalla de post-partido es la prueba de que hubo partido -- el marcador no
+        // sirve, porque sale de buscar "N-N" en el resumen y en los partidos de seleccion ese texto
+        // no aparece. Pero marcarlo DENTRO de esa rama tampoco alcanzaba: cuando el partido se juega
+        // a mano, el simulador sigue montado y la rama que lo atiende esta antes, asi que la de
+        // post-partido no se ejecutaba y la fecha quedaba como "prometida y no jugada". Medido: 4 de
+        // cada 16 carreras del Inter, siempre en vueltas de Champions que SI se jugaron -- la copa
+        // avanzaba su paso y cambiaba de ronda.
+        //
+        // Esta foto se toma arriba del bucle, antes de elegir rama, asi que no la puede tapar nadie.
+        if (donde === 'post-partido') enCurso.seJugo = true;
+      }
       relojDeLaVuelta = ahora;
     }
     pasos++;
@@ -376,14 +395,6 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     const volver = botonQueDice(/Regresar al Vestuario/i);
     if (volver) {
       const cuerpo = texto(document.body);
-      // QUE EL PARTIDO SE JUGO ES UN HECHO APARTE DEL MARCADOR.
-      //
-      // El marcador sale de buscar "N-N" en el resumen, y ese texto no esta siempre: en los
-      // partidos de SELECCION no aparece con ese formato. Usar "sin marcador" como sinonimo de "no
-      // se jugo" daba dieciseis falsos positivos por tanda -- todos partidos del Mundial que si se
-      // jugaron. Llegar a esta pantalla es la prueba de que hubo partido; el marcador es un extra
-      // que puede fallar en leerse.
-      if (bitacora.length) bitacora[bitacora.length - 1].seJugo = true;
       const marcador = (cuerpo.match(/(\d+)\s*[-–]\s*(\d+)/) ?? []).slice(1, 3).join('-');
       // CONTRA QUIEN SE JUGO DE VERDAD. La tarjeta anuncia un rival y el partido puede ser contra
       // otro: es la clase de desfase que ya se cobró varios bugs, y sin mirarlo no se ve.

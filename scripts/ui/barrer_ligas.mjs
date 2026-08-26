@@ -91,7 +91,7 @@ function jugar([club, liga]) {
       // Cada uno escribe en su propio archivo de progreso, o se pisarían entre ellos.
       // El banco corta solo un poco antes que el tope de afuera, asi la corrida trabada alcanza a
       // imprimir su informe en vez de morir de un SIGKILL sin decir nada.
-      env: { ...process.env, PROGRESO: `${CARPETA}/${slug}.log`, MINUTOS_DE_BANCO: String(Math.max(1, MINUTOS_POR_CLUB - 3)) },
+      env: { ...process.env, PROGRESO: `${CARPETA}/${slug}.log`, BITACORA: `${CARPETA}/${slug}.json`, MINUTOS_DE_BANCO: String(Math.max(1, MINUTOS_POR_CLUB - 3)) },
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     let salida = '';

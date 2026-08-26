@@ -3598,8 +3598,22 @@ export default function App() {
     // jugaba la vuelta de verdad. El dia era europeo, el Porto ya estaba eliminado de Europa, y el
     // corte de abajo lo mandaba a descansar antes de que la Taça pudiera reclamarlo. Medido: 2 de
     // cada 40 carreras.
+    // Y LA COPA CONTINENTAL REAL, que es el cuarto termino y faltaba.
+    //
+    // La tarjeta cuenta CUATRO (elDiaEsDeCopa, en Dashboard: reserva, europea del cuadro, nacional
+    // del cuadro y continental del cuadro) y aca habia TRES. Faltaba justo el dia con partido REAL
+    // de Libertadores o Sudamericana que el cuadro del motor ya se quedo -- el mismo caso que la
+    // copa nacional, en la otra copa. Con el termino de menos, ese dia podia terminar en descanso
+    // aunque la tarjeta lo hubiera anunciado: medido en el barrido, al Flamengo le prometio
+    // "Copa Libertadores vs Always Ready" y al Peñarol "vs Palmeiras", y los dos dias pasaron sin
+    // partido.
+    //
+    // Que las dos cuentas den distinto ES el bug, siempre: la tarjeta anuncia una cosa y el motor
+    // hace otra. Por eso van juntas y con los mismos cuatro terminos.
+    const esDiaDeCopaContinentalDelCuadro = realPrimary?.competition.kind === 'continental_cup'
+      && !realPrimary.esReservaDeCuadro && clubEnCopaContinental && !esDiaDeCopaUefaDelCalendario;
     const elDiaEsDeCopaDeAlguien = esReservaDeCopa || esDiaDeCopaUefaDelCalendario
-      || esDiaDeCopaNacionalDelCalendario;
+      || esDiaDeCopaNacionalDelCalendario || esDiaDeCopaContinentalDelCuadro;
 
     const isCup = !inWorldCupBreak
       && (realPrimary?.competition.kind === 'continental_cup'

@@ -214,7 +214,13 @@ for (const p of bitacora) {
 // Se detecta por el marcador vacio: la bitacora se anota al leer la tarjeta y el marcador recien al
 // volver del partido. Medido en el Porto, 2 de cada 40 carreras: la tarjeta anunciaba la semifinal
 // de la Taça, apretabas, y el dia pasaba de largo. Es su propio bug y no una llave repetida.
-const prometidosSinJugar = bitacora.filter(p => p.competicion && p.rival && !p.seJugo);
+// LA ULTIMA TARJETA NO CUENTA: el banco corta la carrera ahi.
+//
+// Al terminar la temporada el bucle sale, y la tarjeta que estaba en pantalla queda anotada sin
+// haberse jugado. Eso es el corte del banco, no un partido perdido, y contarlo ensuciaba el
+// veredicto con un falso positivo por carrera -- 26 de 117 en una tanda de 40.
+const prometidosSinJugar = bitacora
+  .filter((p, i) => p.competicion && p.rival && !p.seJugo && i < bitacora.length - 1);
 for (const p of prometidosSinJugar) {
   problemas.push(`la tarjeta prometio ${p.competicion} vs ${p.rival} y el dia paso sin partido (fecha ${p.paso})`);
 }
