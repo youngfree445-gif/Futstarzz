@@ -172,6 +172,25 @@ for (const [clave, veces] of vecesPorRival) {
   if (veces > 2) problemas.push(`el MISMO cruce se jugo ${veces} veces: ${clave}`);
 }
 
+// SELECCIONES CONTRA SELECCIONES, Y CLUBES CONTRA CLUBES.
+//
+// Regla del usuario, y no es un detalle de presentacion: en el Mundial y en las Eliminatorias jugas
+// con tu SELECCION, y ahi enfrente sólo puede haber otra seleccion. Ya paso al reves -- reportado:
+// "en eliminatorias no juegas con otras selecciones sino con equipos" -- y esa vez el rival salia
+// de la base de clubes porque la fecha FIFA caia en la rama equivocada. Se mira de los dos lados,
+// porque el error simetrico (una seleccion metida en un torneo de clubes) seria igual de grave.
+const esDeSelecciones = c => /Mundial|Eliminatorias|Copa América|Eurocopa|Copa Oro|Copa Asiática|Copa Africana|Nations League/i.test(c);
+const esNombreDeSeleccion = r => /^Selección /i.test(r || '');
+for (const p of bitacora) {
+  if (!p.competicion || !p.rival || p.rival === 'RIVAL SIN SORTEAR') continue;
+  if (esDeSelecciones(p.competicion) && !esNombreDeSeleccion(p.rival)) {
+    problemas.push(`torneo de SELECCIONES contra un club: ${p.competicion} vs ${p.rival} (fecha ${p.paso})`);
+  }
+  if (!esDeSelecciones(p.competicion) && esNombreDeSeleccion(p.rival)) {
+    problemas.push(`torneo de CLUBES contra una seleccion: ${p.competicion} vs ${p.rival} (fecha ${p.paso})`);
+  }
+}
+
 const sinCartel = bitacora.filter(p => !p.competicion).length;
 if (sinCartel) problemas.push(`${sinCartel} fechas sin cartel de competición legible en la tarjeta.`);
 const sinSortear = bitacora.filter(p => p.rival === 'RIVAL SIN SORTEAR').length;
