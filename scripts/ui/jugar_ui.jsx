@@ -262,7 +262,19 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   // que se jugo hasta ahi (y lo marca como cortada, ver seCorto).
   const limite = Date.now() + Math.max(1, Number(process.env.MINUTOS_DE_BANCO) || 20) * 60_000;
 
+  // DONDE SE VA EL TIEMPO. Una carrera tarda veinte minutos y hasta ahora no habia forma de saber
+  // en que: se acumula el reloj de pared por tipo de pantalla, que es lo unico que permite decidir
+  // que optimizar en vez de adivinar.
+  const gastoPorPantalla = new Map();
+  let relojDeLaVuelta = Date.now();
+
   while (pasos < maxPasos) {
+    {
+      const ahora = Date.now();
+      const donde = pantalla();
+      gastoPorPantalla.set(donde, (gastoPorPantalla.get(donde) ?? 0) + (ahora - relojDeLaVuelta));
+      relojDeLaVuelta = ahora;
+    }
     pasos++;
     if (Date.now() > limite) {
       avisos.push('ATASCO por tiempo en la fecha ' + ultimoPaso + '. Pantalla: ' + pantalla());
@@ -456,5 +468,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     await dormir(100);
   }
 
-  return { bitacora, avisos, pasos, guardada: partidaGuardada() };
+  const gasto = [...gastoPorPantalla].sort((x, y) => y[1] - x[1])
+    .map(([k, ms]) => `${k}=${(ms / 1000).toFixed(0)}s`).join(' ');
+  return { bitacora, avisos, pasos, gasto, guardada: partidaGuardada() };
 }

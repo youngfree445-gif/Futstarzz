@@ -15,8 +15,12 @@ const { jugar, datos } = await import('../../node_modules/.cache/jugarui/jugar_u
 
 console.log(`\n=== JUGANDO DE VERDAD: ${CLUB} (${LIGA}), ${TEMPORADAS} temporada(s) ===\n`);
 const t0 = Date.now();
-const { bitacora, avisos, pasos, guardada } = await jugar({ club: CLUB, liga: LIGA, temporadas: TEMPORADAS });
+const { bitacora, avisos, pasos, gasto, guardada } = await jugar({ club: CLUB, liga: LIGA, temporadas: TEMPORADAS });
 console.log(`\nSe apretaron ${pasos} pantallas en ${((Date.now() - t0) / 1000).toFixed(0)}s. ${bitacora.length} partidos anotados.\n`);
+// Y DONDE SE FUE, por pantalla: sin esto, optimizar el banco es adivinar.
+console.log(`--- DONDE SE FUE EL TIEMPO ---
+  ${gasto}
+`);
 
 writeFileSync('scripts/ui/ultima_bitacora.json', JSON.stringify({ club: CLUB, bitacora, avisos, guardada }, null, 2));
 

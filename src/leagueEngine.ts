@@ -671,6 +671,32 @@ export function tercerosDeGrupo(cup: CupState): string[] {
   return cup.groups.map(g => sortTable(g.table)[2]?.clubId).filter((id): id is string => !!id);
 }
 
+/**
+ * ARMA la etapa siguiente de una copa Conmebol SIN JUGAR NADA. Devuelve el mismo objeto si no hay
+ * nada que armar.
+ *
+ * Hermana de armarSiguienteEtapaUefa, y existe por el mismo partido que el jugador nunca llegaba a
+ * disputar. El paso que cierra el REPECHAJE hacia dos cosas juntas -- sembraba los octavos y les
+ * resolvia la primera pierna -- y el guardian que frena la copa antes de un partido del jugador
+ * (ver getOrCreateCupState) no puede verlo venir: pregunta por el proximo partido ANTES de
+ * resolver, y en ese momento los octavos todavia no existen, asi que contesta "no hay" y deja pasar.
+ *
+ * Medido jugando con el LDU de Quito: bajo al repechaje de la Sudamericana, lo gano contra el
+ * Santos, y su siguiente partido de copa fue "Octavos de Final (VUELTA)" contra el Caracas, con un
+ * global que venia de una ida que nunca jugo. Una de las diecinueve carreras del barrido, porque
+ * solo lo sufre quien pasa por el repechaje.
+ *
+ * Armar no gasta una fecha: se llama al principio del paso, antes del guardian, y el partido se
+ * juega en ese mismo paso. Es el reparto que ya usan la transicion de grupos y el encadenado de
+ * rondas del cuadro.
+ */
+function armarSiguienteEtapaConmebol(cup: CupState): CupState {
+  if (cup.stage !== 'playoff' || !cup.playoff?.length) return cup;
+  if (!cup.playoff.every(t => t.played)) return cup;
+  const clasificados = [...ganadoresDeGrupo(cup.groups), ...cup.playoff.map(t => t.winnerId!)];
+  return { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(clasificados) };
+}
+
 function resolveCupStep(
   cup: CupState, allClubs: Club[], forced?: ForcedResult,
   /** Los terceros de la Libertadores, para sembrar el repechaje de la Sudamericana. */
@@ -719,14 +745,17 @@ function resolveCupStep(
   // cerrarse, sus ocho ganadores completan los octavos junto a los ocho ganadores de grupo.
   if (cup.stage === 'playoff') {
     if (!cup.playoff) return cup;
-    if (cup.playoff.every(t => t.played)) {
-      // Se arma Y SE JUEGA la primera pierna de octavos en la misma llamada: armar no gasta una
-      // fecha, por lo mismo que no la gasta la transicion de grupos.
-      const clasificados = [...ganadoresDeGrupo(cup.groups), ...cup.playoff.map(t => t.winnerId!)];
-      const armado: CupState = { ...cup, stage: 'knockout', knockout: seedTwoLegBracket(clasificados) };
-      return { ...armado, knockout: resolveTwoLegRound(armado.knockout!, allClubs, forced) };
+    // Se juega la pierna del repechaje y, si con esa quedo cerrado, los octavos se siembran EN LA
+    // MISMA LLAMADA y SIN JUGAR. Armar no gasta una fecha -- por lo mismo que no la gasta la
+    // transicion de grupos ni el encadenado de rondas -- pero jugarlos aca le robaba al jugador la
+    // IDA de octavos: llegaba a su fecha de copa y el partido ya salia rotulado "(Vuelta)", con un
+    // global que venia de un partido que no disputo. Ver armarSiguienteEtapaConmebol.
+    const jugado = resolveSingleTwoLegRoundStep(cup.playoff, allClubs, forced);
+    if (jugado.every(t => t.played)) {
+      const clasificados = [...ganadoresDeGrupo(cup.groups), ...jugado.map(t => t.winnerId!)];
+      return { ...cup, playoff: jugado, stage: 'knockout', knockout: seedTwoLegBracket(clasificados) };
     }
-    return { ...cup, playoff: resolveSingleTwoLegRoundStep(cup.playoff, allClubs, forced) };
+    return { ...cup, playoff: jugado };
   }
 
   if (cup.stage === 'knockout') {
@@ -901,6 +930,10 @@ export function getOrCreateCupState(
     // pregunte el partido sigue estando. Si ya quedó eliminado, getUpcomingCupMatch devuelve null
     // y el resto del cuadro sigue corriendo con normalidad -- no se generan partidos fantasma para
     // alguien que ya está afuera.
+    // La etapa que viene se ARMA antes de mirar, para que el guardian pueda ver el partido del
+    // jugador en la ronda nueva. Ver armarSiguienteEtapaConmebol: sin esto la copa le jugaba de
+    // fondo la ida de octavos y el jugador entraba directo a la vuelta.
+    cup = armarSiguienteEtapaConmebol(cup);
     if (playerClubId && getUpcomingCupMatch(cup, playerClubId)) break;
     cup = resolveCupStep(cup, allClubs, undefined, repescados);
     stepsConsumed++;
@@ -923,7 +956,9 @@ export function getOrCreateCupState(
  */
 export function terminarCopaContinental(cup: CupState, allClubs: Club[]): CupState {
   return terminarTorneoSinElJugador(cup, c => {
-    const siguiente = resolveCupStep(c, allClubs);
+    // Tambien arma: si la copa quedo con el repechaje cerrado, sin esto no habria octavos que
+    // jugar y el torneo se quedaria dando vueltas sin coronar a nadie.
+    const siguiente = resolveCupStep(armarSiguienteEtapaConmebol(c), allClubs);
     return { ...siguiente, stepsConsumed: (c.stepsConsumed ?? 0) + 1 };
   }, 20);
 }

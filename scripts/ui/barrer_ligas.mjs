@@ -18,10 +18,18 @@
 // cómo va sin esperar a que termine.
 import { spawn } from 'child_process';
 import { mkdirSync, existsSync } from 'fs';
+import { cpus } from 'os';
 
 const CARPETA = 'scripts/ui/barrido';
 const TEMPORADAS = process.argv[2] || '1';
-const EN_PARALELO = Math.max(1, Number(process.argv[3]) || 4);
+/**
+ * Cuantas carreras a la vez. Por defecto, la mitad de los nucleos y nunca mas de 8.
+ *
+ * Cada carrera monta React entero sobre jsdom y come ~400 MB, asi que el techo real es la memoria,
+ * no la CPU. La mitad de los nucleos deja aire para el compilador y para que la maquina siga siendo
+ * usable mientras corre. Antes eran 4 fijos, en una maquina de 16 nucleos.
+ */
+const EN_PARALELO = Math.max(1, Number(process.argv[3]) || Math.min(8, Math.max(2, Math.floor(cpus().length / 2))));
 /**
  * Cuánto se le da a cada club antes de darlo por colgado.
  *
@@ -113,11 +121,33 @@ function jugar([club, liga]) {
   });
 }
 
-for (let i = 0; i < AJUGAR.length; i += EN_PARALELO) {
-  const tanda = AJUGAR.slice(i, i + EN_PARALELO);
-  console.log(`\n### TANDA ${Math.floor(i / EN_PARALELO) + 1}: ${tanda.map(l => l[1]).join(', ')}`);
-  await Promise.all(tanda.map(jugar));
-}
+// UNA COLA, NO TANDAS.
+//
+// Antes se corria de a tandas con Promise.all, y una tanda no arrancaba hasta que terminaba la mas
+// lenta de la anterior. Las carreras no duran lo mismo ni de lejos: una sudamericana cierra en ocho
+// minutos y una europea con Mundial se va a veintidos. Con tandas de cinco, cuatro nucleos quedaban
+// parados catorce minutos esperando a una sola corrida -- medido en el barrido de las 19.
+//
+// Con la cola, apenas una carrera termina entra la siguiente. Mismo paralelismo, sin huecos.
+const pendientes = [...AJUGAR];
+let enCurso = 0;
+console.log(`
+### ${AJUGAR.length} ligas, de a ${EN_PARALELO} a la vez, ${MINUTOS_POR_CLUB} min de tope por carrera`);
+await new Promise(listo => {
+  const arrancarLoQueQuepa = () => {
+    while (enCurso < EN_PARALELO && pendientes.length) {
+      const liga = pendientes.shift();
+      enCurso++;
+      console.log(`  -> arranca ${liga[1]} (${liga[0]}) | quedan ${pendientes.length} en la cola`);
+      jugar(liga).then(() => {
+        enCurso--;
+        if (!pendientes.length && enCurso === 0) listo();
+        else arrancarLoQueQuepa();
+      });
+    }
+  };
+  arrancarLoQueQuepa();
+});
 
 // --- EL VEREDICTO, en una pantalla ---------------------------------------------------------------
 console.log(`\n${'#'.repeat(78)}\n### VEREDICTO DEL BARRIDO\n${'#'.repeat(78)}`);
