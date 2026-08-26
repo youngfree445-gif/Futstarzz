@@ -252,8 +252,22 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     : botonQueDice(/Regresar al Vestuario/i) ? 'post-partido'
     : hubDelPartido() ? 'dashboard' : 'DESCONOCIDA';
 
+  // EL PRESUPUESTO DE TIEMPO, para que una corrida trabada entregue veredicto igual.
+  //
+  // El detector de atasco de abajo mide vueltas sin que avance la FECHA, y hay cuelgues que no se
+  // ven asi: la fecha sigue corriendo, no se juega ningun partido, y el bucle gira hasta maxPasos.
+  // Ahi el barrido lo mataba por tiempo con SIGKILL y el informe no llegaba a imprimirse nunca --
+  // cinco ligas europeas seguidas quedaron sin veredicto por esto, que es peor que un veredicto
+  // parcial. Con el corte propio la corrida termina por las suyas y correr.mjs alcanza a contar
+  // que se jugo hasta ahi (y lo marca como cortada, ver seCorto).
+  const limite = Date.now() + Math.max(1, Number(process.env.MINUTOS_DE_BANCO) || 20) * 60_000;
+
   while (pasos < maxPasos) {
     pasos++;
+    if (Date.now() > limite) {
+      avisos.push('ATASCO por tiempo en la fecha ' + ultimoPaso + '. Pantalla: ' + pantalla());
+      break;
+    }
     if (pasos - vueltaDelUltimoAvance > 300) {
       // Los BOTONES, no sólo el texto: cuando el banco se traba es porque no encontró qué apretar,
       // y la lista de lo que había en pantalla es lo único que lo explica.

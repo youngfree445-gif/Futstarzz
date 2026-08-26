@@ -81,7 +81,9 @@ function jugar([club, liga]) {
     const slug = club.toLowerCase().replace(/[^a-z0-9]+/g, '_');
     const hijo = spawn(process.execPath, ['scripts/ui/correr.mjs', club, liga, TEMPORADAS], {
       // Cada uno escribe en su propio archivo de progreso, o se pisarían entre ellos.
-      env: { ...process.env, PROGRESO: `${CARPETA}/${slug}.log` },
+      // El banco corta solo un poco antes que el tope de afuera, asi la corrida trabada alcanza a
+      // imprimir su informe en vez de morir de un SIGKILL sin decir nada.
+      env: { ...process.env, PROGRESO: `${CARPETA}/${slug}.log`, MINUTOS_DE_BANCO: String(Math.max(1, MINUTOS_POR_CLUB - 3)) },
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     let salida = '';

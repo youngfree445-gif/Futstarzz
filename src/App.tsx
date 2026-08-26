@@ -26,7 +26,7 @@ import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEn
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
 import {
   leagueKeyFor, setDivisionOverrides, getOrCreateSeasonForLeague, resolvePlayerWeekForLeague, sortTable, isApeturaClausuraLeague,
-  getLibertadoresParticipants, getSudamericanaParticipants, getConcacafParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
+  getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   sigueEnElCuadroDeIdaYVuelta,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
@@ -3493,8 +3493,36 @@ export default function App() {
         getChampionsParticipants(CLUBS_DATABASE, temporadaActual, playerProfile.posicionesFinales, campeonesUefaHoy).includes(myClub.id)
         || getEuropaParticipants(CLUBS_DATABASE, temporadaActual, playerProfile.posicionesFinales, campeonesUefaHoy).includes(myClub.id);
 
-      return (getLibertadoresParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/libertadores/i))
-        || (getSudamericanaParticipants(CLUBS_DATABASE).includes(myClub.id) && !laCubreElCalendario(/sudamericana/i))
+      // EN QUE COPA CONMEBOL ESTA SE PREGUNTA UNA SOLA VEZ, con copaContinentalDelJugador.
+      //
+      // Acá se preguntaba con getLibertadoresParticipants(CLUBS_DATABASE) a secas -- sin año, sin
+      // la tabla del año anterior, sin campeones -- mientras la rama que REPARTE la copa preguntaba
+      // con las tres cosas. Dos respuestas distintas a la misma pregunta, y el desfase se paga
+      // caro: al LDU de Quito el motor lo puso en la Libertadores (jugó sus seis fechas de grupos)
+      // pero esta guarda contestó que no estaba en ninguna, así que la rama del calendario se quedó
+      // con sus días de Copa Sudamericana. Nadie hacía avanzar ese torneo, y el mismo partido se
+      // sirvió VEINTIÚN veces: "Copa Sudamericana · visitante vs Vasco da Gama", siempre igual,
+      // desde abril hasta noviembre.
+      //
+      // Es la misma función con la que el Dashboard decide qué copa anunciar, así que la tarjeta y
+      // el partido no pueden discrepar.
+      const campeonesConmebolHoy = {
+        libertadores: playerProfile.campeonesContinentales?.[`libertadores-${temporadaActual - 1}`] ?? null,
+        sudamericana: playerProfile.campeonesContinentales?.[`sudamericana-${temporadaActual - 1}`] ?? null,
+      };
+      const suCopaConmebol = copaContinentalDelJugador(
+        playerProfile, myClub, CLUBS_DATABASE, temporadaActual,
+        playerProfile.posicionesFinales, campeonesConmebolHoy,
+      );
+      // Y se compara contra LA COPA QUE LE TOCA, no contra cualquiera: si el motor lo tiene en la
+      // Libertadores, que el calendario traiga fechas de Sudamericana no lo cubre -- son torneos
+      // distintos, y dejarlos correr a los dos a la vez es justo lo que hay que evitar.
+      const COMO_LA_LLAMA_EL_CALENDARIO = {
+        libertadores: /libertadores/i,
+        sudamericana: /sudamericana/i,
+        concacaf: /concacaf|champions cup/i,
+      } as const;
+      return (!!suCopaConmebol && !laCubreElCalendario(COMO_LA_LLAMA_EL_CALENDARIO[suCopaConmebol]))
         || enCopaUefa;
     })();
 
@@ -3852,8 +3880,7 @@ export default function App() {
         libertadores: playerProfile.campeonesContinentales?.[`libertadores-${year - 1}`] ?? null,
         sudamericana: playerProfile.campeonesContinentales?.[`sudamericana-${year - 1}`] ?? null,
       };
-      const libertadoresIds = new Set(getLibertadoresParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
-      const sudamericanaIds = new Set(getSudamericanaParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones));
+
       // La copa CONTINENTAL tiene prioridad sobre la nacional en un día de copa, igual que en el
       // calendario real. Antes acá se la bloqueaba en las fechas reservadas, porque con una bolsa
       // de 12 días la continental se comía los de la nacional y ésta se quedaba sin terminar. Ya no
@@ -3861,14 +3888,26 @@ export default function App() {
       // FECHAS_DE_COPA_CONTINENTAL), que alcanza para las dos.
       // La Concacaf entra por el mismo camino que las dos de Conmebol: comparte CupState, cuadro y
       // pantalla. Lo unico distinto es que arranca directo en eliminacion directa, sin grupos.
-      const concacafIds = new Set(getConcacafParticipants(CLUBS_DATABASE, year, playerProfile.posicionesFinales));
-      const qualifiedCupId: 'libertadores' | 'sudamericana' | 'concacaf' | null = libertadoresIds.has(myClub.id)
-        ? 'libertadores'
-        : sudamericanaIds.has(myClub.id)
-        ? 'sudamericana'
-        : concacafIds.has(myClub.id)
-        ? 'concacaf'
-        : null;
+      // EN QUE COPA ESTA HOY LO CONTESTA copaContinentalDelJugador, y nadie mas.
+      //
+      // Acá se armaba a mano con los tres getters, y le faltaba lo único que cambia a mitad de año:
+      // el REPECHAJE. Un tercero de grupo de la Libertadores baja a la Sudamericana
+      // (bajoALaSudamericana), y esta cuenta seguía diciendo "Libertadores" porque el club sigue
+      // figurando entre los participantes de aquélla.
+      //
+      // Con eso quedaban DOS torneos corriendo para el mismo club: la copa de fondo
+      // (syncBackgroundCups, que sí usa esta función) le jugaba la Sudamericana, y la pantalla del
+      // partido le servía la Libertadores de la que ya lo habían bajado. Ningún resultado entraba
+      // al cuadro que avanzaba. Medido jugando: el LDU de Quito disputó VEINTIÚN veces el mismo
+      // cruce -- "Copa Sudamericana · visitante vs Vasco da Gama", de abril a noviembre -- y el
+      // Junior seis veces contra Audax Italiano.
+      //
+      // Es la misma función con la que la tarjeta anuncia la copa, así que ahora las tres cosas --
+      // lo que dice la tarjeta, lo que se juega y lo que avanza de fondo -- salen de una respuesta
+      // sola.
+      const qualifiedCupId = copaContinentalDelJugador(
+        playerProfile, myClub, CLUBS_DATABASE, year, playerProfile.posicionesFinales, cupCampeones,
+      );
 
       // Posición en la tabla de grupo/fase de liga de la copa continental (si aplica): antes esto
       // siempre quedaba en null para cualquier semana de copa -- eso hacía que ni el marcador del

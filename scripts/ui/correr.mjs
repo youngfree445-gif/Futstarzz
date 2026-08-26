@@ -148,15 +148,28 @@ if (seCorto) console.log('  ! la corrida NO llegó al final de la temporada: lo 
 //
 // Se mira por TEMPORADA: la misma ronda del ano que viene es otra edicion y no es una repeticion.
 const vecesPorLlave = new Map();
+const vecesPorRival = new Map();
 for (const p of bitacora) {
-  if (!p.competicion || !p.jornada) continue;
-  // Solo eliminatorias: en una liga o en una fase de grupos repetir rival es normal.
-  if (/fecha|jornada|fase de (liga|grupos)|^\d+ [a-z]{3}$/i.test(p.jornada)) continue;
-  const clave = `T${p.temporada} · ${p.competicion} · ${p.jornada} · vs ${p.rival}`;
-  vecesPorLlave.set(clave, (vecesPorLlave.get(clave) ?? 0) + 1);
+  if (!p.competicion) continue;
+  if (p.jornada) {
+    const clave = `T${p.temporada} · ${p.competicion} · ${p.jornada} · vs ${p.rival}`;
+    vecesPorLlave.set(clave, (vecesPorLlave.get(clave) ?? 0) + 1);
+  }
+  // Y EL MISMO RIVAL CON LA MISMA LOCALIA, que es el que se escapaba.
+  //
+  // Contar por RONDA no alcanza: cuando el partido lo sirve el calendario, el rotulo es la FECHA
+  // ("15 abr", "13 ago"), asi que cada repeticion trae una etiqueta distinta y ninguna se repite.
+  // Asi paso desapercibido que el LDU de Quito jugaba VEINTIUNA veces "Copa Sudamericana ·
+  // visitante vs Vasco da Gama" en una sola temporada. Contra un mismo rival, de local o de
+  // visitante, no se juega mas de dos veces en ningun torneo -- ni en una liga ida y vuelta.
+  const porRival = `T${p.temporada} · ${p.competicion} · ${p.localia} vs ${p.rival}`;
+  vecesPorRival.set(porRival, (vecesPorRival.get(porRival) ?? 0) + 1);
 }
 for (const [clave, veces] of vecesPorLlave) {
   if (veces > 2) problemas.push(`la MISMA llave se jugo ${veces} veces: ${clave}`);
+}
+for (const [clave, veces] of vecesPorRival) {
+  if (veces > 2) problemas.push(`el MISMO cruce se jugo ${veces} veces: ${clave}`);
 }
 
 const sinCartel = bitacora.filter(p => !p.competicion).length;
