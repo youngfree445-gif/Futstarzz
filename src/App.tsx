@@ -1543,6 +1543,32 @@ function pasoDeRonda(antes: { knockout?: { tiesByRound: unknown[] } | null }, de
   return d > a && a > 0;
 }
 
+/**
+ * Mezcla un mapa de torneos: gana lo que ESTE partido movió, el resto sale del estado vigente.
+ *
+ * handleFinishMatch arma el perfil nuevo sobre el que tenía en su closure, que puede ser de un
+ * render anterior al que sembró un cuadro. Escribir el mapa entero desde ahí borraba lo sembrado en
+ * el medio: la partida guardada se quedaba sin el cuadro y al día siguiente el sorteo lo volvía a
+ * sembrar de cero, así que el jugador disputaba la MISMA llave dos y tres veces antes de que
+ * quedara anotada.
+ *
+ * Quedarse con el vigente a secas tampoco sirve: perdería el resultado del partido. Y pisar con lo
+ * del closure tampoco: revive versiones viejas de llaves que este partido ni tocó. La regla que sí
+ * vale para los dos casos es comparar contra la BASE -- una clave sólo gana si este partido la
+ * cambió, y las claves que no tocó se dejan como están hoy.
+ */
+function mezclarTorneos<T>(
+  base: Record<string, T> | undefined,
+  resuelto: Record<string, T> | undefined,
+  vigente: Record<string, T> | undefined,
+): Record<string, T> {
+  const salida: Record<string, T> = { ...(vigente ?? {}) };
+  for (const [clave, valor] of Object.entries(resuelto ?? {})) {
+    if ((base ?? {})[clave] !== valor) salida[clave] = valor;
+  }
+  return salida;
+}
+
 export default function App() {
   const [screen, setScreen] = useState<'welcome' | 'setup' | 'dashboard' | 'match' | 'post_match' | 'event' | 'penalty_shootout' | 'career_summary'>('welcome');
 
@@ -3289,6 +3315,20 @@ export default function App() {
    * y contenido siempre al día.
    */
   const finishRef = useRef<(results: any, shootoutOverride?: PenaltyShootoutResult) => void>(() => {});
+  /**
+   * EL PERFIL VIGENTE, para no escribir encima de uno viejo.
+   *
+   * handleFinishMatch arma el perfil nuevo sobre el que tenía en su closure y lo escribe entero al
+   * final. Cuando ese closure venía de un render anterior al que sembró un cuadro de copa, la
+   * escritura final se llevaba puesto el cuadro recién sembrado: la partida guardada no lo tenía, y
+   * al día siguiente el sorteo volvía a sembrarlo de cero. Por eso la misma llave se jugaba dos y
+   * tres veces antes de quedar anotada.
+   *
+   * La ref se pone al día en CADA render, así que al momento de escribir se sabe qué había de
+   * verdad. Ver el cierre de handleFinishMatch, que mezcla los torneos contra esto.
+   */
+  const perfilRef = useRef(playerProfile);
+  perfilRef.current = playerProfile;
 
   const resolverPartidoSimulado = useCallback(() => {
     if (!playerProfile) return;
@@ -3492,6 +3532,27 @@ export default function App() {
     // de siempre con el estado de la copa en "done".
     const esDiaDeCopaUefaDelCalendario = realPrimary?.competition.kind === 'continental_cup'
       && Object.values(NOMBRE_UEFA_EN_EL_CALENDARIO).includes(realPrimary.competition.name);
+
+    // ¿HOY EL CALENDARIO TRAE UN PARTIDO REAL DE LA COPA NACIONAL?
+    //
+    // Hermana de la de arriba, y por el mismo motivo: la copa nacional también la lleva el cuadro
+    // del motor, así que la rama del calendario le cede el día (ver la guarda por nombre allá). Lo
+    // que faltaba era que ALGUIEN lo recogiera. La rama del motor sólo entraba con días RESERVADOS
+    // (`esReservaDeCuadro`), y un partido real de copa no es una reserva: el día se caía de las dos
+    // ramas y terminaba en la de LIGA.
+    //
+    // Se veía tal cual jugando con el Junior: el calendario le da cuatro fechas de Copa BetPlay
+    // (23 y 29 de julio, 5 y 8 de agosto). Las dos primeras son partidos reales y las otras dos
+    // reservas. En las dos primeras la tarjeta anunciaba "Copa BetPlay · Dieciseisavos vs América
+    // de Cali" -- el cruce del cuadro, bien leído -- pero el día lo jugaba la rama de liga, así que
+    // el cuadro no se movía. Llegaban el 5 y el 8, que sí son reservas, y recién ahí se jugaba la
+    // llave: la MISMA de dieciseisavos, servida cuatro veces.
+    //
+    // Por NOMBRE y no por tipo, igual que la guarda de la rama del calendario: la Superliga de
+    // Colombia y la Supercopa de España también son `domestic_cup` y no son la copa del país.
+    const esDiaDeCopaNacionalDelCalendario = realPrimary?.competition.kind === 'domestic_cup'
+      && realPrimary.competition.name === nombreCopaNacional(
+        CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.league ?? '');
 
     // Si hoy es día de copa lo dice el CALENDARIO, y nadie más. Antes acá había un ternario con
     // isCupWeek de respaldo -- un reparto aritmético que decidía "2 de cada 5 semanas son de copa"
@@ -3766,7 +3827,10 @@ export default function App() {
       // Día de copa europea que el calendario ya no manda: entra igual acá. Si tu club clasificó,
       // el cuadro pone el cruce; si no clasificó, no hay copa europea y el día se lo lleva la copa
       // nacional, que es lo que corresponde a un miércoles sin Europa.
-      || esDiaDeCopaUefaDelCalendario)) {
+      || esDiaDeCopaUefaDelCalendario
+      // Y el partido REAL de copa nacional, por lo mismo: el calendario le cedió el día al cuadro,
+      // alguien lo tiene que recoger. Sin esto se caía a la rama de liga y la llave se repetía.
+      || esDiaDeCopaNacionalDelCalendario)) {
       // Copa armada por el cuadro del motor. Corre en tres casos:
       //
       //   1. El club no tiene fechas reales cargadas (el caso de siempre).
@@ -4145,7 +4209,9 @@ export default function App() {
         // el "partido fantasma" que hay que evitar: un partido que no existe en ningún torneo, que
         // no cuenta para nada y que igual te gasta energía. La reserva no es una obligación de
         // jugar, es un día que el calendario tenía apartado por si la copa lo necesitaba.
-        if (esReservaDeCopa && !cupCruce) {
+        // Vale para el día RESERVADO y para el partido real de copa nacional: los dos llegan acá
+        // desde que el cuadro se quedó con la copa, y los dos quedan libres si no hay cruce.
+        if ((esReservaDeCopa || esDiaDeCopaNacionalDelCalendario) && !cupCruce) {
           const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
 
           // El torneo sigue sin vos. Antes el cuadro sólo avanzaba cuando el jugador tenía partido,
@@ -6084,9 +6150,28 @@ export default function App() {
       setAchievementQueue(prev => [...prev, ...newlyUnlocked]);
     }
 
-    setPlayerProfile(withAchievements);
+    // LOS TORNEOS SE MEZCLAN CONTRA EL PERFIL VIGENTE, no se pisan.
+    //
+    // Todo lo demás del perfil sí sale de este partido -- energía, fecha, estadísticas, moral -- y
+    // se escribe tal cual. Pero los cuadros son mapas que OTROS caminos también escriben: el sorteo
+    // de la copa nacional siembra el suyo justo antes de salir a la cancha, y las continentales se
+    // ponen al día solas. Escribir el mapa entero desde este closure borraba lo que se hubiera
+    // agregado en el medio.
+    //
+    // Cada clave que este partido resolvió gana; las que no tocó se conservan.
+    const vigente = perfilRef.current;
+    const conLosTorneosAlDia: PlayerProfile = !vigente || vigente === playerProfile ? withAchievements : {
+      ...withAchievements,
+      domesticCups: mezclarTorneos(playerProfile.domesticCups, withAchievements.domesticCups, vigente.domesticCups),
+      continentalCups: mezclarTorneos(playerProfile.continentalCups, withAchievements.continentalCups, vigente.continentalCups),
+      uefaCups: mezclarTorneos(playerProfile.uefaCups, withAchievements.uefaCups, vigente.uefaCups),
+      eliminatorias: mezclarTorneos(playerProfile.eliminatorias, withAchievements.eliminatorias, vigente.eliminatorias),
+      playoffsDeLiga: mezclarTorneos(playerProfile.playoffsDeLiga, withAchievements.playoffsDeLiga, vigente.playoffsDeLiga),
+    };
+
+    setPlayerProfile(conLosTorneosAlDia);
     setShopItems(updatedShop);
-    saveGameState(withAchievements, updatedShop);
+    saveGameState(conLosTorneosAlDia, updatedShop);
     // Y lo que dijo el vestuario, si pasó algo que se note. Sólo habla cuando hay algo que decir:
     // un aviso en cada partido dejaría de significar nada y taparía a los que sí importan.
     if (dichoDelVestuario) notify(`🤝 ${dichoDelVestuario}`);

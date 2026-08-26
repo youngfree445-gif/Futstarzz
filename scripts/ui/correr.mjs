@@ -138,6 +138,27 @@ for (const [nombre, campeon] of torneos) {
 }
 if (seCorto) console.log('  ! la corrida NO llegó al final de la temporada: lo de arriba no es un veredicto.');
 
+// LA MISMA RONDA, SERVIDA DE MAS.
+//
+// Una llave de eliminacion se juega una vez (partido unico) o dos (ida y vuelta). Nunca tres. Si el
+// mismo cartel -- torneo + ronda + rival -- aparece tres veces o mas, el cuadro no avanzo y el
+// jugador esta repitiendo el partido. Es el bug que se veia en la Copa BetPlay del Junior: los
+// dieciseisavos contra el America servidos cuatro veces, porque dos de esos dias no llegaban al
+// cuadro y no movian nada.
+//
+// Se mira por TEMPORADA: la misma ronda del ano que viene es otra edicion y no es una repeticion.
+const vecesPorLlave = new Map();
+for (const p of bitacora) {
+  if (!p.competicion || !p.jornada) continue;
+  // Solo eliminatorias: en una liga o en una fase de grupos repetir rival es normal.
+  if (/fecha|jornada|fase de (liga|grupos)|^\d+ [a-z]{3}$/i.test(p.jornada)) continue;
+  const clave = `T${p.temporada} · ${p.competicion} · ${p.jornada} · vs ${p.rival}`;
+  vecesPorLlave.set(clave, (vecesPorLlave.get(clave) ?? 0) + 1);
+}
+for (const [clave, veces] of vecesPorLlave) {
+  if (veces > 2) problemas.push(`la MISMA llave se jugo ${veces} veces: ${clave}`);
+}
+
 const sinCartel = bitacora.filter(p => !p.competicion).length;
 if (sinCartel) problemas.push(`${sinCartel} fechas sin cartel de competición legible en la tarjeta.`);
 const sinSortear = bitacora.filter(p => p.rival === 'RIVAL SIN SORTEAR').length;

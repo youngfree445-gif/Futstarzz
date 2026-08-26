@@ -58,6 +58,20 @@ const LIGAS = [
   ['Inter Miami CF', 'Estadounidense'],
 ];
 
+/**
+ * SOLO=Espanola,Francesa corre nada mas esas ligas.
+ *
+ * Un barrido entero son horas, y cuando se corta a la mitad -- se cierra la sesion, se cuelga una
+ * tanda -- no tiene sentido volver a jugar las ligas que ya dieron su veredicto. Sin acento y sin
+ * distinguir mayusculas, para poder escribirlo de memoria.
+ */
+const sinTilde = t => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const SOLO = (process.env.SOLO ?? '').split(',').map(x => sinTilde(x.trim())).filter(Boolean);
+const AJUGAR = SOLO.length ? LIGAS.filter(([, liga]) => SOLO.includes(sinTilde(liga))) : LIGAS;
+if (SOLO.length && AJUGAR.length !== SOLO.length) {
+  console.log(`! de las ${SOLO.length} ligas pedidas se reconocieron ${AJUGAR.length}: ${AJUGAR.map(l => l[1]).join(', ')}`);
+}
+
 if (!existsSync(CARPETA)) mkdirSync(CARPETA, { recursive: true });
 
 const resumenes = [];
@@ -97,8 +111,8 @@ function jugar([club, liga]) {
   });
 }
 
-for (let i = 0; i < LIGAS.length; i += EN_PARALELO) {
-  const tanda = LIGAS.slice(i, i + EN_PARALELO);
+for (let i = 0; i < AJUGAR.length; i += EN_PARALELO) {
+  const tanda = AJUGAR.slice(i, i + EN_PARALELO);
   console.log(`\n### TANDA ${Math.floor(i / EN_PARALELO) + 1}: ${tanda.map(l => l[1]).join(', ')}`);
   await Promise.all(tanda.map(jugar));
 }
