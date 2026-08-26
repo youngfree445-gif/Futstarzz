@@ -59,18 +59,38 @@ for (const [temp, partidos] of porTemporada) {
   const rivales = partidos.map(p => p.rival);
   // Repetir rival en una ELIMINATORIA es lo normal: ida y vuelta. Sólo se mira la fase de liga,
   // donde cada club juega contra ocho rivales distintos y repetir sí sería un error.
-  const enFaseDeLiga = partidos.filter(p => /fase de liga|fase de grupos/i.test(p.jornada)).map(p => p.rival);
-  const repetidos = enFaseDeLiga.filter((r, i) => enFaseDeLiga.indexOf(r) !== i);
+  // Y los rivales repetidos, tambien POR EDICION: en la edicion nueva podes cruzarte de nuevo con
+  // alguno de la anterior sin que eso sea un error.
+  const enFaseDeLiga = partidos.filter(p => /fase de liga|fase de grupos/i.test(p.jornada))
+    .map(p => `${p.copaEuropea?.arranco ?? 'unica'}|${p.rival}`);
+  const repetidos = enFaseDeLiga.filter((r, i) => enFaseDeLiga.indexOf(r) !== i).map(r => r.split('|')[1]);
   if (repetidos.length) {
     problemas.push(`T${temp}: rivales repetidos en la FASE DE LIGA -> ${[...new Set(repetidos)].join(', ')}`);
   }
-  const ajenos = [...new Set(rivales)].filter(r => r && r !== 'RIVAL SIN SORTEAR' && !participantes.has(r));
+  // SOLO EN LA TEMPORADA 1. `participantes` es la lista REAL de 2025/26, que esta cargada fija en
+  // el juego. Desde la temporada 2 los clasificados salen de la tabla del año anterior -- que es
+  // justamente lo que tiene que pasar -- asi que el Koln o el Twente pueden entrar con todo
+  // derecho. Comparar contra la lista vieja marcaba eso como error: falso positivo garantizado en
+  // toda carrera larga.
+  const ajenos = temp !== 1 ? [] : [...new Set(rivales)].filter(r => r && r !== 'RIVAL SIN SORTEAR' && !participantes.has(r));
   if (ajenos.length) {
     problemas.push(`T${temp}: rivales que NO están en la copa europea -> ${ajenos.join(', ')}`);
   }
   if (rivales.includes(CLUB)) problemas.push(`T${temp}: el club se enfrenta a sí mismo.`);
-  if (enFaseDeLiga.length > 8) {
-    problemas.push(`T${temp}: ${enFaseDeLiga.length} partidos de fase de liga (el formato son 8).`);
+  // OCHO POR EDICION, no por temporada de carrera.
+  //
+  // Una temporada de carrera puede contener el final de una edicion europea y el arranque de la
+  // siguiente: al Dortmund le entraron los ocho de su Champions, la final, y despues dos fechas de
+  // la edicion nueva -- diez en la misma temporada, y las diez correctas. Se agrupa por la edicion
+  // que el propio juego anota (copaEuropea.arranco, el paso en que nacio esa edicion).
+  const porEdicion = new Map();
+  for (const p of partidos) {
+    if (!/fase de (liga|grupos)/i.test(p.jornada ?? '')) continue;
+    const ed = p.copaEuropea?.arranco ?? 'unica';
+    porEdicion.set(ed, (porEdicion.get(ed) ?? 0) + 1);
+  }
+  for (const [ed, n] of porEdicion) {
+    if (n > 8) problemas.push(`T${temp}: ${n} partidos de fase de liga en la edicion ${ed} (el formato son 8).`);
   }
   const locales = partidos.filter(p => p.localia === 'L').length;
   const visitas = partidos.filter(p => p.localia === 'V').length;
@@ -233,6 +253,17 @@ const porDefinir = bitacora.filter(p => /por definir/i.test(p.rival)).length;
 if (porDefinir) problemas.push(`${porDefinir} fechas salieron con un rival "Por definir".`);
 const sinRonda = bitacora.filter(p => !p.jornada).length;
 if (sinRonda) problemas.push(`${sinRonda} fechas sin jornada ni ronda en la tarjeta.`);
+
+// LO QUE SE ROMPIO DE VERDAD, si algo se rompio.
+//
+// Un error que desmonta el arbol de React deja al banco mirando un DOM vacio, y sin esto el informe
+// solo decia "ATASCO. Pantalla: DESCONOCIDA". La causa importa mas que el sintoma.
+const rotos = globalThis.__errores ?? [];
+if (rotos.length) {
+  console.log(String.fromCharCode(10) + '--- SE ROMPIO ALGO ---');
+  for (const e of rotos.slice(0, 6)) console.log('  ! ' + e.split(String.fromCharCode(10)).join(' / '));
+  problemas.push(`la app tiro ${rotos.length} error(es): ${rotos[0].slice(0, 160)}`);
+}
 
 console.log('\n--- LO QUE NO CIERRA ---');
 if (!problemas.length) console.log('  (nada)');

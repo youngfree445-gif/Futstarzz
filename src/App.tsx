@@ -86,7 +86,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -416,19 +416,6 @@ function torneoDeSeleccionesDeHoyEnApp(perfil: PlayerProfile, clubName: string) 
   return torneoDeSeleccionesDeHoy(
     perfil, clubName, temporadaDe(perfil, perfil.currentWeek),
     seleccionesDelMundialDe(anioDeCarrera(clubName, perfil.currentWeek), perfil));
-}
-
-function seleccionesDelMundialDe(anio: number, perfil: PlayerProfile): Club[] {
-  if (anio <= CAREER_START_YEAR) return WORLD_CUP_TEAMS_DATABASE;
-  // Se cierra lo que haya quedado a medio jugar: el calendario no siempre le alcanza al club para
-  // darle las 18 fechas de Conmebol, y una carrera que arranca a mitad de ciclo llega más tarde.
-  const jugadas = Object.values(perfil.eliminatorias ?? {})
-    .filter(e => e.mundial === anio)
-    .map(e => terminarEliminatoria(e, ALL_NATIONAL_TEAMS_DATABASE));
-  const ids = new Set(seleccionesDelMundial(anio, jugadas, ALL_NATIONAL_TEAMS_DATABASE));
-  const clasificadas = ALL_NATIONAL_TEAMS_DATABASE.filter(t => ids.has(t.id));
-  // Red de seguridad: el sorteo son 12 grupos de 4 y con 47 no se puede armar.
-  return clasificadas.length === 48 ? clasificadas : WORLD_CUP_TEAMS_DATABASE;
 }
 
 function rotuloDeRonda(competicion: string, ronda?: string): string {
@@ -3684,7 +3671,7 @@ export default function App() {
       const upcoming = isEligible && hoy
         ? getUpcomingWorldCupMatch(
             getOrCreateWorldCupState(temporadaDe(playerProfile, playerProfile.currentWeek), hoy.equipos,
-              playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo),
+              playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo, hoy.miSeleccionId),
             hoy.miSeleccionId)
         : null;
 
@@ -5708,7 +5695,9 @@ export default function App() {
       const clave = hoy?.clave ?? String(temporadaDe(playerProfile, playerProfile.currentWeek));
       const wcBeforeMatch = getOrCreateWorldCupState(
         temporadaDe(playerProfile, playerProfile.currentWeek), seleccionesDeEsteMundial,
-        playerProfile.worldCups[clave], hoy?.pasos ?? 0, hoy?.torneo ?? 'mundial');
+        // Con la seleccion del jugador: este es el estado JUSTO ANTES de su partido, y sin el
+        // guardian el torneo se lo resolveria de fondo antes de aplicarle su resultado.
+        playerProfile.worldCups[clave], hoy?.pasos ?? 0, hoy?.torneo ?? 'mundial', activeWorldCupTeamId);
       const resolvedWorldCup = resolveWorldCupWeek(wcBeforeMatch, seleccionesDeEsteMundial, activeWorldCupTeamId, activeIsHome, results.golesMiEquipo, results.golesRival, shootoutOverride);
       const shootout = findShootoutInPlayoffBracket(resolvedWorldCup.knockout, activeWorldCupTeamId, activeOppositionClubId);
       if (shootout) {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { playSfx } from '../audio';
 import { PlayerProfile, Club } from '../types';
-import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from '../data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE } from '../data';
 import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
 import { anioDeCarrera } from '../dateSchedule';
 import { getLeagueDisplay } from '../leagueDisplay';
@@ -44,9 +44,26 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
     playSfx('post_partido');
   }, []);
 
-  const currentClub = representingTeamId
-    ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
-    : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+  // LA SELECCION SE BUSCA EN LA BASE DE TODAS, no solo en la del Mundial.
+  //
+  // WORLD_CUP_TEAMS_DATABASE tiene las 48 que clasificaron al Mundial y nada mas. La Eurocopa y la
+  // Copa America las juegan selecciones que no estan ahi, asi que el find devolvia undefined -- y el
+  // `!` se lo ocultaba a TypeScript. Al leer `currentClub.dt` la pantalla tiraba, React desmontaba
+  // el arbol entero y la partida quedaba en blanco: se acabo la carrera.
+  //
+  // Medido jugando tres temporadas en las 19 ligas: CINCO carreras murieron asi en la temporada 3,
+  // que es cuando aparecen la Eurocopa y la Copa America.
+  //
+  // Y el respaldo final no es decorativo: esta pantalla se abre despues de CADA partido, y que un
+  // club o una seleccion no aparezcan en su base nunca puede costar la partida entera. Mejor un
+  // cartel sin nombre de DT que una pantalla en blanco.
+  const equipoDelPartido = representingTeamId
+    ? (ALL_NATIONAL_TEAMS_DATABASE.find(c => c.id === representingTeamId)
+      ?? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId))
+    : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+  const currentClub: Club = equipoDelPartido
+    ?? CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)
+    ?? ({ id: '', name: '', dt: '', badgeLogoUrl: null } as unknown as Club);
   const rating = matchResults.rating;
 
   // Varias variantes por resultado (antes había exactamente UN titular fijo por categoría, así que

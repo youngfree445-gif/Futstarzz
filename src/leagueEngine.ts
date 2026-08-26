@@ -918,6 +918,7 @@ export function getOrCreateCupState(
     const mio = cup.groups.find(g => g.clubIds.includes(playerClubId));
     const coincide = mio && grupoDelJugador.every(id => mio.clubIds.includes(id));
     if (!coincide) {
+      const jugados = cup.groups.reduce((n, g) => n + (g.fixtures ?? []).filter(f => f.played).length, 0);
       const participants = participantesConmebol(cupId, year, posiciones, campeones, allClubs);
       cup = { ...cup, groups: drawCupGroups(participants, allClubs, grupoDelJugador, year) };
     }
@@ -2085,12 +2086,30 @@ export function getOrCreateWorldCupState(
   pasosDeMundial: number,
   /** Cual de los tres torneos de selecciones. Ausente = el Mundial, que era el unico. */
   torneo: TorneoDeSelecciones = 'mundial',
+  /**
+   * LA SELECCION DEL JUGADOR. Si se pasa, el torneo NO avanza por encima de un partido suyo
+   * pendiente: ese paso queda esperando a que lo juegue.
+   *
+   * Es el mismo guardian que ya tienen getOrCreateCupState (Conmebol) y getOrCreateUefaCupState
+   * (Champions y Europa), y faltaba justo aca. Sin el, el torneo se adelanta al ritmo de las fechas
+   * FIFA transcurridas y le resuelve al jugador sus propios partidos de fondo: la tarjeta le
+   * anuncia "Copa America - vs Seleccion de Estados Unidos" con sus dos botones, aprieta, y el dia
+   * pasa sin salir del menu porque el partido ya se jugo solo.
+   *
+   * Medido jugando tres temporadas con el Junior: disputo dos partidos de la Copa America 2028 y
+   * los dos siguientes -- anunciados igual -- se los jugo el motor.
+   */
+  playerTeamId?: string,
 ): WorldCupState {
   let cup = existing ?? freshWorldCupState(year, allTeams, torneo);
   let stepsConsumed = existing?.stepsConsumed ?? 0;
   const targetSteps = pasosDeMundial;
 
   while (stepsConsumed < targetSteps && cup.stage !== 'done') {
+    // El turno es del jugador: se frena aca y no se consume el paso, asi la proxima vez que se
+    // pregunte el partido sigue estando. Si ya quedo eliminado, getUpcomingWorldCupMatch devuelve
+    // null y el resto del torneo sigue corriendo con normalidad.
+    if (playerTeamId && getUpcomingWorldCupMatch(cup, playerTeamId)) break;
     cup = resolveWorldCupStep(cup, allTeams);
     stepsConsumed++;
   }

@@ -31,7 +31,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
+import { seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
@@ -910,11 +910,16 @@ export default function Dashboard({
     const hoy = torneoDeSeleccionesDeHoy(
       playerProfile, currentClub.name,
       temporadaDeCarrera(currentClub.name, playerProfile.currentWeek),
-      WORLD_CUP_TEAMS_DATABASE);
+      // LAS CLASIFICADAS DE ESTA CARRERA, no las 48 fijas. Ver seleccionesDelMundialDe: con dos
+      // listas distintas salen dos sorteos distintos, y la tarjeta terminaba anunciando un rival
+      // que en el torneo que juega App no existe.
+      seleccionesDelMundialDe(anioDeCarrera(currentClub.name, playerProfile.currentWeek), playerProfile));
     if (!hoy) return null;
     const estado = getOrCreateWorldCupState(
       temporadaDeCarrera(currentClub.name, playerProfile.currentWeek), hoy.equipos,
-      playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo);
+      // Con la seleccion del jugador, igual que App: sin el guardian la tarjeta leeria un torneo
+      // mas adelantado que el que se va a jugar, y volveria a anunciar lo que ya no toca.
+      playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo, hoy.miSeleccionId);
     const NOMBRE = { mundial: 'COPA MUNDIAL FIFA', eurocopa: 'EUROCOPA', copaamerica: 'COPA AMÉRICA' } as const;
     return { ...hoy, estado, nombre: NOMBRE[hoy.torneo] };
   })();
@@ -1312,16 +1317,16 @@ export default function Dashboard({
     const hoy = torneoDeSeleccionesDeHoy(
       playerProfile, currentClub.name,
       temporadaDeCarrera(currentClub.name, playerProfile.currentWeek),
-      // Las 48 de siempre: para dibujar la tarjeta alcanza, y esta pantalla no tiene de donde
-      // sacar las clasificadas de esta carrera (eso lo sabe App).
-      WORLD_CUP_TEAMS_DATABASE);
+      // Las clasificadas de ESTA carrera, las mismas que usa App (ver seleccionesDelMundialDe).
+      // Aca decia "las 48 de siempre: para dibujar la tarjeta alcanza" -- y no alcanzaba.
+      seleccionesDelMundialDe(anioDeCarrera(currentClub.name, playerProfile.currentWeek), playerProfile));
     // La MISMA regla que usa App para llevarte (ver convocadoAlMundial en convocatoria.ts). Estaba
     // copiada acá palabra por palabra, que es como se llega a anunciar un partido que no se juega.
     const isEligible = !!hoy && convocadoAlMundial(playerProfile);
     if (isEligible && hoy) {
       const wcState = getOrCreateWorldCupState(
         temporadaDeCarrera(currentClub.name, playerProfile.currentWeek), hoy.equipos,
-        playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo);
+        playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo, hoy.miSeleccionId);
       const upcoming = getUpcomingWorldCupMatch(wcState, hoy.miSeleccionId);
       if (upcoming) {
         const NOMBRE = { mundial: 'Copa Mundial FIFA', eurocopa: 'Eurocopa', copaamerica: 'Copa América' } as const;

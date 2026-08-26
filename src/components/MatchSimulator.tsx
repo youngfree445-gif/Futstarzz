@@ -13,7 +13,7 @@ import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
 import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain, Swords } from 'lucide-react';
-import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
+import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
 import { arrancarAmbiente, pararAmbiente, agacharAmbiente } from '../ambienteDelPartido';
 import { hayRelatoEnIngles, relatoNumero, suenaElMorse } from '../relatoDelGol';
@@ -1562,9 +1562,18 @@ export default function MatchSimulator({
   const charlaDecididaRef = useRef(!!charlaInicial);
   const marcadorAlDescansoRef = useRef<{ mios: number; rival: number } | null>(null);
 
-  const currentClub = representingTeamId
-    ? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId)!
-    : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)!;
+  // LA SELECCION SE BUSCA EN LA BASE DE TODAS, igual que en PostMatch y por lo mismo.
+  //
+  // WORLD_CUP_TEAMS_DATABASE tiene las 48 del Mundial y nada mas; la Eurocopa y la Copa America las
+  // juegan selecciones que no estan ahi. El find devolvia undefined con un `!` que se lo ocultaba a
+  // TypeScript, y esta pantalla se cae con el arbol entero: la partida queda en blanco.
+  const equipoDelPartido = representingTeamId
+    ? (ALL_NATIONAL_TEAMS_DATABASE.find(c => c.id === representingTeamId)
+      ?? WORLD_CUP_TEAMS_DATABASE.find(c => c.id === representingTeamId))
+    : CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
+  const currentClub: Club = equipoDelPartido
+    ?? CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)
+    ?? ({ id: '', name: '', dt: '', badgeLogoUrl: null } as unknown as Club);
 
   // LA CANCHA DONDE SE JUEGA. De acá salen dos cosas: qué hinchada suena de fondo y en qué idioma
   // se grita el gol. Las dos miran el estadio y no tu club, que es como funciona una transmisión.
@@ -2586,7 +2595,12 @@ export default function MatchSimulator({
     // nombre queda igual, en vez de dejar un hueco roto. En el Mundial el rival es una selección,
     // que vive en otra tabla -- se busca ahí también para que esa pantalla no quede sin escudos.
     club: opponentClub
-      ?? (opponentClubId ? WORLD_CUP_TEAMS_DATABASE.find(t => t.id === opponentClubId) : undefined),
+      // ALL_NATIONAL_TEAMS_DATABASE primero: la del Mundial solo tiene las 48 clasificadas, y en la
+      // Eurocopa o la Copa America el rival puede no estar ahi -- ahi quedaba sin escudo.
+      ?? (opponentClubId
+        ? (ALL_NATIONAL_TEAMS_DATABASE.find(t => t.id === opponentClubId)
+          ?? WORLD_CUP_TEAMS_DATABASE.find(t => t.id === opponentClubId))
+        : undefined),
     esMio: false,
     etiqueta: `Rival${rivalTablePosition != null ? ` · ${rivalTablePosition}°` : ''}`,
   };

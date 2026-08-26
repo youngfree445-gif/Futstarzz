@@ -34,10 +34,10 @@ import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
 import { anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { resolverClubDeCalendario } from './clubAliases';
 import { esPartidoUnicoDeCopa } from './reglamentos';
-import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID } from './data';
-import { CONFEDERACION_POR_SELECCION, crearEliminatoria, ponerAlDiaLaEliminatoria, proximoPartidoDeEliminatoria, seleccionesDeLaCopaAmerica, seleccionesDeLaEurocopa, tablaDeEliminatoria, torneoContinentalDe, zonaDe, type EliminatoriaState } from './eliminatorias';
+import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, WORLD_CUP_TEAMS_DATABASE } from './data';
+import { CONFEDERACION_POR_SELECCION, crearEliminatoria, seleccionesDelMundial, terminarEliminatoria, ponerAlDiaLaEliminatoria, proximoPartidoDeEliminatoria, seleccionesDeLaCopaAmerica, seleccionesDeLaEurocopa, tablaDeEliminatoria, torneoContinentalDe, zonaDe, type EliminatoriaState } from './eliminatorias';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
-import { type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
+import { CAREER_START_YEAR, type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
 import { evaluarConvocatoria } from './convocatoria';
 
@@ -108,6 +108,33 @@ export function cruceDeCopaNacionalHoy(
     ronda: rondaActual(alDia),
     global: esIda ? null : `${misGoles}-${susGoles}`,
   };
+}
+
+/**
+ * LAS SELECCIONES QUE JUEGAN EL MUNDIAL DE ESE AÑO, en ESTA carrera.
+ *
+ * No son las 48 de siempre a partir del segundo ciclo: salen de las eliminatorias que se jugaron en
+ * la partida, y por eso el sorteo cambia de carrera en carrera -- que es lo que tiene que pasar.
+ *
+ * Vivia dentro de App.tsx, y el Dashboard le pasaba las 48 fijas con un comentario que decia "para
+ * dibujar la tarjeta alcanza". No alcanzaba: con dos listas distintas salen dos sorteos distintos,
+ * asi que la tarjeta anunciaba un rival que en el torneo de App no existia. Apretabas y el dia
+ * pasaba sin partido, y como el torneo espera tu turno, al dia siguiente volvia a anunciar el mismo.
+ * Medido jugando tres temporadas: le pasaba al Ajax, al Dortmund, al Arsenal, al PSG y al Madrid.
+ *
+ * Aca vive una sola vez y la llaman los dos. Es la regla de esta casa.
+ */
+export function seleccionesDelMundialDe(anio: number, perfil: PlayerProfile): Club[] {
+  if (anio <= CAREER_START_YEAR) return WORLD_CUP_TEAMS_DATABASE;
+  // Se cierra lo que haya quedado a medio jugar: el calendario no siempre le alcanza al club para
+  // darle las 18 fechas de Conmebol, y una carrera que arranca a mitad de ciclo llega mas tarde.
+  const jugadas = Object.values(perfil.eliminatorias ?? {})
+    .filter(e => e.mundial === anio)
+    .map(e => terminarEliminatoria(e, ALL_NATIONAL_TEAMS_DATABASE));
+  const ids = new Set(seleccionesDelMundial(anio, jugadas, ALL_NATIONAL_TEAMS_DATABASE));
+  const clasificadas = ALL_NATIONAL_TEAMS_DATABASE.filter(t => ids.has(t.id));
+  // Red de seguridad: el sorteo son 12 grupos de 4 y con 47 no se puede armar.
+  return clasificadas.length === 48 ? clasificadas : WORLD_CUP_TEAMS_DATABASE;
 }
 
 /** Quién se queda con un día que el calendario apartó para copa. */

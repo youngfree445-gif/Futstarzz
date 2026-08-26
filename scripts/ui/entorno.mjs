@@ -115,4 +115,28 @@ console.error = (...args) => {
   errorReal(...args);
 };
 
+// LOS ERRORES QUE MATAN LA APP SE GUARDAN, no se pierden.
+//
+// Cuando React tira en un render y nadie lo atrapa, desmonta el arbol entero: el banco se queda
+// mirando un DOM vacio y lo reporta como "ATASCO. Pantalla: DESCONOCIDA. Botones: []" -- que no
+// dice nada de la causa. Medido en el barrido de tres temporadas: cinco de diecinueve carreras
+// murieron asi, sin dejar rastro de por que.
+//
+// Se guardan en global para que correr.mjs los imprima con el informe.
+globalThis.__errores = [];
+const anotar = (donde, e) => {
+  const linea = `${donde}: ${e?.stack ?? e?.message ?? String(e)}`.slice(0, 600);
+  if (!globalThis.__errores.includes(linea)) globalThis.__errores.push(linea);
+};
+console.error = (...args) => {
+  const s = String(args[0] ?? '');
+  if (/Could not parse CSS|Not implemented: HTMLMediaElement|jsdom/i.test(s)) return;
+  anotar('console.error', args.map(a => a?.stack ?? String(a)).join(' | '));
+  errorReal(...args);
+};
+window.addEventListener('error', ev => anotar('window.error', ev.error ?? ev.message));
+window.addEventListener('unhandledrejection', ev => anotar('promesa', ev.reason));
+process.on('uncaughtException', e => anotar('uncaught', e));
+process.on('unhandledRejection', e => anotar('rechazo', e));
+
 export { dom, window };
