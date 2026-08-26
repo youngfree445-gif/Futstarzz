@@ -21,7 +21,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
+import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay, rondaEnEspanol } from '../leagueDisplay';
@@ -2968,8 +2968,18 @@ export default function Dashboard({
   })();
   const copaContinentalCerradaElAnio = !conmebolCup || !isClubStillInCup(conmebolCup, currentClub.id);
   const copaUefaCerradaElAnio = !uefaCup || !isClubStillInUefaCup(uefaCup, currentClub.id);
+  // Y LAS FECHAS DE SELECCION CUENTAN COMO TORNEO PENDIENTE.
+  //
+  // Sin esto, un club cuya liga cierra antes que el Mundial daba el año por terminado con fechas
+  // FIFA todavia por delante: el boton pasaba a "Finalizar Temporada", la tarjeta seguia anunciando
+  // "Local vs Seleccion de Colombia" y no habia con que jugarlo. Medido con el Porto -- la Primeira
+  // Liga cierra el 16 de mayo y el Mundial va de junio a julio: cuatro partidos anunciados y
+  // ninguno jugable. En 32 carreras, de 126 partidos de Mundial anunciados solo 43 se pudieron
+  // jugar.
+  const mundialPendienteElAnio = hasDatedLeagueSchedule(currentClub.name)
+    && quedanFechasDeSeleccion(currentClub.name, playerProfile.currentWeek);
   const temporadaRealTerminada = ligaCerradaElAnio && copaNacionalCerradaElAnio
-    && copaContinentalCerradaElAnio && copaUefaCerradaElAnio;
+    && copaContinentalCerradaElAnio && copaUefaCerradaElAnio && !mundialPendienteElAnio;
 
   // Con calendario de fechas reales el mes se pinta directamente con ellas: cada partido cae en su
   // día exacto (jueves 12 de febrero es jueves), en vez de deducir la fecha contando semanas desde

@@ -22,7 +22,7 @@ console.log(`--- DONDE SE FUE EL TIEMPO ---
   ${gasto}
 `);
 
-writeFileSync('scripts/ui/ultima_bitacora.json', JSON.stringify({ club: CLUB, bitacora, avisos, guardada }, null, 2));
+writeFileSync(process.env.BITACORA || 'scripts/ui/ultima_bitacora.json', JSON.stringify({ club: CLUB, bitacora, avisos, guardada }, null, 2));
 
 // ------------------------------------------------------------------ el resumen por competición
 const porCompeticion = new Map();
@@ -155,6 +155,11 @@ const vecesPorLlave = new Map();
 const vecesPorRival = new Map();
 for (const p of bitacora) {
   if (!p.competicion) continue;
+  // SOLO LO QUE SE JUGO DE VERDAD. La bitacora anota lo que anuncia la TARJETA, y un dia puede
+  // pasar sin partido: ahi no hay marcador. Contando esos como partidos, un cruce anunciado dos
+  // veces y jugado una salia reportado como "se jugo 3 veces" -- que es un bug distinto (la
+  // tarjeta promete un partido que no ocurre) y merece su propio cartel, no confundirse con este.
+  if (!p.seJugo) continue;
   if (p.jornada) {
     const clave = `T${p.temporada} · ${p.competicion} · ${p.jornada} · vs ${p.rival}`;
     vecesPorLlave.set(clave, (vecesPorLlave.get(clave) ?? 0) + 1);
@@ -204,6 +209,16 @@ for (const p of bitacora) {
   }
 }
 
+// LA TARJETA PROMETIO UN PARTIDO Y EL DIA PASO SIN JUGARSE.
+//
+// Se detecta por el marcador vacio: la bitacora se anota al leer la tarjeta y el marcador recien al
+// volver del partido. Medido en el Porto, 2 de cada 40 carreras: la tarjeta anunciaba la semifinal
+// de la Taça, apretabas, y el dia pasaba de largo. Es su propio bug y no una llave repetida.
+const prometidosSinJugar = bitacora.filter(p => p.competicion && p.rival && !p.seJugo);
+for (const p of prometidosSinJugar) {
+  problemas.push(`la tarjeta prometio ${p.competicion} vs ${p.rival} y el dia paso sin partido (fecha ${p.paso})`);
+}
+
 const sinCartel = bitacora.filter(p => !p.competicion).length;
 if (sinCartel) problemas.push(`${sinCartel} fechas sin cartel de competición legible en la tarjeta.`);
 const sinSortear = bitacora.filter(p => p.rival === 'RIVAL SIN SORTEAR').length;
@@ -223,3 +238,17 @@ if (avisos.length) {
 }
 
 console.log('\nBitácora completa en scripts/ui/ultima_bitacora.json');
+
+// Y SE SALE A MANO, que si no el proceso tarda TRES MINUTOS Y MEDIO en morirse.
+//
+// Medido: cargar el bundle 1.4s, jugar la temporada entera 20s, escribir el informe 0s... y 210s
+// mas sin hacer nada. El trabajo esta terminado y el proceso sigue vivo porque jsdom y React
+// dejaron temporizadores pendientes que nadie va a limpiar y que node espera igual.
+//
+// Con 19 ligas eso era mas de una HORA de barrido esperando a nada. Aca no queda nada por hacer:
+// el informe ya se imprimio y la bitacora ya esta en disco.
+//
+// Se vacia la salida antes de cortar, porque en Windows stdout hacia un pipe es asincrono y un
+// process.exit() a secas se puede comer las ultimas lineas -- justo las del informe.
+await new Promise(listo => process.stdout.write('', listo));
+process.exit(0);

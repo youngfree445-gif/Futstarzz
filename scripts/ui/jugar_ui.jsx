@@ -376,6 +376,14 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     const volver = botonQueDice(/Regresar al Vestuario/i);
     if (volver) {
       const cuerpo = texto(document.body);
+      // QUE EL PARTIDO SE JUGO ES UN HECHO APARTE DEL MARCADOR.
+      //
+      // El marcador sale de buscar "N-N" en el resumen, y ese texto no esta siempre: en los
+      // partidos de SELECCION no aparece con ese formato. Usar "sin marcador" como sinonimo de "no
+      // se jugo" daba dieciseis falsos positivos por tanda -- todos partidos del Mundial que si se
+      // jugaron. Llegar a esta pantalla es la prueba de que hubo partido; el marcador es un extra
+      // que puede fallar en leerse.
+      if (bitacora.length) bitacora[bitacora.length - 1].seJugo = true;
       const marcador = (cuerpo.match(/(\d+)\s*[-–]\s*(\d+)/) ?? []).slice(1, 3).join('-');
       // CONTRA QUIEN SE JUGO DE VERDAD. La tarjeta anuncia un rival y el partido puede ser contra
       // otro: es la clase de desfase que ya se cobró varios bugs, y sin mirarlo no se ve.

@@ -2583,6 +2583,33 @@ export function calendarioDeLigaAgotado(clubName: string, currentWeek: number): 
   return currentWeek > pasoDeLaUltima;
 }
 
+/**
+ * Al club le quedan FECHAS DE SELECCION por delante en esta temporada?
+ *
+ * Hermana de calendarioDeLigaAgotado, y existe porque "la temporada termino" se contestaba mirando
+ * solo los torneos de CLUBES -- liga, copa nacional, continental y europea. El Mundial no entraba en
+ * la cuenta, y la Primeira Liga cierra el 16 de mayo mientras el Mundial se juega en junio y julio.
+ *
+ * Resultado medido jugando con el Porto: al cerrar el ultimo torneo de clubes, el boton pasaba a
+ * "Finalizar Temporada" con cuatro fechas FIFA todavia por delante. La tarjeta te seguia anunciando
+ * "Local vs Seleccion de Colombia" y no habia con que jugarlo -- ni "Disputar Partido" ni "Simular
+ * partido", solo cerrar el año. De 126 partidos de Mundial anunciados en 32 carreras, se podian
+ * jugar 43.
+ *
+ * Se mira la temporada EN CURSO por el mismo motivo que la hermana: el calendario concatena las
+ * temporadas y la ultima fecha de todas es de 2057.
+ */
+export function quedanFechasDeSeleccion(clubName: string, currentWeek: number): boolean {
+  const t = temporadaDelPaso(clubName, currentWeek);
+  if (!t) return false;
+  return fixturesForClub(clubName).some(f => {
+    if (f.competition.kind !== 'national_tournament') return false;
+    if (f.temporada !== t.temporada || f.date < inicioDeCarrera(clubName)) return false;
+    const paso = pasoDeFecha(clubName, f.date);
+    return paso !== null && paso >= currentWeek;
+  });
+}
+
 /** El torneo de liga que el club juega en esa fecha ('Apertura', 'Clausura' o el nombre de la liga). */
 export function torneoDelClubEnFecha(clubName: string, date: string): string | null {
   const f = fixturesForClub(clubName).find(x => x.date === date && x.competition.kind === 'league');

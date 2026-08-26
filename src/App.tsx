@@ -3587,6 +3587,20 @@ export default function App() {
     // sin mirar el calendario de nadie -- para los clubes que no tenían fechas. Desde que sólo se
     // puede hacer carrera en clubes con calendario (ver clubesJugables.ts) ese respaldo no cubre a
     // nadie, y tener dos formas de contestar la misma pregunta era justamente el problema.
+    // HOY ES DIA DE COPA DE ALGUIEN: reserva, dia europeo que el cuadro se quedo, o partido real de
+    // la copa nacional. Las tres cosas tienen algo en comun -- el calendario aparto el dia para una
+    // copa -- y por eso ninguna puede terminar en descanso sin antes preguntarle a la copa NACIONAL
+    // si tiene cruce.
+    //
+    // Es la misma cuenta que hace la tarjeta (elDiaEsDeCopa, en Dashboard). Que las dos no
+    // coincidieran se veia jugando: al Porto la tarjeta le anunciaba "Taça de Portugal - Semifinal
+    // vs Famalicao", apretabas, y el dia pasaba SIN PARTIDO. Despues, dos fechas mas tarde, se
+    // jugaba la vuelta de verdad. El dia era europeo, el Porto ya estaba eliminado de Europa, y el
+    // corte de abajo lo mandaba a descansar antes de que la Taça pudiera reclamarlo. Medido: 2 de
+    // cada 40 carreras.
+    const elDiaEsDeCopaDeAlguien = esReservaDeCopa || esDiaDeCopaUefaDelCalendario
+      || esDiaDeCopaNacionalDelCalendario;
+
     const isCup = !inWorldCupBreak
       && (realPrimary?.competition.kind === 'continental_cup'
         || realPrimary?.competition.kind === 'domestic_cup');
@@ -4096,7 +4110,7 @@ export default function App() {
       // día de copa reservado y ya te eliminaron de la continental, ese día le toca a la copa
       // NACIONAL, no a un descanso. Cortar acá se la robaba. El descanso de verdad se decide más
       // abajo, recién cuando tampoco hay cruce nacional que jugar.
-      if (eliminatedFromQualifiedCup && !foundOpponentId && !foundUefaOpponentId && !esReservaDeCopa) {
+      if (eliminatedFromQualifiedCup && !foundOpponentId && !foundUefaOpponentId && !elDiaEsDeCopaDeAlguien) {
         const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
         const updated = {
           ...playerProfile,
@@ -4250,7 +4264,7 @@ export default function App() {
         // jugar, es un día que el calendario tenía apartado por si la copa lo necesitaba.
         // Vale para el día RESERVADO y para el partido real de copa nacional: los dos llegan acá
         // desde que el cuadro se quedó con la copa, y los dos quedan libres si no hay cruce.
-        if ((esReservaDeCopa || esDiaDeCopaNacionalDelCalendario) && !cupCruce) {
+        if (elDiaEsDeCopaDeAlguien && !cupCruce) {
           const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, false, false, playerProfile);
 
           // El torneo sigue sin vos. Antes el cuadro sólo avanzaba cuando el jugador tenía partido,
