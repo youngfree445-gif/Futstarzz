@@ -155,15 +155,24 @@ for (const p of bitacora) {
     const clave = `T${p.temporada} · ${p.competicion} · ${p.jornada} · vs ${p.rival}`;
     vecesPorLlave.set(clave, (vecesPorLlave.get(clave) ?? 0) + 1);
   }
-  // Y EL MISMO RIVAL CON LA MISMA LOCALIA, que es el que se escapaba.
+  // Y EL MISMO RIVAL CON LA MISMA LOCALIA, EN COPAS, que es el que se escapaba.
   //
   // Contar por RONDA no alcanza: cuando el partido lo sirve el calendario, el rotulo es la FECHA
   // ("15 abr", "13 ago"), asi que cada repeticion trae una etiqueta distinta y ninguna se repite.
   // Asi paso desapercibido que el LDU de Quito jugaba VEINTIUNA veces "Copa Sudamericana ·
-  // visitante vs Vasco da Gama" en una sola temporada. Contra un mismo rival, de local o de
-  // visitante, no se juega mas de dos veces en ningun torneo -- ni en una liga ida y vuelta.
-  const porRival = `T${p.temporada} · ${p.competicion} · ${p.localia} vs ${p.rival}`;
-  vecesPorRival.set(porRival, (vecesPorRival.get(porRival) ?? 0) + 1);
+  // visitante vs Vasco da Gama" en una sola temporada.
+  //
+  // SOLO EN COPAS, y no en la liga. En un pais con Apertura, Clausura y liguilla se puede recibir
+  // al mismo rival tres veces en un año sin que nada este mal: al America le paso con el San Luis
+  // -- una fecha del Clausura, la ida de la liguilla y una fecha del Apertura -- y salio marcado
+  // como si fuera el bug del LDU. Un falso positivo tapa los de verdad, que es lo unico que este
+  // chequeo existe para encontrar. En la liga, repetir jornada ya lo caza el conteo de arriba.
+  const esCopa = /copa|cup|coppa|coupe|taça|taca|pokal|beker|libertadores|sudamericana|uefa|champions|europa|concacaf|recopa|supercopa/i
+    .test(p.competicion);
+  if (esCopa) {
+    const porRival = `T${p.temporada} · ${p.competicion} · ${p.localia} vs ${p.rival}`;
+    vecesPorRival.set(porRival, (vecesPorRival.get(porRival) ?? 0) + 1);
+  }
 }
 for (const [clave, veces] of vecesPorLlave) {
   if (veces > 2) problemas.push(`la MISMA llave se jugo ${veces} veces: ${clave}`);

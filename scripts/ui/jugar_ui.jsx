@@ -368,10 +368,29 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       // CONTRA QUIEN SE JUGO DE VERDAD. La tarjeta anuncia un rival y el partido puede ser contra
       // otro: es la clase de desfase que ya se cobró varios bugs, y sin mirarlo no se ve.
       const ultimo = bitacora[bitacora.length - 1];
-      if (ultimo && ultimo.rival && !cuerpo.includes(ultimo.rival)) {
+      // SE COMPARA POR LA PALABRA QUE IDENTIFICA AL CLUB, no por el nombre entero.
+      //
+      // El resumen del partido no siempre escribe el nombre completo: la tarjeta dice "1. FC Union
+      // Berlin" o "Stade Rennais FC" y el resumen dice "Union Berlin" o "Rennes". Comparando cadena
+      // contra cadena, cada uno de esos salia marcado como "el partido fue contra otro" -- ruido
+      // que tapa los desfases de verdad, que es lo unico que este chequeo existe para encontrar.
+      //
+      // Se sacan las particulas que no identifican a nadie (FC, CF, SC, AS, AJ, RB, CD, UD, Stade,
+      // Club, de...) y alcanza con que UNA palabra propia del rival aparezca en el resumen.
+      const RUIDO = /^(1|fc|cf|sc|ac|as|aj|rb|sd|ud|cd|afc|ss|us|sv|vfb|vfl|bsc|club|stade|de|del|la|el|los|city|fk|bk|ka|kv|nk)$/i;
+      const palabrasDe = n => (n || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .split(/[^A-Za-z0-9]+/).filter(w => w.length >= 4 && !RUIDO.test(w));
+      const cuerpoPlano = cuerpo.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+      const propias = palabrasDe(ultimo?.rival);
+      const loNombra = cuerpo.includes(ultimo?.rival ?? ' ')
+        || (propias.length > 0 && propias.some(w => cuerpoPlano.includes(w.toLowerCase())));
+      if (ultimo && ultimo.rival && !loNombra) {
         ultimo.rivalDelPartido = 'OTRO (la tarjeta decía ' + ultimo.rival + ')';
+        // El resumen, recortado: sin verlo no se puede decidir si es un desfase o el nombre corto.
+        ultimo.diceElResumen = cuerpo.slice(0, 220).replace(/\s+/g, ' ');
         appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
-          '      !! el partido NO fue contra ' + ultimo.rival + ' (fecha ' + ultimo.paso + ')' + String.fromCharCode(10));
+          '      !! el partido NO fue contra ' + ultimo.rival + ' (fecha ' + ultimo.paso + '). El resumen dice: '
+          + ultimo.diceElResumen + String.fromCharCode(10));
       }
       if (bitacora.length) bitacora[bitacora.length - 1].marcador = marcador;
       await click(volver); await dormir(80); continue;
