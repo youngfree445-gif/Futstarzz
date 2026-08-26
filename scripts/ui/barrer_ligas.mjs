@@ -17,7 +17,7 @@
 // Cada club escribe su propio progreso en scripts/ui/barrido/<club>.log, así que se puede mirar
 // cómo va sin esperar a que termine.
 import { spawn } from 'child_process';
-import { mkdirSync, existsSync } from 'fs';
+import { mkdirSync, existsSync, writeFileSync } from 'fs';
 import { cpus } from 'os';
 
 const CARPETA = 'scripts/ui/barrido';
@@ -107,6 +107,14 @@ function jugar([club, liga]) {
     }, MINUTOS_POR_CLUB * 60_000);
     hijo.on('close', code => {
       clearTimeout(corte);
+      // LA SALIDA ENTERA SE GUARDA, no solo el informe.
+      //
+      // Abajo se recorta desde "QUE SE JUGO" para que el resumen del barrido se pueda leer, y eso
+      // esta bien para mirar de reojo. Pero cuando una carrera falla, lo que hace falta es todo lo
+      // que imprimio ANTES -- las trazas del motor -- y ahi ya no estaba: habia que adivinar en que
+      // club reproducirlo y correrlo aparte, y estos bugs no se reproducen dirigidos. Con el archivo
+      // completo, la carrera que falla ya viene con su rastro puesto.
+      writeFileSync(`${CARPETA}/${slug}.salida.log`, salida);
       const desde = salida.indexOf('--- QUE SE JUGO ---');
       const informe = desde >= 0 ? salida.slice(desde) : salida.slice(-2500);
       console.log(`\n${'='.repeat(78)}\n=== ${club} (${liga}) -- salida ${code}\n${'='.repeat(78)}`);

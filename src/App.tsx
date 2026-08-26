@@ -3488,12 +3488,29 @@ export default function App() {
       //
       // Ahora la pregunta es por copa, no por club: el calendario manda donde tiene fechas, y donde
       // no las tiene manda el cuadro del motor. Una sola fuente por competición, nunca dos.
-      // La pregunta es por la temporada EN CURSO, no por todas juntas: desde la 2 el calendario ya
-      // no trae copas, así que preguntarle al histórico responde "sí, la cubre" por lo que hubo en
-      // la 1 y el club se quedaría sin copa para siempre.
+      // SOLO EN LA TEMPORADA 1 EL CALENDARIO PUEDE CUBRIR UNA COPA CONTINENTAL.
+      //
+      // Acá decía que "desde la 2 el calendario ya no trae copas", y es FALSO: las reemite todos los
+      // años corriéndoles la fecha. Comprobado con competitionsForClubInSeason -- al Caracas le
+      // aparecen Libertadores y Sudamericana en la 1, en la 2 y en la 3.
+      //
+      // Y eso importa porque a partir de la 2 los cupos los reparte el MOTOR con la tabla del año
+      // anterior. El calendario sigue diciendo "este club juega la Libertadores" porque la jugó en
+      // 2026, mientras el motor puede no tenerlo: ahí el calendario le sirve fechas de un torneo en
+      // el que no está, y del otro lado no hay cuadro que avance sino una lista fija de partidos.
+      // Nada se anota y la misma fecha se puede servir de nuevo.
+      //
+      // Medido en la temporada 3: al Caracas le sirvió CUATRO veces "Copa Libertadores - Fase de
+      // grupos vs Estudiantes de La Plata" (tres de visitante), y al Junior ocho partidos de grupo
+      // de una Sudamericana donde el motor no lo tiene en ningún grupo.
+      //
+      // Es la misma regla que las copas europeas ya tienen desde siempre y por el mismo motivo (ver
+      // el comentario de enCopaUefa acá abajo): los partidos reales de un año son diez partidos con
+      // nombre de copa, no un torneo. La temporada 1 es la excepción porque ahí SÍ son los suyos.
       const temporadaActual = temporadaDe(playerProfile, playerProfile.currentWeek);
       const laCubreElCalendario = (re: RegExp) =>
-        usaFechasReales && competitionsForClubInSeason(myClub.name, temporadaActual).some(c => re.test(c.name));
+        usaFechasReales && temporadaActual === 1
+        && competitionsForClubInSeason(myClub.name, temporadaActual).some(c => re.test(c.name));
 
       // LAS COPAS EUROPEAS NO PREGUNTAN POR EL CALENDARIO: el cuadro del motor manda siempre.
       //
@@ -3551,7 +3568,25 @@ export default function App() {
         sudamericana: /sudamericana/i,
         concacaf: /concacaf|champions cup/i,
       } as const;
-      return (!!suCopaConmebol && !laCubreElCalendario(COMO_LA_LLAMA_EL_CALENDARIO[suCopaConmebol]))
+
+      // EL REPECHAJE NO LO PUEDE CUBRIR EL CALENDARIO: esa bajada la decide el MOTOR.
+      //
+      // Un tercero de grupo de la Libertadores baja a la Sudamericana, y quien lo decidio fue el
+      // cuadro del motor mirando la tabla de ESTA carrera. El calendario no sabe nada de eso: sus
+      // fechas de Sudamericana son las que el club jugo en 2026 y se reemiten todos los años.
+      //
+      // Con la guarda vieja, tener fechas de Sudamericana en el calendario alcanzaba para darle el
+      // dia al calendario -- y ahi no hay torneo que avance, solo una lista fija. Medido con el
+      // Junior en la temporada 3: jugo OCHO partidos de "fase de grupos" de una Sudamericana en la
+      // que el motor no lo tiene en ningun grupo (mis partidos 0/0), y el primero contra Corinthians
+      // se sirvio TRES veces porque ningun resultado quedaba anotado.
+      //
+      // Si bajaste por repechaje, el torneo es del motor y punto.
+      const bajoPorRepechaje = suCopaConmebol === 'sudamericana'
+        && bajoALaSudamericana(playerProfile, myClub, temporadaActual);
+
+      return (!!suCopaConmebol
+        && (bajoPorRepechaje || !laCubreElCalendario(COMO_LA_LLAMA_EL_CALENDARIO[suCopaConmebol])))
         || enCopaUefa;
     })();
 

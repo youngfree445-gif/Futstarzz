@@ -925,7 +925,6 @@ export function getOrCreateCupState(
   }
   let stepsConsumed = existing?.stepsConsumed ?? 0;
   const targetSteps = pasosDeCopa;
-
   while (stepsConsumed < targetSteps && cup.stage !== 'done') {
     // El turno es del jugador: se frena acá y no se consume el paso, así la próxima vez que se
     // pregunte el partido sigue estando. Si ya quedó eliminado, getUpcomingCupMatch devuelve null
