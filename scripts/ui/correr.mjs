@@ -17,11 +17,14 @@ console.log(`\n=== JUGANDO DE VERDAD: ${CLUB} (${LIGA}), ${TEMPORADAS} temporada
 const t0 = Date.now();
 // FICHAR=FC Barcelona pide que, apenas aparezca su oferta, se acepte el traspaso.
 const FICHAR = process.env.FICHAR || null;
-const { bitacora, avisos, pasos, gasto, guardada } = await jugar({ club: CLUB, liga: LIGA, temporadas: TEMPORADAS, ficharPor: FICHAR });
+const { bitacora, avisos, pasos, gasto, motivoDelFinal, guardada } = await jugar({ club: CLUB, liga: LIGA, temporadas: TEMPORADAS, ficharPor: FICHAR });
 console.log(`\nSe apretaron ${pasos} pantallas en ${((Date.now() - t0) / 1000).toFixed(0)}s. ${bitacora.length} partidos anotados.\n`);
 // Y DONDE SE FUE, por pantalla: sin esto, optimizar el banco es adivinar.
 console.log(`--- DONDE SE FUE EL TIEMPO ---
   ${gasto}
+`);
+console.log(`--- POR QUE TERMINO ---
+  ${motivoDelFinal}
 `);
 
 writeFileSync(process.env.BITACORA || 'scripts/ui/ultima_bitacora.json', JSON.stringify({ club: CLUB, bitacora, avisos, guardada }, null, 2));

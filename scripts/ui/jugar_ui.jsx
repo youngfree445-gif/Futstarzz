@@ -19,7 +19,7 @@
 // después juega fecha tras fecha apretando "Simular partido" -- el mismo botón, el mismo motor, el
 // mismo estado de React. De cada fecha anota lo que la pantalla DICE: el cartel de la competición,
 // el rival, la localía y la jornada.
-import { appendFileSync } from 'fs';
+import { appendFileSync, writeFileSync } from 'fs';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from '../../src/App';
@@ -291,6 +291,15 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   let ultimoIntentoDeFichaje = -1;
   /** La ultima mesa de ofertas vista, para anotar solo los cambios. */
   let ultimaMesa = null;
+  /**
+   * POR QUE TERMINO LA CORRIDA. Se anota en cada salida del bucle.
+   *
+   * El banco terminaba sin decir nunca por que, y eso deja preguntas sin respuesta: tres carreras
+   * seguidas cerraron a los 42 -- justo un año antes de la pantalla de retiro -- sin atasco, sin
+   * llegar al tope de pantallas y sin aviso. Con el motivo anotado se sabe de una lectura si fue el
+   * juego, el tope o el reloj.
+   */
+  let motivoDelFinal = 'el bucle llego al tope de vueltas';
 
   const pantalla = () => hayCeremonia() ? 'ceremonia' : hayDialogo() ? 'dialogo'
     : pantallaDeDecision() ? 'decision' : simulando() ? 'simulando'
@@ -342,6 +351,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     pasos++;
     if (Date.now() > limite) {
       avisos.push('ATASCO por tiempo en la fecha ' + ultimoPaso + '. Pantalla: ' + pantalla());
+      motivoDelFinal = 'se acabo el presupuesto de tiempo';
       break;
     }
     if (pasos - vueltaDelUltimoAvance > 300) {
@@ -350,6 +360,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       const rotulos = botones().map(b => texto(b)).filter(Boolean).slice(0, 40);
       avisos.push('ATASCO en la fecha ' + ultimoPaso + '. Pantalla: ' + pantalla()
         + '. Botones: [' + rotulos.join(' | ') + ']. Dice: ' + texto(document.body).slice(0, 500));
+      motivoDelFinal = 'atasco: 300 vueltas sin que avanzara la fecha';
       break;
     }
 
@@ -525,9 +536,23 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     // fecha 127 se dio por terminada en la "temporada 2", a los 18 años.
     const clubDeAhora = CLUBS_DATABASE.find(c => c.id === guardada?.currentClubId)?.name ?? club;
     const temp = paso > 0 ? temporadaDeCarrera(clubDeAhora, paso) : 1;
+    // LA PARTIDA SE GUARDA CADA TANTO, no solo al terminar.
+    //
+    // Una carrera larga son cuarenta y pico de minutos, y si la sesion se corta en el medio se
+    // pierde entera: paso una noche con dos carreras de veinte temporadas. Un volcado cada cincuenta
+    // fechas cuesta nada y deja siempre algo en disco.
+    if (paso !== ultimoPaso && paso > 0 && paso % 50 === 0 && process.env.BITACORA) {
+      try {
+        writeFileSync(process.env.BITACORA.replace(/\.json$/, '.parcial.json'),
+          JSON.stringify({ hasta: paso, temporada: temp, bitacora, avisos, guardada }, null, 1));
+      } catch { /* si no se puede escribir, la corrida sigue igual */ }
+    }
     if (paso !== ultimoPaso) vueltaDelUltimoAvance = pasos;
     ultimoPaso = paso;
-    if (temp > temporadas) break;
+    if (temp > temporadas) {
+      motivoDelFinal = `se pidieron ${temporadas} temporadas y el calendario de ${clubDeAhora} ya va por la ${temp}`;
+      break;
+    }
 
     // ¿HAY QUE FICHAR POR ALGUIEN? Se mira una vez por fecha, antes de jugar.
     //
@@ -675,5 +700,5 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
 
   const gasto = [...gastoPorPantalla].sort((x, y) => y[1] - x[1])
     .map(([k, ms]) => `${k}=${(ms / 1000).toFixed(0)}s`).join(' ');
-  return { bitacora, avisos, pasos, gasto, guardada: partidaGuardada() };
+  return { bitacora, avisos, pasos, gasto, motivoDelFinal, guardada: partidaGuardada() };
 }
