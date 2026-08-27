@@ -80,6 +80,40 @@ if (SOLO.length && AJUGAR.length !== SOLO.length) {
   console.log(`! de las ${SOLO.length} ligas pedidas se reconocieron ${AJUGAR.length}: ${AJUGAR.map(l => l[1]).join(', ')}`);
 }
 
+/**
+ * CHICOS=1 juega el club MAS CHICO de cada liga en vez del mas grande.
+ *
+ * La lista de arriba son los grandes: todos juegan copa internacional, y por eso el barrido recorria
+ * siempre las mismas ramas. Un club chico pasa por otras -- no tiene continental, pelea el descenso,
+ * y cinco de estos son de SEGUNDA DIVISION, donde ademas se juega el ascenso. De 549 clubes
+ * jugables, el barrido conocia 19.
+ *
+ * Salen de ordenar por reputacion dentro de cada liga (ver clubesJugables): el de reputacion mas
+ * baja que igual se puede dirigir.
+ */
+const CHICOS = [
+  ['1. FC Kaiserslautern', 'Alemana'],
+  ['Platense', 'Argentina'],
+  ['Real Tomayapo', 'Boliviana'],
+  ['Mirassol', 'Brasileña'],
+  ['Palestino', 'Chilena'],
+  ['Independiente Valle del Cauca', 'Colombiana'],
+  ['Técnico Universitario', 'Ecuatoriana'],
+  ['Girona FC', 'Española'],
+  ['CF Montréal', 'Estadounidense'],
+  ['AC Ajaccio', 'Francesa'],
+  ['FC Den Bosch', 'Holandesa'],
+  ['Birmingham City', 'Inglesa'],
+  ['Hellas Verona', 'Italiana'],
+  ['Atlante', 'Mexicana'],
+  ['Sportivo Luqueño', 'Paraguaya'],
+  ['Deportivo Garcilaso', 'Peruana'],
+  ['Casa Pia', 'Portuguesa'],
+  ['Racing Club', 'Uruguaya'],
+  ['Carabobo FC', 'Venezolana'],
+];
+if (process.env.CHICOS) { LIGAS.length = 0; LIGAS.push(...CHICOS); }
+
 if (!existsSync(CARPETA)) mkdirSync(CARPETA, { recursive: true });
 
 const resumenes = [];

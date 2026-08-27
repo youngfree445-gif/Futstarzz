@@ -37,7 +37,14 @@ for (const [k, v] of [...porCompeticion].sort((a, b) => b[1].length - a[1].lengt
 }
 
 // ------------------------------------------------------------------ la Champions, partido a partido
-const euro = bitacora.filter(p => /Champions|Europa League/i.test(p.competicion));
+// "Champions LEAGUE", con la palabra entera: `/Champions/` sola hace match con CHAMPIONSHIP.
+//
+// La segunda division inglesa se llama Championship, asi que TODOS los partidos de liga de un club
+// de ahi se contaban como partidos de copa europea. Salio jugando con el Birmingham: el informe
+// acusaba a veintitres clubes de la Championship de "no estar en la copa europea" -- y tenia razon,
+// no estaban, porque no era la copa europea. Un club grande nunca lo iba a destapar: ninguno juega
+// en segunda.
+const euro = bitacora.filter(p => /(Champions|Europa) League/i.test(p.competicion));
 if (euro.length) {
   console.log('\n--- LOS PARTIDOS DE COPA EUROPEA, EN ORDEN ---');
   for (const p of euro) {
@@ -196,7 +203,8 @@ for (const p of bitacora) {
   // -- una fecha del Clausura, la ida de la liguilla y una fecha del Apertura -- y salio marcado
   // como si fuera el bug del LDU. Un falso positivo tapa los de verdad, que es lo unico que este
   // chequeo existe para encontrar. En la liga, repetir jornada ya lo caza el conteo de arriba.
-  const esCopa = /copa|cup|coppa|coupe|taça|taca|pokal|beker|libertadores|sudamericana|uefa|champions|europa|concacaf|recopa|supercopa/i
+    // Igual que arriba: 'champions league' entero, que 'champions' solo agarra la Championship.
+  const esCopa = /copa|cup|coppa|coupe|taça|taca|pokal|beker|libertadores|sudamericana|uefa|(champions|europa) league|concacaf|recopa|supercopa/i
     .test(p.competicion);
   if (esCopa) {
     const porRival = `T${p.temporada} · ${p.competicion} · ${p.localia} vs ${p.rival}`;
