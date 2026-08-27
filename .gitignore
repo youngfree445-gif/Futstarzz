@@ -62,3 +62,4 @@ audios de partido/
 # sus bitácoras y su progreso, no: son la salida de una corrida, no código.
 scripts/ui/barrido/
 scripts/ui/ultima_bitacora.json
+scripts/ui/*.json
