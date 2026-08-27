@@ -611,6 +611,24 @@ export default function Dashboard({
   const esLeyendaDelClub = statsEnClubActual.partidos >= LEGEND_MATCHES_THRESHOLD || statsEnClubActual.goles >= LEGEND_GOALS_THRESHOLD;
 
   const myLeagueKey = leagueKeyFor(currentClub);
+  /**
+   * LA TABLA CON LA QUE SE SIEMBRA EL CUADRANGULAR, la MISMA que usa App al armar el partido.
+   *
+   * Aca se leia `leagueSeasons?.[myLeagueKey]?.table ?? []`, y ese `?? []` es el bug: la clave es
+   * `liga-division`, asi que un ascenso o un descenso la RENUEVA y la entrada todavia no existe.
+   * App no tiene ese problema porque siempre pasa por getOrCreateSeasonForLeague, que arma la tabla
+   * inicial cuando falta.
+   *
+   * Con las dos leyendo distinto, en un dia de cuadrangular la tarjeta decia "rival aun sin sortear"
+   * -- honesto, no inventa -- mientras el motor sembraba el cuadro con la tabla en cero, donde el
+   * orden es arbitrario y el club puede quedar afuera de los ocho. Nadie ofrecia partido y el dia se
+   * perdia. Visto con el Junior y con el Platense.
+   *
+   * getOrCreateSeasonForLeague es pura -- devuelve un objeto, no toca nada -- asi que llamarla
+   * mientras se dibuja es seguro.
+   */
+  const tablaParaElCuadrangular = playerProfile.leagueSeasons?.[myLeagueKey]?.table
+    ?? getOrCreateSeasonForLeague(clubesDeLiga(myLeagueKey), undefined, playerProfile.currentWeek).table;
   const myLeagueTable = sortTable(playerProfile.leagueSeasons[myLeagueKey]?.table || []);
 
   // Todas las ligas del juego disponibles para explorar en la pestaña Tablas (no solo la del
@@ -1573,7 +1591,7 @@ export default function Dashboard({
     const playoffDeLaSemana = realDeLaSemana?.esPlayoff
       ? cuadrangularDeHoy(
           playerProfile, currentClub, playerProfile.currentWeek, realDeLaSemana.date,
-          playerProfile.leagueSeasons?.[myLeagueKey]?.table ?? [])
+          tablaParaElCuadrangular)
       : null;
 
     // NO CLASIFICASTE AL CUADRANGULAR: eso no es "rival por definir", es que hoy no jugás.
@@ -1589,7 +1607,7 @@ export default function Dashboard({
     const fueraDelCuadrangular = !!realDeLaSemana?.esPlayoff && !playoffDeLaSemana
       && !estaEnElCuadrangular(
         playerProfile, currentClub, playerProfile.currentWeek, realDeLaSemana.date,
-        playerProfile.leagueSeasons?.[myLeagueKey]?.table ?? []);
+        tablaParaElCuadrangular);
     if (fueraDelCuadrangular) hoySinPartido = true;
 
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
