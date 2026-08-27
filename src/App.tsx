@@ -86,7 +86,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -166,13 +166,15 @@ function syncBackgroundCups(
   uefaCups: Record<string, any>,
   /** El torneo de selecciones en curso (Mundial, Eurocopa o Copa America), por su clave. */
   worldCups: Record<string, any>,
+  /** Las eliminatorias en curso, por confederacion y mundial. */
+  eliminatorias: Record<string, any>,
   skipConmebol: boolean,
   skipUefa: boolean,
   // De acá salen los cupos continentales de la temporada 2 en adelante: la tabla final de cada liga
   // y los campeones vigentes. Sin esto toda edición repetiría la real 2026. Opcional porque al
   // crear una carrera todavía no hay nada que mirar.
   cupos?: PlayerProfile
-): { continentalCups: Record<string, any>; uefaCups: Record<string, any>; worldCups: Record<string, any> } {
+): { continentalCups: Record<string, any>; uefaCups: Record<string, any>; worldCups: Record<string, any>; eliminatorias: Record<string, any> } {
   const myClub = CLUBS_DATABASE.find(c => c.id === clubId);
   // La temporada sale del calendario del club, igual que en todos lados. Con getSeasonYear, un
   // club de 65 fechas por año cambiaba de edición de copa a mitad de temporada.
@@ -189,6 +191,7 @@ function syncBackgroundCups(
   let nextContinental = continentalCups;
   let nextUefa = uefaCups;
   let nextMundial = worldCups;
+  let nextEliminatorias = eliminatorias;
 
   // El estado de la copa se lleva y se PERSISTE para todos los clubes, tengan calendario real o no.
   //
@@ -258,9 +261,32 @@ function syncBackgroundCups(
             hoy.pasos, hoy.torneo, hoy.miSeleccionId),
         };
       }
+
+      // Y LA ELIMINATORIA, por el mismo motivo exacto.
+      //
+      // ponerAlDiaLaEliminatoria re-simula los pasos que le faltan al estado guardado, y ese estado
+      // solo se persistia los dias en que el jugador TENIA cruce. En los dias sin partido se quedaba
+      // atras, asi que cada lectura volvia a simular con azar nuevo: la tarjeta sacaba una tabla y el
+      // motor otra. Medido en una carrera de 26 temporadas: la tarjeta anuncio dos fechas seguidas
+      // "Eliminatorias 2034 - Local vs Seleccion de Uruguay, 4o de 10" y los dos dias pasaron sin
+      // jugarse.
+      //
+      // Es la misma cura que se le puso al Mundial: se avanza y se guarda al cerrar el dia, y al dia
+      // siguiente no queda nada por simular.
+      // CON EL MAPA QUE VIENE POR PARAMETRO, no con el del perfil.
+      //
+      // `perfil` es el que tenia quien llamo, y cuando el jugador acaba de disputar su partido de
+      // eliminatoria su resultado esta en `nextEliminatorias` y todavia no en `perfil`. Leyendo el
+      // perfil se recalcula desde el estado ANTERIOR y se pisa lo que se acaba de jugar: medido, la
+      // fecha 1 contra Bolivia servida DIEZ veces en una temporada.
+      const suEliminatoria = eliminatoriaDelDia(
+        { ...enEsaFecha, eliminatorias: nextEliminatorias } as PlayerProfile, myClub.name);
+      if (suEliminatoria) {
+        nextEliminatorias = { ...nextEliminatorias, [suEliminatoria.clave]: suEliminatoria.estado };
+      }
     }
   }
-  return { continentalCups: nextContinental, uefaCups: nextUefa, worldCups: nextMundial };
+  return { continentalCups: nextContinental, uefaCups: nextUefa, worldCups: nextMundial, eliminatorias: nextEliminatorias };
 }
 
 // Trayectoria club a club por temporada (ver SeasonHistory en types.ts): si el último tramo
@@ -2142,7 +2168,7 @@ export default function App() {
     // el arranque mismo de la carrera (si tu club clasifica a alguna), para que el sorteo de
     // grupos quede fijo desde el primer momento y nunca haya una ventana sin guardar donde
     // Dashboard tenga que inventar un sorteo nuevo con azar fresco solo para mostrarlo.
-    const initialCups = syncBackgroundCups(newProfile.currentClubId, newProfile.currentWeek, {}, {}, {}, false, false);
+    const initialCups = syncBackgroundCups(newProfile.currentClubId, newProfile.currentWeek, {}, {}, {}, {}, false, false);
     const profileWithLeague: PlayerProfile = {
       ...newProfile,
       leagueSeasons: { [leagueKey]: season },
@@ -3064,7 +3090,7 @@ export default function App() {
     };
 
     // Mismo criterio para las copas continentales/UEFA de fondo (si clasificás a la del año nuevo).
-    const cupsSync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, false, false, playerProfile);
+    const cupsSync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
 
     // Si veías el final del año lesionado, la baja sigue corriendo igual -- no se congela solo
     // porque no había más partidos que jugar.
@@ -3250,7 +3276,7 @@ export default function App() {
           }
         }
 
-        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, false, false, playerProfile);
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
         const updated = {
           ...playerProfile,
           datedResults: historialCon(resultadoDeHoy),
@@ -3264,7 +3290,10 @@ export default function App() {
           uefaCups: restSync.uefaCups,
           // El torneo de selecciones se guarda igual que las copas: si no, manana la tarjeta y el
           // motor vuelven a simular los pasos que faltan, cada uno con su azar.
-          worldCups: restSync.worldCups
+          worldCups: restSync.worldCups,
+          // La eliminatoria tambien: sin guardarla, cada lectura re-simula lo que le falta con azar
+          // nuevo y la tarjeta anuncia un partido que el motor no encuentra.
+          eliminatorias: restSync.eliminatorias
         };
         const agedRest = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(agedRest)) {
@@ -3794,7 +3823,7 @@ export default function App() {
         // Fecha FIFA sin partido puntual para vos (no convocado, tu selección ya quedó
         // eliminada, o estás entre rondas): no hay actividad de clubes en absoluto esta semana,
         // ni de liga ni de copa -- descansás de verdad, como en la vida real.
-        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, true, true, playerProfile);
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, true, true, playerProfile);
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
@@ -3805,7 +3834,10 @@ export default function App() {
           uefaCups: restSync.uefaCups,
           // El torneo de selecciones se guarda igual que las copas: si no, manana la tarjeta y el
           // motor vuelven a simular los pasos que faltan, cada uno con su azar.
-          worldCups: restSync.worldCups
+          worldCups: restSync.worldCups,
+          // La eliminatoria tambien: sin guardarla, cada lectura re-simula lo que le falta con azar
+          // nuevo y la tarjeta anuncia un partido que el motor no encuentra.
+          eliminatorias: restSync.eliminatorias
         };
         const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(aged)) {
@@ -3833,7 +3865,7 @@ export default function App() {
       // que las de abajo lo toquen. Sin partido -- no convocado, o entre fechas -- se descansa,
       // igual que en el parón del Mundial: tu club tampoco juega en una fecha FIFA.
       if (!foundWorldCupTeamId) {
-        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, true, true, playerProfile);
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, true, true, playerProfile);
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
@@ -3843,6 +3875,7 @@ export default function App() {
           continentalCups: restSync.continentalCups,
           uefaCups: restSync.uefaCups,
           worldCups: restSync.worldCups,
+          eliminatorias: restSync.eliminatorias,
         };
         const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(aged)) {
@@ -4201,7 +4234,7 @@ export default function App() {
       // NACIONAL, no a un descanso. Cortar acá se la robaba. El descanso de verdad se decide más
       // abajo, recién cuando tampoco hay cruce nacional que jugar.
       if (eliminatedFromQualifiedCup && !foundOpponentId && !foundUefaOpponentId && !elDiaEsDeCopaDeAlguien) {
-        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, false, false, playerProfile);
+        const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
         const updated = {
           ...playerProfile,
           energy: Math.min(100, playerProfile.energy + 20),
@@ -4212,7 +4245,10 @@ export default function App() {
           uefaCups: restSync.uefaCups,
           // El torneo de selecciones se guarda igual que las copas: si no, manana la tarjeta y el
           // motor vuelven a simular los pasos que faltan, cada uno con su azar.
-          worldCups: restSync.worldCups
+          worldCups: restSync.worldCups,
+          // La eliminatoria tambien: sin guardarla, cada lectura re-simula lo que le falta con azar
+          // nuevo y la tarjeta anuncia un partido que el motor no encuentra.
+          eliminatorias: restSync.eliminatorias
         };
         const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
         if (isPastRetirementAge(aged)) {
@@ -4358,7 +4394,7 @@ export default function App() {
         // Vale para el día RESERVADO y para el partido real de copa nacional: los dos llegan acá
         // desde que el cuadro se quedó con la copa, y los dos quedan libres si no hay cruce.
         if (elDiaEsDeCopaDeAlguien && !cupCruce) {
-          const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, false, false, playerProfile);
+          const restSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
 
           // El torneo sigue sin vos. Antes el cuadro sólo avanzaba cuando el jugador tenía partido,
           // así que apenas lo eliminaban la copa se congelaba a mitad de camino y NADIE salía
@@ -4379,6 +4415,7 @@ export default function App() {
             continentalCups: restSync.continentalCups,
             uefaCups: restSync.uefaCups,
             worldCups: restSync.worldCups,
+            eliminatorias: restSync.eliminatorias,
             domesticCups: cupsDelPais,
           };
           const aged = applySeasonTransitions(updated, playerProfile.currentWeek, updated.currentWeek);
@@ -4759,7 +4796,7 @@ export default function App() {
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
 
-    const suspendedSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, false, false, playerProfile);
+    const suspendedSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.min(100, playerProfile.energy + 15),
@@ -4871,7 +4908,7 @@ export default function App() {
       ?? getOrCreateSeasonForLeague(leagueClubs, updatedLeagueSeasons[leagueKey], nextWeek);
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
-    const sync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, false, false, playerProfile);
+    const sync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
 
     const weeksRemaining = playerProfile.activeInjury.weeksRemaining - 1;
     const injuryDone = weeksRemaining <= 0;
@@ -4923,7 +4960,7 @@ export default function App() {
     }
 
     const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
-    const sync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, false, false, playerProfile);
+    const sync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
 
     const updated: PlayerProfile = {
       ...playerProfile,
@@ -5841,6 +5878,7 @@ export default function App() {
       const synced = syncBackgroundCups(
         playerProfile.currentClubId, playerProfile.currentWeek + 1, updatedContinentalCups, updatedUefaCups,
         updatedWorldCups,
+        updatedEliminatorias,
         !!(isCopaLibertadores && activeCupId && activeOppositionClubId),
         !!(isCopaLibertadores && activeUefaCupId && activeOppositionClubId),
         playerProfile
@@ -5850,6 +5888,9 @@ export default function App() {
       // El torneo de selecciones se guarda al cerrar el dia, igual que las copas: asi manana la
       // tarjeta y el motor leen el mismo estado y ninguno lo vuelve a simular.
       updatedWorldCups = synced.worldCups;
+      // Y la eliminatoria, por lo mismo: el estado solo se persistia los dias en que habia cruce, y
+      // los dias sin partido lo dejaban atras para que la proxima lectura lo re-simulara.
+      updatedEliminatorias = synced.eliminatorias;
     }
 
     // Fase 3 -- salud mental según el resultado del partido, y saludo de famoso si el rating fue altísimo.

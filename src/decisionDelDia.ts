@@ -624,6 +624,38 @@ export interface CruceDeEliminatorias {
   total: number | null;
 }
 
+/**
+ * LA ELIMINATORIA DEL CLUB HOY, puesta al dia y lista para guardar.
+ *
+ * Hermana de cruceDeEliminatoriasHoy, pero contesta otra pregunta: aquella dice CONTRA QUIEN jugas
+ * hoy y devuelve null si no te toca; esta devuelve el ESTADO del torneo para poder persistirlo,
+ * juegues o no.
+ *
+ * Hace falta porque ponerAlDiaLaEliminatoria re-simula los pasos que le faltan al estado guardado, y
+ * ese estado solo se persistia los dias en que habia cruce. Los dias sin partido lo dejaban atras, y
+ * cada lectura volvia a simular con azar nuevo: la tarjeta anunciaba un partido que el motor no
+ * encontraba. Guardandolo al cerrar cada dia, los dos leen lo mismo.
+ */
+export function eliminatoriaDelDia(
+  perfil: PlayerProfile,
+  clubName: string,
+): { clave: string; estado: EliminatoriaState } | null {
+  const teamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
+  if (!teamId) return null;
+  const conf = CONFEDERACION_POR_SELECCION[teamId];
+  const anio = anioDeCarrera(clubName, perfil.currentWeek);
+  const ciclo = cicloDeEliminatorias(anio);
+  if (!ciclo || !conf) return null;
+  const clave = `${conf}-${ciclo.mundial}`;
+  const estado = ponerAlDiaLaEliminatoria(
+    perfil.eliminatorias?.[clave] ?? crearEliminatoria(conf, ciclo.mundial, ALL_NATIONAL_TEAMS_DATABASE),
+    ALL_NATIONAL_TEAMS_DATABASE,
+    pasosDeEliminatoriasTranscurridos(clubName, perfil.currentWeek),
+    teamId,
+  );
+  return { clave, estado };
+}
+
 export function cruceDeEliminatoriasHoy(
   perfil: PlayerProfile,
   clubName: string,
