@@ -3,7 +3,7 @@
 // semanal y desde el agente (Agent.type modifica los parámetros de esta misma función).
 import { Club, PlayerProfile, TransferOffer, Agent } from './types';
 import { clubStrength } from './leagueEngine';
-import { hasDatedSchedule } from './dateSchedule';
+import { fechaDelPaso, hasDatedSchedule } from './dateSchedule';
 import { teLlamaLaCasa, motivoDelLlamado, temporadasEnLaCasa } from './clubQueTeFormo';
 
 // Corregido: antes "possible" dependía solo del Prestigio (que arranca en 50 y ya deja fichable
@@ -245,6 +245,44 @@ function agentReqPrestigeAdjustment(agent: Agent | null | undefined): number {
 export const FECHAS_ENTRE_OFERTAS = 6;
 
 /**
+ * CUANTO TENES QUE QUEDARTE despues de un traspaso antes de poder moverte otra vez.
+ *
+ * Sin esto se podia fichar por un club y aceptar otra oferta dos fechas despues, sin haber jugado
+ * casi nada ahi: el traspaso dejaba de ser una decision de carrera y pasaba a ser un boton. Y las
+ * mecanicas que dependen de quedarse -- la zona de confort, el mentor, el bonus por presencias --
+ * no llegaban a existir nunca.
+ *
+ * Seis meses REALES, contados de la fecha en que firmaste. No en pasos: un club colombiano juega 65
+ * fechas en un año y uno europeo 34 en media temporada, asi que el mismo numero de pasos seria un
+ * plazo distinto en cada liga.
+ *
+ * No aplica al club donde EMPEZASTE la carrera: ahi no firmaste nada, y bloquear la primera salida
+ * seria encerrarte donde te toco.
+ */
+export const MESES_MINIMOS_EN_EL_CLUB = 6;
+
+/** Meses cumplidos entre dos fechas ISO. */
+function mesesEntre(desde: string, hasta: string): number {
+  const a = new Date(desde), b = new Date(hasta);
+  if (Number.isNaN(a.getTime()) || Number.isNaN(b.getTime())) return Infinity;
+  const meses = (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth());
+  return b.getDate() >= a.getDate() ? meses : meses - 1;
+}
+
+/**
+ * ¿Ya podes volver a moverte, o todavia le debes tiempo al club que te ficho?
+ *
+ * Devuelve los meses que faltan (0 si ya podes irte), para que la pantalla pueda decirlo en vez de
+ * mostrar una pestaña vacia sin explicacion.
+ */
+export function mesesQueFaltanEnElClub(profile: PlayerProfile, currentClub: Club): number {
+  if (!profile.fichadoElDia) return 0;
+  const hoy = fechaDelPaso(currentClub.name, profile.currentWeek);
+  if (!hoy) return 0;
+  return Math.max(0, MESES_MINIMOS_EN_EL_CLUB - mesesEntre(profile.fichadoElDia, hoy));
+}
+
+/**
  * QUIÉN ENTRA A LA MESA DE TRES.
  *
  * No los tres de requisito más alto -- eso es lo que los hacía siempre iguales. Se sortea entre los
@@ -260,9 +298,19 @@ function elegirLaMesa(candidatas: TransferOffer[], semilla: number, cuantas: num
     .map((o, i) => {
       const x = Math.sin((semilla + 1) * 37.7 + i * 13.1) * 43758.5453;
       const azar = x - Math.floor(x);
-      // El requisito pesa, pero no manda: un club exigente sale más seguido y uno modesto también
-      // puede aparecer. Sin el azar serían siempre los mismos tres.
-      return { o, orden: o.reqPrestige * 0.6 + azar * 40 };
+      // El requisito pesa, pero NO MANDA. Con 0.6 y 40 si mandaba: el requisito llega a 57 y el azar
+      // solo a 40, asi que un club modesto casi nunca le ganaba a uno grande y la mesa la copaban
+      // siempre los mismos. Reportado jugando: "salen mucho esas mismas ofertas, no hay variedad".
+      //
+      // Medido sobre 548 clubes y 60 periodos (180 ofertas):
+      //
+      //   req*0.6  + azar*40   ->  47 clubes distintos, el top-5 se lleva el 30%, requisito medio 78
+      //   req*0.45 + azar*55   ->  72 clubes distintos, el top-5 se lleva el 18%, requisito medio 75
+      //
+      // La variedad sube un 53% y el nivel de los clubes que te llaman casi no baja (78 -> 75): los
+      // grandes siguen apareciendo mas seguido, que es lo que esta regla quiere, pero dejan de ser
+      // los unicos. El club mas repetido pasa de 15 apariciones a 8.
+      return { o, orden: o.reqPrestige * 0.45 + azar * 55 };
     })
     .sort((a, b) => b.orden - a.orden);
   return barajado.slice(0, cuantas).map(x => x.o);
@@ -277,6 +325,11 @@ export function refreshTransferOffersIfNeeded(
   const periodoGuardado = Math.floor((profile.transferOffersGeneratedWeek ?? -999) / FECHAS_ENTRE_OFERTAS);
   if (periodo === periodoGuardado && profile.pendingTransferOffers) {
     return { pendingTransferOffers: profile.pendingTransferOffers, transferOffersGeneratedWeek: profile.transferOffersGeneratedWeek };
+  }
+
+  // LA PERMANENCIA MANDA sobre todo lo demas: recien fichado, no hay mesa que mirar.
+  if (mesesQueFaltanEnElClub(profile, currentClub) > 0) {
+    return { pendingTransferOffers: [], transferOffersGeneratedWeek: profile.currentWeek };
   }
 
   const todas = generateTransferOffers(profile, currentClub, allClubs, profile.currentWeek);

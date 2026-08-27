@@ -182,6 +182,16 @@ export interface PlayerProfile {
   matchesWithoutRest: number; // Fase 2.5: partidos jugados seguidos sin una semana de descanso -- pasado el umbral, MatchSimulator aplica una penalización temporal a los atributos efectivos (no muta attributes real). Se resetea a 0 cualquier semana que no juegues.
   hadBreakoutSeason: boolean; // Fase 2.5: la temporada que acaba de cerrar tuvo aporte ofensivo alto (ver applyBreakoutSeasonIfNewSeason) -- si la siguiente temporada no muestra crecimiento real de atributos, dispara el "síndrome del segundo año" (golpe chico a prestige/fans)
   attrSumAtSeasonStart: number; // Fase 2.5: suma de los 6 atributos al arrancar la temporada en curso -- referencia para medir el crecimiento real de esa temporada en applyBreakoutSeasonIfNewSeason
+  /**
+   * La FECHA REAL en la que firmaste con el club actual (ISO, '2029-03-14'), o ausente si nunca te
+   * transferiste -- seguis en el club donde empezaste.
+   *
+   * Existe por la regla de permanencia: despues de un traspaso no podes volver a moverte hasta
+   * cumplir MESES_MINIMOS_EN_EL_CLUB. Va la fecha y no el paso porque "seis meses" es tiempo real, y
+   * los pasos no duran lo mismo en cada liga -- un club colombiano juega 65 fechas en un año y uno
+   * europeo 34 en media temporada.
+   */
+  fichadoElDia?: string;
   yearsAtClub: number; // Fase 2.5: temporadas seguidas en el club actual -- se resetea a 0 en cada traspaso (ver handleAcceptTransfer). Pasado COMFORT_ZONE_YEARS_THRESHOLD, el entrenamiento rinde menos (ver handleTrainAttribute) -- "zona de confort"
   appearanceBonus: number; // Fase 2.5: cláusula de contrato fijada al fichar (ver handleAcceptTransfer/SetupScreen) -- se paga cada partido jugado, pero jugar ya exhausto para cobrarla genera fricción con el DT (ver handleFinishMatch)
   /**

@@ -32,7 +32,7 @@ import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCom
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
 import { seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
-import { radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
+import { mesesQueFaltanEnElClub, radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal, postsDelPibe,
@@ -1856,6 +1856,9 @@ export default function Dashboard({
   // Las ofertas ahora se generan una vez por semana y persisten en el perfil (ver
   // refreshTransferOffersIfNeeded en transferMarket.ts, llamado desde App.tsx en el ciclo
   // semanal) -- ya no se recalculan en cada render. Acá solo se resuelve el Club real por id.
+  // Cuanto le falta al jugador para poder volver a moverse (0 = ya puede). Ver
+  // MESES_MINIMOS_EN_EL_CLUB: despues de un traspaso hay que quedarse medio año.
+  const mesesQueFaltan = mesesQueFaltanEnElClub(playerProfile, currentClub);
   const transferOffers = (playerProfile.pendingTransferOffers ?? [])
     .map(offer => ({ ...offer, club: ULTIMATE_CLUBS_DATABASE.find(c => c.id === offer.clubId) }))
     .filter((offer): offer is typeof offer & { club: NonNullable<typeof offer.club> } => !!offer.club);
@@ -5007,6 +5010,18 @@ export default function Dashboard({
                   sólo entraban tres y había que scrollear para comparar. Compactadas y de a dos,
                   entran seis en el mismo alto, que es justo lo que hace falta acá: verlas juntas
                   para elegir. */}
+              {/* RECIEN FICHADO: se dice POR QUE no hay ofertas.
+                  Una pestaña vacia se lee como un error del juego, no como una regla. Y la regla es
+                  parte de lo que hace que un traspaso pese: ver MESES_MINIMOS_EN_EL_CLUB. */}
+              {mesesQueFaltan > 0 && (
+                <div className="mb-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800 text-3xs text-slate-400 font-mono uppercase leading-relaxed">
+                  ⏳ Acabas de firmar con {currentClub.name}. Un jugador no se muda cada mes: hasta cumplir
+                  medio año en el club no vas a recibir ofertas.
+                  {' '}<span className="text-gold-400 font-black">
+                    {mesesQueFaltan === 1 ? 'Falta 1 mes.' : `Faltan ${mesesQueFaltan} meses.`}
+                  </span>
+                </div>
+              )}
               <div id="traspasos-ofertas" className="scroll-mt-4 grid xl:grid-cols-2 gap-2.5 items-start">
                 {transferOffers.map(offer => {
                   const getLeagueFlagText = (lg: string) => {

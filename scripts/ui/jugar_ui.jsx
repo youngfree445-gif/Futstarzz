@@ -199,7 +199,43 @@ function partidaGuardada() {
   return null;
 }
 
-export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temporadas = 2, maxPasos = 6000, verboso = true } = {}) {
+export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temporadas = 2,
+  /**
+   * Tope de vueltas del bucle, para que una corrida rota no gire para siempre.
+   *
+   * Sale del NUMERO DE TEMPORADAS y ya no es un numero fijo: 6000 alcanzaba de sobra para las tres
+   * temporadas de los barridos, y cortaba una carrera larga a la mitad. Medido: una carrera de 24
+   * temporadas se corto en la 11, a los 27 años -- justo antes de la edad en la que el club que te
+   * formo te llama de vuelta (32), que era lo que se queria ver.
+   *
+   * Unas 700 vueltas por temporada da margen: una temporada colombiana son ~55 partidos y cada uno
+   * gasta varias vueltas entre la tarjeta, el partido y el post.
+   */
+  maxPasos = Math.max(6000, 700 * (Number(temporadas) || 2)), verboso = true,
+  /**
+   * LA RUTA DE LA CARRERA: por que clubes fichar, EN ORDEN, en cuanto aparezca la oferta.
+   *
+   * Los pasos se separan con COMA y las alternativas de un mismo paso con BARRA:
+   *
+   *   'Ajax/PSV/SL Benfica, Real Madrid/FC Barcelona, Banfield'
+   *   -> primero cualquiera de los tres holandeses o el Benfica, despues cualquiera de los dos
+   *      grandes, y al final la vuelta a casa.
+   *
+   * Las alternativas no son comodidad: son lo que hace que la prueba se pueda correr. El mercado
+   * sortea TRES ofertas por periodo entre cientos de clubes elegibles, asi que pedir uno puntual es
+   * esperar a que salga la loteria -- se probo pidiendo 'FC Barcelona' y en catorce temporadas no
+   * aparecio una sola vez, con el jugador en prestigio 100 y con ofertas de Liverpool, Newcastle y
+   * Everton sobre la mesa. El que no aparecia era el club pedido, no la oferta.
+   *
+   * Hasta ahora el banco jugaba toda la carrera en el club donde empezaba, asi que el traspaso --
+   * que es la mitad del juego -- no lo habia recorrido nadie.
+   *
+   * Y va en ORDEN y no de a uno porque el arco que importa tiene dos escalas: te vas al grande y a
+   * los 32 el club que te formo te llama de vuelta (ver teLlamaLaCasa en clubQueTeFormo.ts, que
+   * ademas se saltea todos los requisitos). Con un solo fichaje esa segunda mitad no se puede
+   * probar.
+   */
+  ficharPor = null } = {}) {
   const raiz = createRoot(document.getElementById('root'));
   raiz.render(React.createElement(App));
   await dormir(80);
@@ -246,6 +282,15 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   // FECHA avanza, que es el único progreso que cuenta.
   let vueltaDelUltimoAvance = 0;
   let vueltasEnLaCancha = 0;
+  /** Ya se acepto el traspaso pedido: no se vuelve a intentar. */
+  /** Los clubes que faltan fichar, en orden. Se saca el primero cuando se concreta. */
+  const rutaPendiente = (ficharPor ?? '').split(',')
+    .map(paso => paso.split('/').map(x => x.trim().toLowerCase()).filter(Boolean))
+    .filter(alternativas => alternativas.length);
+  /** La fecha en la que ya se probo fichar, para no volver a mirar en la misma. */
+  let ultimoIntentoDeFichaje = -1;
+  /** La ultima mesa de ofertas vista, para anotar solo los cambios. */
+  let ultimaMesa = null;
 
   const pantalla = () => hayCeremonia() ? 'ceremonia' : hayDialogo() ? 'dialogo'
     : pantallaDeDecision() ? 'decision' : simulando() ? 'simulando'
@@ -309,8 +354,35 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     }
 
     // Ceremonia de fichaje (portada + entrevista): se sale por el final, no tiene cerrar.
-    if (hayCeremonia()) {
-      const b = botonQueDice(/Continuar|Siguiente|Terminar|Listo|Empezar|Firmar/i) ?? botones().at(-1);
+    // LA DECISION MANDA SOBRE LA CEREMONIA. Las dos son capas fijas y pueden estar encimadas: si se
+    // atiende la ceremonia primero y la que de verdad esta arriba es la decision, los clicks no
+    // llegan a ningun lado. Medido: carrera colgada en la entrevista de fichaje con un evento de
+    // decision abierto detras.
+    if (hayCeremonia() && !pantallaDeDecision()) {
+      // "Ir a la presentacion" es el boton de la PORTADA DE FICHAJE, y faltaba: esa pantalla no se
+      // habia visto nunca porque el banco nunca habia fichado por nadie. Sin el, el manejador caia
+      // al respaldo -- apretar el ultimo boton de la pantalla -- y la carrera se colgaba ahi mismo,
+      // recien traspasada. Medido: dos carreras muertas en la ceremonia, una a los 17 y otra a los 20.
+      // LA RUEDA DE PRENSA SE CONTESTA, no se saltea.
+      //
+      // En la entrevista de fichaje los botones son las RESPUESTAS -- frases entre comillas, sin
+      // ningun "siguiente" a la vista -- y el manejador no las reconocia: caia al respaldo, apretaba
+      // el ultimo boton de la pantalla (el menu) y la carrera se colgaba recien traspasada.
+      //
+      // Se contesta la primera, que es la respuesta diplomatica. Elegir cual importa poco para el
+      // banco; lo que importa es no quedarse mudo frente al microfono.
+      // Y PRIMERO SE MIRA SI HAY POR DONDE AVANZAR. Las respuestas quedan en pantalla despues de
+      // elegir una -- marcando cual elegiste -- asi que buscando la respuesta primero se volvia a
+      // apretar la misma para siempre, con "Siguiente pregunta" ahi al lado sin tocar.
+      // Y SOLO LOS BOTONES DE LA CEREMONIA, no los de toda la pantalla: detras sigue montado el
+      // dashboard entero con sus veinte botones, y el respaldo "apreta el ultimo" terminaba tocando
+      // el menu.
+      const dentro = Array.from(hayCeremonia().querySelectorAll('button'));
+      const diceEnLaCeremonia = re => dentro.find(x => re.test(texto(x)));
+      const avanzar = diceEnLaCeremonia(/Ir a la presentaci|Continuar|Siguiente|Terminar|Listo|Empezar|Firmar/i);
+      const b = avanzar
+        ?? dentro.find(x => /^[“"«]/.test(texto(x)))
+        ?? dentro.at(-1);
       await click(b); await dormir(60); continue;
     }
     // Overlays de campeón / fin de temporada / nueva temporada / balón de oro.
@@ -429,16 +501,130 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
 
     // Dashboard: acá se juega.
     const hub = hubDelPartido();
-    if (!hub) { await dormir(100); continue; }
+    if (!hub) {
+      // SIN HUB: quizas quedamos en otra pestaña. Se vuelve a Carrera en vez de esperar sentado.
+      //
+      // El boton de jugar vive SOLO en la pestaña Carrera. Despues de un fichaje el banco queda en
+      // Traspasos -- y la ceremonia se lleva por delante el click de vuelta --, asi que se quedaba
+      // mirando una pantalla sin hub hasta el atasco. La carrera moria recien traspasada, con el
+      // fichaje hecho y el calendario del club nuevo funcionando: "Napoli, FECHA 22/38, viernes 28
+      // de enero de 2028" y ningun boton que apretar.
+      const volver = botonQueDice(/^Carrera$/i);
+      if (volver) { await click(volver); await dormir(120); continue; }
+      await dormir(100); continue;
+    }
 
     const guardada = partidaGuardada();
     const paso = guardada?.currentWeek ?? -1;
     // La temporada la calcula el JUEGO a partir del paso: el perfil no la guarda como número, y
     // leyendo un campo inexistente toda la carrera salía como 'temporada 1'.
-    const temp = paso > 0 ? temporadaDeCarrera(club, paso) : 1;
+    // LA TEMPORADA SE CUENTA CON EL CLUB ACTUAL, no con el de partida.
+    //
+    // Al fichar, el paso se remapea al calendario del club NUEVO (ver pasoEnElClubNuevo). Contando
+    // con el nombre del club inicial, ese paso caia en otra temporada: una carrera que ficho en la
+    // fecha 127 se dio por terminada en la "temporada 2", a los 18 años.
+    const clubDeAhora = CLUBS_DATABASE.find(c => c.id === guardada?.currentClubId)?.name ?? club;
+    const temp = paso > 0 ? temporadaDeCarrera(clubDeAhora, paso) : 1;
     if (paso !== ultimoPaso) vueltaDelUltimoAvance = pasos;
     ultimoPaso = paso;
     if (temp > temporadas) break;
+
+    // ¿HAY QUE FICHAR POR ALGUIEN? Se mira una vez por fecha, antes de jugar.
+    //
+    // El flujo de la pantalla son tres pasos y hay que darlos en orden: abrir la pestaña Traspasos
+    // (que ademas es la que PIDE las ofertas, ver onRefreshTransferOffers), apretar "Aceptar
+    // Traspaso" en la oferta del club buscado, y confirmar. El confirm() del navegador lo contesta
+    // el entorno con `true`.
+    // UNA VEZ POR FECHA, y no en cada vuelta: el primer intento entraba en bucle -- abria
+    // Traspasos, no encontraba oferta, volvia, y repetia sin jugar nunca. Atasco en la fecha -1.
+    if (rutaPendiente.length && paso !== ultimoIntentoDeFichaje) {
+      ultimoIntentoDeFichaje = paso;
+      const pestana = botonQueDice(/^Traspasos$/i);
+      if (pestana) {
+        await click(pestana); await dormir(120);
+        // La oferta del club buscado: su tarjeta es la que menciona el nombre y trae el boton.
+        // LA TARJETA DE LA OFERTA, no el cajon de los botones.
+        //
+        // Subir UN solo nivel desde el boton caia en el contenedor que tiene nada mas "Aceptar
+        // Traspaso" y "Salir a prestamo": el nombre del club esta varios niveles mas arriba. Con eso
+        // la busqueda no podia coincidir nunca, y el banco reporto CERO traspasos en 24 temporadas
+        // -- con las tres ofertas ahi, a la vista. Era el instrumento, no el juego.
+        //
+        // Se sube hasta que el texto tenga cuerpo suficiente para incluir el nombre, con tope para
+        // no terminar leyendo la pantalla entera.
+        // Se sube mientras el ancestro siga teniendo UN SOLO boton de aceptar: ese es el limite de la
+        // tarjeta. Subir por TAMAÑO DE TEXTO se pasaba de largo y agarraba la grilla entera, asi que
+        // cualquier boton coincidia con cualquier club de la lista -- se pidio fichar por ocho clubes
+        // concretos y se termino en el Borussia Dortmund, que no era ninguno.
+        const cuantasOfertas = el => Array.from(el.querySelectorAll('button'))
+          .filter(x => /Aceptar Traspaso/i.test(texto(x))).length;
+        const tarjetaDe = b => {
+          let el = b;
+          while (el.parentElement && cuantasOfertas(el.parentElement) === 1) el = el.parentElement;
+          return el;
+        };
+        // LA MESA, anotada SOLO CUANDO CAMBIA.
+        //
+        // Se renueva cada seis fechas (FECHAS_ENTRE_OFERTAS), asi que anotarla en cada vuelta
+        // llenaba el registro con la misma linea repetida. Lo que interesa es que clubes te
+        // llamaron a lo largo de la carrera, y eso se ve con los cambios.
+        const enLaMesa = botones().filter(b => /Aceptar Traspaso/i.test(texto(b)))
+          .map(b => texto(tarjetaDe(b)).replace(/(\d)[^A-Za-zÁÉÍÓÚÑáéíóúñ]*$/, '$1').slice(0, 46));
+        const firma = enLaMesa.join(' ;; ');
+        if (firma !== ultimaMesa) {
+          ultimaMesa = firma;
+          appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
+            '      [MESA f' + paso + '] ' + (firma || '(sin ofertas)') + String.fromCharCode(10));
+        }
+        // Cualquiera de las alternativas de este paso sirve.
+        const alternativas = rutaPendiente[0];
+        const suOferta = botones().find(b => /Aceptar Traspaso/i.test(texto(b))
+          // EMPIEZA CON el nombre, no lo CONTIENE: la tarjeta arranca con el nombre del club
+          // ("Napoli🇮🇹 ITA1ª Div$199.200/sem..."), y buscando por contenido "PSV" tambien matchea
+          // "Jong PSV" -- el filial. Se pidio fichar por el PSV y se termino en su equipo B.
+          && alternativas.some(n => {
+            const t = texto(tarjetaDe(b)).toLowerCase();
+            // La tarjeta arranca con el nombre del club ("Napoli🇮🇹 ITA1ª Div$199.200/sem..."), y por
+            // eso se compara con startsWith: buscando por contenido, "PSV" tambien matchea "Jong
+            // PSV" -- el filial -- y se termina fichando por el equipo B.
+            //
+            // LA VUELTA A CASA ES LA EXCEPCION: esa tarjeta arranca con el motivo ("🏠 El club donde
+            // empezaste todo. A los 42, Junior te quiere de vuelta...") y el nombre queda adentro.
+            // Sin este caso el banco no la reconocia: el Junior llamo cuatro veces a un jugador de
+            // 42 y la carrera termino igual en el Manchester City.
+            return t.startsWith(n) || (t.includes('empezaste todo') && t.includes(n));
+          }));
+        if (suOferta) {
+          await click(suOferta); await dormir(120);
+          let confirmar = botonQueDice(/Confirmar fichaje/i);
+          // EL DORSAL PUEDE ESTAR OCUPADO, y ahi confirmar viene DESHABILITADO.
+          //
+          // El juego propone tu numero actual, y en el club nuevo puede llevarlo otro -- pasa
+          // siempre en la VUELTA A CASA: te fuiste, alguien agarro tu 10, y al volver ya no esta
+          // libre. El banco apretaba "Aceptar Traspaso" y se quedaba mirando un boton apagado.
+          // Medido: Banfield llamo 47 veces a un jugador de 41 y la carrera termino en Inglaterra.
+          //
+          // Los numeros libres son los botones del selector que NO estan deshabilitados (los
+          // ocupados van tachados y con `disabled`). Se elige el primero que haya.
+          if (confirmar && confirmar.disabled) {
+            const libre = botones().find(x => /^\d{1,2}$/.test(texto(x)) && !x.disabled);
+            if (libre) { await click(libre); await dormir(80); confirmar = botonQueDice(/Confirmar fichaje/i); }
+          }
+          if (confirmar && !confirmar.disabled) {
+            await click(confirmar); await dormir(200);
+            const recienFichado = rutaPendiente.shift().join(' o ');
+            avisos.push('FICHAJE: se acepto el traspaso a ' + recienFichado + ' en la fecha ' + paso);
+            appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
+              '      >> FICHADO por ' + recienFichado + ' (fecha ' + paso + ')' + String.fromCharCode(10));
+          }
+        }
+        // Y de vuelta al partido, haya fichado o no.
+        const volverAlHub = botonQueDice(/^Carrera$/i);
+        if (volverAlHub) { await click(volverAlHub); await dormir(120); }
+        continue;
+      }
+    }
+
 
     const prox = proximoPartido();
     // Una fecha se anota UNA vez: volver al dashboard sin que la fecha avance no es un partido nuevo.

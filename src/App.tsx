@@ -2966,6 +2966,14 @@ export default function App() {
       prestige: Math.round(playerProfile.prestige * 0.9),
       prestigeCompaneros: vestuarioAlCambiarDeClub(prestigeCompanerosActual),
       yearsAtClub: 0,
+      // LA FECHA EN QUE FIRMASTE, para la regla de permanencia (ver MESES_MINIMOS_EN_EL_CLUB en
+      // transferMarket.ts): despues de un traspaso hay que quedarse seis meses reales antes de
+      // poder moverse otra vez.
+      //
+      // Sale del calendario del club NUEVO y del paso nuevo, que es donde arranca tu tiempo ahi.
+      // Si ese club no tuviera fechas cargadas queda sin marcar y no hay plazo que exigir: mejor
+      // sin regla que con una que no se puede contar.
+      fichadoElDia: fechaDelPaso(targetClub.name, pasoEnElClubNuevo(playerProfile, previousClub, targetClub)) ?? undefined,
       // Club nuevo, vestuario nuevo: ni el referente ni el ahijado te siguen en el traspaso.
       mentorName: null,
       mentorshipPlayerName: null,

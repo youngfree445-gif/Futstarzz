@@ -15,7 +15,9 @@ const { jugar, datos } = await import('../../node_modules/.cache/jugarui/jugar_u
 
 console.log(`\n=== JUGANDO DE VERDAD: ${CLUB} (${LIGA}), ${TEMPORADAS} temporada(s) ===\n`);
 const t0 = Date.now();
-const { bitacora, avisos, pasos, gasto, guardada } = await jugar({ club: CLUB, liga: LIGA, temporadas: TEMPORADAS });
+// FICHAR=FC Barcelona pide que, apenas aparezca su oferta, se acepte el traspaso.
+const FICHAR = process.env.FICHAR || null;
+const { bitacora, avisos, pasos, gasto, guardada } = await jugar({ club: CLUB, liga: LIGA, temporadas: TEMPORADAS, ficharPor: FICHAR });
 console.log(`\nSe apretaron ${pasos} pantallas en ${((Date.now() - t0) / 1000).toFixed(0)}s. ${bitacora.length} partidos anotados.\n`);
 // Y DONDE SE FUE, por pantalla: sin esto, optimizar el banco es adivinar.
 console.log(`--- DONDE SE FUE EL TIEMPO ---
@@ -133,6 +135,26 @@ if (copaFinal) {
 // nota cuando se cierran ocho temporadas y una no dio vuelta olimpica.
 const nombreDe = id => id ?? null;
 console.log('');
+// --- LA CARRERA: por donde paso y como termino -------------------------------------------------
+console.log('--- LA CARRERA ---');
+const clubDeCadaTemporada = new Map();
+for (const p of bitacora) {
+  if (!p.seJugo) continue;
+  if (!clubDeCadaTemporada.has(p.temporada)) clubDeCadaTemporada.set(p.temporada, new Set());
+}
+const historial = guardada?.seasonHistory ?? [];
+if (historial.length) {
+  for (const t of historial) {
+    console.log(`  T${t.seasonNum ?? "?"}  ${(t.clubName ?? '?').padEnd(26)} ${t.partidos ?? "?"} PJ, ${t.goles ?? "?"} goles${t.titulo ? "  " + t.titulo : ""}`);
+  }
+} else {
+  console.log('  (la partida no guardo historial por temporada)');
+}
+console.log(`  edad al cerrar: ${guardada?.age ?? '?'} | club final: ${guardada?.currentClubId ?? '?'} | retirado: ${guardada?.retired ? 'SI' : 'no'}`);
+const fichajes = avisos.filter(a => /^FICHAJE:/.test(a));
+for (const f of fichajes) console.log('  ' + f);
+console.log('');
+
 console.log('--- CAMPEONATOS AL CERRAR LA TEMPORADA ---');
 const torneos = [];
 // Una edición RECIÉN CREADA no es un torneo roto: al cerrar la temporada el juego siembra la del
