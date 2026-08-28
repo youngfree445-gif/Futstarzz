@@ -149,6 +149,49 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
           body: `El resultado no cayó mal, pero tampoco conforma. ${name} y el resto del plantel saben que ante ${opponentName} el equipo pudo dar un poco más. La próxima fecha llega rápido para revertir la sensación.`
         }
       ],
+      // LO QUE HICISTE VOS, PERO EL EQUIPO PERDIO. Antes esto no existia: el diario miraba primero
+      // si habias marcado y sacaba un titular de fiesta aunque el equipo se hubiera ido goleado.
+      // Reportado jugando: "el periodico me halaga mucho, hasta cuando pierdes".
+      golesEnDerrota: [
+        {
+          headline: `EL GOL DE ${name.toUpperCase()} NO ALCANZO`,
+          body: `${name} hizo lo suyo y descontó, pero ${club} se fue del campo con las manos vacías ante ${opponentName}. En el vestuario nadie festejó el gol: los goles que no suman puntos se olvidan el lunes.`
+        },
+        {
+          headline: `UN GOL PARA EL ALBUM, UNA DERROTA PARA LA TABLA`,
+          body: `Se le puede reclamar poco a ${name}, que marcó y peleó hasta el final. Se le puede reclamar todo a un ${club} que volvió a perder. ${dt} habló de "errores que ya venimos arrastrando" y evitó refugiarse en la actuación individual de su delantero.`
+        },
+        {
+          headline: `${club.toUpperCase()} CAE Y LAS PREGUNTAS SIGUEN`,
+          body: `El gol de ${name} fue lo único rescatable de una noche para el olvido frente a ${opponentName}. La hinchada se fue en silencio, y el silencio, en este club, siempre es peor que el silbido.`
+        }
+      ],
+      asistenciasEnDerrota: [
+        {
+          headline: `LA ASISTENCIA DE ${name.toUpperCase()}, UN CONSUELO CORTO`,
+          body: `${name} habilitó el gol de ${club}, pero el equipo terminó cayendo ante ${opponentName}. "Individualmente hubo cosas buenas; colectivamente no alcanza", resumió ${dt} sin ganas de dar demasiadas vueltas.`
+        },
+        {
+          headline: `BIEN ${name.toUpperCase()}, MAL ${club.toUpperCase()}`,
+          body: `El pase de ${name} para el gol fue de las pocas jugadas dignas de repetición. El resto lo firma un equipo que no supo sostener el partido y que se va con otra derrota encima.`
+        }
+      ],
+      // Y EL PARTIDO FLOJO, que antes tampoco tenia lugar propio: se colaba en "victoria" o
+      // "empate" y salia elogioso igual. Ganar jugando mal existe, y el diario deberia decirlo.
+      malPartido: [
+        {
+          headline: `${name.toUpperCase()}, UNA NOCHE PARA OLVIDAR`,
+          body: `Perdido entre líneas, sin peso en el juego y reemplazable: ${name} tuvo uno de esos partidos que conviene no volver a ver. ${dt} lo miró más de una vez desde la raya, y no era para felicitarlo.`
+        },
+        {
+          headline: `POCO Y NADA DE ${name.toUpperCase()} ANTE ${opponentName.toUpperCase()}`,
+          body: `Ni un desborde, ni un pase que rompiera, ni una corrida que levantara a la gente. En ${club} esperan bastante más del que lleva la ${playerProfile.dorsal} en la espalda.`
+        },
+        {
+          headline: `LA CAMISETA PESA: FLOJO PARTIDO DE ${name.toUpperCase()}`,
+          body: `Hay noches en las que el fútbol no aparece, y ${name} tuvo una de ésas frente a ${opponentName}. La hinchada, que perdona mucho, esta vez lo dejó saber.`
+        }
+      ],
       derrota: [
         {
           headline: `TORMENTA EN EL VESTUARIO DE ${club.toUpperCase()}`,
@@ -169,12 +212,25 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
     // con solo rating >= 7.5, algo que se lograba fácil acumulando decisiones exitosas sin aporte
     // real de gol/asistencia. Ahora exige un rating mucho más alto (excepcional de verdad) para
     // que ese titular sea la excepción y no la norma en partidos sin estadísticas.
-    const category = matchResults.goles > 0 ? 'goles'
+    // EL RESULTADO MANDA, y despues lo que hiciste vos.
+    //
+    // Antes era al reves -- se preguntaba primero por tus goles -- y por eso el diario sacaba un
+    // titular de fiesta habiendo perdido 5 a 1. Reportado jugando: "me halaga mucho, hasta cuando
+    // pierdes". Que te vaya bien a vos y mal al equipo NO es una buena noticia, y el diario de un
+    // club no la cuenta como si lo fuera.
+    //
+    // Y un partido flojo tiene su propia categoria: ganar jugando mal existe, y el diario lo dice.
+    const perdio = matchResults.resultado === 'L';
+    const flojo = rating < 5.5;
+    const category = perdio && matchResults.goles > 0 ? 'golesEnDerrota'
+      : perdio && matchResults.asistencias > 0 ? 'asistenciasEnDerrota'
+      : perdio ? 'derrota'
+      : flojo ? 'malPartido'
+      : matchResults.goles > 0 ? 'goles'
       : matchResults.asistencias > 0 ? 'asistencias'
       : rating >= 8.7 ? 'granPartido'
       : matchResults.resultado === 'W' ? 'victoria'
-      : matchResults.resultado === 'D' ? 'empate'
-      : 'derrota';
+      : 'empate';
 
     const options = templatesByCategory[category];
     return options[Math.floor(Math.random() * options.length)];

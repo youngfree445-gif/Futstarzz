@@ -657,7 +657,19 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     const anotar = () => {
       if (yaAnotada || !prox?.rival) return;
       const esEuropea = /Champions|Europa/i.test(prox.competicion);
-      bitacora.push({ paso, temporada: temp, ...prox, marcador: '', copaEuropea: esEuropea ? copaEuropeaGuardada(guardada) : null });
+      // SI ESTAS SANCIONADO, HOY NO JUGAS -- y eso no es un partido perdido.
+      //
+      // La tarjeta anuncia el proximo partido igual, pero el motor te lo saltea porque estas
+      // cumpliendo la fecha. Sin anotarlo, el chequeo de "prometido y no jugado" acusaba al juego de
+      // perder partidos que en realidad no te tocaba jugar.
+      //
+      // Aparecio al ponderar la eleccion del partido simulado: hasta entonces el jugador virtual
+      // elegia SIEMPRE la opcion mas segura, no fallaba nunca de la forma que provoca una falta, y
+      // en 19 carreras de tres temporadas -- unos 2500 partidos -- no habia visto NI UNA tarjeta.
+      // Las sanciones existian en el codigo y no se ejecutaban jamas.
+      bitacora.push({ paso, temporada: temp, ...prox, marcador: '',
+        sancionado: (guardada?.suspendedMatches ?? 0) > 0,
+        copaEuropea: esEuropea ? copaEuropeaGuardada(guardada) : null });
       const n = bitacora.length;
       const c = esEuropea ? copaEuropeaGuardada(guardada) : null;
       const cu = copaEuropeaGuardada(guardada);

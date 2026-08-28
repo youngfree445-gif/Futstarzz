@@ -221,7 +221,27 @@ export function simularPartidoCompleto(d: DatosDelPartido): ResultadoSimulado {
         presion: marca, marcaFactor: marca, starMode: d.perfil.starModeEnabled, ruido: 0,
       }),
     }));
-    const elegida = conChance.reduce((mejor, x) => (x.chance > mejor.chance ? x : mejor)).o;
+    // SE ELIGE PONDERANDO POR LA CHANCE, no siempre la mas segura.
+    //
+    // Antes era `reduce(mejor)`: la opcion de mayor probabilidad, SIEMPRE. Y como pasar es mas
+    // seguro que rematar, el jugador simulado no tiraba nunca al arco. Medido sobre 3000 partidos
+    // con un DELANTERO de atributos 70: 0,23 goles y 1,90 asistencias por partido -- nueve veces
+    // mas asistencias que goles, con la relacion dada vuelta. Un delantero de elite real anda en
+    // 0,55 goles y 0,20 asistencias.
+    //
+    // El juego esta construido sobre un compromiso riesgo/recompensa -- cada opcion muestra su
+    // "Riesgo:" -- y elegir siempre la mas segura lo anulaba por completo: simular un partido era
+    // jugar a no perderla nunca.
+    //
+    // Ponderar mantiene la logica (una opcion con el doble de chance sale el doble de veces) pero
+    // deja lugar al riesgo, que es lo que hace que un delantero remate.
+    const sumaDeChances = conChance.reduce((n, x) => n + x.chance, 0);
+    let restante = dado() * sumaDeChances;
+    let elegida = conChance[conChance.length - 1].o;
+    for (const x of conChance) {
+      restante -= x.chance;
+      if (restante <= 0) { elegida = x.o; break; }
+    }
 
     const chance = chanceDeAcertar({
       atributo: attrs[elegida.requiredAttr], minVal: elegida.minVal, successChance: elegida.successChance,

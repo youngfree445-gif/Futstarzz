@@ -273,7 +273,9 @@ for (const p of bitacora) {
 // haberse jugado. Eso es el corte del banco, no un partido perdido, y contarlo ensuciaba el
 // veredicto con un falso positivo por carrera -- 26 de 117 en una tanda de 40.
 const prometidosSinJugar = bitacora
-  .filter((p, i) => p.competicion && p.rival && !p.seJugo && i < bitacora.length - 1);
+  // `sancionado` fuera: cumplir una fecha de suspension NO es un partido perdido -- la tarjeta
+  // anuncia el proximo rival igual, pero el motor te lo saltea con razon.
+  .filter((p, i) => p.competicion && p.rival && !p.seJugo && !p.sancionado && i < bitacora.length - 1);
 for (const p of prometidosSinJugar) {
   problemas.push(`la tarjeta prometio ${p.competicion} vs ${p.rival} y el dia paso sin partido (fecha ${p.paso})`);
 }
@@ -297,6 +299,45 @@ if (rotos.length) {
   for (const e of rotos.slice(0, 6)) console.log('  ! ' + e.split(String.fromCharCode(10)).join(' / '));
   problemas.push(`la app tiro ${rotos.length} error(es): ${rotos[0].slice(0, 160)}`);
 }
+
+// --- LO QUE NO CUADRA EN LA FICHA ---------------------------------------------------------------
+//
+// El banco juega TODOS estos sistemas -- lesiones, entrenamiento, plata, moral, patrocinios -- y
+// hasta ahora el informe no miraba ninguno: solo se fijaba en que los torneos cerraran. Un numero
+// absurdo no rompe nada, no da error y no se nota jugando una temporada; se nota a las veinte.
+//
+// Son INVARIANTES, no gustos: cosas que no pueden pasar en ningun futbol.
+const g = guardada ?? {};
+const st = g.careerStats ?? {};
+const pj = st.partidosHistoricos ?? st.partidos ?? 0;
+const cuadra = [];
+const rango = (nombre, v, min, max) => {
+  if (typeof v === 'number' && (v < min || v > max)) cuadra.push(`${nombre} fuera de rango: ${v} (deberia estar entre ${min} y ${max})`);
+};
+rango('energia', g.energy, 0, 100);
+rango('prestigio', g.prestige, 0, 100);
+rango('hinchada', g.fans, 0, 100);
+rango('edad', g.age, 15, 45);
+for (const [k, v] of Object.entries(g.attributes ?? {})) rango('atributo ' + k, v, 1, 99);
+if (typeof g.capital === 'number' && g.capital < 0) cuadra.push(`capital negativo: ${g.capital}`);
+if (pj > 0) {
+  // Los topes son generosos a proposito: Messi anda en 0,45 goles y 0,25 asistencias por partido en
+  // toda su carrera. Pasar de UNA asistencia por partido no es "muy bueno", es imposible.
+  const asis = st.asistenciasHistoricos ?? 0;
+  const gol = st.golesHistoricos ?? 0;
+  if (asis / pj > 1) cuadra.push(`${asis} asistencias en ${pj} partidos = ${(asis / pj).toFixed(2)} por partido (los mejores del mundo andan en 0,25)`);
+  if (gol / pj > 1.5) cuadra.push(`${gol} goles en ${pj} partidos = ${(gol / pj).toFixed(2)} por partido`);
+  if ((st.campeonatos ?? 0) > pj) cuadra.push(`mas campeonatos (${st.campeonatos}) que partidos (${pj})`);
+}
+if (g.activeInjury && (g.activeInjury.weeksRemaining ?? 0) < 0) {
+  cuadra.push(`lesion con semanas negativas: ${JSON.stringify(g.activeInjury)}`);
+}
+console.log('\n--- LA FICHA AL CERRAR ---');
+console.log(`  edad ${g.age} · ${pj} partidos · ${st.golesHistoricos ?? 0} goles · ${st.asistenciasHistoricos ?? 0} asistencias · ${st.campeonatos ?? 0} titulos`);
+console.log(`  capital $${(g.capital ?? 0).toLocaleString('es')} · prestigio ${g.prestige} · hinchada ${g.fans} · energia ${g.energy}`);
+console.log(`  atributos: ${Object.entries(g.attributes ?? {}).map(([k, v]) => k + ' ' + v).join(' · ')}`);
+console.log(`  patrocinios ${g.sponsorsSignedCount ?? 0} · agente ${g.agent ? 'si' : 'ninguno'} · lesiones sufridas ${(g.injuryHistory ?? []).length}`);
+for (const c of cuadra) problemas.push('la ficha no cuadra: ' + c);
 
 console.log('\n--- LO QUE NO CIERRA ---');
 if (!problemas.length) console.log('  (nada)');

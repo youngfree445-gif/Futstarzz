@@ -44,6 +44,28 @@ const WHISTLE_SFX_ENABLED = false;
  * Se exporta para el banco de pruebas de carrera larga: sin las decisiones de verdad no hay forma de
  * medir cuanto prestigio deja una temporada, porque el prestigio ES la suma de estos efectos.
  */
+/**
+ * A PARTIR DE QUE MINUTO el que va abajo se tira adelante, y cuanto se abre el partido.
+ *
+ * Los numeros son moderados a proposito: el pedido fue "nada de resultados alocados, pero que se
+ * sienta una victoria trabajada". Con 1.7 perdiendo, la ultima media hora tiene mucha mas chispa
+ * que el resto del partido sin que los 4-3 sean la norma.
+ */
+const MINUTO_DEL_EMPUJE = 70;
+/**
+ * Cada cuanto el relato dice algo aunque no pase nada grande.
+ *
+ * Va despues de gol, decision y falta en la cadena, asi que este numero es el TECHO: se lleva la
+ * franja entre 0.21 y 0.30, o sea alrededor de un minuto de cada once. En noventa minutos son ocho
+ * o nueve lineas de color, que es mas o menos lo que dice un relator entre jugada y jugada.
+ */
+const PROB_DE_COLOR = 0.30;
+const EMPUJE_PERDIENDO = 1.7;
+const EMPUJE_EMPATANDO = 1.3;
+/** De ese empuje, cuanto es tuyo. Perdiendo llegas mas, pero atras quedas mas abierto. */
+const REPARTO_PERDIENDO = 1.25;
+const REPARTO_EMPATANDO = 1.1;
+
 export const POOLS_DE_DECISION: Record<Position, { early: MatchDecision[]; late: MatchDecision[] }> = {
   get Delantero() { return { early: DELANTERO_EARLY, late: DELANTERO_LATE }; },
   get Mediocampista() { return { early: MEDIOCAMPISTA_EARLY, late: MEDIOCAMPISTA_LATE }; },
@@ -248,6 +270,19 @@ const DELANTERO_EARLY: MatchDecision[] = [
 ];
 
 const DELANTERO_LATE: MatchDecision[] = [
+  // PENAL SOBRE LA HORA. El segundo tiempo no tenia ni uno: el momento en que un penal DECIDE un
+  // partido era justamente el unico en que no podia aparecer. Reportado jugando: "hayan penaltis
+  // durante los 90 minutos".
+  {
+    prompt: "¡PENAL EN EL ÚLTIMO SUSPIRO! Te derriban dentro del área y el árbitro señala el punto. El estadio entero se queda mudo: la pelota es tuya.",
+    kickMode: 'penalty',
+    choices: []
+  },
+  {
+    prompt: "¡FALTA AL BORDE DEL ÁREA! Quedan pocos minutos y esta es la última que va a tener el equipo. Acomodás la pelota mientras se arma la barrera.",
+    kickMode: 'freekick',
+    choices: []
+  },
   {
     prompt: "¡Quedas completamente mano a mano frente al portero tras un pase bombeado letal! Te sale a achicar...",
     choices: [
@@ -560,6 +595,17 @@ const MEDIOCAMPISTA_EARLY: MatchDecision[] = [
 ];
 
 const MEDIOCAMPISTA_LATE: MatchDecision[] = [
+  // Mismo caso que el delantero: el mediocampo tampoco pateaba nada en el segundo tiempo.
+  {
+    prompt: "¡TIRO LIBRE DESDE LA MEDIA LUNA, Y QUEDA POCO! El equipo mira hacia vos. Es de las últimas que va a tener el partido.",
+    kickMode: 'freekick',
+    choices: []
+  },
+  {
+    prompt: "¡PENAL A FAVOR SOBRE EL FINAL! El capitán te busca con la mirada y te alcanza la pelota. No hay tiempo para dudar.",
+    kickMode: 'penalty',
+    choices: []
+  },
   {
     prompt: "El rival ataca con superioridad numérica por el centro. Debes tomar control defensivo rápido o arriesgar...",
     choices: [
@@ -736,6 +782,14 @@ const MEDIOCAMPISTA_LATE: MatchDecision[] = [
 // defender deje de dar miedo, que es lo mejor que tiene la posicion. Un cruce en la ultima jugada
 // que salva el gol vale tanto como el gol, y ahora se paga asi.
 const DEFENSOR_EARLY: MatchDecision[] = [
+  // El defensor no pateaba NADA en todo el partido, y un central que va bien de cabeza sube a los
+  // corners y patea los libres lejanos. Sin esto, jugar de defensor nunca incluia un momento de
+  // pelota parada.
+  {
+    prompt: "¡TIRO LIBRE LEJANO! Nadie del equipo se anima desde esa distancia, pero vos pegás fuerte y el técnico te hace un gesto: dale.",
+    kickMode: 'freekick',
+    choices: []
+  },
   {
     prompt: "El veloz extremo rival te encara directamente por la banda, amaga hacia el centro con un paso elástico...",
     choices: [
@@ -925,6 +979,11 @@ const DEFENSOR_EARLY: MatchDecision[] = [
 ];
 
 const DEFENSOR_LATE: MatchDecision[] = [
+  {
+    prompt: "¡PENAL, Y EL EQUIPO NECESITA ESTE GOL! Los delanteros no se hacen cargo. Agarrás la pelota vos, que sos el capitán de la última línea.",
+    kickMode: 'penalty',
+    choices: []
+  },
   {
     prompt: "Tiro de esquina decisivo en contra en los minutos agónicos. El potente 9 contrario busca el anticipo...",
     choices: [
@@ -1821,6 +1880,141 @@ export default function MatchSimulator({
   const goalProbPerMinute = 1 - Math.exp(-totalLambda / 90);
   const teamScoreChance = totalLambda > 0 ? lambdaMine / totalLambda : 0.5;
 
+  /**
+   * EL TRAMO FINAL, cuando vas perdiendo o empatando.
+   *
+   * Un partido no se juega igual en el minuto 20 que en el 85 yendo abajo. El equipo se vuelca,
+   * entran los delanteros, el arquero sube a los corners -- y el partido se abre PARA LOS DOS: vos
+   * llegas mas, y atras quedas mas expuesto. Sin esto, la ultima media hora tenia exactamente la
+   * misma temperatura que la primera y una remontada solo podia salir por azar puro.
+   *
+   * Sube la probabilidad de que pase algo, no el marcador: los goles los sigue repartiendo el mismo
+   * Poisson y el rival tambien se lleva su parte. Una remontada asi se siente ganada -- te tiraste
+   * adelante y te salio -- y no regalada.
+   *
+   * Perdiendo se empuja mas que empatando, y el rival aprovecha mas los espacios cuando vas
+   * perdiendo, que es cuando mas gente mandas arriba.
+   */
+  const empujeDelFinal = (min: number, misGoles: number, susGoles: number) => {
+    if (min < MINUTO_DEL_EMPUJE) return { prob: 1, mio: 1 };
+    if (misGoles < susGoles) return { prob: EMPUJE_PERDIENDO, mio: REPARTO_PERDIENDO };
+    if (misGoles === susGoles) return { prob: EMPUJE_EMPATANDO, mio: REPARTO_EMPATANDO };
+    return { prob: 1, mio: 1 };   // ganando se administra, no se arriesga
+  };
+
+/**
+ * EL RELATO DE UN GOL, ELEGIDO AL AZAR ENTRE VARIOS.
+ *
+ * Cada evento del partido tenia UNA sola frase, escrita una vez y repetida para siempre: el gol de
+ * tu equipo decia "Combinacion magistral en el area que finaliza X con un remate cruzado" en todos
+ * los goles de toda tu carrera. Con cuarenta partidos por temporada y veinte temporadas, esa frase
+ * se lee dos mil veces. De ahi el "siempre el mismo partido narrado".
+ *
+ * Son variantes de la MISMA jugada, no jugadas distintas: el gol ya paso y el marcador ya cambio.
+ * Lo que cambia es como se cuenta -- y contar distinto es la diferencia entre una transmision y un
+ * cartel.
+ *
+ * Y no todas halagan. Un gol puede ser una obra o puede entrar de rebote en un area embarrada; el
+ * relato de verdad cuenta las dos cosas.
+ */
+/**
+ * EL PARTIDO ENTRE LOS GOLES.
+ *
+ * Antes, el 79% de los minutos no narraba nada: el relato solo hablaba cuando habia gol, falta o
+ * una decision tuya. Un partido era tres o cuatro lineas sueltas separadas por silencio, y por eso
+ * todos se sentian iguales -- lo unico que los distinguia era el marcador.
+ *
+ * Estas lineas NO tocan el marcador ni tu nota: son la transmision. Lo que hacen es que el 2-1 del
+ * martes se lea distinto del 2-1 del domingo.
+ *
+ * Y NO TODAS TE HALAGAN. Un relator de verdad tambien dice que la perdiste, que llegaste tarde o
+ * que el equipo no te encuentra: pedido textual del jugador -- "que no siempre te halaguen".
+ * Cambian segun como va el partido, porque el mismo comentario no sirve ganando 3-0 que perdiendo
+ * sobre la hora.
+ */
+type ColorDelPartido = (yo: string, rival: string, companero: string) => string;
+
+const COLOR_NEUTRO: ColorDelPartido[] = [
+  () => `Se juega en la mitad de la cancha. Ninguno de los dos se anima a estirarse.`,
+  (_yo, rival) => `${rival} adelanta la linea y el partido se hace mas corto.`,
+  () => `Corner. Suben los centrales, se despeja al primer palo y no pasa nada.`,
+  (_yo, _r, comp) => `${comp} pide la pelota entre lineas, se la dan y el partido respira.`,
+  () => `Cambio en el rival: entra pierna fresca en el medio.`,
+  () => `El arbitro deja seguir un roce en la puerta del area y el banco protesta.`,
+  () => `Remate desde afuera que se va alto. La tribuna sopla.`,
+  (_yo, _r, comp) => `${comp} la baja de cabeza pero nadie llego a la segunda pelota.`,
+  () => `Se corta el juego: un rival queda dolorido y entra el cuerpo medico.`,
+  () => `Cabezazo en el area, el arquero la manda al corner con una mano.`,
+];
+
+const COLOR_YENDO_GANANDO: ColorDelPartido[] = [
+  () => `El equipo se para mas atras y deja la pelota. Se administra.`,
+  (_yo, rival) => `${rival} empuja con todo y la cancha se inclina. Hay que aguantar.`,
+  () => `Palo. La pelota pego en el poste y salio. Se salvo el equipo.`,
+  () => `El banco pide calma con las manos: quedan minutos y no hay que regalar nada.`,
+  (yo) => `${yo} pierde una pelota facil en salida y el estadio se queja.`,
+];
+
+const COLOR_YENDO_PERDIENDO: ColorDelPartido[] = [
+  () => `El equipo se vuelca. Quedan tres atras y el resto arriba.`,
+  (_yo, _r, comp) => `${comp} reclama un penal que el arbitro no ve. Se calienta el partido.`,
+  () => `Otro centro al area que se pierde entre cabezas. Falta puntería.`,
+  (yo) => `${yo} pide la pelota a gritos, pero no lo estan mirando.`,
+  () => `La hinchada empieza a silbar. Se hace larga.`,
+  () => `Tiro libre peligroso, la barrera la desvia al corner. Sigue vivo.`,
+];
+
+const COLOR_EMPATADO: ColorDelPartido[] = [
+  () => `Partido trabado, de los que se definen por un detalle.`,
+  (_yo, rival) => `${rival} tampoco encuentra el hueco. Se juega a no perderlo.`,
+  (yo) => `${yo} intenta una diagonal y le sale larga. Le esta costando.`,
+  (_yo, _r, comp) => `${comp} avisa que tiene el mano a mano y se lleva dos rivales.`,
+  () => `Los dos bancos de pie. Cualquier pelota parada puede ser el partido.`,
+];
+
+const COLOR_TARDE: ColorDelPartido[] = [
+  () => `Se juegan los ultimos minutos y el partido es un ida y vuelta.`,
+  () => `El cuarto arbitro levanta el cartel: hay tiempo de mas.`,
+  () => `Ya nadie corre a marcar: todos van hacia adelante.`,
+];
+
+const GOLES_MIOS = [
+  (quien: string) => `¡GOL! Combinacion de primera en el area y ${quien} la empuja al fondo.`,
+  (quien: string) => `¡GOL de ${quien}! Le quedo el rebote en la puerta del area y no lo penso.`,
+  (quien: string) => `¡GOL! Centro desde la banda y ${quien} apareció solo en el segundo palo.`,
+  (quien: string) => `¡GOL! Contragolpe de manual: tres toques, ${quien} define cruzado y adentro.`,
+  (quien: string) => `¡GOL de ${quien}! Un remate sin angulo que se le metio al arquero entre las manos.`,
+  (quien: string) => `¡GOL! Pelota parada, cabezazo de ${quien} y la tribuna que se viene abajo.`,
+  (quien: string) => `¡GOL! Enganche, amague y zurdazo de ${quien} al primer palo. Golazo.`,
+  (quien: string) => `¡GOL! Se la peino un defensor rival y ${quien} solo tuvo que acompanarla.`,
+  (quien: string) => `¡GOL de ${quien}! Roban en la salida rival, no perdonan y lo festejan como si fuera el ultimo.`,
+  (quien: string) => `¡GOL! Un centro que nadie toco, ${quien} la espero atras y la clavo de primera.`,
+];
+
+const GOLES_RIVALES = [
+  (rival: string, quien: string | null) => quien
+    ? `¡GOL de ${rival}! ${quien} quedo solo en el area y no fallo.`
+    : `¡GOL de ${rival}! Desatencion defensiva que el rival no perdona.`,
+  (rival: string, quien: string | null) => quien
+    ? `¡GOL de ${rival}! Contragolpe letal y ${quien} define antes de que llegue nadie.`
+    : `¡GOL de ${rival}! Contragolpe letal: la defensa quedo partida en dos.`,
+  (rival: string, quien: string | null) => quien
+    ? `¡GOL de ${rival}! Centro que nadie corto y ${quien} la mando al angulo de cabeza.`
+    : `¡GOL de ${rival}! Centro que nadie corto y el cabezazo se metio limpio.`,
+  (rival: string, quien: string | null) => quien
+    ? `¡GOL de ${rival}! Un zurdazo de ${quien} desde afuera del area, imposible para el arquero.`
+    : `¡GOL de ${rival}! Un remate desde afuera del area, imposible para el arquero.`,
+  (rival: string, quien: string | null) => quien
+    ? `¡GOL de ${rival}! Rebote en el area chica y ${quien} la empuja. Duele por lo evitable.`
+    : `¡GOL de ${rival}! Rebote en el area chica que termina adentro. Duele por lo evitable.`,
+  (rival: string, quien: string | null) => quien
+    ? `¡GOL de ${rival}! Error en la salida, ${quien} agradece y la manda a guardar.`
+    : `¡GOL de ${rival}! Error en la salida que el rival agradece y no perdona.`,
+];
+
+/** Una al azar, para que dos goles seguidos no se cuenten igual. */
+const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
+
   const getTeammateSample = () => {
     const list = applySquadRetirements(currentClub.id, currentClub.starPlayers, playerProfile.retiredWorldPlayers)
       .map(displayName)
@@ -2159,8 +2353,15 @@ export default function MatchSimulator({
 
     const dado = Math.random();
 
-    if (dado < goalProbPerMinute) { // Poisson thinning: ver goalProbPerMinute/lambdaMine/lambdaRival arriba
-      const teamScores = Math.random() < teamScoreChance;
+    // EL TRAMO FINAL ABRE EL PARTIDO. Ver empujeDelFinal: yendo abajo o empatando, de los 70 en
+    // adelante pasan mas cosas -- para los dos lados, porque tirarse adelante deja espacios atras.
+    const misGolesAhora = isHome.current ? scoreHome : scoreAway;
+    const susGolesAhora = isHome.current ? scoreAway : scoreHome;
+    const empuje = empujeDelFinal(currentMin, misGolesAhora, susGolesAhora);
+
+    if (dado < goalProbPerMinute * empuje.prob) { // Poisson thinning: ver goalProbPerMinute arriba
+      // Y de ese empuje, la parte que te toca: llegas mas, pero el rival tambien encuentra huecos.
+      const teamScores = Math.random() < Math.min(0.92, teamScoreChance * empuje.mio);
       const teammateName = getTeammateSample();
 
       if (teamScores) {
@@ -2168,7 +2369,7 @@ export default function MatchSimulator({
         sonarGol(true);
         setMatchLog(prev => [...prev, {
           minute: currentMin,
-          text: `¡GOL de ${teamName}! Combinación magistral en el área que finaliza ${teammateName} con un remate cruzado.`,
+          text: unaDe(GOLES_MIOS)(teammateName),
           type: 'good', equipo: 'mio'
         }]);
         // Bono chico: este gol es "ambiental" (del equipo, no tuyo), así que no debería empujar
@@ -2181,9 +2382,7 @@ export default function MatchSimulator({
         const goleadorRival = getRivalAttacker();
         setMatchLog(prev => [...prev, {
           minute: currentMin,
-          text: goleadorRival
-            ? `¡GOL de ${opponentName}! ${goleadorRival} aparece solo en el área y la manda al fondo de la red.`
-            : `¡GOL de ${opponentName}! Desatención defensiva que el rival no perdona. Balón al fondo de la red.`,
+          text: unaDe(GOLES_RIVALES)(opponentName, goleadorRival),
           type: 'bad', equipo: 'rival'
         }]);
         if (onField) setRating(prev => Math.max(prev - 0.2, 3.5));
@@ -2303,6 +2502,27 @@ export default function MatchSimulator({
       } else {
         setMatchLog(prev => [...prev, { minute: currentMin, text: `${faltaTexto} El árbitro sanciona la falta pero no saca tarjeta.`, type: 'neutral' }]);
       }
+    } else if (dado < PROB_DE_COLOR) {
+      // EL PARTIDO ENTRE LOS GOLES. Ver los bloques COLOR_*: no tocan el marcador ni la nota, solo
+      // cuentan. Sin esto, cuatro de cada cinco minutos eran silencio y todos los partidos se
+      // sentian iguales.
+      //
+      // La bolsa depende de COMO VA EL PARTIDO: no se comenta lo mismo ganando 3-0 que remando un
+      // 0-1 sobre la hora.
+      const mios = isHome.current ? scoreHome : scoreAway;
+      const suyos = isHome.current ? scoreAway : scoreHome;
+      const bolsaDeColor = currentMin >= MINUTO_DEL_EMPUJE && mios !== suyos ? COLOR_TARDE
+        : mios > suyos ? COLOR_YENDO_GANANDO
+        : mios < suyos ? COLOR_YENDO_PERDIENDO
+        : COLOR_EMPATADO;
+      // Se mezcla con las neutras para que un mismo tramo no repita siempre las mismas cuatro.
+      const bolsa = [...bolsaDeColor, ...COLOR_NEUTRO];
+      const linea = bolsa[Math.floor(Math.random() * bolsa.length)];
+      setMatchLog(prev => [...prev, {
+        minute: currentMin,
+        text: linea(playerProfile.name, opponentName, getTeammateSample()),
+        type: 'neutral',
+      }]);
     }
   };
 
