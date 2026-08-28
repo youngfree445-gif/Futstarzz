@@ -63,3 +63,5 @@ audios de partido/
 scripts/ui/barrido/
 scripts/ui/ultima_bitacora.json
 scripts/ui/*.json
+# Las bitacoras de las carreras completas: 84 MB por tanda, mismo motivo que barrido/.
+scripts/ui/carreras/

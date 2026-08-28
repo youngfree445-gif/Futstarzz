@@ -830,7 +830,7 @@ export default function SetupScreen({ onBack, onFinishSetup, onNotify }: SetupSc
                   <Flag size={11} className="text-gold-400 shrink-0" />
                   Nacionalidad
                 </label>
-                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 max-h-40 overflow-y-auto p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
+                <div id="selector-de-nacionalidad" className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 max-h-40 overflow-y-auto p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
                   {COUNTRIES.map(nat => (
                     <button
                       key={nat.key}

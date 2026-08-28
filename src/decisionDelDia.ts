@@ -37,7 +37,7 @@ import { esPartidoUnicoDeCopa } from './reglamentos';
 import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, WORLD_CUP_TEAMS_DATABASE } from './data';
 import { CONFEDERACION_POR_SELECCION, crearEliminatoria, seleccionesDelMundial, terminarEliminatoria, ponerAlDiaLaEliminatoria, proximoPartidoDeEliminatoria, seleccionesDeLaCopaAmerica, seleccionesDeLaEurocopa, tablaDeEliminatoria, torneoContinentalDe, zonaDe, type EliminatoriaState } from './eliminatorias';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
-import { CAREER_START_YEAR, type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
+import { CAREER_START_YEAR, type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
 import { evaluarConvocatoria } from './convocatoria';
 
@@ -421,7 +421,20 @@ export function cerrarPlayoffsSinFechas(
   for (const [clave, cuadro] of Object.entries(cuadros)) {
     if (!cuadro || cuadro.championId) continue;
     const [liga, temporada, torneo] = clave.split('|');
-    if (liga !== miLiga) continue;
+    // LA LIGA QUE DEJASTE ATRAS SE CIERRA SIN PREGUNTAR.
+    //
+    // Antes se salteaba: "de las otras no se conoce el calendario, asi que no se puede saber si les
+    // quedan fechas". Pero si no es tu liga es porque te fuiste del pais, y a vos no te va a llegar
+    // ninguna fecha de ese cuadro nunca mas -- da igual que al torneo le queden. Sin esto, el
+    // cuadrangular del club que dejaste quedaba abierto para siempre: medido en una carrera
+    // completa, el Apertura argentino de la temporada 1 se quedo sin campeon porque el jugador se
+    // fue a Sevilla en el medio.
+    if (liga !== miLiga) {
+      copia[clave] = terminarTorneoSinElJugador(
+        cuadro, b => resolverPasoPlayoffDeLiga(prepararPlayoffDeLiga(b, [], undefined), clubesDeLaLiga));
+      cambio = true;
+      continue;
+    }
     if (quedanFechasDePlayoff(club.name, Number(temporada), torneo, paso)) continue;
     // El paso lleva las DOS mitades: prepararPlayoffDeLiga arma la ronda siguiente y
     // resolverPasoPlayoffDeLiga juega una pierna. Con solo la segunda, el cuadro se termina en la
@@ -434,6 +447,38 @@ export function cerrarPlayoffsSinFechas(
   return cambio ? copia : null;
 }
 
+
+/**
+ * Las copas nacionales de OTRO pais se terminan, para que tengan campeon.
+ *
+ * Hermana de cerrarPlayoffsSinFechas y por el mismo motivo: al jugador solo le llegan las fechas de
+ * la liga en la que esta hoy, asi que la copa del pais que dejo no vuelve a avanzar nunca. Quedaba
+ * sorteada y congelada -- medido en dos carreras completas, la FA Cup y la Copa do Brasil de la
+ * temporada 1 terminaron con las 16 llaves de la primera ronda sin jugar y sin campeon, porque el
+ * jugador se fue a Italia y a España en el medio.
+ *
+ * Un torneo sin coronar no es solo un hueco en la vitrina: es un cupo continental que no se reparte
+ * y una noticia que no sale. Es el mismo argumento de terminarCopaContinental y terminarCopaUefa.
+ *
+ * La copa de la liga PROPIA no se toca: esa sigue su curso con las fechas del calendario.
+ */
+export function cerrarCopasDeOtroPais(
+  perfil: PlayerProfile,
+  club: Club,
+  todosLosClubes: Club[],
+): PlayerProfile['domesticCups'] | null {
+  const copas = perfil.domesticCups;
+  if (!copas) return null;
+  let cambio = false;
+  const copia = { ...copas };
+  for (const [clave, copa] of Object.entries(copas)) {
+    if (!copa || copa.championId || copa.league === club.league) continue;
+    copia[clave] = terminarTorneoSinElJugador(
+      copa, c => resolverPasoCopaNacional(c, todosLosClubes));
+    cambio = true;
+  }
+  return cambio ? copia : null;
+}
 
 /**
  * El grupo REAL del club en una copa continental, sacado del calendario.

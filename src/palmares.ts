@@ -53,6 +53,17 @@ interface ClubLookup {
  *                     campeón para que un título de Segunda no se anuncie con el nombre de Primera.
  * @param cupName      Nombre mostrable de una copa continental.
  */
+/**
+ * ¿El título es internacional? Decide el ícono de la vitrina y si cuenta como logro internacional.
+ *
+ * Se pregunta por el NOMBRE porque los títulos anotados en cupTitles no traen más que eso. Las
+ * copas nacionales -- Copa del Rey, Coppa Italia, Copa BetPlay -- se quedan en 'copa'.
+ */
+function esTorneoInternacional(nombre: string): boolean {
+  return /champions|europa league|conference league|libertadores|sudamericana|recopa|copa del mundo|eurocopa|copa am[eé]rica|concacaf|intercontinental|supercopa de europa/i
+    .test(nombre ?? '');
+}
+
 export function getPalmares(
   profile: PlayerProfile,
   clubs: readonly ClubLookup[],
@@ -195,7 +206,14 @@ export function getPalmares(
       clubName: nombreDe(t.clubId),
       // Las copas nacionales (Copa BetPlay, Superliga) van como 'copa', no como 'continental':
       // compartir tipo con la Libertadores les daba el mismo ícono en la vitrina.
-      tipo: t.tipo === 'liga' ? 'liga' : 'copa',
+      //
+      // PERO LAS INTERNACIONALES NO SON COPAS NACIONALES, y por acá pasan las dos cosas. Un mismo
+      // trofeo puede llegar de dos caminos: deducido del estado guardado (los bloques de arriba, que
+      // lo marcan 'continental') o anotado en el momento de ganarlo (cupTitles, acá). La Champions y
+      // la Copa del Mundo llegan por el segundo, así que quedaban clasificadas igual que la Copa del
+      // Rey: mismo ícono en la vitrina y, peor, sin contar como título internacional. Medido en 18
+      // carreras completas: una Champions, dos Copas del Mundo y una Eurocopa no figuraban.
+      tipo: t.tipo === 'liga' ? 'liga' : esTorneoInternacional(t.competition) ? 'continental' : 'copa',
       orden: t.year,
     });
   }

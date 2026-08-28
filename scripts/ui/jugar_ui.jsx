@@ -65,6 +65,17 @@ const hayCeremonia = () => document.querySelector('div.fixed.inset-0.z-\\[60\\]'
 const hubDelPartido = () => document.querySelector('[data-hub-del-partido]');
 const pantallaDeSetup = () => document.querySelector('#setup-screen');
 const pantallaDeDecision = () => document.querySelector('#decision-center-view');
+/**
+ * LA PANTALLA DE RETIRO, que es el final feliz y no un cuelgue.
+ *
+ * El banco no la conocia: la clasificaba 'DESCONOCIDA', no encontraba nada que apretar y giraba 300
+ * vueltas hasta que el detector de atascos cortaba la corrida. Las 19 carreras completas terminaron
+ * asi -- todas exactamente a los 42 años, que es la edad a la que el juego te retira -- y el informe
+ * decia "0 de 19 llegaron al retiro" cuando en realidad llegaron las 19.
+ *
+ * Se reconoce por sus dos botones, que no existen en ninguna otra pantalla.
+ */
+const pantallaDeRetiro = () => !!botonQueDice(/Ver tarjeta de carrera/i) && !!botonQueDice(/Volver al Inicio/i);
 const simulando = () => /Simulando el partido/i.test(texto(document.body));
 
 /**
@@ -108,9 +119,19 @@ function proximoPartido() {
  * que el juego guarda dice que su club jugó otra cantidad -- o con otros resultados -- entonces lo
  * que se juega y lo que se anota son dos torneos distintos.
  */
-function copaEuropeaGuardada(guardada) {
+function copaEuropeaGuardada(guardada, competicion) {
   const copas = guardada?.uefaCups ?? {};
-  const id = copas.champions ? 'champions' : copas.europa ? 'europa' : null;
+  // LA COPA QUE SE JUEGA HOY, que la dice la tarjeta.
+  //
+  // Antes se prefería siempre 'champions' y sólo se miraba 'europa' si la otra no existía. Pero las
+  // dos claves conviven en el guardado: el que juega la Champions un año y la Europa al siguiente
+  // deja la primera ahí para siempre. Resultado: toda una temporada de Europa League se anotaba con
+  // el estado de una Champions terminada -- quince partidos con "ed=17 pasos=17 done", congelado --
+  // y el chequeo de partidos por edición los sumaba todos juntos: "11 partidos de fase de liga".
+  const porElCartel = /Europa/i.test(competicion ?? '') ? 'europa'
+    : /Champions/i.test(competicion ?? '') ? 'champions' : null;
+  const id = (porElCartel && copas[porElCartel]) ? porElCartel
+    : copas.champions ? 'champions' : copas.europa ? 'europa' : null;
   if (!id) return null;
   const c = copas[id];
   const fila = (c.table ?? []).find(r => r.clubId === guardada.currentClubId);
@@ -235,7 +256,12 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
    * ademas se saltea todos los requisitos). Con un solo fichaje esa segunda mitad no se puede
    * probar.
    */
-  ficharPor = null } = {}) {
+  ficharPor = null,
+  /** Edad con la que arranca la carrera. El formulario ofrece un <select>; 17 es lo que trae. */
+  edad = null,
+  /** La nacionalidad del jugador, por su etiqueta ("Uruguay", "Nigeria"). De ella salen las
+   *  eliminatorias y la convocatoria al Mundial, asi que cambia bastante mas que la bandera. */
+  nacionalidad = null } = {}) {
   const raiz = createRoot(document.getElementById('root'));
   raiz.render(React.createElement(App));
   await dormir(80);
@@ -265,6 +291,33 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   if (!botonClub) throw new Error('No encontré a ' + club + ' en la lista de clubes de la liga ' + liga);
   await click(botonClub);
   await dormir(60);
+
+  // LA EDAD, si se pidio una. Es un <select>, asi que se le pone el valor y se avisa a React.
+  if (edad) {
+    const selects = Array.from(document.querySelectorAll('#setup-screen select'));
+    const elDeLaEdad = selects.find(sel => Array.from(sel.options).some(o => o.value === String(edad)));
+    if (elDeLaEdad) {
+      elDeLaEdad.value = String(edad);
+      elDeLaEdad.dispatchEvent(new window.Event('change', { bubbles: true }));
+      await dormir(60);
+    }
+  }
+
+  // LA NACIONALIDAD. El formulario la pone sola igual al pais de la liga; para pedir otra hay que
+  // apretar su boton, que es lo que marca `nationalityTouched` y evita que se la vuelva a pisar.
+  if (nacionalidad) {
+    // SOLO DENTRO DEL SELECTOR DE NACIONALIDAD.
+    //
+    // El formulario tiene DOS selectores de pais con las mismas etiquetas -- la liga de origen y la
+    // nacionalidad -- porque comparten la misma lista. Buscando "Alemania" en toda la pantalla se
+    // apretaba el de la LIGA: eso cambiaba el pais, reseteaba la lista de clubes al primer aleman y
+    // de paso ponia la nacionalidad. Se pidio Real Madrid con pasaporte aleman y salio 1. FC Koln.
+    const grilla = document.querySelector('#selector-de-nacionalidad');
+    if (!grilla) throw new Error('No encontre el selector de nacionalidad en el formulario.');
+    const botonNac = Array.from(grilla.querySelectorAll('button')).find(b => texto(b).endsWith(nacionalidad));
+    if (botonNac) { await click(botonNac); await dormir(60); }
+    else throw new Error('No encontre la nacionalidad ' + nacionalidad + ' en el formulario.');
+  }
 
   await click(botonQueDice(/Comenzar Carrera/i));
   if (!await esperarA(hubDelPartido, 15000)) {
@@ -300,8 +353,12 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
    * juego, el tope o el reloj.
    */
   let motivoDelFinal = 'el bucle llego al tope de vueltas';
+  /** Si la carrera llego hasta el retiro. No se puede leer del perfil guardado: la partida termina
+   *  en pantalla y el guardado que queda en el disco es el de la ultima fecha jugada. */
+  let retirado = false;
 
-  const pantalla = () => hayCeremonia() ? 'ceremonia' : hayDialogo() ? 'dialogo'
+  const pantalla = () => pantallaDeRetiro() ? 'retiro'
+    : hayCeremonia() ? 'ceremonia' : hayDialogo() ? 'dialogo'
     : pantallaDeDecision() ? 'decision' : simulando() ? 'simulando'
     : botonQueDice(/Regresar al Vestuario/i) ? 'post-partido'
     : hubDelPartido() ? 'dashboard' : 'DESCONOCIDA';
@@ -349,6 +406,16 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       relojDeLaVuelta = ahora;
     }
     pasos++;
+
+    // COLGO LOS BOTINES: se termino la carrera, y es la unica salida que no es un problema.
+    if (pantallaDeRetiro()) {
+      retirado = true;
+      const dice = texto(document.body);
+      const edad = dice.match(/colg[oó] los botines a los (\d+) a[nñ]os/i)?.[1];
+      motivoDelFinal = `se retiro${edad ? ` a los ${edad} años` : ''}`;
+      break;
+    }
+
     if (Date.now() > limite) {
       avisos.push('ATASCO por tiempo en la fecha ' + ultimoPaso + '. Pantalla: ' + pantalla());
       motivoDelFinal = 'se acabo el presupuesto de tiempo';
@@ -617,7 +684,22 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
             // empezaste todo. A los 42, Junior te quiere de vuelta...") y el nombre queda adentro.
             // Sin este caso el banco no la reconocia: el Junior llamo cuatro veces a un jugador de
             // 42 y la carrera termino igual en el Manchester City.
-            return t.startsWith(n) || (t.includes('empezaste todo') && t.includes(n));
+            // EL NOMBRE ENTERO DE LA TARJETA, no un prefijo.
+            //
+            // La tarjeta pega el nombre del club al pais, sin espacio ("Napoli🇮🇹 ITA1a Div$199.200/sem"),
+            // asi que el nombre es todo lo que va antes de la bandera. Comparar con startsWith
+            // confunde a los clubes que empiezan igual: "Inter" matcheaba "Inter Miami CF", y dos
+            // carreras que pedian un grande europeo terminaron en la MLS. Es el mismo choque que ya
+            // tenia "PSV" con "Jong PSV" -- el filial -- pero resuelto de raiz: nombre completo.
+            if (t.includes('empezaste todo')) return t.includes(n);
+            // El corte es el primer EMOJI (la bandera del pais, o el ⚽ de la MLS). Se busca por
+            // codigo y no con una lista de letras: los nombres traen acentos y dieresis
+            // ("Atletico de Madrid", "Bayern Munchen") y una clase de caracteres escrita a mano los
+            // dejaba afuera, cortando el nombre en la primera letra acentuada.
+            let corte = 0;
+            while (corte < t.length && t.codePointAt(corte) < 0x2000) corte++;
+            const nombreDeLaTarjeta = t.slice(0, corte).trim();
+            return nombreDeLaTarjeta === n;
           }));
         if (suOferta) {
           await click(suOferta); await dormir(120);
@@ -654,6 +736,18 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     const prox = proximoPartido();
     // Una fecha se anota UNA vez: volver al dashboard sin que la fecha avance no es un partido nuevo.
     const yaAnotada = bitacora.length && bitacora[bitacora.length - 1].paso === paso;
+
+    // LA COPA EUROPEA, TAMBIEN COMO QUEDO DESPUES.
+    //
+    // La foto que se toma al anunciar la fecha es la del guardado ANTERIOR al partido, y en el borde
+    // entre dos ediciones eso miente: el ultimo partido de una edicion y el primero de la siguiente
+    // salen los dos con la edicion vieja. Contando asi, la fase de liga parecia tener nueve partidos
+    // cuando el noveno era el primero de la edicion nueva -- tres carreras acusadas por esto.
+    // Aca, ya con la fecha avanzada, el guardado dice a que edicion le entro de verdad el resultado.
+    if (bitacora.length && !yaAnotada) {
+      const previa = bitacora[bitacora.length - 1];
+      if (previa.copaEuropea) previa.copaEuropeaDespues = copaEuropeaGuardada(guardada, previa.competicion);
+    }
     const anotar = () => {
       if (yaAnotada || !prox?.rival) return;
       const esEuropea = /Champions|Europa/i.test(prox.competicion);
@@ -669,10 +763,14 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       // Las sanciones existian en el codigo y no se ejecutaban jamas.
       bitacora.push({ paso, temporada: temp, ...prox, marcador: '',
         sancionado: (guardada?.suspendedMatches ?? 0) > 0,
-        copaEuropea: esEuropea ? copaEuropeaGuardada(guardada) : null });
+        // EL CLUB DE ESE DIA, que con traspasos ya no es el de partida. Sin esto los chequeos
+        // comparaban contra el club donde arrancaste: al que se fue del Ajax al Betis y le toco el
+        // Ajax en Europa se lo acusaba de "enfrentarse a si mismo".
+        miClub: clubDeAhora,
+        copaEuropea: esEuropea ? copaEuropeaGuardada(guardada, prox.competicion) : null });
       const n = bitacora.length;
-      const c = esEuropea ? copaEuropeaGuardada(guardada) : null;
-      const cu = copaEuropeaGuardada(guardada);
+      const c = esEuropea ? copaEuropeaGuardada(guardada, prox.competicion) : null;
+      const cu = copaEuropeaGuardada(guardada, prox.competicion);
       const el = /Eliminatorias/i.test(prox.competicion) ? eliminatoriaGuardada(guardada) : null;
       const cb = /Libertadores|Sudamericana|Concacaf/i.test(prox.competicion) ? copaConmebolGuardada(guardada) : null;
       const cn = /Copa |Cup|Pokal|Coppa|Coupe|Taça|Beker/i.test(prox.competicion) && !/Libertadores|Sudamericana|Concacaf|Champions|Europa|Mundial/i.test(prox.competicion)
@@ -712,5 +810,5 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
 
   const gasto = [...gastoPorPantalla].sort((x, y) => y[1] - x[1])
     .map(([k, ms]) => `${k}=${(ms / 1000).toFixed(0)}s`).join(' ');
-  return { bitacora, avisos, pasos, gasto, motivoDelFinal, guardada: partidaGuardada() };
+  return { bitacora, avisos, pasos, gasto, motivoDelFinal, retirado, guardada: partidaGuardada() };
 }

@@ -983,7 +983,19 @@ export function getUpcomingCupMatch(cup: CupState, clubId: string): { opponentId
     const nextMw = Math.min(...cup.groups.map(g => g.fixtures.find(f => !f.played)?.matchweek ?? Infinity));
     if (nextMw === Infinity) return null;
     for (const g of cup.groups) {
-      const fx = g.fixtures.find(f => f.matchweek === nextMw && (f.homeTeamId === clubId || f.awayTeamId === clubId));
+      // `!f.played` NO SE PUEDE OMITIR, aunque la fecha venga de buscar el primer partido sin jugar.
+      //
+      // La fecha es la MENOR sin terminar de TODOS los grupos, y tu partido de esa fecha puede
+      // estar ya jugado mientras otro no. Sin este filtro se devolvia igual, y el juego te
+      // anunciaba un partido que ya habias jugado -- una y otra vez, porque jugarlo no cambia nada.
+      // Peor: el guardian que pone el torneo al dia corta cuando vos tenes partido pendiente, asi
+      // que el torneo entero quedaba BLOQUEADO ahi.
+      //
+      // Medido en una carrera completa: el Mundial de 2034 quedo con la fecha 2 a falta de UN
+      // partido en otro grupo, y el jugador disputo siete veces su partido contra Cabo Verde -- que
+      // ya estaba 1-1 -- sin que el torneo saliera nunca de la fase de grupos (etapa=groups con
+      // nueve pasos gastados, cuando se corona en ocho).
+      const fx = g.fixtures.find(f => f.matchweek === nextMw && !f.played && (f.homeTeamId === clubId || f.awayTeamId === clubId));
       if (fx) return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
     }
     return null;
@@ -1785,7 +1797,10 @@ export function getUpcomingUefaCupMatch(cup: UefaCupState, clubId: string): { op
   if (cup.stage === 'league_phase') {
     const nextMw = cup.fixtures.find(f => !f.played)?.matchweek;
     if (nextMw === undefined) return null;
-    const fx = cup.fixtures.find(f => f.matchweek === nextMw && (f.homeTeamId === clubId || f.awayTeamId === clubId));
+    // Mismo caso que en los grupos del Mundial (ver getUpcomingWorldCupMatch): la fecha es la menor
+    // sin terminar de TODA la fase de liga, y tu partido de esa fecha puede estar ya jugado mientras
+    // otro no. Sin `!f.played` se te anunciaba un partido ya disputado y el torneo quedaba trabado.
+    const fx = cup.fixtures.find(f => f.matchweek === nextMw && !f.played && (f.homeTeamId === clubId || f.awayTeamId === clubId));
     if (!fx) return null;
     return fx.homeTeamId === clubId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
   }
@@ -2133,7 +2148,19 @@ export function getUpcomingWorldCupMatch(cup: WorldCupState, teamId: string): { 
     const nextMw = Math.min(...cup.groups.map(g => g.fixtures.find(f => !f.played)?.matchweek ?? Infinity));
     if (nextMw === Infinity) return null;
     for (const g of cup.groups) {
-      const fx = g.fixtures.find(f => f.matchweek === nextMw && (f.homeTeamId === teamId || f.awayTeamId === teamId));
+      // `!f.played` NO SE PUEDE OMITIR, aunque la fecha venga de buscar el primer partido sin jugar.
+      //
+      // La fecha es la MENOR sin terminar de TODOS los grupos, y tu partido de esa fecha puede
+      // estar ya jugado mientras otro no. Sin este filtro se devolvia igual, y el juego te
+      // anunciaba un partido que ya habias jugado -- una y otra vez, porque jugarlo no cambia nada.
+      // Peor: el guardian que pone el torneo al dia corta cuando vos tenes partido pendiente, asi
+      // que el torneo entero quedaba BLOQUEADO ahi.
+      //
+      // Medido en una carrera completa: el Mundial de 2034 quedo con la fecha 2 a falta de UN
+      // partido en otro grupo, y el jugador disputo siete veces su partido contra Cabo Verde -- que
+      // ya estaba 1-1 -- sin que el torneo saliera nunca de la fase de grupos (etapa=groups con
+      // nueve pasos gastados, cuando se corona en ocho).
+      const fx = g.fixtures.find(f => f.matchweek === nextMw && !f.played && (f.homeTeamId === teamId || f.awayTeamId === teamId));
       if (fx) return fx.homeTeamId === teamId ? { opponentId: fx.awayTeamId, isHome: true } : { opponentId: fx.homeTeamId, isHome: false };
     }
     return null;

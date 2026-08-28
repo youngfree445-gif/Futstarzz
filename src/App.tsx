@@ -86,7 +86,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -1293,6 +1293,11 @@ function applyBallonDorIfNewSeason(profile: PlayerProfile, previousWeek: number,
 function cerrarCuadrangularesVencidos(profile: PlayerProfile, newWeek: number): PlayerProfile {
   const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
   if (!club) return profile;
+  // Y LA COPA DEL PAIS QUE DEJASTE, por el mismo motivo y en el mismo lugar: este es el unico punto
+  // por el que pasan los doce caminos que avanzan un dia. Ver cerrarCopasDeOtroPais.
+  const copasDeAntes = cerrarCopasDeOtroPais(profile, club, CLUBS_DATABASE);
+  if (copasDeAntes) profile = { ...profile, domesticCups: copasDeAntes };
+
   const cerrados = cerrarPlayoffsSinFechas(profile, club, clubesDeLiga(leagueKeyFor(club)), newWeek);
   if (!cerrados) return profile;
 

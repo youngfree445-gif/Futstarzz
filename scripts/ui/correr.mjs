@@ -17,7 +17,12 @@ console.log(`\n=== JUGANDO DE VERDAD: ${CLUB} (${LIGA}), ${TEMPORADAS} temporada
 const t0 = Date.now();
 // FICHAR=FC Barcelona pide que, apenas aparezca su oferta, se acepte el traspaso.
 const FICHAR = process.env.FICHAR || null;
-const { bitacora, avisos, pasos, gasto, motivoDelFinal, guardada } = await jugar({ club: CLUB, liga: LIGA, temporadas: TEMPORADAS, ficharPor: FICHAR });
+// EDAD=25 y NACIONALIDAD="Uruguay" para pedir un jugador distinto del que trae el formulario.
+const { bitacora, avisos, pasos, gasto, motivoDelFinal, retirado, guardada } = await jugar({
+  club: CLUB, liga: LIGA, temporadas: TEMPORADAS, ficharPor: FICHAR,
+  edad: process.env.EDAD ? Number(process.env.EDAD) : null,
+  nacionalidad: process.env.NACIONALIDAD || null,
+});
 console.log(`\nSe apretaron ${pasos} pantallas en ${((Date.now() - t0) / 1000).toFixed(0)}s. ${bitacora.length} partidos anotados.\n`);
 // Y DONDE SE FUE, por pantalla: sin esto, optimizar el banco es adivinar.
 console.log(`--- DONDE SE FUE EL TIEMPO ---
@@ -67,6 +72,17 @@ for (const p of euro) {
   porTemporada.get(p.temporada).push(p);
 }
 
+/**
+ * DE QUE EDICION ES ESTE PARTIDO.
+ *
+ * La foto que el banco toma al anunciar la fecha es la del guardado ANTERIOR al partido, y en el
+ * borde entre dos ediciones esa foto miente: el primer partido de la edicion nueva sale con el
+ * numero de la vieja. Contando asi, la fase de liga parecia tener nueve partidos -- tres carreras
+ * acusadas por esto, y ninguna tenia nada. La foto de DESPUES dice a que edicion le entro el
+ * resultado, que es la pregunta de verdad.
+ */
+const edicionDe = p => p.copaEuropeaDespues?.arranco ?? p.copaEuropea?.arranco ?? 'unica';
+
 for (const [temp, partidos] of porTemporada) {
   const rivales = partidos.map(p => p.rival);
   // Repetir rival en una ELIMINATORIA es lo normal: ida y vuelta. Sólo se mira la fase de liga,
@@ -74,7 +90,7 @@ for (const [temp, partidos] of porTemporada) {
   // Y los rivales repetidos, tambien POR EDICION: en la edicion nueva podes cruzarte de nuevo con
   // alguno de la anterior sin que eso sea un error.
   const enFaseDeLiga = partidos.filter(p => /fase de liga|fase de grupos/i.test(p.jornada))
-    .map(p => `${p.copaEuropea?.arranco ?? 'unica'}|${p.rival}`);
+    .map(p => `${edicionDe(p)}|${p.rival}`);
   const repetidos = enFaseDeLiga.filter((r, i) => enFaseDeLiga.indexOf(r) !== i).map(r => r.split('|')[1]);
   if (repetidos.length) {
     problemas.push(`T${temp}: rivales repetidos en la FASE DE LIGA -> ${[...new Set(repetidos)].join(', ')}`);
@@ -88,7 +104,11 @@ for (const [temp, partidos] of porTemporada) {
   if (ajenos.length) {
     problemas.push(`T${temp}: rivales que NO están en la copa europea -> ${ajenos.join(', ')}`);
   }
-  if (rivales.includes(CLUB)) problemas.push(`T${temp}: el club se enfrenta a sí mismo.`);
+  // CONTRA EL CLUB DE ESE DIA, no contra el de partida: despues de un traspaso, cruzarte con tu ex
+  // equipo es lo mas normal que hay. Con la comparacion vieja, el que se fue del Ajax al Betis y le
+  // toco el Ajax en Europa figuraba "enfrentandose a si mismo" -- nueve veces en tres carreras.
+  const contraSiMismo = partidos.filter(p => p.miClub && p.rival === p.miClub);
+  if (contraSiMismo.length) problemas.push(`T${temp}: el club se enfrenta a sí mismo (${contraSiMismo[0].miClub}).`);
   // OCHO POR EDICION, no por temporada de carrera.
   //
   // Una temporada de carrera puede contener el final de una edicion europea y el arranque de la
@@ -98,11 +118,13 @@ for (const [temp, partidos] of porTemporada) {
   const porEdicion = new Map();
   for (const p of partidos) {
     if (!/fase de (liga|grupos)/i.test(p.jornada ?? '')) continue;
-    const ed = p.copaEuropea?.arranco ?? 'unica';
+    // POR EDICION Y POR CLUB: si te traspasan a mitad de edicion podes jugar la fase de liga con dos
+    // clubes distintos, y sumarlas daria mas de ocho sin que nada este mal.
+    const ed = `${edicionDe(p)}|${p.miClub ?? ''}`;
     porEdicion.set(ed, (porEdicion.get(ed) ?? 0) + 1);
   }
   for (const [ed, n] of porEdicion) {
-    if (n > 8) problemas.push(`T${temp}: ${n} partidos de fase de liga en la edicion ${ed} (el formato son 8).`);
+    if (n > 8) problemas.push(`T${temp}: ${n} partidos de fase de liga en la edicion ${ed.split('|')[0]} con ${ed.split('|')[1] || 'tu club'} (el formato son 8).`);
   }
   const locales = partidos.filter(p => p.localia === 'L').length;
   const visitas = partidos.filter(p => p.localia === 'V').length;
@@ -213,7 +235,7 @@ for (const p of bitacora) {
   // tarjeta promete un partido que no ocurre) y merece su propio cartel, no confundirse con este.
   if (!p.seJugo) continue;
   if (p.jornada) {
-    const clave = `T${p.temporada} · ${p.competicion} · ${p.jornada} · vs ${p.rival}`;
+    const clave = `T${p.temporada} · ${p.competicion} · ${p.miClub ?? ''} · ed${edicionDe(p)} · ${p.jornada} · vs ${p.rival}`;
     vecesPorLlave.set(clave, (vecesPorLlave.get(clave) ?? 0) + 1);
   }
   // Y EL MISMO RIVAL CON LA MISMA LOCALIA, EN COPAS, que es el que se escapaba.
@@ -232,7 +254,11 @@ for (const p of bitacora) {
   const esCopa = /copa|cup|coppa|coupe|taça|taca|pokal|beker|libertadores|sudamericana|uefa|(champions|europa) league|concacaf|recopa|supercopa/i
     .test(p.competicion);
   if (esCopa) {
-    const porRival = `T${p.temporada} · ${p.competicion} · ${p.localia} vs ${p.rival}`;
+    // Con el CLUB y la EDICION adentro. El club, porque traspasado a mitad de temporada podes
+    // cruzarte con el mismo rival vistiendo dos camisetas. La edicion, porque en una misma temporada
+    // pueden correr dos ediciones de la copa europea -- la que termina y la que arranca -- y
+    // cruzarte con el Marsella en las dos no es repetir nada.
+    const porRival = `T${p.temporada} · ${p.competicion} · ${p.miClub ?? ''} · ed${edicionDe(p)} · ${p.localia} vs ${p.rival}`;
     vecesPorRival.set(porRival, (vecesPorRival.get(porRival) ?? 0) + 1);
   }
 }
@@ -361,5 +387,13 @@ console.log('\nBitácora completa en scripts/ui/ultima_bitacora.json');
 //
 // Se vacia la salida antes de cortar, porque en Windows stdout hacia un pipe es asincrono y un
 // process.exit() a secas se puede comer las ultimas lineas -- justo las del informe.
+// Y SE REESCRIBE CON EL VEREDICTO ADENTRO.
+//
+// La primera escritura pasa antes de analizar nada, asi que la bitacora quedaba sin `problemas` y
+// quien la leyera despues -- el informe de las 19 carreras, por ejemplo -- tenia que volver a
+// calcularlos por su cuenta con otro criterio. Mejor que el veredicto viaje con los datos.
+writeFileSync(process.env.BITACORA || 'scripts/ui/ultima_bitacora.json',
+  JSON.stringify({ club: CLUB, liga: LIGA, problemas, motivoDelFinal, retirado, bitacora, avisos, guardada }, null, 2));
+
 await new Promise(listo => process.stdout.write('', listo));
 process.exit(0);

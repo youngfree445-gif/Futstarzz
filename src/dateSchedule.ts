@@ -1913,17 +1913,62 @@ const COMPETICION_ELIMINATORIAS: DatedCompetition = {
  */
 function reservarFechasFifa(indice: Map<string, DatedFixture[]>, temporada: number) {
   const anio = CAREER_START_YEAR + temporada - 1;
-  const ciclo = cicloDeEliminatorias(anio);
-  if (!ciclo) return;   // año de Mundial: la ventana grande es el Mundial
 
-  // Las fechas reales que le tocan a ESTE año del ciclo. Las de UEFA caen casi todas en el año
-  // previo al Mundial y las de Conmebol se reparten en los tres, así que el año importa.
-  const aniosAntes = ciclo.mundial - anio;
-  const delAnio = FECHAS_FIFA.filter(([a]) => a === aniosAntes).map(([, mesDia]) => `${anio}-${mesDia}`);
-  if (!delAnio.length) return;
+  // LAS CANDIDATAS SALEN DE DOS AÑOS, no de uno.
+  //
+  // La temporada europea va de agosto a mayo y cruza el año nuevo: sus fechas FIFA de otoño son de
+  // un año calendario y las de primavera del siguiente. Acá se tomaba un año entero y se le
+  // estampaba entero a la misma temporada, así que las de septiembre, octubre y noviembre le
+  // quedaban pegadas a la temporada que había cerrado en mayo. El calendario iba HACIA ATRÁS: el
+  // Tottenham cerraba su temporada 10 el 22 de noviembre de 2035 y abría la 11 el 17 de agosto de
+  // 2035, tres meses antes. Medido sobre la base entera: 281 clubes de 697 y 4307 saltos.
+  //
+  // Lo que se veía jugando: esos días quedaban después del último partido del club, con la liga ya
+  // agotada. La tarjeta anunciaba "Local vs Selección de Costa Rica" y el botón decía "Finalizar
+  // Temporada"; al apretarlo salía el periódico de arranque de temporada y el día siguiente volvía a
+  // anunciar LA MISMA fecha de eliminatorias, porque nunca se jugaba. Tres veces seguidas en la
+  // carrera del Porto, dos en la del Colo-Colo.
+  const candidatas: string[] = [];
+  for (const anioDeLaFecha of [anio - 1, anio]) {
+    // Nunca antes del arranque de la carrera: si no, la temporada 1 europea (agosto de 2025) se
+    // llevaría fechas de 2025, que en el juego son eliminatorias para el Mundial de 2030 jugadas
+    // antes del Mundial de 2026.
+    if (anioDeLaFecha < CAREER_START_YEAR) continue;
+    const ciclo = cicloDeEliminatorias(anioDeLaFecha);
+    if (!ciclo) continue;   // año de Mundial: la ventana grande es el Mundial
+    // Las fechas reales que le tocan a ESE año del ciclo. Las de UEFA caen casi todas en el año
+    // previo al Mundial y las de Conmebol se reparten en los tres, así que el año importa.
+    const aniosAntes = ciclo.mundial - anioDeLaFecha;
+    for (const [a, mesDia] of FECHAS_FIFA) if (a === aniosAntes) candidatas.push(`${anioDeLaFecha}-${mesDia}`);
+  }
+  if (!candidatas.length) return;
 
   for (const [club, propios] of indice) {
     if (!propios.length) continue;
+
+    // LA VENTANA DE ESTE CLUB, que es quien decide. Un club de liga por año calendario juega de
+    // enero a noviembre y uno europeo de agosto a mayo: la misma fecha FIFA cae en temporadas
+    // distintas según el país, así que no hay una regla de meses que sirva para los dos. El índice
+    // todavía no está ordenado -- se ordena al final del armado -- así que los extremos se buscan a
+    // mano en vez de mirar el primero y el último.
+    let desde = propios[0].date, hasta = propios[0].date;
+    for (const f of propios) {
+      if (f.date < desde) desde = f.date;
+      if (f.date > hasta) hasta = f.date;
+    }
+    const delAnio = candidatas.filter(d => d >= desde && d <= hasta);
+    if (!delAnio.length) continue;
+
+    // LO QUE CUESTA, dicho de frente: a los clubes europeos les entran entre un 15% y un 25% menos
+    // de fechas FIFA que antes (el Tottenham pasa de 58 a 49 en 900 pasos, el Porto de 69 a 50). No
+    // es que se pierdan: antes caian en una temporada que ya habia cerrado en mayo, donde no habia
+    // ningun partido del club cerca y por eso entraban todas. Ahora compiten con el calendario de
+    // verdad y les toca la misma regla de descanso que a las demas. Las ligas por ano calendario no
+    // se mueven ni una (Junior 37, Flamengo 51, Colo-Colo 60, Peñarol 77, iguales que antes).
+    //
+    // El torneo se juega igual: las fechas que no entran se resuelven de fondo y lo unico que pasa
+    // es que al jugador no lo convocan ese dia. validar:eliminatorias sigue coronando con los diez
+    // equipos en 18 partidos.
 
     const vetados = new Set<number>();
     const ocupados = new Set<number>();
