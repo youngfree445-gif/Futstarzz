@@ -23,7 +23,7 @@ import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
-import { resolverClubDeCalendario } from '../clubAliases';
+import { resolverClubDeCalendario, resolverRivalDeLaFecha } from '../clubAliases';
 import { getLeagueDisplay, rondaEnEspanol } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
@@ -1488,12 +1488,12 @@ export default function Dashboard({
     // Fe. Fuera de la liga el rival puede ser de otro país (Libertadores), así que se busca en toda
     // la base y se desambigua con el torneo.
     const rivalReal = realDeLiga
-      ? resolverClubDeCalendario(
+      ? resolverRivalDeLaFecha(
           clubesDeLiga(myLeagueKey),
-          realDeLiga.opponentName, currentClub.league, 'league', realDeLiga.competition.name)
+          realDeLiga, currentClub.league, 'league', realDeLiga.competition.name)
       : realDeLaSemana
-        ? resolverClubDeCalendario(
-            ULTIMATE_CLUBS_DATABASE, realDeLaSemana.opponentName,
+        ? resolverRivalDeLaFecha(
+            ULTIMATE_CLUBS_DATABASE, realDeLaSemana,
             realDeLaSemana.competition.league ?? (realDeLaSemana.competition.kind === 'domestic_cup' ? currentClub.league : undefined),
             realDeLaSemana.competition.kind, realDeLaSemana.competition.name)
         : null;
@@ -3050,8 +3050,8 @@ export default function Dashboard({
       if (f.temporada !== temporadaEnCurso) continue;
       const paso = pasoDeFecha(currentClub.name, f.date);
       const yaJugado = paso !== null && paso < pasoActual;
-      const rival = resolverClubDeCalendario(
-        ULTIMATE_CLUBS_DATABASE, f.opponentName,
+      const rival = resolverRivalDeLaFecha(
+        ULTIMATE_CLUBS_DATABASE, f,
         f.competition.league, f.competition.kind, f.competition.name,
       );
       // Primero el resultado guardado por FECHA (ver datedResults): es el único que existe para los

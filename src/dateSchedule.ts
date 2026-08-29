@@ -195,6 +195,37 @@ function casillaEn(clubName: string, temporada: number): string {
   return casilla;
 }
 
+/**
+ * QUIEN JUEGA HOY EN ESTA CASILLA. El inverso de casillaEn.
+ *
+ * Los partidos del calendario nombran al rival por su CASILLA -- el club que la ocupaba en los datos
+ * reales de 2025/26 --, no por quien la ocupa ahora. casillaEn ya se usa para saber que fechas te
+ * tocan a vos; al rival nunca se le hizo la misma pregunta, y por eso la tarjeta seguia anunciando
+ * al Brentford años despues de que se fue al Championship mientras el motor, que va por la tabla de
+ * la liga, te hacia jugar contra el Hull City, que habia subido a su casilla. Medido en 18 carreras
+ * completas: 291 fechas con el rival equivocado en pantalla, y en una de ellas 36 seguidas -- una
+ * temporada entera.
+ *
+ * Se reproducen los intercambios AL REVES porque cada uno es un cambio de dos: aplicarlos de atras
+ * para adelante deshace exactamente lo que casillaEn hizo de adelante para atras.
+ */
+export function clubDeLaCasilla(casilla: string, temporada: number): string {
+  if (!intercambiosDeCasilla.length) return casilla;
+  let club = casilla;
+  for (let i = intercambiosDeCasilla.length - 1; i >= 0; i--) {
+    const it = intercambiosDeCasilla[i];
+    if (it.temporada > temporada) continue;
+    if (club === it.a) club = it.b;
+    else if (club === it.b) club = it.a;
+  }
+  return club;
+}
+
+/** El rival de un partido del calendario, por el club que HOY ocupa esa casilla. */
+export function rivalDeLaFecha(f: { opponentName: string; temporada: number }): string {
+  return clubDeLaCasilla(f.opponentName, f.temporada);
+}
+
 // Índice club -> partidos de UNA temporada, ordenados por fecha. Se cachea por temporada: recorrer
 // los 7808 partidos en cada avance de día se nota en móvil.
 const indicePorTemporada = new Map<number, Map<string, DatedFixture[]>>();

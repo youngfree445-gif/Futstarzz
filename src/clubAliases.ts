@@ -1,3 +1,4 @@
+import { rivalDeLaFecha } from './dateSchedule';
 // Puente entre el nombre corto de data.ts y el nombre oficial largo con el que los clubes figuran
 // en los calendarios reales importados de Transfermarkt (src/realCalendar.ts).
 //
@@ -217,4 +218,33 @@ export function resolverClubDeCalendario<T extends ClubMinimo>(
   }
 
   return candidatos[0];
+}
+
+/**
+ * El rival de un partido del CALENDARIO, resuelto por la casilla que ocupa hoy.
+ *
+ * El calendario nombra al rival por el club que ocupaba esa casilla en los datos reales de 2025/26,
+ * y con los ascensos y descensos ese nombre envejece: la tarjeta seguía anunciando al Brentford años
+ * después de que se fue al Championship mientras el motor, que va por la tabla, te hacía jugar
+ * contra el que había subido a su casilla.
+ *
+ * SE INTENTA PRIMERO POR LA CASILLA Y DESPUÉS POR EL NOMBRE CRUDO, y ese orden es todo el cuidado
+ * que hay que tener acá. La lista de clubes de una liga se cachea una vez y no sigue los ascensos
+ * (ver clubesDeLiga), así que el club que subió puede no estar en ella: resolviendo sólo por la
+ * casilla se devolvería null justo donde antes había una respuesta, y eso es peor que el nombre
+ * viejo. Con el respaldo, esta función nunca puede contestar menos que la de antes.
+ */
+export function resolverRivalDeLaFecha<T extends ClubMinimo>(
+  clubes: T[],
+  fixture: { opponentName: string; temporada: number },
+  competitionLeague?: string,
+  competitionKind?: string,
+  competitionName?: string,
+): T | undefined {
+  const porCasilla = rivalDeLaFecha(fixture);
+  const resuelto = porCasilla !== fixture.opponentName
+    ? resolverClubDeCalendario(clubes, porCasilla, competitionLeague, competitionKind, competitionName)
+    : undefined;
+  return resuelto
+    ?? resolverClubDeCalendario(clubes, fixture.opponentName, competitionLeague, competitionKind, competitionName);
 }
