@@ -4443,8 +4443,18 @@ export default function App() {
         // dice copa colombia".
         const yaEliminadoDeLaCopa = !!(myClubForCup && cupKey) && !cupCruce;
         if (!opClubId) {
+          // TU DIVISION, no tu pais.
+          //
+          // El filtro era `c.league === myClubForCup.league`, que en la base es el PAIS: para un club
+          // de Primera metia adentro toda la Segunda. El diario del post-partido titulaba entonces
+          // "Sevilla FC vs Granada CF" un dia que la tarjeta habia anunciado LaLiga contra el Athletic
+          // -- y el calendario le daba Valencia. Medido en 18 carreras completas: 291 partidos con un
+          // rival de relleno inventado, y 286 de ellos contra un club de otra division del mismo pais.
+          //
+          // clubesDeLiga usa leagueKeyFor, que sí lleva la division adentro (Española-1 / Española-2),
+          // y es el mismo listado con el que la liga arma su tabla.
           const domesticRivals = myClubForCup
-            ? CLUBS_DATABASE.filter(c => c.id !== myClubForCup.id && c.league === myClubForCup.league)
+            ? clubesDeLiga(leagueKeyFor(myClubForCup)).filter(c => c.id !== myClubForCup.id)
             : [];
           const rival = domesticRivals.length
             ? domesticRivals[Math.floor(Math.random() * domesticRivals.length)]

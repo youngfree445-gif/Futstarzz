@@ -568,7 +568,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       if (ultimo && ultimo.rival && !loNombra) {
         ultimo.rivalDelPartido = 'OTRO (la tarjeta decía ' + ultimo.rival + ')';
         // El resumen, recortado: sin verlo no se puede decidir si es un desfase o el nombre corto.
-        ultimo.diceElResumen = cuerpo.slice(0, 220).replace(/\s+/g, ' ');
+        ultimo.diceElResumen = cuerpo.slice(0, 1200).replace(/\s+/g, ' ');
         appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
           '      !! el partido NO fue contra ' + ultimo.rival + ' (fecha ' + ultimo.paso + '). El resumen dice: '
           + ultimo.diceElResumen + String.fromCharCode(10));
