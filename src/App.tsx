@@ -1302,7 +1302,7 @@ function cerrarCuadrangularesVencidos(profile: PlayerProfile, newWeek: number): 
   const copasDeAntes = cerrarCopasDeOtroPais(profile, club, CLUBS_DATABASE);
   if (copasDeAntes) profile = { ...profile, domesticCups: copasDeAntes };
 
-  const cerrados = cerrarPlayoffsSinFechas(profile, club, clubesDeLiga(leagueKeyFor(club)), newWeek);
+  const cerrados = cerrarPlayoffsSinFechas(profile, club, clubesDeLiga(leagueKeyFor(club)), newWeek, clubesDeLiga);
   if (!cerrados) return profile;
 
   // Si al simular las llaves que ya no tenian fecha el campeon resulta ser TU club, el titulo se

@@ -458,6 +458,8 @@ export function cerrarPlayoffsSinFechas(
   club: Club,
   clubesDeLaLiga: Club[],
   paso: number,
+  /** Los clubes de OTRA liga, para cerrar los cuadros del pais que el jugador dejo atras. */
+  clubesDeSuLiga: (leagueKey: string) => Club[] = () => [],
 ): PlayerProfile['playoffsDeLiga'] | null {
   const cuadros = perfil.playoffsDeLiga;
   if (!cuadros) return null;
@@ -476,8 +478,15 @@ export function cerrarPlayoffsSinFechas(
     // completa, el Apertura argentino de la temporada 1 se quedo sin campeon porque el jugador se
     // fue a Sevilla en el medio.
     if (liga !== miLiga) {
+      // CON LOS CLUBES DE ESA LIGA, no con los de la tuya. Las llaves que dejaste atras estan
+      // llenas de clubes argentinos; pasandole los españoles el simulador no encuentra a nadie, no
+      // resuelve un solo partido y el cuadro se queda sin campeon lo mismo -- que es exactamente lo
+      // que este arreglo venia a evitar. Medido en una carrera completa: el Apertura argentino de la
+      // temporada 2 seguia abierto al retiro, con el jugador hacia rato en el Atletico de Madrid.
+      const suyos = clubesDeSuLiga(liga);
+      if (!suyos.length) continue;
       copia[clave] = terminarTorneoSinElJugador(
-        cuadro, b => resolverPasoPlayoffDeLiga(prepararPlayoffDeLiga(b, [], undefined), clubesDeLaLiga));
+        cuadro, b => resolverPasoPlayoffDeLiga(prepararPlayoffDeLiga(b, [], undefined), suyos));
       cambio = true;
       continue;
     }
