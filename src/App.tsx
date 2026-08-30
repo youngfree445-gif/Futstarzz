@@ -86,7 +86,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { resolverRivalDeLaFecha, eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { rivalDeRelleno, resolverRivalDeLaFecha, eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -4689,9 +4689,12 @@ export default function App() {
           }
         }
       } else {
-        // Fallback de seguridad (liga con un solo club u otro caso borde): no debería pasar en la práctica.
-        const localRivals = leagueClubs.filter(c => c.id !== myClub.id).map(c => c.name);
-        opName = localRivals.length > 0 ? localRivals[Math.floor(Math.random() * localRivals.length)] : OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+        // El calendario no puede cubrir esta fecha -- pasa cuando tu club cambia de division y le
+        // siguen llegando las fechas de la division vieja. El rival lo pone rivalDeRelleno, que es
+        // DETERMINISTA: la tarjeta calcula el mismo y por fin anuncia el partido que se juega.
+        const deRelleno = rivalDeRelleno(myClub, leagueClubs, playerProfile.currentWeek);
+        opName = deRelleno?.name ?? OPPONENT_CLUBS_POOL[Math.floor(Math.random() * OPPONENT_CLUBS_POOL.length)];
+        opClubId = deRelleno?.id ?? opClubId;
         setActiveMyTablePosition(null);
         setActiveRivalTablePosition(null);
         setActiveLeagueTeamCount(null);

@@ -31,7 +31,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { resolverRivalDeLaFecha, seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
+import { rivalDeRelleno, resolverRivalDeLaFecha, seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { mesesQueFaltanEnElClub, radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
@@ -1613,7 +1613,8 @@ export default function Dashboard({
     // `next` puede no existir cuando el fixture generado ya se agotó y el partido sale solo del
     // calendario real, así que todos los accesos van con ?.
     const opponentId = playoffDeLaSemana?.rivalId ?? continentalDeLaSemana?.rivalId
-      ?? cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId;
+      ?? cupBracketDeLaSemana?.rivalId ?? rivalReal?.id ?? next?.opponentId
+      ?? (realDeLiga ? rivalDeRelleno(currentClub, clubesDeLiga(myLeagueKey), playerProfile.currentWeek)?.id : undefined);
     const opponentName = playoffDeLaSemana
       ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === playoffDeLaSemana.rivalId)?.name ?? '')
       : continentalDeLaSemana
@@ -1630,7 +1631,15 @@ export default function Dashboard({
       // el del cuadrangular REAL, que no es el que vas a jugar, y anunciarlo sería peor.
       : realDeLaSemana?.esPlayoff && !fueraDelCuadrangular
       ? RIVAL_SIN_SORTEAR
-      : (rivalReal?.name ?? next?.opponentName ?? realDeLaSemana?.opponentName ?? '');
+      // EL NOMBRE CRUDO DEL CALENDARIO ES EL ULTIMO RECURSO, y ni siquiera eso cuando el partido es
+      // de liga: si el rival que trae el calendario no se resuelve dentro de tu division es porque el
+      // calendario quedo en la division vieja (tu club subio o bajo), y ahi el motor pone un rival de
+      // relleno. La tarjeta calcula EL MISMO con rivalDeRelleno -- es determinista a proposito -- en
+      // vez de anunciar al Manchester City mientras se juega contra el West Bromwich Albion.
+      : (rivalReal?.name
+          ?? next?.opponentName
+          ?? (realDeLiga ? rivalDeRelleno(currentClub, clubesDeLiga(myLeagueKey), playerProfile.currentWeek)?.name : undefined)
+          ?? realDeLaSemana?.opponentName ?? '');
     const isHome = playoffDeLaSemana
       ? playoffDeLaSemana.soyLocal
       : continentalDeLaSemana

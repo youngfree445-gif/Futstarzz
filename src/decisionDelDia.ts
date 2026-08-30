@@ -31,7 +31,7 @@
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
 import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
-import { rivalDeLaFecha, anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { rivalDeLaFecha, fixturesForClub, fechasDeLigaTranscurridas, anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { resolverClubDeCalendario } from './clubAliases';
 import { esPartidoUnicoDeCopa } from './reglamentos';
 import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ULTIMATE_CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from './data';
@@ -181,6 +181,60 @@ export function resolverRivalDeLaFecha(
     if (enMiDivision(crudo)) return crudo;
   }
   return porCasilla ?? porNombre();
+}
+
+/**
+ * EL RIVAL DE UNA FECHA QUE EL CALENDARIO NO PUEDE CUBRIR, igual para la tarjeta y para el motor.
+ *
+ * Pasa cuando tu club cambia de division: el calendario importado te sigue dando las fechas de la
+ * division vieja -- el Tottenham descendido seguia recibiendo 38 partidos de Premier League contra
+ * clubes que ya no eran de su categoria -- asi que ese rival no se puede resolver dentro de tu liga
+ * y hay que poner uno.
+ *
+ * ANTES SE SORTEABA CON Math.random EN EL MOMENTO DEL PARTIDO, y por eso la tarjeta no podia
+ * acertar nunca: anunciaba lo que decia el calendario ("Premier League vs Manchester City") y el
+ * motor te hacia jugar contra West Bromwich Albion, Queens Park Rangers o Derby County, uno distinto
+ * cada vez. Medido en una carrera completa: 66 fechas asi.
+ *
+ * Siendo determinista -- sale del club, del paso y de la lista de la liga -- las dos mitades
+ * calculan LO MISMO sin hablarse, que es la unica forma de que la tarjeta prometa el partido que se
+ * va a jugar. Es la misma regla de "una pregunta, una respuesta" que ya ordeno los torneos.
+ */
+export function rivalDeRelleno(club: Club, clubesDeLaLiga: Club[], paso: number): Club | null {
+  const temporadaDeLaFecha = temporadaDelPaso(club.name, paso)?.temporada ?? temporadaDeCarrera(club.name, paso);
+  const todos = [...clubesDeLaLiga].filter(c => c.id !== club.id).sort((a, b) => a.id.localeCompare(b.id));
+  if (!todos.length) return null;
+
+  // LOS QUE EL CALENDARIO YA TE DA ESE AÑO QUEDAN AFUERA.
+  //
+  // La rotacion no sabia a quien te habia asignado el calendario, asi que volvia a elegir a alguno
+  // que ya tenias: el calendario te daba al Pisa dos veces, el relleno otras dos, y terminabas
+  // jugando cuatro veces contra el mismo en una temporada de 38 fechas. Medido en una carrera
+  // completa: Pisa, Cremonese y Cagliari x4 en la temporada 4.
+  const delCalendario = new Set(
+    fixturesForClub(club.name)
+      .filter(f => f.competition.kind === 'league' && f.temporada === temporadaDeLaFecha)
+      .map(f => f.opponentName));
+  // Si excluirlos deja la lista vacia, se rota sobre todos: pasa cuando el calendario SI cubre tu
+  // division entera, y ahi el relleno casi no se usa. Colapsar a un solo club seria peor que repetir
+  // -- la primera version devolvia el mismo rival las 38 fechas.
+  const sinChocar = todos.filter(c => !delCalendario.has(c.name));
+  const rivales = sinChocar.length ? sinChocar : todos;
+
+  // UNA ROTACION, NO UN SORTEO POR FECHA.
+  //
+  // La primera version elegia con un hash de la fecha, cada una por su cuenta: nada impedia que
+  // cayera dos o tres veces en el mismo club. Medido jugando: con el Tottenham en Segunda salio
+  // Charlton Athletic tres veces en 38 fechas mientras a otros no los enfrentaba nunca. Eso no es
+  // una liga, es un sorteo.
+  //
+  // Recorriendo la lista en orden, cada rival aparece UNA vez antes de que se repita ninguno, y la
+  // vuelta empieza en un punto distinto cada temporada para que no sea siempre el mismo fixture.
+  const jornada = fechasDeLigaTranscurridas(club.name, paso);
+  let h = 2166136261;
+  for (const ch of `${club.id}|${temporadaDeLaFecha}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  const arranque = Math.abs(h) % rivales.length;
+  return rivales[(arranque + jornada) % rivales.length];
 }
 
 /** Quién se queda con un día que el calendario apartó para copa. */
