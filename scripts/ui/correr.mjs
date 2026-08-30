@@ -18,9 +18,17 @@ const t0 = Date.now();
 // FICHAR=FC Barcelona pide que, apenas aparezca su oferta, se acepte el traspaso.
 const FICHAR = process.env.FICHAR || null;
 // EDAD=25 y NACIONALIDAD="Uruguay" para pedir un jugador distinto del que trae el formulario.
-const { bitacora, avisos, pasos, gasto, motivoDelFinal, retirado, guardada } = await jugar({
+// El await de abajo es de NIVEL SUPERIOR: si jugar() rechaza, el proceso termina con exit 0 y sin
+// una sola linea, y parece que la corrida "no arranco". Con el catch, el error se ve.
+const jugarConAviso = async (opciones) => {
+  try { return await jugar(opciones); }
+  catch (e) { console.error('*** LA CORRIDA FALLO: ' + (e && e.stack ? e.stack : String(e))); throw e; }
+};
+const { bitacora, avisos, pasos, gasto, motivoDelFinal, retirado, guardada } = await jugarConAviso({
   club: CLUB, liga: LIGA, temporadas: TEMPORADAS, ficharPor: FICHAR,
   edad: process.env.EDAD ? Number(process.env.EDAD) : null,
+  // MODO=veterano|estrella|hardcore|realista|lesiones (vacio = carrera normal).
+  modo: process.env.MODO || null,
   nacionalidad: process.env.NACIONALIDAD || null,
 });
 console.log(`\nSe apretaron ${pasos} pantallas en ${((Date.now() - t0) / 1000).toFixed(0)}s. ${bitacora.length} partidos anotados.\n`);
@@ -301,7 +309,12 @@ for (const p of bitacora) {
 const prometidosSinJugar = bitacora
   // `sancionado` fuera: cumplir una fecha de suspension NO es un partido perdido -- la tarjeta
   // anuncia el proximo rival igual, pero el motor te lo saltea con razon.
-  .filter((p, i) => p.competicion && p.rival && !p.seJugo && !p.sancionado && i < bitacora.length - 1);
+  // Y ESTAR LESIONADO TAMPOCO ES UN PARTIDO PERDIDO, igual que cumplir una fecha de suspension.
+  // La tarjeta anuncia el proximo rival y el boton dice "Recuperandose (N sem.)": el partido se
+  // juega sin vos, que es justo lo que el modo lesiones promete. Sin esto, una carrera con
+  // lesiones activadas salia con 182 "fallas" que eran el modo funcionando.
+  .filter((p, i) => p.competicion && p.rival && !p.seJugo && !p.sancionado
+    && !/Recuper/i.test(p.boton ?? '') && i < bitacora.length - 1);
 for (const p of prometidosSinJugar) {
   problemas.push(`la tarjeta prometio ${p.competicion} vs ${p.rival} y el dia paso sin partido (fecha ${p.paso})`);
 }

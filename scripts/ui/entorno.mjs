@@ -137,6 +137,13 @@ console.error = (...args) => {
 window.addEventListener('error', ev => anotar('window.error', ev.error ?? ev.message));
 window.addEventListener('unhandledrejection', ev => anotar('promesa', ev.reason));
 process.on('uncaughtException', e => anotar('uncaught', e));
-process.on('unhandledRejection', e => anotar('rechazo', e));
+process.on('unhandledRejection', e => {
+  anotar('rechazo', e);
+  // Y SE IMPRIME, ademas de anotarse. Un rechazo en el nivel superior de correr.mjs vacia el
+  // bucle de eventos y el proceso termina con exit 0 SIN DECIR NADA: parece que el banco "no
+  // arranca" cuando en realidad hubo un error con su mensaje. __errores no alcanza, porque ese
+  // array se lee al final de una corrida que nunca llega.
+  console.error('*** ERROR NO ATRAPADO: ' + (e && e.stack ? e.stack : String(e)));
+});
 
 export { dom, window };

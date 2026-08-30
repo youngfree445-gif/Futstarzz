@@ -259,6 +259,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   ficharPor = null,
   /** Edad con la que arranca la carrera. El formulario ofrece un <select>; 17 es lo que trae. */
   edad = null,
+  modo = null,
   /** La nacionalidad del jugador, por su etiqueta ("Uruguay", "Nigeria"). De ella salen las
    *  eliminatorias y la convocatoria al Mundial, asi que cambia bastante mas que la bandera. */
   nacionalidad = null } = {}) {
@@ -319,8 +320,53 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     else throw new Error('No encontre la nacionalidad ' + nacionalidad + ' en el formulario.');
   }
 
+  // LOS MODOS DE CARRERA, si se pidio alguno.
+  //
+  // Va DESPUES de elegir el club porque los botones de modo no existen antes: la tarjeta de modos
+  // aparece con el resto del formulario. Se busca por el rotulo ENCENDIDO, que es unico ("Veterano",
+  // "Estrella", "Hardcore", "Realista", "Con"); el apagado de casi todos se llama "Normal".
+  //
+  // Y SE VUELVE A ELEGIR EL CLUB DESPUES. El modo veterano restringe la lista a clubes de reputacion
+  // media, asi que activarlo borra la seleccion hecha antes y la carrera no arranca nunca -- sin un
+  // solo mensaje, porque el capturador de entorno.mjs se traga la excepcion.
+  if (modo) {
+    const ROTULO = {
+      veterano: /^Veterano$/i, estrella: /^Estrella$/i, hardcore: /^Hardcore$/i,
+      realista: /^Realista$/i, lesiones: /^Con$/i,
+    };
+    const re = ROTULO[String(modo).toLowerCase()];
+    if (!re) throw new Error('Modo desconocido: ' + modo + '. Son: ' + Object.keys(ROTULO).join(', '));
+    const boton = botonQueDice(re);
+    if (!boton) {
+      appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
+        'MODO ' + modo + ': no encontre su boton. Los que hay: ' +
+        JSON.stringify(botones().map(x => texto(x)).filter(Boolean).slice(0, 60)) + String.fromCharCode(10));
+      throw new Error('No encontre el boton del modo ' + modo + '.');
+    }
+    const anotar = t => appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log', t + String.fromCharCode(10));
+    anotar('MODO ' + modo + ': apretando "' + texto(boton) + '"');
+    await click(boton);
+    await dormir(120);
+    anotar('   despues del modo: empezar habilitado=' + (() => { const x = botonQueDice(/Comenzar Carrera/i); return x ? !x.disabled : 'no hay boton'; })());
+    anotar('MODO ' + modo + ': activado');
+    // SOLO SI HIZO FALTA. Volver a apretar un club que sigue elegido lo DESELECCIONA, y ahi el boton
+    // de empezar queda deshabilitado y la carrera no arranca -- que es lo que pasaba con los cuatro
+    // modos que ni siquiera tocan la lista de clubes.
+    const listo = () => { const b = botonQueDice(/Comenzar Carrera/i); return !!b && !b.disabled; };
+    const otraVez = listo() ? null : botones().find(b => texto(b).includes(club));
+    if (otraVez) { await click(otraVez); await dormir(80); }
+    else if (!listo()) {
+      appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
+        'MODO ' + modo + ': el club ' + club + ' ya no esta en la lista. Hay: ' +
+        JSON.stringify(botones().map(x => texto(x)).filter(Boolean).slice(0, 40)) + String.fromCharCode(10));
+      throw new Error('El modo ' + modo + ' dejo al club ' + club + ' fuera de la lista.');
+    }
+  }
+
   await click(botonQueDice(/Comenzar Carrera/i));
   if (!await esperarA(hubDelPartido, 15000)) {
+    appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log',
+      'NO ARRANCO. Pantalla: ' + texto(document.body).slice(0, 600) + String.fromCharCode(10));
     throw new Error('La carrera no arrancó. En pantalla dice: ' + texto(document.body).slice(0, 1200));
   }
 

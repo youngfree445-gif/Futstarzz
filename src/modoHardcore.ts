@@ -45,8 +45,18 @@ export function crecimientoDeLaTemporada(d: DatosDeTemporada): number {
     return d.edad >= 30 ? -2 : d.edad >= 26 ? -1 : 0;
   }
 
-  // 2. Rendir manda. Una temporada de 7.0 de promedio es la que te hace crecer; una de 5.5 te hunde.
-  const porRendimiento = (d.promedioDeNota - 6.4) * 2.2;
+  // 2. Rendir manda, y el punto de equilibrio es LA NOTA QUE EL JUEGO REPARTE DE VERDAD.
+  //
+  // Estaba en 6.4, suponiendo que una temporada de 7.0 era buena. Medido sobre 7804 partidos de seis
+  // carreras completas, la nota promedio del juego es 8.55: con el pivote en 6.4, una temporada
+  // corriente daba (8.55 - 6.4) x 2.2 = +4.7 y tocaba el techo de +3.5 TODAS las temporadas. El
+  // resultado es que el modo que promete "a ver si llegas" producia el jugador mas fuerte de todos:
+  // media 96 al retiro contra 42 de una carrera normal.
+  //
+  // Con el pivote en la nota real, una temporada del monton no te mueve, una gran temporada te sube
+  // poco y una floja te cuesta -- que es lo que el modo dice ser.
+  const NOTA_DE_EQUILIBRIO = 8.55;
+  const porRendimiento = (d.promedioDeNota - NOTA_DE_EQUILIBRIO) * 2.2;
 
   // 3. Los compañeros. Estar rodeado de gente diez puntos mejor que vos te da casi un punto extra;
   //    ser diez puntos mejor que tu plantel te lo saca. Se acota para que un club enorme no te

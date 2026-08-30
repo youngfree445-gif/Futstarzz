@@ -66,3 +66,5 @@ scripts/ui/*.json
 # Las bitacoras de las carreras completas: 84 MB por tanda, mismo motivo que barrido/.
 scripts/ui/carreras/
 scripts/ui/verif/
+# Las bitacoras de las carreras por modo de juego, mismo motivo que las de arriba.
+scripts/ui/modos/
