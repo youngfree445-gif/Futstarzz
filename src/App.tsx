@@ -1209,6 +1209,24 @@ function applyPromotionRelegationIfNewSeason(
         || (b.h.golesFavor ?? 0) - (a.h.golesFavor ?? 0))
       .map(x => ({ clubId: x.club.id, clubName: x.club.name }));
 
+    // Y SI LA SEGUNDA NO JUGO, IGUAL TIENE QUE HABER CANDIDATOS AL ASCENSO.
+    //
+    // El historial solo trae la liga que el JUGADOR disputa: de la Segunda no hay una sola fila a
+    // menos que el jugador este ahi. Con la tabla vacia, el ascenso por play-off de Inglaterra,
+    // Italia y España -- que es el que equilibra sus 3 descensos contra 2 ascensos directos -- no
+    // encontraba a quien subir, y esas ligas perdian un club por año.
+    //
+    // Se completa por reputacion, que es el orden con el que el juego decide todo lo demas cuando no
+    // hay tabla. Los que si jugaron van primero: si la Segunda tiene historial, manda el historial.
+    const yaEnLaSegunda = new Set(segunda.map(x => x.clubId));
+    const segundaCompleta = [
+      ...segunda,
+      ...CLUBS_DATABASE
+        .filter(c => c.league === league && divisionDe(c) === 2 && !yaEnLaSegunda.has(c.id))
+        .sort((a, b) => (b.reputation ?? 0) - (a.reputation ?? 0))
+        .map(c => ({ clubId: c.id, clubName: c.name })),
+    ];
+
     // Llaves del play-off (solo Holanda). Pesa la reputación pero deja pasar la sorpresa: sin azar,
     // el 16° de Eredivisie nunca perdería la categoría contra un club de Segunda.
     const ganaLlave = (a: string, b: string): string => {
@@ -1218,7 +1236,7 @@ function applyPromotionRelegationIfNewSeason(
       return fa >= fb ? a : b;
     };
 
-    const { descienden, ascienden } = resolverMovimientos(league, primera, segunda, ganaLlave);
+    const { descienden, ascienden } = resolverMovimientos(league, primera, segundaCompleta, ganaLlave);
     for (const d of descienden) overrides[d.clubId] = 2;
     for (const a of ascienden) overrides[a.clubId] = 1;
 

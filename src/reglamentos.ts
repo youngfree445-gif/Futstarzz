@@ -307,11 +307,17 @@ const REGLAS: Record<string, ReglasAscenso> = {
     criterioDescenso: 'promedio',
     ventanaAnios: 3,
   },
-  // AFA: bajan los 2 últimos de cada zona de la Primera Nacional (4 en total) y los descensos de
-  // Primera salen de la Tabla General, que suma las fases regulares del año. Sin promedio.
+  // AFA: los descensos de Primera salen de la Tabla General, que suma las fases regulares del año.
+  // Sin promedio.
+  //
+  // BAJAN DOS, NO CUATRO. Los cuatro del comentario viejo son los que bajan de la PRIMERA NACIONAL
+  // -- los 2 ultimos de cada zona --, o sea los descensos de la Segunda, que se habian anotado como
+  // cupo de la Primera. Con 4 abajo y 2 arriba la liga perdia dos clubes por año para siempre:
+  // medido en una carrera de 19 temporadas, la Primera argentina paso de 30 clubes a SEIS, y sin
+  // liga no hay calendario ni rivales.
   Argentina: {
     sistema: 'argentina',
-    cuposDescenso: 4,
+    cuposDescenso: 2,
     cuposAscenso: 2,
     criterioDescenso: 'anual',
     ventanaAnios: 1,
