@@ -68,8 +68,32 @@ let divisionOverrides: Record<string, 1 | 2> = {};
 // nada más (fixturesAtStep).
 
 
+// CUANTAS VECES CAMBIARON LAS DIVISIONES. Lo usan las caches que dependen de ellas.
+let versionDivisiones = 0;
+let firmaDivisiones = '';
+
 export function setDivisionOverrides(overrides: Record<string, 1 | 2> | undefined): void {
-  divisionOverrides = overrides ?? {};
+  const nuevo = overrides ?? {};
+  divisionOverrides = nuevo;
+  // La FIRMA y no la referencia: esto se llama en cada actualizacion del perfil y el objeto se
+  // recrea aunque no haya cambiado nadie de division. Subir la version de gusto tiraria la cache
+  // varias veces por fecha, que es justo lo que la cache existe para evitar.
+  const firma = Object.keys(nuevo).sort().map(k => `${k}:${nuevo[k]}`).join(',');
+  if (firma === firmaDivisiones) return;
+  firmaDivisiones = firma;
+  versionDivisiones++;
+}
+
+/**
+ * El numero de version de las divisiones, para invalidar lo que se cachee en funcion de ellas.
+ *
+ * Sube solo cuando un ascenso o un descenso cambia el mapa de verdad. Hace falta desde que el
+ * CALENDARIO reparte las casillas de cada liga entre sus miembros de hoy (ver setMiembrosDeLiga):
+ * si la lista de miembros se congela, el club que baja no entra en la de su division nueva y se
+ * queda sin una sola fecha.
+ */
+export function versionDeDivisiones(): number {
+  return versionDivisiones;
 }
 
 /** La división en la que juega HOY el club, contando ascensos y descensos ya ocurridos. */

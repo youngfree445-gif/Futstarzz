@@ -42,10 +42,27 @@ function clubesDe(comp: DatedCompetition): string[] {
   return [...set].sort();
 }
 
+/**
+ * QUIENES JUEGAN HOY ESTA LIGA, si alguien lo sabe.
+ *
+ * seasonCalendar no puede importar leagueEngine (ver la nota de partidosDePlayoff: dateSchedule ya
+ * importa leagueEngine, asi que el ciclo se cerraria), y el estado de ascensos y descensos vive
+ * alli. Se inyecta desde App con el mismo patron que setDivisionOverrides y setIntercambiosDeCasilla.
+ *
+ * Sin inyectar, todo sigue como antes: la permutacion reparte las casillas entre los clubes de
+ * 2025/26.
+ */
+let miembrosDeLiga: ((comp: DatedCompetition) => string[] | null) | null = null;
+
+export function setMiembrosDeLiga(fn: ((comp: DatedCompetition) => string[] | null) | null): void {
+  miembrosDeLiga = fn;
+  cachePorTemporada.clear();
+}
+
 /** Club -> club que ocupa su lugar en el calendario de esa temporada. */
-function permutacionDeClubes(clubes: string[], semilla: number): Map<string, string> {
+function permutacionDeClubes(clubes: string[], semilla: number, destinoBase?: string[]): Map<string, string> {
   const rnd = mulberry32(semilla);
-  const destino = [...clubes];
+  const destino = [...(destinoBase ?? clubes)];
   for (let i = destino.length - 1; i > 0; i--) {
     const j = Math.floor(rnd() * (i + 1));
     [destino[i], destino[j]] = [destino[j], destino[i]];
@@ -85,7 +102,26 @@ export function competicionEnTemporada(comp: DatedCompetition, temporada: number
   if (cacheado) return cacheado;
 
   const desplazamiento = temporada - 1;
-  const perm = permutacionDeClubes(clubesDe(comp), hashTexto(comp.id) + temporada * 7919);
+  // LAS CASILLAS SE REPARTEN ENTRE LOS CLUBES QUE HOY JUEGAN ESTA LIGA, no entre los de 2025/26.
+  //
+  // El calendario real trae la Serie A con sus veinte clubes de 2025/26, y hasta ahora la
+  // permutacion los barajaba entre ellos mismos para siempre: quien descendia seguia recibiendo
+  // fechas de Primera contra rivales que ya no eran de su categoria, y quien ascendia no recibia
+  // ninguna. De ahi salia todo lo demas -- el intercambio de casillas club por club, el rival de
+  // relleno, y hasta cuatro partidos contra el mismo equipo en una temporada.
+  //
+  // Repartiendo las veinte casillas entre los veinte clubes que HOY son de Serie A, cada club recibe
+  // el calendario de su division y la estructura no se toca: la ida y vuelta sigue siendo perfecta
+  // porque los partidos, las fechas y las localias son los del fixture real.
+  //
+  // Solo vale para las LIGAS. La copa nacional mezcla divisiones a proposito -- asi se juega de
+  // verdad -- y ahi las casillas se quedan como estan.
+  const original = clubesDe(comp);
+  const actuales = comp.kind === 'league' ? miembrosDeLiga?.(comp) ?? null : null;
+  // Solo si el reparto es uno a uno. Si por lo que sea no coinciden, se mantiene el comportamiento
+  // viejo antes que dejar clubes sin casilla o casillas sin club.
+  const destino = actuales && actuales.length === original.length ? actuales : undefined;
+  const perm = permutacionDeClubes(original, hashTexto(comp.id) + temporada * 7919, destino);
   const matches = comp.matches.map(m => ({
     ...m,
     date: sumarAnios(m.date, desplazamiento),

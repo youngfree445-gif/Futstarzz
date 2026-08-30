@@ -27,7 +27,7 @@
 import type { Club } from './types';
 import { ULTIMATE_CLUBS_DATABASE } from './data';
 import { tieneLigaConFechasReales } from './dateSchedule';
-import { leagueKeyFor } from './leagueEngine';
+import { leagueKeyFor, versionDeDivisiones } from './leagueEngine';
 
 /**
  * ¿Podés hacer una carrera en este club?
@@ -60,10 +60,15 @@ const cachePorLiga = new Map<string, Club[]>();
  * descenso de los demás. La tabla tiene que tener exactamente a los que el calendario hace jugar.
  */
 export function clubesDeLiga(leagueKey: string): Club[] {
-  const cacheado = cachePorLiga.get(leagueKey);
+  // LA VERSION DE LAS DIVISIONES VA EN LA CLAVE: la lista se arma con leagueKeyFor, que depende de
+  // la division ACTUAL de cada club, y esa cambia con cada ascenso y descenso. Cacheando solo por
+  // leagueKey, el club que bajaba no entraba nunca en la lista de su division nueva -- y desde que
+  // el calendario reparte sus casillas entre los miembros de hoy, eso lo dejaba sin una sola fecha.
+  const clave = `${versionDeDivisiones()}|${leagueKey}`;
+  const cacheado = cachePorLiga.get(clave);
   if (cacheado) return cacheado;
   const lista = ULTIMATE_CLUBS_DATABASE.filter(c => leagueKeyFor(c) === leagueKey && esClubJugable(c));
-  cachePorLiga.set(leagueKey, lista);
+  cachePorLiga.set(clave, lista);
   return lista;
 }
 

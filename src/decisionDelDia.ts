@@ -177,8 +177,17 @@ export function resolverRivalDeLaFecha(
     const enMiDivision = (c: Club | undefined) =>
       !!c && c.league === miClub.league && divisionActual(c) === divisionActual(miClub);
     if (enMiDivision(porCasilla)) return porCasilla;
-    const crudo = porNombre();
-    if (enMiDivision(crudo)) return crudo;
+
+    // Y SI EL OCUPANTE NO ESTA EN TU DIVISION, NO SE CAE AL NOMBRE CRUDO: no hay rival.
+    //
+    // El nombre que trae el calendario identifica una CASILLA, no a un club. Cuando su ocupante
+    // bajo de categoria, ese nombre ya no apunta a nadie de tu division -- y devolverlo igual
+    // reintroducia a un club que muchas veces YA te esta jugando desde otra casilla. Asi salia el
+    // cuatro veces contra el mismo: la Fiorentina se habia mudado a la casilla del Bologna y te
+    // enfrentaba ahi dos veces, y otras dos volvia por su casilla vieja, que en realidad era del
+    // Hellas Verona (descendido). Devolviendo undefined, la fecha se la queda rivalDeRelleno, que
+    // reparte entre los que si estan en tu division.
+    return undefined;
   }
   return porCasilla ?? porNombre();
 }
@@ -211,10 +220,14 @@ export function rivalDeRelleno(club: Club, clubesDeLaLiga: Club[], paso: number)
   // que ya tenias: el calendario te daba al Pisa dos veces, el relleno otras dos, y terminabas
   // jugando cuatro veces contra el mismo en una temporada de 38 fechas. Medido en una carrera
   // completa: Pisa, Cremonese y Cagliari x4 en la temporada 4.
+  // POR QUIEN OCUPA CADA CASILLA, no por el nombre que trae el calendario. El nombre puede ser de un
+  // club que ya bajo; el que de verdad te va a jugar esa fecha es su ocupante de hoy. Excluyendolos,
+  // el relleno reparte entre los que el calendario NO te da, en vez de sumar un tercer y cuarto
+  // partido contra alguien a quien ya enfrentas dos veces.
   const delCalendario = new Set(
     fixturesForClub(club.name)
       .filter(f => f.competition.kind === 'league' && f.temporada === temporadaDeLaFecha)
-      .map(f => f.opponentName));
+      .map(f => rivalDeLaFecha(f)));
   // Si excluirlos deja la lista vacia, se rota sobre todos: pasa cuando el calendario SI cubre tu
   // division entera, y ahi el relleno casi no se usa. Colapsar a un solo club seria peor que repetir
   // -- la primera version devolvia el mismo rival las 38 fechas.

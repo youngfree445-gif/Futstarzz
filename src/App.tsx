@@ -14,6 +14,7 @@ import { applyClubTheme } from './clubTheme';
 import { limpiarTitulosFantasma } from './limpiarTitulos';
 import { refreshTransferOffersIfNeeded } from './transferMarket';
 import { clubesDeLiga, clubesJugables, esClubJugable, ligaTieneCalendario } from './clubesJugables';
+import { setMiembrosDeLiga } from './seasonCalendar';
 import { generateWorldRanking } from './worldRanking';
 import { preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
@@ -1660,6 +1661,17 @@ export default function App() {
   // primera pantalla mostraría al descendido todavía en primera.
   React.useMemo(() => {
     setDivisionOverrides(playerProfile?.divisionOverrides);
+    // Y QUIENES JUEGAN HOY CADA LIGA, para que el calendario reparta sus casillas entre ellos.
+    //
+    // Va pegado a setDivisionOverrides y en el mismo useMemo porque depende de lo mismo: la lista
+    // de una liga sale de leagueKeyFor, que mira las divisiones. Instalarlo despues dejaria al
+    // recien descendido pidiendo fechas con el reparto viejo.
+    setMiembrosDeLiga(comp => {
+      const primero = comp.matches[0];
+      if (!primero) return null;
+      const club = CLUBS_DATABASE.find(c => c.name === primero.home) ?? CLUBS_DATABASE.find(c => c.name === primero.away);
+      return club ? clubesDeLiga(leagueKeyFor(club)).map(c => c.name) : null;
+    });
   }, [playerProfile?.divisionOverrides]);
   // Y las casillas del calendario, por la misma razón y en el mismo momento: fixturesAtStep lo
   // consultan decenas de sitios y ninguno recibe el perfil. Si esto se instalara tarde, el club
