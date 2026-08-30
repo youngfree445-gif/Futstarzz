@@ -23,7 +23,7 @@ import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
 import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
-import { resolverClubDeCalendario, resolverRivalDeLaFecha } from '../clubAliases';
+import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay, rondaEnEspanol } from '../leagueDisplay';
 import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tieneCopaNacionalReal } from '../copaNacional';
 import { getPalmares } from '../palmares';
@@ -31,7 +31,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
+import { resolverRivalDeLaFecha, seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { mesesQueFaltanEnElClub, radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
@@ -1490,10 +1490,10 @@ export default function Dashboard({
     const rivalReal = realDeLiga
       ? resolverRivalDeLaFecha(
           clubesDeLiga(myLeagueKey),
-          realDeLiga, currentClub.league, 'league', realDeLiga.competition.name)
+          realDeLiga, currentClub, currentClub.league, 'league', realDeLiga.competition.name)
       : realDeLaSemana
         ? resolverRivalDeLaFecha(
-            ULTIMATE_CLUBS_DATABASE, realDeLaSemana,
+            ULTIMATE_CLUBS_DATABASE, realDeLaSemana, currentClub,
             realDeLaSemana.competition.league ?? (realDeLaSemana.competition.kind === 'domestic_cup' ? currentClub.league : undefined),
             realDeLaSemana.competition.kind, realDeLaSemana.competition.name)
         : null;
@@ -2976,8 +2976,22 @@ export default function Dashboard({
   // el criterio de fixtures completo tampoco puede aplicar: el motor sintético de esos años nunca
   // marca el fixture de 380 partidos como terminado. El botón "Finalizar Temporada" solo aparece en
   // el primer año con datos reales; en los siguientes la carrera sigue por el motor sin ese aviso).
+  // SIN ESTADO DE LIGA NO ES QUE EL AÑO TERMINO: ES QUE NO EMPEZO.
+  //
+  // leagueSeasons esta indexado por liga, asi que al llegar a un pais nuevo esa clave todavia no
+  // existe -- y dar eso por "temporada cerrada" ofrecia "Finalizar Temporada" en el primer dia con
+  // el club nuevo. El boton gasta una fecha del calendario (handleFinalizeSeason avanza el paso), y
+  // si esa fecha tenia partido, el partido se perdia. Medido en 19 carreras completas: pasa justo
+  // despues del primer traspaso -- el que se fue del Dortmund al Sassuolo y el que se fue del Inter
+  // al Villarreal lo sufrieron los dos en su fecha 80.
+  //
+  // Con calendario real la pregunta se la contesta el CALENDARIO, que es quien sabe si al club le
+  // quedan fechas de liga este año. Sin calendario real se mantiene el criterio viejo: no hay con
+  // que jugar, el año se cierra.
   const ligaCerradaElAnio = !myLeagueSeason
-    ? true
+    ? (hasDatedLeagueSchedule(currentClub.name)
+        ? calendarioDeLigaAgotado(currentClub.name, playerProfile.currentWeek)
+        : true)
     : isApeturaClausuraLeague(currentClub.league)
     ? myLeagueSeason.semester === 2 && myLeagueSeason.stage === 'done'
     : hasDatedLeagueSchedule(currentClub.name)
@@ -3051,7 +3065,7 @@ export default function Dashboard({
       const paso = pasoDeFecha(currentClub.name, f.date);
       const yaJugado = paso !== null && paso < pasoActual;
       const rival = resolverRivalDeLaFecha(
-        ULTIMATE_CLUBS_DATABASE, f,
+        ULTIMATE_CLUBS_DATABASE, f, currentClub,
         f.competition.league, f.competition.kind, f.competition.name,
       );
       // Primero el resultado guardado por FECHA (ver datedResults): es el único que existe para los

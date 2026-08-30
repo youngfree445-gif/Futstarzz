@@ -86,10 +86,10 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { resolverRivalDeLaFecha, eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
-import { resolverClubDeCalendario, resolverRivalDeLaFecha } from './clubAliases';
+import { resolverClubDeCalendario } from './clubAliases';
 import NoticeToast from './components/NoticeToast';
 import SoundSettings from './components/SoundSettings';
 const CareerSummary = lazy(() => import('./components/CareerSummary'));
@@ -431,7 +431,11 @@ function rivalDeLigaDelPaso(leagueClubs: Club[], clubName: string, paso: number)
   { opponentId: string; isHome: boolean } | null {
   const fx = rivalDeLigaEnPaso(clubName, paso);
   if (!fx) return null;
-  const rival = resolverRivalDeLaFecha(leagueClubs, fx, undefined, 'league', fx.competition.name);
+  // El club propio sale del nombre que ya llega: es el unico dato de identidad que tiene esta
+  // funcion, y hace falta para que el rival se resuelva dentro de TU division (ver
+  // resolverRivalDeLaFecha).
+  const yo = CLUBS_DATABASE.find(c => c.name === clubName);
+  const rival = resolverRivalDeLaFecha(leagueClubs, fx, yo, undefined, 'league', fx.competition.name);
   return rival ? { opponentId: rival.id, isHome: fx.isHome } : null;
 }
 
@@ -3192,7 +3196,7 @@ export default function App() {
       const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
       const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
       if (fx?.competition.kind === 'league') {
-        const encontrado = resolverRivalDeLaFecha(leagueClubs, fx, myClub.league, 'league', fx.competition.name);
+        const encontrado = resolverRivalDeLaFecha(leagueClubs, fx, myClub, myClub.league, 'league', fx.competition.name);
         if (encontrado) { rival = encontrado; soyLocal = fx.isHome; }
       }
     }
@@ -3950,6 +3954,7 @@ export default function App() {
       const rival = resolverRivalDeLaFecha(
         CLUBS_DATABASE,
         realPrimary,
+        myClubForCup ?? undefined,
         // En una copa nacional el rival es del mismo país que vos.
         realPrimary.competition.league ?? (realPrimary.competition.kind === 'domestic_cup' ? myClubForCup?.league : undefined),
         realPrimary.competition.kind,
@@ -4525,7 +4530,7 @@ export default function App() {
           const pasoHoy = fixturesAtStep(myClub.name, playerProfile.currentWeek);
           const fx = pasoHoy ? pickDatedPrimary(pasoHoy.fixtures) : null;
           if (fx?.competition.kind === 'league') {
-            const rivalReal = resolverRivalDeLaFecha(leagueClubs, fx, myClub.league, 'league', fx.competition.name);
+            const rivalReal = resolverRivalDeLaFecha(leagueClubs, fx, myClub, myClub.league, 'league', fx.competition.name);
             if (rivalReal) { opponentClub = rivalReal; isHomeSancion = fx.isHome; hayFechaReal = true; }
           }
         }
@@ -4554,7 +4559,7 @@ export default function App() {
       // el primero, metiendo un club brasileño en LaLiga.
       let rivalDeCalendarioReal = usaCalendarioReal && realPrimary?.competition.kind === 'league'
         ? resolverRivalDeLaFecha(
-            leagueClubs, realPrimary, myClub.league, 'league', realPrimary.competition.name)
+            leagueClubs, realPrimary, myClub, myClub.league, 'league', realPrimary.competition.name)
         : null;
 
       // PLAYOFF DE LIGA (cuadrangulares de Colombia, fase final argentina).

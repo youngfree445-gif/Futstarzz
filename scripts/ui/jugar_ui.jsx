@@ -767,6 +767,16 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
         // comparaban contra el club donde arrancaste: al que se fue del Ajax al Betis y le toco el
         // Ajax en Europa se lo acusaba de "enfrentarse a si mismo".
         miClub: clubDeAhora,
+        // EL RELOJ DEL JUEGO, no el del banco.
+        //
+        // El `paso` de la bitacora cuenta las fechas que el banco vio, y se desfasa del currentWeek
+        // del perfil: los dias que la partida avanza sola (ceremonias, overlays, cierres de año) no
+        // suman paso. Sin esta columna no se puede sondear el calendario en el punto exacto de un
+        // fallo -- que es justo lo que hizo falta para el bug del cierre de temporada, donde la
+        // tarjeta anuncia partido y el boton dice "Finalizar Temporada".
+        semana: guardada?.currentWeek ?? null,
+        // Y EL ROTULO DEL BOTON, que es la decision que se esta midiendo.
+        boton: (botones().map(b => texto(b)).find(t => /Finalizar Temporada|Disputar Partido|Pasar a Siguiente Fecha|Jugar lesionado|Recuper/i.test(t)) ?? '').slice(0, 40),
         copaEuropea: esEuropea ? copaEuropeaGuardada(guardada, prox.competicion) : null });
       const n = bitacora.length;
       const c = esEuropea ? copaEuropeaGuardada(guardada, prox.competicion) : null;

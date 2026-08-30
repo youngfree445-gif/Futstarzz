@@ -31,13 +31,13 @@
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
 import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
-import { anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { rivalDeLaFecha, anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
 import { resolverClubDeCalendario } from './clubAliases';
 import { esPartidoUnicoDeCopa } from './reglamentos';
-import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, WORLD_CUP_TEAMS_DATABASE } from './data';
+import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ULTIMATE_CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from './data';
 import { CONFEDERACION_POR_SELECCION, crearEliminatoria, seleccionesDelMundial, terminarEliminatoria, ponerAlDiaLaEliminatoria, proximoPartidoDeEliminatoria, seleccionesDeLaCopaAmerica, seleccionesDeLaEurocopa, tablaDeEliminatoria, torneoContinentalDe, zonaDe, type EliminatoriaState } from './eliminatorias';
 import { crearCopaNacional, cruceActual, sigueEnCopa, tamanoDelCuadro } from './copaNacional';
-import { CAREER_START_YEAR, type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
+import { divisionActual, CAREER_START_YEAR, type TorneoDeSelecciones, getConcacafParticipants, getLibertadoresParticipants, getSudamericanaParticipants, tercerosDeGrupo, crucePlayoffDeLiga, leagueKeyFor, prepararPlayoffDeLiga, prepararRondaCopaNacional, resolverPasoCopaNacional, resolverPasoPlayoffDeLiga, rondaDelPlayoff, terminarTorneoSinElJugador } from './leagueEngine';
 import { rondaActual } from './copaNacional';
 import { evaluarConvocatoria } from './convocatoria';
 
@@ -135,6 +135,52 @@ export function seleccionesDelMundialDe(anio: number, perfil: PlayerProfile): Cl
   const clasificadas = ALL_NATIONAL_TEAMS_DATABASE.filter(t => ids.has(t.id));
   // Red de seguridad: el sorteo son 12 grupos de 4 y con 47 no se puede armar.
   return clasificadas.length === 48 ? clasificadas : WORLD_CUP_TEAMS_DATABASE;
+}
+
+/**
+ * El rival de un partido del CALENDARIO: el club que ocupa HOY esa casilla y juega en TU division.
+ *
+ * El calendario importado trae los fixtures reales de 2025/26 y nombra al rival por el club que
+ * ocupaba esa casilla ENTONCES. Con los ascensos y descensos ese nombre envejece: la tarjeta seguia
+ * anunciando al Brentford años despues de que se fue al Championship mientras el motor, que va por
+ * la tabla, te hacia jugar contra el Hull City, que habia subido a su casilla.
+ *
+ * MANDA EL MOTOR: en un partido de LIGA la tarjeta no puede nombrar a un club que ya no esta en tu
+ * division. En una COPA NACIONAL si -- cruzarte con uno de Segunda es lo normal, asi se juega de
+ * verdad --, por eso la regla se aplica solo cuando el partido es de liga.
+ *
+ * Se busca en la lista que llega y, si ahi no esta, en la base entera: la lista de clubes de una
+ * liga se cachea una vez y no sigue los ascensos, asi que el club que subio puede faltar en ella.
+ * Y si al final nada resuelve en tu division, se devuelve lo que haya en vez de nada: quedarse sin
+ * rival es peor que un nombre viejo.
+ */
+export function resolverRivalDeLaFecha(
+  clubes: Club[],
+  fixture: { opponentName: string; temporada: number },
+  miClub?: Club,
+  competitionLeague?: string,
+  competitionKind?: string,
+  competitionName?: string,
+): Club | undefined {
+  const buscar = (nombre: string, donde: Club[]) =>
+    resolverClubDeCalendario(donde, nombre, competitionLeague, competitionKind, competitionName);
+
+  // SOLO EN LIGA SE REMAPEA LA CASILLA. El intercambio dice quien juega el CALENDARIO DE LIGA del
+  // otro; en una copa el rival sale del cuadro y su nombre no es una casilla, asi que remapearlo
+  // convertia un cruce contra el Hull City en uno contra el Brentford sin ninguna razon.
+  const casilla = competitionKind === 'league' ? rivalDeLaFecha(fixture) : fixture.opponentName;
+  const porCasilla = buscar(casilla, clubes)
+    ?? (casilla !== fixture.opponentName ? buscar(casilla, ULTIMATE_CLUBS_DATABASE) : undefined);
+  const porNombre = () => buscar(fixture.opponentName, clubes);
+
+  if (miClub && competitionKind === 'league') {
+    const enMiDivision = (c: Club | undefined) =>
+      !!c && c.league === miClub.league && divisionActual(c) === divisionActual(miClub);
+    if (enMiDivision(porCasilla)) return porCasilla;
+    const crudo = porNombre();
+    if (enMiDivision(crudo)) return crudo;
+  }
+  return porCasilla ?? porNombre();
 }
 
 /** Quién se queda con un día que el calendario apartó para copa. */
