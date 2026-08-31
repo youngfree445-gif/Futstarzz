@@ -69,7 +69,7 @@ let siguienteTimer = 1;
   getItem: () => null, setItem: () => {}, removeItem: () => {},
 };
 
-const { arrancarAmbiente, pararAmbiente, agacharAmbiente, precargarAmbiente } = await import('../src/ambienteDelPartido');
+const { arrancarAmbiente, pararAmbiente, agacharAmbiente, precargarAmbiente, desvanecerAmbiente } = await import('../src/ambienteDelPartido');
 
 /**
  * Corre `minutos` de partido y mide el silencio.
@@ -197,6 +197,54 @@ caso('el pitazo final SI lo apaga', () => {
   for (const a of AudioFalso.vivos) a.avanzar(LATIDO);
   const seEscucha = AudioFalso.vivos.reduce((s, a) => s + a.audible, 0);
   if (seEscucha > 0.001) throw new Error('el estadio sigue sonando despues del pitazo final');
+});
+
+/** Un latido, devolviendo lo que se escucha. */
+function latir(): number {
+  reloj += LATIDO;
+  for (const a of AudioFalso.vivos) a.avanzar(LATIDO);
+  for (const t of [...timers.values()]) while (reloj >= t.proximo) { t.proximo += t.cada; t.fn(); }
+  return AudioFalso.vivos.reduce((s, a) => s + a.audible, 0);
+}
+
+caso('al terminar el partido el estadio se va APAGANDO, no de golpe', () => {
+  reiniciar();
+  arrancarAmbiente('junior', 'Colombiana');
+  correrPartido(1);
+  const antes = AudioFalso.vivos.reduce((s, a) => s + a.audible, 0);
+  desvanecerAmbiente();
+
+  const curva: number[] = [];
+  for (let i = 0; i < 20 && (curva.length === 0 || curva[curva.length - 1] > 0); i++) curva.push(latir());
+
+  if (curva[0] >= antes) throw new Error('el primer latido no bajo nada: no hay fundido');
+  if (curva[0] <= 0.001) throw new Error('se apago de golpe en el primer latido');
+  // Tiene que BAJAR, paso a paso, sin volver a subir.
+  for (let i = 1; i < curva.length; i++) {
+    if (curva[i] > curva[i - 1] + 0.0001) throw new Error(`el fundido subio en el paso ${i}`);
+  }
+  if (curva[curva.length - 1] > 0.001) throw new Error('el fundido nunca llego a cero');
+  const pasos = curva.length;
+  if (pasos < 4) throw new Error(`el fundido duro ${pasos} latidos: se escucha como un corte`);
+  console.log(`      (baja en ${pasos} pasos, ${(pasos * LATIDO) / 1000}s)`);
+});
+
+caso('y si te vas de la pantalla en medio del fundido, se corta igual', () => {
+  // El desmontaje llama a pararAmbiente(): el estadio no puede quedar sonando solo por haberse
+  // ido en la mitad de la salida.
+  reiniciar();
+  arrancarAmbiente('junior', 'Colombiana');
+  correrPartido(1);
+  desvanecerAmbiente();
+  latir(); latir();
+  pararAmbiente();
+  if (latir() > 0.001) throw new Error('sigue sonando despues de salir de la pantalla');
+});
+
+caso('desvanecer sin nada sonando no revienta', () => {
+  reiniciar();
+  desvanecerAmbiente();
+  if (latir() > 0.001) throw new Error('sono algo sin haber arrancado');
 });
 
 console.log(fallos ? `\n${fallos} FALLAS` : '\nEl estadio suena de punta a punta del partido, sin baches.');

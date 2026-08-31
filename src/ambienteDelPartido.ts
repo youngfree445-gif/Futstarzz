@@ -127,6 +127,15 @@ const LATIDO = 250;
 const AGACHADA = 0.6;
 const SEGUNDOS_PARA_VOLVER = 1.2;
 
+/**
+ * Cuanto tarda el estadio en irse al terminar el partido.
+ *
+ * Cortarlo de golpe en el pitazo final se siente como si se hubiera desenchufado algo: veinte mil
+ * personas no dejan de existir en un frame. Se va apagando mientras aparece el resumen, que es lo
+ * que hace una transmision cuando baja el audio de cancha para dar paso al estudio.
+ */
+const SEGUNDOS_DE_SALIDA = 2.5;
+
 interface Sonando {
   el: HTMLAudioElement;
   pista: string;
@@ -149,11 +158,15 @@ let laDeHoy = GENERALES[0];
 /** Multiplicador temporal para agacharse cuando suena un gol. Vuelve a 1 solo. */
 let agachado = 1;
 let volviendo: number | null = null;
+/** Multiplicador de la SALIDA: va de 1 a 0 en el pitazo final y ahi el estadio se apaga. */
+let yendose = 1;
+let pasosDeSalida = 0;
+let pasoDeSalida = 0;
 
 /** El volumen que le toca al ambiente ahora mismo, mirando las preferencias del jugador. */
 function volumenObjetivo(): number {
   if (isSfxMuted()) return 0;
-  return Math.max(0, Math.min(1, getSfxVolume() * VOLUMEN_DEL_AMBIENTE * agachado));
+  return Math.max(0, Math.min(1, getSfxVolume() * VOLUMEN_DEL_AMBIENTE * agachado * yendose));
 }
 
 /**
@@ -207,7 +220,23 @@ function apagar(s: Sonando | null) {
 }
 
 /** El latido: cruza pistas, mantiene el volumen al día y limpia lo que terminó. */
+/**
+ * Un paso de la SALIDA del partido: baja el multiplicador y avisa si ya llego a cero.
+ *
+ * Va en el latido que ya existe y no en un timer aparte, asi no hay dos relojes que puedan quedar
+ * desincronizados.
+ */
+function bajarLaSalida(): boolean {
+  if (pasosDeSalida <= 0) return false;
+  pasoDeSalida++;
+  yendose = Math.max(0, 1 - pasoDeSalida / pasosDeSalida);
+  if (yendose > 0) return false;
+  pararAmbiente();
+  return true;
+}
+
 function tick() {
+  if (bajarLaSalida()) return; // el partido termino y el estadio ya se apago
   const objetivo = volumenObjetivo();
 
   if (entrando) {
@@ -303,6 +332,20 @@ export function arrancarAmbiente(semillaDeLaCancha?: string | null, ligaDeLaCanc
   latido = window.setInterval(tick, LATIDO);
 }
 
+/**
+ * EL ESTADIO SE VA APAGANDO, no se desenchufa.
+ *
+ * Para el pitazo final: cortar de golpe se siente como si se hubiera cortado la transmision. El
+ * fundido lo hace el latido que ya existe (ver tick), asi que si el jugador sale de la pantalla en
+ * el medio, el pararAmbiente() del desmontaje lo corta igual y no queda nada sonando solo.
+ */
+export function desvanecerAmbiente(segundos = SEGUNDOS_DE_SALIDA) {
+  if (!actual) { pararAmbiente(); return; }
+  if (pasosDeSalida > 0) return; // ya se estaba yendo: no se reinicia el fundido
+  pasosDeSalida = Math.max(1, Math.round((segundos * 1000) / LATIDO));
+  pasoDeSalida = 0;
+}
+
 /** Corta el ambiente y suelta los archivos. Seguro de llamar aunque no esté sonando. */
 export function pararAmbiente() {
   if (latido != null) { clearInterval(latido); latido = null; }
@@ -310,6 +353,7 @@ export function pararAmbiente() {
   apagar(actual); apagar(entrando); apagar(enEspera);
   actual = null; entrando = null; enEspera = null;
   agachado = 1;
+  yendose = 1; pasosDeSalida = 0; pasoDeSalida = 0;
 }
 
 /**

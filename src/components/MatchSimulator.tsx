@@ -15,7 +15,7 @@ import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain, Swords } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
 import { playSfx } from '../audio';
-import { arrancarAmbiente, pararAmbiente, agacharAmbiente } from '../ambienteDelPartido';
+import { arrancarAmbiente, pararAmbiente, agacharAmbiente, desvanecerAmbiente } from '../ambienteDelPartido';
 import { hayRelatoEnIngles, relatoNumero, suenaElMorse } from '../relatoDelGol';
 import { anioDeCarrera, rotuloDeTemporada } from '../dateSchedule';
 import { getDomesticCupName, getLeagueDisplay } from '../leagueDisplay';
@@ -2302,8 +2302,11 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
       setIsPlaying(false);
       if (WHISTLE_SFX_ENABLED) playSfx('whistle_end');
       // El estadio se apaga con el pitazo final y no al desmontar la pantalla: el resumen del
-      // partido no tiene por qué seguir sonando a cancha llena.
-      pararAmbiente();
+      // partido no tiene por qué seguir sonando a cancha llena. Pero se va APAGANDO, no de golpe:
+      // cortar veinte mil personas en un frame suena a transmisión cortada, no a partido que
+      // termina. Si el jugador se va de la pantalla en el medio, el pararAmbiente() del desmontaje
+      // lo corta igual.
+      desvanecerAmbiente();
       return;
     }
 
