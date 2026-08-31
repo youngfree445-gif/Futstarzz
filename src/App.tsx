@@ -57,6 +57,7 @@ import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salida
 import { evaluarConvocatoria, convocadoAlMundial } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
 import { crecimientoDeLaTemporada, informeDeLaTemporada } from './modoHardcore';
+import { facturaDelMes, cobrarCuotas, FECHAS_DE_UN_CONTRATO } from './economia';
 import { apodoDe, bautizoDe } from './apodo';
 import { estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, cronicaDelRival } from './rivalDePuesto';
 import {
@@ -422,6 +423,9 @@ const VETERAN_MODE_DECLINE_RATE = 3;
 // Argentina hay gente jugando a los 41 (Teófilo Gutiérrez, Rodallega, Insaurralde), así que cortar
 // a los 39 dejaba afuera una franja de veteranos que en la vida real siguen en cancha.
 const RETIREMENT_DECISION_AGE = 43;
+
+// Cuanto del contrato se cobra al firmar. El resto llega por fecha, ver handleAcceptSponsor.
+const ADELANTO_DE_PATROCINIO = 0.05;
 const RETIREMENT_MAX_AGE = 45;
 
 /**
@@ -1502,11 +1506,55 @@ function applyListaDeTransferiblesIfNewSeason(profile: PlayerProfile, previousWe
   };
 }
 
+/**
+ * LA FACTURA DEL MES, cobrada cuando el calendario cambia de mes.
+ *
+ * Va en applySeasonTransitions porque es el unico punto por el que pasan los doce caminos que
+ * avanzan un dia -- jugar, descansar, lesionarse, estar sancionado, el paron del Mundial --, asi que
+ * no hay forma de esquivarla saltandose partidos.
+ *
+ * El mes se saca del CALENDARIO, no de un contador: los meses del juego son los meses reales, y una
+ * temporada colombiana no tiene la misma cantidad de fechas por mes que una europea.
+ */
+function cobrarFacturaSiCambioElMes(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
+  const club = CLUBS_DATABASE.find(c => c.id === profile.currentClubId);
+  if (!club) return profile;
+  const hoy = fechaDelPaso(club.name, newWeek);
+  if (!hoy) return profile;
+  const mes = hoy.slice(0, 7);
+  // La primera fecha de la carrera solo deja anotado el mes: no se cobra una factura por un mes que
+  // el jugador no vivio.
+  if (!profile.ultimoMesFacturado) return { ...profile, ultimoMesFacturado: mes };
+  if (profile.ultimoMesFacturado === mes) return profile;
+
+  const desde = fechaDelPaso(club.name, 1);
+  const mesesDeCarrera = desde
+    ? (Number(mes.slice(0, 4)) - Number(desde.slice(0, 4))) * 12 + (Number(mes.slice(5, 7)) - Number(desde.slice(5, 7)))
+    : 0;
+  const factura = facturaDelMes({
+    ingresosDelMes: profile.ingresosDelMes ?? 0,
+    // Lo comprado no vive en el perfil sino en shopItems, que esta fuera de aca. Se usa el capital
+    // gastado como proxy? No: se usa lo que el perfil SI sabe -- los patrocinios firmados y la fama
+    // --, y la vivienda entra por valorDeLoComprado desde quien llama. Ver la nota de abajo.
+    valorDeLoComprado: profile.valorDeLoComprado ?? 0,
+    fama: profile.fans ?? 0,
+    mesesDeCarrera,
+  });
+  return {
+    ...profile,
+    capital: Math.max(0, profile.capital - factura.total),
+    ingresosDelMes: 0,
+    ultimoMesFacturado: mes,
+    ultimaFactura: factura,
+  };
+}
+
 function applySeasonTransitions(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   // Las dos redes miran el dia que se ACABA de jugar (previousWeek), no el siguiente: asi un torneo
   // se cierra el dia de su ultima fecha. Preguntando por el siguiente, el campeon aparecia tres
   // dias tarde.
-  let next = cerrarCuadrangularesVencidos(profile, previousWeek);
+  let next = cobrarFacturaSiCambioElMes(profile, previousWeek, newWeek);
+  next = cerrarCuadrangularesVencidos(next, previousWeek);
   next = cerrarCopasContinentalesVencidas(next, previousWeek);
   next = cerrarCopasUefaVencidas(next, previousWeek);
   next = freezeSeasonLeadersIfNewSeason(next, previousWeek, newWeek);
@@ -1659,6 +1707,25 @@ export default function App() {
   // y pasarles el perfil a todos sería reescribir medio motor.
   // useMemo y no useEffect: tiene que estar puesto ANTES del primer render que arme una tabla, o la
   // primera pantalla mostraría al descendido todavía en primera.
+  // EL CONTRATO QUE SE TERMINO DE PAGAR LIBERA SU CUPO.
+  //
+  // Va en un solo efecto y no en los cuatro sitios que cobran, porque la pregunta es una sola: si un
+  // patrocinio ya no tiene cuotas pendientes, su contrato vencio y vuelve a la mesa. Asi cada
+  // temporada se renegocia, en vez de quedarse con seis contratos muertos ocupando la agenda -- que
+  // es lo que dejaba al jugador sin ingresos y quebrado en la segunda mitad de la carrera.
+  //
+  // Solo corre si el perfil YA usa el sistema de cuotas: en una partida vieja el campo no existe y
+  // liberar todo de golpe le borraria los patrocinios que tenia firmados.
+  React.useEffect(() => {
+    const cuotas = playerProfile?.cuotasDePatrocinio;
+    if (!cuotas) return;
+    const conCuota = new Set(cuotas.map(c => c.id).filter(Boolean));
+    setShopItems(prev => {
+      const hayVencidos = prev.some(i => i.purchased && i.category && !conCuota.has(i.id));
+      return hayVencidos ? prev.map(i => (i.purchased && i.category && !conCuota.has(i.id) ? { ...i, purchased: false } : i)) : prev;
+    });
+  }, [playerProfile?.cuotasDePatrocinio]);
+
   React.useMemo(() => {
     setDivisionOverrides(playerProfile?.divisionOverrides);
     // Y QUIENES JUEGAN HOY CADA LIGA, para que el calendario reparta sus casillas entre ellos.
@@ -2817,6 +2884,9 @@ export default function App() {
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
       capital: playerProfile.capital - item.cost,
+      // Lo comprado se acumula ACA y no en shopItems, porque la factura del mes lo necesita y vive
+      // en el perfil: la mansion se mantiene todos los meses (ver src/economia.ts).
+      valorDeLoComprado: (playerProfile.valorDeLoComprado ?? 0) + item.cost,
       prestige: Math.min(100, playerProfile.prestige + (item.effect.prestigeBonus || 0)),
       fans: Math.min(100, playerProfile.fans + (item.effect.fansBonus || 0)),
       attributes: updatedAttributes
@@ -2851,7 +2921,24 @@ export default function App() {
 
     const updatedProfile: PlayerProfile = {
       ...playerProfile,
-      capital: playerProfile.capital + item.cost,
+      // EL CONTRATO SE COBRA A LO LARGO DEL AÑO, no de golpe al firmar.
+      //
+      // Pagaba el total en el acto, y eso rompia el juego en el minuto cero: con la fama 35 con la
+      // que se arranca ya son elegibles diez de los trece patrocinios, y firmando los seis que
+      // permite el tope entraban $505.000 ANTES del primer partido. Entrenar cuesta $950 por +3
+      // puntos y llegar de 40 a 99 en los seis atributos son 354 puntos, o sea $112.100: el dinero
+      // del dia uno alcanzaba para maximizar al jugador cuatro veces y media sin jugar nunca.
+      // Reportado por gente jugando: "agarraban los mejores contratos, entrenaban todo, y subian
+      // desde el dia 1".
+      //
+      // Ahora se firma con un adelanto del 5% y el resto entra por fecha (passiveIncome), que es
+      // como se cobra un contrato comercial de verdad. Firmar sigue siendo la mejor jugada del
+      // juego; lo que ya no se puede es cobrarlo entero antes de empezar.
+      capital: playerProfile.capital + Math.round(item.cost * ADELANTO_DE_PATROCINIO),
+      cuotasDePatrocinio: [
+        ...(playerProfile.cuotasDePatrocinio ?? []),
+        { id: item.id, cuota: Math.round(item.cost * (1 - ADELANTO_DE_PATROCINIO) / FECHAS_DE_UN_CONTRATO), restantes: FECHAS_DE_UN_CONTRATO },
+      ],
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + (item.effect.prestigeBonus || 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + (item.effect.fansBonus || 0))),
       sponsorsSignedCount: playerProfile.sponsorsSignedCount + 1
@@ -4847,13 +4934,17 @@ export default function App() {
       updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
     }
 
-    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0)
+      + cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).entra;
 
     const suspendedSync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.min(100, playerProfile.energy + 15),
       capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
+      ingresosDelMes: (playerProfile.ingresosDelMes ?? 0) + myClub.initialSalary + activePassiveDividend,
+      // Y la cuota cobrada se descuenta, o los contratos pagarian para siempre.
+      cuotasDePatrocinio: cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).quedan,
       mentalHealth: Math.max(0, playerProfile.mentalHealth - 3),
       currentWeek: playerProfile.currentWeek + 1,
       playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
@@ -4960,7 +5051,8 @@ export default function App() {
     updatedLeagueSeasons[leagueKey] = suyo?.season
       ?? getOrCreateSeasonForLeague(leagueClubs, updatedLeagueSeasons[leagueKey], nextWeek);
 
-    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0)
+      + cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).entra;
     const sync = syncBackgroundCups(playerProfile.currentClubId, nextWeek, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
 
     const weeksRemaining = playerProfile.activeInjury.weeksRemaining - 1;
@@ -4969,6 +5061,9 @@ export default function App() {
       ...playerProfile,
       energy: Math.min(100, playerProfile.energy + 12),
       capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
+      ingresosDelMes: (playerProfile.ingresosDelMes ?? 0) + myClub.initialSalary + activePassiveDividend,
+      // Y la cuota cobrada se descuenta, o los contratos pagarian para siempre.
+      cuotasDePatrocinio: cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).quedan,
       currentWeek: nextWeek,
       playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
       matchesWithoutRest: 0,
@@ -5012,13 +5107,17 @@ export default function App() {
       updatedLeagueSeasons[key] = getOrCreateSeasonForLeague(otherLeagueClubs, updatedLeagueSeasons[key], playerProfile.currentWeek + 1);
     }
 
-    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0)
+      + cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).entra;
     const sync = syncBackgroundCups(playerProfile.currentClubId, playerProfile.currentWeek + 1, playerProfile.continentalCups, playerProfile.uefaCups, playerProfile.worldCups, playerProfile.eliminatorias ?? {}, false, false, playerProfile);
 
     const updated: PlayerProfile = {
       ...playerProfile,
       energy: Math.min(100, playerProfile.energy + 15),
       capital: playerProfile.capital + myClub.initialSalary + activePassiveDividend,
+      ingresosDelMes: (playerProfile.ingresosDelMes ?? 0) + myClub.initialSalary + activePassiveDividend,
+      // Y la cuota cobrada se descuenta, o los contratos pagarian para siempre.
+      cuotasDePatrocinio: cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).quedan,
       currentWeek: playerProfile.currentWeek + 1,
       playoffsDeLiga: playoffSinVosHoy() ?? playerProfile.playoffsDeLiga,
       // Cumplir la fecha baja la cuenta EN TU LIGA, que es donde estabas sancionado.
@@ -5118,7 +5217,8 @@ export default function App() {
     const assistBonus = results.asistencias * 230;
     // Patrocinios "casi infinitos": sumamos el dividendo pasivo de TODOS los items comprados que
     // tengan uno, en vez de tener un caso especial hardcodeado por cada patrocinio nuevo.
-    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0);
+    const activePassiveDividend = shopItems.filter(i => i.purchased).reduce((sum, i) => sum + (i.effect.passiveIncome || 0), 0)
+      + cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).entra;
 
     // Finanzas personales: cada inversión activa (ver INVESTMENTS_DATABASE) devuelve su weeklyReturn
     // salvo que el roll de riesgo de esa semana la haga perder el capital invertido -- en ese caso
@@ -6179,6 +6279,9 @@ export default function App() {
         - (forzandoLaVuelta(playerProfile) ? PENALIDAD_ENERGIA_LESIONADO : 0)
         - (estaEnBajon(playerProfile) ? PENALIDAD_ENERGIA_BAJON : 0))),
       capital: Math.max(0, playerProfile.capital + totalIncome - disciplineFine),
+      // Para el impuesto de la factura del mes: lo que se cobra, se anota (ver src/economia.ts).
+      ingresosDelMes: (playerProfile.ingresosDelMes ?? 0) + Math.max(0, totalIncome),
+      cuotasDePatrocinio: cobrarCuotas(playerProfile.cuotasDePatrocinio ?? []).quedan,
       prestige: Math.max(0, Math.min(100, playerProfile.prestige + netPrestigeChange + (countryDuty?.prestige ?? 0))),
       fans: Math.max(0, Math.min(100, playerProfile.fans + netFansChange)),
       // LO QUE EL VESTUARIO VIO DE VOS HOY (ver loQueElVestuarioVio en src/elVestuario.ts).

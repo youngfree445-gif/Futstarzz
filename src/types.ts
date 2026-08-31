@@ -408,6 +408,16 @@ export interface PlayerProfile {
   // personales" más allá del capital simple. Opcionales: las partidas viejas no las tienen.
   investments?: Investment[];
   fixedExpensesWeekly?: number;
+  /** Las cuotas de los contratos firmados que todavía se están cobrando (ver src/economia.ts). */
+  cuotasDePatrocinio?: { id?: string; cuota: number; restantes: number }[];
+  /** Lo que costó todo lo que compraste en la tienda. La casa no se paga una vez: se mantiene. */
+  valorDeLoComprado?: number;
+  /** Lo que entró este mes. Es la base del impuesto de la factura mensual (ver src/economia.ts). */
+  ingresosDelMes?: number;
+  /** El mes que ya se facturó, en 'YYYY-MM'. Sin esto la factura se cobraría en cada fecha. */
+  ultimoMesFacturado?: string;
+  /** El desglose de la última factura, para poder mostrárselo al jugador. */
+  ultimaFactura?: { vivienda: number; familia: number; impuestos: number; total: number };
   // Historial de resultados del Balón de Oro, uno por año cerrado -- ver applyBallonDorIfNewSeason
   // en App.tsx. Opcional: las partidas viejas no lo tienen.
   //
