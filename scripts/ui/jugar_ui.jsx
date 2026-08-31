@@ -261,6 +261,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   edad = null,
   modo = null,
   entrenar = false,
+  usarTodo = false,
   /** La nacionalidad del jugador, por su etiqueta ("Uruguay", "Nigeria"). De ella salen las
    *  eliminatorias y la convocatoria al Mundial, asi que cambia bastante mas que la bandera. */
   nacionalidad = null } = {}) {
@@ -403,6 +404,8 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   let vueltasDeEntrenamiento = 0;
   /** La fecha en la que ya se entreno, para no repetir la sesion en la misma. */
   let ultimaFechaEntrenada = -1;
+  /** La temporada en la que ya se visitaron patrocinios, tienda y agente. */
+  let ultimaTemporadaExtras = -1;
   let motivoDelFinal = 'el bucle llego al tope de vueltas';
   /** Si la carrera llego hasta el retiro. No se puede leer del perfil guardado: la partida termina
    *  en pantalla y el guardado que queda en el disco es el de la ultima fecha jugada. */
@@ -826,6 +829,15 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
         // fallo -- que es justo lo que hizo falta para el bug del cierre de temporada, donde la
         // tarjeta anuncia partido y el boton dice "Finalizar Temporada".
         semana: guardada?.currentWeek ?? null,
+        // LA PLATA Y LA FICHA, fecha por fecha. El historial por temporada no guarda el capital, asi
+        // que la curva del dinero -- cuanto entra, cuanto se gasta, en que temporada deja de
+        // importar -- no se podia dibujar. Con esto se mide en vez de suponerse.
+        capital: guardada?.capital ?? null,
+        fama: guardada?.fans ?? null,
+        prestigio: guardada?.prestige ?? null,
+        media: guardada?.attributes
+          ? Math.round(Object.values(guardada.attributes).reduce((x, y) => x + y, 0) / 6)
+          : null,
         // Y EL ROTULO DEL BOTON, que es la decision que se esta midiendo.
         boton: (botones().map(b => texto(b)).find(t => /Finalizar Temporada|Disputar Partido|Pasar a Siguiente Fecha|Jugar lesionado|Recuper/i.test(t)) ?? '').slice(0, 40),
         copaEuropea: esEuropea ? copaEuropeaGuardada(guardada, prox.competicion) : null });
@@ -859,6 +871,53 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     // Cada sesion cuesta 20 de energia y plata, asi que no se entrena siempre: se entrena cuando el
     // boton esta habilitado, que es justo lo que el jugador humano puede hacer. El atributo se elige
     // por turnos para que la mejora no quede toda en uno.
+    // Y EL RESTO DEL JUEGO: patrocinios, tienda y agente.
+    //
+    // En 26 temporadas y 1517 partidos, una carrera terminaba con sponsorsSignedCount 0, agent null e
+    // investments vacio: sistemas enteros que ninguna corrida habia tocado nunca, porque el banco
+    // solo sabia jugar y fichar. Se visitan UNA VEZ POR TEMPORADA para que la carrera se parezca a
+    // la de alguien que usa el juego entero, sin convertir cada fecha en un paseo por las pestañas.
+    if (usarTodo && ultimaTemporadaExtras !== temp) {
+      ultimaTemporadaExtras = temp;
+      const irA = re => botones().find(b => re.test(texto(b)));
+      const volverAlHub = async () => { const v = irA(/^Mi Carrera$|^Carrera$/i); if (v) { await click(v); await dormir(70); } };
+
+      // Patrocinios: la campaña comercial deja capital en el acto.
+      const pat = irA(/^Patrocinios$/i);
+      if (pat) {
+        await click(pat); await dormir(90);
+        // "Aceptar Patrocinio" es la oferta que te llega y suma a sponsorsSignedCount; el contrato
+        // comercial es otra cosa (una campaña de prensa). Se aceptan las ofertas que haya.
+        const ofertas = botones().filter(b => /Aceptar Patrocinio/i.test(texto(b)) && !b.disabled);
+        for (const o of ofertas.slice(0, 2)) { await click(o); await dormir(90); }
+        const firmar = irA(/Firmar Contrato Comercial/i);
+        if (firmar && !firmar.disabled) { await click(firmar); await dormir(90); }
+        await volverAlHub();
+      }
+
+      // Tienda de Lujos: ahi viven las DOS cosas. "Aceptar Patrocinio" es una oferta que te llega y
+      // te deja plata; "Adquirir" es una compra que te la saca. Se hace primero la que suma.
+      const tienda = irA(/^Tienda de Lujos$/i);
+      if (tienda) {
+        await click(tienda); await dormir(90);
+        const comprar = botones().filter(b => /^Adquirir$/i.test(texto(b)) && !b.disabled);
+        if (comprar.length) { await click(comprar[0]); await dormir(90); }
+        await volverAlHub();
+      }
+
+      // Agente: una sola vez en toda la carrera. Sus botones son los unicos con estrellas.
+      if (!guardada?.agent) {
+        const tras = irA(/^Traspasos$/i);
+        if (tras) {
+          await click(tras); await dormir(90);
+          const agente = botones().find(b => /★/.test(texto(b)) && !b.disabled);
+          if (agente) { await click(agente); await dormir(90); }
+          await volverAlHub();
+        }
+      }
+      continue;
+    }
+
     // UNA SESION POR FECHA, y ni una mas. Sin el tope, el banco entraba a entrenar, volvia, y se
     // metia otra vez: 302 pantallas y CERO partidos jugados, girando entre las dos pestañas.
     if (entrenar && !guardada?.hardcoreEnabled && ultimaFechaEntrenada !== paso) {

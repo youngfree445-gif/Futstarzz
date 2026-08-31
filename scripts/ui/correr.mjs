@@ -32,6 +32,8 @@ const { bitacora, avisos, pasos, gasto, motivoDelFinal, retirado, guardada } = a
   // ENTRENAR=1 para que el banco use la ventana de entrenamiento, que es la progresion del modo
   // normal. Sin esto los atributos no se mueven en toda la carrera.
   entrenar: process.env.ENTRENAR === '1',
+  // USAR_TODO=1 para que ademas visite patrocinios, tienda y agente una vez por temporada.
+  usarTodo: process.env.USAR_TODO === '1',
   nacionalidad: process.env.NACIONALIDAD || null,
 });
 console.log(`\nSe apretaron ${pasos} pantallas en ${((Date.now() - t0) / 1000).toFixed(0)}s. ${bitacora.length} partidos anotados.\n`);
