@@ -11,6 +11,7 @@ import {
   terminarEliminatoria, zonaDe,
 } from './eliminatorias';
 import { applyClubTheme } from './clubTheme';
+import { COMFORT_ZONE_YEARS_THRESHOLD, TRAINING_ENERGY_COST, cuestaEntrenar, rindeEntrenar } from './entrenamiento';
 import { limpiarTitulosFantasma } from './limpiarTitulos';
 import { refreshTransferOffersIfNeeded } from './transferMarket';
 import { clubesDeLiga, clubesJugables, esClubJugable, ligaTieneCalendario } from './clubesJugables';
@@ -750,11 +751,10 @@ function applyBreakoutSeasonIfNewSeason(profile: PlayerProfile, previousWeek: nu
 
 // Fase 2.5 -- Zona de confort: cada temporada seguida en el mismo club (yearsAtClub, se resetea a 0
 // en cada traspaso, ver handleAcceptTransfer) suma un año; pasado el umbral, el entrenamiento rinde
-// menos (ver COMFORT_ZONE_TRAINING_GAIN en handleTrainAttribute) -- representa la comodidad de estar
-// asentado sin la ambición fresca de un jugador que recién llega a probarse en un club nuevo.
-const COMFORT_ZONE_YEARS_THRESHOLD = 5;
-const NORMAL_TRAINING_GAIN = 3;
-const COMFORT_ZONE_TRAINING_GAIN = 1;
+// menos -- representa la comodidad de estar asentado sin la ambición fresca de un jugador que recién
+// llega a probarse en un club nuevo. El umbral y el rendimiento viven en entrenamiento.ts, que es lo
+// que también lee la pantalla: si cada uno tuviera su copia, el botón prometería una cosa y el motor
+// haría otra.
 
 function applyYearsAtClubIfNewSeason(profile: PlayerProfile, previousWeek: number, newWeek: number): PlayerProfile {
   if (!cambioDeTemporada(profile, previousWeek, newWeek)) return profile;
@@ -2294,11 +2294,6 @@ export default function App() {
     setScreen('dashboard');
   };
 
-  // Fase 4 -- Entrenamiento ya no es gratis en plata: instalaciones/preparadores de clubes top
-  // cobran más caro que las de un club chico. reputation va de 1 (chico) a 5 (élite mundial).
-  const TRAINING_ENERGY_COST = 20;
-  const TRAINING_BASE_COST = 200;
-  const TRAINING_COST_PER_REPUTATION = 150;
   const handleTrainAttribute = (attr: keyof PlayerStats) => {
     if (!playerProfile) return;
     // El tope se aplicaba con Math.min(99, ...) DESPUÉS de cobrar, así que con el atributo en 99
@@ -2313,13 +2308,13 @@ export default function App() {
     }
 
     const currentClub = CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
-    const trainingCost = TRAINING_BASE_COST + (currentClub?.reputation || 1) * TRAINING_COST_PER_REPUTATION;
+    const trainingCost = cuestaEntrenar(playerProfile.attributes[attr], currentClub?.reputation || 1);
     if (playerProfile.capital < trainingCost) {
       notify(`No tienes los $${trainingCost.toLocaleString()} que cuesta esta sesión de entrenamiento en ${currentClub?.name || 'tu club'}.`);
       return;
     }
 
-    const trainingGain = playerProfile.yearsAtClub >= COMFORT_ZONE_YEARS_THRESHOLD ? COMFORT_ZONE_TRAINING_GAIN : NORMAL_TRAINING_GAIN;
+    const trainingGain = rindeEntrenar(playerProfile.attributes[attr], playerProfile.yearsAtClub);
 
     const updatedProfile = {
       ...playerProfile,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNumeroQueCuenta } from '../animaciones';
+import { COMFORT_ZONE_YEARS_THRESHOLD, RINDE_EN_ZONA_DE_CONFORT, TRAINING_ENERGY_COST, cuestaEntrenar, rindeEntrenar } from '../entrenamiento';
 import { apodoDe } from '../apodo';
 import { laHemerotecaTeRecuerda } from '../hemeroteca';
 import { clasicoPersonalContra } from '../clasicoPersonal';
@@ -587,8 +588,17 @@ export default function Dashboard({
 
   /** Igual que squadOf pero con los nombres listos para mostrar (sin marca de debut). */
   const squadNames = (club: Club) => squadOf(club).map(displayName);
-  // Fase 4: costo en capital de cada sesión de entrenamiento -- misma fórmula que handleTrainAttribute en App.tsx.
-  const trainingCost = 200 + currentClub.reputation * 150;
+  // La sesión más barata que el jugador puede pagar hoy: como el precio sube con el nivel, "no me
+  // alcanza" recién es cierto cuando no alcanza ni para el atributo más flojo. Si están todos al
+  // máximo queda Infinity y el aviso no aparece, que es lo correcto.
+  const sesionMasBarata = Math.min(...(['ritmo', 'regate', 'tiro', 'defensa', 'pase', 'fisico'] as (keyof PlayerStats)[])
+    .filter(k => playerProfile.attributes[k] < ATTRIBUTE_MAX)
+    .map(k => cuestaEntrenar(playerProfile.attributes[k], currentClub.reputation)));
+
+  // El costo y el rendimiento de cada sesión dependen del nivel del atributo, así que se preguntan
+  // por atributo más abajo. Antes esta pantalla tenía su propia copia de la fórmula ("misma que
+  // handleTrainAttribute en App.tsx"), que es exactamente como el botón termina prometiendo una cosa
+  // y el motor haciendo otra: ahora las dos preguntan a entrenamiento.ts.
 
   // Fase 2.5 -- Rivalidad generacional: nivel actual (el hito más alto ya alcanzado) y progreso
   // hacia el próximo, según CAREER_MILESTONES.
@@ -4193,7 +4203,7 @@ export default function Dashboard({
                   Complejo de Preparación Física y Técnica
                 </h2>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-burgundy-500 font-bold">-20 Energía</span> y <span className="text-burgundy-500 font-bold">-${trainingCost.toLocaleString()}</span> (instalaciones de {currentClub.name}), y sumará permanentemente {playerProfile.yearsAtClub >= 5 ? <span className="text-burgundy-500 font-bold">+1 punto</span> : <span className="text-gold-400 font-bold">+3 puntos</span>} al atributo seleccionado.
+                  Invierte tu estamina semanal para perfeccionar tus habilidades técnicas. Cada sesión requiere <span className="text-burgundy-500 font-bold">-{TRAINING_ENERGY_COST} Energía</span> y lo que cobren las instalaciones de {currentClub.name}. Cuanto mejor ya seas en algo, <span className="text-burgundy-500 font-bold">menos rinde y más cuesta</span> pulirlo: por debajo de 60 sumás <span className="text-gold-400 font-bold">+3</span>, hasta 74 sumás <span className="text-gold-400 font-bold">+2</span>, y de ahí en adelante <span className="text-burgundy-500 font-bold">+1</span> a precio de estrella. Cada botón te dice cuánto rinde y cuánto sale.
                 </p>
               </div>
 
@@ -4225,7 +4235,9 @@ export default function Dashboard({
                 ].map(item => {
                   const valor = playerProfile.attributes[item.key as keyof PlayerStats];
                   const alMaximo = valor >= ATTRIBUTE_MAX;
-                  const puede = !alMaximo && playerProfile.energy >= 20 && playerProfile.capital >= trainingCost;
+                  const trainingCost = cuestaEntrenar(valor, currentClub.reputation);
+                  const rinde = rindeEntrenar(valor, playerProfile.yearsAtClub);
+                  const puede = !alMaximo && playerProfile.energy >= TRAINING_ENERGY_COST && playerProfile.capital >= trainingCost;
                   return (
                     <div key={item.key} className="bg-slate-900 border border-slate-800 rounded-xl hover:border-gold-500/20 transition-all flex items-center gap-2.5 p-2.5">
                       {/* La foto no se ve en celular: son seis miniaturas que no dicen nada que el
@@ -4250,7 +4262,7 @@ export default function Dashboard({
                           disabled={!puede}
                           title={alMaximo
                             ? `Ya está en ${ATTRIBUTE_MAX}, el máximo.`
-                            : playerProfile.energy < 20
+                            : playerProfile.energy < TRAINING_ENERGY_COST
                             ? 'Te falta energía para entrenar.'
                             : playerProfile.capital < trainingCost
                             ? `Te faltan $${(trainingCost - playerProfile.capital).toLocaleString()}.`
@@ -4263,7 +4275,7 @@ export default function Dashboard({
                               : 'bg-slate-950 text-slate-600 cursor-not-allowed border border-slate-900'
                           }`}
                         >
-                          {alMaximo ? `Al máximo · ${ATTRIBUTE_MAX}` : `Entrenar · -20E · -$${trainingCost.toLocaleString()}`}
+                          {alMaximo ? `Al máximo · ${ATTRIBUTE_MAX}` : `Entrenar +${rinde} · -${TRAINING_ENERGY_COST}E · -$${trainingCost.toLocaleString()}`}
                         </button>
                       </div>
                     </div>
@@ -4394,15 +4406,15 @@ export default function Dashboard({
                 </div>
               ) : null}
 
-              {playerProfile.capital < trainingCost && (
+              {playerProfile.capital < sesionMasBarata && (
                 <div className="order-first lg:order-none p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-300 text-xs font-mono flex items-center gap-2.5">
-                  <ShieldAlert size={18} /> No tienes los ${trainingCost.toLocaleString()} que cuesta entrenar en las instalaciones de {currentClub.name}.
+                  <ShieldAlert size={18} /> No te alcanza para entrenar en las instalaciones de {currentClub.name}: la sesión más barata que te queda sale ${sesionMasBarata.toLocaleString()}.
                 </div>
               )}
 
-              {playerProfile.yearsAtClub >= 5 && (
+              {playerProfile.yearsAtClub >= COMFORT_ZONE_YEARS_THRESHOLD && (
                 <div className="order-first lg:order-none p-4 rounded-xl border border-burgundy-500/30 bg-burgundy-950/20 text-burgundy-300 text-xs font-mono flex items-center gap-2.5">
-                  <ShieldAlert size={18} /> Zona de confort: llevas {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde menos (+1 en vez de +3). Un traspaso te devuelve la ambición fresca.
+                  <ShieldAlert size={18} /> Zona de confort: llevas {playerProfile.yearsAtClub} temporadas seguidas en {currentClub.name} y el entrenamiento rinde el mínimo (+{RINDE_EN_ZONA_DE_CONFORT}). Un traspaso te devuelve la ambición fresca.
                 </div>
               )}
             </div>
