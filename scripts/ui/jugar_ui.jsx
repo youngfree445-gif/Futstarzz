@@ -260,6 +260,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   /** Edad con la que arranca la carrera. El formulario ofrece un <select>; 17 es lo que trae. */
   edad = null,
   modo = null,
+  entrenar = false,
   /** La nacionalidad del jugador, por su etiqueta ("Uruguay", "Nigeria"). De ella salen las
    *  eliminatorias y la convocatoria al Mundial, asi que cambia bastante mas que la bandera. */
   nacionalidad = null } = {}) {
@@ -398,6 +399,10 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
    * llegar al tope de pantallas y sin aviso. Con el motivo anotado se sabe de una lectura si fue el
    * juego, el tope o el reloj.
    */
+  /** Para repartir las sesiones entre los seis atributos y no volcar todo en uno. */
+  let vueltasDeEntrenamiento = 0;
+  /** La fecha en la que ya se entreno, para no repetir la sesion en la misma. */
+  let ultimaFechaEntrenada = -1;
   let motivoDelFinal = 'el bucle llego al tope de vueltas';
   /** Si la carrera llego hasta el retiro. No se puede leer del perfil guardado: la partida termina
    *  en pantalla y el guardado que queda en el disco es el de la ultima fecha jugada. */
@@ -845,6 +850,33 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       // corrida larga no hay forma de ver como va: el log aparece entero al final, o no aparece.
       try { appendFileSync(process.env.PROGRESO || 'scripts/ui/progreso.log', linea + "\n"); } catch (e) { /* no importa */ }
     };
+
+    // ENTRENAR, si se pidio. Es la progresion del modo NORMAL y hasta ahora el banco no la tocaba:
+    // sabia jugar partidos y aceptar traspasos, nada mas. Por eso los atributos salian clavados en 49
+    // toda la carrera y la comparacion contra el modo hardcore era injusta -- el "jugador normal" era
+    // uno que nunca habia entrenado.
+    //
+    // Cada sesion cuesta 20 de energia y plata, asi que no se entrena siempre: se entrena cuando el
+    // boton esta habilitado, que es justo lo que el jugador humano puede hacer. El atributo se elige
+    // por turnos para que la mejora no quede toda en uno.
+    // UNA SESION POR FECHA, y ni una mas. Sin el tope, el banco entraba a entrenar, volvia, y se
+    // metia otra vez: 302 pantallas y CERO partidos jugados, girando entre las dos pestañas.
+    if (entrenar && !guardada?.hardcoreEnabled && ultimaFechaEntrenada !== paso) {
+      ultimaFechaEntrenada = paso;
+      const irA = rot => botones().find(b => rot.test(texto(b)));
+      const pestania = irA(/^Entrenamiento$/i);
+      if (pestania) {
+        await click(pestania); await dormir(80);
+        const sesiones = botones().filter(b => /^Entrenar/i.test(texto(b)) && !b.disabled);
+        if (sesiones.length) {
+          await click(sesiones[vueltasDeEntrenamiento++ % sesiones.length]);
+          await dormir(80);
+        }
+        const volver = irA(/^Carrera$/i);
+        if (volver) { await click(volver); await dormir(80); }
+        continue;
+      }
+    }
 
     // "Simular partido" SIEMPRE que esté, aunque no se haya podido leer el rival de la tarjeta.
     // Antes se exigía haber leído el rival, y cuando el lector fallaba el banco se metía a jugar el
