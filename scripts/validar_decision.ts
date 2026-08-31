@@ -201,9 +201,18 @@ const rivalDe = (t: { clubAId: string; clubBId: string } | null) =>
   t ? (t.clubAId === tigres.id ? t.clubBId : t.clubAId) : null;
 const eliminado = rivalDe(cruceActual(copaMx, tigres.id));
 
-// Se gana la ronda entera (ida y vuelta).
-for (let i = 0; i < 2; i++) {
-  const c = cruceActual(copaMx, tigres.id)!;
+// Se gana la ronda entera, sea cual sea su formato.
+//
+// Esto decia `for (let i = 0; i < 2; i++)` -- "la ida y la vuelta" -- y quedo viejo cuando cada copa
+// paso a tener su formato real: la mexicana es a PARTIDO UNICO (reglamentos.ts, `copaPiernas: {
+// rondas: 1, final: 1 }`), asi que esos dos pasos no jugaban una llave sino DOS RONDAS. El cuadro
+// terminaba apuntando al rival de la segunda ronda en vez del recien eliminado, y el chequeo de aca
+// abajo fallaba sin que hubiera nada roto en el juego.
+//
+// Ahora se juega hasta que la llave queda cerrada, que es un paso en Mexico y dos donde hay vuelta.
+for (let vueltas = 0; vueltas < 4; vueltas++) {
+  const c = cruceActual(copaMx, tigres.id);
+  if (!c || c.played) break;
   const esIda = c.firstLegGoalsA === null;
   copaMx = resolverPasoCopaNacional(copaMx, clubes, {
     clubId: tigres.id, isHome: esIda ? c.clubAId === tigres.id : c.clubBId === tigres.id,
