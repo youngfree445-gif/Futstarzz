@@ -143,11 +143,47 @@ caso('sin club, la hinchada es una generica y no revienta', () => {
 caso('la pista se repite en bucle hasta el final del partido', () => {
   // El cruce encadena la pista CONSIGO MISMA: sin esto, al terminar el audio el estadio se callaba
   // y el resto del partido iba en silencio.
-  if (!/entrando = crear\(actual\.pista, 0\)/.test(FUENTE)) {
+  if (!/entrando = tomarLaQueSigue\(actual\.pista\)/.test(FUENTE)) {
     throw new Error('el ambiente no se re-encadena: al terminar la pista el estadio se calla');
   }
   // Y no puede usar `loop`, que empalma en seco.
   if (/\.loop\s*=\s*true/.test(FUENTE)) throw new Error('usa loop nativo: la costura se escucha');
+});
+
+caso('la copia del cruce se prepara al arrancar, no a 2,5 s del final', () => {
+  // Crear el `new Audio` reciEn cuando falta el cruce obliga a bajarlo y decodificarlo en ese
+  // momento: mientras carga, su currentTime es 0, el cruce no avanza, la pista vieja se termina
+  // igual y queda el hueco. Por eso la copia se deja lista al arrancar el partido.
+  if (!/prepararLaQueSigue\(laDeHoy\)/.test(FUENTE)) {
+    throw new Error('la copia del cruce no se precarga: el cruce va a entrar con hueco');
+  }
+  if (!/function prepararLaQueSigue[\s\S]{0,200}?crear\([^)]*,\s*0,\s*false\)/.test(FUENTE)) {
+    throw new Error('la copia en espera no se prepara en pausa');
+  }
+});
+
+caso('EL ESTADIO NO SE PUEDE QUEDAR MUDO: hay red de seguridad si la pista termina', () => {
+  // Si el cruce no llega a armarse -- metadatos que nunca cargaron, un play() rechazado, la
+  // pestaña dormida justo en la ventana --, `actual` quedaba apuntando a un audio TERMINADO y el
+  // resto del partido iba en silencio, sin nada que lo trajera de vuelta.
+  if (!/actual\.el\.ended[\s\S]{0,220}?actual\.el\.play\(\)/.test(FUENTE)) {
+    throw new Error('si la pista termina sin cruce, nadie la vuelve a arrancar: el estadio se calla');
+  }
+  if (!/actual\.el\.paused[\s\S]{0,220}?actual\.el\.play\(\)/.test(FUENTE)) {
+    throw new Error('si la pista queda en pausa, nadie la retoma');
+  }
+});
+
+caso('la que SALE no se baja antes de que la que entra se escuche', () => {
+  // Bajar la saliente con `avance` en 0 -- que es lo que vale mientras la entrante todavia carga --
+  // abre justo el hueco que el cruce existe para tapar. Y si la saliente ya termino, la entrante
+  // tiene que pasar a volumen pleno de una en vez de esperar el fundido.
+  if (!/const seTermino = !actual \|\| actual\.el\.ended/.test(FUENTE)) {
+    throw new Error('el cruce no contempla que la saliente termine antes de tiempo');
+  }
+  if (!/if \(seTermino\) entrando\.el\.volume = objetivo/.test(FUENTE)) {
+    throw new Error('con la saliente terminada, la entrante se queda a volumen bajo');
+  }
 });
 caso('el ambiente no se descarga al abrir el juego', () => {
   // Vive fuera de SFX_FILES a proposito: preloadSfx() recorre esa lista al arrancar, y meter ahi

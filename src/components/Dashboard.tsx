@@ -38,6 +38,7 @@ import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
 import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal, postsDelPibe,
 } from '../chutSocialVoces';
+import { precargarAmbiente } from '../ambienteDelPartido';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia, convocadoAlMundial, motivoDeAusenciaDelMundial } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
@@ -1738,6 +1739,21 @@ export default function Dashboard({
   // hay partido, punto. Sin este corte aparecía un cartel de semana de copa inventado por la
   // aritmética de semanas del motor.
   const nextWeekIsFillerCup = nextWeekIsCup && !nextMatchOpponent && !hasDatedLeagueSchedule(currentClub.name);
+
+  // EL ESTADIO EMPIEZA A BAJAR ACA, no en el pitazo inicial.
+  //
+  // Las pistas de hinchada pesan entre 430 y 700 KB. Si la descarga arranca cuando el jugador toca
+  // "Disputar Partido" -- que es cuando MatchSimulator llama a arrancarAmbiente --, el principio del
+  // partido va en silencio hasta que termine de bajar: medido con carga lenta, casi seis segundos.
+  // Desde acá, que es cuando ya se ve la tarjeta del próximo partido, llega lista al silbatazo.
+  //
+  // La semilla es EL CLUB LOCAL, igual que en la cancha: de visitante suena el estadio del rival.
+  const clubDeLaCanchaQueViene = nextMatchOpponent
+    ? (nextMatchOpponent.isHome ? currentClub : nextMatchOpponent.club)
+    : null;
+  useEffect(() => {
+    if (clubDeLaCanchaQueViene) precargarAmbiente(clubDeLaCanchaQueViene.id, clubDeLaCanchaQueViene.league);
+  }, [clubDeLaCanchaQueViene?.id, clubDeLaCanchaQueViene?.league]);
 
   const cupStageLabel = (stage: string) => {
     switch (stage) {

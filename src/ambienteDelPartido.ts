@@ -134,6 +134,15 @@ interface Sonando {
 
 let actual: Sonando | null = null;
 let entrando: Sonando | null = null;
+/**
+ * La copia YA DESCARGADA esperando su turno para el proximo cruce.
+ *
+ * El cruce creaba un `new Audio` reciEn a 2,5 s del final y lo mandaba a sonar. Ese elemento tiene
+ * que bajar y decodificar desde cero, y mientras tanto su `currentTime` es 0: el cruce no avanza,
+ * la pista vieja se termina igual, y ahi queda el silencio. Ahora la copia se prepara APENAS
+ * arranca el partido, asi que cuando le toca ya esta lista y entra sin hueco.
+ */
+let enEspera: Sonando | null = null;
 let latido: number | null = null;
 /** La pista de ESTE partido. Se elige una vez al arrancar y no cambia hasta el pitazo final. */
 let laDeHoy = GENERALES[0];
@@ -165,14 +174,30 @@ export function pistaDeLaCancha(semilla: string | null | undefined, liga?: strin
   return posibles[Math.abs(h) % posibles.length];
 }
 
-function crear(pista: string, volumen: number): Sonando {
+function crear(pista: string, volumen: number, arrancar = true): Sonando {
   const el = new Audio(`${import.meta.env.BASE_URL}${pista}`);
   el.volume = volumen;
   el.preload = 'auto';
   // Nada de `loop`: el encadenado lo maneja el latido, y una pista en bucle nunca dispararía el
-  // cruce con la siguiente.
-  void el.play().catch(() => {});
+  // cruce con la siguiente. Ademas el loop nativo empalma en seco y la costura se escucha.
+  if (arrancar) void el.play().catch(() => {});
+  else el.load();
   return { el, pista };
+}
+
+/** Deja lista -- descargada y en pausa -- la copia que va a entrar en el proximo cruce. */
+function prepararLaQueSigue(pista: string) {
+  if (!enEspera) enEspera = crear(pista, 0, false);
+}
+
+/** La copia lista entra a sonar. Si por lo que sea no habia ninguna, se crea en el momento. */
+function tomarLaQueSigue(pista: string): Sonando {
+  const lista = enEspera && enEspera.pista === pista ? enEspera : crear(pista, 0, false);
+  enEspera = null;
+  lista.el.volume = 0;
+  try { lista.el.currentTime = 0; } catch { /* todavia sin metadatos: entra desde donde este */ }
+  void lista.el.play().catch(() => {});
+  return lista;
 }
 
 function apagar(s: Sonando | null) {
@@ -186,14 +211,21 @@ function tick() {
   const objetivo = volumenObjetivo();
 
   if (entrando) {
-    // Cruce en curso: uno sube, el otro baja.
+    // Cruce en curso: uno sube, el otro baja. La que SALE no se baja antes de que la que entra se
+    // escuche -- mientras `avance` vale 0 sigue a volumen pleno --, porque bajarla antes abriria
+    // justo el hueco que este cruce existe para tapar.
     const avance = Math.min(1, (entrando.el.currentTime || 0) / CRUCE);
     entrando.el.volume = objetivo * avance;
     if (actual) actual.el.volume = objetivo * (1 - avance);
-    if (avance >= 1) {
+    // Si la que sale YA SE TERMINO, no hay nada que cruzar: la que entra pasa a volumen pleno de
+    // una. Sin esto, una entrante que tardaba en arrancar dejaba el estadio mudo hasta que cargara.
+    const seTermino = !actual || actual.el.ended;
+    if (avance >= 1 || seTermino) {
+      if (seTermino) entrando.el.volume = objetivo;
       apagar(actual);
       actual = entrando;
       entrando = null;
+      prepararLaQueSigue(actual.pista);
     }
     return;
   }
@@ -201,13 +233,31 @@ function tick() {
   if (!actual) return;
   actual.el.volume = objetivo;
 
+  // RED DE SEGURIDAD: EL ESTADIO NO SE PUEDE QUEDAR MUDO.
+  //
+  // Si la pista termina sin que el cruce llegara a armarse -- metadatos que nunca cargaron, un
+  // play() rechazado, la pestaña dormida justo en la ventana de 2,5 s --, antes no habia nada que
+  // la trajera de vuelta: `actual` quedaba apuntando a un audio terminado y el resto del partido
+  // iba en silencio. Reportado tal cual: "suenan pero se callan despues".
+  if (actual.el.ended) {
+    try { actual.el.currentTime = 0; } catch { /* sin metadatos todavia */ }
+    void actual.el.play().catch(() => {});
+    return;
+  }
+  // Y si quedo en pausa sin haber terminado, se retoma DONDE ESTABA (sin rebobinar, que se oiria
+  // como un salto).
+  if (actual.el.paused) {
+    void actual.el.play().catch(() => {});
+    return;
+  }
+
   // ¿Le quedan menos segundos que el cruce? Entonces arranca la siguiente.
   const dura = Number.isFinite(actual.el.duration) ? actual.el.duration : 0;
   const queda = dura - (actual.el.currentTime || 0);
   // `dura === 0` mientras el navegador todavía no leyó los metadatos: ahí no se decide nada.
   if (dura > 0 && queda <= CRUCE) {
     // La MISMA pista otra vez: el cruce ya no cambia de hinchada, sólo tapa la costura del bucle.
-    entrando = crear(actual.pista, 0);
+    entrando = tomarLaQueSigue(actual.pista);
   }
 }
 
@@ -222,13 +272,34 @@ export function ambienteSonando(): boolean {
  * Tiene que salir de un gesto del jugador (tocar "Disputar Partido" lo es): antes del primer gesto
  * el navegador bloquea cualquier reproducción y no hay forma de esquivarlo.
  */
+/**
+ * DEJA LA PISTA BAJANDO ANTES DEL PITAZO, sin sonar.
+ *
+ * Son entre 430 y 700 KB: empezar a bajarlos reciEn cuando el jugador toca "Disputar Partido" deja
+ * el arranque del partido en silencio hasta que termine la descarga -- medido con carga lenta,
+ * casi seis segundos. Llamando a esto cuando se abre la pantalla, la pista ya esta lista y el
+ * estadio suena desde el silbatazo.
+ *
+ * No entra en preloadSfx() a proposito: eso lo bajaria al ABRIR EL JUEGO, y son cuatro megas y
+ * medio que le cobraria la espera a todo el mundo, juegue un partido o no.
+ */
+export function precargarAmbiente(semillaDeLaCancha?: string | null, ligaDeLaCancha?: string | null) {
+  if (actual || typeof window === 'undefined') return;
+  if (semillaDeLaCancha !== undefined) laDeHoy = pistaDeLaCancha(semillaDeLaCancha, ligaDeLaCancha);
+  prepararLaQueSigue(laDeHoy);
+}
+
 export function arrancarAmbiente(semillaDeLaCancha?: string | null, ligaDeLaCancha?: string | null) {
   if (actual || typeof window === 'undefined') return;
   // La semilla sólo se lee al ARRANCAR. Si la pestaña se esconde y vuelve, se retoma la misma
   // hinchada: cambiar de cancha por haber mirado otra solapa sería lo peor de los dos mundos.
   if (semillaDeLaCancha !== undefined) laDeHoy = pistaDeLaCancha(semillaDeLaCancha, ligaDeLaCancha);
   agachado = 1;
-  actual = crear(laDeHoy, volumenObjetivo());
+  // Si precargarAmbiente ya la dejo lista, entra ESA -- que es el punto de haberla precargado.
+  actual = enEspera && enEspera.pista === laDeHoy ? tomarLaQueSigue(laDeHoy) : crear(laDeHoy, volumenObjetivo());
+  actual.el.volume = volumenObjetivo();
+  // La copia del proximo cruce se deja bajando YA, no a 2,5 s del final: asi entra sin hueco.
+  prepararLaQueSigue(laDeHoy);
   latido = window.setInterval(tick, LATIDO);
 }
 
@@ -236,8 +307,8 @@ export function arrancarAmbiente(semillaDeLaCancha?: string | null, ligaDeLaCanc
 export function pararAmbiente() {
   if (latido != null) { clearInterval(latido); latido = null; }
   if (volviendo != null) { clearInterval(volviendo); volviendo = null; }
-  apagar(actual); apagar(entrando);
-  actual = null; entrando = null;
+  apagar(actual); apagar(entrando); apagar(enEspera);
+  actual = null; entrando = null; enEspera = null;
   agachado = 1;
 }
 
