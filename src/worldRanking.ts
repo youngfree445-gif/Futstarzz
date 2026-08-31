@@ -123,15 +123,29 @@ function playerScore(profile: PlayerProfile, liga: string): number {
   const partidos = profile.careerStats.partidosHistoricos;
   if (partidos < 20) return 0; // sin muestra suficiente, no compite con el pool real todavía
 
+  // Las tres dimensiones se recortaban en 1.0 y eso hacia el Balon de Oro IMPOSIBLE fuera de las
+  // cinco grandes: con todo al tope el compuesto valia exactamente 1, asi que en Colombia el score
+  // quedaba clavado en 65 + 1 * 0.85 * 34 = 94 y el pool de cracks llega a 96. Medido en una carrera
+  // completa: 1464 partidos, 1231 goles, 1060 asistencias, 13 titulos y nota media 8.86 -- y termino
+  // QUINTO, con 25 galas y cero ganadas. No era dificil, era imposible, y contradecia al comentario
+  // del escaparate de aca abajo ("se puede llegar arriba desde Sudamerica, pero hay que rendir
+  // bastante mas"): recortando en 1.0, rendir mas no servia de nada.
+  //
+  // Ahora cada dimension puede pasarse de 1, hasta EXCEPCIONAL. Sigue habiendo techo -- ninguna se
+  // dispara sola -- pero una carrera desmedida compensa el peso de la liga, que es justo lo que
+  // hicieron los que ganaron el premio jugando fuera de Europa.
+  const EXCEPCIONAL = 1.25;
+  const nivel = (x: number) => Math.max(0, Math.min(EXCEPCIONAL, x));
+
   // Promedio de calificación de partido, normalizado: 6.0 es un partido gris, 8.5+ es un nivel de
-  // elite mundial sostenido. Fuera de ese rango realista se recorta.
+  // elite mundial sostenido.
   const promedioCalificacion = profile.careerStats.sumaCalificacionesHistoricas / partidos;
-  const nivelRendimiento = Math.max(0, Math.min(1, (promedioCalificacion - 6.0) / 2.5)); // 0-1
+  const nivelRendimiento = nivel((promedioCalificacion - 6.0) / 2.5);
 
   const contribucionPorPartido = (profile.careerStats.golesHistoricos + profile.careerStats.asistenciasHistoricos) / partidos;
-  const nivelContribucion = Math.max(0, Math.min(1, contribucionPorPartido / 1.0)); // 1 gol+asist/partido = techo
+  const nivelContribucion = nivel(contribucionPorPartido / 1.0); // 1 gol+asist/partido = la referencia
 
-  const nivelTitulos = Math.max(0, Math.min(1, profile.careerStats.campeonatos / 8)); // 8 títulos = techo
+  const nivelTitulos = nivel(profile.careerStats.campeonatos / 8); // 8 títulos = la referencia
 
   // Rendimiento sostenido pesa más que contribución bruta o títulos sueltos: un defensor o
   // arquero de elite real no mete goles pero sí sostiene una calificación altísima.
@@ -146,9 +160,9 @@ function playerScore(profile: PlayerProfile, liga: string): number {
   // rendir bastante mas -- que es exactamente lo que le paso a los que lo lograron de verdad.
   const compuestoConEscaparate = compuesto * pesoDeLaLiga(liga);
 
-  // 65 es un jugador consolidado de primer nivel doméstico; 99 es inalcanzable salvo con una
+  // 65 es un jugador consolidado de primer nivel doméstico; 99 es el techo, y solo lo roza una
   // carrera de elite sostenida en las tres dimensiones a la vez.
-  return Math.round(65 + compuestoConEscaparate * 34);
+  return Math.min(99, Math.round(65 + compuestoConEscaparate * 34));
 }
 
 /**
