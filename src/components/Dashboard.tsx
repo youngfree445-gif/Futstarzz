@@ -52,7 +52,7 @@ import {
   isClubStillInCup, isClubStillInUefaCup, partidosQueLeQuedanEnLaCopa,
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES, isWorldCupYear,
   isApeturaClausuraLeague, getOrCreateSeasonForLeague, generateLeagueLeadersFromTable,
-  CAREER_START_YEAR, roundLabelByMatchCount, crucePlayoffDeLiga, rondaDelPlayoff, rondaDeCopaUefa, rondaDeCopaContinental
+  CAREER_START_YEAR, roundLabelByMatchCount, crucePlayoffDeLiga, sigueEnPlayoffDeLiga, rondaDelPlayoff, rondaDeCopaUefa, rondaDeCopaContinental
 } from '../leagueEngine';
 import {
   User, Award, Dumbbell, Send, Radio, RefreshCw, ShoppingBag,
@@ -955,6 +955,30 @@ export default function Dashboard({
 
   /** La copa nacional de esta temporada, si la hay: es un torneo mas para mostrar. */
   const copaNacionalDeLaTemporada = playerProfile.domesticCups?.[claveDeCopaNacional(currentClub, playerProfile.currentWeek)] ?? null;
+
+  /**
+   * EL CUADRO DEL CUADRANGULAR, para dibujarlo como el de la Libertadores.
+   *
+   * Pedido: "cuando la liga llega a los cuadrangulares, que se muestren los brackets de
+   * eliminación, como con la libertadores". El cuadro ya existe y se juega -- lo que faltaba era
+   * mostrarlo: la pestaña de la liga terminaba en la tabla de la fase regular, que a esa altura del
+   * torneo ya no dice quién está peleando el título.
+   *
+   * SE BUSCA POR PREFIJO en vez de rearmar la clave. La clave es `liga|temporada|semestre` y el
+   * semestre sale de la fecha del partido de liga de HOY (ver clavePlayoffDeLiga), pero esta
+   * pantalla se mira cualquier día -- también uno de copa, o uno sin partido --, y ahí no hay
+   * torneo de liga que consultar: la clave saldría con el semestre vacío y no encontraría nada.
+   * Del prefijo cuelgan como mucho dos cuadros por año (Apertura y Clausura) y se toma el último,
+   * que es el que se está jugando.
+   */
+  const cuadrangularDeLaTemporada = (() => {
+    const cuadros = playerProfile.playoffsDeLiga;
+    if (!cuadros) return null;
+    const prefijo = `${myLeagueKey}|${temporadaDeCarrera(currentClub.name, playerProfile.currentWeek)}|`;
+    const claves = Object.keys(cuadros).filter(k => k.startsWith(prefijo)).sort();
+    const ultima = claves[claves.length - 1];
+    return ultima ? cuadros[ultima] ?? null : null;
+  })();
 
   /**
    * UNA PESTAÑA POR TORNEO QUE SE ESTA JUGANDO, con el nombre de cada uno.
@@ -5790,6 +5814,37 @@ export default function Dashboard({
                   </div>
                 ) : (
                   <p className="text-2xs text-slate-500">Todavía no hay datos de la tabla para esta liga.</p>
+                )}
+
+                {/* EL CUADRO, DEBAJO DE LA TABLA. Cuando el torneo llega a los cuadrangulares, la
+                    tabla de la fase regular ya no dice quién está peleando el título: lo dice el
+                    cuadro. Se dibuja con el MISMO componente que la Libertadores y la copa
+                    nacional, así que las tres eliminatorias se leen igual.
+
+                    Solo para TU liga: el cuadro se siembra con la tabla de tu carrera y existe
+                    únicamente para ella. Con otra liga elegida en el selector no hay nada que
+                    mostrar, y dibujar el tuyo bajo la tabla de otra sería mentir. */}
+                {selectedLeagueKey === myLeagueKey && cuadrangularDeLaTemporada
+                  && (cuadrangularDeLaTemporada.tiesByRound?.length ?? 0) > 0 && (
+                  <div className="pt-2 border-t border-slate-800 space-y-3">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <h4 className="text-2xs font-black uppercase tracking-widest text-gold-400">
+                        Cuadrangulares{torneoEnCurso ? ` · ${torneoEnCurso}` : ''}
+                      </h4>
+                      <span className="text-3xs text-slate-500 font-mono">
+                        {cuadrangularDeLaTemporada.championId
+                          ? (ULTIMATE_CLUBS_DATABASE.find(c => c.id === cuadrangularDeLaTemporada.championId)?.name ?? '') + ' campeón'
+                          : sigueEnPlayoffDeLiga(cuadrangularDeLaTemporada, currentClub.id)
+                            ? `${currentClub.name} sigue en carrera.`
+                            : `${currentClub.name} quedó eliminado.`}
+                      </span>
+                    </div>
+                    <CuadroEliminatoria
+                      rondas={rondasDeIdaYVuelta(cuadrangularDeLaTemporada.tiesByRound)}
+                      miId={currentClub.id}
+                      campeonId={cuadrangularDeLaTemporada.championId ?? null}
+                    />
+                  </div>
                 )}
               </div>
               )}

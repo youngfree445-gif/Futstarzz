@@ -346,6 +346,41 @@ caso('copas: abre en Liga y no dibuja las otras dos secciones', () => {
   return html;
 });
 
+// EL CUADRO DEL CUADRANGULAR, debajo de la tabla.
+//
+// Cuando el torneo llega a los cuadrangulares, la tabla de la fase regular ya no dice quien esta
+// peleando el titulo: lo dice el cuadro. Pedido: "cuando la liga llega a los cuadrangulares, que se
+// muestren los brackets de eliminacion, como con la libertadores".
+//
+// Se dibuja con el MISMO componente que la Libertadores y la copa nacional, asi que lo que se
+// comprueba es que llegue el dato y salgan los nombres: si el cuadro estuviera vacio o la clave no
+// coincidiera, la seccion no se dibujaria y nadie se enteraria.
+caso('copas: con cuadrangular en juego, la tabla muestra el cuadro', () => {
+  const rival = ULTIMATE_CLUBS_DATABASE.find(c => c.name === 'Millonarios FC');
+  const cuadro = {
+    tiesByRound: [[{
+      clubAId: junior.id, clubBId: rival.id,
+      firstLegGoalsA: 2, firstLegGoalsB: 1, secondLegGoalsA: null, secondLegGoalsB: null,
+      played: false, winnerId: null,
+    }]],
+    championId: null,
+  };
+  // La clave es `liga|temporada|semestre`, la misma que arma clavePlayoffDeLiga.
+  const html = dibujar(
+    perfilDe(junior, { playoffsDeLiga: { 'Colombiana-1|1|Apertura': cuadro } }),
+    'tablas', 'Cuadrangulares');
+  if (!html.includes(rival.name)) throw new Error('el cuadro no nombra al rival de la llave');
+  if (!html.includes('sigue en carrera')) throw new Error('no dice si el club sigue vivo');
+  return html;
+});
+
+// Y sin cuadrangular no se dibuja nada: media temporada de liga no puede mostrar un cuadro vacio.
+caso('copas: sin cuadrangular, la tabla no inventa un cuadro', () => {
+  const html = dibujar(perfilDe(junior, {}), 'tablas', 'tabla-posiciones');
+  if (html.includes('Cuadrangulares')) throw new Error('dibuja el cuadro sin que haya uno');
+  return html;
+});
+
 // Y cada pestaña lleva el NOMBRE del torneo, no una categoria generica: es lo que deja ver de un
 // vistazo todo lo que el club esta jugando.
 caso('copas: las pestañas llevan el nombre de cada torneo', () => {
