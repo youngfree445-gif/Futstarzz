@@ -31,7 +31,7 @@ import {
   getLibertadoresParticipants, getSudamericanaParticipants, getOrCreateCupState, getUpcomingCupMatch, resolveCupWeek, isClubStillInCup,
   sigueEnElCuadroDeIdaYVuelta,
   getChampionsParticipants, getEuropaParticipants, getOrCreateUefaCupState, getUpcomingUefaCupMatch, resolveUefaCupWeek, isClubStillInUefaCup,
-  getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
+  getOrCreateWorldCupState, getUpcomingWorldCupMatch, sigueEnElTorneoDeSelecciones, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
   resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, sigueEnPlayoffDeLiga, rondaDelPlayoff,
@@ -5585,6 +5585,48 @@ export default function App() {
       setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cupResuelta } }));
       saveGameState({ ...playerProfile, domesticCups: { ...(playerProfile.domesticCups ?? {}), [cupKey]: cupResuelta } }, shopItems);
 
+      // LA COPA NACIONAL TAMBIEN AVISA. Era la unica que no lo hacia.
+      //
+      // Tenia pantalla de campeon si la ganabas, pero si te eliminaban el cuadro se terminaba solo
+      // -- ver terminarTorneoSinElJugador, tres lineas mas arriba -- y el torneo desaparecia de tu
+      // carrera sin una palabra. Las continentales avisan desde hace rato y el cuadrangular desde
+      // este mismo trabajo; esta se habia quedado atras, y el jugador la pregunto derecho: "y las
+      // copas?".
+      //
+      // La ronda es la de ANTES de resolver: es en la que quedaste afuera. Leerla de `resuelta`
+      // daria la ronda a la que paso el que te gano.
+      if (sigueEnCopa(cup, myClub.id) && !sigueEnCopa(resuelta, myClub.id)) {
+        mostrarAviso({
+          competition: nombreCopaNacional(myClub.league),
+          clubName: myClub.name,
+          season: String(CAREER_START_YEAR + temporadaDeCopa - 1),
+          badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+          eliminated: true,
+          eliminatedRound: rondaActual(cup),
+        });
+      } else if (!resuelta.championId
+        && sigueEnCopa(resuelta, myClub.id)
+        && !cruceActual(cup, myClub.id)?.played
+        && cruceActual(resuelta, myClub.id)?.winnerId === myClub.id) {
+        // Y PASASTE DE RONDA: la otra mitad del cuadro, que tampoco existia.
+        //
+        // La senal es TU LLAVE recien terminada y ganada, no que haya aparecido una ronda nueva en
+        // el cuadro. En esta copa la ronda siguiente se arma ANTES del partido (ver
+        // prepararRondaCopaNacional en startMatchflow), asi que al resolver el resultado no se
+        // agrega ninguna y el aviso no salia nunca. Se vio jugando: el Junior gano la Copa BetPlay
+        // 2027 entera sin que apareciera un solo cartel de pase de ronda.
+        //
+        // Ganar la FINAL no entra: ahi se corona un campeon y lo cuenta la pantalla de campeon,
+        // unas lineas mas abajo. Por eso la guarda de championId.
+        mostrarAviso({
+          competition: nombreCopaNacional(myClub.league),
+          clubName: myClub.name,
+          season: String(CAREER_START_YEAR + temporadaDeCopa - 1),
+          badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+          avanzo: true,
+        });
+      }
+
       if (resuelta.championId === myClub.id) {
         salioCampeon = true;
         // Mismo criterio que la clave de la copa: el año sale de la temporada del CALENDARIO. Con
@@ -6018,6 +6060,20 @@ export default function App() {
             eliminated: true,
             eliminatedRound: ultimaRonda ? roundLabelByMatchCount(ultimaRonda.length) : null,
           });
+        } else if (seguiaAntes && sigueAhora && !resolvedUefaCup.championId
+          && pasoDeRonda(uefaCupBeforeMatch, resolvedUefaCup)) {
+          // PASASTE DE RONDA, que en las europeas tampoco existia: te despedian al perder y no te
+          // decian nada al ganar. Es la misma pareja que ya tienen las de Conmebol -- las dos
+          // mitades del cuadro -- y la asimetria no tenia motivo, solo que nadie la habia escrito.
+          const nueva = resolvedUefaCup.knockout?.tiesByRound[resolvedUefaCup.knockout.tiesByRound.length - 1];
+          mostrarAviso({
+            competition: activeUefaCupId === 'europa' ? 'Europa League' : 'Champions League',
+            clubName: myClub.name,
+            season: `Edición ${resolvedUefaCup.year}`,
+            badgeUrl: myClub.badgeImageUrl ?? myClub.badgeLogoUrl ?? null,
+            avanzo: true,
+            rondaSiguiente: nueva ? roundLabelByMatchCount(nueva.length) : null,
+          });
         }
       }
       updatedUefaCups = { ...playerProfile.uefaCups, [activeUefaCupId]: resolvedUefaCup };
@@ -6070,6 +6126,42 @@ export default function App() {
         foundShootoutMyName = seleccionesDeEsteMundial.find(t => t.id === activeWorldCupTeamId)?.name || '';
       }
       updatedWorldCups = { ...playerProfile.worldCups, [clave]: resolvedWorldCup };
+
+      // EL MUNDIAL TAMBIEN AVISA. Era la ultima competencia que no lo hacia.
+      //
+      // Tenia su pantalla de campeon, pero quedar afuera -- en fase de grupos o en una eliminatoria
+      // a partido unico -- pasaba sin una palabra: el torneo simplemente dejaba de aparecer. Vale
+      // igual para la Eurocopa y la Copa America, que son el mismo torneo con otros numeros.
+      const nombreDelTorneo: Record<TorneoDeSelecciones, string> = {
+        mundial: 'Copa del Mundo', eurocopa: 'Eurocopa', copaamerica: 'Copa América',
+      };
+      const miSeleccion = seleccionesDeEsteMundial.find(t => t.id === activeWorldCupTeamId);
+      const seguiaEnElMundial = sigueEnElTorneoDeSelecciones(wcBeforeMatch, activeWorldCupTeamId);
+      const sigueEnElMundial = sigueEnElTorneoDeSelecciones(resolvedWorldCup, activeWorldCupTeamId);
+      const baseMundial = {
+        competition: nombreDelTorneo[hoy?.torneo ?? 'mundial'],
+        clubName: miSeleccion?.name ?? '',
+        season: String(resolvedWorldCup.year),
+        badgeUrl: miSeleccion?.badgeImageUrl ?? miSeleccion?.badgeLogoUrl ?? null,
+      };
+      if (seguiaEnElMundial && !sigueEnElMundial) {
+        // La ronda es la del cuadro de ANTES. Si antes no habia cuadro, te quedaste en los grupos:
+        // no hubo llave que perder, y decir "eliminado en Octavos" seria falso.
+        const rondaPrevia = wcBeforeMatch.knockout?.matchesByRound[wcBeforeMatch.knockout.matchesByRound.length - 1];
+        mostrarAviso({
+          ...baseMundial,
+          eliminated: true,
+          eliminatedRound: rondaPrevia ? roundLabelByMatchCount(rondaPrevia.length) : 'la fase de grupos',
+        });
+      } else if (seguiaEnElMundial && sigueEnElMundial && !resolvedWorldCup.knockout?.championId
+        && (resolvedWorldCup.knockout?.matchesByRound.length ?? 0) > (wcBeforeMatch.knockout?.matchesByRound.length ?? 0)) {
+        const nuevaRonda = resolvedWorldCup.knockout?.matchesByRound[resolvedWorldCup.knockout.matchesByRound.length - 1];
+        mostrarAviso({
+          ...baseMundial,
+          avanzo: true,
+          rondaSiguiente: nuevaRonda ? roundLabelByMatchCount(nuevaRonda.length) : null,
+        });
+      }
 
       // GANAR CON LA SELECCION SE ANOTA COMO TITULO.
       //

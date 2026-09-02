@@ -2186,6 +2186,29 @@ export function resolveWorldCupWeek(
   return { ...updated, stepsConsumed: (cup.stepsConsumed ?? 0) + 1 };
 }
 
+/**
+ * ¿La seleccion sigue viva en el Mundial (o en la Eurocopa, o en la Copa America)?
+ *
+ * Hermana de sigueEnPlayoffDeLiga y de sigueEnCopa, y hace falta por lo mismo: para avisar de una
+ * eliminacion hay que distinguir al que quedo afuera del que nunca estuvo y del que salio campeon.
+ *
+ * Estos cuadros NO son como los de club: se juegan a partido UNICO y su PlayoffMatch no guarda
+ * `winnerId`, asi que el ganador se deduce de los goles y, si empataron, de la tanda. En fase de
+ * grupos alcanza con estar en un grupo -- todavia no hay a quien eliminar --, y si el torneo ya paso
+ * a eliminacion y tu seleccion no aparece en el cuadro, es que no paso de la fase de grupos.
+ */
+export function sigueEnElTorneoDeSelecciones(cup: WorldCupState, teamId: string): boolean {
+  if (cup.knockout?.championId) return cup.knockout.championId === teamId;
+  if (!cup.knockout) return cup.groups.some(g => g.clubIds.includes(teamId));
+  const ronda = cup.knockout.matchesByRound[cup.knockout.matchesByRound.length - 1];
+  const m = ronda?.find(x => x.homeTeamId === teamId || x.awayTeamId === teamId);
+  if (!m) return false;
+  if (!m.played) return true;
+  const local = m.homeGoals ?? 0, visita = m.awayGoals ?? 0;
+  if (local !== visita) return (local > visita ? m.homeTeamId : m.awayTeamId) === teamId;
+  return m.penaltyShootout?.winnerId === teamId;
+}
+
 export function getUpcomingWorldCupMatch(cup: WorldCupState, teamId: string): { opponentId: string; isHome: boolean } | null {
   if (cup.stage === 'groups') {
     const nextMw = Math.min(...cup.groups.map(g => g.fixtures.find(f => !f.played)?.matchweek ?? Infinity));

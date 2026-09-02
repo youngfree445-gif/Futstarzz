@@ -14,7 +14,7 @@ import { ULTIMATE_CLUBS_DATABASE as CLUBS, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONA
 import { seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica } from '../src/eliminatorias';
 import { esAnioDeTorneoContinental, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
-import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getOrCreateWorldCupState, FORMATO_DE_TORNEO, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
+import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getOrCreateWorldCupState, sigueEnElTorneoDeSelecciones, FORMATO_DE_TORNEO, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
 import type { Club } from '../src/types';
 
 const TEMPORADAS = 3;
@@ -527,6 +527,39 @@ console.log('\n=== EUROCOPA Y COPA AMERICA ===');
 
   // El Mundial no se entera de que esto existe.
   const mundial = getOrCreateWorldCupState(1, WORLD_CUP_TEAMS_DATABASE as unknown as Club[], undefined, 8);
+
+  // ---------------------------------------------------------------------------------------------
+  // SI TE ELIMINAN DEL MUNDIAL, TE TIENEN QUE AVISAR
+  // ---------------------------------------------------------------------------------------------
+  //
+  // Estos torneos tenian pantalla de campeon y nada para el que queda afuera: el Mundial
+  // simplemente dejaba de aparecer. El aviso se dispara comparando el estado de antes con el de
+  // despues, y quien contesta si seguis vivo es sigueEnElTorneoDeSelecciones. Se prueba que
+  // distinga los cuatro estados, que es de lo que depende a quien se le avisa.
+  const campeonDelMundo = mundial.knockout?.championId ?? '';
+  okTC('el campeon sigue "vivo": lo suyo lo cuenta la pantalla de campeon',
+     sigueEnElTorneoDeSelecciones(mundial, campeonDelMundo), nomSel(campeonDelMundo));
+
+  // El finalista perdio el ultimo partido: quedo afuera.
+  const finalDelMundial = (mundial.knockout?.matchesByRound ?? []).at(-1)?.[0];
+  const finalista = finalDelMundial
+    ? (finalDelMundial.homeTeamId === campeonDelMundo ? finalDelMundial.awayTeamId : finalDelMundial.homeTeamId)
+    : '';
+  okTC('el que perdio la final ya no sigue', !sigueEnElTorneoDeSelecciones(mundial, finalista), nomSel(finalista));
+
+  // Una seleccion que no llego al cuadro: se quedo en la fase de grupos.
+  const enElCuadro = new Set((mundial.knockout?.matchesByRound ?? []).flat()
+    .flatMap(m => [m.homeTeamId, m.awayTeamId]));
+  const quedoEnGrupos = mundial.groups.flatMap(g => g.clubIds).find(id => !enElCuadro.has(id)) ?? '';
+  okTC('el que no paso de grupos tampoco sigue',
+     !!quedoEnGrupos && !sigueEnElTorneoDeSelecciones(mundial, quedoEnGrupos), nomSel(quedoEnGrupos));
+
+  // Y en pleno torneo, antes de que se juegue nada, TODOS los que estan en un grupo siguen vivos:
+  // en fase de grupos no hay a quien anunciarle una eliminacion.
+  const recienEmpezado = getOrCreateWorldCupState(1, WORLD_CUP_TEAMS_DATABASE as unknown as Club[], undefined, 0);
+  okTC('recien empezado, nadie esta eliminado',
+     recienEmpezado.groups.flatMap(g => g.clubIds).every(id => sigueEnElTorneoDeSelecciones(recienEmpezado, id)),
+     `${recienEmpezado.groups.flatMap(g => g.clubIds).length} selecciones`);
   okTC('el Mundial sigue con sus doce grupos y su ronda de 32',
      mundial.groups.length === 12
      && (mundial.knockout?.matchesByRound ?? []).map(r => r.length).join(',') === '16,8,4,2,1');
