@@ -27,6 +27,8 @@ export type SfxName =
   | 'pase'
   // El relator gritando el gol. Están en inglés, así que sólo suenan donde corresponde
   // (ver src/relatoDelGol.ts).
+  | 'gol_visitante'
+  | 'post_partido_hinchada'
   | 'relato_gol_1'
   | 'relato_gol_2'
   // El guiño: el gol en morse, que suena alguna que otra vez.
@@ -55,6 +57,13 @@ const SFX_FILES: Record<SfxName, string> = {
   // seguidos, porque el mismo efecto no puede solaparse consigo mismo (se reinicia, ver playSfx).
   whistle_end: 'sfx/whistle_end.mp3',
   crowd_cheer: 'sfx/crowd_cheer.mp3',
+  // El gol del rival en tu cancha: la tribuna se calla y se queja. Antes sonaba crowd_boo.wav, que
+  // es uno de los placeholders sinteticos -- un "buu" de sistema. Este es una reaccion real de
+  // decepcion, que es lo que se oye cuando el visitante convierte.
+  gol_visitante: 'sfx/gol_visitante.mp3',
+  // La tribuna de despues del partido, la larga: entra unos segundos DESPUES de post_partido y se
+  // queda de fondo mientras se lee el diario. Ver PostMatch.
+  post_partido_hinchada: 'sfx/post_partido_hinchada.mp3',
   crowd_boo: 'sfx/crowd_boo.wav',
   click: 'sfx/click.wav',
   success: 'sfx/success.wav',
@@ -77,6 +86,10 @@ const SFX_GAIN: Partial<Record<SfxName, number>> = {
   card: 0.7,
   crowd_cheer: 0.85,
   crowd_boo: 0.85,
+  gol_visitante: 0.85,
+  // Va POR DEBAJO del resto: es una cama de fondo para leer el diario, no un golpe. A volumen
+  // pleno tapaba el sonido de apertura con el que se encima.
+  post_partido_hinchada: 0.4,
   // Los sonidos reales vienen bastante más calientes que los placeholders generados: el festejo de
   // la gala y el de la pantalla de después son multitudes enteras y a volumen pleno tapan todo.
   // El golpe a la pelota suena varias veces por partido: al volumen del gol cansaría enseguida.
@@ -270,6 +283,38 @@ export function desbloquearAudio() {
       el.volume = volumen;
     });
   });
+}
+
+/**
+ * BAJA UN EFECTO HASTA CERO Y LO CORTA, en vez de cortarlo en seco.
+ *
+ * Hace falta para los sonidos LARGOS: la tribuna del post partido dura más de un minuto y el
+ * jugador se va de esa pantalla cuando quiere, casi siempre antes. Cortarla en el frame del click
+ * suena a cable desenchufado -- es la misma lección que dejó el ambiente del estadio, que también
+ * se va apagando en vez de callarse de golpe.
+ *
+ * Devuelve el volumen a su valor de siempre al terminar: el elemento se reutiliza en el próximo
+ * partido y quedaría mudo para siempre.
+ */
+export function desvanecerSfx(name: SfxName, segundos = 1.2) {
+  const el = pool.get(name);
+  if (!el || el.paused) return;
+  const volumenOriginal = el.volume;
+  const pasos = Math.max(1, Math.round(segundos * 20));   // 20 cuadros por segundo
+  let n = 0;
+  const bajando = setInterval(() => {
+    n++;
+    el.volume = Math.max(0, volumenOriginal * (1 - n / pasos));
+    if (n >= pasos) {
+      clearInterval(bajando);
+      el.pause();
+      try { el.currentTime = 0; } catch { /* todavía sin metadatos */ }
+      el.volume = volumenOriginal;
+    }
+  }, 50);
+  // Y las copias encimadas del mismo efecto, que si no siguen sonando solas.
+  for (const copia of sonando.get(name) ?? []) { copia.pause(); copia.currentTime = 0; }
+  sonando.set(name, []);
 }
 
 /** Precarga los archivos para que el primer gol no llegue tarde por estar recién descargando. */

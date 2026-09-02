@@ -13,10 +13,12 @@ que registrar en el código. Si bajás `.mp3` (recomendado, pesa mucho menos), c
 
 | Archivo | Cuándo suena |
 |---|---|
-| `goal.wav` | Gol del jugador (decisión, penal o tiro libre) |
-| `crowd_cheer.wav` | Junto al gol, y en asistencias |
+| `goal.mp3` | Gol del jugador (decisión, penal o tiro libre) |
+| `crowd_cheer.mp3` | Junto al gol del local, y en asistencias |
 | `card.wav` | Amarilla o roja |
+| `gol_visitante.mp3` | Gol del rival en tu cancha: la tribuna se lamenta |
 | `crowd_boo.wav` | Expulsión, y penal errado |
+| `post_partido_hinchada.mp3` | Segunda capa del diario: entra a los 3,5 s y se desvanece al salir |
 | `whistle.wav` | Silbatazo inicial y final |
 | `success.wav` | Decisión exitosa sin gol ni asistencia |
 | `fail.wav` | Decisión fallida (sin tarjeta) |

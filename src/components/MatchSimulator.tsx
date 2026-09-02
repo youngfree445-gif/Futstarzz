@@ -2148,7 +2148,11 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
   const sonarGol = (esDeMiEquipo: boolean) => {
     playSfx('goal');
     const loGritaLaCancha = esDeMiEquipo === isHome.current;
-    playSfx(loGritaLaCancha ? 'crowd_cheer' : 'crowd_boo');
+    // La hinchada que suena es la de la CANCHA: festeja el gol del local y se lamenta el del
+    // visitante. El lamento tiene ahora su propia grabacion (gol_visitante) en vez del "buu"
+    // sintetico que se usaba para todo -- crowd_boo sigue, pero para lo que es: la expulsion y el
+    // penal errado.
+    playSfx(loGritaLaCancha ? 'crowd_cheer' : 'gol_visitante');
     agacharAmbiente();
     // El relator y el morse son para los goles de tu equipo: son el subrayado de la buena noticia.
     // Donde se juega en Inglaterra o Estados Unidos lo grita un relator; si no, alguna que otra vez

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { playSfx } from '../audio';
+import React, { useEffect, useRef } from 'react';
+import { desvanecerSfx, playSfx } from '../audio';
 import { PlayerProfile, Club } from '../types';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE } from '../data';
 import { FileText, Award, DollarSign, ArrowRight, TrendingUp, Users, Calendar } from 'lucide-react';
@@ -35,14 +35,42 @@ interface PostMatchProps {
 }
 
 export default function PostMatch({ playerProfile, matchResults, opponentName, representingTeamId, desenlaceDeCopa, onContinue }: PostMatchProps) {
-  // LA TRIBUNA DE DESPUÉS DEL PARTIDO.
+  // LA TRIBUNA DE DESPUÉS DEL PARTIDO, en dos capas.
   //
   // El estadio se apaga con el pitazo final, así que esta pantalla quedaba en silencio absoluto
   // justo después de noventa minutos de cancha llena -- y el silencio se nota más que el sonido.
   // Suena la hinchada saliendo, una vez, al abrir.
+  //
+  // Y A LOS TRES SEGUNDOS Y MEDIO entra la segunda, larga, que queda de fondo mientras se lee el
+  // diario. No arranca junto con la primera a propósito: encimadas desde el segundo cero son ruido,
+  // y separadas se leen como lo que son -- el estadio vaciándose y, detrás, la fiesta que sigue
+  // afuera.
+  const segundaTribuna = useRef<number | null>(null);
   useEffect(() => {
     playSfx('post_partido');
+    segundaTribuna.current = window.setTimeout(() => playSfx('post_partido_hinchada'), 3500);
+    // AL SALIR SE CORTA, siempre. Es un sonido de más de un minuto: sin esto sigue sonando sobre el
+    // Dashboard, y un audio que no para cuando cambiás de pantalla es de las peores cosas que le
+    // puede pasar a la app (la misma regla que el ambiente del partido). Vale para las dos salidas:
+    // el botón y cualquier otra que desmonte la pantalla.
+    return () => {
+      if (segundaTribuna.current != null) clearTimeout(segundaTribuna.current);
+      desvanecerSfx('post_partido_hinchada', 0.4);
+    };
   }, []);
+
+  /**
+   * Salir al vestuario: la tribuna se va apagando y recién ahí se cambia de pantalla.
+   *
+   * El fundido arranca ANTES de avisarle al padre, no después: cuando el padre cambia de pantalla
+   * este componente se desmonta, y si el fundido dependiera de lo que pasa después del desmontaje
+   * no habría nadie para hacerlo. El return del efecto de arriba es la red de seguridad para las
+   * demás salidas; esto es el camino normal, y por eso se le da un fundido más largo.
+   */
+  const volverAlVestuario = () => {
+    desvanecerSfx('post_partido_hinchada', 1.2);
+    onContinue();
+  };
 
   // LA SELECCION SE BUSCA EN LA BASE DE TODAS, no solo en la del Mundial.
   //
@@ -403,7 +431,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
             </div>
 
             <button
-              onClick={onContinue}
+              onClick={volverAlVestuario}
               className="btn-fx w-full mt-6 py-4 px-5 rounded-2xl bg-gold-600 text-slate-950 hover:from-gold-400 hover:to-gold-600 transition-all font-black text-xs flex items-center justify-center gap-2 uppercase tracking-widest shadow-xl"
             >
               Regresar al Vestuario <ArrowRight size={14} />

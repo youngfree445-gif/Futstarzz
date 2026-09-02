@@ -331,7 +331,14 @@ caso('NADA suena por fuera del boton de volumen', () => {
   if (sospechosos.length) throw new Error(sospechosos.join('; '));
 });
 
-caso('el boton apaga TODO: los 15 efectos y el estadio', () => {
+// El numero sale del codigo y no de una constante escrita aca: puesto a mano decia "15" cuando ya
+// eran 17, y un rotulo que miente sobre lo que prueba es peor que no tenerlo.
+const CUANTOS_EFECTOS = [...readFileSync('src/audio.ts', 'utf8')
+  // La coma final es OPCIONAL: la ultima entrada de la lista no la lleva, y exigiendola el conteo
+  // daba 16 sobre 17.
+  .matchAll(/^\s{2}[a-z_0-9]+: 'sfx\/[^']+',?$/gm)].length;
+
+caso(`el boton apaga TODO: los ${CUANTOS_EFECTOS} efectos y el estadio`, () => {
   const audio = readFileSync('src/audio.ts', 'utf8');
   // Un solo portero al principio de playSfx: si esta muteado o el volumen es cero, no suena nada.
   if (!/if \(prefs\.sfxMuted \|\| prefs\.sfxVolume <= 0\) return;/.test(audio)) {
@@ -340,6 +347,24 @@ caso('el boton apaga TODO: los 15 efectos y el estadio', () => {
   // Y el ambiente, que no pasa por playSfx, mira lo mismo.
   if (!/isSfxMuted\(\)\) return 0;/.test(FUENTE)) {
     throw new Error('el estadio no se apaga con el boton');
+  }
+});
+
+// LA TRIBUNA DEL DIARIO TAMPOCO PUEDE QUEDAR SONANDO.
+//
+// Es el sonido mas largo del juego -- mas de un minuto -- y entra a los 3,5 s de abrirse el diario,
+// que el jugador casi siempre cierra antes. Sin corte se lo lleva puesto al Dashboard, que es
+// exactamente el problema que este archivo existe para evitar: un sonido que arranca y no para.
+caso('la tribuna del post partido se corta al salir de la pantalla', () => {
+  const post = readFileSync('src/components/PostMatch.tsx', 'utf8');
+  if (!/post_partido_hinchada/.test(post)) throw new Error('la segunda tribuna no suena en el diario');
+  // Las DOS salidas: el boton y el desmontaje. El boton es el camino normal; el desmontaje cubre
+  // cualquier otra forma de irse.
+  if (!/return \(\) => \{[\s\S]{0,260}desvanecerSfx\('post_partido_hinchada'/.test(post)) {
+    throw new Error('no se corta al desmontar la pantalla');
+  }
+  if (!/const volverAlVestuario = \(\) => \{\s*desvanecerSfx\('post_partido_hinchada'/.test(post)) {
+    throw new Error('el boton de volver no la desvanece');
   }
 });
 
