@@ -44,7 +44,16 @@ interface SetupScreenProps {
 // partido y golpea un poco la mentalHealth -- ver SUPERSTITION_BREAK_CHANCE.
 export const SUPERSTITIONS_DATABASE: { id: Superstition; label: string; breakMessage: string }[] = [
   { id: 'botin_derecho', label: 'Calzarte primero el botín derecho', breakMessage: 'Te calzaste el botín izquierdo primero sin darte cuenta' },
-  { id: 'mismo_numero', label: 'Pedir siempre el mismo dorsal', breakMessage: 'El club te asignó otro dorsal esta semana' },
+  // EL CLUB NO TE PUEDE CAMBIAR EL DORSAL, y este mensaje decia que si.
+  //
+  // Reportado: "me sale que se rompio mi ritual porque me cambiaron el dorsal esa semana, eso es
+  // imposible". Y es cierto: el dorsal del jugador se escribe en tres lugares y ninguno es semanal
+  // -- al crear el personaje, al ganarte una camiseta con dueño (la 1, la 9 o la 10, que ademas se
+  // anuncia aparte) y al transferirte. Un mensaje de color que contradice las reglas del propio
+  // juego es peor que no tenerlo: le enseña al jugador que los textos no son de fiar.
+  //
+  // La rutina se rompe igual, pero por algo que SI puede pasar sin tocar tu numero: la camiseta.
+  { id: 'mismo_numero', label: 'Pedir siempre el mismo dorsal', breakMessage: 'Tu camiseta no llegó al vestuario y saliste a jugar con una prestada' },
   { id: 'cancion_previa', label: 'Escuchar la misma canción antes de salir', breakMessage: 'Se te olvidaron los auriculares en la concentración' },
   { id: 'pie_derecho_cancha', label: 'Pisar la cancha primero con el pie derecho', breakMessage: 'El apuro del túnel de vestuarios te hizo pisar con el pie izquierdo' },
   { id: 'no_afeitarse', label: 'No afeitarte en semana de partido', breakMessage: 'Tenías un evento de sponsor y te tocó afeitarte antes del partido' },

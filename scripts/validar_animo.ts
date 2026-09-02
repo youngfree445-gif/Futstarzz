@@ -3,6 +3,7 @@
 // Lo que importa probar acá es que el bajón se ENTRE por acumulación y no por un mal partido, que
 // se NOTE en la cancha, y que las tres salidas sean de verdad distintas -- si una fuera siempre la
 // mejor, no habría decisión.
+import { readFileSync } from 'fs';
 import {
   estaEnBajon, factorDeAnimo, faltaParaSalida, motivoDelBajon, nivelDeAnimo, resultadoDeSalida,
   salidaPorId, SALIDAS, CASTIGO_APRETAR, FACTOR_BAJON, FACTOR_CABEZA_FLOJA, FACTOR_CABEZA_FUERTE,
@@ -124,6 +125,34 @@ ok('con lo justo, se puede',
 ok('el bajón cuesta energía al arrancar el partido', PENALIDAD_ENERGIA_BAJON > 0);
 ok('pero menos que jugar lesionado (14): una rotura pesa más que dormir mal',
    PENALIDAD_ENERGIA_BAJON < 14, `(${PENALIDAD_ENERGIA_BAJON})`);
+
+// =============================================================================================
+// 8. EL RITUAL QUE SE ROMPE NO PUEDE MENTIR
+// =============================================================================================
+//
+// El aviso de "se te rompio el ritual" pega en mentalHealth, asi que vive en la misma familia que
+// el bajon. Lo que se prueba aca no es el golpe sino el TEXTO, porque un mensaje de color que
+// contradice las reglas del juego le enseña al jugador que los textos no son de fiar.
+//
+// El caso concreto: "El club te asigno otro dorsal esta semana". El dorsal del jugador se escribe
+// en tres lugares y ninguno es semanal -- al crear el personaje, al ganarte una camiseta con dueño
+// y al transferirte. Reportado: "eso es imposible, el dorsal es el mismo durante la temporada".
+//
+// Se lee el archivo como TEXTO y no se importa el modulo: SUPERSTITIONS_DATABASE vive en un
+// componente de React, y traerlo a node por una lista de seis frases no vale el costo.
+const setup = readFileSync('src/components/SetupScreen.tsx', 'utf8');
+const frasesDeRitual = [...setup.matchAll(/breakMessage: '([^']+)'/g)].map(m => m[1]);
+
+ok('los seis rituales tienen su frase', frasesDeRitual.length === 6, `(${frasesDeRitual.length})`);
+ok('ninguna frase dice que te cambiaron el dorsal',
+   !frasesDeRitual.some(f => /dorsal|numero de camiseta|número de camiseta/i.test(f)),
+   frasesDeRitual.find(f => /dorsal/i.test(f)) ?? '');
+
+// Y LA FRECUENCIA, que es la otra mitad de la queja: "me sale todo el tiempo y cansa". Una
+// temporada del Junior son 55 partidos, asi que cada punto de probabilidad son medio aviso por año.
+const chance = Number(/SUPERSTITION_BREAK_CHANCE = ([\d.]+)/.exec(readFileSync('src/App.tsx', 'utf8'))?.[1] ?? '1');
+ok('romper el ritual es raro: no mas de tres avisos por temporada',
+   chance > 0 && chance * 55 <= 3, `(${(chance * 55).toFixed(1)} por temporada de 55 partidos)`);
 
 console.log(fallas === 0 ? [String.fromCharCode(10), `Los ${corridos} casos pasan.`].join(String.fromCharCode(10)).trim() : `${fallas} FALLAS`);
 process.exit(fallas === 0 ? 0 : 1);

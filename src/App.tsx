@@ -6298,7 +6298,11 @@ export default function App() {
     // Fase 2.5 -- Superstición del jugador: cada partido hay una chance chica de que la rutina
     // elegida en la creación del personaje se rompa por circunstancias fuera de tu control, con un
     // golpecito de mentalHealth (nada grave, es un ritual, no una lesión).
-    const SUPERSTITION_BREAK_CHANCE = 0.12;
+    // 12% por partido eran SEIS O SIETE avisos por temporada -- una temporada del Junior son 55
+    // partidos --, siempre con la misma frase. Reportado: "me sale todo el tiempo y cansa". A 4% cae
+    // a dos por temporada, que es lo que un cabulero cuenta como "se me rompio el ritual" y no una
+    // rutina de cada ocho partidos.
+    const SUPERSTITION_BREAK_CHANCE = 0.04;
     const SUPERSTITION_BREAK_MENTAL_PENALTY = 3;
     const superstitionBroke = Math.random() < SUPERSTITION_BREAK_CHANCE;
     const superstitionBreakPenalty = superstitionBroke ? SUPERSTITION_BREAK_MENTAL_PENALTY : 0;
