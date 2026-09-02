@@ -1463,6 +1463,25 @@ export function crucePlayoffDeLiga(bracket: TwoLegBracket | undefined, clubId: s
   return tie;
 }
 
+/**
+ * ¿El club sigue vivo en el cuadrangular?
+ *
+ * NO es lo mismo que crucePlayoffDeLiga, que contesta otra pregunta -- "¿tenes llave para jugar
+ * HOY?" -- y devuelve null por tres motivos distintos: te eliminaron, ya ganaste el torneo, o nunca
+ * clasificaste. Para AVISAR de una eliminacion hay que poder distinguirlos, porque el aviso solo
+ * corresponde cuando estabas adentro y dejaste de estarlo.
+ *
+ * El campeon sigue "vivo": gano. Lo suyo lo anuncia la pantalla de campeon, no la de eliminacion.
+ */
+export function sigueEnPlayoffDeLiga(bracket: TwoLegBracket | undefined, clubId: string): boolean {
+  if (!bracket) return false;
+  if (bracket.championId) return bracket.championId === clubId;
+  const ronda = bracket.tiesByRound[bracket.tiesByRound.length - 1];
+  const tie = ronda?.find(t => t.clubAId === clubId || t.clubBId === clubId);
+  if (!tie) return false;
+  return !(tie.played && tie.winnerId !== clubId);
+}
+
 /** Cómo se llama la ronda que se está jugando. */
 export function rondaDelPlayoff(bracket: TwoLegBracket | undefined): string {
   const ronda = bracket?.tiesByRound[bracket.tiesByRound.length - 1];

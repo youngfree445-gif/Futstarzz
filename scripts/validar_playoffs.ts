@@ -8,7 +8,7 @@ import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
 import { clubesDeLiga } from '../src/clubesJugables';
 import { fixturesForClub } from '../src/dateSchedule';
 import { buildInitialTable, applyResultToTable, sortTable, simulateMatch,
-  prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga } from '../src/leagueEngine';
+  prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, sigueEnPlayoffDeLiga } from '../src/leagueEngine';
 import type { Club, TwoLegBracket } from '../src/types';
 
 let fallas = 0;
@@ -108,5 +108,43 @@ const conDerrota = resolverPasoPlayoffDeLiga(trasIda, clubesTanda, {
 const llavePerdida = conDerrota.tiesByRound[conDerrota.tiesByRound.length - 1][0];
 okTanda("y si la perdes, pasa el rival", llavePerdida.winnerId === rivalT.id);
 
-console.log(`\n${fallas === 0 ? 'El cuadro lo juegan los que terminaron arriba.' : `${fallas} FALLAS`}`);
+// =================================================================================================
+// SI TE ELIMINAN, TE TIENEN QUE AVISAR -- juegues o no
+// =================================================================================================
+//
+// El aviso de "eliminado" vivia dentro de handleFinishMatch, o sea que solo existia si el partido lo
+// jugabas vos. Sancionado o sin convocar, el cuadro avanzaba igual y te dejaba afuera en silencio:
+// lo unico que veias era "los cuadrangulares se juegan sin tu club". Reportado tal cual.
+//
+// El aviso lo dispara la diferencia entre el cuadro de antes y el de despues, y quien contesta si
+// seguis adentro es sigueEnPlayoffDeLiga. Eso es lo que se prueba aca: la pregunta tiene que
+// distinguir los CUATRO estados, porque crucePlayoffDeLiga devuelve null para tres de ellos y con
+// eso no se puede saber a quien avisarle.
+
+console.log("");
+console.log("=== El aviso de eliminacion ===");
+
+const eliminado = resolverPasoPlayoffDeLiga(trasIda, clubesTanda, {
+  clubId: yo.id, isHome: !soyA, goals: 0, opponentGoals: 4,
+});
+
+okTanda("mientras la llave no se juega, seguis adentro",
+  sigueEnPlayoffDeLiga(arranque, yo.id));
+okTanda("perdida la llave, ya no",
+  !sigueEnPlayoffDeLiga(eliminado, yo.id));
+okTanda("y el que la gano si sigue",
+  sigueEnPlayoffDeLiga(eliminado, rivalT.id));
+okTanda("el que nunca clasifico no cuenta como eliminado",
+  !sigueEnPlayoffDeLiga(arranque, clubesTanda[5].id));
+okTanda("el campeon sigue 'adentro': lo suyo lo cuenta la pantalla de campeon",
+  !!conMiTanda.championId && sigueEnPlayoffDeLiga(conMiTanda, yo.id),
+  `campeon=${conMiTanda.championId ?? '-'}`);
+
+// LA TRANSICION, que es lo que mira el aviso: estabas adentro y dejaste de estarlo, sin jugar.
+okTanda("la transicion 'estaba adentro -> ya no' se detecta sin haber jugado",
+  sigueEnPlayoffDeLiga(trasIda, yo.id) && !sigueEnPlayoffDeLiga(eliminado, yo.id));
+okTanda("al que nunca estuvo no se le anuncia ninguna eliminacion",
+  !sigueEnPlayoffDeLiga(trasIda, clubesTanda[5].id) && !sigueEnPlayoffDeLiga(eliminado, clubesTanda[5].id));
+
+console.log(`\n${fallas === 0 ? 'El cuadro lo juegan los que terminaron arriba, y al eliminado se le avisa.' : `${fallas} FALLAS`}`);
 process.exit(fallas === 0 ? 0 : 1);

@@ -2988,7 +2988,7 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
                 {ladoLocal.etiqueta}
               </span>
             </div>
-            {ladoLocal.club && <ClubBadge club={ladoLocal.club} size={36} />}
+            {ladoLocal.club && <ClubBadge club={ladoLocal.club} size={48} />}
           </div>
 
           <div className="shrink-0 flex flex-col items-center gap-0.5">
@@ -3007,7 +3007,7 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
           </div>
 
           <div className="min-w-0 flex-1 flex items-center gap-1.5 sm:gap-2">
-            {ladoVisitante.club && <ClubBadge club={ladoVisitante.club} size={36} />}
+            {ladoVisitante.club && <ClubBadge club={ladoVisitante.club} size={48} />}
             <div className="min-w-0 text-left">
               <span className="font-black text-xs sm:text-sm block truncate">{ladoVisitante.nombre}</span>
               <span className={`text-3xs uppercase font-mono tracking-wider block truncate ${ladoVisitante.esMio ? 'text-gold-400 font-bold' : 'text-slate-500'}`}>

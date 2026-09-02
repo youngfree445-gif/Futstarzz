@@ -34,7 +34,7 @@ import {
   getOrCreateWorldCupState, getUpcomingWorldCupMatch, resolveWorldCupWeek, simulateMatch,
   WORLD_CUP_CALLUP_PRESTIGE_THRESHOLD, WORLD_CUP_CALLUP_MIN_MATCHES,
   ELIMINATORIAS_CALLUP_PRESTIGE_THRESHOLD, ELIMINATORIAS_CALLUP_MIN_MATCHES, generateLeagueLeadersFromTable, CAREER_START_YEAR,
-  resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, rondaDelPlayoff,
+  resolverPasoCopaNacional, prepararRondaCopaNacional, prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, sigueEnPlayoffDeLiga, rondaDelPlayoff,
   type TorneoDeSelecciones, simulatePenaltyShootout, roundLabelByMatchCount, rondaDeCopaUefa, tercerosDeGrupo, terminarCopaContinental, terminarCopaUefa, terminarTorneoSinElJugador,
 } from './leagueEngine';
 import { anotarEnLideres, arqueroDe, claveDeCompeticion, repartirGoles, repartirTarjetas } from './lideresPorCompeticion';
@@ -3278,10 +3278,82 @@ export default function App() {
     const club = playerProfile && CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId);
     if (!playerProfile || !club) return undefined;
     const liga = leagueKeyFor(club);
-    return playoffDelDiaSinElJugador(
+    const despues = playoffDelDiaSinElJugador(
       playerProfile, club, clubesDeLiga(liga),
       playerProfile.leagueSeasons?.[liga]?.table ?? [],
     ) ?? undefined;
+    if (despues) avisarDelCuadrangular(club, playerProfile.playoffsDeLiga ?? {}, despues);
+    return despues;
+  };
+
+  /**
+   * SI TE ELIMINAN, TE ENTERAS -- juegues o no.
+   *
+   * Los avisos de "eliminado" y "pasaste de ronda" vivian TODOS dentro de handleFinishMatch, o sea
+   * que solo existian si el partido lo jugabas vos. Pero el cuadrangular avanza igual cuando no
+   * estas: sancionado, sin convocar, lesionado, o los dias en que tu llave no se juega. En esos
+   * casos el torneo te dejaba afuera en silencio y lo unico que veias era "los cuadrangulares se
+   * juegan sin tu club", que no dice si no clasificaste, si te eliminaron hoy o si te eliminaron
+   * hace tres fechas. Reportado: "me eliminaron de cuadrangulares y nada me aviso, solo me sale
+   * fecha libre".
+   *
+   * Va acá y no en cada uno de los nueve lugares que dejan pasar el dia sin vos: todos llaman a
+   * playoffSinVosHoy, asi que este es el unico punto por el que el cuadro puede avanzar sin partido
+   * tuyo. Una sola pregunta, un solo lugar donde contestarla.
+   *
+   * Se compara el cuadro ANTES contra el DESPUES: lo unico que importa es el cambio de estado, no
+   * en que ronda esta el torneo. Al que nunca clasifico no se le avisa nada -- no lo eliminaron de
+   * ningun lado --, y al campeon tampoco: lo suyo lo cuenta la pantalla de campeon.
+   */
+  const avisarDelCuadrangular = (
+    club: Club,
+    antes: NonNullable<PlayerProfile['playoffsDeLiga']>,
+    despues: NonNullable<PlayerProfile['playoffsDeLiga']>,
+  ) => {
+    for (const [clave, cuadroDespues] of Object.entries(despues)) {
+      const cuadroAntes = antes[clave];
+      if (cuadroAntes === cuadroDespues) continue;
+      const seguia = sigueEnPlayoffDeLiga(cuadroAntes, club.id);
+      const sigue = sigueEnPlayoffDeLiga(cuadroDespues, club.id);
+      if (!seguia) continue;                       // no estabas adentro: no hay nada que anunciar
+
+      const base = {
+        competition: getLeagueDisplay(club.league, club.division).name,
+        clubName: club.name,
+        // "Clausura 2027", igual que el aviso que sale cuando SI jugas el partido (semestreLabel
+        // en handleFinishMatch). El semestre vive en la clave del cuadro
+        // ("Colombiana-1|1|Clausura") y el anio en el calendario. Dos rotulos distintos para el
+        // mismo torneo, segun si jugaste o no, se leerian como dos torneos.
+        season: `${clave.split('|').pop() || 'Playoff'} ${anioDeCarrera(club.name, playerProfile.currentWeek)}`,
+        badgeUrl: club.badgeImageUrl ?? club.badgeLogoUrl ?? null,
+      };
+
+      if (!sigue) {
+        // La ronda es la que se estaba jugando ANTES: es en la que quedaste afuera.
+        const ronda = cuadroAntes?.tiesByRound[cuadroAntes.tiesByRound.length - 1];
+        mostrarAviso({
+          ...base,
+          eliminated: true,
+          eliminatedRound: ronda ? roundLabelByMatchCount(ronda.length) : null,
+        });
+      } else if (cuadroDespues.tiesByRound.length > (cuadroAntes?.tiesByRound.length ?? 0)) {
+        // Apareció una ronda nueva y vos seguis en el cuadro: pasaste, sin haber jugado.
+        mostrarAviso({ ...base, avanzo: true });
+      }
+    }
+  };
+
+  /**
+   * Muestra un aviso de cierre, o lo encola si ya hay uno en pantalla.
+   *
+   * Pisar el que está puesto haria desaparecer un anuncio sin que nadie lo lea, que es exactamente
+   * lo que este trabajo vino a arreglar.
+   */
+  const mostrarAviso = (info: SeasonEndInfo) => {
+    setSeasonEndInfo(previo => {
+      if (previo) { avisoEncolado.current = info; return previo; }
+      return info;
+    });
   };
 
   /**
@@ -4738,7 +4810,16 @@ export default function App() {
           if (isPastRetirementAge(aged)) { resolveRetirementCheckpoint(aged); return; }
           setPlayerProfile(aged);
           saveGameState(aged, shopItems);
-          notify('🏁 Los cuadrangulares se juegan sin tu club. Semana de descanso.');
+          // El mismo cartel para dos cosas muy distintas -- no haber clasificado y haber sido
+          // eliminado -- fue justo lo que se reporto: "me eliminaron y nada me aviso, solo me sale
+          // fecha libre y me dice que los cuadrangulares siguen sin mi equipo". La eliminacion en si
+          // la anuncia la pantalla de cierre (ver avisarDelCuadrangular); esto es el recordatorio de
+          // los dias siguientes, y tiene que decir cual de las dos es.
+          const jugoElCuadro = brackedDelPlayoff?.tiesByRound[0]
+            ?.some(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
+          notify(jugoElCuadro
+            ? '🏁 Quedaste eliminado: los cuadrangulares siguen sin tu club. Semana de descanso.'
+            : '🏁 Tu club no clasificó a los cuadrangulares. Semana de descanso.');
           return;
         }
       }
