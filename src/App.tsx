@@ -6295,23 +6295,21 @@ export default function App() {
       disciplineMessages.push(`📉 Te volviste viral por las malas: la timeline te destroza tras un partido paupérrimo (rating ${results.rating.toFixed(1)}).`);
     }
 
-    // Fase 2.5 -- Superstición del jugador: cada partido hay una chance chica de que la rutina
-    // elegida en la creación del personaje se rompa por circunstancias fuera de tu control, con un
-    // golpecito de mentalHealth (nada grave, es un ritual, no una lesión).
-    // 12% por partido eran SEIS O SIETE avisos por temporada -- una temporada del Junior son 55
-    // partidos --, siempre con la misma frase. Reportado: "me sale todo el tiempo y cansa". A 4% cae
-    // a dos por temporada, que es lo que un cabulero cuenta como "se me rompio el ritual" y no una
-    // rutina de cada ocho partidos.
-    const SUPERSTITION_BREAK_CHANCE = 0.04;
-    const SUPERSTITION_BREAK_MENTAL_PENALTY = 3;
-    const superstitionBroke = Math.random() < SUPERSTITION_BREAK_CHANCE;
-    const superstitionBreakPenalty = superstitionBroke ? SUPERSTITION_BREAK_MENTAL_PENALTY : 0;
-    if (superstitionBroke) {
-      const ritual = SUPERSTITIONS_DATABASE.find(s => s.id === playerProfile.superstition);
-      if (ritual) {
-        disciplineMessages.push(`😬 Se te rompió el ritual ("${ritual.label}"): ${ritual.breakMessage}. Quedaste con la cabeza un poco floja.`);
-      }
-    }
+    // EL RITUAL YA NO SE ROMPE, y no es que se haya perdido en una refactorizacion.
+    //
+    // Habia un 12% por partido de que la rutina elegida en la creacion del personaje "se rompiera"
+    // sola, con un aviso y -3 de salud mental. Dos quejas seguidas del jugador sobre lo mismo:
+    // primero que el texto describia algo imposible (que el club le cambiaba el dorsal a mitad de
+    // temporada, cuando el dorsal solo cambia al transferirte), y despues, ya con el texto
+    // arreglado, que el evento entero le parecia ilogico y no lo queria mas: "no quiero que pase
+    // nunca".
+    //
+    // Tiene razon de fondo: era un castigo por azar puro, sin nada que el jugador pudiera hacer ni
+    // antes ni despues. Se saca el evento COMPLETO -- el aviso Y el golpe a la salud mental --,
+    // porque dejar el castigo sin el aviso seria peor: perder cabeza sin saber por que.
+    //
+    // El ritual SIGUE existiendo como parte del personaje: se elige al crearlo y queda en el perfil.
+    // Lo que se fue es la penalizacion aleatoria, no la eleccion.
 
     // LA DISCIPLINA, POR COMPETICION. Dos amarillas en dos partidos SEGUIDOS de la misma
     // competicion y te perdes el proximo de ese torneo. Un partido limpio borra la amarilla que
@@ -6615,7 +6613,7 @@ export default function App() {
         ? [...(playerProfile.datedResults ?? []).filter(r => r.date !== datedResultToday!.date), datedResultToday]
         : playerProfile.datedResults,
       marketValue: Math.max(100000, playerProfile.marketValue + valueChg + viralMarketBonus),
-      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange - superstitionBreakPenalty)),
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + matchMentalHealthChange)),
       matchesWithoutRest: playerProfile.matchesWithoutRest + 1,
       lastMatchRating: results.rating,
       // La nota entra al historial de forma junto con el paso en que se jugó (ver src/forma.ts). El

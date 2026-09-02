@@ -178,7 +178,7 @@ export interface PlayerProfile {
   listaDeTransferibles?: import('./listaDeTransferibles').ListaDeTransferibles;
   /** La ultima venta forzada, para poder contarla en pantalla una vez. */
   ventaForzada?: { desde: string; hacia: string; semana: number }; // semana en que respondiste la última conferencia de prensa -- una sola por semana, evita farmear prestigio infinito ciclando preguntas
-  superstition: Superstition; // Fase 2.5: ritual elegido en la creación del personaje -- romperlo tiene una chance chica cada partido de golpear mentalHealth, ver SUPERSTITIONS_DATABASE y handleFinishMatch
+  superstition: Superstition; // Ritual elegido en la creación del personaje. Es identidad, sin efecto mecánico: el evento que lo "rompía" por azar se sacó a pedido del jugador (ver SUPERSTITIONS_DATABASE).
   matchesWithoutRest: number; // Fase 2.5: partidos jugados seguidos sin una semana de descanso -- pasado el umbral, MatchSimulator aplica una penalización temporal a los atributos efectivos (no muta attributes real). Se resetea a 0 cualquier semana que no juegues.
   hadBreakoutSeason: boolean; // Fase 2.5: la temporada que acaba de cerrar tuvo aporte ofensivo alto (ver applyBreakoutSeasonIfNewSeason) -- si la siguiente temporada no muestra crecimiento real de atributos, dispara el "síndrome del segundo año" (golpe chico a prestige/fans)
   attrSumAtSeasonStart: number; // Fase 2.5: suma de los 6 atributos al arrancar la temporada en curso -- referencia para medir el crecimiento real de esa temporada en applyBreakoutSeasonIfNewSeason

@@ -40,24 +40,18 @@ interface SetupScreenProps {
 }
 
 // Fase 2.5 -- Superstición del jugador: ritual elegido una sola vez en la creación del personaje.
-// breakMessage se usa en App.tsx (handleFinishMatch) cuando el ritual "se rompe" por azar en un
-// partido y golpea un poco la mentalHealth -- ver SUPERSTITION_BREAK_CHANCE.
-export const SUPERSTITIONS_DATABASE: { id: Superstition; label: string; breakMessage: string }[] = [
-  { id: 'botin_derecho', label: 'Calzarte primero el botín derecho', breakMessage: 'Te calzaste el botín izquierdo primero sin darte cuenta' },
-  // EL CLUB NO TE PUEDE CAMBIAR EL DORSAL, y este mensaje decia que si.
-  //
-  // Reportado: "me sale que se rompio mi ritual porque me cambiaron el dorsal esa semana, eso es
-  // imposible". Y es cierto: el dorsal del jugador se escribe en tres lugares y ninguno es semanal
-  // -- al crear el personaje, al ganarte una camiseta con dueño (la 1, la 9 o la 10, que ademas se
-  // anuncia aparte) y al transferirte. Un mensaje de color que contradice las reglas del propio
-  // juego es peor que no tenerlo: le enseña al jugador que los textos no son de fiar.
-  //
-  // La rutina se rompe igual, pero por algo que SI puede pasar sin tocar tu numero: la camiseta.
-  { id: 'mismo_numero', label: 'Pedir siempre el mismo dorsal', breakMessage: 'Tu camiseta no llegó al vestuario y saliste a jugar con una prestada' },
-  { id: 'cancion_previa', label: 'Escuchar la misma canción antes de salir', breakMessage: 'Se te olvidaron los auriculares en la concentración' },
-  { id: 'pie_derecho_cancha', label: 'Pisar la cancha primero con el pie derecho', breakMessage: 'El apuro del túnel de vestuarios te hizo pisar con el pie izquierdo' },
-  { id: 'no_afeitarse', label: 'No afeitarte en semana de partido', breakMessage: 'Tenías un evento de sponsor y te tocó afeitarte antes del partido' },
-  { id: 'ultimo_vestuario', label: 'Ser el último en salir del vestuario', breakMessage: 'El cuerpo técnico te sacó antes de tiempo para el calentamiento' }
+// El ritual es identidad del personaje y nada mas: NO tiene efecto mecanico. Hubo un evento que lo
+// "rompia" por azar con un aviso y un golpe a la salud mental, y se saco entero a pedido del
+// jugador -- era un castigo aleatorio sin nada que se pudiera hacer al respecto. Ver la nota en
+// handleFinishMatch (App.tsx). Si alguna vez vuelve a haber un efecto, que sea uno que el jugador
+// pueda ver venir.
+export const SUPERSTITIONS_DATABASE: { id: Superstition; label: string }[] = [
+  { id: 'botin_derecho', label: 'Calzarte primero el botín derecho' },
+  { id: 'mismo_numero', label: 'Pedir siempre el mismo dorsal' },
+  { id: 'cancion_previa', label: 'Escuchar la misma canción antes de salir' },
+  { id: 'pie_derecho_cancha', label: 'Pisar la cancha primero con el pie derecho' },
+  { id: 'no_afeitarse', label: 'No afeitarte en semana de partido' },
+  { id: 'ultimo_vestuario', label: 'Ser el último en salir del vestuario' }
 ];
 
 /**
