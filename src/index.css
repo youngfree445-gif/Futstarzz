@@ -103,6 +103,16 @@
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+  /* EL REBOTE DE iOS ES LO QUE MUEVE LA BARRA DE ABAJO.
+     Cuando el dedo arrastra mas alla del final de la pagina, Safari estira TODO el documento --
+     incluidos los elementos `fixed` -- y recien al soltar los reacomoda. Reportado desde un iPhone:
+     "cuando deslizo el dedo para bajar, la barra de abajo se mueve, se sube tambien y luego termina
+     bajando". No es que la barra este mal posicionada: `fixed bottom-0` es correcto, es el documento
+     entero el que se estira debajo de ella.
+     Sin el rebote, la barra se queda quieta. Se apaga solo en el eje vertical: el horizontal ya lo
+     corta el overflow-x de arriba, y apagar los dos de un saque romperia cualquier carrusel que
+     quiera arrastrarse de costado. */
+  overscroll-behavior-y: none;
 }
 
 /* Red de seguridad para cualquier medio que venga más ancho de lo previsto (escudos de origen

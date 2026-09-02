@@ -54,7 +54,7 @@ export default function MatchPhoto({
       <div className="absolute inset-x-0 bottom-0 p-3 md:p-4 flex items-end justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
           {badgeUrl && (
-            <img src={badgeUrl} alt="" className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0 drop-shadow" />
+            <img src={badgeUrl} alt="" className="w-14 h-14 md:w-16 md:h-16 object-contain shrink-0 drop-shadow" />
           )}
           <div className="min-w-0">
             <p className="text-3xs md:text-2xs uppercase tracking-widest text-slate-400 font-black truncate">

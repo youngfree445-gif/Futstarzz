@@ -1531,6 +1531,14 @@ export default function MatchSimulator({
 }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  /**
+   * Lo que dejo el partido terminado, esperando que el jugador toque para ir al diario.
+   *
+   * Es todo el resultado MENOS la narracion: esa se arma al tocar el boton, asi incluye las lineas
+   * que se agregan junto con el pitazo final. Que no sea null es, ademas, la senal de "el partido
+   * termino" para el resto de la pantalla.
+   */
+  const [finDelPartido, setFinDelPartido] = useState<Omit<Parameters<typeof onFinishMatch>[0], 'log'> | null>(null);
   const [speedMultiplier, setSpeedMultiplier] = useState(450);
 
   const [scoreHome, setScoreHome] = useState(0);
@@ -2274,25 +2282,34 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
       if (charla.mensaje) {
         setMatchLog(prev => [...prev, { minute: 90, text: charla.mensaje!, type: charla.prestigio >= 0 ? 'highlight' : 'bad' }]);
       }
-      setTimeout(() => {
-        onFinishMatch({
-          goles: playerGoals,
-          asistencias: playerAssists,
-          resultado: finalResult,
-          golesRival,
-          golesMiEquipo,
-          puntosExperiencia: Math.round(rating * 15) + (playerGoals * 40) + (playerAssists * 25),
-          salaryEarned: currentClub.initialSalary,
-          rating: Number(rating.toFixed(1)),
-          log: matchLog.map(item => `[${item.minute}'] ${item.text}`),
-          cardReceived: playerCards,
-          jugadasAcertadas: jugadasAcertadas.current,
-          // Se redondea UNA sola vez, al cerrar el partido. Redondeando jugada a jugada, con la
-          // escala nueva las mas chicas se irian todas a cero.
-          prestigeChange: Math.round(prestigeAccum + charla.prestigio),
-          fansChange: fansAccum + charla.fans
-        });
-      }, 1500);
+      // EL PARTIDO TERMINA Y ESPERA, no salta solo.
+      //
+      // Aca habia un setTimeout de 1,5 s que llevaba al diario por su cuenta. Reportado: "cuando se
+      // acaba un partido se queda un momento quieto como cargando y luego sale el periodico". Eso
+      // era exactamente lo que pasaba -- no cargaba nada, esperaba --, y ademas se llevaba puesto el
+      // unico momento en que se puede mirar el resultado y releer la narracion completa.
+      //
+      // Ahora el pitazo final deja todo listo y la pantalla se queda. El jugador lee lo que quiera y
+      // sigue cuando quiere. Lo que se guarda es TODO menos la narracion: esa se arma recien al
+      // tocar el boton, para que incluya las ultimas lineas -- el final del encuentro y lo que dijo
+      // el tecnico. Con el setTimeout, la clausura capturaba matchLog ANTES de esas lineas y el
+      // diario contaba el partido sin su final.
+      setFinDelPartido({
+        goles: playerGoals,
+        asistencias: playerAssists,
+        resultado: finalResult,
+        golesRival,
+        golesMiEquipo,
+        puntosExperiencia: Math.round(rating * 15) + (playerGoals * 40) + (playerAssists * 25),
+        salaryEarned: currentClub.initialSalary,
+        rating: Number(rating.toFixed(1)),
+        cardReceived: playerCards,
+        jugadasAcertadas: jugadasAcertadas.current,
+        // Se redondea UNA sola vez, al cerrar el partido. Redondeando jugada a jugada, con la
+        // escala nueva las mas chicas se irian todas a cero.
+        prestigeChange: Math.round(prestigeAccum + charla.prestigio),
+        fansChange: fansAccum + charla.fans
+      });
 
       setMatchLog(prev => [...prev, {
         minute: 90,
@@ -2971,7 +2988,7 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
                 {ladoLocal.etiqueta}
               </span>
             </div>
-            {ladoLocal.club && <ClubBadge club={ladoLocal.club} size={24} />}
+            {ladoLocal.club && <ClubBadge club={ladoLocal.club} size={36} />}
           </div>
 
           <div className="shrink-0 flex flex-col items-center gap-0.5">
@@ -2990,7 +3007,7 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
           </div>
 
           <div className="min-w-0 flex-1 flex items-center gap-1.5 sm:gap-2">
-            {ladoVisitante.club && <ClubBadge club={ladoVisitante.club} size={24} />}
+            {ladoVisitante.club && <ClubBadge club={ladoVisitante.club} size={36} />}
             <div className="min-w-0 text-left">
               <span className="font-black text-xs sm:text-sm block truncate">{ladoVisitante.nombre}</span>
               <span className={`text-3xs uppercase font-mono tracking-wider block truncate ${ladoVisitante.esMio ? 'text-gold-400 font-bold' : 'text-slate-500'}`}>
@@ -3060,6 +3077,53 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
           </div>
         ))}
       </div>
+
+      {/* EL FINAL DEL PARTIDO, con el resultado y el paso siguiente en la mano.
+          Va ARRIBA de la narracion y no encima de ella (como la charla del tecnico o una decision,
+          que si tapan el panel): el punto de esta pantalla es poder releer el relato completo antes
+          de pasar al diario, y un cartel que lo tape haria justo lo contrario. */}
+      {finDelPartido && (
+        <div
+          data-fin-del-partido="true"
+          className="w-full max-w-4xl mx-auto mt-3 rounded-2xl border border-gold-500/30 bg-slate-900 p-4 text-center shadow-2xl"
+        >
+          <span className="block text-3xs font-mono font-black uppercase tracking-[0.2em] text-gold-400">
+            Final del partido
+          </span>
+          <div className="my-2 flex items-center justify-center gap-3">
+            <span className="text-2xs sm:text-xs font-black uppercase tracking-wider text-slate-400 truncate max-w-[8rem] sm:max-w-none">
+              {ladoLocal.nombre}
+            </span>
+            <span className="text-3xl font-black font-display tabular-nums text-white">
+              {scoreHome} - {scoreAway}
+            </span>
+            <span className="text-2xs sm:text-xs font-black uppercase tracking-wider text-slate-400 truncate max-w-[8rem] sm:max-w-none">
+              {ladoVisitante.nombre}
+            </span>
+          </div>
+          <p className="text-3xs text-slate-500 font-mono mb-3">
+            Tu nota: <span className="text-gold-400 font-black">{rating.toFixed(1)}</span>
+            {playerGoals > 0 && <> · {playerGoals} {playerGoals === 1 ? 'gol' : 'goles'}</>}
+            {playerAssists > 0 && <> · {playerAssists} {playerAssists === 1 ? 'asistencia' : 'asistencias'}</>}
+          </p>
+          <button
+            type="button"
+            data-ir-al-vestuario="true"
+            onClick={() => onFinishMatch({
+              ...finDelPartido,
+              // La narracion se arma ACA y no al terminar el partido: asi entran las ultimas lineas
+              // (el pitazo final y lo que dijo el tecnico), que antes se perdian.
+              log: matchLog.map(item => `[${item.minute}'] ${item.text}`),
+            })}
+            className="btn-fx-subtle w-full sm:w-auto sm:min-w-[16rem] min-h-[48px] px-6 rounded-xl bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950 font-black uppercase tracking-wider text-2xs cursor-pointer"
+          >
+            Volver al vestuario
+          </button>
+          <p className="text-4xs text-slate-600 font-mono mt-2">
+            Tomate tu tiempo: la narracion completa sigue abajo.
+          </p>
+        </div>
+      )}
 
       <div className="w-full max-w-6xl mx-auto my-6 grid lg:grid-cols-[240px_minmax(0,1fr)_300px] gap-5 flex-1">
 

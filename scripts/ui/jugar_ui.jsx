@@ -349,7 +349,8 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     anotar('MODO ' + modo + ': apretando "' + texto(boton) + '"');
     await click(boton);
     await dormir(120);
-    anotar('   despues del modo: empezar habilitado=' + (() => { const x = botonQueDice(/Comenzar Carrera/i); return x ? !x.disabled : 'no hay boton'; })());
+    anotar('   despues del modo: empezar habilitado=' + (() => { const x = botonQueDice(/Comenzar Carrera/i); return x ? !x.disabled : 'no hay boton'; })());
+
     anotar('MODO ' + modo + ': activado');
     // SOLO SI HIZO FALTA. Volver a apretar un club que sigue elegido lo DESELECCIONA, y ahi el boton
     // de empezar queda deshabilitado y la carrera no arranca -- que es lo que pasaba con los cuatro
@@ -589,6 +590,13 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       await dormir(120);
       continue;
     }
+
+    // EL FINAL DEL PARTIDO ESPERA UN TOQUE. Antes la pantalla saltaba sola al diario despues de
+    // 1,5 s; ahora muestra el resultado y se queda hasta que el jugador toca "Volver al vestuario"
+    // (asi puede releer la narracion). Sin este clic el banco se cuelga al final de CADA partido.
+    // Se busca por el atributo y no por el texto: el rotulo del boton es cosa de la interfaz.
+    const irAlVestuario = document.querySelector('[data-ir-al-vestuario]');
+    if (irAlVestuario) { await click(irAlVestuario); await dormir(80); continue; }
 
     // La tanda de penales: sus botones son los palos del arco, cualquiera sirve.
     if (/Tanda de penales|Definición por penales/i.test(texto(document.body))) {

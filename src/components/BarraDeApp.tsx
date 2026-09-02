@@ -49,7 +49,7 @@ export const BOTON_ALTO = 'h-14';
  * Son 28 y no 20 porque acá abajo hay DOS cosas encimadas: la barra (56px) y los botones de música y
  * sonido, que viven por arriba de ella.
  */
-export const COLCHON_DE_LA_FICHA = 'pb-28 md:pb-3';
+export const COLCHON_DE_LA_FICHA = 'pb-32 md:pb-3';
 
 export interface SeccionDeLaApp<T extends string> {
   key: T;
@@ -163,6 +163,20 @@ export function BarraDeApp<T extends string>({
       <nav
         aria-label="Secciones de la app"
         data-barra-de-app="true"
+        // translateZ(0) la deja en su propia capa de composicion. En iOS eso es lo que evita que
+        // Safari la vuelva a dibujar junto con el resto de la pagina en cada cuadro del scroll --
+        // el temblor que se ve mientras se arrastra el dedo, aparte del rebote que ya corta el
+        // overscroll-behavior de index.css. Las dos cosas hacen falta: una es el estiron y la otra
+        // el repintado.
+        // Y SE LEVANTA DEL BORDE. El borde redondeado de abajo del telefono se comia una franja de
+        // la barra. env(safe-area-inset-bottom) es la medida que da iOS para esa zona (la del
+        // indicador de inicio), pero vale 0 mientras el viewport no sea `viewport-fit=cover` -- y
+        // ponerlo cambiaria el margen de TODAS las pantallas, arriba incluido. Asi que se toma el
+        // mayor de los dos: 12px siempre, y la medida real de iOS el dia que sea mas grande.
+        //
+        // Va como padding y no como `bottom`: el fondo de la barra tiene que seguir llegando hasta
+        // el borde, o entre la barra y el filo del telefono se ve la pagina pasar por atras.
+        style={{ transform: 'translateZ(0)', paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
         className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur border-t border-slate-800 flex"
       >
         {disponibles.map(({ key }) => {
