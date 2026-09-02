@@ -1849,6 +1849,16 @@ export default function App() {
   // termina el partido: si se aplicara antes, el jugador vería bajar su prestigio sin saber por qué.
   const pendingCountryDutyCost = useRef<{ prestige: number; notice: string | null; important: boolean } | null>(null);
   const [activeWorldCupTeamId, setActiveWorldCupTeamId] = useState<string | null>(null);
+  /**
+   * El torneo de selecciones de hoy y si ya salio de la fase de grupos.
+   *
+   * Hace falta para el ALARGUE: el Mundial, la Eurocopa y la Copa America lo llevan en toda la
+   * eliminacion directa y NO en grupos, donde el empate es un resultado valido que reparte un punto.
+   * La etapa no se puede deducir del rotulo de la competicion como en las copas de club, porque en
+   * estos partidos el rotulo va vacio.
+   */
+  const [activeTorneoDeSelecciones, setActiveTorneoDeSelecciones] = useState<'mundial' | 'eurocopa' | 'copaamerica' | null>(null);
+  const [activeSeleccionEnEliminacion, setActiveSeleccionEnEliminacion] = useState(false);
   // Clave de la eliminatoria del partido en curso ('CONMEBOL-2030'). Distingue un partido de
   // eliminatoria de uno del Mundial: los dos son con la selección y los dos pasan por la misma
   // pantalla, pero el resultado va a tablas distintas.
@@ -3981,11 +3991,14 @@ export default function App() {
       // copias se desincronizan y el juego termina anunciando un partido que no te deja jugar.
       const isEligible = !!hoy && convocadoAlMundial(playerProfile);
 
-      const upcoming = isEligible && hoy
-        ? getUpcomingWorldCupMatch(
-            getOrCreateWorldCupState(temporadaDe(playerProfile, playerProfile.currentWeek), hoy.equipos,
-              playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo, hoy.miSeleccionId),
-            hoy.miSeleccionId)
+      // El estado del torneo se lee UNA vez y se usa para las dos cosas: de el sale el proximo rival
+      // y de el sale la etapa, que es lo que decide si hoy puede haber alargue.
+      const estadoDelTorneo = isEligible && hoy
+        ? getOrCreateWorldCupState(temporadaDe(playerProfile, playerProfile.currentWeek), hoy.equipos,
+            playerProfile.worldCups[hoy.clave], hoy.pasos, hoy.torneo, hoy.miSeleccionId)
+        : null;
+      const upcoming = estadoDelTorneo && hoy
+        ? getUpcomingWorldCupMatch(estadoDelTorneo, hoy.miSeleccionId)
         : null;
 
       if (upcoming && hoy) {
@@ -3994,6 +4007,8 @@ export default function App() {
         opClubId = upcoming.opponentId;
         isHomeThisMatch = upcoming.isHome;
         foundWorldCupTeamId = wcTeamId;
+        setActiveTorneoDeSelecciones(hoy.torneo);
+        setActiveSeleccionEnEliminacion(estadoDelTorneo?.stage === 'knockout');
         setActiveCupId(null);
         setActiveUefaCupId(null);
         setActiveCompetitionName(null);
@@ -7096,8 +7111,11 @@ export default function App() {
           // Final"): el estado del cuadro no esta a mano aca, y ese rotulo lo arma el mismo codigo
           // que decide la ronda, asi que no puede decir una cosa distinta.
           hayAlargue={seDefineConAlargue(
-            activeUefaCupId ?? activeCupId,
-            /final/i.test(activeCompetitionName ?? ''))}
+            activeTorneoDeSelecciones ?? activeUefaCupId ?? activeCupId,
+            {
+              esLaFinal: /final/i.test(activeCompetitionName ?? ''),
+              enEliminacionDirecta: activeSeleccionEnEliminacion,
+            })}
           torneoLabel={activeTorneoLabel}
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}

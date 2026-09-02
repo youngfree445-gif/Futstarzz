@@ -425,29 +425,41 @@ export function reglasDeLiga(league: string): ReglasAscenso | null {
 /**
  * ¿ESTA LLAVE SE DEFINE CON ALARGUE ANTES DE LOS PENALES?
  *
- * No es "cada torneo tiene su regla": dentro de un mismo torneo cambia según la ronda, y por eso
- * hace falta el segundo parámetro. Verificado contra los reglamentos vigentes de 2026:
+ * No es "cada torneo tiene su regla": dentro de un mismo torneo cambia según la ronda, y por eso no
+ * alcanza con el nombre del torneo. Verificado contra los reglamentos vigentes de 2026:
  *
  *   . CHAMPIONS y EUROPA LEAGUE -- llave empatada en el global: 30 minutos de alargue y después
- *     penales. La UEFA eliminó el gol de visitante en 2021/22, así que el empate se resuelve así en
- *     todas las rondas, la final incluida.
+ *     penales. La UEFA eliminó el gol de visitante en 2021/22, así que se resuelve así en todas las
+ *     rondas, la final incluida.
  *   . LIBERTADORES y SUDAMERICANA -- octavos, cuartos y semifinales: penales DIRECTO, sin alargue.
- *     La final, que es a partido único: alargue de 30 minutos y después penales. Es la asimetría
- *     que más sorprende y está en el reglamento de la CONMEBOL 2026.
- *   . LIGA BETPLAY (cuadrangulares y final): penales directo, sin alargue. Confirmado en el
- *     reglamento 2026 de la Dimayor.
+ *     La final, que es a partido único: alargue y después penales. Es la asimetría que más
+ *     sorprende y está en el reglamento de la CONMEBOL 2026.
+ *   . MUNDIAL, EUROCOPA y COPA AMÉRICA -- toda la eliminación directa: alargue y después penales.
+ *     En la FASE DE GRUPOS no, y eso no es un detalle: ahí el empate es un resultado válido que
+ *     reparte un punto a cada uno. Un alargue en un partido de grupos rompería la tabla.
+ *   . LIGA BETPLAY (cuadrangulares y final): penales directo. Confirmado en el reglamento 2026 de
+ *     la Dimayor.
  *
- * Lo que NO está verificado devuelve false, que es lo que hace el juego hoy: la Concacaf, las copas
- * nacionales y los torneos de selecciones van directo a penales hasta que se confirme su regla. No
- * se asume que "todos los torneos tienen alargue" porque es falso -- la Conmebol es el contraejemplo
- * y justamente el que el jugador juega.
+ * Lo que NO está verificado devuelve false, que es lo que hace el juego hoy: la Concacaf y las copas
+ * nacionales van directo a penales hasta que se confirme su regla. No se asume que "todos los
+ * torneos tienen alargue" porque es falso -- la Conmebol es el contraejemplo, y justamente el que
+ * este jugador juega.
  */
 export function seDefineConAlargue(
-  torneo: 'champions' | 'europa' | 'libertadores' | 'sudamericana' | 'concacaf' | string | null | undefined,
-  esLaFinal: boolean,
+  torneo: 'champions' | 'europa' | 'libertadores' | 'sudamericana' | 'concacaf'
+    | 'mundial' | 'eurocopa' | 'copaamerica' | string | null | undefined,
+  ronda: {
+    /** La final de una copa continental de Conmebol, que es a partido único. */
+    esLaFinal?: boolean;
+    /** El torneo de selecciones ya salió de la fase de grupos. */
+    enEliminacionDirecta?: boolean;
+  } = {},
 ): boolean {
+  if (torneo === 'mundial' || torneo === 'eurocopa' || torneo === 'copaamerica') {
+    return !!ronda.enEliminacionDirecta;
+  }
   if (torneo === 'champions' || torneo === 'europa') return true;
-  if (torneo === 'libertadores' || torneo === 'sudamericana') return esLaFinal;
+  if (torneo === 'libertadores' || torneo === 'sudamericana') return !!ronda.esLaFinal;
   return false;
 }
 

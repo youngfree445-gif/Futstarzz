@@ -121,17 +121,29 @@ console.log('');
 console.log('=== El alargue, torneo por torneo ===');
 
 ok('la Champions define con alargue en cualquier ronda',
-   seDefineConAlargue('champions', false) && seDefineConAlargue('champions', true));
+   seDefineConAlargue('champions') && seDefineConAlargue('champions', { esLaFinal: true }));
 ok('y la Europa League igual',
-   seDefineConAlargue('europa', false) && seDefineConAlargue('europa', true));
+   seDefineConAlargue('europa') && seDefineConAlargue('europa', { esLaFinal: true }));
 ok('la Libertadores NO lleva alargue en octavos, cuartos ni semis',
-   !seDefineConAlargue('libertadores', false));
-ok('pero su FINAL si', seDefineConAlargue('libertadores', true));
+   !seDefineConAlargue('libertadores'));
+ok('pero su FINAL si', seDefineConAlargue('libertadores', { esLaFinal: true }));
 ok('la Sudamericana sigue la misma regla que la Libertadores',
-   !seDefineConAlargue('sudamericana', false) && seDefineConAlargue('sudamericana', true));
+   !seDefineConAlargue('sudamericana') && seDefineConAlargue('sudamericana', { esLaFinal: true }));
 ok('lo no verificado no inventa alargue (Concacaf, copas nacionales, selecciones)',
-   !seDefineConAlargue('concacaf', false) && !seDefineConAlargue('concacaf', true)
-   && !seDefineConAlargue('Copa BetPlay', true) && !seDefineConAlargue(null, true));
+   !seDefineConAlargue('concacaf') && !seDefineConAlargue('concacaf', { esLaFinal: true, enEliminacionDirecta: true })
+   && !seDefineConAlargue('Copa BetPlay', { esLaFinal: true }) && !seDefineConAlargue(null, { esLaFinal: true }));
+
+// LOS TORNEOS DE SELECCIONES: alargue en toda la eliminacion directa, nunca en grupos.
+//
+// Lo confirmo el jugador y es la regla de siempre de FIFA. La distincion por etapa NO es un detalle:
+// en la fase de grupos el empate es un resultado valido que reparte un punto a cada uno, asi que un
+// alargue ahi romperia la tabla del grupo.
+for (const torneo of ['mundial', 'eurocopa', 'copaamerica'] as const) {
+  ok(`${torneo}: alargue en la eliminacion directa`,
+     seDefineConAlargue(torneo, { enEliminacionDirecta: true }));
+  ok(`${torneo}: NADA de alargue en la fase de grupos`,
+     !seDefineConAlargue(torneo, { enEliminacionDirecta: false }));
+}
 
 // Y LA DECISION COMPLETA, que es la que corre en el minuto 90.
 //
@@ -144,12 +156,12 @@ console.log('=== Cuando se va al alargue ===');
 
 // Ida 1-2 (perdiendo) y vuelta 1-0: global 2-2 -> alargue en Champions.
 ok('global igualado en Champions: se va al alargue',
-   seVaAlAlargue(seDefineConAlargue('champions', false), '1-2', 1, 0));
+   seVaAlAlargue(seDefineConAlargue('champions'), '1-2', 1, 0));
 // Con el MISMO marcador, en la Libertadores no hay alargue: van directo a penales.
 ok('el mismo global en octavos de Libertadores: NO',
-   !seVaAlAlargue(seDefineConAlargue('libertadores', false), '1-2', 1, 0));
+   !seVaAlAlargue(seDefineConAlargue('libertadores'), '1-2', 1, 0));
 ok('pero en la final de la Libertadores si',
-   seVaAlAlargue(seDefineConAlargue('libertadores', true), null, 1, 1));
+   seVaAlAlargue(seDefineConAlargue('libertadores', { esLaFinal: true }), null, 1, 1));
 // Global desigualado: no hay nada que desempatar aunque el partido de hoy empate.
 ok('si el global NO esta empatado, no hay alargue aunque hoy se empate',
    !seVaAlAlargue(true, '3-1', 1, 1));
