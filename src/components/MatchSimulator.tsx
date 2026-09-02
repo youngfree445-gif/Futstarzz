@@ -11,6 +11,7 @@ import {
 } from '../elVestuario';
 import { useClaseAlCambiar } from '../animaciones';
 import PlayHighlightCanvas from './PlayHighlightCanvas';
+import { seVaAlAlargue } from '../reglamentos';
 import ClubBadge from './ClubBadge';
 import { Play, FastForward, Check, Skull, Star, Award, Sparkles, Trophy, ArrowLeft, ArrowUp, ArrowRight, Armchair, Target, Send, BarChart3, Footprints, Square, Lightbulb, AlertTriangle, Megaphone, Brain, Swords } from 'lucide-react';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS_DATABASE, OPPONENT_CLUBS_POOL, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE, getClubWithRoster, ROLES_DATABASE } from '../data';
@@ -1478,6 +1479,11 @@ interface MatchSimulatorProps {
   /** En una llave a ida y vuelta, "Vuelta · Global 2-1" -- calculado por el llamador, que es quien
    *  conoce el TwoLegTie. En la ida es null: todavía no hay global que mostrar. */
   globalScoreLabel?: string | null;
+  /**
+   * ¿Esta llave se define con ALARGUE si termina empatada? Lo contesta seDefineConAlargue
+   * (src/reglamentos.ts): las europeas sí, la Conmebol sólo en la final, el resto no.
+   */
+  hayAlargue?: boolean;
   /** "Apertura"/"Clausura" para ligas con dos torneos por año, calculado por el llamador (App.tsx),
    *  que sabe con certeza si el partido de hoy vino del calendario real o del motor sintético. */
   torneoLabel?: string | null;
@@ -1526,11 +1532,19 @@ interface MatchSimulatorProps {
 }
 
 export default function MatchSimulator({
-  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, globalScoreLabel, torneoLabel, isWorldCup, representingTeamId, isHome: isHomeProp, autoSimular,
+  playerProfile, opponentName, opponentClubId, isLibertadores, cupId, uefaCupId, isDomesticCup, competitionNameOverride, globalScoreLabel, hayAlargue, torneoLabel, isWorldCup, representingTeamId, isHome: isHomeProp, autoSimular,
   myTablePosition, rivalTablePosition, leagueTeamCount, lineupStatus, subEntryMinute, charlaInicial, onFinishMatch
 }: MatchSimulatorProps) {
   const [minute, setMinute] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  /**
+   * Hasta qué minuto se juega: 90, o 120 si la llave se fue al alargue.
+   *
+   * Es estado y no una constante porque la decisión se toma EN el minuto 90, mirando cómo quedó el
+   * global. Y el alargue se JUEGA, no se simula: simularlo sería resolver la llave a espaldas del
+   * jugador, que es exactamente lo que se acaba de arreglar con los penales de la copa nacional.
+   */
+  const [minutoFinal, setMinutoFinal] = useState(90);
   /**
    * Lo que dejo el partido terminado, esperando que el jugador toque para ir al diario.
    *
@@ -2123,7 +2137,7 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
   useEffect(() => {
     // La charla del entretiempo frena el reloj igual que una decision: si el partido siguiera
     // corriendo por detras, el tecnico te hablaria mientras se juega.
-    if (!isPlaying || minute >= 90 || activeDecision !== null || charlaDelDT !== null) return;
+    if (!isPlaying || minute >= minutoFinal || activeDecision !== null || charlaDelDT !== null) return;
 
     const timer = setTimeout(() => {
       const nextMin = minute + 1;
@@ -2132,7 +2146,7 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
     }, speedMultiplier);
 
     return () => clearTimeout(timer);
-  }, [isPlaying, minute, activeDecision, charlaDelDT, speedMultiplier]);
+  }, [isPlaying, minute, minutoFinal, activeDecision, charlaDelDT, speedMultiplier]);
 
   /**
    * COMO SUENA UN GOL. Cualquiera, no sólo el tuyo.
@@ -2239,7 +2253,7 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
       }
     }
 
-    if (currentMin === 90) {
+    if (currentMin === minutoFinal) {
       // Un poquito de drama de último minuto: antes de pitar el final hay una chance chica
       // (más alta que la de gol normal en cualquier otro minuto) de una jugada de tiempo agregado.
       let finalScoreHome = scoreHome;
@@ -2265,6 +2279,30 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
         }
         setScoreHome(finalScoreHome);
         setScoreAway(finalScoreAway);
+      }
+
+      // ¿SE VA AL ALARGUE? Se decide ACA, en el minuto 90 y con el global ya cerrado.
+      //
+      // Sólo en los torneos que lo usan de verdad (ver seDefineConAlargue en reglamentos.ts): las
+      // europeas siempre, la Conmebol nada más en la final. En la Libertadores una llave empatada va
+      // directo a penales, y meterle un alargue seria inventar una regla que no existe.
+      //
+      // El empate se mide sobre el GLOBAL cuando hay ida -- que es lo que decide la llave -- y sobre
+      // el marcador cuando el partido es único. globalScoreLabel trae lo que venía de la ida en el
+      // orden "mis goles - los del rival", igual que lo lee el cartel del global de la pantalla.
+      if (minutoFinal === 90) {
+        const misGoles90 = isHome.current ? finalScoreHome : finalScoreAway;
+        const susGoles90 = isHome.current ? finalScoreAway : finalScoreHome;
+        if (seVaAlAlargue(!!hayAlargue, globalScoreLabel, misGoles90, susGoles90)) {
+          setMinutoFinal(120);
+          setMatchLog(prev => [...prev, {
+            minute: 90,
+            text: '⏱️ ¡SE VA AL ALARGUE! Treinta minutos más para desempatar. Si sigue igual, penales.',
+            type: 'highlight',
+          }]);
+          if (WHISTLE_SFX_ENABLED) playSfx('whistle');
+          return;
+        }
       }
 
       const finalResult: 'W' | 'D' | 'L' =

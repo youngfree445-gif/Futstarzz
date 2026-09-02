@@ -423,6 +423,61 @@ export function reglasDeLiga(league: string): ReglasAscenso | null {
 }
 
 /**
+ * ¿ESTA LLAVE SE DEFINE CON ALARGUE ANTES DE LOS PENALES?
+ *
+ * No es "cada torneo tiene su regla": dentro de un mismo torneo cambia según la ronda, y por eso
+ * hace falta el segundo parámetro. Verificado contra los reglamentos vigentes de 2026:
+ *
+ *   . CHAMPIONS y EUROPA LEAGUE -- llave empatada en el global: 30 minutos de alargue y después
+ *     penales. La UEFA eliminó el gol de visitante en 2021/22, así que el empate se resuelve así en
+ *     todas las rondas, la final incluida.
+ *   . LIBERTADORES y SUDAMERICANA -- octavos, cuartos y semifinales: penales DIRECTO, sin alargue.
+ *     La final, que es a partido único: alargue de 30 minutos y después penales. Es la asimetría
+ *     que más sorprende y está en el reglamento de la CONMEBOL 2026.
+ *   . LIGA BETPLAY (cuadrangulares y final): penales directo, sin alargue. Confirmado en el
+ *     reglamento 2026 de la Dimayor.
+ *
+ * Lo que NO está verificado devuelve false, que es lo que hace el juego hoy: la Concacaf, las copas
+ * nacionales y los torneos de selecciones van directo a penales hasta que se confirme su regla. No
+ * se asume que "todos los torneos tienen alargue" porque es falso -- la Conmebol es el contraejemplo
+ * y justamente el que el jugador juega.
+ */
+export function seDefineConAlargue(
+  torneo: 'champions' | 'europa' | 'libertadores' | 'sudamericana' | 'concacaf' | string | null | undefined,
+  esLaFinal: boolean,
+): boolean {
+  if (torneo === 'champions' || torneo === 'europa') return true;
+  if (torneo === 'libertadores' || torneo === 'sudamericana') return esLaFinal;
+  return false;
+}
+
+/**
+ * ¿ESTE PARTIDO SE VA AL ALARGUE al terminar los 90?
+ *
+ * Junta las dos condiciones: que el torneo lo use (seDefineConAlargue) y que la llave esté
+ * realmente empatada. Vive acá y no adentro de la pantalla del partido para poder probarla: metida
+ * en el componente sólo se podía verificar jugando hasta que un global quedara igualado, que en una
+ * carrera entera puede no pasar nunca.
+ *
+ * El empate se mide sobre el GLOBAL cuando hubo ida -- que es lo que decide la llave -- y sobre el
+ * marcador cuando el partido es único. `globalPrevio` viene como "mis goles-los del rival", que es
+ * el formato del cartel del global de la pantalla.
+ */
+export function seVaAlAlargue(
+  hayAlargue: boolean,
+  globalPrevio: string | null | undefined,
+  misGoles: number,
+  susGoles: number,
+): boolean {
+  if (!hayAlargue) return false;
+  const [previosMios, previosRival] = (globalPrevio ?? '').split('-').map(Number);
+  if (Number.isFinite(previosMios) && Number.isFinite(previosRival)) {
+    return previosMios + misGoles === previosRival + susGoles;
+  }
+  return misGoles === susGoles;
+}
+
+/**
  * COMO SE JUEGA CADA RONDA DE LA COPA NACIONAL DE ESTE PAIS.
  *
  * Vive acá y no en copaNacional.ts por la razón de siempre en este archivo: éste es un módulo HOJA

@@ -89,6 +89,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
+import { seDefineConAlargue } from './reglamentos';
 import { rivalDeRelleno, resolverRivalDeLaFecha, eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, laCopaContinentalLaLlevaElCuadro, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
@@ -7089,6 +7090,14 @@ export default function App() {
           isDomesticCup={activeDomesticCup}
           competitionNameOverride={activeCompetitionName}
           globalScoreLabel={activeGlobalScoreLabel}
+          // EL ALARGUE, solo donde el reglamento lo tiene. Lo contesta seDefineConAlargue: las
+          // europeas en toda ronda, la Conmebol nada mas en la final. La final se reconoce por el
+          // rotulo de la competicion, que es donde ya se escribe la ronda ("Copa Libertadores ·
+          // Final"): el estado del cuadro no esta a mano aca, y ese rotulo lo arma el mismo codigo
+          // que decide la ronda, asi que no puede decir una cosa distinta.
+          hayAlargue={seDefineConAlargue(
+            activeUefaCupId ?? activeCupId,
+            /final/i.test(activeCompetitionName ?? ''))}
           torneoLabel={activeTorneoLabel}
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}
