@@ -24,7 +24,7 @@
  * VERSION: al subirla, el `activate` borra los caches viejos. Hay que subirla en cada deploy que
  * cambie algo, o el service worker seguiria sirviendo el build anterior para siempre.
  */
-const VERSION = 'futstarzz-v1';
+const VERSION = 'futstarzz-v2';
 const CACHE_ESTATICO = `${VERSION}-estatico`;
 
 // Al instalar no se precachea nada mas que el arranque: el build son 34 MB (casi todo escudos y

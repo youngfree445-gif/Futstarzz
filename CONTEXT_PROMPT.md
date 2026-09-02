@@ -127,6 +127,18 @@ corren su calendario y tabla en simultáneo de fondo.
   (autoplay policy). No se puede esquivar: `playSfx` falla en silencio a
   propósito, y el silbatazo inicial puede no sonar si el jugador entró directo a
   un partido sin haber clickeado nada antes en esa carga.
+- **iOS es más estricto y no es la misma regla**: Safari bloquea **cada elemento
+  `<audio>` por separado** hasta que ese elemento se reprodujo una vez dentro de
+  un gesto. `load()` no habilita nada. Por eso `desbloquearAudio()` (en
+  `audio.ts`) se llama desde el primer toque en `App.tsx` y reproduce los quince
+  efectos **muteados** para dejarlos listos. Sin eso, en iPhone se escuchaba la
+  hinchada de fondo — que arranca en el mismo toque de "Disputar Partido" — y
+  **ningún gol**, porque el gol sale de un temporizador. Lo cubre
+  `npm run validar:audio`, que reproduce la regla de iOS con un `<audio>` de
+  mentira.
+- Una **copia encimada** (`cloneNode`, para que dos efectos iguales no se corten)
+  es un elemento nuevo, así que en iOS nace bloqueada: si su `play()` falla,
+  `playSfx` rebobina el original en vez de quedarse mudo.
 - El widget se monta en `App.tsx` junto a los toasts, **fuera** de los bloques
   por pantalla: si viviera dentro de `Dashboard` o `MatchSimulator`, cambiar de
   pantalla recrearía el iframe y cortaría la canción.

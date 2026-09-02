@@ -17,7 +17,7 @@ import { refreshTransferOffersIfNeeded } from './transferMarket';
 import { clubesDeLiga, clubesJugables, esClubJugable, ligaTieneCalendario } from './clubesJugables';
 import { setMiembrosDeLiga } from './seasonCalendar';
 import { generateWorldRanking } from './worldRanking';
-import { preloadSfx } from './audio';
+import { desbloquearAudio, preloadSfx } from './audio';
 import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
@@ -2014,6 +2014,27 @@ export default function App() {
   // el gol, el sonido llegaría tarde (o directamente después del festejo) en conexiones lentas.
   useEffect(() => {
     preloadSfx();
+  }, []);
+
+  // Y SE HABILITAN CON EL PRIMER TOQUE, que es otra cosa distinta de descargarlos.
+  //
+  // En iOS cada elemento <audio> queda bloqueado hasta que se reproduce una vez DENTRO de un gesto;
+  // bajarlo no lo habilita. Reportado desde un iPhone: se escuchaba la hinchada de fondo -- que
+  // arranca en el mismo toque de "Disputar Partido" -- y no se escuchaba ningún gol, porque el gol
+  // suena desde un temporizador, ya fuera del gesto. Ver desbloquearAudio.
+  //
+  // Va en App y no en la pantalla del partido a propósito: para cuando llegás a jugar ya tocaste el
+  // menú diez veces, así que el audio queda habilitado mucho antes de que haga falta.
+  useEffect(() => {
+    const habilitar = () => desbloquearAudio();
+    // Los dos eventos: pointerdown cubre el escritorio y el iOS moderno, touchend es el que
+    // Safari cuenta como gesto de toda la vida. desbloquearAudio corre una sola vez igual.
+    window.addEventListener('pointerdown', habilitar, { once: true });
+    window.addEventListener('touchend', habilitar, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', habilitar);
+      window.removeEventListener('touchend', habilitar);
+    };
   }, []);
 
   const [activeEvent, setActiveEvent] = useState<any>(null);

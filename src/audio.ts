@@ -215,7 +215,61 @@ export function playSfx(name: SfxName) {
 
   // play() devuelve una promesa que rechaza si el autoplay está bloqueado. Sin catch queda como
   // "unhandled rejection" en consola en cada click previo al primer gesto del usuario.
-  void el.play().catch(() => {});
+  //
+  // Y si la que fallo era una COPIA encimada, se reintenta con el elemento de siempre. Una copia es
+  // un elemento nuevo, y en iOS nace bloqueada aunque el original este habilitado (ver
+  // desbloquearAudio): sin esto, el segundo gol seguido se quedaba mudo justo en la plataforma
+  // donde se reporto el problema. Rebobinar el original corta el festejo anterior, que es peor que
+  // encimarlo pero muchisimo mejor que el silencio.
+  void el.play().catch(() => {
+    if (el === base) return;
+    try { base.currentTime = 0; } catch { /* todavia sin metadatos */ }
+    void base.play().catch(() => {});
+  });
+}
+
+/**
+ * HABILITA EL AUDIO. Hay que llamarlo DESDE UN GESTO DEL JUGADOR, y de ahí sale todo su sentido.
+ *
+ * Safari en iOS no bloquea "el audio de la página": bloquea CADA elemento <audio> por separado,
+ * hasta que ese elemento concreto se reprodujo una vez dentro de un gesto. Después de eso queda
+ * habilitado para siempre y ya se lo puede disparar por código.
+ *
+ * Eso explica un sintoma que parecia imposible: en el iPhone se escuchaba la hinchada de fondo y NO
+ * se escuchaba ningun gol. El ambiente arranca en el mismo toque de "Disputar Partido" -- o sea
+ * dentro del gesto --, mientras que el gol suena minutos despues desde un temporizador, sobre un
+ * elemento que nunca se toco. Safari lo rechazaba sin decir nada: play() devuelve una promesa
+ * rechazada y el .catch() de playSfx se la come, que es lo correcto para el autoplay pero deja este
+ * caso invisible.
+ *
+ * preloadSfx() NO alcanza: load() baja el archivo pero no cuenta como reproduccion, asi que el
+ * elemento sigue bloqueado. Hay que reproducir de verdad, y por eso esto suena MUTEADO y pausa en
+ * el acto: el jugador no oye nada, y los quince efectos quedan listos para el resto de la partida.
+ *
+ * En Chrome de escritorio y en Android no hace falta -- ahi el permiso es de la pagina entera -- y
+ * tampoco molesta: son quince play() muteados que terminan antes de que se suelte el dedo.
+ */
+let desbloqueado = false;
+export function desbloquearAudio() {
+  if (desbloqueado) return;
+  desbloqueado = true;
+  (Object.keys(SFX_FILES) as SfxName[]).forEach(name => {
+    const el = getElement(name);
+    if (!el) return;
+    const volumen = el.volume;
+    el.muted = true;
+    // El pause() va DENTRO del then: pausar antes de que la promesa resuelva aborta la
+    // reproduccion y el elemento no llega a quedar habilitado.
+    void el.play().then(() => {
+      el.pause();
+      try { el.currentTime = 0; } catch { /* todavia sin metadatos */ }
+      el.muted = false;
+      el.volume = volumen;
+    }).catch(() => {
+      el.muted = false;
+      el.volume = volumen;
+    });
+  });
 }
 
 /** Precarga los archivos para que el primer gol no llegue tarde por estar recién descargando. */

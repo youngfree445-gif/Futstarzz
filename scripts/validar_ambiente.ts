@@ -188,8 +188,14 @@ caso('la que SALE no se baja antes de que la que entra se escuche', () => {
 caso('el ambiente no se descarga al abrir el juego', () => {
   // Vive fuera de SFX_FILES a proposito: preloadSfx() recorre esa lista al arrancar, y meter ahi
   // cuatro megas de estadio le cobraria la espera a todo el mundo, juegue o no un partido.
+  //
+  // Se busca la RUTA de las pistas o el import del modulo, no la palabra suelta: buscando
+  // "ambiente" a secas, el chequeo saltaba porque un COMENTARIO de audio.ts explicaba por que en
+  // iPhone se oia la hinchada de fondo y no los goles. Un guardia que se dispara con la prosa
+  // termina obligando a no escribir comentarios, que es lo contrario de lo que queremos.
   const audio = readFileSync('src/audio.ts', 'utf8');
-  if (/ambiente/.test(audio)) throw new Error('el ambiente entro al motor de efectos: se bajaria al abrir el juego');
+  if (/sfx\/ambiente/.test(audio)) throw new Error('las pistas de ambiente entraron a SFX_FILES: se bajarian al abrir el juego');
+  if (/from '\.\/ambienteDelPartido'/.test(audio)) throw new Error('el motor de efectos importa el ambiente: se bajaria al abrir el juego');
   if (!/arrancarAmbiente\(\)/.test(PANTALLA)) throw new Error('nadie arranca el ambiente');
 });
 
