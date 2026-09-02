@@ -5561,7 +5561,35 @@ export default function App() {
         isHome: isHomeParaLaCopaNacional,
         goals: results.golesMiEquipo,
         opponentGoals: results.golesRival,
+        // LOS PENALES QUE PATEO EL JUGADOR MANDAN sobre el dado del motor. Sin esto, la segunda
+        // pasada -- la que llega despues de la pantalla de penales -- volveria a sortear la tanda y
+        // el resultado podria ser el contrario del que acabas de patear.
+        shootoutOverride,
       });
+      // ¿LA LLAVE SE FUE A PENALES? Entonces se patean, no se simulan.
+      //
+      // La copa nacional era la unica eliminatoria que quedaba definiendose a espaldas del jugador.
+      // El motor SI arma la tanda cuando el global queda igualado (ver resolveOneLegOfTie), pero
+      // nadie la buscaba en este cuadro, asi que la resolvia por dentro y el jugador se enteraba
+      // por la pantalla de eliminado. Reportado con captura del reporte de bug: "quedo 4-4 el
+      // global pero no hubo alargue y ademas luego me salio la pantalla de eliminado, ahi tuvo que
+      // haber alargue o penaltis y no hubo ninguna, decepcionante eso".
+      //
+      // Mismo mecanismo que la Libertadores y el cuadrangular: en la primera pasada se detecta la
+      // tanda y NO SE GUARDA NADA -- el corte esta abajo, en `if (foundShootout && !shootoutOverride)`
+      // --, y en la segunda se resuelve la llave otra vez desde `cup`, que quedo intacto, con los
+      // penales que pateo el jugador.
+      const tandaDeLaCopa = findShootoutInTwoLegBracket(resuelta.bracket, myClub.id, activeOppositionClubId ?? '');
+      if (tandaDeLaCopa) {
+        foundShootout = tandaDeLaCopa;
+        foundShootoutMyId = myClub.id;
+        foundShootoutMyName = myClub.name;
+      }
+      // Mientras la tanda este pendiente no se guarda ni se anuncia nada: el campeon y la
+      // eliminacion los decide ella. Guardar antes dejaria en disco el resultado que invento el
+      // motor, que es justo el que el jugador va a reemplazar pateando.
+      const tandaDeCopaResuelta = !tandaDeLaCopa || !!shootoutOverride;
+
       // Si este partido te dejó afuera, la copa NO se congela ahí: se juega sola hasta la final.
       // Antes el cuadro sólo avanzaba cuando jugabas vos, así que el torneo del que te eliminaban
       // se quedaba para siempre en la ronda donde quedaste y nunca coronaba campeón -- ni para la
@@ -5569,7 +5597,7 @@ export default function App() {
       const terminada = resuelta.championId || sigueEnCopa(resuelta, myClub.id)
         ? resuelta
         : terminarTorneoSinElJugador(resuelta, c => resolverPasoCopaNacional(c, CLUBS_DATABASE));
-      updatedDomesticCups = { ...(playerProfile.domesticCups ?? {}), [cupKey]: terminada };
+      if (tandaDeCopaResuelta) updatedDomesticCups = { ...(playerProfile.domesticCups ?? {}), [cupKey]: terminada };
 
       // Y SE GUARDA ACA MISMO, sin esperar al perfil grande del final de la función.
       //
@@ -5582,8 +5610,10 @@ export default function App() {
       // cuadro en disco antes de que nada más pueda pisarlo. Es el mismo remedio que ya se le puso
       // al sembrado en startMatchflow.
       const cupResuelta = terminada;
-      setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cupResuelta } }));
-      saveGameState({ ...playerProfile, domesticCups: { ...(playerProfile.domesticCups ?? {}), [cupKey]: cupResuelta } }, shopItems);
+      if (tandaDeCopaResuelta) {
+        setPlayerProfile(prev => prev && ({ ...prev, domesticCups: { ...(prev.domesticCups ?? {}), [cupKey]: cupResuelta } }));
+        saveGameState({ ...playerProfile, domesticCups: { ...(playerProfile.domesticCups ?? {}), [cupKey]: cupResuelta } }, shopItems);
+      }
 
       // LA COPA NACIONAL TAMBIEN AVISA. Era la unica que no lo hacia.
       //
@@ -5595,7 +5625,7 @@ export default function App() {
       //
       // La ronda es la de ANTES de resolver: es en la que quedaste afuera. Leerla de `resuelta`
       // daria la ronda a la que paso el que te gano.
-      if (sigueEnCopa(cup, myClub.id) && !sigueEnCopa(resuelta, myClub.id)) {
+      if (tandaDeCopaResuelta && sigueEnCopa(cup, myClub.id) && !sigueEnCopa(resuelta, myClub.id)) {
         mostrarAviso({
           competition: nombreCopaNacional(myClub.league),
           clubName: myClub.name,
@@ -5604,7 +5634,8 @@ export default function App() {
           eliminated: true,
           eliminatedRound: rondaActual(cup),
         });
-      } else if (!resuelta.championId
+      } else if (tandaDeCopaResuelta
+        && !resuelta.championId
         && sigueEnCopa(resuelta, myClub.id)
         && !cruceActual(cup, myClub.id)?.played
         && cruceActual(resuelta, myClub.id)?.winnerId === myClub.id) {
@@ -5627,7 +5658,7 @@ export default function App() {
         });
       }
 
-      if (resuelta.championId === myClub.id) {
+      if (tandaDeCopaResuelta && resuelta.championId === myClub.id) {
         salioCampeon = true;
         // Mismo criterio que la clave de la copa: el año sale de la temporada del CALENDARIO. Con
         // getSeasonYear, un club de 60 pasos por año veía su título fechado en el año siguiente.

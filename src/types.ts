@@ -871,6 +871,14 @@ export interface LeagueSeasonState {
   round: number; // cuántas veces se regeneró el fixture (ligas cortas que llegan al final de la vuelta antes de terminar la temporada)
   // Solo se usan en ligas con formato Apertura/Clausura (Colombia, Argentina):
   semester?: 1 | 2; // 1 = Apertura, 2 = Clausura
+  /**
+   * De qué torneo es la tabla que hay guardada ("Apertura", "Clausura").
+   *
+   * Es lo que permite reiniciarla al cambiar de semestre. Sin esto la tabla solo se reiniciaba al
+   * cambiar de AÑO y Colombia, Argentina y México sumaban los dos torneos en una tabla anual, que
+   * no es como se juegan. Vacío en las ligas de un solo título por año.
+   */
+  torneoDeLaTabla?: string;
   semesterStartWeek?: number; // currentWeek en el que arrancó la fase de todos-contra-todos del semestre actual
   stage?: 'regular' | 'knockout' | 'done';
   // ACÁ VIVÍAN `knockout` y `twoLegKnockout`, los cuadros de playoff del motor viejo.

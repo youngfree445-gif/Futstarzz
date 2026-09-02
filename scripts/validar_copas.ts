@@ -10,11 +10,13 @@
 // decisión de rama, mismo cuadro -- y cuenta partidos de copa REALMENTE jugados, rondas superadas y
 // campeones coronados. Si una copa no se puede jugar, acá sale en cero.
 
+import { readFileSync } from 'fs';
 import { ULTIMATE_CLUBS_DATABASE as CLUBS, WORLD_CUP_TEAMS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE } from '../src/data';
 import { seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica } from '../src/eliminatorias';
 import { esAnioDeTorneoContinental, fechasDeCopaNacionalRestantes, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, partidosDeLaMismaLlave, pickPrimary, temporadaDelPaso } from '../src/dateSchedule';
 import { crearCopaNacional, cruceActual, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, type DomesticCupState } from '../src/copaNacional';
 import { resolverPasoCopaNacional, simulateMatch, getOrCreateCupState, tercerosDeGrupo, sortTable, getOrCreateWorldCupState, sigueEnElTorneoDeSelecciones, FORMATO_DE_TORNEO, getUpcomingCupMatch, getLibertadoresParticipants, getSudamericanaParticipants, isClubStillInCup, resolveCupWeek, CAREER_START_YEAR } from '../src/leagueEngine';
+import { clubesDeLiga } from '../src/clubesJugables';
 import type { Club } from '../src/types';
 
 const TEMPORADAS = 3;
@@ -574,5 +576,78 @@ console.log('\n=== EUROCOPA Y COPA AMERICA ===');
      diasT3.length >= FORMATO_DE_TORNEO.eurocopa.pasos,
      `${diasT3.length} dias · ${diasT3[0]?.date} a ${diasT3[diasT3.length - 1]?.date}`);
 
-  if (fallasTC) { console.log(`\nFALLA: ${fallasTC} en los torneos continentales.`); process.exit(1); }
+// =================================================================================================
+// LA COPA NACIONAL EMPATADA SE VA A PENALES, Y LOS PATEA EL JUGADOR
+// =================================================================================================
+//
+// Reportado con el reporte de bug en la mano: "quedo 4-4 el global pero no hubo alargue y ademas
+// luego me salio la pantalla de eliminado". El motor SI arma la tanda cuando el global queda
+// igualado, pero App.tsx no la buscaba en el cuadro de la copa nacional -- si en la Libertadores,
+// en las europeas, en el Mundial y en el cuadrangular --, asi que la resolvia por dentro y el
+// jugador se enteraba del resultado sin haber pateado.
+//
+// Se prueban las dos mitades: que la tanda EXISTA en la llave, y que el resultado que patea el
+// jugador MANDE sobre el dado del motor.
+
+console.log("");
+console.log("=== La copa nacional empatada ===");
+
+{
+  const clubesCopa = clubesDeLiga('Colombiana-1') as Club[];
+  const yo = clubesCopa[0];
+  const copa = crearCopaNacional('Colombiana', 1, clubesCopa, c => (c.division === 2 ? 2 : 1));
+  const miLlave = cruceActual(copa, yo.id);
+  okTC('el jugador entra al cuadro de su copa nacional', !!miLlave, yo.name);
+
+  if (miLlave) {
+    const rival = miLlave.clubAId === yo.id ? miLlave.clubBId : miLlave.clubAId;
+    const soyA = miLlave.clubAId === yo.id;
+    // Ida 2-2 y vuelta 2-2: global 4-4, el caso exacto del reporte.
+    const trasIda = resolverPasoCopaNacional(copa, clubesCopa, {
+      clubId: yo.id, isHome: soyA, goals: 2, opponentGoals: 2,
+    });
+    const trasVuelta = resolverPasoCopaNacional(trasIda, clubesCopa, {
+      clubId: yo.id, isHome: !soyA, goals: 2, opponentGoals: 2,
+    });
+    const llave = trasVuelta.bracket.tiesByRound[trasVuelta.bracket.tiesByRound.length - 1]
+      .find(t => t.clubAId === yo.id || t.clubBId === yo.id);
+    const golesA = (llave?.firstLegGoalsA ?? 0) + (llave?.secondLegGoalsA ?? 0);
+    const golesB = (llave?.firstLegGoalsB ?? 0) + (llave?.secondLegGoalsB ?? 0);
+    okTC('el global queda 4-4', golesA === 4 && golesB === 4, `${golesA}-${golesB}`);
+    okTC('y la llave anota una tanda de penales, no un ganador de la nada',
+       !!llave?.penaltyShootout);
+
+    // Y LA TANDA QUE PATEA EL JUGADOR MANDA. Sin el shootoutOverride, la segunda pasada volvia a
+    // sortearla y podia dar el resultado contrario al que el jugador acababa de patear.
+    const gane = { winnerId: yo.id, shots: [], scoreA: 5, scoreB: 4 } as never;
+    const conMiTanda = resolverPasoCopaNacional(trasIda, clubesCopa, {
+      clubId: yo.id, isHome: !soyA, goals: 2, opponentGoals: 2, shootoutOverride: gane,
+    });
+    const miaGanada = conMiTanda.bracket.tiesByRound[conMiTanda.bracket.tiesByRound.length - 1]
+      .find(t => t.clubAId === yo.id || t.clubBId === yo.id);
+    okTC('si patea y gana, pasa el jugador', miaGanada?.winnerId === yo.id);
+
+    const perdi = { winnerId: rival, shots: [], scoreA: 3, scoreB: 4 } as never;
+    const conDerrota = resolverPasoCopaNacional(trasIda, clubesCopa, {
+      clubId: yo.id, isHome: !soyA, goals: 2, opponentGoals: 2, shootoutOverride: perdi,
+    });
+    const miaPerdida = conDerrota.bracket.tiesByRound[conDerrota.bracket.tiesByRound.length - 1]
+      .find(t => t.clubAId === yo.id || t.clubBId === yo.id);
+    okTC('y si la pierde, pasa el rival', miaPerdida?.winnerId === rival);
+  }
+
+  // Y QUE ALGUIEN LA OFREZCA. Lo de arriba prueba el motor; esto, que la pantalla la busque -- que
+  // es justo lo que faltaba.
+  const app = readFileSync('src/App.tsx', 'utf8');
+  okTC('App.tsx busca la tanda en el cuadro de la copa nacional',
+     /findShootoutInTwoLegBracket\(resuelta\.bracket/.test(app));
+  // Se busca la LLAMADA entera y despues se mira adentro, en vez de contar caracteres hasta el
+  // campo: con un limite fijo, agregarle un comentario a la llamada rompia el chequeo.
+  const llamada = /resolverPasoCopaNacional\(cup, CLUBS_DATABASE, \{[\s\S]*?\}\);/.exec(app)?.[0] ?? '';
+  okTC('y le pasa al motor los penales que pateo el jugador',
+     llamada.includes('shootoutOverride'), llamada ? '' : '(no se encontro la llamada)');
+}
+
+  if (fallasTC) { 
+console.log(`\nFALLA: ${fallasTC} en los torneos continentales.`); process.exit(1); }
 }

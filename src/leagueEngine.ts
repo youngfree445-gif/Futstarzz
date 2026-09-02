@@ -1,4 +1,4 @@
-import { repartesDosTitulos, esPartidoUnicoDeCopa } from './reglamentos';
+import { repartesDosTitulos, torneosDelAnio, esPartidoUnicoDeCopa } from './reglamentos';
 import { Club, CupGroup, CupState, Fixture, LeagueSeasonState, PenaltyShootoutResult, PlayoffBracket, PlayoffMatch, TableTeam, TwoLegBracket, TwoLegTie, UefaCupState, WorldCupState } from './types';
 import { fuerzaParaElMercado } from './fuerzaDelClub';
 import type { DomesticCupState } from './copaNacional';
@@ -2464,7 +2464,31 @@ function resolveLigaPorFecha(
   // Temporada nueva: la tabla arranca de cero. Sin esto los partidos del año siguiente se sumaban
   // encima de los del anterior y los clubes terminaban con 44 partidos jugados en vez de 38.
   const cambioDeTemporada = season.seasonYear !== undefined && season.seasonYear !== ctx.temporada;
-  const reiniciar = esSaveLegado || cambioDeTemporada;
+
+  // EL APERTURA Y EL CLAUSURA SON DOS TORNEOS, NO UNO LARGO.
+  //
+  // La tabla solo se reiniciaba al cambiar de AÑO, así que en Colombia, Argentina y México sumaba
+  // los dos semestres en una sola tabla anual. Reportado: "en la parte de tablas te sale una liga
+  // anual, eso no es así, es apertura y clausura; si estamos en apertura se muestra la tabla del
+  // apertura". Y no es solo cosmético: de esa tabla salen la posición, el campeón y los cupos
+  // continentales.
+  //
+  // El corte por mes es el MISMO que usa el calendario (torneoDeFecha en dateSchedule): hasta junio
+  // el primero, de julio en adelante el segundo, y qué torneos son lo dice el reglamento de la liga.
+  // No se importa aquella función porque dateSchedule ya importa este archivo -- sería circular --,
+  // pero las dos preguntan lo mismo a la misma fuente, así que no pueden discrepar.
+  const ligaDelCalendario = comp.league ?? '';
+  const torneoDe = (date: string): string | null => {
+    if (!repartesDosTitulos(ligaDelCalendario)) return null;
+    const [primero, segundo] = torneosDelAnio(ligaDelCalendario);
+    return Number(date.slice(5, 7)) <= 6 ? primero : segundo;
+  };
+  const torneoDeHoy = torneoDe(ctx.fecha);
+  const cambioDeTorneo = torneoDeHoy !== null
+    && season.torneoDeLaTabla !== undefined
+    && season.torneoDeLaTabla !== torneoDeHoy;
+
+  const reiniciar = esSaveLegado || cambioDeTemporada || cambioDeTorneo;
   const playoffs = partidosDePlayoff(base);
   let table = reiniciar ? buildInitialTable(leagueClubs) : season.table;
   const fixtures = reiniciar ? [] : [...season.fixtures];
@@ -2473,6 +2497,10 @@ function resolveLigaPorFecha(
   for (let i = 0; i < comp.matches.length; i++) {
     const m = comp.matches[i];
     if (m.date > ctx.fecha) continue;
+    // Y SOLO LOS DE ESTE TORNEO. Con la tabla reiniciada, el bucle volvería a aplicarle los
+    // partidos del Apertura -- están en el mismo calendario del año -- y la tabla del Clausura
+    // nacería con los puntos del semestre anterior, que es exactamente lo que se viene a arreglar.
+    if (torneoDeHoy !== null && torneoDe(m.date) !== torneoDeHoy) continue;
     const clave = `${m.date}|${m.home}|${m.away}`;
     if (yaJugadas.has(clave)) continue;
     const home = porNombre.get(m.home);
@@ -2503,5 +2531,17 @@ function resolveLigaPorFecha(
     yaJugadas.add(clave);
   }
 
-  return { ...season, fixtures, table, seasonYear: ctx.temporada };
+  // Se anota DE QUE TORNEO es esta tabla: es lo que deja ver el cambio de semestre la proxima vez.
+  // Y `semester` se llena de una vez -- lo leen el Dashboard, el palmares y los titulos, y hasta
+  // ahora nadie lo escribia, asi que todos rotulaban "Apertura" todo el anio.
+  const [primeroDelAnio] = repartesDosTitulos(ligaDelCalendario)
+    ? torneosDelAnio(ligaDelCalendario) : [null];
+  return {
+    ...season,
+    fixtures,
+    table,
+    seasonYear: ctx.temporada,
+    torneoDeLaTabla: torneoDeHoy ?? season.torneoDeLaTabla,
+    semester: torneoDeHoy === null ? season.semester : (torneoDeHoy === primeroDelAnio ? 1 : 2),
+  };
 }

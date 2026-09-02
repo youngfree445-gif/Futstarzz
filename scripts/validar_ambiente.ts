@@ -284,13 +284,16 @@ caso('simular un partido no es mudo', () => {
 });
 
 caso('las tres tapas de diario suenan al abrir', () => {
-  for (const [archivo, que] of [
-    ['src/components/PostMatch.tsx', 'la de despues del partido'],
-    ['src/components/NewSeasonOverlay.tsx', 'la de arranque de temporada'],
-    ['src/components/PortadaDeFichaje.tsx', 'la del fichaje'],
-  ]) {
+  // Cada una con lo que le corresponde. La del partido SORTEA entre dos tribunas (ver el caso de
+  // mas abajo), asi que no la puede llamar por su nombre; las otras dos si. Lo que se protege es
+  // lo mismo en las tres: que la pantalla no abra en silencio.
+  for (const [archivo, que, comoSuena] of [
+    ['src/components/PostMatch.tsx', 'la de despues del partido', /playSfx\(laTribunaDeHoy\.current\)/],
+    ['src/components/NewSeasonOverlay.tsx', 'la de arranque de temporada', /playSfx\('post_partido'\)/],
+    ['src/components/PortadaDeFichaje.tsx', 'la del fichaje', /playSfx\('post_partido'\)/],
+  ] as [string, string, RegExp][]) {
     const fuente = readFileSync(archivo, 'utf8');
-    if (!/playSfx\('post_partido'\)/.test(fuente)) throw new Error(`${que} abre en silencio`);
+    if (!comoSuena.test(fuente)) throw new Error(`${que} abre en silencio`);
   }
 });
 
@@ -350,20 +353,25 @@ caso(`el boton apaga TODO: los ${CUANTOS_EFECTOS} efectos y el estadio`, () => {
   }
 });
 
-// LA TRIBUNA DEL DIARIO TAMPOCO PUEDE QUEDAR SONANDO.
+// LA TRIBUNA DEL DIARIO: UNA DE LAS DOS, Y QUE SE APAGUE AL SALIR.
 //
-// Es el sonido mas largo del juego -- mas de un minuto -- y entra a los 3,5 s de abrirse el diario,
-// que el jugador casi siempre cierra antes. Sin corte se lo lleva puesto al Dashboard, que es
-// exactamente el problema que este archivo existe para evitar: un sonido que arranca y no para.
-caso('la tribuna del post partido se corta al salir de la pantalla', () => {
+// Suena UNA sorteada por partido, no las dos encimadas: se probo encadenarlas y ademas de sonar
+// raro trababa la pantalla al arrancar el segundo audio. Y la larga dura mas de un minuto, que el
+// jugador casi siempre corta antes: sin apagarla se lleva puesto el Dashboard, que es exactamente
+// el problema que este archivo existe para evitar.
+caso('en el diario suena UNA tribuna, sorteada, y se corta al salir', () => {
   const post = readFileSync('src/components/PostMatch.tsx', 'utf8');
-  if (!/post_partido_hinchada/.test(post)) throw new Error('la segunda tribuna no suena en el diario');
-  // Las DOS salidas: el boton y el desmontaje. El boton es el camino normal; el desmontaje cubre
-  // cualquier otra forma de irse.
-  if (!/return \(\) => \{[\s\S]{0,260}desvanecerSfx\('post_partido_hinchada'/.test(post)) {
+  if (!/laTribunaDeHoy/.test(post)) throw new Error('no se sortea: se perdio la eleccion entre las dos');
+  // Nunca las dos: si aparece un playSfx con el nombre de una pista escrito a mano, volvieron a
+  // sonar juntas.
+  if (/playSfx\('post_partido(_hinchada)?'\)/.test(post)) {
+    throw new Error('hay un playSfx con pista fija: las dos vuelven a sonar en el mismo partido');
+  }
+  // Las DOS salidas: el boton y el desmontaje.
+  if (!/return \(\) => desvanecerSfx\(laTribunaDeHoy\.current/.test(post)) {
     throw new Error('no se corta al desmontar la pantalla');
   }
-  if (!/const volverAlVestuario = \(\) => \{\s*desvanecerSfx\('post_partido_hinchada'/.test(post)) {
+  if (!/const volverAlVestuario = \(\) => \{\s*desvanecerSfx\(laTribunaDeHoy\.current/.test(post)) {
     throw new Error('el boton de volver no la desvanece');
   }
 });

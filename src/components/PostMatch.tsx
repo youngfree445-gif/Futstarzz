@@ -35,28 +35,28 @@ interface PostMatchProps {
 }
 
 export default function PostMatch({ playerProfile, matchResults, opponentName, representingTeamId, desenlaceDeCopa, onContinue }: PostMatchProps) {
-  // LA TRIBUNA DE DESPUÉS DEL PARTIDO, en dos capas.
+  // LA TRIBUNA DE DESPUÉS DEL PARTIDO: UNA DE LAS DOS, sorteada por partido.
   //
   // El estadio se apaga con el pitazo final, así que esta pantalla quedaba en silencio absoluto
   // justo después de noventa minutos de cancha llena -- y el silencio se nota más que el sonido.
-  // Suena la hinchada saliendo, una vez, al abrir.
   //
-  // Y A LOS TRES SEGUNDOS Y MEDIO entra la segunda, larga, que queda de fondo mientras se lee el
-  // diario. No arranca junto con la primera a propósito: encimadas desde el segundo cero son ruido,
-  // y separadas se leen como lo que son -- el estadio vaciándose y, detrás, la fiesta que sigue
-  // afuera.
-  const segundaTribuna = useRef<number | null>(null);
+  // Hay dos grabaciones y suena UNA, no las dos. Se probó encadenarlas -- la corta al abrir y la
+  // larga a los 3,5 s -- y estaba mal por dos motivos: encimadas suenan raro, y arrancar el segundo
+  // audio con la pantalla ya dibujada trababa un momento el juego. Sorteada, cada partido tiene su
+  // tribuna y ninguna se repite tanto como para cansar. Pedido: "tiene de esas 2 para escoger, en
+  // uno puede sonar esa y en el otro la otra, no que las 2 suenen ahí mismo".
+  //
+  // El sorteo va en un ref y no en el cuerpo del componente: un re-render volvería a tirar el dado
+  // y el `desvanecerSfx` de la salida apagaría la que NO está sonando.
+  const laTribunaDeHoy = useRef<'post_partido' | 'post_partido_hinchada'>(
+    Math.random() < 0.5 ? 'post_partido' : 'post_partido_hinchada');
   useEffect(() => {
-    playSfx('post_partido');
-    segundaTribuna.current = window.setTimeout(() => playSfx('post_partido_hinchada'), 3500);
-    // AL SALIR SE CORTA, siempre. Es un sonido de más de un minuto: sin esto sigue sonando sobre el
+    playSfx(laTribunaDeHoy.current);
+    // AL SALIR SE CORTA, siempre. La larga dura más de un minuto: sin esto sigue sonando sobre el
     // Dashboard, y un audio que no para cuando cambiás de pantalla es de las peores cosas que le
     // puede pasar a la app (la misma regla que el ambiente del partido). Vale para las dos salidas:
     // el botón y cualquier otra que desmonte la pantalla.
-    return () => {
-      if (segundaTribuna.current != null) clearTimeout(segundaTribuna.current);
-      desvanecerSfx('post_partido_hinchada', 0.4);
-    };
+    return () => desvanecerSfx(laTribunaDeHoy.current, 0.4);
   }, []);
 
   /**
@@ -68,7 +68,7 @@ export default function PostMatch({ playerProfile, matchResults, opponentName, r
    * demás salidas; esto es el camino normal, y por eso se le da un fundido más largo.
    */
   const volverAlVestuario = () => {
-    desvanecerSfx('post_partido_hinchada', 1.2);
+    desvanecerSfx(laTribunaDeHoy.current, 1.2);
     onContinue();
   };
 
