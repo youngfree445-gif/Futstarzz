@@ -89,7 +89,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { rivalDeRelleno, resolverRivalDeLaFecha, eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
+import { rivalDeRelleno, resolverRivalDeLaFecha, eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, laCopaContinentalLaLlevaElCuadro, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
 import { resolverClubDeCalendario } from './clubAliases';
@@ -3718,33 +3718,17 @@ export default function App() {
         playerProfile, myClub, CLUBS_DATABASE, temporadaActual,
         playerProfile.posicionesFinales, campeonesConmebolHoy,
       );
-      // Y se compara contra LA COPA QUE LE TOCA, no contra cualquiera: si el motor lo tiene en la
-      // Libertadores, que el calendario traiga fechas de Sudamericana no lo cubre -- son torneos
-      // distintos, y dejarlos correr a los dos a la vez es justo lo que hay que evitar.
-      const COMO_LA_LLAMA_EL_CALENDARIO = {
-        libertadores: /libertadores/i,
-        sudamericana: /sudamericana/i,
-        concacaf: /concacaf|champions cup/i,
-      } as const;
 
-      // EL REPECHAJE NO LO PUEDE CUBRIR EL CALENDARIO: esa bajada la decide el MOTOR.
+      // QUIEN LLEVA LA COPA -- el cuadro del motor o el calendario -- lo contesta decisionDelDia.
       //
-      // Un tercero de grupo de la Libertadores baja a la Sudamericana, y quien lo decidio fue el
-      // cuadro del motor mirando la tabla de ESTA carrera. El calendario no sabe nada de eso: sus
-      // fechas de Sudamericana son las que el club jugo en 2026 y se reemiten todos los años.
+      // Estaba escrito acá adentro, y el Dashboard, para decidir si la tarjeta lee el cuadro, se
+      // conformaba con que el club estuviera clasificado. Dos respuestas distintas a la misma
+      // pregunta: con el Junior en la temporada 1, cuatro de sus seis partidos de grupo de
+      // Libertadores se anunciaban contra un rival y se jugaban contra otro.
       //
-      // Con la guarda vieja, tener fechas de Sudamericana en el calendario alcanzaba para darle el
-      // dia al calendario -- y ahi no hay torneo que avance, solo una lista fija. Medido con el
-      // Junior en la temporada 3: jugo OCHO partidos de "fase de grupos" de una Sudamericana en la
-      // que el motor no lo tiene en ningun grupo (mis partidos 0/0), y el primero contra Corinthians
-      // se sirvio TRES veces porque ningun resultado quedaba anotado.
-      //
-      // Si bajaste por repechaje, el torneo es del motor y punto.
-      const bajoPorRepechaje = suCopaConmebol === 'sudamericana'
-        && bajoALaSudamericana(playerProfile, myClub, temporadaActual);
-
-      return (!!suCopaConmebol
-        && (bajoPorRepechaje || !laCubreElCalendario(COMO_LA_LLAMA_EL_CALENDARIO[suCopaConmebol])))
+      // El repechaje (bajar a la Sudamericana por salir tercero) tambien vive alla: esa bajada la
+      // decide el cuadro de ESTA carrera y el calendario no sabe nada de ella.
+      return laCopaContinentalLaLlevaElCuadro(playerProfile, myClub, temporadaActual, suCopaConmebol)
         || enCopaUefa;
     })();
 

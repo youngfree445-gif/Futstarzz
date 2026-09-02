@@ -345,6 +345,20 @@ todas las ligas tengan fechas reales** — no antes.
 
 - El **cruce Libertadores/Superliga** se arregló varias veces; si reaparece, buscar **todos** los
   sitios que escriben `nextMatchOpponent` (hay 3) antes de tocar uno.
+- **"La tarjeta dice un equipo y el partido es otro" en una copa continental** (reportado con el
+  Junior, sep-2026): la causa NO estaba en `nextMatchOpponent` sino un paso antes — en **quién
+  manda en la copa**. App decidía con la regla completa (en la temporada 1 los partidos los pone el
+  CALENDARIO, porque ésos sí son los que el club jugó de verdad) y el Dashboard se conformaba con
+  que el club estuviera clasificado, así que la tarjeta leía el cuadro del motor y el partido salía
+  del calendario. De los seis partidos del grupo del Junior, **cuatro** se anunciaban contra un
+  rival y se jugaban contra otro. La respuesta vive ahora una sola vez, en
+  `laCopaContinentalLaLlevaElCuadro` (`src/decisionDelDia.ts`).
+
+  **Cómo se encontró, que es lo reutilizable:** `npm run jugar:ui` ya trae el chequeo —
+  compara el rival que anunció la tarjeta contra el que nombra el resumen del partido y escribe
+  `!! el partido NO fue contra X` en el log. Marcaba las cuatro fechas exactas y se habían
+  descartado como ruido (el resumen a veces queda tapado por un cartel de logro). **Ante un reporte
+  de este tipo: correr el banco con ese club y contar los `!!` antes y después.**
 - Cinco cuentas de X no siempre devuelven tuits; reintentar.
 
 ---

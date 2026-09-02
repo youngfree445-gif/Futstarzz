@@ -648,14 +648,65 @@ export function rivalesDeGrupoEnElCalendario(
   // uno dos veces. Ni la previa ni el repechaje la tienen, y como en Libertadores y Sudamericana
   // todos pasan por los grupos antes del cuadro, la PRIMERA ventana que encaja es la buena -- tomar
   // la ultima podria agarrar octavos, cuartos y semis, que tambien son tres rivales a ida y vuelta.
+  const inicio = arranqueDeLaFaseDeGrupos(suyos);
+  return inicio < 0 ? [] : [...new Set(suyos.slice(inicio, inicio + 6).map(f => f.opponentName))];
+}
+
+/**
+ * En qué posición de la lista arranca la fase de grupos, o -1 si no se reconoce.
+ *
+ * LA FORMA ES LA FIRMA: seis partidos seguidos contra tres rivales, cada uno dos veces. Ni la fase
+ * previa ni el repechaje la tienen, y como en Libertadores y Sudamericana todos pasan por los
+ * grupos antes del cuadro, la PRIMERA ventana que encaja es la buena -- tomar la última podría
+ * agarrar octavos, cuartos y semis, que también son tres rivales a ida y vuelta.
+ */
+function arranqueDeLaFaseDeGrupos(suyos: readonly DatedFixture[]): number {
   for (let i = 0; i + 6 <= suyos.length; i++) {
     const ventana = suyos.slice(i, i + 6);
     const rivales = [...new Set(ventana.map(f => f.opponentName))];
     if (rivales.length === 3 && rivales.every(r => ventana.filter(f => f.opponentName === r).length === 2)) {
-      return rivales;
+      return i;
     }
   }
-  return [];
+  return -1;
+}
+
+/** Las rondas de Conmebol después de los grupos, en orden. Las dos copas usan la misma escalera. */
+const ESCALERA_CONMEBOL = ['Octavos de Final', 'Cuartos de Final', 'Semifinal', 'Final'] as const;
+
+/**
+ * La ronda de un partido de copa continental que pone el CALENDARIO, deducida de la lista.
+ *
+ * Hace falta porque el calendario de Transfermarkt trae estos partidos SIN ronda (`round` viene
+ * vacío en los seis partidos de grupo del Junior, comprobado). Sin esto la tarjeta rotula la fecha
+ * -- "9 abr" para un partido de fase de grupos --, que es justo el dato que no sirve antes de jugar.
+ *
+ * NO SE INVENTA NADA: se ubica la ventana de grupos por su forma y el resto se cuenta desde ahí.
+ * Lo de antes es fase previa (o repechaje, que el calendario tampoco distingue, así que no se
+ * afirma cuál de las dos); lo de después son las rondas en el orden fijo en que Conmebol las juega,
+ * de a dos partidos. Si la ventana no se reconoce -- pasa cuando el calendario sólo guardó un par
+ * de partidos sueltos de ese club -- devuelve null y la tarjeta muestra la fecha, como antes.
+ */
+export function rondaDeCopaEnElCalendario(
+  clubName: string, competitionName: string, temporada: number, date: string,
+): string | null {
+  asegurarHorizonte(temporada);
+  const suyos = fixturesForClub(clubName).filter(f =>
+    f.temporada === temporada
+    && f.competition.kind === 'continental_cup'
+    && f.competition.name === competitionName
+    && !f.esReservaDeCuadro);
+  const inicio = arranqueDeLaFaseDeGrupos(suyos);
+  if (inicio < 0) return null;
+  const i = suyos.findIndex(f => f.date === date);
+  if (i < 0) return null;
+  if (i < inicio) return 'Fase previa';
+  if (i < inicio + 6) return 'Fase de grupos';
+  const desdeLosGrupos = i - inicio - 6;
+  const ronda = ESCALERA_CONMEBOL[Math.floor(desdeLosGrupos / 2)];
+  if (!ronda) return null;
+  // La final de Conmebol es a partido único, así que no lleva ida ni vuelta.
+  return ronda === 'Final' ? ronda : `${ronda} (${desdeLosGrupos % 2 === 0 ? 'Ida' : 'Vuelta'})`;
 }
 
 /**

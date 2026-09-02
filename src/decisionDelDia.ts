@@ -31,7 +31,7 @@
 
 import { Club, PlayerProfile, TableTeam, TwoLegTie } from './types';
 import type { CampeonesConmebol, PosicionesFinales } from './copasConmebol';
-import { rivalDeLaFecha, fixturesForClub, fechasDeLigaTranscurridas, anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
+import { rivalDeLaFecha, fixturesForClub, fechasDeLigaTranscurridas, anioDeCarrera, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, pasosDeContinentalTranscurridos, pasosDeMundialTranscurridos, torneoDeSeleccionesDelDia, fechaDelPaso, fechasDeCopaNacionalRestantes, fechasDePlayoffDelTorneo, fixturesAtStep, pickPrimary, quedanFechasDePlayoff, rivalesDeGrupoEnElCalendario, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha, competitionsForClubInSeason, hasDatedLeagueSchedule } from './dateSchedule';
 import { resolverClubDeCalendario } from './clubAliases';
 import { esPartidoUnicoDeCopa } from './reglamentos';
 import { ALL_NATIONAL_TEAMS_DATABASE, NATIONALITY_TO_WORLD_CUP_TEAM_ID, ULTIMATE_CLUBS_DATABASE, WORLD_CUP_TEAMS_DATABASE } from './data';
@@ -677,6 +677,45 @@ export function copaContinentalDelJugador(
   if (getSudamericanaParticipants(clubes, temporada, posiciones, campeones).includes(club.id)) return 'sudamericana';
   if (getConcacafParticipants(clubes, temporada, posiciones).includes(club.id)) return 'concacaf';
   return null;
+}
+
+/** Cómo escribe el calendario el nombre de cada copa continental. */
+const COMO_LA_LLAMA_EL_CALENDARIO = {
+  libertadores: /libertadores/i,
+  sudamericana: /sudamericana/i,
+  concacaf: /concacaf|champions cup/i,
+} as const;
+
+/**
+ * ¿Los partidos de tu copa continental los pone el CUADRO del motor o el CALENDARIO?
+ *
+ * En la temporada 1 el calendario trae los partidos que tu club jugó de verdad en 2026, y ésos SÍ
+ * son los suyos: ahí manda el calendario. De la 2 en adelante los reemite corriendo el año, así que
+ * ya no son un torneo -- son una lista fija que se repite -- y manda el cuadro del motor. La
+ * excepción es el repechaje: si bajaste a la Sudamericana por haber salido tercero de grupo, eso lo
+ * decidió el cuadro de ESTA carrera y el calendario no sabe nada.
+ *
+ * SE PREGUNTA ACÁ Y EN NINGÚN OTRO LADO, y ésta es la razón: la pregunta vivía completa en App.tsx
+ * (clubEnCopaContinental) mientras el Dashboard, para decidir si la tarjeta lee el cuadro, se
+ * conformaba con que el club estuviera clasificado. Con el Junior en la temporada 1 eso daba dos
+ * respuestas opuestas -- App jugaba el partido del calendario y la tarjeta anunciaba el del cuadro
+ * --, y de los seis partidos de su grupo de Libertadores CUATRO se anunciaban contra un rival y se
+ * jugaban contra otro: decía "vs Sporting Cristal" y salías contra Palmeiras.
+ */
+export function laCopaContinentalLaLlevaElCuadro(
+  perfil: PlayerProfile,
+  club: Club,
+  temporada: number,
+  copa: 'libertadores' | 'sudamericana' | 'concacaf' | null,
+): boolean {
+  if (!copa) return false;
+  // Bajar por repechaje es una decisión del cuadro, no del calendario.
+  if (copa === 'sudamericana' && bajoALaSudamericana(perfil, club, temporada)) return true;
+  const laCubreElCalendario = hasDatedLeagueSchedule(club.name)
+    && temporada === 1
+    && competitionsForClubInSeason(club.name, temporada)
+      .some(c => COMO_LA_LLAMA_EL_CALENDARIO[copa].test(c.name));
+  return !laCubreElCalendario;
 }
 
 /**

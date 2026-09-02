@@ -22,7 +22,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
+import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rondaDeCopaEnElCalendario, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay, rondaEnEspanol } from '../leagueDisplay';
@@ -32,7 +32,7 @@ import { esClasico } from '../clasicos';
 import { anotarEnLideres, claveDeCompeticion, lideresDe } from '../lideresPorCompeticion';
 import { lineasDeCopa, partidosDeCopaConmebol, partidosDeCopaNacional, partidosDeCopaUefa } from '../lideresDeCopa';
 import ReportarBug from './ReportarBug';
-import { rivalDeRelleno, resolverRivalDeLaFecha, seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
+import { rivalDeRelleno, resolverRivalDeLaFecha, seleccionesDelMundialDe, estaEnElCuadrangular, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, claveDeCopaNacional, copaContinentalDelJugador, cruceDeCopaNacionalHoy, cuadrangularDeHoy, duenoDelDiaDeCopa, grupoRealDelCalendario, laCopaContinentalLaLlevaElCuadro, laNacionalTieneCruce, repescadosDeLaLibertadores } from '../decisionDelDia';
 import { mesesQueFaltanEnElClub, radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
@@ -1562,9 +1562,22 @@ export default function Dashboard({
       && realDeLaSemana.competition.name === nombreCopaNacional(currentClub.league);
     // Y cualquier copa continental que lleve el cuadro del motor (la Libertadores de Boca, que el
     // calendario le mezclaba con partidos de Sudamericana que no le tocaban).
+    //
+    // "QUE LLEVE EL CUADRO" HAY QUE PREGUNTARLO, y acá no se preguntaba: alcanzaba con que el club
+    // estuviera clasificado (`!!conmebolCup`). Pero estar clasificado no quiere decir que el cuadro
+    // ponga los partidos -- en la temporada 1 los pone el CALENDARIO, porque ésos sí son los que el
+    // club jugó de verdad (ver laCopaContinentalLaLlevaElCuadro, que es la misma respuesta que usa
+    // App.tsx para armar el partido).
+    //
+    // Sin la pregunta, la tarjeta leía el cuadro del motor y el partido salía del calendario. Con el
+    // Junior en la temporada 1, cuatro de sus seis partidos del grupo de Libertadores se anunciaban
+    // contra un rival y se jugaban contra otro: la tarjeta decía "vs Sporting Cristal" y salía
+    // contra Palmeiras. Reportado: "la tarjeta dice un equipo en libertadores, pero el partido es
+    // otro".
     const diaDeCopaContinentalDelCuadro = realDeLaSemana?.competition.kind === 'continental_cup'
       && !realDeLaSemana.esReservaDeCuadro
-      && !!conmebolCup;
+      && !!conmebolCup
+      && laCopaContinentalLaLlevaElCuadro(playerProfile, currentClub, cupYear, conmebolCupId);
     const elDiaEsDeCopa = esReservaDeCopa || diaDeCopaEuropeaDelCuadro || diaDeCopaNacionalDelCuadro
       || diaDeCopaContinentalDelCuadro;
     const continentalDeLaSemana = elDiaEsDeCopa && !laNacionalTieneCruceHoy ? copaContinentalDeHoy : null;
@@ -1662,6 +1675,15 @@ export default function Dashboard({
     // "octavos"; ahí lo que se muestra es la fecha).
     const rondaDeLaCopaDelCalendario = realDeLaSemana && realDeLaSemana.competition.kind !== 'league'
       ? rondaEnEspanol((realDeLaSemana.match as { round?: string }).round)
+        // Las copas continentales vienen SIN ronda desde Transfermarkt, así que se deduce de la
+        // lista de partidos del club (ver rondaDeCopaEnElCalendario). Sin esto, un partido de fase
+        // de grupos de la Libertadores se rotulaba "9 abr": la fecha, que es el dato que menos
+        // importa cuando lo que querés saber es en qué instancia estás.
+        ?? (realDeLaSemana.competition.kind === 'continental_cup'
+          ? rondaDeCopaEnElCalendario(
+              currentClub.name, realDeLaSemana.competition.name,
+              temporadaDeCarrera(currentClub.name, playerProfile.currentWeek), realDeLaSemana.date)
+          : null)
       : null;
     const idx = myLeagueTable.findIndex(r => r.clubId === opponentId);
 
