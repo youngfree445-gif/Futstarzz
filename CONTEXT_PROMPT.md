@@ -259,6 +259,16 @@ consecuencias que hay que tener presentes:
   estructuras nuevas — ver `ROADMAP_FEATURES.md` para el criterio de diseño
   usado en cada fase ya construida.
 
+## Planteles: cómo se ponen al día tras una ventana de pases
+
+`npm run fichajes` — un solo comando: baja la ventana de Transfermarkt, aplica sólo lo que todavía
+no se aplicó y lo anota en `data/fichajes_aplicados.json`. Es **incremental y repetible**: una
+corrida sin novedades tarda medio segundo, y correrlo dos veces no cambia nada (antes duplicaba
+jugadores). Para un fichaje suelto que salió en la prensa: `npm run fichaje -- "Jugador" "Club"`.
+
+El detalle — las banderas rojas que frenan la escritura, el bug de los clones de agentes libres y
+por qué los jugadores creados guardan su `tm_id` — está en `docs/PROMPT_DATOS_Y_SCRAPING.md` §1.
+
 ## Estado actual (26 jul 2026)
 
 - Fases 1, 2 y 3 del roadmap original ya implementadas (liga paralela,

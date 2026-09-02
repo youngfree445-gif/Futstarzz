@@ -59,6 +59,52 @@ extremo derecho) en vez de las cuatro genéricas de ESPN.
 Script listo y genérico: `scripts/actualizar_plantel_tm.mjs data/planteles_tm/<club>.json [--dry]`
 → Para un club nuevo alcanza con crear el JSON. **Correr siempre `--dry` primero.**
 
+### Fichajes — el comando único (esto es lo que se usa cada vez)
+
+```bash
+npm run fichajes                     # baja lo nuevo, lo aplica, lo anota
+npm run fichajes -- --dry            # igual pero sin escribir
+npm run fichajes -- --ligas GB1,ES1  # sólo esas ligas
+npm run fichajes -- --pendientes     # los que no se pudieron aplicar y por qué
+npm run fichaje -- "Bruno Guimarães" "Arsenal"   # uno suelto, sin esperar a Transfermarkt
+```
+
+**Es incremental y se puede repetir.** `data/fichajes_aplicados.json` guarda la clave de cada
+movimiento ya aplicado (por ID de Transfermarkt del jugador y del club, nunca por nombre), así que
+una corrida sin novedades tarda medio segundo y una con tres fichajes muestra tres renglones. La
+bitácora legible queda en `data/fichajes_bitacora.md`.
+
+**Por qué hizo falta.** Las dos piezas de abajo ya existían, pero correrlas seguido era caro y
+peligroso:
+
+| | Antes | Ahora |
+|---|---|---|
+| Informe de un día tranquilo | 6.401 altas, casi todas ya aplicadas | `0 altas y 0 bajas` |
+| Correrlo dos veces seguidas | 625 jugadores **duplicados** y 1.800 movimientos de más | no cambia nada |
+| Decidir si aplicar | leer 100 líneas de verificaciones | tres banderas rojas que frenan solas la escritura |
+
+**El bug de los clones, para que no vuelva.** `aplicar_fichajes.mjs` trataba a "Agentes libres" como
+si fuera una selección, así que el índice de búsqueda por nombre no veía a los 4.859 jugadores sin
+club: cuando alguno era fichado, la base "no lo tenía" y se creaba una fila nueva. La base arrastraba
+604 filas clonadas. Ahora son dos preguntas separadas — "¿es un club?" (para el tope de plantel y las
+cuentas) y "¿puedo buscar un jugador acá?" (que sí mira a los libres) — y los clones viejos se barren
+solos.
+
+**Cómo se sabe qué fila es un clon, sin adivinar:** los ids de la base original llegan hasta 279.948
+y después hay un hueco de veinte mil hasta 300.000, donde empiezan los ids inventados por los
+scripts. Un id >= 300.000 dentro de agentes libres, con otra fila del mismo nombre, es el clon. Si
+las dos filas son originales **no se tocan**: son dos personas distintas que se llaman igual.
+
+**Los jugadores creados guardan su `tm_id`**, así que la próxima ventana los encuentra por ID y no
+por nombre. Ese mapa Transfermarkt ↔ base se llena solo, unos cientos por ventana.
+
+**Las tres banderas rojas** que impiden guardar (se saltan con `--igual` si ya se sabe por qué):
+dos clubes de Transfermarkt cayendo en el mismo club del juego, los clubes de más de 40 jugadores
+creciendo, y los de menos de 14 creciendo de a más de cinco.
+
+Las piezas sueltas siguen ahí y sirven para depurar: `scripts/scrape_fichajes_tm.mjs` (baja) y
+`scripts/aplicar_fichajes.mjs --desde <archivo>` (cruza, con el informe largo).
+
 ### X / Twitter — para tono de ChutSocial
 
 La API pide pago (402), pero **`https://r.jina.ai/https://x.com/<cuenta>` sí devuelve los tuits**
@@ -302,6 +348,17 @@ todas las ligas tengan fechas reales** — no antes.
 - Cinco cuentas de X no siempre devuelven tuits; reintentar.
 
 ---
+
+### 7.6 Planteles al día
+
+La ventana de pases se sincroniza con `npm run fichajes` (§1). Lo que ese comando **no** puede
+resolver solo, y queda esperando en `npm run fichajes -- --pendientes`:
+
+- **~950 movimientos hacia clubes que el juego no tiene** (turcos, griegos, saudíes de segunda
+  línea). El jugador se va a agentes libres, que es lo correcto: dejó su club de verdad.
+- **~440 jugadores con nombre repetido en la base** que no se pueden identificar sin adivinar
+  ("Thiago Fernández" está en tres clubes). Se destraban de a uno con
+  `npm run fichaje -- "Nombre" "Club" --de "Club actual"`.
 
 ## 8. Checklist antes de decir "listo"
 
