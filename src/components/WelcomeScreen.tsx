@@ -368,10 +368,18 @@ export default function WelcomeScreen({ onStartNew, onLoadGame }: WelcomeScreenP
 
       {/* Pie legal. Deliberadamente discreto -- no compite con el botón de empezar, pero deja la
           declaración de no afiliación a un toque de distancia desde la pantalla principal, que es
-          donde un titular de marca la buscaría. Ver docs/LEGAL.md. */}
+          donde un titular de marca la buscaría. Ver docs/LEGAL.md.
+
+          SE NOMBRA A NADIE, A PROPÓSITO. Antes decía "sin relación con FIFA, CONMEBOL, DIMAYOR, AFA
+          ni ningún club o futbolista": una lista de cuatro sugiere, por omisión, que el resto SÍ
+          tiene relación -- la UEFA, la Premier League, la Liga MX y las otras treinta ligas del
+          juego quedaban afuera de la declaración. Una fórmula general las cubre a todas, no se
+          queda vieja al agregar un país, y es además como se redacta un descargo de este tipo. */}
       <p className="mt-6 mb-2 text-[9px] leading-relaxed text-slate-600 text-center max-w-md relative z-10">
-        Juego gratuito de fanáticos, sin relación con FIFA, CONMEBOL, DIMAYOR, AFA ni ningún club o
-        futbolista. Los nombres y escudos pertenecen a sus titulares.{' '}
+        Proyecto independiente y gratuito, hecho por fanáticos. No está afiliado, asociado ni
+        respaldado por ninguna federación, liga, competición, club, jugador ni entidad del fútbol,
+        ni cuenta con su autorización. Los nombres, escudos y marcas pertenecen a sus respectivos
+        titulares y se usan únicamente para identificarlos.{' '}
         <a
           href="https://github.com/youngfree445-gif/Futstarzz/blob/main/docs/LEGAL.md"
           target="_blank"
