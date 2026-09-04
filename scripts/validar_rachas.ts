@@ -14,7 +14,7 @@ import {
   PESO_MAXIMO_DEL_RIVAL, type RivalDePuesto,
 } from '../src/rivalDePuesto';
 import { elClubSeCansoDeVos, teGanasteQuedarte, avisoDeLista, exigenciaPorLoQueValés, EXIGENCIA_MAXIMA, CREDITO_MAXIMO } from '../src/listaDeTransferibles';
-import { crecimientoDeLaTemporada, informeDeLaTemporada, PARTIDOS_MINIMOS } from '../src/modoHardcore';
+import { crecimientoDeLaTemporada, informeDeLaTemporada, PARTIDOS_MINIMOS, NOTA_DE_EQUILIBRIO } from '../src/modoHardcore';
 import { apodoDe, PARTIDOS_PARA_APODO } from '../src/apodo';
 import { secuelaDeLaLesion, riesgoDeSecuela, RIESGO_MAXIMO, PISO_DE_ATRIBUTO } from '../src/secuela';
 import { sortearTipoDeLesion, riesgoDeLesion, RIESGO_MAXIMO_POR_FATIGA, TIPOS_DE_LESION } from '../src/lesion';
@@ -345,17 +345,63 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
 // La regla reemplaza a la ventana de entrenamiento, asi que si se equivoca no hay otra forma de
 // mejorar: es la unica puerta. Se comprueban las cuatro reglas por separado.
 {
-  const base = { edad: 22, partidosJugados: 30, promedioDeNota: 7.0, nivelDelPlantel: 70, nivelPropio: 68 };
+  // La nota base es la que el juego reparte de verdad, no un 7.0 supuesto. "Buena" y "mala" se
+  // miden CONTRA ESA, y no con numeros escritos a mano: este bloque estuvo fallando por eso. Tenia
+  // 7.4 como buena temporada -- cierto cuando el equilibrio estaba en 6.4 -- y despues de recalibrar
+  // el motor a la nota real (8.55), un 7.4 pasó a ser una temporada FLOJA. El motor estaba bien; el
+  // que mentia era el test, y a un test que miente le creemos justo cuando importa.
+  const base = { edad: 22, partidosJugados: 30, promedioDeNota: NOTA_DE_EQUILIBRIO, nivelDelPlantel: 70, nivelPropio: 68 };
   const con = (o: Partial<typeof base>) => crecimientoDeLaTemporada({ ...base, ...o });
+  const BUENA = NOTA_DE_EQUILIBRIO + 0.7, MALA = NOTA_DE_EQUILIBRIO - 0.7;
 
   // 1. El que no juega no mejora.
   ok('sin partidos no se crece', con({ partidosJugados: PARTIDOS_MINIMOS - 1 }) <= 0,
     `${con({ partidosJugados: PARTIDOS_MINIMOS - 1 })}`);
   ok('y de veterano sin jugar, se pierde', con({ partidosJugados: 2, edad: 32 }) < 0);
 
-  // 2. Rendir manda.
-  ok('una buena temporada hace crecer', con({ promedioDeNota: 7.4 }) > 0, `${con({ promedioDeNota: 7.4 })}`);
-  ok('una mala temporada hace bajar', con({ promedioDeNota: 5.4 }) < 0, `${con({ promedioDeNota: 5.4 })}`);
+  // 2. Rendir manda, medido contra la nota promedio real del juego.
+  ok('una buena temporada hace crecer', con({ promedioDeNota: BUENA }) > 0, `nota ${BUENA} -> ${con({ promedioDeNota: BUENA })}`);
+  ok('una mala temporada hace bajar', con({ promedioDeNota: MALA }) < 0, `nota ${MALA} -> ${con({ promedioDeNota: MALA })}`);
+  // Y LA QUE SOSTIENE A LAS OTRAS DOS: que el punto de equilibrio sea de verdad el promedio que el
+  // juego reparte. No se compara la constante consigo misma -- eso da 0 siempre y no prueba nada --:
+  // se SIMULAN partidos con el mismo motor que juega el jugador y se mide la nota que sale.
+  //
+  // Es el chequeo que faltaba. NOTA_DE_EQUILIBRIO y NOTA_BASE son dos constantes en archivos
+  // distintos que tienen que moverse juntas: si alguien toca la nota de los partidos y no el
+  // equilibrio, el modo hardcore se vuelve imposible (o regalado) sin que nada avise. Ya pasó una
+  // vez y costó una carrera entera con media 96 al retiro.
+  {
+    const bolsasM = (POOLS_DE_DECISION as any).Mediocampista;
+    const mediaDeNota = (nivel: number) => {
+      const perfil: any = {
+        name: 'Medidor', position: 'Mediocampista', prestige: 60, dorsal: 27,
+        attributes: { ritmo: nivel, regate: nivel, tiro: nivel, pase: nivel, defensa: nivel, fisico: nivel },
+      };
+      let suma = 0, n = 0;
+      // Ganando, empatando y perdiendo: la nota lleva ajuste por resultado y medir solo victorias
+      // la dejaría alta de más.
+      for (const [gm, gr] of [[2, 1], [1, 1], [0, 2]]) {
+        for (let i = 0; i < 400; i++) {
+          suma += simularPartidoCompleto({
+            perfil, golesMiEquipo: gm, golesRival: gr,
+            bolsaTemprana: bolsasM.early, bolsaTardia: bolsasM.late,
+            esTitular: true, salaryEarned: 1000,
+          }).rating;
+          n++;
+        }
+      }
+      return suma / n;
+    };
+    const flojo = mediaDeNota(62), crack = mediaDeNota(88);
+    ok('el equilibrio es la nota que el juego reparte de verdad',
+       NOTA_DE_EQUILIBRIO > flojo && NOTA_DE_EQUILIBRIO < crack,
+       `nivel 62 promedia ${flojo.toFixed(2)}, nivel 88 promedia ${crack.toFixed(2)}, equilibrio ${NOTA_DE_EQUILIBRIO}`);
+    // Y lo que eso significa en la carrera, que es lo que el jugador ve: el que juega mal se cae y
+    // el que juega bien sube. Si el equilibrio quedara fuera del rango, uno de los dos dejaría de
+    // pasar y el modo se rompería en silencio.
+    ok('rindiendo como un nivel 88 se crece', con({ promedioDeNota: crack, edad: 24 }) > 0);
+    ok('rindiendo como un nivel 62 se baja', con({ promedioDeNota: flojo, edad: 28 }) < 0);
+  }
 
   // 3. Los companeros. Es lo que hace que el club importe y no solo por los titulos.
   const enGrande = con({ nivelDelPlantel: 84 });

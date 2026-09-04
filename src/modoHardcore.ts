@@ -34,6 +34,25 @@ export interface DatosDeTemporada {
 export const PARTIDOS_MINIMOS = 8;
 
 /**
+ * La nota a partir de la cual una temporada suma, y por debajo de la cual resta.
+ *
+ * ES LA NOTA QUE EL JUEGO REPARTE DE VERDAD, medida sobre 7.804 partidos de seis carreras completas.
+ * No es "la nota de un buen partido" en abstracto: es el promedio real, y por eso una temporada
+ * corriente deja al jugador igual.
+ *
+ * Estaba en 6.4, suponiendo que 7.0 era una buena temporada. Con ese pivote una temporada del montón
+ * daba (8.55 - 6.4) x 2.2 = +4,7 y tocaba el techo de +3,5 TODAS las temporadas: el modo que promete
+ * "a ver si llegás" terminaba produciendo el jugador más fuerte de todos, media 96 al retiro contra
+ * 42 de una carrera normal.
+ *
+ * Va exportada para que los validadores midan CONTRA ELLA y no contra un número escrito a mano. El
+ * validador de rachas tenía 7.4 como "buena temporada" -- cierto con el pivote viejo, falso con
+ * éste -- y quedó fallando sin que nada estuviera roto. Si mañana se vuelve a calibrar, el test
+ * sigue preguntando lo mismo: que rendir por encima del promedio haga crecer.
+ */
+export const NOTA_DE_EQUILIBRIO = 8.55;
+
+/**
  * Cuántos puntos de atributo te deja la temporada. Puede ser negativo.
  *
  * Devuelve el cambio del PROMEDIO: quien lo llame reparte los puntos entre los seis atributos --
@@ -45,17 +64,9 @@ export function crecimientoDeLaTemporada(d: DatosDeTemporada): number {
     return d.edad >= 30 ? -2 : d.edad >= 26 ? -1 : 0;
   }
 
-  // 2. Rendir manda, y el punto de equilibrio es LA NOTA QUE EL JUEGO REPARTE DE VERDAD.
-  //
-  // Estaba en 6.4, suponiendo que una temporada de 7.0 era buena. Medido sobre 7804 partidos de seis
-  // carreras completas, la nota promedio del juego es 8.55: con el pivote en 6.4, una temporada
-  // corriente daba (8.55 - 6.4) x 2.2 = +4.7 y tocaba el techo de +3.5 TODAS las temporadas. El
-  // resultado es que el modo que promete "a ver si llegas" producia el jugador mas fuerte de todos:
-  // media 96 al retiro contra 42 de una carrera normal.
-  //
-  // Con el pivote en la nota real, una temporada del monton no te mueve, una gran temporada te sube
-  // poco y una floja te cuesta -- que es lo que el modo dice ser.
-  const NOTA_DE_EQUILIBRIO = 8.55;
+  // 2. Rendir manda. El punto de equilibrio es la nota que el juego reparte de verdad (ver
+  //    NOTA_DE_EQUILIBRIO): una temporada del montón no te mueve, una grande te sube poco y una
+  //    floja te cuesta -- que es lo que el modo dice ser.
   const porRendimiento = (d.promedioDeNota - NOTA_DE_EQUILIBRIO) * 2.2;
 
   // 3. Los compañeros. Estar rodeado de gente diez puntos mejor que vos te da casi un punto extra;
