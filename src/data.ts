@@ -5240,15 +5240,27 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
   // 1. Obtenemos una lista de todos los equipos únicos reales que existen en el JSON de jugadores
   const uniqueJsonTeams = Array.from(new Set(ALL_PLAYERS.map(p => p.team_name))).filter(Boolean);
 
+  // LOS JUGADORES, AGRUPADOS UNA VEZ POR EQUIPO.
+  //
+  // Acá había un ALL_PLAYERS.filter() por club: 697 clubes recorriendo 34.752 jugadores cada uno,
+  // con dos toLowerCase() por comparación. Son 24 millones de comparaciones y ~2,4 segundos que se
+  // pagaban ENTEROS al abrir el juego, antes de que se dibujara nada -- en el teléfono es la pausa
+  // de la primera carga. Agrupar primero lo deja en una sola pasada.
+  const jugadoresPorEquipo = new Map<string, typeof ALL_PLAYERS>();
+  for (const p of ALL_PLAYERS) {
+    if (!p.team_name) continue;
+    const k = p.team_name.toLowerCase();
+    const l = jugadoresPorEquipo.get(k);
+    if (l) l.push(p); else jugadoresPorEquipo.set(k, [p]);
+  }
+
   // Mapeamos los clubes base manuales primero
   const detailedClubs = (CLUBS_DATABASE as Club[]).map(club => {
     // Por id, igual que getClubWithRoster. Antes acá se preguntaba por NOMBRE y en la otra por id:
     // la misma pregunta con dos respuestas, y a los homónimos les tocaba la equivocada -- en esta
     // lista el Everton de Chile mostraba de figuras a las del de Goodison Park.
     const nombreParaBuscar = nombreDelPlantel(club);
-    const jugadoresDelClub = ALL_PLAYERS.filter(
-      player => player.team_name.toLowerCase() === nombreParaBuscar.toLowerCase()
-    );
+    const jugadoresDelClub = jugadoresPorEquipo.get(nombreParaBuscar.toLowerCase()) ?? [];
 
     // Corregido: aplicamos el DT real / colores desde clubExtras.ts si existen para este club
     const extra = CLUB_EXTRAS[club.id];
@@ -5262,7 +5274,8 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
       : club;
 
     if (jugadoresDelClub.length > 0) {
-      const nombresReales = jugadoresDelClub
+      // Se copia antes de ordenar: la lista viene del índice y sort() la ordenaría en el lugar.
+      const nombresReales = [...jugadoresDelClub]
         .sort((a, b) => b.media_valoracion - a.media_valoracion)
         .map(p => p.nombre_completo);
 
@@ -5273,6 +5286,13 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
     }
     return clubConExtra;
   });
+
+  // Los tres índices con los que se pregunta "¿este equipo del JSON ya es un club?". Se arman una
+  // vez sobre los 697 clubes en vez de recorrerlos por cada uno de los ~1.700 equipos del JSON.
+  const nombresDeClubDetallado = new Set(detailedClubs.map(c => c.name.toLowerCase()));
+  const plantelesDeClubDetallado = new Set(
+    detailedClubs.map(c => nombreDelPlantel(c).toLowerCase()).filter(Boolean));
+  const comparablesDeClubDetallado = new Set(detailedClubs.map(c => nombreClubComparable(c.name)));
 
   // 2. Para cada equipo en el JSON que NO esté en la lista detallada de CLUBS_DATABASE, lo generamos dinámicamente
   const generatedClubs: Club[] = [];
@@ -5289,13 +5309,14 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
     // Además de la comparación tolerante, se pasa el nombre por la tabla de alias de calendario:
     // el JSON de jugadores abrevia igual que la vista de copa de Transfermarkt ("Atl. Nacional",
     // "U. de Chile", "Benfica"), así que sin esto 22 clubes grandes seguían duplicándose.
+    //
+    // Las cuatro comparaciones salen de índices armados una sola vez (ver arriba). Escritas como un
+    // .some() sobre los 697 clubes eran 1.700 x 697 x 4, con dos expresiones regulares en cada una.
     const nombreCanonico = nombreMostrable(cleanTeamName);
-    const alreadyExists = detailedClubs.some(
-      c => c.name.toLowerCase() === cleanTeamName.toLowerCase() ||
-           c.name.toLowerCase() === nombreCanonico.toLowerCase() ||
-           nombreDelPlantel(c).toLowerCase() === cleanTeamName.toLowerCase() ||
-           nombreClubComparable(c.name) === nombreClubComparable(cleanTeamName)
-    );
+    const alreadyExists = nombresDeClubDetallado.has(cleanTeamName.toLowerCase())
+      || nombresDeClubDetallado.has(nombreCanonico.toLowerCase())
+      || plantelesDeClubDetallado.has(cleanTeamName.toLowerCase())
+      || comparablesDeClubDetallado.has(nombreClubComparable(cleanTeamName));
 
     // Selecciones nacionales coladas en la base de CLUBES: el JSON de jugadores trae 33 países
     // (Serbia, Perú, Colombia, Inglaterra...) como si fueran equipos, y aparecían mezclados con los
@@ -5304,11 +5325,14 @@ export const ULTIMATE_CLUBS_DATABASE: Club[] = (() => {
     if (ES_SELECCION_NACIONAL.has(nombreClubComparable(cleanTeamName))) return;
 
     if (!alreadyExists) {
-      const jugadoresDelClub = ALL_PLAYERS.filter(p => p.team_name === teamName);
+      // Del mismo índice, y no otro recorrido de los 34.752: son ~1.700 equipos generados y cada
+      // uno se comía la base entera.
+      const jugadoresDelClub = (jugadoresPorEquipo.get(teamName.toLowerCase()) ?? [])
+        .filter(p => p.team_name === teamName);   // exacto, como antes: acá el caso importa
       if (jugadoresDelClub.length === 0) return;
 
       // Ordenamos jugadores por valoración
-      const sortedPlayers = jugadoresDelClub.sort((a, b) => b.media_valoracion - a.media_valoracion);
+      const sortedPlayers = [...jugadoresDelClub].sort((a, b) => b.media_valoracion - a.media_valoracion);
       const starPlayersNames = sortedPlayers.slice(0, 5).map(p => p.nombre_completo);
 
       // Calculamos un valor de mercado sumando el de sus jugadores, o un valor genérico base
