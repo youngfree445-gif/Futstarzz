@@ -12,6 +12,7 @@ import { CLUBS_DATABASE } from '../src/data';
 import { esClubJugable } from '../src/clubesJugables';
 import {
   REGLAMENTOS, fechasDelCuadroFinal, reglamentoDe, repartesDosTitulos, seDefineConAlargue, seVaAlAlargue, torneosDelAnio,
+  alargueEnCopaNacional,
 } from '../src/reglamentos';
 import { isApeturaClausuraLeague } from '../src/leagueEngine';
 import { nombreCopaNacional, tieneCopaNacionalReal } from '../src/copaNacional';
@@ -112,10 +113,15 @@ console.log('');
 //     las rondas (la UEFA elimino el gol de visitante en 2021/22).
 //   . Libertadores y Sudamericana: octavos, cuartos y semis -> penales DIRECTO, sin alargue. Solo la
 //     final, que es a partido unico, lleva alargue.
+//   . Concacaf Champions Cup: alargue en las llaves y en la final. (En la realidad la Concacaf
+//     todavia desempata el global por gol de visitante, que el juego no modela: esas llaves aca
+//     llegan al alargue, que es el paso siguiente del reglamento.)
 //   . Liga BetPlay (cuadrangulares y final): penales directo.
+//   . Las COPAS NACIONALES no se preguntan por el nombre del torneo sino por el PAIS -- son
+//     diecinueve, cada una con su reglamento -- y viven en REGLAMENTOS.copaAlargue.
 //
-// Lo que no esta verificado contesta que NO, que es lo que el juego hace hoy: no se inventa una
-// regla para un torneo cuyo reglamento no se leyo.
+// Lo que no esta verificado contesta que NO: no se inventa una regla para un torneo cuyo reglamento
+// no se leyo, y ese default tambien se prueba, porque es una decision y no un hueco.
 
 console.log('');
 console.log('=== El alargue, torneo por torneo ===');
@@ -129,9 +135,41 @@ ok('la Libertadores NO lleva alargue en octavos, cuartos ni semis',
 ok('pero su FINAL si', seDefineConAlargue('libertadores', { esLaFinal: true }));
 ok('la Sudamericana sigue la misma regla que la Libertadores',
    !seDefineConAlargue('sudamericana') && seDefineConAlargue('sudamericana', { esLaFinal: true }));
-ok('lo no verificado no inventa alargue (Concacaf, copas nacionales, selecciones)',
-   !seDefineConAlargue('concacaf') && !seDefineConAlargue('concacaf', { esLaFinal: true, enEliminacionDirecta: true })
-   && !seDefineConAlargue('Copa BetPlay', { esLaFinal: true }) && !seDefineConAlargue(null, { esLaFinal: true }));
+ok('la Concacaf lleva alargue en las llaves y en la final',
+   seDefineConAlargue('concacaf') && seDefineConAlargue('concacaf', { esLaFinal: true }));
+ok('lo que no se leyo no inventa alargue',
+   !seDefineConAlargue('Copa BetPlay', { esLaFinal: true }) && !seDefineConAlargue(null, { esLaFinal: true }));
+
+// --- LAS COPAS NACIONALES, cada pais la suya ---------------------------------------------------
+//
+// No se preguntan por el nombre del torneo sino por el PAIS: son diecinueve copas distintas y la
+// regla cambia DENTRO de cada una. Verificado contra los reglamentos vigentes; lo que no se
+// verifico va a penales directo y ese caso tambien se prueba, porque el default es una decision.
+console.log('');
+console.log('=== El alargue en la copa nacional de cada pais ===');
+
+// Las que lo llevan en toda ronda.
+for (const liga of ['Inglesa', 'Española', 'Alemana', 'Holandesa', 'Portuguesa']) {
+  ok(`la copa de ${liga} lleva alargue en toda ronda`,
+     alargueEnCopaNacional(liga) && alargueEnCopaNacional(liga, { esLaFinal: true }));
+}
+// Las que NO lo llevan nunca. Son la mitad del mundo, y suponer lo contrario le agregaria media
+// hora a partidos que en la realidad terminan a los 90.
+for (const liga of ['Colombiana', 'Argentina', 'Brasileña']) {
+  ok(`la copa de ${liga} va a penales directo, tambien en la final`,
+     !alargueEnCopaNacional(liga) && !alargueEnCopaNacional(liga, { esLaFinal: true }));
+}
+// LAS DOS QUE CAMBIAN DENTRO DEL TORNEO, que son la razon de que esto vaya por ronda y no por copa.
+ok('la Coupe de France va a penales directo salvo en la FINAL',
+   !alargueEnCopaNacional('Francesa') && !alargueEnCopaNacional('Francesa', { esLaSemifinal: true })
+   && alargueEnCopaNacional('Francesa', { esLaFinal: true }));
+ok('la Coppa Italia recien lleva alargue desde la SEMIFINAL',
+   !alargueEnCopaNacional('Italiana') && alargueEnCopaNacional('Italiana', { esLaSemifinal: true })
+   && alargueEnCopaNacional('Italiana', { esLaFinal: true }));
+// Y el default, que tambien es una afirmacion: sin reglamento cargado, penales.
+ok('una copa sin reglamento cargado no inventa alargue',
+   !alargueEnCopaNacional('Mexicana', { esLaFinal: true }) && !alargueEnCopaNacional('Chilena')
+   && !alargueEnCopaNacional('liga que no existe'));
 
 // LOS TORNEOS DE SELECCIONES: alargue en toda la eliminacion directa, nunca en grupos.
 //

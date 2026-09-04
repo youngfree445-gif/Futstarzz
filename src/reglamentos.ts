@@ -104,6 +104,25 @@ export interface ReglamentoDeLiga {
     /** La final. Casi siempre 1; Brasil, Colombia y Ecuador la definen a ida y vuelta. */
     final?: 1 | 2;
   };
+  /**
+   * ¿LA COPA NACIONAL DE ESTE PAIS DEFINE CON ALARGUE ANTES DE LOS PENALES?
+   *
+   * Va por ronda igual que copaPiernas, porque igual que las piernas cambia dentro del mismo torneo:
+   * la Coupe de France juega alargue SOLO en la final y va a penales directo en todo lo demás, y la
+   * Coppa Italia lo juega desde la semifinal.
+   *
+   * Sin este dato el país va a penales directo, y es a propósito: la mitad de las copas del mundo lo
+   * hacen así -- Copa BetPlay, Copa Argentina y Copa do Brasil entre ellas -- y suponer alargue le
+   * agregaría media hora a partidos que en la realidad terminan a los 90.
+   */
+  copaAlargue?: {
+    /** Rondas normales. */
+    rondas: boolean;
+    /** Sólo si la SEMIFINAL difiere. */
+    semifinal?: boolean;
+    /** Sólo si la FINAL difiere (Francia es el caso: alargue nada más acá). */
+    final?: boolean;
+  };
 }
 
 /**
@@ -120,6 +139,8 @@ export const REGLAMENTOS: Readonly<Record<string, ReglamentoDeLiga>> = {
     definicion: 'cuadrangular', clubesDelCuadro: 8, copaNacional: 'Copa BetPlay',
     // Dimayor: ida y vuelta en todas las rondas, final incluida.
     copaPiernas: { rondas: 2, final: 2 },
+    // Copa BetPlay: sin alargue en ninguna fase, penales directo (art. 17 del reglamento 2026).
+    copaAlargue: { rondas: false },
   },
   // AFA: Apertura y Clausura, cada uno con fase final entre los ocho mejores.
   Argentina: {
@@ -127,6 +148,8 @@ export const REGLAMENTOS: Readonly<Record<string, ReglamentoDeLiga>> = {
     definicion: 'cuadrangular', clubesDelCuadro: 8, copaNacional: 'Copa Argentina',
     // AFA: partido unico de punta a punta, en cancha neutral.
     copaPiernas: { rondas: 1, final: 1 },
+    // Copa Argentina: empate a los 90 y directo a penales, sin tiempo suplementario.
+    copaAlargue: { rondas: false },
   },
   // Liga MX: Apertura (julio-diciembre) y Clausura (enero-mayo), cada uno definido por la Liguilla.
   //
@@ -150,28 +173,46 @@ export const REGLAMENTOS: Readonly<Record<string, ReglamentoDeLiga>> = {
   // Sin registro no se distingue "es de un torneo" de "nadie la cargó todavía".
   Brasileña: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa do Brasil',
     // CBF: ida y vuelta desde la tercera fase, y la final tambien.
-    copaPiernas: { rondas: 2, final: 2 } },
+    copaPiernas: { rondas: 2, final: 2 },
+    // Copa do Brasil: ninguna fase tiene prorroga; el global empatado se define por penales.
+    copaAlargue: { rondas: false } },
   Inglesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'FA Cup',
     // Partido unico; ya no hay replays. Final en Wembley.
-    copaPiernas: { rondas: 1, final: 1 } },
+    copaPiernas: { rondas: 1, final: 1 },
+    // FA Cup: alargue y despues penales en todas las rondas. Sin replays desde 2024/25.
+    copaAlargue: { rondas: true }, },
   Española: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa del Rey',
     // RFEF: partido unico salvo la SEMIFINAL, que va a doble partido.
-    copaPiernas: { rondas: 1, semifinal: 2, final: 1 } },
+    copaPiernas: { rondas: 1, semifinal: 2, final: 1 },
+    // Copa del Rey: alargue de 30' y despues penales, en toda ronda.
+    copaAlargue: { rondas: true }, },
   Italiana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Coppa Italia',
     // Partido unico en todas las rondas desde 2021/22.
-    copaPiernas: { rondas: 1, final: 1 } },
+    copaPiernas: { rondas: 1, final: 1 },
+    // Coppa Italia: de la ronda previa a CUARTOS se va a penales directo; recien desde la SEMIFINAL
+    // hay alargue. Es el formato 2025/26.
+    copaAlargue: { rondas: false, semifinal: true, final: true } },
   Alemana: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'DFB-Pokal',
     // Partido unico; la final siempre en el Olympiastadion.
-    copaPiernas: { rondas: 1, final: 1 } },
+    copaPiernas: { rondas: 1, final: 1 },
+    // DFB-Pokal: alargue y despues penales, en toda ronda.
+    copaAlargue: { rondas: true }, },
   Francesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Coupe de France',
     // Partido unico de punta a punta.
-    copaPiernas: { rondas: 1, final: 1 } },
+    copaPiernas: { rondas: 1, final: 1 },
+    // Coupe de France: penales directo en todas las rondas y alargue SOLO en la final (reglamento
+    // FFF 2025-26). Es el caso que obliga a que esto vaya por ronda y no por torneo.
+    copaAlargue: { rondas: false, final: true } },
   Holandesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'KNVB Beker',
     // Partido unico; final en De Kuip.
-    copaPiernas: { rondas: 1, final: 1 } },
+    copaPiernas: { rondas: 1, final: 1 },
+    // KNVB Beker: verlenging de 2x15 y despues penales.
+    copaAlargue: { rondas: true }, },
   Portuguesa: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Taça de Portugal',
     // Partido unico salvo la SEMIFINAL, a doble partido. Final en Jamor.
-    copaPiernas: { rondas: 1, semifinal: 2, final: 1 } },
+    copaPiernas: { rondas: 1, semifinal: 2, final: 1 },
+    // Taca de Portugal: prolongamento de 30' y despues penales (reglamento FPF).
+    copaAlargue: { rondas: true }, },
   Chilena: { torneosPorAnio: 1, primerTorneoDelAnio: 'Apertura', definicion: 'tabla', copaNacional: 'Copa Chile',
     // Ida y vuelta en las rondas, final a partido unico.
     copaPiernas: { rondas: 2, final: 1 } },
@@ -440,10 +481,18 @@ export function reglasDeLiga(league: string): ReglasAscenso | null {
  *   . LIGA BETPLAY (cuadrangulares y final): penales directo. Confirmado en el reglamento 2026 de
  *     la Dimayor.
  *
- * Lo que NO está verificado devuelve false, que es lo que hace el juego hoy: la Concacaf y las copas
- * nacionales van directo a penales hasta que se confirme su regla. No se asume que "todos los
- * torneos tienen alargue" porque es falso -- la Conmebol es el contraejemplo, y justamente el que
- * este jugador juega.
+ *   . CONCACAF CHAMPIONS CUP -- alargue y después penales, tanto en las llaves de ida y vuelta como
+ *     en la final, que es a partido único. OJO CON UNA DIFERENCIA QUE EL JUEGO NO MODELA: la
+ *     Concacaf todavía usa el GOL DE VISITANTE para desempatar el global, así que en la realidad
+ *     bastantes llaves se resuelven sin llegar al alargue. Acá esas van al alargue, que es el
+ *     siguiente paso del reglamento; es la aproximación más cercana que se puede dar sin cargar el
+ *     gol de visitante, y queda anotada para no confundirla con un descuido.
+ *
+ * LAS COPAS NACIONALES NO ESTÁN ACÁ: cada país tiene la suya y viven en REGLAMENTOS, en el campo
+ * copaAlargue, junto a las piernas de cada ronda. Las contesta alargueEnCopaNacional.
+ *
+ * Lo que NO está verificado devuelve false. No se asume que "todos los torneos tienen alargue"
+ * porque es falso -- la Conmebol es el contraejemplo, y justamente el que este jugador juega.
  */
 export function seDefineConAlargue(
   torneo: 'champions' | 'europa' | 'libertadores' | 'sudamericana' | 'concacaf'
@@ -458,9 +507,32 @@ export function seDefineConAlargue(
   if (torneo === 'mundial' || torneo === 'eurocopa' || torneo === 'copaamerica') {
     return !!ronda.enEliminacionDirecta;
   }
-  if (torneo === 'champions' || torneo === 'europa') return true;
+  if (torneo === 'champions' || torneo === 'europa' || torneo === 'concacaf') return true;
   if (torneo === 'libertadores' || torneo === 'sudamericana') return !!ronda.esLaFinal;
   return false;
+}
+
+/**
+ * ¿LA COPA NACIONAL DE ESTE PAÍS DEFINE ESTA RONDA CON ALARGUE?
+ *
+ * Va aparte de seDefineConAlargue porque la pregunta es distinta: allá el torneo se identifica por
+ * su nombre ('champions', 'libertadores'), y una copa nacional se identifica por el PAÍS -- son
+ * diecinueve copas distintas y cada una con su reglamento.
+ *
+ * Las diez verificadas están cargadas en REGLAMENTOS.copaAlargue. Las otras nueve -- Copa MX, Copa
+ * Chile, Copa Ecuador, Copa Bolivia, Copa Uruguay, Copa Venezuela, US Open Cup, Copa Paraguay y
+ * Copa de la Liga -- van a penales directo, que es lo que el juego hacía con todas y lo que no
+ * inventa media hora de partido. Cuando aparezca el reglamento, es una línea en la tabla.
+ */
+export function alargueEnCopaNacional(
+  league: string,
+  ronda: { esLaSemifinal?: boolean; esLaFinal?: boolean } = {},
+): boolean {
+  const regla = reglamentoDe(league).copaAlargue;
+  if (!regla) return false;
+  if (ronda.esLaFinal) return regla.final ?? regla.rondas;
+  if (ronda.esLaSemifinal) return regla.semifinal ?? regla.rondas;
+  return regla.rondas;
 }
 
 /**

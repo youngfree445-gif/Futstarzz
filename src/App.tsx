@@ -89,7 +89,7 @@ import NewSeasonOverlay, { type NewSeasonInfo } from './components/NewSeasonOver
 import BallonDorOverlay, { type BallonDorInfo } from './components/BallonDorOverlay';
 import { armarReporteDeBug, recordarEstado } from './reporteDeBug';
 import { podarEdicionesTerminadas } from './podarPartida';
-import { seDefineConAlargue } from './reglamentos';
+import { seDefineConAlargue, alargueEnCopaNacional } from './reglamentos';
 import { rivalDeRelleno, resolverRivalDeLaFecha, eliminatoriaDelDia, seleccionesDelMundialDe, cruceDeCopaNacionalHoy, cruceDeEliminatoriasHoy, torneoDeSeleccionesDeHoy, bajoALaSudamericana, cerrarCopasDeOtroPais, cerrarPlayoffsSinFechas, claveDeCopaNacional, clavePlayoffDeLiga, copaContinentalDelJugador, copaNacionalDelPaso, duenoDelDiaDeCopa, laCopaContinentalLaLlevaElCuadro, grupoRealDelCalendario, playoffDelDiaSinElJugador, repescadosDeLaLibertadores } from './decisionDelDia';
 import { guardarRanura } from './partidaArchivo';
 import { getLeagueDisplay, rondaEnEspanol } from './leagueDisplay';
@@ -7105,17 +7105,29 @@ export default function App() {
           isDomesticCup={activeDomesticCup}
           competitionNameOverride={activeCompetitionName}
           globalScoreLabel={activeGlobalScoreLabel}
-          // EL ALARGUE, solo donde el reglamento lo tiene. Lo contesta seDefineConAlargue: las
-          // europeas en toda ronda, la Conmebol nada mas en la final. La final se reconoce por el
+          // EL ALARGUE, solo donde el reglamento lo tiene. Las europeas y la Concacaf en toda ronda,
+          // la Conmebol nada mas en la final. La ronda se reconoce por el
           // rotulo de la competicion, que es donde ya se escribe la ronda ("Copa Libertadores ·
           // Final"): el estado del cuadro no esta a mano aca, y ese rotulo lo arma el mismo codigo
           // que decide la ronda, asi que no puede decir una cosa distinta.
-          hayAlargue={seDefineConAlargue(
-            activeTorneoDeSelecciones ?? activeUefaCupId ?? activeCupId,
-            {
-              esLaFinal: /final/i.test(activeCompetitionName ?? ''),
-              enEliminacionDirecta: activeSeleccionEnEliminacion,
-            })}
+          // LA COPA NACIONAL SE PREGUNTA APARTE, y no es un rodeo: no se identifica por el nombre
+          // del torneo sino por el PAIS, porque son diecinueve copas y cada una con su reglamento.
+          // La Coupe de France juega alargue solo en la final y la Coppa Italia recien desde la
+          // semifinal, mientras la Copa BetPlay y la Copa Argentina no lo juegan nunca.
+          hayAlargue={activeDomesticCup
+            ? alargueEnCopaNacional(
+                CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId)?.league ?? '',
+                {
+                  esLaSemifinal: /semifinal/i.test(activeCompetitionName ?? ''),
+                  // "semifinal" contiene "final", asi que se pide que no venga precedida de "semi".
+                  esLaFinal: /(?<!semi)final/i.test(activeCompetitionName ?? ''),
+                })
+            : seDefineConAlargue(
+                activeTorneoDeSelecciones ?? activeUefaCupId ?? activeCupId,
+                {
+                  esLaFinal: /final/i.test(activeCompetitionName ?? ''),
+                  enEliminacionDirecta: activeSeleccionEnEliminacion,
+                })}
           torneoLabel={activeTorneoLabel}
           isWorldCup={!!activeWorldCupTeamId}
           representingTeamId={activeWorldCupTeamId}
