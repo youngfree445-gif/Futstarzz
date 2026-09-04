@@ -1,12 +1,13 @@
 /**
- * Lo que data.ts sabe y todo script de datos necesita: la lista de clubes del juego y los
- * diccionarios que traducen el nombre de un club al que usa la base de jugadores.
+ * Lo que data.ts y clubAliases.ts saben y todo script de datos necesita: la lista de clubes del
+ * juego y los otros nombres con los que cada uno figura afuera.
  *
- * Vive acá y no adentro de cada script porque data.ts es LA fuente de verdad de los homónimos
- * (EQUIPO_SYNONYMS_POR_ID sabe que 'liverpool_eng' es "Liverpool" y 'liverpool_uru' es
- * "Liverpool F.C."). Dos lectores distintos de la misma fuente es exactamente cómo este proyecto se
- * rompió antes: se arregla uno y el otro se queda con el bug.
+ * Vive acá y no adentro de cada script porque src/clubAliases.ts es LA fuente de verdad de los
+ * nombres, homónimos incluidos: sabe que 'liverpool_eng' es "Liverpool" en la base de jugadores y
+ * 'liverpool_uru' es "Liverpool F.C.". Dos lectores distintos de la misma fuente es exactamente cómo
+ * este proyecto se rompió antes: se arregla uno y el otro se queda con el bug.
  */
+import { readFile } from 'fs/promises';
 
 /**
  * Los clubes del juego: { id, nombre, liga }.
@@ -34,24 +35,27 @@ export function leerClubesDelJuego(dataTs) {
 }
 
 /**
- * Uno de los diccionarios de sinónimos de data.ts, como Map.
+ * La tabla de nombres de src/clubAliases.ts, como Map de id -> { nombre, calendario, plantel, otros }.
  *
- * Con los DOS PUNTOS en la búsqueda. Sin ellos, buscar "const EQUIPO_SYNONYMS" encuentra primero a
- * "const EQUIPO_SYNONYMS_POR_ID", que está veinte líneas más arriba y empieza igual: el diccionario
- * por nombre nunca se leía y "Junior de Barranquilla" no encontraba a "Junior".
+ * Se parsea con JSON.parse, no con una expresión regular, y por eso la tabla está escrita con las
+ * claves entre comillas. El lector viejo era regular y cortaba en la primera comilla simple: leía
+ * "Borussia M" en vez de "Borussia M'gladbach" y el Mönchengladbach se quedó sin recibir un solo
+ * fichaje de toda la ventana. O'Higgins y Newell's tenían el mismo problema.
  */
-export function leerMapa(dataTs, nombreDelMapa) {
-  const i = dataTs.indexOf(`const ${nombreDelMapa}:`);
-  if (i < 0) return new Map();
-  // El cierre puede venir indentado (" };"), así que se busca por el patrón y no por la cadena
-  // exacta: cortando en el lugar equivocado el mapa se lee entero o no se lee nada.
-  const resto = dataTs.slice(i);
-  const fin = /\n\s*\};/.exec(resto);
-  const bloque = resto.slice(0, fin ? fin.index : resto.length);
-  const m = new Map();
-  // Comillas simples O DOBLES: EQUIPO_SYNONYMS_POR_ID usa simples y EQUIPO_SYNONYMS usa dobles.
-  for (const x of bloque.matchAll(/["']([^"']+)["']:\s*["']([^"']+)["']/g)) m.set(x[1], x[2]);
-  return m;
+export async function leerNombresDeClub(ruta = 'src/clubAliases.ts') {
+  const texto = await readFile(ruta, 'utf8');
+  const i = texto.indexOf('export const NOMBRES_DE_CLUB');
+  if (i < 0) throw new Error(`no encontré NOMBRES_DE_CLUB en ${ruta}`);
+  const desde = texto.indexOf('{', i);
+  const hasta = texto.indexOf('\n};', desde);
+  if (desde < 0 || hasta < 0) throw new Error(`no pude delimitar NOMBRES_DE_CLUB en ${ruta}`);
+  // Se le sacan los comentarios (van siempre en su propio renglón) y la coma final de la última
+  // entrada, que JSON no acepta.
+  const cuerpo = texto.slice(desde + 1, hasta)
+    .split('\n').filter(l => !l.trim().startsWith('//')).join('\n')
+    .replace(/,\s*$/, '');
+  const tabla = JSON.parse('{' + cuerpo + '}');
+  return new Map(Object.entries(tabla));
 }
 
 /**
@@ -71,6 +75,20 @@ export function leerSelecciones(dataTs) {
 }
 
 /** El nombre con el que la base de jugadores llama al plantel de este club. */
-export function nombreEnLaBase(club, porId, porNombre) {
-  return porId.get(club.id) || porNombre.get(club.nombre) || club.nombre;
+export function nombreEnLaBase(club, nombres) {
+  return nombres.get(club.id)?.plantel ?? club.nombre;
+}
+
+/**
+ * Todos los nombres por los que se puede llegar a un club: el visible, el del calendario, el de la
+ * base de jugadores y los que usan las fuentes externas.
+ *
+ * Es lo que evita tener una tabla de alias por script. El Bayern, el PSV, el Inter y el Lyon no
+ * recibieron un solo fichaje de toda la ventana porque su nombre de Transfermarkt estaba cargado
+ * nada más en la tabla del calendario, que el script de fichajes no leía.
+ */
+export function nombresDeBusqueda(club, nombres) {
+  const c = nombres.get(club.id);
+  if (!c) return [club.nombre];
+  return [c.nombre, c.calendario, c.plantel, ...(c.otros ?? [])].filter(Boolean);
 }

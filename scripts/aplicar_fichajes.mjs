@@ -35,7 +35,7 @@
  */
 
 import { readFile, writeFile } from 'node:fs/promises';
-import { leerClubesDelJuego, leerMapa } from './lib/data_ts.mjs';
+import { leerClubesDelJuego, leerNombresDeClub, nombreEnLaBase, nombresDeBusqueda } from './lib/data_ts.mjs';
 import { equiposQueNoSonClub } from './lib/equipos.mjs';
 
 const ESCRIBIR = process.argv.includes('--escribir');
@@ -82,26 +82,21 @@ const norm = (s) => (s || '')
 const palabras = (s) => norm(s).split(' ').filter(w => w && !RELLENO.has(w) && !/^\d+$/.test(w));
 const clave = (s) => palabras(s).join(' ');
 
-// Alias escritos a mano, sólo para lo que ninguna regla puede resolver sola.
+// Lo que se resuelve acá y no en la tabla de nombres: los que NO son un club del juego.
+//
+// Los nombres de clubes viven todos en src/clubAliases.ts, uno por club, y este script los lee de
+// ahí. Acá quedan sólo dos cosas que esa tabla no puede contestar, porque no son clubes:
+//
+//   - los que la base de jugadores tiene pero el juego todavía no ("Cercle Brugge"), y
+//   - los que hay que ignorar a propósito (null).
 const ALIAS = {
   'without clubwithout club': null,   // en TM, el jugador sin club: no es un destino
 
-  // LOS OCHO QUE LA GUARDIA DE HOMONIMOS FRENO. Son cuatro pares en los que los dos clubes existen
-  // en la base con nombres distintos, pero la comparacion por palabras los mandaba al mismo -- y
-  // como no se puede saber cual es cual, la guardia no aplicaba NINGUNO de los dos y esos ocho
-  // clubes se quedaban sin su ventana de pases entera.
-  //
-  // Escribir el alias es la salida correcta: no hay regla automatica que distinga "Cercle Brugge" de
-  // "Club Brugge KV" sin conocerlos, y son ocho lineas contra una regla nueva que puede volver a
-  // fundir otro par el dia que se agregue una liga.
-  'vitoria guimaraes sc': 'Vitória de Guimarães',          // Portugal
-  'esporte clube vitoria': 'Vitória',                       // Brasil
+  // Está en la base de jugadores pero no es un club jugable, así que no tiene id que ponerle en la
+  // tabla de nombres. Y hace falta escribirlo: la comparación por palabras lo mandaba al Club
+  // Brugge, y como no se puede saber cuál es cuál, la guardia de homónimos no aplicaba ninguno de
+  // los dos y los dos clubes se quedaban sin su ventana de pases entera.
   'cercle brugge': 'Cercle Brugge',                         // Belgica
-  'club brugge kv': 'Club Brugge',                          // Belgica
-  'fc cajamarca': 'FC Cajamarca',                           // Peru
-  'universidad tecnica de cajamarca': 'UTC',                // Peru
-  'libertad fc': 'Libertad F.C.',                           // Ecuador
-  'club libertad asuncion': 'Libertad',                     // Paraguay
 
   // LOS FILIALES NO SON EL PRIMER EQUIPO. El juego no los tiene, y sin esto los fichajes del Celta
   // Fortuna -- que juega en Segunda -- caian en el Celta de Vigo. La guardia de homonimos lo agarro
@@ -128,9 +123,9 @@ const dataTs = await readFile('src/data.ts', 'utf8');
 // Ningún parecido de texto va a unir "Inter Milan" con "Lombardia FC".
 //
 // La segunda, y la que importa: data.ts YA tiene resuelto el problema de los homónimos, con un mapa
-// por ID de club escrito a mano (EQUIPO_SYNONYMS_POR_ID) que sabe que 'liverpool_eng' es "Liverpool"
-// y 'liverpool_uru' es "Liverpool F.C.". Rehacer ese trabajo acá sería tener dos fuentes para la
-// misma pregunta, que es como este proyecto se rompió más veces.
+// por ID de club (src/clubAliases.ts) que sabe que 'liverpool_eng' es "Liverpool" y 'liverpool_uru'
+// es "Liverpool F.C.". Rehacer ese trabajo acá sería tener dos fuentes para la misma pregunta, que
+// es como este proyecto se rompió más veces.
 // Se guarda la LIGA de cada club además del nombre, y es lo que evita el error de homónimos:
 // Transfermarkt le dice "Club Nacional" al de MONTEVIDEO, y el juego le dice así al de ASUNCIÓN
 // (el uruguayo se llama "Nacional" a secas). Con el nombre solo, trece fichajes del Nacional
@@ -143,9 +138,28 @@ const clubesDelJuego = leerClubesDelJuego(dataTs);   // { id, nombre, liga }
 // contradicen a nadie.
 const SIN_PAIS = new Set(['Internacional', 'Resto del Mundo', '']);
 
-// Los dos diccionarios que traducen del nombre del juego al de la base.
-const SIN_POR_ID = leerMapa(dataTs, 'EQUIPO_SYNONYMS_POR_ID');
-const SIN_POR_NOMBRE = leerMapa(dataTs, 'EQUIPO_SYNONYMS');
+// La tabla de nombres del juego: id -> { nombre, calendario, plantel, otros }.
+const NOMBRES = await leerNombresDeClub();
+
+// Índice de TODOS los nombres por los que se puede llegar a un club -- el visible, el del
+// calendario, el de la base y los que usa Transfermarkt en la ventana de pases.
+//
+// Es lo que este script no tenía: su tabla de alias era propia y sólo cubría los ocho casos que
+// alguien había escrito a mano. Al Bayern, al PSV, al Inter y al Lyon no les entró un solo fichaje
+// de toda la ventana porque el nombre con el que TM los escribe estaba cargado en la tabla del
+// calendario, que este script no leía.
+//
+// Las claves que apuntan a DOS clubes quedan marcadas y no resuelven a nadie, salvo que el país
+// desempate: "Athletic Club" es el nombre del español y el plantel del brasileño.
+const clubesPorAlias = new Map();
+for (const c of clubesDelJuego) {
+  for (const nombre of nombresDeBusqueda(c, NOMBRES)) {
+    const k = clave(nombre);
+    if (!k) continue;
+    const ya = clubesPorAlias.get(k);
+    if (ya) { if (!ya.includes(c)) ya.push(c); } else clubesPorAlias.set(k, [c]);
+  }
+}
 
 // Los equipos de la base, por nombre exacto y por clave de palabras. Las claves que apuntan a dos
 // equipos distintos quedan marcadas y no resuelven a nadie: "FC Barcelona" y "Barcelona SC" dan las
@@ -187,6 +201,18 @@ function buscarEquipo(nombreTM, ligaDelScrape) {
     const pais = (ligaDelScrape ?? '').replace(/ \d$/, '');
     const mias = new Set(palabras(nombreTM));
 
+    // 1a) La tabla de nombres primero: si el club está escrito así en alguna de sus formas, no hay
+    //     nada que adivinar.
+    //
+    //     Pero SÓLO si es del país que dice el scrape, y esto no es un detalle: las dos Universidad
+    //     Católica se llaman igual en Transfermarkt ("CD Universidad Católica"), la chilena y la
+    //     ecuatoriana. Sin el filtro, el nombre de la ecuatoriana caía en la chilena -- que es la
+    //     única con ese nombre exacto en la tabla -- y los dos clubes terminaban apuntando al mismo
+    //     plantel. La guardia de homónimos los frenaba a los dos y ninguno recibía nada.
+    const candidatos = (clubesPorAlias.get(k) ?? [])
+      .filter(c => !pais || c.liga === pais || SIN_PAIS.has(c.liga));
+    if (candidatos.length === 1) club = candidatos[0];
+
     // DENTRO DE UN PAÍS la comparación puede ser generosa, y ahí está la clave de todo esto: los
     // homónimos que rompen el juego son SIEMPRE de países distintos -- el Everton de Viña del Mar y
     // el de Liverpool, el Nacional de Montevideo y el de Asunción. Entre clubes del mismo país,
@@ -205,7 +231,7 @@ function buscarEquipo(nombreTM, ligaDelScrape) {
       return m.length === 1 ? m[0] : null;
     };
 
-    club = buscarEn(delPais);
+    if (!club) club = buscarEn(delPais);
     if (!club) {
       // Fuera del país sólo vale el nombre o la clave exactos, y sólo si hay UNO en todo el juego.
       const todos = clubesDelJuego.filter(c => c.nombre === nombreTM || clave(c.nombre) === k);
@@ -218,7 +244,7 @@ function buscarEquipo(nombreTM, ligaDelScrape) {
 
   // 2) Del club del juego al equipo de la base, con el diccionario del propio juego.
   if (club) {
-    const enLaBase = SIN_POR_ID.get(club.id) || SIN_POR_NOMBRE.get(club.nombre) || club.nombre;
+    const enLaBase = nombreEnLaBase(club, NOMBRES);
     r = porNombreExacto.get(enLaBase) ?? null;
     // Y si la base lo escribe apenas distinto ("Rangers FC" contra "Rangers"), se compara por
     // palabras -- pero las del CLUB DEL JUEGO, que ya sabemos de qué país es, no las de
@@ -847,7 +873,7 @@ for (let i = 0; i < lineas.length; i++) {
   const mnm = /\bname: '([^']+)'/.exec(lineas[i]);
   const msp = /starPlayers: \[([^\]]*)\]/.exec(lineas[i]);
   if (!mid || !mnm || !msp) continue;
-  const enLaBase = SIN_POR_ID.get(mid[1]) || SIN_POR_NOMBRE.get(mnm[1]) || mnm[1];
+  const enLaBase = nombreEnLaBase({ id: mid[1], nombre: mnm[1] }, NOMBRES);
   const quedan = [];
   let borre = false;
   for (const x of msp[1].matchAll(/'((?:[^'\\]|\\.)*)'/g)) {

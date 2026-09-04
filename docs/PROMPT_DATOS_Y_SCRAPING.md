@@ -137,15 +137,26 @@ y Jaguares. Ante un club sin datos en ESPN → Transfermarkt.
 
 Casos reales que costaron caro:
 
-- **Clubes**: hay 7 pares con el mismo nombre (Everton chileno/inglés, Liverpool uruguayo/inglés,
+- **Clubes**: hay 10 pares con el mismo nombre (Everton chileno/inglés, Liverpool uruguayo/inglés,
   Nacional uruguayo/paraguayo, Athletic brasileño/español, Leones FC colombiano/ecuatoriano,
-  Universidad Católica chilena/ecuatoriana, Comunicaciones argentino/guatemalteco).
-  El Everton de Chile llegó a alinear a los jugadores del inglés.
+  Universidad Católica chilena/ecuatoriana, Comunicaciones argentino/guatemalteco, Racing Club
+  argentino/uruguayo, San Antonio ecuatoriano/boliviano, Alianza Universidad).
+  El Everton de Chile llegó a alinear a los jugadores del inglés, el Racing de Montevideo a los 31
+  de Avellaneda y el San Antonio de Ecuador a los 32 bolivianos de Bulo Bulo.
 - **Jugadores**: emparejar por apellido unió a "Edwin Martínez" (lateral) con "Diego Martínez"
   (arquero) y le cambió la posición al arquero. Jaguares tiene **tres** Mosquera.
 
+**Dónde viven los nombres:** en `src/clubAliases.ts`, **una sola tabla** (`NOMBRES_DE_CLUB`)
+indexada por id de club, con un campo por fuente: `nombre` (el visible, el único que se muestra),
+`calendario`, `plantel` y `otros`. Hubo cuatro tablas separadas contestando lo mismo y cada arreglo
+entraba en una sola: el Bayern, el PSV, el Inter y el Lyon se quedaron sin la ventana de pases entera
+porque su nombre de Transfermarkt estaba cargado nada más en la del calendario. **Un nombre nuevo se
+agrega ahí y en ningún otro lado.** `plantel: null` significa que la base no tiene a ese club, y es
+lo que evita que se lleve el plantel de su homónimo.
+
 **Reglas:**
 - Clubes → por `club.id`, y para desambiguar usar `resolverClubDeCalendario` con el torneo.
+- Un nombre nuevo de un club → a `NOMBRES_DE_CLUB`, y `npm run validar:alias` después.
 - Jugadores → nombre completo exacto, o apellido **+ algún nombre de pila coincidente**.
   Apellido solo, jamás.
 - Al scrapear rivales → resolver por el **ID numérico de la fuente**, no por el texto.
@@ -224,12 +235,17 @@ de 14 a 16 clubes. Documentarlo en `docs/` con las fuentes enlazadas.
 ## 5. Verificaciones obligatorias después de tocar datos
 
 ```
-0 planteles compartidos entre clubes
+npm run validar:alias      <- 0 planteles compartidos, y una sola tabla de nombres
 0 días con más partidos de los reales
 distribución de posiciones sana (¿hay laterales izquierdos? ¿2+ arqueros por club?)
 medias dentro del rango de la liga (Colombia: 55-78, mediana 68)
 los clubes sin plantel siguen siendo los mismos de antes (sin regresiones)
 ```
+
+Lo de "0 planteles compartidos" ya no se cuenta a mano: `npm run validar:alias` lo mide y falla si
+dos clubes buscan su plantilla con el mismo nombre. Es lo que encontró al Racing de Montevideo con
+el plantel de Avellaneda y al San Antonio de Ecuador con el de Bulo Bulo — dos clubes que se veían
+perfectos en pantalla, con once jugadores cada uno.
 
 **Trampa de ESPN**: solo publica 4 posiciones (Goalkeeper/Defender/Midfielder/Forward). Mapearlas
 directo dejó a **toda la liga con 5 laterales y ningún lateral izquierdo** — equipos imposibles de

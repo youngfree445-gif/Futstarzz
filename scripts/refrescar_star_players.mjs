@@ -7,6 +7,7 @@
 // Uso: node scripts/refrescar_star_players.mjs <clubId> [<clubId>...] [--dry]
 
 import { readFile, writeFile } from 'node:fs/promises';
+import { leerNombresDeClub, nombreEnLaBase } from './lib/data_ts.mjs';
 
 const DRY = process.argv.includes('--dry');
 const IDS = process.argv.slice(2).filter(a => !a.startsWith('--'));
@@ -23,6 +24,7 @@ const POS_CORTA = {
 const db = JSON.parse(await readFile('src/playersDatabase.json', 'utf8'));
 const jugadores = Array.isArray(db) ? db : (db.players ?? Object.values(db)[0]);
 let dataTs = await readFile('src/data.ts', 'utf8');
+const NOMBRES = await leerNombresDeClub();
 
 for (const id of IDS) {
   // Se ubica el club por id y se lee el nombre con el que sus jugadores figuran en la base: puede
@@ -38,20 +40,10 @@ for (const id of IDS) {
   if (!linea) { console.log(`${id}: no está en data.ts`); continue; }
 
   const nombreVisible = linea.match(/name: '([^']+)'/)?.[1] ?? id;
-  // El sinónimo se busca SOLO dentro de EQUIPO_SYNONYMS_POR_ID: `'<id>': '<nombre>'` suelto también
-  // matchea la línea `id: 'patriotas',` del propio club y devolvía el id como nombre de equipo.
-  // Hay DOS mapas de sinónimos y el juego consulta los dos, en este orden (ver la línea de
-  // `nombreParaBuscar` en data.ts): primero por id -- que es el que desambigua homónimos como los
-  // dos Leones -- y si no está, por nombre visible. Mirando solo el de id, clubes como
-  // Independiente Valle del Cauca (sus jugadores están bajo "Ind. Yumbo") quedaban sin encontrar.
-  //
-  // Se parte por la DECLARACIÓN y no por la primera mención: el nombre aparece antes en un
-  // comentario, donde el mapa todavía no existe.
-  const porId = dataTs.split('const EQUIPO_SYNONYMS_POR_ID')[1]?.split('};')[0] ?? '';
-  const porNombre = dataTs.split('const EQUIPO_SYNONYMS:')[1]?.split('};')[0] ?? '';
-  const sinonimo = porId.match(new RegExp(`'${id}': '([^']+)'`))?.[1]
-    ?? porNombre.match(new RegExp(`"${nombreVisible}": "([^"]+)"`))?.[1];
-  const nombreEnBase = sinonimo ?? nombreVisible;
+  // Cómo llama la base de jugadores a este plantel: lo contesta la tabla de nombres, la misma que
+  // usa el juego (src/clubAliases.ts). Este script tenía su propio lector y era uno de los cuatro
+  // que había: cada arreglo entraba en uno y los demás se quedaban con el bug.
+  const nombreEnBase = nombreEnLaBase({ id, nombre: nombreVisible }, NOMBRES);
 
   const suyos = jugadores
     .filter(p => p.team_name === nombreEnBase)

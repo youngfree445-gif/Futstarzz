@@ -61,7 +61,8 @@
     "validar:decision": "esbuild scripts/validar_decision.ts --bundle --platform=node --format=cjs --outfile=node_modules/.cache/validar_decision.cjs --loader:.png=dataurl --loader:.jpg=dataurl --loader:.jpeg=dataurl --loader:.svg=dataurl --loader:.webp=dataurl --log-level=error && node node_modules/.cache/validar_decision.cjs",
     "validar:ambientesinsilencio": "npx vite-node scripts/validar_ambiente_sin_silencio.ts",
     "validar:audio": "npx vite-node scripts/validar_audio.ts",
-    "validar:tablas": "npx vite-node scripts/validar_tablas.ts"
+    "validar:tablas": "npx vite-node scripts/validar_tablas.ts",
+    "validar:alias": "npx vite-node scripts/validar_alias.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
