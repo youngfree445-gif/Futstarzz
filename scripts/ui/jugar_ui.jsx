@@ -415,7 +415,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
   const pantalla = () => pantallaDeRetiro() ? 'retiro'
     : hayCeremonia() ? 'ceremonia' : hayDialogo() ? 'dialogo'
     : pantallaDeDecision() ? 'decision' : simulando() ? 'simulando'
-    : botonQueDice(/Regresar al Vestuario/i) ? 'post-partido'
+    : botonQueDice(/(?:Regresar|Volver) al [Vv]estuario/i) ? 'post-partido'
     : hubDelPartido() ? 'dashboard' : 'DESCONOCIDA';
 
   // EL PRESUPUESTO DE TIEMPO, para que una corrida trabada entregue veredicto igual.
@@ -555,7 +555,21 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     // noventa minutos: se pone la velocidad en "Saltar" y se contesta cada decisión.
     const simulador = document.querySelector('#match-simulator');
     if (simulador) {
-      if (!simulador.dataset.bancoVisto) { simulador.dataset.bancoVisto = '1'; vueltasEnLaCancha = 0; }
+      if (!simulador.dataset.bancoVisto) {
+        simulador.dataset.bancoVisto = '1';
+        vueltasEnLaCancha = 0;
+        // QUÉ COMPETICIÓN DICE LA PANTALLA DEL PARTIDO.
+        //
+        // El rival ya se comparaba contra el resumen (más abajo), pero el CARTEL DE LA COMPETICIÓN
+        // no lo miraba nadie, y ahí se coló un bug que reportó el jugador: la tarjeta anunciaba
+        // "Copa Libertadores · Fase de grupos" y el partido salía como "Copa BetPlay · Semifinal
+        // (Ida)" -- el rótulo del partido anterior, que no se borraba. El día tenía partido y el
+        // rival era el correcto, así que el banco lo daba por bueno.
+        //
+        // Se guarda apenas se monta la pantalla, que es cuando el rótulo todavía está a la vista.
+        const ultimo = bitacora[bitacora.length - 1];
+        if (ultimo) ultimo.competicionEnCancha = texto(simulador).slice(0, 400).replace(/\s+/g, ' ');
+      }
       const enCancha = () => Array.from(simulador.querySelectorAll('button'));
       // Las opciones de una decisión son las únicas que muestran "Riesgo:". Buscarlas por descarte
       // (todo lo que no sea 1x/2x/4x/Saltar) agarraba el botón de reportar un bug y el partido se
@@ -575,6 +589,15 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       // el reloj no vuelve a correr y el banco se queda mirando el minuto 12 para siempre.
       const volverAlPartido = botonQueDice(/Volver al Partido/i);
       if (volverAlPartido) { await click(volverAlPartido); await dormir(60); continue; }
+      // EL PARTIDO TERMINÓ Y ESPERA QUE LO CIERRES.
+      //
+      // Desde que el fin de partido dejó de irse solo al diario -- ahora muestra el resultado y se
+      // queda hasta que tocás "Volver al vestuario" --, ese botón vive DENTRO del simulador. Esta
+      // rama corre antes que la del post-partido, así que el banco no lo veía nunca: apretaba
+      // "Saltar" contra un partido ya terminado y giraba hasta el atasco. No se notaba porque el
+      // banco simulaba todos los partidos y nunca llegaba acá.
+      const alVestuario = enCancha().find(b => /(?:Regresar|Volver) al [Vv]estuario/i.test(texto(b)));
+      if (alVestuario) { await click(alVestuario); await dormir(80); continue; }
       // Sin decisión pendiente: al máximo de velocidad y a esperar.
       //
       // UNA SOLA VEZ. Apretarlo en cada vuelta del bucle volvía a montar el efecto que lleva el
@@ -604,7 +627,7 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
       if (tiro) { await click(tiro); await dormir(80); continue; }
     }
     // Resumen post partido.
-    const volver = botonQueDice(/Regresar al Vestuario/i);
+    const volver = botonQueDice(/(?:Regresar|Volver) al [Vv]estuario/i);
     if (volver) {
       const cuerpo = texto(document.body);
       const marcador = (cuerpo.match(/(\d+)\s*[-–]\s*(\d+)/) ?? []).slice(1, 3).join('-');
@@ -948,7 +971,27 @@ export async function jugar({ club = 'Borussia Dortmund', liga = 'Alemana', temp
     // "Simular partido" SIEMPRE que esté, aunque no se haya podido leer el rival de la tarjeta.
     // Antes se exigía haber leído el rival, y cuando el lector fallaba el banco se metía a jugar el
     // partido a mano -- que es donde se cuelga.
-    const simular = botonQueDice(/Simular partido/i);
+    //
+    // SALVO CADA TANTOS PARTIDOS, que se juegan a mano a propósito.
+    //
+    // Simular no monta la pantalla del partido, y ahí vive el cartel de la competición: comparándolo
+    // sólo con lo que ve el que simula, el chequeo pasaba sin datos -- 112 fechas y CERO carteles
+    // capturados. El bug que motivó el chequeo (la tarjeta decía "Copa Libertadores" y el partido
+    // salía como "Copa BetPlay · Semifinal") sólo se ve entrando a jugar.
+    //
+    // SE JUEGAN A MANO LOS DÍAS DE COPA, que es donde vive el problema.
+    //
+    // Los desfases de cartel no aparecen en la liga: aparecen cuando el día lo pelean dos torneos
+    // -- la continental y la copa nacional -- y el rótulo de uno se queda pegado en el otro. Jugando
+    // una muestra al azar (uno de cada seis) el banco corrió 125 fechas, capturó 20 carteles y NO
+    // agarró el bug reintroducido a propósito: ninguno de esos veinte cayó en un día de copa.
+    //
+    // Los días de liga siguen simulándose: son la mayoría, no tienen este riesgo, y jugarlos a mano
+    // es donde el banco se cuelga y donde se va el tiempo.
+    const cartelDeHoy = bitacora[bitacora.length - 1]?.competicion ?? '';
+    const jugarloAMano = /copa|libertadores|sudamericana|champions|europa|concacaf|mundial|eliminatorias|superliga/i.test(cartelDeHoy)
+      || (bitacora.length % 12) === 0;
+    const simular = jugarloAMano ? null : botonQueDice(/Simular partido/i);
     if (simular) {
       anotar();
       await click(simular); await dormir(60); continue;

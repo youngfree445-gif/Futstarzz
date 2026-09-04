@@ -67,6 +67,23 @@ const EMPUJE_EMPATANDO = 1.3;
 const REPARTO_PERDIENDO = 1.25;
 const REPARTO_EMPATANDO = 1.1;
 
+/**
+ * CUÁNTO DURA UN MINUTO DE PARTIDO, en milisegundos.
+ *
+ * El ritmo normal estaba en 450 ms: noventa minutos en menos de cuarenta segundos, con la crónica
+ * escribiendo una línea de color cada once minutos. Da tiempo a VER que pasó algo, no a leerlo.
+ * Reportado: "va muy rápido, no se logra leer bien lo que pasa en el partido".
+ *
+ * Ahora el normal son 800 ms -- un partido de unos setenta segundos -- y los botones siguen estando
+ * para el que quiere ir rápido. La escala se mantiene: 2x es la mitad y 4x la cuarta parte, así que
+ * el que ya jugaba en 2x queda casi donde estaba (400 ms contra los 450 de antes).
+ *
+ * Están acá y con nombre porque el número aparecía OCHO veces sueltas -- una por botón, en las dos
+ * barras, y otra vez en cada comparación que decide cuál se ve encendido. Cambiar el ritmo era
+ * cambiar ocho literales y que uno quedara sin actualizar dejaba un botón que nunca se prende.
+ */
+const RITMO = { x1: 800, x2: 400, x4: 200, saltar: 5 } as const;
+
 export const POOLS_DE_DECISION: Record<Position, { early: MatchDecision[]; late: MatchDecision[] }> = {
   get Delantero() { return { early: DELANTERO_EARLY, late: DELANTERO_LATE }; },
   get Mediocampista() { return { early: MEDIOCAMPISTA_EARLY, late: MEDIOCAMPISTA_LATE }; },
@@ -1553,7 +1570,7 @@ export default function MatchSimulator({
    * termino" para el resto de la pantalla.
    */
   const [finDelPartido, setFinDelPartido] = useState<Omit<Parameters<typeof onFinishMatch>[0], 'log'> | null>(null);
-  const [speedMultiplier, setSpeedMultiplier] = useState(450);
+  const [speedMultiplier, setSpeedMultiplier] = useState<number>(RITMO.x1);
 
   const [scoreHome, setScoreHome] = useState(0);
   const [scoreAway, setScoreAway] = useState(0);
@@ -1597,7 +1614,7 @@ export default function MatchSimulator({
   const [decisionStage, setDecisionStage] = useState<'none' | 'choosing' | 'animating' | 'result'>('none');
 
   // En automático el partido arranca ya acelerado: el jugador pidió simularlo, no verlo.
-  useEffect(() => { if (autoSimular) setSpeedMultiplier(5); }, [autoSimular]);
+  useEffect(() => { if (autoSimular) setSpeedMultiplier(RITMO.saltar); }, [autoSimular]);
 
   // El marcador salta una vez cuando cae un gol, y la pantalla destella con el color del club.
   // Es el gesto de un scorebug de transmisión: corto, seco y con causa. Ver la capa de animación
@@ -2984,29 +3001,29 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
 
           <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0 lg:hidden">
             <button
-              onClick={() => setSpeedMultiplier(450)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              onClick={() => setSpeedMultiplier(RITMO.x1)}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.x1 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Normal"
             >
               1x
             </button>
             <button
-              onClick={() => setSpeedMultiplier(225)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              onClick={() => setSpeedMultiplier(RITMO.x2)}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.x2 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Doble"
             >
               2x
             </button>
             <button
-              onClick={() => setSpeedMultiplier(100)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              onClick={() => setSpeedMultiplier(RITMO.x4)}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.x4 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Velocidad Rápida"
             >
               4x
             </button>
             <button
-              onClick={() => setSpeedMultiplier(5)}
-              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+              onClick={() => setSpeedMultiplier(RITMO.saltar)}
+              className={`btn-fx-subtle px-2 py-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.saltar ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
               title="Simulación Ultra Rápida"
             >
               Saltar
@@ -3061,29 +3078,29 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
 
         <div className="hidden lg:flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0">
           <button
-            onClick={() => setSpeedMultiplier(450)}
-            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 450 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            onClick={() => setSpeedMultiplier(RITMO.x1)}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.x1 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Normal"
           >
             1x
           </button>
           <button
-            onClick={() => setSpeedMultiplier(225)}
-            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 225 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            onClick={() => setSpeedMultiplier(RITMO.x2)}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.x2 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Doble"
           >
             2x
           </button>
           <button
-            onClick={() => setSpeedMultiplier(100)}
-            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 100 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            onClick={() => setSpeedMultiplier(RITMO.x4)}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.x4 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Velocidad Rápida"
           >
             4x
           </button>
           <button
-            onClick={() => setSpeedMultiplier(5)}
-            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === 5 ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
+            onClick={() => setSpeedMultiplier(RITMO.saltar)}
+            className={`btn-fx-subtle p-1.5 rounded-xl text-2xs font-bold ${speedMultiplier === RITMO.saltar ? 'bg-gold-500 hover:bg-gold-400 transition-colors text-slate-950' : 'hover:bg-slate-800 text-slate-400'}`}
             title="Simulación Ultra Rápida"
           >
             Saltar

@@ -324,6 +324,53 @@ for (const p of prometidosSinJugar) {
   problemas.push(`la tarjeta prometio ${p.competicion} vs ${p.rival} y el dia paso sin partido (fecha ${p.paso})`);
 }
 
+// --- LA TARJETA Y EL PARTIDO TIENEN QUE DECIR LA MISMA COMPETICIÓN -----------------------------
+//
+// El rival ya se comparaba contra el resumen. El CARTEL DE LA COMPETICIÓN no lo miraba nadie, y por
+// ahí se coló un bug que encontró el jugador: la tarjeta anunciaba "Copa Libertadores · Fase de
+// grupos" y el partido salía rotulado "Copa BetPlay · Semifinal (Ida)". El día tenía partido y el
+// rival era el correcto, así que este banco lo daba por bueno.
+//
+// SE COMPARA POR LA PALABRA QUE IDENTIFICA AL TORNEO, no por la cadena entera, por el mismo motivo
+// que la del rival: la tarjeta dice "Liga BetPlay Dimayor" y la pantalla "PRIMERA DIVISIÓN DIMAYOR".
+// Comparando texto contra texto, cada partido de liga saldría marcado como desfase y el ruido
+// taparía justo lo que esto viene a buscar.
+const RUIDO_DE_TORNEO = /^(copa|liga|primera|division|divisi|nacional|torneo|campeonato|de|del|la|el|los|fase|grupo|grupos|ronda|ida|vuelta|final|semifinal|cuartos|octavos|dieciseisavos|apertura|clausura|temporada|20\d\d)$/i;
+const palabrasDeTorneo = (n) => (n || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .split(/[^A-Za-z0-9]+/).filter(w => w.length >= 4 && !RUIDO_DE_TORNEO.test(w));
+const desfasados = bitacora.filter(p => {
+  if (!p.competicion || !p.competicionEnCancha) return false;
+  const propias = palabrasDeTorneo(p.competicion);
+  if (!propias.length) return false;   // un nombre que es todo relleno no se puede comprobar
+  const enCancha = p.competicionEnCancha.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  return !propias.some(w => enCancha.includes(w.toLowerCase()));
+});
+for (const p of desfasados.slice(0, 5)) {
+  problemas.push(`la tarjeta dijo "${p.competicion}" y el partido salió con otro cartel (fecha ${p.paso}): ${p.competicionEnCancha.slice(0, 120)}`);
+}
+
+// Y LA RONDA, que es la otra mitad del mismo desfase.
+//
+// Comparar sólo el nombre del torneo deja pasar el caso en que el rótulo pegado es del MISMO torneo:
+// una fecha de grupos con el cartel de la semifinal se ve idéntica en la palabra "Libertadores". Y
+// no es cosmético -- de ese rótulo sale la ronda, y con ella el alargue: un partido de grupos
+// rotulado "Semifinal" se fue al alargue en una partida de verdad.
+//
+// El orden importa: "Dieciseisavos de Final" y "Cuartos de Final" contienen "final", así que las
+// rondas largas se prueban primero y "final" queda de última.
+const RONDAS = [/fase de grupos/i, /dieciseisavos/i, /octavos/i, /cuartos/i, /semifinal/i, /\bfinal\b/i];
+const rondaDe = (t) => RONDAS.findIndex(r => r.test(t || ''));
+const rondasDistintas = bitacora.filter(p => {
+  if (!p.competicion || !p.competicionEnCancha) return false;
+  const enLaTarjeta = rondaDe(p.competicion);
+  const enLaCancha = rondaDe(p.competicionEnCancha);
+  // Sólo se compara cuando las DOS nombran una ronda: si la pantalla no la dice, no hay contradicción.
+  return enLaTarjeta >= 0 && enLaCancha >= 0 && enLaTarjeta !== enLaCancha;
+});
+for (const p of rondasDistintas.slice(0, 5)) {
+  problemas.push(`la tarjeta dijo "${p.competicion}" y el partido otra ronda (fecha ${p.paso}): ${p.competicionEnCancha.slice(0, 120)}`);
+}
+
 const sinCartel = bitacora.filter(p => !p.competicion).length;
 if (sinCartel) problemas.push(`${sinCartel} fechas sin cartel de competición legible en la tarjeta.`);
 const sinSortear = bitacora.filter(p => p.rival === 'RIVAL SIN SORTEAR').length;
