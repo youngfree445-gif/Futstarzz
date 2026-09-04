@@ -64,7 +64,8 @@
     "validar:tablas": "npx vite-node scripts/validar_tablas.ts",
     "validar:alias": "npx vite-node scripts/validar_alias.ts",
     "sonda": "node scripts/sonda_plantel.mjs",
-    "bajar:plantel": "node scripts/bajar_plantel_faltante.mjs"
+    "bajar:plantel": "node scripts/bajar_plantel_faltante.mjs",
+    "tecnicos": "node scripts/tecnicos.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
