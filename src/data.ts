@@ -5186,20 +5186,53 @@ function nombreClubComparable(nombre: string): string {
 }
 
 /**
- * Selecciones nacionales que el JSON de jugadores trae como si fueran clubes. No son las selecciones
- * jugables del Mundial -- esas están en WORLD_CUP_TEAMS_DATABASE, con su propio torneo -- sino
- * duplicados que se colaban en la bolsa "Internacional" y aparecían mezclados con clubes en los
- * sorteos de rivales.
+ * Lo que el JSON de jugadores trae como si fuera un club Y NO LO ES: selecciones nacionales y
+ * combinados de exhibición. Son duplicados -- sus jugadores ya están en su club de verdad -- y sin
+ * este filtro se cuelan en la bolsa "Internacional" y aparecen mezclados con clubes en los sorteos
+ * de rivales.
+ *
+ * LA LISTA DE PAÍSES SE DERIVA, NO SE ESCRIBE. Salía de un Set a mano de 61 nombres, y a mano se
+ * quedó corta: faltaban Uzbekistán, Chequia, Haití, Finlandia, Islandia, Corea del Sur, Curazao,
+ * Jordania, Irak, RD Congo, Sudáfrica, Cabo Verde, Bosnia, Nueva Zelanda, Catar e Irán. Veintiuna
+ * selecciones andaban sueltas por el juego haciéndose pasar por clubes. Ahora sale de
+ * ALL_NATIONAL_TEAMS_DATABASE, que es la lista que el juego YA tiene de sus 93 selecciones: si
+ * mañana se agrega una, entra sola.
+ *
+ * Los nombres se comparan normalizados (sin acentos ni espacios) porque el JSON los escribe a su
+ * manera: "Uzbekistan" sin tilde, "Haiti", "Irlanda del N.".
  */
-const ES_SELECCION_NACIONAL = new Set([
-  'serbia', 'peru', 'colombia', 'bolivia', 'canada', 'chile', 'ecuador', 'panama', 'jamaica',
-  'venezuela', 'inglaterra', 'austria', 'belgica', 'croacia', 'dinamarca', 'escocia', 'eslovaquia',
-  'eslovenia', 'espana', 'francia', 'georgia', 'hungria', 'italia', 'paisesbajos', 'polonia',
-  'portugal', 'republicacheca', 'rumania', 'suiza', 'turquia', 'ucrania', 'alemania', 'argentina',
-  'brasil', 'uruguay', 'paraguay', 'mexico', 'estadosunidos', 'costarica', 'honduras', 'japon',
-  'coreadelsur', 'australia', 'marruecos', 'senegal', 'nigeria', 'ghana', 'egipto', 'tunez',
-  'argelia', 'camerun', 'irán', 'iran', 'arabiasaudi', 'catar', 'gales', 'irlanda', 'noruega',
-  'suecia', 'grecia', 'israel',
+const ES_SELECCION_NACIONAL = new Set<string>([
+  // Las 93 selecciones que el juego tiene cargadas. No se derivan de ALL_NATIONAL_TEAMS_DATABASE
+  // aunque salgan de ahí: esa lista se declara MÁS ABAJO en este archivo y acá todavía no existe.
+  // Lo que sí hace npm run validar:alias es exigir que las dos coincidan, así que la lista de acá
+  // no puede quedarse atrás sin que algo falle.
+  //
+  // Van normalizadas con nombreClubComparable, que además de acentos y puntuación saca los
+  // conectores: "Corea del Sur" queda en "coreasur" y "Costa de Marfil" en "costamarfil".
+  'albania', 'alemania', 'andorra', 'arabiasaudita', 'argelia', 'argentina',
+  'armenia', 'australia', 'austria', 'azerbaiyan', 'belgica', 'bielorrusia',
+  'bolivia', 'bosniayherzegovina', 'brasil', 'bulgaria', 'caboverde', 'canada',
+  'catar', 'chequia', 'chile', 'chipre', 'colombia', 'coreasur',
+  'costamarfil', 'costarica', 'croacia', 'curazao', 'dinamarca', 'ecuador',
+  'egipto', 'escocia', 'eslovaquia', 'eslovenia', 'espana', 'estadosunidos',
+  'estonia', 'finlandia', 'francia', 'gales', 'georgia', 'ghana',
+  'gibraltar', 'grecia', 'haiti', 'holanda', 'hungria', 'inglaterra',
+  'irak', 'iran', 'irlanda', 'irlandanorte', 'islandia', 'islasferoe',
+  'israel', 'italia', 'jamaica', 'japon', 'jordania', 'kazajistan',
+  'kosovo', 'letonia', 'liechtenstein', 'lituania', 'luxemburgo', 'macedonianorte',
+  'malta', 'marruecos', 'mexico', 'moldavia', 'montenegro', 'noruega',
+  'nuevazelanda', 'panama', 'paraguay', 'peru', 'polonia', 'portugal',
+  'rdcongo', 'republicacheca', 'rumania', 'sanmarino', 'senegal', 'serbia',
+  'sudafrica', 'suecia', 'suiza', 'tunez', 'turkiye', 'ucrania',
+  'uruguay', 'uzbekistan', 'venezuela',
+  // Como las escribe el JSON de jugadores, que no siempre usa el nombre del juego.
+  'qatar', 'riiran', 'irlandan', 'paisesbajos', 'turquia', 'arabiasaudi',
+  // Las que la base trae y el juego todavía no modela como selección jugable.
+  'salvador', 'surinam', 'indonesia', 'nigeria', 'camerun', 'honduras',
+  // Y los COMBINADOS DE EXHIBICIÓN, que tampoco son clubes: los arma el JSON para partidos de gala
+  // y sus jugadores están todos, además, en su club real.
+  'mlsallstars', 'socceraid', 'serieaxi', 'bundesligaxi', 'premierleaguexi', 'ligue1xi',
+  'laligaxi', 'juventusxi', 'realmadridxi', 'bayernxi', 'chelseaxi',
 ]);
 
 // GENERACIÓN DINÁMICA DE LA BASE DE DATOS DEFINITIVA

@@ -28,9 +28,11 @@
  *   4. Los clubes que no recibian fichajes por culpa del nombre ahora se encuentran.
  *   5. Cada homonimo apunta a SU plantel, y ningun plantel de la base lo reclaman dos clubes: si dos
  *      lo comparten, uno esta alineando a los jugadores del otro y la pantalla se ve llena igual.
+ *   6. En la lista de clubes hay SOLO clubes. El JSON trae las selecciones y los combinados de gala
+ *      ("Premier League XI") como si fueran equipos, y se colaban entre los rivales posibles.
  */
 import { readFileSync } from 'fs';
-import { CLUBS_DATABASE } from '../src/data';
+import { CLUBS_DATABASE, ULTIMATE_CLUBS_DATABASE, ALL_NATIONAL_TEAMS_DATABASE } from '../src/data';
 import ALL_PLAYERS from '../src/playersDatabase.json';
 import { NOMBRES_DE_CLUB, nombreDelPlantel, nombresDeBusqueda, nombreEnCalendario } from '../src/clubAliases';
 import type { Club } from '../src/types';
@@ -186,7 +188,45 @@ const compartidos = [...porPlantel.entries()]
   .map(([n, cs]) => `"${n}" (${cuantosEnLaBase.get(n)} jugadores) <- ${cs.map(c => `${c.id} [${c.league}]`).join(' + ')}`);
 ok('ningún plantel de la base lo reclaman dos clubes', compartidos.length === 0, compartidos.join(' · '));
 
-// --- 7. El calendario sigue encontrando a los suyos ----------------------------------------------
+// --- 7. Ninguna selección se hace pasar por club -------------------------------------------------
+console.log('\n=== en la lista de clubes hay sólo clubes ===');
+// El JSON de jugadores trae las selecciones y los combinados de gala ("Premier League XI") como si
+// fueran equipos, y la lista de clubes los genera igual que a cualquier otro. Aparecían mezclados
+// con clubes en los sorteos de rivales: se podía terminar jugando contra Uzbekistán.
+//
+// COMO SE RECONOCEN, sin depender de una lista de países: casi todos sus jugadores figuran ADEMÁS en
+// otro equipo con el mismo player_id, porque su fila de verdad es la del club. Un club real no tiene
+// a su plantel entero duplicado en otro lado.
+const filas = new Map<string, number>();
+const compartidas = new Map<string, number>();
+const cuantasVeces = new Map<string, number>();
+for (const p of ALL_PLAYERS as any[]) cuantasVeces.set(p.player_id, (cuantasVeces.get(p.player_id) ?? 0) + 1);
+for (const p of ALL_PLAYERS as any[]) {
+  if (!p.team_name) continue;
+  filas.set(p.team_name, (filas.get(p.team_name) ?? 0) + 1);
+  if ((cuantasVeces.get(p.player_id) ?? 1) > 1) compartidas.set(p.team_name, (compartidas.get(p.team_name) ?? 0) + 1);
+}
+const deVerdad = new Set(clubes.map(c => c.name.toLowerCase()));
+const coladas = (ULTIMATE_CLUBS_DATABASE as Club[]).filter(c => {
+  if (deVerdad.has(c.name.toLowerCase())) return false;   // cargado a mano: es un club
+  const total = filas.get(c.name) ?? 0;
+  return total >= 15 && (compartidas.get(c.name) ?? 0) / total > 0.8;
+});
+ok('ninguna selección ni combinado figura como club', coladas.length === 0,
+   coladas.map(c => c.name).join(', '));
+
+// Y que ES_SELECCION_NACIONAL siga cubriendo a las 93 selecciones del juego. Es la lista que no se
+// puede derivar en data.ts -- se declara antes que ALL_NATIONAL_TEAMS_DATABASE -- así que el
+// acuerdo entre las dos se exige acá. Sin esto la lista se quedó corta y 21 selecciones andaban
+// sueltas por el juego haciéndose pasar por clubes.
+const nombresDeSeleccion = new Set((ULTIMATE_CLUBS_DATABASE as Club[]).map(c => c.name.toLowerCase()));
+const seleccionesComoClub = (ALL_NATIONAL_TEAMS_DATABASE as Club[])
+  .map(s => s.name.replace(/^Selección de /, ''))
+  .filter(pais => nombresDeSeleccion.has(pais.toLowerCase()));
+ok('ninguna de las 93 selecciones del juego aparece en la lista de clubes',
+   seleccionesComoClub.length === 0, seleccionesComoClub.join(', '));
+
+// --- 8. El calendario sigue encontrando a los suyos ----------------------------------------------
 console.log('\n=== el puente con el calendario sigue en pie ===');
 const conCalendario = Object.values(NOMBRES_DE_CLUB).filter(c => c.calendario).length;
 ok('la tabla conserva los alias de calendario', conCalendario > 100, `${conCalendario} clubes`);
