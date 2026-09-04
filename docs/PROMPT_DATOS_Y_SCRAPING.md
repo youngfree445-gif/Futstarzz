@@ -154,6 +154,13 @@ porque su nombre de Transfermarkt estaba cargado nada más en la del calendario.
 agrega ahí y en ningún otro lado.** `plantel: null` significa que la base no tiene a ese club, y es
 lo que evita que se lleve el plantel de su homónimo.
 
+**Para saber de quién es un plantel: `npm run sonda`** (opcional: el nombre de un club; sin
+argumentos revisa todos los que figuran sin plantel). Baja el plantel real de Transfermarkt y cuenta
+en qué equipo de la base están esos jugadores. Lo que importa es la DISTANCIA, no el porcentaje: 22
+contra 1 está resuelto, 9 contra 7 está empatado. Avisa cuando el equipo ganador ya es de otro club
+y cuando la búsqueda de TM devolvió un club distinto del que preguntaste — las dos trampas que
+tuvieron al Racing de Montevideo con el plantel de Avellaneda.
+
 **Reglas:**
 - Clubes → por `club.id`, y para desambiguar usar `resolverClubDeCalendario` con el torneo.
 - Un nombre nuevo de un club → a `NOMBRES_DE_CLUB`, y `npm run validar:alias` después.

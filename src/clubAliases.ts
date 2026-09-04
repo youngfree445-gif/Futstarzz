@@ -262,6 +262,28 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   // Los dos Racing Club. El de Avellaneda es "Racing Club" en la base y el de Montevideo
   // "Racing Club U.", pero el uruguayo se llama "Racing Club" a secas en data.ts: sin esta línea
   // buscaba su plantel por su propio nombre y alineaba a los 31 jugadores de Avellaneda.
+
+  // CATORCE CLUBES QUE TENIAN SU PLANTEL Y NO LO ENCONTRABAN, porque la base los escribe
+  // abreviados. Ninguno se acepto por parecerse el nombre: se bajo el plantel real de
+  // Transfermarkt y se conto en que equipo de la base estan sus jugadores (npm run sonda -- <club>).
+  // Al lado va la cuenta: los suyos contra el segundo equipo mas votado. Esa distancia es la prueba.
+  "deportes_antofagasta": { "nombre": "Deportes Antofagasta", "plantel": "Antofagasta" },
+  "san_marcos_de_arica": { "nombre": "San Marcos de Arica", "plantel": "San Marcos" },
+  "deportes_santa_cruz": { "nombre": "Deportes Santa Cruz", "plantel": "D. Santa Cruz" },
+  "san_luis_de_quillota": { "nombre": "San Luis de Quillota", "plantel": "San Luis" },
+  "vinotinto_fc": { "nombre": "Vinotinto FC", "plantel": "Vinotinto F.C." },
+  "alajuelense": { "nombre": "Alajuelense", "plantel": "LD Alajuelense" },
+  "herediano": { "nombre": "Herediano", "plantel": "C.S. Herediano" },
+  "wydad_casablanca": { "nombre": "Wydad Casablanca", "plantel": "Wydad A.C." },
+  "mineros": { "nombre": "Mineros", "plantel": "Mineros Z." },
+  "urawa_red_diamonds": { "nombre": "Urawa Red Diamonds", "plantel": "Urawa Reds" },
+  "santiago_morning": { "nombre": "Santiago Morning", "plantel": "Santiago M." },
+  "cd_tondela": { "nombre": "CD Tondela", "plantel": "Tondela" },
+  "jorge_wilstermann": { "nombre": "Jorge Wilstermann", "plantel": "Wilstermann" },
+  "atlético_tembetary": { "nombre": "Atlético Tembetary", "plantel": "A. Tembetary" },
+  // Y UNO QUE LA SONDA RECHAZO, que es lo que la hace confiable: el Santiago Wanderers de Chile daba
+  // 9 coincidencias con el equipo "Wanderers" de la base y parecia suyo. El Montevideo Wanderers da
+  // 19 sobre 24 con el mismo equipo: es del uruguayo. El chileno se queda sin plantel.
   "racing_club_uru": { "nombre": "Racing Club", "plantel": "Racing Club U." },
   "racing_club_de_strasbourg_alsace": { "nombre": "Racing Club de Strasbourg Alsace", "calendario": "RC Strasbourg Alsace", "plantel": "RC Strasbourg" },
   "rangers_fc": { "nombre": "Rangers FC", "plantel": "Rangers" },

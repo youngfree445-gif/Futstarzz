@@ -62,7 +62,8 @@
     "validar:ambientesinsilencio": "npx vite-node scripts/validar_ambiente_sin_silencio.ts",
     "validar:audio": "npx vite-node scripts/validar_audio.ts",
     "validar:tablas": "npx vite-node scripts/validar_tablas.ts",
-    "validar:alias": "npx vite-node scripts/validar_alias.ts"
+    "validar:alias": "npx vite-node scripts/validar_alias.ts",
+    "sonda": "node scripts/sonda_plantel.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
