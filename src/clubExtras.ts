@@ -67,7 +67,7 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   fc_utrecht: { dt: 'Anthony Correia', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🔴⚪' }, // Sin verificar de forma independiente
   feyenoord: { dt: 'Robin van Persie', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🔴⚪🟢' }, // Confirmado
   go_ahead_eagles: { dt: 'Joseph Oosting', badgeColor: 'border-l-4 border-amber-500 bg-red-950/40 text-amber-200', badgeLogoUrl: '🦅🔴🟡' }, // Corregido: Simonis/Boel ya no están, Oosting llegó en junio 2026
-  heracles_almelo: { dt: 'Por confirmar', badgeColor: 'border-l-4 border-zinc-900 bg-zinc-950/40 text-zinc-100', badgeLogoUrl: '⚫⚪' }, // Corregido a "sin confirmar": Van de Looi (dato del borrador inicial) ya se había ido
+  heracles_almelo: { dt: 'Vincent Heilmann', badgeColor: 'border-l-4 border-zinc-900 bg-zinc-950/40 text-zinc-100', badgeLogoUrl: '⚫⚪' },   // heracles.nl (web oficial), 20/05/2026 -- reemplazo a Ernest Faber tras el descenso
   nac_breda: { dt: 'Carl Hoefkens', badgeColor: 'border-l-4 border-amber-400 bg-zinc-950/40 text-amber-200', badgeLogoUrl: '🟡⚫' }, // Sin verificar de forma independiente
   nec_nijmegen: { dt: 'Dick Schreuder', badgeColor: 'border-l-4 border-red-600 bg-green-950/40 text-red-200', badgeLogoUrl: '🔴🟢⚫' }, // Corregido a "sin confirmar": Rogier Meijer (dato del borrador inicial acá) en realidad firmó con Sparta Rotterdam
   pec_zwolle: { dt: 'Henry van der Vegt', badgeColor: 'border-l-4 border-blue-500 bg-zinc-950/40 text-blue-200', badgeLogoUrl: '🔵⚪' }, // Corregido a "sin confirmar": Jansen (dato del borrador inicial) ya había anunciado su salida
@@ -105,7 +105,7 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   cesena: { dt: 'Alessandro Diamanti', badgeColor: 'border-l-4 border-zinc-900 bg-zinc-950/40 text-zinc-100', badgeLogoUrl: '⚫⚪🐴' }, // Sin verificar de forma independiente
   cittadella: { dt: 'Alessandro Dal Canto', badgeColor: 'border-l-4 border-red-800 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🟤🏰' }, // Sin verificar de forma independiente
   cosenza: { dt: 'Massimiliano Alvini', badgeColor: 'border-l-4 border-red-600 bg-blue-950/40 text-red-200', badgeLogoUrl: '🔴🔵🐺' }, // Sin verificar de forma independiente
-  cremonese: { dt: 'Por confirmar', badgeColor: 'border-l-4 border-red-500 bg-zinc-400/40 text-red-200', badgeLogoUrl: '🔴🩶' }, // Corregido a "sin confirmar": confirmé que Davide Nicola (posible confusión con Cagliari) fue destituido de Cremonese el 18/03/2026
+  cremonese: { dt: 'Fabio Pecchia', badgeColor: 'border-l-4 border-red-500 bg-zinc-400/40 text-red-200', badgeLogoUrl: '🔴🩶' }, // Corregido a "sin confirmar": confirmé que Davide Nicola (posible confusión con Cagliari) fue destituido de Cremonese el 18/03/2026
   frosinone: { dt: 'Leandro Greco', badgeColor: 'border-l-4 border-yellow-400 bg-blue-950/40 text-yellow-200', badgeLogoUrl: '🟡🔵🦁' }, // Sin verificar DT. Confirmado: ascendió a división 1 (ver data.ts, ya corregido)
   juve_stabia: { dt: 'Guido Pagliuca', badgeColor: 'border-l-4 border-yellow-400 bg-blue-950/40 text-yellow-200', badgeLogoUrl: '💛💙🐝' }, // Sin verificar de forma independiente
   mantova: { dt: 'Davide Possanzini', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🔴⚪' }, // Sin verificar de forma independiente
@@ -159,7 +159,7 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   real_sociedad_b: { dt: 'Ion Ansotegi', badgeColor: 'border-l-4 border-blue-600 bg-blue-950/40 text-blue-200', badgeLogoUrl: '🔵⚪' }, // Sin verificar de forma independiente
   real_zaragoza: { dt: 'Víctor Fernández', badgeColor: 'border-l-4 border-blue-600 bg-blue-950/40 text-blue-200', badgeLogoUrl: '🔵⚪' }, // Sin verificar de forma independiente
   sd_eibar: { dt: 'Jokin Aranbarri', badgeColor: 'border-l-4 border-blue-700 bg-blue-950/40 text-red-200', badgeLogoUrl: '🔵🔴' }, // Sin verificar de forma independiente
-  sd_huesca: { dt: 'Por confirmar', badgeColor: 'border-l-4 border-blue-600 bg-blue-950/40 text-red-200', badgeLogoUrl: '🔵🔴' }, // Corregido a "sin confirmar": Antonio Hidalgo (dato del borrador inicial) en realidad está en el Deportivo
+  sd_huesca: { dt: 'Raúl Jardiel', badgeColor: 'border-l-4 border-blue-600 bg-blue-950/40 text-red-200', badgeLogoUrl: '🔵🔴' },   // sdhuesca.es (web oficial), 03/06/2026 -- viene del Espanyol B, el club juega Primera RFEF
   ud_almeria: { dt: 'Xavier García Pimienta', badgeColor: 'border-l-4 border-red-600 bg-red-950/40 text-red-200', badgeLogoUrl: '🔴⚪' }, // Confianza media: su continuidad se menciona como aún no confirmada al 100%
   ud_las_palmas: { dt: 'Rubén de la Barrera', badgeColor: 'border-l-4 border-yellow-500 bg-yellow-950/40 text-yellow-200', badgeLogoUrl: '🟡🔵' }, // Sin verificar de forma independiente
 
@@ -405,4 +405,27 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   toronto_fc: { dt: 'Robin Fraser' },   // Toronto FC
   vancouver_whitecaps: { dt: 'Jesper Sørensen' },   // Vancouver Whitecaps
   celtic_fc: { dt: 'Martin O\'Neill' },   // Celtic FC
+
+  // ===== Al día con Transfermarkt (npm run tecnicos, 2026-09-04) =====
+  river: { dt: 'Leonardo Ponzio' },   // River Plate
+  tigres: { dt: 'Víctor Manuel Vucetich' },   // Tigres U.A.N.L.
+  racing_club_uru: { dt: 'Cristian Chambian' },   // Racing Club
+  "c_español_uru": { dt: 'Antonio Pacheco' },   // C. Español
+  maldonado_uru: { dt: 'Gabriel Di Noia' },   // Maldonado
+  "universidad_católica_ecu": { dt: 'Diego Martínez' },   // Universidad Católica de Quito
+  aucas: { dt: 'Norberto Araujo' },   // Aucas
+  always_ready: { dt: 'Pablo Godoy' },   // Always Ready
+  independiente_petrolero: { dt: 'Juan Pablo Grass' },   // Independiente Petrolero
+  wrexham: { dt: 'Phil Parkinson' },   // Wrexham
+  austin_fc: { dt: 'Davy Arnaud' },   // Austin FC
+  cf_montreal: { dt: 'Philippe Eullaffroy' },   // CF Montréal
+  columbus_crew: { dt: 'Laurent Courtois' },   // Columbus Crew
+  orlando_city: { dt: 'Martín Perelman' },   // Orlando City
+  philadelphia: { dt: 'Ryan Richter' },   // Philadelphia
+
+  // ===== A MANO: Transfermarkt no les muestra entrenador =====
+  // Cada uno verificado en su fuente, con fecha. npm run tecnicos no los pisa: cuando
+  // Transfermarkt no tiene entrenador devuelve null y saltea el club.
+  athletic_club: { dt: 'Alex de Souza' },   // ESPN Brasil y CNN Brasil, 21/02/2026 -- el ex Palmeiras/Cruzeiro, dirige al Athletic de Sao Joao del-Rei en Serie B
+  orense: { dt: 'Agustín Robles' },   // El Universo, 30/07/2026 -- interino RATIFICADO hasta fin de temporada; ojo: buscar "tecnico de Orense" devuelve a Hernan Torres, que es de marzo y quedo viejo
 };

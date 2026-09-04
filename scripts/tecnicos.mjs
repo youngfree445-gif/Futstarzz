@@ -86,9 +86,14 @@ function esElMismo(a, b) {
  * fuera el DT. En Junior el primero sí es el entrenador, y por eso el error no se veía probando con
  * el club que uno tiene a mano.
  *
- * El cargo tiene que decir "Entrenador" y nada más: "Entrenador Asistente", "Entrenador de porteros"
- * y "Empleado técnico" son otras personas. Si el club no tiene a nadie con ese cargo, se devuelve
- * null y se informa -- mejor un club sin técnico que un club con el ayudante en el lugar del DT.
+ * El cargo tiene que decir "Entrenador" o "Entrenador Interino", y nada más: "Entrenador Asistente",
+ * "Entrenador de porteros" y "Empleado técnico" son otras personas. Si el club no tiene a nadie con
+ * uno de esos dos cargos se devuelve null y se informa -- mejor un club sin técnico que un club con
+ * el ayudante en el lugar del DT.
+ *
+ * EL INTERINO CUENTA, y no es una concesión: es quien dirige al equipo hoy. Media MLS estaba así en
+ * pleno recambio -- Austin, Columbus, Orlando, Philadelphia y Montréal, los cinco con interino --,
+ * más el Racing de Montevideo. Dejarlos afuera era mostrar "DT Genérico" teniendo el nombre real.
  */
 async function tecnicoDe(id) {
   const res = await fetch(`https://www.transfermarkt.co/x/mitarbeiter/verein/${id}`, {
@@ -100,7 +105,8 @@ async function tecnicoDe(id) {
     const nombre = /^\d+"[^>]*>\s*([^<]{2,50})/.exec(bloque);
     const cargo = /<td>([^<]{4,40})<\/td>/.exec(bloque);
     if (!nombre || !cargo) continue;
-    if (decode(cargo[1]).toLowerCase() === 'entrenador') return decode(nombre[1]);
+    const suCargo = decode(cargo[1]).toLowerCase();
+    if (suCargo === 'entrenador' || suCargo === 'entrenador interino') return decode(nombre[1]);
   }
   return null;
 }

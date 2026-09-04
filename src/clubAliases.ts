@@ -335,7 +335,7 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "tsg_hoffenheim": { "nombre": "TSG Hoffenheim", "plantel": "TSG 1899 Hoffenheim" },
   "union_sf": { "nombre": "Unión de Santa Fe", "plantel": "Unión" },
   "u_catolica": { "nombre": "Universidad Católica", "calendario": "U. Católica", "plantel": "Uni. Católica" },
-  "universidad_católica_ecu": { "nombre": "Universidad Católica de Quito", "plantel": "U. Católica" },
+  "universidad_católica_ecu": { "nombre": "Universidad Católica de Quito", "plantel": "U. Católica", "otros": ["CD Universidad Católica"] },
   "u_chile": { "nombre": "Universidad de Chile", "calendario": "U. de Chile", "plantel": "U. de Chile" },
   "utc": { "nombre": "UTC", "otros": ["Universidad Técnica de Cajamarca"] },
   "vasco_da_gama": { "nombre": "Vasco da Gama", "calendario": "Club de Regatas Vasco da Gama" },
@@ -357,6 +357,11 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "adt": { "nombre": "ADT", "otros": ["Asociación Deportiva Tarma"] },
   "aguilas": { "nombre": "Águilas Doradas", "otros": ["Rionegro Águilas"] },
   "pasto": { "nombre": "Deportivo Pasto", "otros": ["Asociación Deportivo Pasto"] },
+  "cremonese": { "nombre": "Cremonese", "otros": ["US Cremonese"] },
+  "wrexham": { "nombre": "Wrexham", "otros": ["Wrexham AFC"] },
+  "aucas": { "nombre": "Aucas", "otros": ["SD Aucas"] },
+  "c_español_uru": { "nombre": "C. Español", "otros": ["Central Español FC"] },
+  "maldonado_uru": { "nombre": "Maldonado", "otros": ["Club Deportivo Maldonado"] },
 };
 
 // --- Lo que cada consumidor pregunta, respondido desde la tabla de arriba -----------------------
