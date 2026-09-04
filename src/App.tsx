@@ -4273,6 +4273,17 @@ export default function App() {
       setActiveGlobalScoreLabel(null);
       // Semana de copa: no hay Apertura/Clausura que mostrar.
       setActiveTorneoLabel(null);
+      // Y EL NOMBRE DE LA COMPETICIÓN TAMBIÉN SE BORRA ACÁ.
+      //
+      // No se borraba, y la rama de FASE DE GRUPOS no lo escribe -- sólo lo hacen las de eliminación
+      // directa --, así que el partido salía con el rótulo del ANTERIOR. Reportado jugando: una
+      // fecha de grupos de Libertadores contra Deportivo La Guaira apareció como "Copa BetPlay ·
+      // Semifinal (Ida)", que era el partido de tres días antes.
+      //
+      // Y no quedaba en un cartel equivocado: ese rótulo es de donde sale la ronda, así que el
+      // partido de grupos se fue AL ALARGUE. Un empate en la fase de grupos es un resultado válido
+      // que reparte un punto a cada uno; jugarle alargue rompe la tabla del grupo.
+      setActiveCompetitionName(null);
       let cupTeamCount: number | null = null;
 
       // DE QUIÉN ES EL DÍA.
@@ -4326,7 +4337,14 @@ export default function App() {
           isHomeThisMatch = upcoming.isHome;
           foundOpponentId = upcoming.opponentId;
 
+          const nombreDeEstaCopa = qualifiedCupId === 'sudamericana' ? 'Copa Sudamericana'
+            : qualifiedCupId === 'concacaf' ? 'Concacaf Champions Cup'
+            : 'Copa Libertadores';
+
           if (cup.stage === 'groups') {
+            // La fase de grupos también se rotula. Era la única rama que no lo hacía, y por eso el
+            // partido heredaba el nombre del anterior (ver el reset de más arriba).
+            setActiveCompetitionName(`${nombreDeEstaCopa} · Fase de grupos`);
             const myGroup = cup.groups.find(g => g.clubIds.includes(myClub.id));
             if (myGroup) {
               const sortedGroup = sortTable(myGroup.table);
@@ -4343,9 +4361,7 @@ export default function App() {
             // tres cosas, que en una eliminatoria es justo lo que se necesita saber.
             const llaves = cup.knockout.tiesByRound[cup.knockout.tiesByRound.length - 1];
             const miLlave = llaves?.find(t => t.clubAId === myClub.id || t.clubBId === myClub.id);
-            const nombreCopa = qualifiedCupId === 'sudamericana' ? 'Copa Sudamericana'
-              : qualifiedCupId === 'concacaf' ? 'Concacaf Champions Cup'
-              : 'Copa Libertadores';
+            const nombreCopa = nombreDeEstaCopa;
             const ronda = roundLabelByMatchCount(llaves?.length ?? 0);
             if (miLlave?.partidoUnico) {
               setActiveCompetitionName(`${nombreCopa} · ${ronda}`);
@@ -5411,7 +5427,19 @@ export default function App() {
         // fechas de cuadrangular no llevan esa marca -- llevan `esPlayoff` -- así que todas las
         // llaves del Clausura y del Apertura quedaban anotadas como "4-1 vs Por definir".
         // Encontrado en un reporte de bug del propio juego, con Tigres.
-        opponentName: fx.opponentName === RIVAL_POR_SORTEAR ? activeOpposition : fx.opponentName,
+        // Y EN LAS COPAS MANDA EL MOTOR, no el calendario, aunque el calendario traiga un nombre.
+        //
+        // El calendario importado nombra al rival de cada casilla con el del sorteo REAL de 2026.
+        // En la temporada 2 el grupo lo arma el motor por mérito y esos nombres ya no valen: el
+        // Junior jugó la fase de grupos contra Deportivo La Guaira -- la tarjeta lo decía bien y el
+        // partido fue contra él -- y quedó anotado "vs Deportivo Táchira", que es quien ocupaba esa
+        // casilla en el calendario de 2026. El historial y las rachas se arman con este nombre.
+        //
+        // En la temporada 1 no cambia nada: ahí el rival de copa lo pone el calendario, así que
+        // activeOpposition ya es el mismo nombre.
+        opponentName: fx.competition.kind !== 'league' && activeOpposition
+          ? activeOpposition
+          : (fx.opponentName === RIVAL_POR_SORTEAR ? activeOpposition : fx.opponentName),
         myGoals: results.golesMiEquipo,
         rivalGoals: results.golesRival,
       };
@@ -7125,7 +7153,11 @@ export default function App() {
             : seDefineConAlargue(
                 activeTorneoDeSelecciones ?? activeUefaCupId ?? activeCupId,
                 {
-                  esLaFinal: /final/i.test(activeCompetitionName ?? ''),
+                  // "SEMIFINAL" CONTIENE "FINAL". Con /final/i la semifinal de la Libertadores daba
+                  // alargue, que es justo lo contrario del reglamento: en la Conmebol las semis van
+                  // a penales directo y sólo la final lo lleva. Reportado jugando: un partido de
+                  // FASE DE GRUPOS rotulado "Semifinal" se fue al alargue.
+                  esLaFinal: /(?<!semi)final/i.test(activeCompetitionName ?? ''),
                   enEliminacionDirecta: activeSeleccionEnEliminacion,
                 })}
           torneoLabel={activeTorneoLabel}

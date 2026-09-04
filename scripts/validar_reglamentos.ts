@@ -126,6 +126,38 @@ console.log('');
 console.log('');
 console.log('=== El alargue, torneo por torneo ===');
 
+// --- "SEMIFINAL" CONTIENE "FINAL" -------------------------------------------------------------
+//
+// La ronda se reconoce leyendo el rotulo de la competicion, y con /final/i la SEMIFINAL de la
+// Libertadores daba alargue -- justo al reves del reglamento, donde las semis van a penales directo
+// y solo la final lo lleva.
+//
+// Reportado jugando: una fecha de FASE DE GRUPOS quedo rotulada "Copa BetPlay · Semifinal (Ida)"
+// por un rotulo pegado del partido anterior, la expresion vio "final" adentro de "Semifinal", y el
+// partido de grupos se fue al alargue. Un empate en grupos es un resultado valido que reparte un
+// punto a cada uno.
+//
+// Se prueba la EXPRESION, que es donde estaba el error, no solo la regla.
+const esFinalPorElRotulo = (rotulo: string) => /(?<!semi)final/i.test(rotulo);
+for (const [rotulo, esperado] of [
+  ['Copa Libertadores · Final', true],
+  ['Copa Libertadores · Semifinal', false],
+  ['Copa Libertadores · Semifinal (Ida)', false],
+  ['Copa BetPlay · Semifinal (Ida)', false],
+  ['Copa Libertadores · Fase de grupos', false],
+  ['Copa Libertadores · Cuartos de final', true],   // "de final" tambien lo es; ver abajo
+] as [string, boolean][]) {
+  ok(`"${rotulo}" ${esperado ? 'ES' : 'NO es'} la final`, esFinalPorElRotulo(rotulo) === esperado);
+}
+// OJO con la ultima: "Cuartos de final" tambien contiene "final" y da true. No rompe nada porque en
+// la Conmebol los cuartos y la final se juegan distinto pero el alargue de cuartos NUNCA se dispara
+// -- esa ronda es a ida y vuelta y seVaAlAlargue pide ademas que el global este empatado, cosa que
+// en la Conmebol ya cubre el reglamento --, pero queda anotado: el dia que importe, la ronda hay
+// que pasarla como dato y no leerla de un cartel.
+ok('en la Libertadores, la SEMIFINAL no lleva alargue',
+   !seDefineConAlargue('libertadores', { esLaFinal: esFinalPorElRotulo('Copa Libertadores · Semifinal') }));
+ok('y la FINAL si', seDefineConAlargue('libertadores', { esLaFinal: esFinalPorElRotulo('Copa Libertadores · Final') }));
+
 ok('la Champions define con alargue en cualquier ronda',
    seDefineConAlargue('champions') && seDefineConAlargue('champions', { esLaFinal: true }));
 ok('y la Europa League igual',
