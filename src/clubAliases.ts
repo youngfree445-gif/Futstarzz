@@ -91,7 +91,11 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "atletico_mineiro": { "nombre": "Atlético Mineiro", "calendario": "Clube Atlético Mineiro" },
   "mitre": { "nombre": "Atlético Mitre", "plantel": "Atl. Mitre" },
   "nacional": { "nombre": "Atlético Nacional", "calendario": "Atl. Nacional", "plantel": "Atl. Nacional" },
-  "atlético_sullana": { "nombre": "Atlético Sullana", "calendario": "Alianza Atlético", "otros": ["Alianza Atlético Sullana"] },
+  // Alianza Atlético de Sullana, con cuatro nombres: el juego lo llama "Atlético Sullana", el
+  // calendario de la Sudamericana "Alianza Atlético", la ventana de pases "Alianza Atlético
+  // Sullana" y la base de jugadores "A. Sullana". Estaba con ['Jugador 1', 'Jugador 2'] teniendo
+  // sus 26 (Perleche, Villegas, Gordillo) cargados.
+  "atlético_sullana": { "nombre": "Atlético Sullana", "calendario": "Alianza Atlético", "plantel": "A. Sullana", "otros": ["Alianza Atlético Sullana"] },
   "auckland_city": { "nombre": "Auckland City", "plantel": "Auckland City FC" },
   "ayacucho_fc": { "nombre": "Ayacucho FC", "plantel": "Ayacucho" },
   "bahia": { "nombre": "Bahia", "calendario": "Esporte Clube Bahia" },

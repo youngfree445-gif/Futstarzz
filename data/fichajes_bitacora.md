@@ -2962,3 +2962,2840 @@
 - Gabriel Vargas  (nuevo en la base) -> Dep. La Guaira
 - Tobías Quiroz  (nuevo en la base) -> Agentes libres
 - Bryan Castillo  (nuevo en la base) -> Carabobo FC
+
+## 2026-09-04 — 2834 movimientos
+
+- Reiss Nelson  Agentes libres -> Arsenal
+- Samuel Iling-Junior  Bolton Wanderers -> Aston Villa
+- Lewis Dobbin  Southampton -> Aston Villa
+- Joe Gauci  Lincoln City -> Aston Villa
+- Oliwier Zych  Vitória de Guimarães -> Aston Villa
+- Kosta Nedeljkovic  Rangers -> Aston Villa
+- Álex Jiménez  Fiorentina -> AFC Bournemouth
+- Will Dennis  Milton Keynes Dons -> AFC Bournemouth
+- Ben Winterburn  Agentes libres -> AFC Bournemouth
+- Hamed Traoré  Genoa -> AFC Bournemouth
+- Matthew Cox  Barnet -> Brentford
+- Benjamin Arthur  Portsmouth -> Brentford
+- Josh Stephenson  Crewe Alexandra -> Brentford
+- Yunus Konak  Lincoln City -> Brentford
+- Chema Andrés  VfB Stuttgart -> Brighton & Hove Albion
+- Femi Azeez  Millwall -> Brighton & Hove Albion
+- Rodrigo Rêgo  CD Castellón -> Brighton & Hove Albion
+- Tommy Watson  Leicester City -> Brighton & Hove Albion
+- Amario Cozier-Duberry  Bolton Wanderers -> Brighton & Hove Albion
+- Facundo Buonanotte  Elche CF -> Brighton & Hove Albion
+- Nicolas Jackson  Aston Villa -> Chelsea
+- David Datro Fofana  Servette FC -> Chelsea
+- Norman Bassette  Agentes libres -> Coventry City
+- Kai Andrews  Oxford United -> Coventry City
+- Quinten Timber  Olympique de Marseille -> Crystal Palace
+- Darío Osorio  FC Midtjylland -> Crystal Palace
+- Ben Chilwell  RC Strasbourg -> Crystal Palace
+- Axel Disasi  Chelsea -> Crystal Palace
+- Romain Esse  Coventry City -> Crystal Palace
+- Owen Goodman  Dundee FC -> Crystal Palace
+- Tyrique George  Chelsea -> Everton
+- Ainsley Maitland-Niles  Olympique Lyonnais -> Everton
+- Tyler Onyango  Sheffield Wednesday -> Everton
+- David Affengruber  Elche CF -> Fulham
+- Jonah Kusi-Asare  Agentes libres -> Fulham
+- Manuel Ángel  Agentes libres -> Fulham
+- Hugo Larsson  Eintracht Frankfurt -> Fulham
+- Steven Benda  Nottingham Forest -> Fulham
+- Tim Iroegbunam  Everton -> Hull City
+- Christos Mouzakitis  Olympiacos -> Hull City
+- Brooke Norton-Cuffy  Genoa -> Hull City
+- Sorba Thomas  Stoke City -> Hull City
+- Robinio Vaz  Roma -> Hull City
+- Thimothée Lo-Tutala  Colchester United -> Hull City
+- Enis Destan  Konyaspor -> Hull City
+- Kasey Palmer  Luton Town -> Hull City
+- Harry Vaughan  Agentes libres -> Hull City
+- Abu Kamara  Portsmouth -> Hull City
+- Harvey Cartwright  Grimsby Town -> Hull City
+- Mason Burstow  Sheffield Wednesday -> Hull City
+- Zian Flemming  Burnley -> Ipswich Town
+- Florentino  Burnley -> Ipswich Town
+- Kayne van Oevelen  Valencia CF -> Ipswich Town
+- Cameron Humphreys  Huddersfield Town -> Ipswich Town
+- Ali Al-Hamadi  Sheffield Wednesday -> Ipswich Town
+- Chiedozie Ogbene  Sheffield United -> Ipswich Town
+- Conor Chaplin  Leicester City -> Ipswich Town
+- Cieran Slicker  Barnsley -> Ipswich Town
+- Jean-Mattéo Bahoya  Eintracht Frankfurt -> Leeds United
+- Melvin Bard  OGC Nice -> Leeds United
+- Maximilian Wöber  FC Schalke 04 -> Leeds United
+- Isaac Schmidt  BSC Young Boys -> Leeds United
+- Jack Harrison  New England Revolution -> Leeds United
+- Joe Gelhardt  Hull City -> Leeds United
+- Lucca Brughmans  Genk -> Liverpool
+- Ifeanyi Ndukwe  Levante UD -> Liverpool
+- Harvey Elliott  Valencia CF -> Liverpool
+- Enzo Fernández  Chelsea -> Manchester City
+- Iliman Ndiaye  Everton -> Manchester City
+- Mathys Detourbet  AS Monaco -> Manchester City
+- Manuel Akanji  Agentes libres -> Manchester City
+- Juma Bah  FC Augsburg -> Manchester City
+- Toby Collyer  West Bromwich Albion -> Manchester United
+- Jadon Sancho  Agentes libres -> Manchester United
+- Radek Vítek  Middlesbrough -> Manchester United
+- Nico González  Juventus -> Newcastle United
+- Harrison Ashby  Luton Town -> Newcastle United
+- Joe White  Crewe Alexandra -> Newcastle United
+- Gustavo Sá  Olympiacos -> Nottingham Forest
+- Steven Benda  Fulham -> Nottingham Forest
+- Jota Silva  Olympiacos -> Nottingham Forest
+- Omar Richards  Agentes libres -> Nottingham Forest
+- David Carmo  Olympiacos -> Nottingham Forest
+- Tyler Bindon  Charlton Athletic -> Nottingham Forest
+- Malick Fofana  Olympique Lyonnais -> Sunderland
+- Kevin Danso  Tottenham Hotspur -> Sunderland
+- Luís Semedo  Clermont Foot -> Sunderland
+- Niall Huggins  Agentes libres -> Sunderland
+- Nazariy Rusyn  Agentes libres -> Sunderland
+- Dan Neil  Rangers -> Sunderland
+- Arthur Masuaku  Konyaspor -> Sunderland
+- Anthony Patterson  Wrexham -> Sunderland
+- Leo Hjelde  KV Mechelen -> Sunderland
+- Tosin Adarabioyo  Agentes libres -> Tottenham Hotspur
+- Min-hyeok Yang  Agentes libres -> Tottenham Hotspur
+- Manor Solomon  West Ham United -> Tottenham Hotspur
+- Kota Takai  Agentes libres -> Tottenham Hotspur
+- Luka Vuskovic  Brighton & Hove Albion -> Tottenham Hotspur
+- Alejo Veliz  Bahia -> Tottenham Hotspur
+- Ashley Phillips  Middlesbrough -> Tottenham Hotspur
+- James Beadle  Brighton & Hove Albion -> Birmingham City
+- Liam Millar  Hull City -> Birmingham City
+- Moussa Baradji  Agentes libres -> Blackburn Rovers
+- Connor O'Riordan  Barnsley -> Blackburn Rovers
+- Samuel Iling-Junior  Aston Villa -> Bolton Wanderers
+- Charlie Warren  Accrington Stanley -> Bolton Wanderers
+- Joel Randall  Blackpool -> Bolton Wanderers
+- Lewis Temple  Oldham Athletic -> Bolton Wanderers
+- Sam Inwood  Swindon Town -> Bolton Wanderers
+- Richard Taylor  Bromley -> Bolton Wanderers
+- Szabolcs Schön  Agentes libres -> Bolton Wanderers
+- Rio Cardines  Crystal Palace -> Bristol City
+- Brian De Keersmaecker  Oxford United -> Bristol City
+- Josh Stokes  Reading -> Bristol City
+- Florentino  Ipswich Town -> Burnley
+- Reo Hatate  Celtic -> Burnley
+- Igor Julio  Brighton & Hove Albion -> Burnley
+- Dastan Satpaev  Chelsea -> Burnley
+- Largie Ramazani  Leeds United -> Burnley
+- Max Alleyne  Manchester City -> Burnley
+- Oluwaseun Adewumi  Hertha BSC -> Burnley
+- Owen Dodgson  Stockport County -> Burnley
+- Nathan Trott  Agentes libres -> Cardiff City
+- Calum Scanlon  Agentes libres -> Cardiff City
+- Kion Etete  St. Mirren -> Cardiff City
+- Roko Simic  1. FC Magdeburg -> Cardiff City
+- Tanatswa Nyakuhwa  Newport County -> Cardiff City
+- Jesper Daland  Viking FK -> Cardiff City
+- Junior Nkeng  AFC Wimbledon -> Charlton Athletic
+- Tyler Bindon  Nottingham Forest -> Charlton Athletic
+- Oliver Skipp  Leicester City -> Charlton Athletic
+- Karoy Anderson  Blackpool -> Charlton Athletic
+- Gassan Ahadme  Cambridge United -> Charlton Athletic
+- Nathan Asiimwe  Salford City -> Charlton Athletic
+- Ibrahim Fullah  Milton Keynes Dons -> Charlton Athletic
+- Daniel Kanu  Notts County -> Charlton Athletic
+- Zach Mitchell  Agentes libres -> Charlton Athletic
+- Keenan Gough  Bristol Rovers -> Charlton Athletic
+- Bobby Clark  RB Salzburg -> Derby County
+- Eiran Cashin  Brighton & Hove Albion -> Derby County
+- Mohammed Fuseini  Union Saint-Gilloise -> Derby County
+- Dajaune Brown  Agentes libres -> Derby County
+- Andreas Weimann  Cheltenham Town -> Derby County
+- Andrei Coubiș  Universitatea Cluj -> Lincoln City
+- Tanto Olaofe  Charlton Athletic -> Lincoln City
+- Daniel Oyegoke  Agentes libres -> Lincoln City
+- Mason Melia  Agentes libres -> Lincoln City
+- Chiedozie Ogbene  Ipswich Town -> Lincoln City
+- Yunus Konak  Brentford -> Lincoln City
+- Joe Gauci  Aston Villa -> Lincoln City
+- Oscar Thorn  Colchester United -> Lincoln City
+- Oisín Gallagher  Barnet -> Lincoln City
+- Zane Okoro  Tranmere Rovers -> Lincoln City
+- Zach Jeacock  Northampton Town -> Lincoln City
+- Ashley Phillips  Tottenham Hotspur -> Middlesbrough
+- Radek Vítek  Manchester United -> Middlesbrough
+- Jeremy Sarmiento  Brighton & Hove Albion -> Middlesbrough
+- Amario Cozier-Duberry  Brighton & Hove Albion -> Middlesbrough
+- Connor Barron  Rangers -> Middlesbrough
+- Finley Munroe  Blackpool -> Middlesbrough
+- Delano Burgzorg  Preston North End -> Middlesbrough
+- Filip Marschall  Stevenage -> Millwall
+- Romain Esse  Crystal Palace -> Millwall
+- Ajay Matthews  Leyton Orient -> Millwall
+- Ra'ees Bangura-Williams  Cambridge United -> Millwall
+- Kamarl Grant  Bromley -> Millwall
+- Louie Moulden  Accrington Stanley -> Norwich City
+- Abu Kamara  Hull City -> Portsmouth
+- Tyrese Shade  Burton Albion -> Portsmouth
+- Benjamin Arthur  Brentford -> Portsmouth
+- Ryan Kavuma-McQueen  Agentes libres -> Portsmouth
+- Jayden Meghoma  Rangers -> Portsmouth
+- Jordan Williams  Blackpool -> Portsmouth
+- Toby Steward  Agentes libres -> Portsmouth
+- Josh Knight  Reading -> Portsmouth
+- Hayden Matthews  Bradford City -> Portsmouth
+- Josef Bursik  AFC Wimbledon -> Portsmouth
+- Alfie Devine  Tottenham Hotspur -> Preston North End
+- Johnny Kenny  Celtic -> Preston North End
+- Caleb Wiley  Chelsea -> Preston North End
+- Delano Burgzorg  Middlesbrough -> Preston North End
+- Liam Gibbs  Norwich City -> Preston North End
+- Kitt Nelson  Agentes libres -> Preston North End
+- Li-Bau Stowell  Agentes libres -> Preston North End
+- Pierce Charles  Manchester City -> Queens Park Rangers
+- Ziyad Larkeche  Barnsley -> Queens Park Rangers
+- Hevertton  Agentes libres -> Queens Park Rangers
+- Kieran Morgan  Bradford City -> Queens Park Rangers
+- Joe Walsh  Wigan Athletic -> Queens Park Rangers
+- Elijah Dixon-Bonner  Agentes libres -> Queens Park Rangers
+- Zan Celar  FC Basel -> Queens Park Rangers
+- Romelle Donovan  Brentford -> Sheffield United
+- Liam Kitching  Coventry City -> Sheffield United
+- Louie Marsh  Chesterfield -> Sheffield United
+- Sam Curtis  Cambridge United -> Sheffield United
+- Luke Faxon  Agentes libres -> Sheffield United
+- Christian Nwachukwu  Agentes libres -> Sheffield United
+- Ivo Grbic  Agentes libres -> Sheffield United
+- Lewis Dobbin  Aston Villa -> Southampton
+- Daniel Peretz  Agentes libres -> Southampton
+- George Long  Norwich City -> Southampton
+- Zach Abbott  Nottingham Forest -> Southampton
+- Yukinari Sugawara  Cagliari -> Southampton
+- Ben Brereton Díaz  Sheffield United -> Southampton
+- Nicholas Oyekunle  Leyton Orient -> Southampton
+- Charlie Taylor  Derby County -> Southampton
+- Will Smallbone  Agentes libres -> Southampton
+- Joe Aribo  Agentes libres -> Southampton
+- Justin Devenny  Crystal Palace -> Stoke City
+- Jack McGlynn  Houston Dynamo -> Stoke City
+- Ben Johnson  Ipswich Town -> Stoke City
+- Emre Tezgel  Wycombe Wanderers -> Stoke City
+- True Grant  Agentes libres -> Stoke City
+- Tommy Simkin  Doncaster Rovers -> Stoke City
+- Nikola Jojic  Agentes libres -> Stoke City
+- Stephen Eustaquio  FC Porto -> Swansea City
+- Jenson Seelt  Sunderland -> Swansea City
+- Jeremy Monga  Manchester City -> Swansea City
+- Tiago Parente  Estoril -> Swansea City
+- Cameron Congreve  Agentes libres -> Swansea City
+- Oliver Cooper  Notts County -> Swansea City
+- Sam Parker  Wycombe Wanderers -> Swansea City
+- Bobby Wales  Dundee FC -> Swansea City
+- Josh Thomas  Fleetwood Town -> Swansea City
+- Myron Boadu  PSV -> Watford
+- Soumaïla Coulibaly  RC Strasbourg -> Watford
+- Stephy Mavididi  Leicester City -> Watford
+- Jorge Hurtado  Deportes Tolima -> Watford
+- Alfie Marriott  Agentes libres -> Watford
+- Tom Dele-Bashiru  Agentes libres -> Watford
+- Myles Roberts  Agentes libres -> Watford
+- Toby Collyer  Manchester United -> West Bromwich Albion
+- Brayann Pereira  NEC Nijmegen -> West Bromwich Albion
+- Manor Solomon  Tottenham Hotspur -> West Ham United
+- Adama Boiro  Athletic Club de Bilbao -> West Ham United
+- Morato  Nottingham Forest -> West Ham United
+- Divine Mukasa  Agentes libres -> West Ham United
+- Kaelan Casey  Stevenage -> West Ham United
+- Callum Marshall  Luton Town -> West Ham United
+- Niclas Füllkrug  Werder Bremen -> West Ham United
+- James Ward-Prowse  Southampton -> West Ham United
+- Ladislav Krejci  Girona FC -> Wolverhampton Wanderers
+- Sean Neave  Newcastle United -> Wolverhampton Wanderers
+- Ghislain Konan  Agentes libres -> Wolverhampton Wanderers
+- Anthony Patterson  Sunderland -> Wrexham
+- Issa Kaboré  Manchester City -> Wrexham
+- Ryan Barnett  Milton Keynes Dons -> Wrexham
+- Mo Faal  Port Vale -> Wrexham
+- Ryan Hardie  Bolton Wanderers -> Wrexham
+- Paul Mullin  Rotherham United -> Wrexham
+- Conor Coady  Agentes libres -> Wrexham
+- Andy Cannon  Fleetwood Town -> Wrexham
+- Tom Kelly  Agentes libres -> Wrexham
+- Dominik Livakovic  Fenerbahçe -> FC Barcelona
+- João Cancelo  Agentes libres -> FC Barcelona
+- Marc ter Stegen  Ajax -> FC Barcelona
+- Héctor Fort  Real Sociedad -> FC Barcelona
+- Iñaki Peña  Panathinaikos -> FC Barcelona
+- Áron Yaakobishvili  UD Almería -> FC Barcelona
+- Álex Forés  Burgos CF -> Villarreal CF
+- Dani Requena  Levante UD -> Villarreal CF
+- Ramón Terrats  Getafe CF -> Villarreal CF
+- Jonathan David  Juventus -> Atlético de Madrid
+- Horațiu Moldovan  Eyüpspor -> Atlético de Madrid
+- Dani Ceballos  Agentes libres -> Real Betis Balompié
+- Gonzalo Petit  Cádiz CF -> Real Betis Balompié
+- Nobel Mendy  Hull City -> Real Betis Balompié
+- Guilherme Fernandes  Córdoba CF -> Real Betis Balompié
+- Sebastián Cáceres  América -> RC Celta de Vigo
+- Unai Núñez  Agentes libres -> RC Celta de Vigo
+- Damián Rodríguez  Cádiz CF -> RC Celta de Vigo
+- Martín Satriano  Agentes libres -> Getafe CF
+- Mario Martín  Real Madrid -> Getafe CF
+- Ramón Terrats  Villarreal CF -> Getafe CF
+- Juan Berrocal  Málaga CF -> Getafe CF
+- Peter Federico  Górnik Zabrze -> Getafe CF
+- Coba da Costa  Al Kholood -> Getafe CF
+- Nobel Mendy  Real Betis Balompié -> Rayo Vallecano
+- Emil Audero  Como -> Rayo Vallecano
+- Etienne Eto'o  Agentes libres -> Rayo Vallecano
+- Harvey Elliott  Liverpool -> Valencia CF
+- Kayne van Oevelen  Ipswich Town -> Valencia CF
+- Alberto Marí  Agentes libres -> Valencia CF
+- Cenk Özkacar  Trabzonspor -> Valencia CF
+- Héctor Fort  FC Barcelona -> Real Sociedad
+- Carlos Fernández  Real Oviedo -> Real Sociedad
+- Javi López  Feyenoord -> Real Sociedad
+- Mikel Goti  Real Oviedo -> Real Sociedad
+- Unai Núñez  RC Celta de Vigo -> RCD Espanyol
+- Quilindschy Hartman  Agentes libres -> RCD Espanyol
+- Bryan Zaragoza  Agentes libres -> RCD Espanyol
+- Gabriel Moscardo  Agentes libres -> RCD Espanyol
+- Pablo Ramón  Agentes libres -> RCD Espanyol
+- Javi Hernández  CD Mirandés -> RCD Espanyol
+- José Salinas  Agentes libres -> RCD Espanyol
+- Roger Hinojo  Cultural Leonesa -> RCD Espanyol
+- José Gragera  Burgos CF -> RCD Espanyol
+- Justin Smith  Real Sporting de Gijón -> RCD Espanyol
+- Omar Sadik  AD Ceuta -> RCD Espanyol
+- Julen Agirrezabala  Racing de Santander -> Athletic Club de Bilbao
+- Lucas Stassin  AS Saint-Étienne -> Sevilla FC
+- Youssouf Fofana  Milano FC -> Sevilla FC
+- Adrià Pedrosa  Rayo Vallecano -> Sevilla FC
+- Rafa Mir  Agentes libres -> Sevilla FC
+- Ville Koski  Agentes libres -> Deportivo Alavés
+- Adrián Pica  Agentes libres -> Deportivo Alavés
+- Nikola Maras  Agentes libres -> Deportivo Alavés
+- Unai Ropero  Agentes libres -> Deportivo Alavés
+- Daouda Doumbia  Agentes libres -> Deportivo Alavés
+- Kevin Lomónaco  Independiente -> Elche CF
+- Gonzalo Villar  Dinamo Zagreb -> Elche CF
+- Rubén Sánchez  RCD Espanyol -> Elche CF
+- Facundo Buonanotte  Brighton & Hove Albion -> Elche CF
+- Thomas Lemar  Atlético de Madrid -> Elche CF
+- Axel Werner  Rosario Central -> Elche CF
+- Petar Ratkov  Latium -> Levante UD
+- Ifeanyi Ndukwe  Liverpool -> Levante UD
+- Dani Requena  Villarreal CF -> Levante UD
+- Edgar Alcañiz  Agentes libres -> Levante UD
+- Dani Martín  Real Valladolid -> Levante UD
+- Pablo García  Real Betis Balompié -> Racing de Santander
+- Julen Agirrezabala  Athletic Club de Bilbao -> Racing de Santander
+- Asier Villalibre  Deportivo Alavés -> Racing de Santander
+- Pablo Ramón  RCD Espanyol -> Racing de Santander
+- Yeray Cabanzón  Real Valladolid -> Racing de Santander
+- Neco Celorio  Agentes libres -> Racing de Santander
+- Juan Berrocal  Getafe CF -> Málaga CF
+- Jens Cajuste  Napoli -> Málaga CF
+- José Salinas  RCD Espanyol -> Málaga CF
+- Cyle Larin  Southampton -> RCD Mallorca
+- Marc Domènech  Agentes libres -> RCD Mallorca
+- Carles Pérez  RC Celta de Vigo -> Girona FC
+- Min-su Kim  Rangers -> Girona FC
+- Antal Yaakobishvili  Agentes libres -> Girona FC
+- Jhon Solís  Birmingham City -> Girona FC
+- Ladislav Krejci  Wolverhampton Wanderers -> Girona FC
+- Toni Fuidias  Agentes libres -> Girona FC
+- Gabriel Misehouy  NAC Breda -> Girona FC
+- Carlos Fernández  Real Sociedad -> Real Oviedo
+- Mikel Goti  Real Sociedad -> Real Oviedo
+- Alberto del Moral  Agentes libres -> Real Oviedo
+- Daniel Paraschiv  Agentes libres -> Real Oviedo
+- Joaquín Delgado  Real Zaragoza -> Real Oviedo
+- Álex Cardero  Cultural Leonesa -> Real Oviedo
+- Áron Yaakobishvili  FC Barcelona -> UD Almería
+- Marko Perovic  Raków Częstochowa -> UD Almería
+- Edgar González  Agentes libres -> UD Almería
+- Selvi Clua  Casa Pia -> UD Almería
+- Rubén Quintanilla  Agentes libres -> UD Almería
+- Arvin Appiah  Agentes libres -> UD Almería
+- Marko Milovanović  Portsmouth -> UD Almería
+- Taisei Miyashiro  Agentes libres -> UD Las Palmas
+- Iván Cédric  Agentes libres -> UD Las Palmas
+- Rodrigo Rêgo  Brighton & Hove Albion -> CD Castellón
+- Matías Orozco  Brighton & Hove Albion -> CD Castellón
+- Serpeta  Agentes libres -> CD Castellón
+- Mamadou Traoré  Agentes libres -> CD Castellón
+- Albert Lottin  Agentes libres -> CD Castellón
+- Jozhua Vertrouwd  Rayo Vallecano -> CD Castellón
+- Álex Forés  Villarreal CF -> Burgos CF
+- Unai Vencedor  Athletic Club de Bilbao -> Burgos CF
+- Oier Luengo  Real Oviedo -> Burgos CF
+- José Gragera  RCD Espanyol -> Burgos CF
+- Iker Alday  Agentes libres -> SD Eibar
+- Ángel Troncho  Agentes libres -> SD Eibar
+- Oscar Carrasco  Agentes libres -> SD Eibar
+- Alejo Sarco  Agentes libres -> Real Sporting de Gijón
+- Hugo Guillamón  Hajduk Split -> Real Sporting de Gijón
+- Jorge Sáenz  Agentes libres -> Real Sporting de Gijón
+- Konrad de la Fuente  FC Lausanne-Sport -> Real Sporting de Gijón
+- Andrés Cuenca  Agentes libres -> Real Sporting de Gijón
+- Emanuel Gularte  Agentes libres -> Real Sporting de Gijón
+- Juan Gutiérrez  Agentes libres -> Córdoba CF
+- Unai Sabroso  Agentes libres -> Córdoba CF
+- Guilherme Fernandes  Real Betis Balompié -> Córdoba CF
+- Diego Bri  Agentes libres -> Córdoba CF
+- Nélson Monte  UD Almería -> Córdoba CF
+- Mariano Carmona  Agentes libres -> Córdoba CF
+- Matías Barboza  Agentes libres -> Córdoba CF
+- Toni Abad  SD Huesca -> AD Ceuta
+- Omar Sadik  RCD Espanyol -> AD Ceuta
+- Bless Aniekan  Agentes libres -> AD Ceuta
+- Iomar Vidal  Agentes libres -> AD Ceuta
+- Jovanny Bolívar  Agentes libres -> Albacete Balompié
+- Antonio David  Cesena -> Albacete Balompié
+- Jesús Owono  Deportivo Alavés -> FC Andorra
+- Arón Rodrigo  CD Mirandés -> FC Andorra
+- Diego Díaz  Racing de Santander -> FC Andorra
+- Luismi Redondo  SD Huesca -> FC Andorra
+- Juanda Fuentes  Agentes libres -> FC Andorra
+- Jan Encuentra  Agentes libres -> FC Andorra
+- Berto Rosas  Agentes libres -> FC Andorra
+- Christos Albanis  Agentes libres -> FC Andorra
+- Aitor Uzkudun  CD Mirandés -> FC Andorra
+- Martin Hongla  Agentes libres -> Granada CF
+- Stoichkov  Agentes libres -> Granada CF
+- Kazunari Kita  Agentes libres -> Real Sociedad B
+- Alfred Gøthler  Agentes libres -> CD Leganés
+- Álvaro Morata  Como -> CD Leganés
+- Benjamin Pauwels  Casa Pia -> CD Leganés
+- Miguel de la Fuente  UD Almería -> CD Leganés
+- Yeray Cabanzón  Racing de Santander -> Real Valladolid
+- Clément Michelin  Racing de Santander -> Real Valladolid
+- Dani Martín  Levante UD -> Real Valladolid
+- Tay Abed  Levante UD -> Real Valladolid
+- Jorge Delgado  Cultural Leonesa -> Real Valladolid
+- Xavi Moreno  Agentes libres -> Real Valladolid
+- Gonzalo Petit  Real Betis Balompié -> Cádiz CF
+- Damián Rodríguez  RC Celta de Vigo -> Cádiz CF
+- Víctor Chust  Elche CF -> Cádiz CF
+- Usher Lobede  Agentes libres -> Cádiz CF
+- Isaac Obeng  Agentes libres -> Cádiz CF
+- David García  Agentes libres -> Cádiz CF
+- Chris Ramos  Real Oviedo -> Cádiz CF
+- Curtis Jones  Agentes libres -> Lombardia FC
+- Djed Spence  Agentes libres -> Lombardia FC
+- Aleksandar Stanković  Agentes libres -> Lombardia FC
+- Manuel Akanji  Manchester City -> Lombardia FC
+- Ivan Provedel  Agentes libres -> Lombardia FC
+- John Stones  Agentes libres -> Lombardia FC
+- Ebenezer Akinsanmiro  Monza -> Lombardia FC
+- Yanis Massolin  Cagliari -> Lombardia FC
+- Kristjan Asllani  Agentes libres -> Lombardia FC
+- Franco Carboni  Agentes libres -> Lombardia FC
+- Tomás Palacios  Agentes libres -> Lombardia FC
+- Davide Frattesi  Agentes libres -> Lombardia FC
+- Valentín Carboni  Racing Club -> Lombardia FC
+- Benjamin Pavard  Agentes libres -> Lombardia FC
+- Sebastiano Esposito  Sassuolo -> Lombardia FC
+- Rasmus Højlund  Manchester United -> Napoli
+- Mattia Esposito  Bari -> Napoli
+- Emanuele Rao  Pisa -> Napoli
+- Lorenzo Russo  Agentes libres -> Napoli
+- Jesper Lindstrøm  RB Salzburg -> Napoli
+- Michael Folorunsho  Monza -> Napoli
+- Alessio Zerbin  Frosinone -> Napoli
+- Claudio Turi  Agentes libres -> Napoli
+- Jens Cajuste  Málaga CF -> Napoli
+- Nosa Edward Obaretin  FC Lorient -> Napoli
+- Luis Hasa  Frosinone -> Napoli
+- Walid Cheddira  Avellino -> Napoli
+- Antonio Cioffi  Agentes libres -> Napoli
+- Coli Saco  Agentes libres -> Napoli
+- Cyril Ngonge  Monza -> Napoli
+- Lorenzo Sgarbi  Agentes libres -> Napoli
+- Donyell Malen  Aston Villa -> Roma
+- Mattia Mannini  Benevento -> Roma
+- Eldor Shomurodov  Agentes libres -> Roma
+- Riccardo Pagano  Cesena -> Roma
+- Marash Kumbulla  Rayo Vallecano -> Roma
+- Luigi Cherubini  Benevento -> Roma
+- Filippo Reale  Carrarese -> Roma
+- Buba Sangaré  Elche CF -> Roma
+- Álvaro Morata  CD Leganés -> Como
+- Andrés Cuenca  Real Sporting de Gijón -> Como
+- Robert Sánchez  Chelsea -> Como
+- Federico Chinetti  Mantova -> Como
+- Fabio Rispoli  Südtirol -> Como
+- Emil Audero  Rayo Vallecano -> Como
+- Alieu Fadera  Cagliari -> Como
+- Iván Azón  Getafe CF -> Como
+- Ali Jasim  Agentes libres -> Como
+- Jacopo Simonetta  Agentes libres -> Como
+- Alessandro Gabrielloni  Palermo -> Como
+- Yannik Engelhardt  SC Freiburg -> Como
+- Giuseppe Mazzaglia  Agentes libres -> Como
+- Tommaso Cassandro  Palermo -> Como
+- Fellipe Jack  Cremonese -> Como
+- Tommaso Fumagalli  Agentes libres -> Como
+- Andrej Kostić  Sparta Rotterdam -> Milano FC
+- Álvaro Morata  Como -> Milano FC
+- Álex Jiménez  AFC Bournemouth -> Milano FC
+- Ismaël Bennacer  Agentes libres -> Milano FC
+- Arthur Melo  Santos -> Juventus
+- Facundo González  Racing de Santander -> Juventus
+- Nico González  Newcastle United -> Juventus
+- Eljif Elmas  Agentes libres -> Bergamo Calcio
+- Marco Palestra  Chelsea -> Bergamo Calcio
+- Giovanni Bonfanti  UD Las Palmas -> Bergamo Calcio
+- Marco Brescianini  Agentes libres -> Bergamo Calcio
+- El Bilal Touré  Parma -> Bergamo Calcio
+- Ben Godfrey  Rangers -> Bergamo Calcio
+- Ibrahim Sulemana  Sassuolo -> Bergamo Calcio
+- Daniel Maldini  Cagliari -> Bergamo Calcio
+- Tommaso Pobega  Milano FC -> Bologna
+- Luigi Caccavo  Juve Stabia -> Bologna
+- Wisdom Amey  Frosinone -> Bologna
+- Niklas Pyyhtiä  Südtirol -> Bologna
+- Manuel Rosetti  Agentes libres -> Bologna
+- Tommaso Ebone  Agentes libres -> Bologna
+- Mattia Motolese  Entella -> Bologna
+- Michel Aebischer  1. FC Union Berlin -> Bologna
+- Orji Okwonkwo  Agentes libres -> Bologna
+- Mihajlo Ilić  Cesena -> Bologna
+- Riccardo Stivanello  Südtirol -> Bologna
+- Lorenzo Menegazzo  Agentes libres -> Bologna
+- Giovanni Fabbian  Parma -> Bologna
+- Tommaso Corazza  LR Vicenza -> Bologna
+- Boulaye Dia  Agentes libres -> Latium
+- Davide Frattesi  Lombardia FC -> Latium
+- Alessandro Milani  Agentes libres -> Latium
+- Gabriele Artistico  Padova -> Latium
+- Pietro Pinelli  Carrarese -> Latium
+- Alessandro Zanoli  Napoli -> Udinese
+- Omar Traoré  Watford -> Udinese
+- Rui Modesto  Vancouver Whitecaps -> Udinese
+- Leonardo Buta  Red Star FC (FRANCE) -> Udinese
+- Iker Bravo  Watford -> Udinese
+- Simone Pafundi  Catanzaro -> Udinese
+- Martín Payero  Watford -> Udinese
+- Luca Kjerrumgaard  Watford -> Udinese
+- Arijanet Murić  Ipswich Town -> Sassuolo
+- Sebastiano Esposito  Lombardia FC -> Sassuolo
+- Ibrahim Sulemana  Bergamo Calcio -> Sassuolo
+- Kevin Miranda  Agentes libres -> Sassuolo
+- Riccardo Ciervo  Cagliari -> Sassuolo
+- Kevin Leone  Arezzo -> Sassuolo
+- Patrick Nuamah  Agentes libres -> Sassuolo
+- Francesco Corradini  Agentes libres -> Sassuolo
+- Janis Antiste  Górnik Zabrze -> Sassuolo
+- Kevin Bruno  Agentes libres -> Sassuolo
+- Justin Kumi  Juve Stabia -> Sassuolo
+- Luca D'Andrea  Cesena -> Sassuolo
+- Flavio Russo  Agentes libres -> Sassuolo
+- Samuele Mulattieri  Hellas Verona -> Sassuolo
+- Fabrizio Caligara  Agentes libres -> Sassuolo
+- Borna Knezovic  Agentes libres -> Sassuolo
+- Giovanni Simeone  Napoli -> Torino
+- Rolando Mandragora  Fiorentina -> Torino
+- Sandro Kulenović  Dinamo Zagreb -> Torino
+- Demba Seck  Agentes libres -> Torino
+- Alessandro Dellavalle  Padova -> Torino
+- Jonathan Silva  Mantova -> Torino
+- Marco Dalla Vecchia  Cesena -> Torino
+- Jacopo Antolini  Agentes libres -> Torino
+- Cristian Padula  Agentes libres -> Torino
+- Sebastian Walukiewicz  Sassuolo -> Torino
+- Vanja Milinković-Savić  Napoli -> Torino
+- Tommaso Di Marco  Agentes libres -> Torino
+- Francesco Dell'Aquila  Agentes libres -> Torino
+- Côme Bianay Balcot  Red Star FC (FRANCE) -> Torino
+- Aaron Ciammaglichella  Agentes libres -> Torino
+- Ali Dembélé  Lecce -> Torino
+- Fabio Desole  Agentes libres -> Torino
+- Matteo Brezzo  Agentes libres -> Torino
+- Franco Carboni  Lombardia FC -> Parma
+- El Bilal Touré  Bergamo Calcio -> Parma
+- Giovanni Fabbian  Bologna -> Parma
+- Aymen Zouin  Casa Pia -> Parma
+- Anthony Partipilo  Agentes libres -> Parma
+- Peter Amoran  Agentes libres -> Parma
+- Antoine Joujou  FC Nantes -> Parma
+- Dario Sits  FC Dordrecht -> Parma
+- Botond Balogh  Agentes libres -> Parma
+- Tjas Begic  Sampdoria -> Parma
+- Adrian Benedyczak  Agentes libres -> Parma
+- Sebastiano Esposito  Sassuolo -> Cagliari
+- Daniel Maldini  Bergamo Calcio -> Cagliari
+- Alessandro Romano  Roma -> Cagliari
+- Alieu Fadera  Como -> Cagliari
+- M'Bala Nzola  Fiorentina -> Cagliari
+- Yanis Massolin  Lombardia FC -> Cagliari
+- Yukinari Sugawara  Southampton -> Cagliari
+- Riccardo Ciervo  Sassuolo -> Cagliari
+- Nik Prelec  Oxford United -> Cagliari
+- Davide Veroli  Südtirol -> Cagliari
+- Velizar-Iliya Iliev  Agentes libres -> Cagliari
+- Alessandro Vinciguerra  Agentes libres -> Cagliari
+- Nicolò Cavuoti  Agentes libres -> Cagliari
+- Francesco Gallea  Juve Stabia -> Cagliari
+- Sebastiano Di Paolo  Avellino -> Cagliari
+- Matteo Prati  Racing de Santander -> Cagliari
+- Nicola Pintus  Agentes libres -> Cagliari
+- Giovanni Fabbian  Parma -> Fiorentina
+- Marco Brescianini  Bergamo Calcio -> Fiorentina
+- Pedro Gonçalves  Sporting CP -> Fiorentina
+- Álex Jiménez  Milano FC -> Fiorentina
+- Riccardo Spaggiari  Agentes libres -> Fiorentina
+- Lucas Beltrán  River Plate -> Fiorentina
+- Alessandro Bianco  Modena -> Fiorentina
+- Maat Daniel Caprini  Cesena -> Fiorentina
+- Lorenzo Amatucci  Agentes libres -> Fiorentina
+- Filippo Distefano  Empoli -> Fiorentina
+- Lorenzo Romani  Carrarese -> Fiorentina
+- Jonas Harder  FC Basel -> Fiorentina
+- Leonardo Baroncelli  Agentes libres -> Fiorentina
+- Matías Moreno  Venezia -> Fiorentina
+- Mirko Elia  Bari -> Fiorentina
+- Giulio Scuderi  Juve Stabia -> Fiorentina
+- Tommaso Martinelli  Avellino -> Fiorentina
+- Laerte Tognetti  Agentes libres -> Fiorentina
+- Simon Sohm  Venezia -> Fiorentina
+- Amir Richardson  Le Havre AC -> Fiorentina
+- Tommaso Vannucchi  Agentes libres -> Fiorentina
+- M'Bala Nzola  Cagliari -> Fiorentina
+- Nicolás Valentini  Deportivo Alavés -> Fiorentina
+- Lorenzo Colombo  Milano FC -> Genoa
+- Hamed Traoré  AFC Bournemouth -> Genoa
+- Kingsley Ehizibue  Agentes libres -> Genoa
+- Stephan El Shaarawy  Agentes libres -> Genoa
+- Leonardo Consiglio  Modena -> Genoa
+- Alan Matturro  Shakhtar Donetsk -> Genoa
+- Gianluca Rossi  Agentes libres -> Genoa
+- Lorenzo Gagliardi  Agentes libres -> Genoa
+- Gabriele Pessolani  Agentes libres -> Genoa
+- Hugo Cuenca  Agentes libres -> Genoa
+- Simone Calvani  Agentes libres -> Genoa
+- Alessandro Debenedetti  Cesena -> Genoa
+- Alessandro Vogliacco  Cremonese -> Genoa
+- Tommaso Pittino  Agentes libres -> Genoa
+- Edoardo Meconi  Agentes libres -> Genoa
+- David Ankeye  Agentes libres -> Genoa
+- Daniel Fossati  Agentes libres -> Genoa
+- Chec Bebel Doumbia  Agentes libres -> Genoa
+- Ali Dembélé  Torino -> Lecce
+- Jasper Samooja  HJK Helsinki -> Lecce
+- Ed McJannet  Agentes libres -> Lecce
+- Matteo Agrimi  Agentes libres -> Lecce
+- Giacomo Faticanti  Avellino -> Lecce
+- Christ-Owen Kouassi  Grenoble Foot 38 -> Lecce
+- Rareș Burnete  Südtirol -> Lecce
+- Marco Delle Monache  Agentes libres -> Lecce
+- Sebastian Esposito  Agentes libres -> Lecce
+- Bartol Franjic  VfL Wolfsburg -> Venezia
+- Mattia Compagnon  Hellas Verona -> Venezia
+- Lorenzo Berardi  Agentes libres -> Venezia
+- Matías Moreno  Fiorentina -> Venezia
+- Federico Tavernaro  Agentes libres -> Venezia
+- Simon Sohm  Fiorentina -> Venezia
+- Toni Fernández  FC Barcelona -> Venezia
+- Giovanni Di Renzo  Agentes libres -> Venezia
+- Kevin Cannavò  Spezia -> Venezia
+- Gaetano Oristanio  Torino -> Venezia
+- Marco Ladisa  Agentes libres -> Venezia
+- Cheick Condé  Agentes libres -> Venezia
+- Simone Ascione  Agentes libres -> Venezia
+- Hans Nicolussi Caviglia  Parma -> Venezia
+- Lorenzo Busato  Agentes libres -> Venezia
+- Daniel Fila  Avellino -> Venezia
+- Alvin Okoro  Südtirol -> Venezia
+- Giorgio Altare  Agentes libres -> Venezia
+- Luis Hasa  Napoli -> Frosinone
+- Alessio Zerbin  Napoli -> Frosinone
+- Ben Lhassine Kone  Como -> Frosinone
+- Wisdom Amey  Bologna -> Frosinone
+- Davide Biraschi  Agentes libres -> Frosinone
+- Alessandro Selvini  Agentes libres -> Frosinone
+- Patrick Cutrone  Como -> Monza
+- Lorenzo Lucchesi  Fiorentina -> Monza
+- Cyril Ngonge  Napoli -> Monza
+- Michael Folorunsho  Napoli -> Monza
+- Ebenezer Akinsanmiro  Lombardia FC -> Monza
+- Saba Goglichidze  Udinese -> Monza
+- Solomon Loubao  Catanzaro -> Monza
+- Alessandro Berretta  Agentes libres -> Monza
+- Michel Aebischer  Bologna -> Pisa
+- Ichem Ferrah  LOSC Lille -> Pisa
+- Daniel Denoon  FC Zürich -> Pisa
+- Emanuele Rao  Napoli -> Pisa
+- Zan Jevsenak  Agentes libres -> Pisa
+- Alexander Lind  Agentes libres -> Pisa
+- Mattia Sala  Arezzo -> Pisa
+- Pietro Beruatto  Benevento -> Pisa
+- Ante Vukovic  Juve Stabia -> Pisa
+- Nicholas Bonfanti  Carrarese -> Pisa
+- Jan Mlakar  Agentes libres -> Pisa
+- Andrea Pavanello  Agentes libres -> Pisa
+- Mert Durmush  Spezia -> Pisa
+- Andrea Beghetto  Agentes libres -> Pisa
+- Riccardo Bassanini  Agentes libres -> Pisa
+- Motiejus Šapola  Spezia -> Pisa
+- Giacomo Maucci  Agentes libres -> Pisa
+- Adrian Raychev  Agentes libres -> Pisa
+- Mattia Compagnon  Venezia -> Hellas Verona
+- Samuele Mulattieri  Sassuolo -> Hellas Verona
+- Denis Cazzadori  Spezia -> Hellas Verona
+- Federico Magro  Agentes libres -> Hellas Verona
+- Karlson Nwanege  Agentes libres -> Hellas Verona
+- Daniele Ghilardi  Roma -> Hellas Verona
+- Charlys  Agentes libres -> Hellas Verona
+- Nicola Patanè  Juve Stabia -> Hellas Verona
+- Christian Corradi  Agentes libres -> Hellas Verona
+- Mathis Lambourde  Servette FC -> Hellas Verona
+- Yellu Santiago  Agentes libres -> Hellas Verona
+- Adi Kurti  Agentes libres -> Hellas Verona
+- Samuel John Nwachukwu  Agentes libres -> Hellas Verona
+- Federico Caia  Agentes libres -> Hellas Verona
+- Alessandro Vogliacco  Genoa -> Cremonese
+- Fellipe Jack  Como -> Cremonese
+- Luca Zanimacchia  Padova -> Cremonese
+- Salvatore Dore  Agentes libres -> Cremonese
+- Giacomo Gabbiani  Agentes libres -> Cremonese
+- Mattia Scaringi  Agentes libres -> Cremonese
+- Tommaso Duca  Agentes libres -> Cremonese
+- Michele Bigonzoni  Agentes libres -> Cremonese
+- Eddy Cabianca  Agentes libres -> Cremonese
+- Daniele Triacca  Agentes libres -> Cremonese
+- Filippo Tosi  Agentes libres -> Cremonese
+- Vladyslav Nagrudnyi  Agentes libres -> Cremonese
+- Mattia Bozza  Agentes libres -> Cremonese
+- Lorenzo Moretti  Agentes libres -> Cremonese
+- Giulio Patrignani  Agentes libres -> Cremonese
+- Gianluca Saro  Agentes libres -> Cremonese
+- Mattia Parente  Agentes libres -> Cremonese
+- Samuele Regazzetti  Agentes libres -> Cremonese
+- Leonardo Sernicola  Benevento -> Cremonese
+- Frank Tsadjout  LR Vicenza -> Cremonese
+- Felix Afena-Gyan  Agentes libres -> Cremonese
+- Tommaso Cassandro  Como -> Palermo
+- Alessandro Gabrielloni  Como -> Palermo
+- Dario Saric  Antalyaspor -> Palermo
+- Stredair Appuah  Agentes libres -> Palermo
+- Dimitrios Nikolaou  Agentes libres -> Palermo
+- Kristoffer Lund  Birmingham City -> Palermo
+- Sebastiano Desplanches  Frosinone -> Palermo
+- Matteo Brunori  Ascoli -> Palermo
+- Salim Diakité  Zulte Waregem -> Palermo
+- Federico Di Francesco  Palermo -> Catanzaro
+- Solomon Loubao  Monza -> Catanzaro
+- Federico Cassa  Bologna -> Catanzaro
+- Simone Pafundi  Udinese -> Catanzaro
+- Umberto Morleo  Agentes libres -> Catanzaro
+- Andrea Oliviero  Agentes libres -> Catanzaro
+- Giovanni Volpe  Agentes libres -> Catanzaro
+- Alessandro Bianco  Fiorentina -> Modena
+- Alessandro Sersanti  Agentes libres -> Modena
+- Leonardo Consiglio  Genoa -> Modena
+- Alessandro Ghillani  Agentes libres -> Modena
+- Edoardo Olivieri  Agentes libres -> Modena
+- Manuel Ricciardi  Agentes libres -> Juve Stabia
+- Nicola Patanè  Hellas Verona -> Juve Stabia
+- Lorenzo Carissoni  Padova -> Juve Stabia
+- Gioacchino Barranco  Agentes libres -> Juve Stabia
+- Jacopo Ferretti  Agentes libres -> Juve Stabia
+- Giulio Scuderi  Fiorentina -> Juve Stabia
+- Justin Kumi  Sassuolo -> Juve Stabia
+- Ante Vukovic  Pisa -> Juve Stabia
+- Luigi Caccavo  Bologna -> Juve Stabia
+- Francesco Gallea  Cagliari -> Juve Stabia
+- Edoardo Duca  Agentes libres -> Juve Stabia
+- Elian Demirovic  Arka Gdynia -> Juve Stabia
+- Cristian Andreoni  Agentes libres -> Juve Stabia
+- Enrico Piovanello  Agentes libres -> Juve Stabia
+- Francesco D'Amore  Agentes libres -> Juve Stabia
+- Tomi Petrovic  Agentes libres -> Juve Stabia
+- Walid Cheddira  Napoli -> Avellino
+- Mattia Della Rocca  Agentes libres -> Avellino
+- Filippo Scotti  Agentes libres -> Avellino
+- Jacopo Sassi  Agentes libres -> Avellino
+- Vittorio Gambardella  Agentes libres -> Avellino
+- Daniel Fila  Venezia -> Avellino
+- Alessandro Di Bitonto  Sassuolo -> Avellino
+- Giacomo Faticanti  Lecce -> Avellino
+- Sebastiano Di Paolo  Cagliari -> Avellino
+- Filippo Missori  Sassuolo -> Avellino
+- Emanuele Adamo  Spezia -> Avellino
+- Tommaso Martinelli  Fiorentina -> Avellino
+- Gianmarco Todisco  Agentes libres -> Avellino
+- Marco Toscano  Agentes libres -> Avellino
+- Michele D'Ausilio  Agentes libres -> Avellino
+- Vincenzo Arzillo  Agentes libres -> Avellino
+- Alessio Tribuzzi  Bari -> Avellino
+- Damiano Cancellieri  Spezia -> Avellino
+- Antonio De Cristofaro  Agentes libres -> Avellino
+- Giuseppe Panico  Agentes libres -> Avellino
+- Claudio Manzi  Agentes libres -> Avellino
+- Facundo Lescano  Agentes libres -> Avellino
+- Valerio Crespi  Agentes libres -> Avellino
+- Andrea Cagnano  Arezzo -> Avellino
+- Gabriele Artistico  Latium -> Padova
+- Lorenzo Carissoni  Juve Stabia -> Padova
+- Tommaso Bordoni  Agentes libres -> Padova
+- Luca Zanimacchia  Cremonese -> Padova
+- Mattia Penta  Agentes libres -> Padova
+- Luigi Castegnaro  Agentes libres -> Padova
+- Alessandro Sorrentino  Monza -> Padova
+- Alessandro Dellavalle  Torino -> Padova
+- Andrea Antonello  Agentes libres -> Padova
+- Edoardo Caporello  Agentes libres -> Padova
+- Riccardo Pagano  Roma -> Cesena
+- Alessandro Debenedetti  Genoa -> Cesena
+- Mihajlo Ilić  Bologna -> Cesena
+- Luca D'Andrea  Sassuolo -> Cesena
+- Marco Dalla Vecchia  Torino -> Cesena
+- Luca Schirone  Agentes libres -> Cesena
+- Maat Daniel Caprini  Fiorentina -> Cesena
+- Simone Pieraccini  Agentes libres -> Cesena
+- Valentino Coveri  Agentes libres -> Cesena
+- Giulio Manetti  Agentes libres -> Cesena
+- Giacomo Calò  Frosinone -> Cesena
+- Gianmarco Castorri  Agentes libres -> Cesena
+- Antonio David  Albacete Balompié -> Cesena
+- Giovanni Perini  Agentes libres -> Cesena
+- Federico Valentini  Agentes libres -> Cesena
+- Alessio Castellini  Agentes libres -> Mantova
+- Andrea Meroni  Bari -> Mantova
+- Francesco Bardi  Palermo -> Mantova
+- Jonathan Silva  Torino -> Mantova
+- Rachid Kouda  Parma -> Mantova
+- Matteo Spinaccè  Agentes libres -> Mantova
+- Federico Chinetti  Como -> Mantova
+- Cristiano Fratti  Agentes libres -> Mantova
+- Luca Sonzogni  Agentes libres -> Mantova
+- Zan Majer  Agentes libres -> Mantova
+- Antonio Fiori  Cesena -> Mantova
+- Federico Artioli  Juve Stabia -> Mantova
+- Matthias Braunöder  Como -> Carrarese
+- Filippo Reale  Roma -> Carrarese
+- Lorenzo Romani  Fiorentina -> Carrarese
+- Pietro Pinelli  Latium -> Carrarese
+- Nicholas Bonfanti  Pisa -> Carrarese
+- Mateo Scheffer Bracco  Agentes libres -> Carrarese
+- Eliman Cham  Agentes libres -> Carrarese
+- Salvatore Esposito  Spezia -> Sampdoria
+- Tjas Begic  Parma -> Sampdoria
+- Manuel Cicconi  Carrarese -> Sampdoria
+- Elia Tantalocchi  LR Vicenza -> Sampdoria
+- Estanis Pedrola  Real Oviedo -> Sampdoria
+- Antonino La Gumina  Agentes libres -> Sampdoria
+- Luca Polli  Agentes libres -> Sampdoria
+- Andrei Coubiș  Lincoln City -> Sampdoria
+- Víctor Narro  Agentes libres -> Sampdoria
+- Stefano Girelli  Agentes libres -> Sampdoria
+- Mattia Motolese  Bologna -> Entella
+- Marco Piredda  Agentes libres -> Entella
+- Iacopo Lipani  Agentes libres -> Entella
+- Davide Castelli  Agentes libres -> Entella
+- Umberto Ghio  Agentes libres -> Entella
+- Matteo Casarotto  Agentes libres -> Entella
+- Maguette Fall  Agentes libres -> Entella
+- Filippo Saiani  Agentes libres -> Entella
+- Filippo Distefano  Fiorentina -> Empoli
+- Lapo Deli  Fiorentina -> Empoli
+- Federico Brancolini  Agentes libres -> Empoli
+- Tino Anjorin  Torino -> Empoli
+- Alessandro Torri  Agentes libres -> Empoli
+- Francesco Fabri  Agentes libres -> Empoli
+- Emmanuel Gyasi  Palermo -> Empoli
+- Herculano Nabian  Agentes libres -> Empoli
+- Alessio Spatari  Agentes libres -> Empoli
+- Iwo Kaczmarski  Agentes libres -> Empoli
+- Andrea Sodero  Agentes libres -> Empoli
+- Michele Tempre  Agentes libres -> Empoli
+- Giuseppe Brugognone  Agentes libres -> Empoli
+- Ismaël Konaté  Agentes libres -> Empoli
+- Lorenzo Tosto  Agentes libres -> Empoli
+- Ank Bølling Asmussen  Agentes libres -> Empoli
+- Andrea Giorgini  Juve Stabia -> Südtirol
+- Riccardo Stivanello  Bologna -> Südtirol
+- Kevin Zeroli  Agentes libres -> Südtirol
+- Alvin Okoro  Venezia -> Südtirol
+- Fabio Rispoli  Como -> Südtirol
+- Davide Veroli  Cagliari -> Südtirol
+- Niklas Pyyhtiä  Bologna -> Südtirol
+- Rareș Burnete  Lecce -> Südtirol
+- Giacomo Drago  Agentes libres -> Südtirol
+- Alessandro Vimercati  Agentes libres -> Südtirol
+- Alessandro Mallamo  Agentes libres -> Südtirol
+- Benedikt Rottensteiner  Agentes libres -> Südtirol
+- Pietro Beruatto  Pisa -> Benevento
+- Leonardo Sernicola  Cremonese -> Benevento
+- Luigi Cherubini  Roma -> Benevento
+- Mattia Mannini  Roma -> Benevento
+- Claudio Panzarino  Agentes libres -> Benevento
+- Mario Perlingieri  Agentes libres -> Benevento
+- Angelo Viscardi  Agentes libres -> Benevento
+- Giovanni Castaldi  Agentes libres -> Benevento
+- Riccardo Iacoponi  Agentes libres -> Benevento
+- Ernesto Starita  Agentes libres -> Benevento
+- Vincenzo Avolio  Agentes libres -> Benevento
+- Antonio Ferrara  Agentes libres -> Benevento
+- Marco Ciurleo  Agentes libres -> Benevento
+- Gerard Mirashi  Agentes libres -> Benevento
+- Alessandro Bellemo  Sampdoria -> LR Vicenza
+- Frank Tsadjout  Cremonese -> LR Vicenza
+- Nicola Rauti  Torino -> LR Vicenza
+- Elia Tantalocchi  Sampdoria -> LR Vicenza
+- Silvio Merkaj  Südtirol -> LR Vicenza
+- Tommaso Corazza  Bologna -> LR Vicenza
+- Fabrizio Bagheria  Agentes libres -> LR Vicenza
+- Stefano Cester  Agentes libres -> LR Vicenza
+- Giovanni Busato  Agentes libres -> LR Vicenza
+- Luca Zamparo  Agentes libres -> LR Vicenza
+- Alessandro Zorzi  Agentes libres -> LR Vicenza
+- Matteo Della Morte  Bari -> LR Vicenza
+- Alessandro Arena  Pisa -> Arezzo
+- Mattia Sala  Pisa -> Arezzo
+- Gennaro Iaccarino  Napoli -> Arezzo
+- Andrea Cagnano  Avellino -> Arezzo
+- Kevin Leone  Sassuolo -> Arezzo
+- Alessandro Capello  Agentes libres -> Arezzo
+- Mattia Damiani  Agentes libres -> Arezzo
+- Lorenzo Coccia  Agentes libres -> Arezzo
+- Federico Malvestuto  Agentes libres -> Arezzo
+- Matteo Brunori  Palermo -> Ascoli
+- Francesco Galuppini  Agentes libres -> Ascoli
+- Luca Conti  Agentes libres -> Ascoli
+- Francesco Cozzoli  Agentes libres -> Ascoli
+- Kevin Gorica  Agentes libres -> Ascoli
+- Andrea Caucci  Agentes libres -> Ascoli
+- Aljaz Tavcar  Agentes libres -> Ascoli
+- Francesco Forte  Entella -> Ascoli
+- Alessio Re  Agentes libres -> Ascoli
+- Nathaniel Brown  Agentes libres -> Bayern München
+- Ismael Saibari  PSV -> Bayern München
+- Bara Sapoko Ndiaye  Agentes libres -> Bayern München
+- Noël Aséko  Agentes libres -> Bayern München
+- João Palhinha  Benfica -> Bayern München
+- Alexander Nübel  Beşiktaş -> Bayern München
+- Armindo Sieb  Los Angeles FC -> Bayern München
+- Arijon Ibrahimovic  FC Augsburg -> Bayern München
+- Maurice Krattenmacher  SV Elversberg -> Bayern München
+- Lovro Zvonarek  Estrela Amadora -> Bayern München
+- Sacha Boey  Agentes libres -> Bayern München
+- Tarek Buchmann  1. FC Nürnberg -> Bayern München
+- Jonah Kusi-Asare  Fulham -> Bayern München
+- Daniel Peretz  Southampton -> Bayern München
+- Bryan Zaragoza  RCD Espanyol -> Bayern München
+- Felipe Chávez  1. FC Magdeburg -> Bayern München
+- Ethan Nwaneri  Arsenal -> Borussia Dortmund
+- Julien Duranville  Agentes libres -> Borussia Dortmund
+- Cole Campbell  SV Elversberg -> Borussia Dortmund
+- Diant Ramaj  Agentes libres -> Borussia Dortmund
+- Kjell Wätjen  FC Midtjylland -> Borussia Dortmund
+- Neil El Aynaoui  Roma -> RB Leipzig
+- Ota Yamamoto  Agentes libres -> RB Leipzig
+- Joyeux Masanka Bungi  VfB Stuttgart II -> RB Leipzig
+- Robert Ramsak  Agentes libres -> RB Leipzig
+- Lutsharel Geertruida  Agentes libres -> RB Leipzig
+- Loïs Openda  Juventus -> RB Leipzig
+- Eljif Elmas  Bergamo Calcio -> RB Leipzig
+- Timo Schlieck  SC Verl -> RB Leipzig
+- Bilal El Khannouss  Leicester City -> VfB Stuttgart
+- Jovan Milosevic  Sporting de Braga -> VfB Stuttgart
+- Alessandro Vogt  1. FC Heidenheim -> TSG 1899 Hoffenheim
+- Precious Benjamin  Agentes libres -> TSG 1899 Hoffenheim
+- Nahuel Noll  SC Paderborn 07 -> TSG 1899 Hoffenheim
+- Haris Tabaković  Borussia M'gladbach -> TSG 1899 Hoffenheim
+- Erencan Yardımcı  1. FC Kaiserslautern -> TSG 1899 Hoffenheim
+- Gift Orban  Agentes libres -> TSG 1899 Hoffenheim
+- Hennes Behrens  FC Augsburg -> TSG 1899 Hoffenheim
+- Umut Tohumcu  RB Salzburg -> TSG 1899 Hoffenheim
+- Attila Szalai  Pogoń Szczecin -> TSG 1899 Hoffenheim
+- Dennis Geiger  NEC Nijmegen -> TSG 1899 Hoffenheim
+- Kerim Alajbegovic  Juventus -> Bayer 04 Leverkusen
+- Luca Erlein  Energie Cottbus -> Bayer 04 Leverkusen
+- Matěj Kovář  PSV -> Bayer 04 Leverkusen
+- Francis Onyeka  SV Elversberg -> Bayer 04 Leverkusen
+- Abdoulaye Faye  RC Celta de Vigo -> Bayer 04 Leverkusen
+- Farid Alfa-Ruprecht  Hertha BSC -> Bayer 04 Leverkusen
+- Noah Mbamba  FC Lorient -> Bayer 04 Leverkusen
+- Piero Hincapié  Arsenal -> Bayer 04 Leverkusen
+- Jeanuël Belocian  Racing de Santander -> Bayer 04 Leverkusen
+- Alejo Sarco  Real Sporting de Gijón -> Bayer 04 Leverkusen
+- Yannik Engelhardt  Como -> SC Freiburg
+- Junior Adamu  FC Schalke 04 -> SC Freiburg
+- Eren Dinkçi  Werder Bremen -> SC Freiburg
+- Noah Weißhaupt  SV Darmstadt 98 -> SC Freiburg
+- Merlin Röhl  Everton -> SC Freiburg
+- Noël Aséko  Bayern München -> Eintracht Frankfurt
+- Noel Futkeu  SV Elversberg -> Eintracht Frankfurt
+- Simon Simoni  FC Luzern -> Eintracht Frankfurt
+- Niels Nkounkou  OGC Nice -> Eintracht Frankfurt
+- Junior Dina Ebimbe  FC Schalke 04 -> Eintracht Frankfurt
+- Hennes Behrens  TSG 1899 Hoffenheim -> FC Augsburg
+- Michael Gregoritsch  Agentes libres -> FC Augsburg
+- Arijon Ibrahimovic  Bayern München -> FC Augsburg
+- Juma Bah  Manchester City -> FC Augsburg
+- Marcel Lubik  Agentes libres -> FC Augsburg
+- David Colina  Agentes libres -> FC Augsburg
+- Henri Koudossou  Arminia Bielefeld -> FC Augsburg
+- Kyliane Dong  Bolton Wanderers -> FC Augsburg
+- Yusuf Kabadayi  Agentes libres -> FC Augsburg
+- Elias Saad  Nashville SC -> FC Augsburg
+- Aiman Dardari  Agentes libres -> FC Augsburg
+- Stefan Posch  Como -> 1. FSV Mainz 05
+- Sota Kawasaki  Agentes libres -> 1. FSV Mainz 05
+- Sheraldo Becker  CA Osasuna -> 1. FSV Mainz 05
+- Michel Aebischer  Pisa -> 1. FC Union Berlin
+- Stanley Nsoki  TSG 1899 Hoffenheim -> 1. FC Union Berlin
+- Yannic Stein  Hansa Rostock -> 1. FC Union Berlin
+- László Bénes  Agentes libres -> 1. FC Union Berlin
+- Chris Bedia  Agentes libres -> 1. FC Union Berlin
+- Ko Itakura  Agentes libres -> Borussia M'gladbach
+- Isac Lidberg  Agentes libres -> Borussia M'gladbach
+- David Herold  Agentes libres -> Borussia M'gladbach
+- Jan Leszczyński  Legia Warszawa -> Borussia M'gladbach
+- Enzo Leopold  Agentes libres -> Borussia M'gladbach
+- Daniel Batz  Agentes libres -> Borussia M'gladbach
+- Daiki Hashioka  Gent -> Borussia M'gladbach
+- Nicolas Kühn  Agentes libres -> Borussia M'gladbach
+- Grant-Leon Ranos  Agentes libres -> Borussia M'gladbach
+- Jonas Omlin  Agentes libres -> Borussia M'gladbach
+- Shio Fukuda  Agentes libres -> Borussia M'gladbach
+- Noah Pesch  Agentes libres -> Borussia M'gladbach
+- Fábio Vieira  Arsenal -> Hamburger SV
+- Aboubaka Soumahoro  RCD Mallorca -> Hamburger SV
+- Emir Sahiti  Hannover 96 -> Hamburger SV
+- Jahmai Simpson-Pusey  Agentes libres -> 1. FC Köln
+- Jakub Kamiński  Benfica -> 1. FC Köln
+- Tom Krauß  1. FSV Mainz 05 -> 1. FC Köln
+- Borna Sosa  Crystal Palace -> 1. FC Köln
+- Jusuf Gazibegovic  Agentes libres -> 1. FC Köln
+- Rasmus Carstensen  Agentes libres -> 1. FC Köln
+- Karl Hein  Arsenal -> Werder Bremen
+- Eren Dinkçi  SC Freiburg -> Werder Bremen
+- Niclas Füllkrug  West Ham United -> Werder Bremen
+- Moussa Ndiaye  Anderlecht -> Werder Bremen
+- Leon Opitz  VfL Osnabrück -> Werder Bremen
+- Junior Dina Ebimbe  Eintracht Frankfurt -> FC Schalke 04
+- Junior Adamu  SC Freiburg -> FC Schalke 04
+- Maximilian Wöber  Leeds United -> FC Schalke 04
+- Luca Podlech  Agentes libres -> FC Schalke 04
+- Martin Wasinski  Almere City FC -> FC Schalke 04
+- Ilyes Hamache  SC Cambuur -> FC Schalke 04
+- Cole Campbell  Borussia Dortmund -> SV Elversberg
+- Maurice Krattenmacher  Bayern München -> SV Elversberg
+- Lukasz Poreba  Hamburger SV -> SV Elversberg
+- Noel Futkeu  Eintracht Frankfurt -> SV Elversberg
+- Francis Onyeka  Bayer 04 Leverkusen -> SV Elversberg
+- Nahuel Noll  TSG 1899 Hoffenheim -> SC Paderborn 07
+- Martin Ens  MSV Duisburg -> SC Paderborn 07
+- Marco Wörner  Agentes libres -> SC Paderborn 07
+- Andreas Skov Olsen  Agentes libres -> VfL Wolfsburg
+- Bartol Franjic  Venezia -> VfL Wolfsburg
+- Jakub Kamiński  1. FC Köln -> VfL Wolfsburg
+- Eryk Grzywacz  TSV Havelse -> VfL Wolfsburg
+- Nicolas Cozza  FC Lausanne-Sport -> VfL Wolfsburg
+- Alessandro Vogt  TSG 1899 Hoffenheim -> 1. FC Heidenheim
+- Kevin Müller  FC Schalke 04 -> 1. FC Heidenheim
+- Luka Janes  Agentes libres -> 1. FC Heidenheim
+- Daisuke Yokota  Rangers -> Hannover 96
+- Noël Aséko  Eintracht Frankfurt -> Hannover 96
+- Emir Sahiti  Hamburger SV -> Hannover 96
+- Leon-Oumar Wechsel  Agentes libres -> Hannover 96
+- Noah Weißhaupt  SC Freiburg -> SV Darmstadt 98
+- Grayson Dettoni  Agentes libres -> SV Darmstadt 98
+- Hiroki Akiyama  Agentes libres -> SV Darmstadt 98
+- Milan Smit  Stoke City -> SV Darmstadt 98
+- Leon Klassen  Grazer AK -> SV Darmstadt 98
+- Erencan Yardımcı  TSG 1899 Hoffenheim -> 1. FC Kaiserslautern
+- Mário Sauer  Toulouse FC -> 1. FC Kaiserslautern
+- Frank Ronstadt  Agentes libres -> 1. FC Kaiserslautern
+- Jannik Mause  Agentes libres -> 1. FC Kaiserslautern
+- Faride Alidou  Holstein Kiel -> 1. FC Kaiserslautern
+- Jannis Heuer  SpVgg Greuther Fürth -> 1. FC Kaiserslautern
+- Dickson Abiama  Agentes libres -> 1. FC Kaiserslautern
+- Oluwaseun Adewumi  Burnley -> Hertha BSC
+- Farid Alfa-Ruprecht  Bayer 04 Leverkusen -> Hertha BSC
+- Gustav Christensen  Kristiansund BK -> Hertha BSC
+- Mathis Clairicia  Agentes libres -> VfL Bochum
+- Shio Fukuda  Borussia M'gladbach -> Karlsruher SC
+- Paul Scholl  Agentes libres -> Karlsruher SC
+- Louey Ben Farhat  SC Freiburg -> Karlsruher SC
+- Noah Rupp  Agentes libres -> Karlsruher SC
+- Ben Bobzien  1. FSV Mainz 05 -> Dynamo Dresden
+- Thomas Keller  1. FC Heidenheim -> Dynamo Dresden
+- Robert Wagner  SC Freiburg -> Dynamo Dresden
+- Jonas Sterner  Hannover 96 -> Dynamo Dresden
+- Jonas Oehmichen  Alemannia Aachen -> Dynamo Dresden
+- Dominik Kother  MSV Duisburg -> Dynamo Dresden
+- Dennis Duah  TSV Havelse -> Dynamo Dresden
+- Marlon Faß  Agentes libres -> Dynamo Dresden
+- Paul Lehmann  SC Verl -> Dynamo Dresden
+- Faride Alidou  1. FC Kaiserslautern -> Holstein Kiel
+- Eryk Grzywacz  VfL Wolfsburg -> Holstein Kiel
+- Toralf Hense  Agentes libres -> Holstein Kiel
+- Luca Prasse  Agentes libres -> Holstein Kiel
+- Max Geschwill  Agentes libres -> Holstein Kiel
+- Louis Köster  Alemannia Aachen -> Holstein Kiel
+- Tymoteusz Puchacz  Agentes libres -> Holstein Kiel
+- Henri Koudossou  FC Augsburg -> Arminia Bielefeld
+- Jannik Rochelt  Hannover 96 -> Arminia Bielefeld
+- Maximilian Bauer  FC Augsburg -> Arminia Bielefeld
+- Max Lippert  Agentes libres -> Arminia Bielefeld
+- Julian Kania  Agentes libres -> Arminia Bielefeld
+- Mika Schroers  Alemannia Aachen -> Arminia Bielefeld
+- Roko Simic  Cardiff City -> 1. FC Magdeburg
+- Felipe Chávez  Bayern München -> 1. FC Magdeburg
+- Florian Flick  Agentes libres -> Eintracht Braunschweig
+- Frederik Jäkel  RB Leipzig -> Eintracht Braunschweig
+- Jona Borsum  Agentes libres -> Eintracht Braunschweig
+- Justin Duda  Agentes libres -> Eintracht Braunschweig
+- Walid Ould-Chikh  Heracles Almelo -> Eintracht Braunschweig
+- Paul Will  SV Darmstadt 98 -> SpVgg Greuther Fürth
+- Jannis Heuer  1. FC Kaiserslautern -> SpVgg Greuther Fürth
+- Hendry Blank  RB Salzburg -> SpVgg Greuther Fürth
+- Matti Wagner  Alemannia Aachen -> SpVgg Greuther Fürth
+- Sebastian Jung  Agentes libres -> SpVgg Greuther Fürth
+- Mathias Olesen  Agentes libres -> SpVgg Greuther Fürth
+- Robin Meißner  Dynamo Dresden -> VfL Osnabrück
+- Lukas Bornschein  Fortuna Düsseldorf -> VfL Osnabrück
+- Jonathan Gómez  PAOK -> VfL Osnabrück
+- Leon Flach  Jagiellonia Białystok -> VfL Osnabrück
+- Elias Bakatukanda  1. FC Köln -> VfL Osnabrück
+- Leon Opitz  Werder Bremen -> VfL Osnabrück
+- Finn Cramer  Agentes libres -> VfL Osnabrück
+- Lion Semic  Agentes libres -> VfL Osnabrück
+- Rohin Shivani  Agentes libres -> VfL Osnabrück
+- Ibrahim Touray  Agentes libres -> VfL Osnabrück
+- King Manu  Fortuna Düsseldorf -> Energie Cottbus
+- Luca Erlein  Bayer 04 Leverkusen -> Energie Cottbus
+- Yusuf Wardak  TSV Havelse -> Energie Cottbus
+- Gianluca Pelzer  Agentes libres -> Energie Cottbus
+- Gabriel Moscardo  RCD Espanyol -> Paris Saint-Germain
+- Noham Kamara  Agentes libres -> Paris Saint-Germain
+- Yoram Zague  Agentes libres -> Paris Saint-Germain
+- Randal Kolo Muani  Juventus -> Paris Saint-Germain
+- Saud Abdulhamid  Roma -> RC Lens
+- Jeremy Agbonifo  Agentes libres -> RC Lens
+- Goduine Koyalipou  Agentes libres -> RC Lens
+- Gabin Capuano  Agentes libres -> RC Lens
+- Rémy Labeau Lascary  AJ Auxerre -> RC Lens
+- Angelo Fulgini  Al Khaleej -> RC Lens
+- Kembo Diliwidi  Agentes libres -> RC Lens
+- Yannick Pandor  Amiens SC -> RC Lens
+- Facundo Medina  Bayer 04 Leverkusen -> RC Lens
+- Mattia Fortin  Palermo -> RC Lens
+- Hervé Koffi  Union Saint-Gilloise -> RC Lens
+- Ugo Raghouber  Burnley -> LOSC Lille
+- Vincent Burlet  Cracovia -> LOSC Lille
+- Lisandru Olmeta  Agentes libres -> LOSC Lille
+- Mads Bidstrup  RB Salzburg -> Olympique Lyonnais
+- Julien Duranville  Borussia Dortmund -> Olympique Lyonnais
+- Felix Bacher  Agentes libres -> Olympique Lyonnais
+- Noham Kamara  Paris Saint-Germain -> Olympique Lyonnais
+- Loïs Openda  RB Leipzig -> Olympique Lyonnais
+- Mohamed Ouédraogo  Altach -> Olympique Lyonnais
+- Keito Nakamura  Stade de Reims -> Olympique Lyonnais
+- Kaïl Boudache  Agentes libres -> Olympique Lyonnais
+- Zachary Athekame  Agentes libres -> Olympique Lyonnais
+- Matt Turner  Agentes libres -> Olympique Lyonnais
+- Duje Caleta-Car  Sassuolo -> Olympique Lyonnais
+- Paul Akouokou  Real Zaragoza -> Olympique Lyonnais
+- Mahamadou Diawara  Red Star FC (FRANCE) -> Olympique Lyonnais
+- Martín Satriano  Getafe CF -> Olympique Lyonnais
+- Enzo Molebe  Agentes libres -> Olympique Lyonnais
+- Alejandro Gomes Rodríguez  Agentes libres -> Olympique Lyonnais
+- Facundo Medina  RC Lens -> Olympique de Marseille
+- Timothy Weah  Juventus -> Olympique de Marseille
+- Hamed Traoré  Genoa -> Olympique de Marseille
+- Arnaud Nordin  1. FSV Mainz 05 -> Stade Rennais
+- Boulaye Dia  Latium -> Stade Rennais
+- Jonathan Do Marcolino  FC Annecy -> Stade Rennais
+- Albert Grønbaek  Hamburger SV -> Stade Rennais
+- Hans Hateboer  Agentes libres -> Stade Rennais
+- Jordan James  Wolverhampton Wanderers -> Stade Rennais
+- Mikayil Faye  Agentes libres -> Stade Rennais
+- Rayan Bamba  Le Mans FC -> Stade Rennais
+- Ansu Fati  FC Barcelona -> AS Monaco
+- Mathys Detourbet  Manchester City -> AS Monaco
+- Lucas Michal  Cercle Brugge -> AS Monaco
+- Radoslaw Majecki  Agentes libres -> AS Monaco
+- Jeyland Mitchell  Sturm Graz -> RC Strasbourg
+- Dário Essugo  Agentes libres -> RC Strasbourg
+- Pape Diong  Agentes libres -> RC Strasbourg
+- Óscar Perea  América -> RC Strasbourg
+- Soumaïla Coulibaly  Watford -> RC Strasbourg
+- Rabby Nzingoula  West Bromwich Albion -> RC Strasbourg
+- Milos Lukovic  1. FC Kaiserslautern -> RC Strasbourg
+- Saïdou Sow  FC Nantes -> RC Strasbourg
+- Rayane Messi  Al Ettifaq -> RC Strasbourg
+- Noah Mbamba  Bayer 04 Leverkusen -> FC Lorient
+- Nosa Edward Obaretin  Napoli -> FC Lorient
+- Ibrahima Baldé  Rodez Aveyron Football -> FC Lorient
+- Joel Mvuka  FK Bodø_Glimt -> FC Lorient
+- Jérémy Hatchi  Montpellier HSC -> FC Lorient
+- Enzo Genton  Amiens SC -> FC Lorient
+- Sion Oppong  Agentes libres -> Toulouse FC
+- Edhy Zuliani  VVV-Venlo -> Toulouse FC
+- Ylies Aradj  Agentes libres -> Toulouse FC
+- Mário Sauer  1. FC Kaiserslautern -> Toulouse FC
+- Ibrahim Cissoko  PEC Zwolle -> Toulouse FC
+- Diego Coppola  Brighton & Hove Albion -> Paris FC
+- Luca Koleosho  Burnley -> Paris FC
+- Lohann Doucet  Vitória de Guimarães -> Paris FC
+- Mathys Tourraine  Pau FC -> Paris FC
+- Gabriel Oualengbe  Agentes libres -> Paris FC
+- Ylan El Hadary  AS Nancy -> Paris FC
+- Giovani Versini  Pau FC -> Stade Brestois 29
+- Noah Edjouma  LOSC Lille -> Stade Brestois 29
+- Sidiki Chérif  Coventry City -> Angers SCO
+- Yacine Gaya  Agentes libres -> Angers SCO
+- Timothée Pembélé  Sunderland -> Le Havre AC
+- Amir Richardson  Fiorentina -> Le Havre AC
+- Mokrane Bentoumi  Roda JC Kerkrade -> Le Havre AC
+- Rémy Labeau Lascary  RC Lens -> AJ Auxerre
+- Theo Bair  Bolton Wanderers -> AJ Auxerre
+- Saad Agouzoul  Agentes libres -> AJ Auxerre
+- Paul Joly  1. FC Kaiserslautern -> AJ Auxerre
+- Elye Wahi  Eintracht Frankfurt -> OGC Nice
+- Niels Nkounkou  Eintracht Frankfurt -> OGC Nice
+- Jérémie Boga  Juventus -> OGC Nice
+- Terem Moffi  Hamburger SV -> OGC Nice
+- Mattia Viti  Sampdoria -> OGC Nice
+- Aliou Baldé  FC St. Gallen -> OGC Nice
+- Rareș Ilie  Mantova -> OGC Nice
+- Yasser Larouci  Le Mans FC -> ESTAC Troyes
+- Yasser Larouci  ESTAC Troyes -> Le Mans FC
+- Rayan Bamba  Stade Rennais -> Le Mans FC
+- Nathan Tronchet  Agentes libres -> Le Mans FC
+- Thomas Robinet  USL Dunkerque -> FC Nantes
+- Antoine Joujou  Parma -> FC Nantes
+- Saïdou Sow  RC Strasbourg -> FC Nantes
+- Jean-Kévin Duverne  Agentes libres -> FC Nantes
+- Alban Lafont  Agentes libres -> FC Nantes
+- Joseph Nduquidi  Agentes libres -> FC Metz
+- Idrissa Gueye  Udinese -> FC Metz
+- Kevin Van Den Kerkhof  Agentes libres -> FC Metz
+- Enzo Mayilla  USL Dunkerque -> AS Saint-Étienne
+- Pierre Ekwah  AJ Auxerre -> AS Saint-Étienne
+- Beres Owusu  Grazer AK -> AS Saint-Étienne
+- Godson Kyeremeh  Le Havre AC -> Red Star FC (FRANCE)
+- Leonardo Buta  Udinese -> Red Star FC (FRANCE)
+- Mahamadou Diawara  Olympique Lyonnais -> Red Star FC (FRANCE)
+- Côme Bianay Balcot  Torino -> Red Star FC (FRANCE)
+- Mathis Saka  Toulouse FC -> Rodez AF
+- Aurélien Pelon  Agentes libres -> Rodez AF
+- Samuel Kotto  Agentes libres -> Stade de Reims
+- Pape Sissoko  SV Ried -> Stade de Reims
+- Antoine Leautey  Wuhan Three Towns -> Stade de Reims
+- Reda Khadra  Qarabağ FK -> Stade de Reims
+- Malcolm Jeng  FC Groningen -> Stade de Reims
+- Cédric Kipré  Ipswich Town -> Stade de Reims
+- Jonathan Do Marcolino  Stade Rennais -> FC Annecy
+- Ranjan Neelakandan  Agentes libres -> FC Annecy
+- Jérémy Hatchi  FC Lorient -> Montpellier HSC
+- Mathys Tourraine  Paris FC -> Pau FC
+- Jérémy Sebas  SC Bastia -> Pau FC
+- Enzo Mayilla  AS Saint-Étienne -> USL Dunkerque
+- Arthylio Nadé  ESTAC Troyes -> USL Dunkerque
+- Christ-Owen Kouassi  Lecce -> Grenoble Foot 38
+- Alan Kerouedan  Agentes libres -> Grenoble Foot 38
+- Luís Semedo  Sunderland -> Clermont Foot
+- Florian Bianchini  Portsmouth -> Clermont Foot
+- Ylan El Hadary  Paris FC -> AS Nancy
+- Oumar Sidibé  Agentes libres -> AS Nancy
+- Mathieu Mion  Grenoble Foot 38 -> US Boulogne
+- Hervé Touré  Agentes libres -> US Boulogne
+- Lilian Raillot  Agentes libres -> US Boulogne
+- Exaucé Mpembele Boula  Agentes libres -> US Boulogne
+- Christian Kitenge  Agentes libres -> US Boulogne
+- Zanga Koné  Agentes libres -> US Boulogne
+- Alpha Diallo  RC Lens -> Stade Lavallois MFC
+- Aymeric Faurand-Tournaire  Agentes libres -> Stade Lavallois MFC
+- Loïs Martins  Agentes libres -> Stade Lavallois MFC
+- Jules Meyer  Agentes libres -> Dijon FCO
+- Brayan Djadja  Agentes libres -> Dijon FCO
+- Taneli Hämäläinen  Agentes libres -> ADO Den Haag
+- Thilo Kehrer  AS Monaco -> Ajax
+- Sofyan Amrabat  Agentes libres -> Ajax
+- Marc ter Stegen  FC Barcelona -> Ajax
+- Simon Adingra  Sunderland -> Ajax
+- Branco van den Boomen  Angers SCO -> Ajax
+- Sivert Mannsverk  Agentes libres -> Ajax
+- Chuba Akpom  Ipswich Town -> Ajax
+- Calvin Stengs  Agentes libres -> AZ
+- Abdelnour Soualhia  SC Telstar -> AZ
+- Kristijan Belic  Agentes libres -> AZ
+- Zico Buurmeester  CD Leganés -> AZ
+- Mayckel Lahdo  Malmö FF -> AZ
+- Pelle Boevink  SpVgg Greuther Fürth -> FC Groningen
+- Travis Hernes  Agentes libres -> FC Groningen
+- Malcolm Jeng  Stade de Reims -> FC Groningen
+- Ramiz Zerrouki  Agentes libres -> FC Twente
+- Sayfallah Ltaief  Cracovia -> FC Twente
+- Bas Kuipers  Sparta Rotterdam -> FC Twente
+- Alec Van Hoorenbeeck  Agentes libres -> FC Twente
+- Ángel Alarcón  Agentes libres -> FC Utrecht
+- Nordin Amrabat  Wydad A.C. -> FC Utrecht
+- Jamie Schuldes  Agentes libres -> FC Utrecht
+- Emmanuel Chigozie Owen  Agentes libres -> FC Utrecht
+- Florian Kastenmeier  Fortuna Düsseldorf -> Feyenoord
+- Reiss Nelson  Arsenal -> Feyenoord
+- Javi López  Real Sociedad -> Feyenoord
+- Plamen Andreev  Agentes libres -> Feyenoord
+- Neraysho Kasanwirjo  SK Brann -> Feyenoord
+- Jaden Slory  Willem II -> Feyenoord
+- Jeyland Mitchell  RC Strasbourg -> Feyenoord
+- Calvin Stengs  AZ -> Feyenoord
+- Ramiz Zerrouki  FC Twente -> Feyenoord
+- Luka Ivanušec  Agentes libres -> Feyenoord
+- Onur Demir  Agentes libres -> Fortuna Sittard
+- Luca Everink  FC Emmen -> Go Ahead Eagles
+- Milan Smit  SV Darmstadt 98 -> Go Ahead Eagles
+- Xander Blomme  FC Eindhoven -> Go Ahead Eagles
+- Dennis Geiger  TSG 1899 Hoffenheim -> NEC Nijmegen
+- Thijs Oosting  FC Groningen -> PEC Zwolle
+- Ibrahim Cissoko  Toulouse FC -> PEC Zwolle
+- Tom de Graaff  FC Utrecht -> PEC Zwolle
+- Filip Krastev  Agentes libres -> PEC Zwolle
+- Sydney van Hooijdonk  Estrela Amadora -> PEC Zwolle
+- Sven Mijnans  Agentes libres -> PSV
+- Ayoni Santos  Sparta Rotterdam -> PSV
+- Matěj Kovář  Bayer 04 Leverkusen -> PSV
+- Mikkel Bro Hansen  FK Bodø_Glimt -> PSV
+- Sam Lammers  FC Twente -> PSV
+- Lutsharel Geertruida  RB Leipzig -> PSV
+- Joël Drommel  FC Twente -> PSV
+- Ilyes Hamache  FC Schalke 04 -> SC Cambuur
+- Ryan van de Pavert  Agentes libres -> SC Cambuur
+- Jason Ceka  SV Elversberg -> SC Cambuur
+- Casper Terho  Agentes libres -> Sparta Rotterdam
+- Bas Kuipers  FC Twente -> Sparta Rotterdam
+- Andrej Kostić  Milano FC -> Sparta Rotterdam
+- Lance Duijvestijn  SV Darmstadt 98 -> Sparta Rotterdam
+- Tijs Velthuis  PEC Zwolle -> Sparta Rotterdam
+- Youri Schoonderwaldt  VVV-Venlo -> Sparta Rotterdam
+- Ar'jany Martha  Rotherham United -> SC Telstar
+- Abdelnour Soualhia  AZ -> SC Telstar
+- Calvin Twigt  Go Ahead Eagles -> Willem II
+- Vito van Crooij  NEC Nijmegen -> Willem II
+- Finn Stam  Agentes libres -> Willem II
+- Jaden Slory  Feyenoord -> Willem II
+- Chido Obi  Manchester United -> Willem II
+- Boris Lambert  Agentes libres -> Willem II
+- Jakub Kiwior  Arsenal -> FC Porto
+- Gabriel Mec  Agentes libres -> FC Porto
+- Seko Fofana  Stade Rennais -> FC Porto
+- Stephen Eustaquio  Swansea City -> FC Porto
+- Iván Jaime  UD Las Palmas -> FC Porto
+- Danny Namaso  AJ Auxerre -> FC Porto
+- Samuel Portugal  Gil Vicente FC -> FC Porto
+- Alisson Santos  Napoli -> Sporting CP
+- Biel  Agentes libres -> Sporting CP
+- Diogo Travassos  Sporting de Braga -> Sporting CP
+- Alexandre Brito  Agentes libres -> Sporting CP
+- Koba Koindredi  FC Lausanne-Sport -> Sporting CP
+- Georgiy Sudakov  Shakhtar Donetsk -> Benfica
+- Jakub Kamiński  VfL Wolfsburg -> Benfica
+- João Palhinha  Bayern München -> Benfica
+- Enzo Barrenechea  Aston Villa -> Benfica
+- Claudio Echeverri  Manchester City -> Benfica
+- Souffian El Karouani  Al Qadsiah -> Benfica
+- Tiago Gouveia  Agentes libres -> Benfica
+- Florentino  Burnley -> Benfica
+- Rafa Obrador  Sassuolo -> Benfica
+- Jovan Milosevic  VfB Stuttgart -> Sporting de Braga
+- Diogo Travassos  Sporting CP -> Sporting de Braga
+- João Marques  Agentes libres -> Sporting de Braga
+- Ismaël Gharbi  CD Leganés -> Sporting de Braga
+- Thiago Helguera  Agentes libres -> Sporting de Braga
+- Djibril Soumaré  Stoke City -> Sporting de Braga
+- André Horta  UD Almería -> Sporting de Braga
+- Patricio Salas  América -> Famalicão
+- Otso Liimatta  IK Sirius -> Famalicão
+- Samuel Portugal  FC Porto -> Gil Vicente FC
+- Roko Baturina  Agentes libres -> Gil Vicente FC
+- Jorge Aguirre  Agentes libres -> Gil Vicente FC
+- Kevyn Monteiro  Agentes libres -> Moreirense
+- Joel Jorquera  Agentes libres -> Moreirense
+- Mateo Flores  Real Betis Balompié -> Arouca
+- Arnau Solà  Agentes libres -> Arouca
+- Vladislav Morozov  Agentes libres -> Arouca
+- Lohann Doucet  Paris FC -> Vitória de Guimarães
+- Oliwier Zych  Aston Villa -> Vitória de Guimarães
+- Dieu-Merci Michel  Agentes libres -> Vitória de Guimarães
+- Axel Camblan  Stade Brestois 29 -> Estoril
+- Sam Amissah  Agentes libres -> Estoril
+- Tiago Parente  Swansea City -> Estoril
+- Fran Pereira  Agentes libres -> Estoril
+- Dawda Camara  Girona FC -> Alverca
+- Jhonatan  Agentes libres -> Alverca
+- Léo Chú  Avaí -> Alverca
+- Armando Jr  Agentes libres -> Alverca
+- Sebastian Clemmensen  IFK Göteborg -> Rio Ave
+- Georgios Okkas  Agentes libres -> Rio Ave
+- Neneca  Agentes libres -> Santa Clara
+- Ythallo  Botafogo -> Santa Clara
+- João Bravim  Agentes libres -> Santa Clara
+- Reinaldo  Agentes libres -> Santa Clara
+- Alysson  Agentes libres -> Santa Clara
+- Bruno Almeida  Agentes libres -> Santa Clara
+- Douglas Borel  Agentes libres -> Santa Clara
+- Thauan Lara  Agentes libres -> Santa Clara
+- Mateus Sarará  Tondela -> Santa Clara
+- Jader Gentil  Agentes libres -> Santa Clara
+- Anthony Carter  Agentes libres -> Santa Clara
+- Miguel Pires  Agentes libres -> Santa Clara
+- Allen Obando  Agentes libres -> Nacional da Madeira
+- Lovro Zvonarek  Bayern München -> Estrela Amadora
+- Stefan Lekovic  Agentes libres -> Estrela Amadora
+- Rodrigo Dudok  Racing Club U. -> Estrela Amadora
+- Francisco Meixedo  Agentes libres -> Estrela Amadora
+- Semeu Commey  Agentes libres -> Estrela Amadora
+- João Gastão  Agentes libres -> Estrela Amadora
+- João Resende  Agentes libres -> Estrela Amadora
+- Assane Ndiaye  Cultural Leonesa -> Estrela Amadora
+- Benjamin Pauwels  CD Leganés -> Casa Pia
+- Aymen Zouin  Parma -> Casa Pia
+- Selvi Clua  UD Almería -> Casa Pia
+- Max Svensson  Agentes libres -> Casa Pia
+- Fahem Benaïssa  Mantova -> Casa Pia
+- Miguel Sousa  Agentes libres -> Casa Pia
+- El Chadaille Bitshiabu  RB Leipzig -> Galatasaray
+- Umut Erdem  Çaykur Rizespor -> Galatasaray
+- Ali Efe Çördek  Agentes libres -> Galatasaray
+- Ali Turap Bülbül  Agentes libres -> Galatasaray
+- Halil Dervişoğlu  Gaziantep FK -> Galatasaray
+- Wilfried Zaha  Agentes libres -> Galatasaray
+- Elias Jelert  Le Havre AC -> Galatasaray
+- Nicolò Zaniolo  Udinese -> Galatasaray
+- Ali Yeşilyurt  Agentes libres -> Galatasaray
+- Sidiki Chérif  Angers SCO -> Fenerbahçe
+- Dominik Livakovic  FC Barcelona -> Fenerbahçe
+- İrfan Can Eğribayat  Agentes libres -> Fenerbahçe
+- Cengiz Ünder  Agentes libres -> Fenerbahçe
+- Sofyan Amrabat  Ajax -> Fenerbahçe
+- Diego Carlos  Parma -> Fenerbahçe
+- Omar Fayed  Frosinone -> Fenerbahçe
+- Yiğit Fidan  Agentes libres -> Fenerbahçe
+- Emre Demir  Agentes libres -> Fenerbahçe
+- Franculino  FC Midtjylland -> Trabzonspor
+- Ernest Muci  Beşiktaş -> Trabzonspor
+- Cenk Özkacar  Valencia CF -> Trabzonspor
+- Thierry Karadeniz  Agentes libres -> Trabzonspor
+- Kazeem Olaigbe  FC Basel -> Trabzonspor
+- Poyraz Yıldırım  Agentes libres -> Trabzonspor
+- Serdar Saatçı  Agentes libres -> Trabzonspor
+- Muhammed Cham  Agentes libres -> Trabzonspor
+- Göktan Gürpüz  Agentes libres -> Trabzonspor
+- Ali Şahin Yılmaz  Agentes libres -> Trabzonspor
+- Zekeriya Bulut  Agentes libres -> Trabzonspor
+- Veysel Sönmezsoy  Agentes libres -> Trabzonspor
+- Orkun Kökçü  Benfica -> Beşiktaş
+- Alexander Nübel  Bayern München -> Beşiktaş
+- Ümit Akdağ  Corendon Alanyaspor -> Beşiktaş
+- Ernest Muci  Trabzonspor -> Beşiktaş
+- Moatasem Al-Musrati  Agentes libres -> Beşiktaş
+- Jean Onana  Agentes libres -> Beşiktaş
+- Göktuğ Baytekin  Agentes libres -> Beşiktaş
+- Emrecan Terzi  Agentes libres -> Beşiktaş
+- Tayyip Talha Sanuç  Çaykur Rizespor -> Beşiktaş
+- Salem Bouajila  Agentes libres -> Göztepe
+- Tibet Durakçay  Agentes libres -> Göztepe
+- Richie Omorowa  Agentes libres -> Samsunspor
+- Arbnor Muja  Agentes libres -> Samsunspor
+- Emre Köroğlu  Agentes libres -> Samsunspor
+- Modibo Sagnan  Montpellier HSC -> Çaykur Rizespor
+- Umut Erdem  Galatasaray -> Çaykur Rizespor
+- Tayyip Talha Sanuç  Beşiktaş -> Çaykur Rizespor
+- Eray Korkmaz  Agentes libres -> Çaykur Rizespor
+- Benhur Keser  Kayserispor -> Çaykur Rizespor
+- Mustafa Şengül  Agentes libres -> Çaykur Rizespor
+- Eren Emre Aydın  Agentes libres -> Çaykur Rizespor
+- Hüseyincan Kırıkcı  Agentes libres -> Çaykur Rizespor
+- Arif Boşluk  Trabzonspor -> Konyaspor
+- Mohamed Fofana  Agentes libres -> Konyaspor
+- Eric Konaté  Agentes libres -> Konyaspor
+- Enis Destan  Hull City -> Konyaspor
+- Arthur Masuaku  Sunderland -> Konyaspor
+- Melih Bostan  Agentes libres -> Konyaspor
+- Ibrahima Bah  Agentes libres -> Konyaspor
+- Adem Eren Kabak  Agentes libres -> Konyaspor
+- Ahmet Daş  Agentes libres -> Konyaspor
+- Rıdvan Dönmez  Agentes libres -> Konyaspor
+- Metehan Mert  Agentes libres -> Konyaspor
+- Abdurrahman Üresin  Agentes libres -> Konyaspor
+- Mehmet Ali Büyüksayar  Agentes libres -> Konyaspor
+- Habib Keïta  Clermont Foot -> Kocaelispor
+- Show  Agentes libres -> Kocaelispor
+- Bünyamin Dalkılıç  Agentes libres -> Kocaelispor
+- Mesut Can Tunalı  Agentes libres -> Kocaelispor
+- Halil Dervişoğlu  Galatasaray -> Gaziantep FK
+- Onur Başyiğit  Agentes libres -> Gaziantep FK
+- Yusuf Delen  Agentes libres -> Gaziantep FK
+- Horațiu Moldovan  Atlético de Madrid -> Eyüpspor
+- Erdem Gökçe  Agentes libres -> Eyüpspor
+- Mustafa Eren Damar  Agentes libres -> Eyüpspor
+- Fethi Özer  Kayserispor -> Eyüpspor
+- Hüseyin Maldar  Agentes libres -> Eyüpspor
+- Berkay Kumlu  Agentes libres -> Eyüpspor
+- Buğra Çağlıyan  Agentes libres -> Eyüpspor
+- Romeo Amane  SK Rapid -> Anderlecht
+- Thelo Aasgaard  Rangers -> Anderlecht
+- Andrew Omobamidele  RC Strasbourg -> Anderlecht
+- Moussa Ndiaye  Werder Bremen -> Anderlecht
+- Luis Vázquez  Birmingham City -> Anderlecht
+- Keisuke Goto  SC Freiburg -> Anderlecht
+- Yann Lienard  AS Monaco -> Cercle Brugge
+- Yago Lincoln  Londrina -> Cercle Brugge
+- Lucas Michal  AS Monaco -> Cercle Brugge
+- Beni Mpanzu  FC Dordrecht -> Cercle Brugge
+- Jonas Lietaert  Agentes libres -> Cercle Brugge
+- Zaid Romero  Getafe CF -> Club Brugge
+- Tobe Leysen  OH Leuven -> Genk
+- Lucca Brughmans  Liverpool -> Genk
+- Thierno Diallo  Agentes libres -> RAAL La Louvière
+- Tristan Loiseaux  Agentes libres -> RAAL La Louvière
+- Mohamed Guindo  Agentes libres -> RAAL La Louvière
+- Luka Hoedaert  Agentes libres -> RAAL La Louvière
+- Raphaël Eyongo  Agentes libres -> RAAL La Louvière
+- Leo Hjelde  Sunderland -> KV Mechelen
+- Andi Zeqiri  Agentes libres -> Standard Liège
+- Dylan Aquino  Lanús -> Union Saint-Gilloise
+- Hervé Koffi  RC Lens -> Union Saint-Gilloise
+- Cristian Makaté  Agentes libres -> Union Saint-Gilloise
+- Ousseynou Niang  Union Saint-Gilloise -> Zulte Waregem
+- Marley Aké  Agentes libres -> Zulte Waregem
+- Salim Diakité  Palermo -> Zulte Waregem
+- Andres Labie  Agentes libres -> Zulte Waregem
+- Ennio van der Gouw  Rio Ave -> Zulte Waregem
+- Dylan Demuynck  Agentes libres -> Zulte Waregem
+- Joël van den Berg  PSV -> Celtic
+- Jordan Lotomba  Feyenoord -> Celtic
+- Sam Johnstone  Wolverhampton Wanderers -> Celtic
+- Hayato Inamura  Agentes libres -> Celtic
+- Maik Nawrocki  RC Lens -> Celtic
+- Luis Palma  Lech Poznań -> Celtic
+- Adam Montgomery  Livingston -> Celtic
+- Shin Yamada  Agentes libres -> Celtic
+- Johnny Kenny  Preston North End -> Celtic
+- Cormac Daly  Agentes libres -> Heart of Midlothian
+- Rogers Mato  Agentes libres -> Heart of Midlothian
+- Harry Stone  Agentes libres -> Heart of Midlothian
+- Kenneth Vargas  Agentes libres -> Heart of Midlothian
+- Adam Forrester  Agentes libres -> Heart of Midlothian
+- Sander Kartum  Agentes libres -> Heart of Midlothian
+- Liam McFarlane  Agentes libres -> Heart of Midlothian
+- Kevin Kelsy  Portland Timbers -> Rangers
+- Min-su Kim  Girona FC -> Rangers
+- Olwethu Makhanya  Agentes libres -> Rangers
+- Daisuke Yokota  Hannover 96 -> Rangers
+- Dan Neil  Sunderland -> Rangers
+- Kosta Nedeljkovic  Aston Villa -> Rangers
+- Badredine Bouanani  VfB Stuttgart -> Rangers
+- Ben Godfrey  Bergamo Calcio -> Rangers
+- Lyall Cameron  Aberdeen -> Rangers
+- Ross McCausland  Agentes libres -> Rangers
+- Jamie Knight-Lebel  Bristol City -> Motherwell
+- Alex Paulsen  AFC Bournemouth -> Motherwell
+- Nathan Lowe  Stoke City -> Hibernian
+- Alex Williams  West Bromwich Albion -> Hibernian
+- Jacob Devaney  Agentes libres -> Hibernian
+- Murray Johnson  Shelbourne -> Hibernian
+- Jay Hogarth  Agentes libres -> Falkirk
+- Owen Eames  Derby County -> Falkirk
+- Ben Krauhaus  Agentes libres -> Falkirk
+- Finley Barbrook  Agentes libres -> Falkirk
+- Conor McLeod  Agentes libres -> Falkirk
+- Zidane Iqbal  FC Utrecht -> Dundee United
+- Lyall Cameron  Rangers -> Dundee United
+- Daniel Bennie  Queens Park Rangers -> Dundee United
+- Ruairidh Adams  Agentes libres -> Dundee United
+- Owen Stirton  Agentes libres -> Dundee United
+- Matai Akinmboni  AFC Bournemouth -> Dundee FC
+- Bradley Fink  Wycombe Wanderers -> Dundee FC
+- Bobby Wales  Swansea City -> Dundee FC
+- Owen Goodman  Crystal Palace -> Dundee FC
+- Aaron Donnelly  Agentes libres -> Dundee FC
+- MJ Kamson-Kamara  Heart of Midlothian -> Kilmarnock
+- Bailey Rice  Rangers -> Kilmarnock
+- Cathal McCarthy  Agentes libres -> Kilmarnock
+- Ethan Schilte-Brown  Agentes libres -> Kilmarnock
+- Robby McCrorie  Agentes libres -> Kilmarnock
+- Scott Tiffoney  Agentes libres -> Kilmarnock
+- Ben Brannan  Agentes libres -> Kilmarnock
+- Eddie Beach  Shelbourne -> Kilmarnock
+- Alfie Stewart  Agentes libres -> Aberdeen
+- Alfie Bavidge  Agentes libres -> Aberdeen
+- Vicente Besuijen  Agentes libres -> Aberdeen
+- Peter Ambrose  Agentes libres -> Aberdeen
+- Dylan Lobban  Agentes libres -> Aberdeen
+- Paul Nsio  Agentes libres -> St. Mirren
+- Ismeal Kabia  Agentes libres -> St. Mirren
+- Calvin Ramsay  Liverpool -> St. Mirren
+- Callum Penman  Agentes libres -> St. Mirren
+- Billy Hutchinson  Agentes libres -> St. Mirren
+- Tunmise Sobowale  Shamrock Rovers -> St. Mirren
+- Gustavo Puerta  Racing de Santander -> Olympiacos
+- David Carmo  Nottingham Forest -> Olympiacos
+- Leon Bailey  Aston Villa -> Olympiacos
+- Jota Silva  Nottingham Forest -> Olympiacos
+- Pablo Maffeo  Valencia CF -> Olympiacos
+- Gustavo Sá  Nottingham Forest -> Olympiacos
+- Antonis Papakanellos  Agentes libres -> Olympiacos
+- Georgios Masouras  NEOM SC -> Olympiacos
+- Gabriel Strefezza  Palermo -> Olympiacos
+- Doron Leidner  Agentes libres -> Olympiacos
+- Luka Gugeshashvili  Göztepe -> PAOK
+- Lefteris Lyratzis  Agentes libres -> PAOK
+- Azzedine Ounahi  Girona FC -> Panathinaikos
+- Iñaki Peña  FC Barcelona -> Panathinaikos
+- Anass Zaroury  RC Lens -> Panathinaikos
+- Filip Mladenovic  Agentes libres -> Panathinaikos
+- Miguel Tavares  Agentes libres -> Panathinaikos
+- Nikolaos Nikoletopoulos  Agentes libres -> Panathinaikos
+- Athanasios Prodromitis  Agentes libres -> Panathinaikos
+- Georgios Karakasidis  Agentes libres -> Panathinaikos
+- Odysseas Lazaris  Agentes libres -> Panathinaikos
+- Dimitrios Limnios  APOEL Nicosia FC -> Panathinaikos
+- Enis Cokaj  VfL Bochum -> Panathinaikos
+- Rayane Messi  RC Strasbourg -> Al Ettifaq
+- Majed Dawran  Agentes libres -> Al Ettifaq
+- Wissem Chaouali  Agentes libres -> Al Ettifaq
+- Nawaf Hazazi  Agentes libres -> Al Ettifaq
+- Abdullah Al-Muqrin  Agentes libres -> Al Fateh
+- Matheus Machado  Agentes libres -> Al Fateh
+- Jan-Carlo Simić  Anderlecht -> Al Ittihad
+- Richard Ríos  Benfica -> Al Ittihad
+- Stephane Keller  Agentes libres -> Al Ittihad
+- Isaías Rodríguez  Agentes libres -> Al Ittihad
+- Unai Hernández  Girona FC -> Al Ittihad
+- Ricardo Caraballo  Agentes libres -> Al Ittihad
+- Angelo Fulgini  RC Lens -> Al Khaleej
+- Hussain Al-Sultan  Agentes libres -> Al Khaleej
+- Coba da Costa  Getafe CF -> Al Kholood
+- Yazan Madani  Agentes libres -> Al Kholood
+- Abdulmajeed Al-Sulayhim  Agentes libres -> Al Nassr
+- Haroune Camara  NEOM SC -> Al Nassr
+- Souffian El Karouani  Benfica -> Al Qadsiah
+- Qasem Lajami  Agentes libres -> Al Qadsiah
+- Abdulaziz Al-Othman  NEOM SC -> Al Qadsiah
+- Miguel Carvalho  Chapecoense -> Al Qadsiah
+- Jerry Afriyie  Genk -> Al Qadsiah
+- Mousa Al-Hamidi Al-Harbi  Agentes libres -> Al Qadsiah
+- Mohammed Al-Saeed  Agentes libres -> Al Riyadh
+- Ryan Al-Bloushi  Agentes libres -> Al Riyadh
+- Nawaf Al-Hawsawi  Al Okhdood -> Al Riyadh
+- Suwailem Al-Manhali  Agentes libres -> Al Riyadh
+- Ali Al-Bulayhi  Agentes libres -> Al Shabab
+- Nawaf Al-Saadi  Al Khaleej -> Al Shabab
+- Georgiy Bushchan  Agentes libres -> Al Shabab
+- Keshim Al-Qahtani  Agentes libres -> Al Taawoun
+- Renne Rivas  Agentes libres -> Al Taawoun
+- Abdulaziz Al-Othman  Al Qadsiah -> NEOM SC
+- Georgios Masouras  Olympiacos -> NEOM SC
+- Haroune Camara  Al Nassr -> NEOM SC
+- Thamer Al-Khaibri  Al Khaleej -> NEOM SC
+- Ali Al-Asmari  Al Shabab -> NEOM SC
+- Osama Al-Khalaf  Damac FC -> NEOM SC
+- Noah Allen  Inter Miami -> Chicago Fire FC
+- Johan Gómez  Universitario de Vinto -> Chicago Fire FC
+- Christopher Cupps  Agentes libres -> Chicago Fire FC
+- Giuliano Galoppo  River Plate -> Atlanta United FC
+- Adyn Torres  Agentes libres -> Atlanta United FC
+- Yutaro Tsukada  Agentes libres -> Orlando City SC
+- Zidane Yáñez  Nashville SC -> New York City FC
+- Eddy Davis III  Agentes libres -> Philadelphia Union
+- Stas Korzeniowski  Agentes libres -> Philadelphia Union
+- Lewis Morgan  San Diego FC -> Toronto FC
+- Julián Malatini  Werder Bremen -> FC Cincinnati
+- Elias Saad  FC Augsburg -> Nashville SC
+- Zidane Yáñez  New York City FC -> Nashville SC
+- Adem Sipic  Agentes libres -> Nashville SC
+- Matías Galarza  River Plate -> Inter Miami
+- Benja Cremaschi  Parma -> Inter Miami
+- Allen Obando  Nacional da Madeira -> Inter Miami
+- Noah Allen  Chicago Fire FC -> Inter Miami
+- Viktor Radojević  Chicago Fire FC -> CF Montréal
+- Joon-hong Kim  Agentes libres -> D.C. United
+- Conner Antley  Agentes libres -> D.C. United
+- Anass Zaroury  Panathinaikos -> Columbus Crew
+- Jack Harrison  Leeds United -> New England Revolution
+- Dániel Gazdag  Columbus Crew -> New England Revolution
+- Joshua Wynder  Benfica -> New England Revolution
+- Malcolm Fry  Agentes libres -> New England Revolution
+- Eric Klein  Agentes libres -> New England Revolution
+- Allan Oyirwoth  Agentes libres -> New England Revolution
+- David Ruíz  Inter Miami -> Red Bull New York
+- Devin Padelford  Minnesota United FC -> Red Bull New York
+- Christopher Applewhite  Nashville SC -> Austin FC
+- AZ Jackson  Agentes libres -> Minnesota United FC
+- Cherrion Valerius  NAC Breda -> Minnesota United FC
+- Wessel Speel  Almere City FC -> Minnesota United FC
+- Matus Kmet  Agentes libres -> Minnesota United FC
+- Kenyel Michel  LD Alajuelense -> Minnesota United FC
+- Devin Padelford  Red Bull New York -> Minnesota United FC
+- Armindo Sieb  Bayern München -> Los Angeles FC
+- Thayllon  Avaí -> Los Angeles FC
+- Leo Walta  Swansea City -> Los Angeles FC
+- Rafael Navarro  Colorado Rapids -> St. Louis City SC
+- Charles-Emile Brunet  Nashville SC -> St. Louis City SC
+- Zach Zengue  Columbus Crew -> St. Louis City SC
+- Damion Downs  Southampton -> St. Louis City SC
+- Jake Girdwood-Reich  Motherwell -> St. Louis City SC
+- Cédric Bakambu  Agentes libres -> San Diego FC
+- Wilson Eisner  Agentes libres -> San Diego FC
+- Anisse Saidi  Agentes libres -> San Diego FC
+- Caden Clark  D.C. United -> Seattle Sounders
+- Cody Baker  New England Revolution -> Seattle Sounders
+- Yu Tsukanome  Agentes libres -> Seattle Sounders
+- Lyle Foster  Burnley -> Houston Dynamo
+- Toyosi Olusanya  Aberdeen -> Houston Dynamo
+- Sam Vines  San Diego FC -> Houston Dynamo
+- Clay Holstad  Agentes libres -> FC Dallas
+- Tsiki Ntsabeleng  Mamelodi Sundowns -> FC Dallas
+- Juan Jose Arias  Agentes libres -> Real Salt Lake
+- Jason Shokalook  Chicago Fire FC -> Real Salt Lake
+- Colin Guske  Orlando City SC -> Real Salt Lake
+- Taylor Booth  FC Twente -> Real Salt Lake
+- Jesús Barea  Agentes libres -> Real Salt Lake
+- Nelson Palacio  Toronto FC -> Real Salt Lake
+- Rui Modesto  Udinese -> Vancouver Whitecaps
+- Emrick Fotsing  Agentes libres -> Vancouver Whitecaps
+- Sebastián Ramírez  Tristán Suárez -> Vancouver Whitecaps
+- Joedrick Pupe  Agentes libres -> Vancouver Whitecaps
+- Nelson Pierre  Agentes libres -> Vancouver Whitecaps
+- Joel Waterman  Chicago Fire FC -> Portland Timbers
+- Ronald Hernández  Atlanta United FC -> Portland Timbers
+- Owen Wolff  Agentes libres -> Sporting KC
+- Moisés Mosquera  Agentes libres -> Sporting KC
+- Emir Karić  Sturm Graz -> Sporting KC
+- Ibrahim Sadiq  AZ -> Colorado Rapids
+- Bryce Jamison  Agentes libres -> Colorado Rapids
+- Calegari  Eyüpspor -> Los Angeles Galaxy
+- Hirving Lozano  San Diego FC -> Los Angeles Galaxy
+- Íker Moreno  Atl. San Luis -> Puebla
+- Ángel Robles  La Paz -> Puebla
+- Emanuel Gularte  Real Sporting de Gijón -> Puebla
+- Agustín Urzi  Agentes libres -> F.C. Juárez
+- Íker Moreno  Puebla -> Atl. San Luis
+- Nicolás Díaz  Alianza Lima -> Tijuana
+- Luís Esteves  Agentes libres -> Atlas FC
+- Adonis Frías  Agentes libres -> Atlas FC
+- Florián Monzón  Agentes libres -> Atlas FC
+- Duk  Agentes libres -> Atlas FC
+- Milton Valenzuela  Agentes libres -> Atlas FC
+- Juan José Purata  Tigres U.A.N.L. -> Atlas FC
+- Jordy Caicedo  Agentes libres -> Atlas FC
+- Ricardo Monreal  Agentes libres -> Tigres U.A.N.L.
+- Mauro Laínez  Mazatlán FC -> Tigres U.A.N.L.
+- Francisco Reyes  Agentes libres -> Tigres U.A.N.L.
+- Alan Mozo  Pachuca -> Guadalajara
+- Fidel Barajas  Agentes libres -> Guadalajara
+- David Ospina  Agentes libres -> Atlante
+- Luis Sánchez  Deportes Tolima -> Atlante
+- Francisco Reyes  Tigres U.A.N.L. -> Atlante
+- Andrés Colorado  Once Caldas -> Necaxa
+- Juan Guevara  SC Bastia -> León
+- Federico Viñas  Toluca -> León
+- Kenedy  Real Valladolid -> Pachuca
+- Andrés Arroyo  Fortaleza CEIF -> Pachuca
+- Pedro Pedraza  Necaxa -> Pachuca
+- Owen González  Necaxa -> Pachuca
+- Santiago Homenchenko  Querétaro -> Pachuca
+- Alan Mozo  Guadalajara -> Cruz Azul
+- Georgios Giakoumakis  Agentes libres -> Cruz Azul
+- Mauro Zaleta  Necaxa -> Cruz Azul
+- Carlos Álvarez  Levante UD -> América
+- Rodolfo Cota  León -> América
+- Óscar Perea  RC Strasbourg -> América
+- Cristian Calderón  Agentes libres -> América
+- Michell Rodríguez  Agentes libres -> Monterrey
+- Jaziel Martínez  Agentes libres -> Monterrey
+- Federico Viñas  León -> Toluca
+- Hugo González  Mazatlán FC -> Toluca
+- Fernando Arce  Puebla -> Toluca
+- Diego González  Atlas FC -> Santos Laguna
+- Esteban Lozano  América -> Santos Laguna
+- Jordán Carrillo  Guadalajara -> Santos Laguna
+- Leonardo Sequeira  Agentes libres -> Central Córdoba
+- Enzo Roldán  Nueva Chicago -> Unión
+- Pablo Palacio  Deportes Iquique -> Unión
+- Diego Díaz  Patronato -> Unión
+- José Vanetta  Agentes libres -> Unión
+- Marcos Portillo  FBC Melgar -> Talleres
+- Joaquín Mosqueira  Unión -> Talleres
+- Juan Gutiérrez  Córdoba CF -> Defensa
+- Tiziano Perrotta  Elche CF -> Defensa
+- Leandro Espejo  Olimpo -> Defensa
+- Cristopher Fiermarín  Bucaramanga -> Defensa
+- Francisco Marco  Agentes libres -> Defensa
+- Benjamín Schamine  Agentes libres -> Defensa
+- Agustín Sienra  CD Castellón -> Defensa
+- Mauricio Benítez  Agentes libres -> Boca Juniors
+- Marcelo Saracchi  Houston Dynamo -> Boca Juniors
+- Alan Soñora  Agentes libres -> Newell's
+- Lautaro Giannetti  Antalyaspor -> Newell's
+- Franco Escobar  Agentes libres -> Newell's
+- Mateo García  Atlas FC -> Newell's
+- Santiago Solari  Racing Club -> Newell's
+- Juan Espínola  Agentes libres -> Newell's
+- Juan Ignacio Méndez  Instituto -> Newell's
+- Julián Contrera  Agentes libres -> Newell's
+- Giovani Chiaverano  Agentes libres -> Newell's
+- Fabricio Tirado  Miramar Misiones -> Newell's
+- Armando Méndez  Agentes libres -> Newell's
+- Guillermo Balzi  Holstein Kiel -> Newell's
+- Agustín Quiroga  Estudiantes R.C. -> Independiente
+- Felipe Loyola  Pisa -> Independiente
+- Lucas Román  FC Dordrecht -> Independiente
+- Gustavo Fernández  San Miguel -> Dep. Riestra
+- Carlos Gugenheim  Agentes libres -> Dep. Riestra
+- Álvaro Montero  Boca Juniors -> Vélez Sarsfield
+- Elías Cabrera  Atl. Nacional -> Vélez Sarsfield
+- Benjamín Bosch  Agentes libres -> Vélez Sarsfield
+- Lautaro Cano  Banfield -> Vélez Sarsfield
+- Bruno Sepúlveda  Banfield -> Platense
+- Gastón Togni  Defensa -> Platense
+- Agustín Alonso  Agentes libres -> Platense
+- Bruno Cabrera  San Martín T. -> Lanús
+- Lautaro Morales  Tigre -> Lanús
+- Franco Orozco  Agentes libres -> Lanús
+- Jalil Elías  Tigre -> Estudiantes
+- Luciano Giménez  Platense -> Estudiantes
+- Gonzalo Piñeiro  Agentes libres -> Estudiantes
+- Juan Pablo Zozaya  Club Magallanes -> Estudiantes
+- Matías Godoy  Aldosivi -> Estudiantes
+- Mauro Méndez  Tigre -> Estudiantes
+- Fabricio Amato  Agentes libres -> Estudiantes
+- Agustín Quiroga  Independiente -> Estudiantes R.C.
+- Agustín Morales  Atlanta -> Estudiantes R.C.
+- Facundo Bruera  San Lorenzo -> Barracas Central
+- Benjamín Borasi  Agentes libres -> Sarmiento
+- Manuel Mónaco  Acassuso -> Sarmiento
+- Bruno Barticciotto  Talleres -> Huracán
+- Sebastián Ramírez  Vancouver Whitecaps -> Huracán
+- Leandro Garate  Colón -> Huracán
+- Leonardo Sequeira  Central Córdoba -> Huracán
+- Matías Godoy  Estudiantes -> Aldosivi
+- Facundo De La Vega  Almagro -> Aldosivi
+- Alex Vigo  Agentes libres -> Ind. Rivadavia
+- Maximiliano Salas  Agentes libres -> Ind. Rivadavia
+- Mauro Peinipil  Colón -> Ind. Rivadavia
+- Iván Valdez  Agentes libres -> Ind. Rivadavia
+- Mauro Méndez  Estudiantes -> Tigre
+- Lautaro Morales  Lanús -> Tigre
+- Gonzalo Requena  Agentes libres -> Tigre
+- Ezequiel Forclaz  C.A. Cerro -> Tigre
+- Matías Kranevitter  Fatih Karagümrük S.K. -> Racing Club
+- Evelio Cardozo  Nueva Chicago -> Racing Club
+- Maico Quiroz  Güemes -> Racing Club
+- Matías Bergara  Nueva Chicago -> Racing Club
+- Emiliano Saliadarre  Miramar Misiones -> Racing Club
+- Gonzalo Reyna  Agentes libres -> Racing Club
+- Axel Werner  Elche CF -> Rosario Central
+- Luciano Ferreyra  San Martín -> Rosario Central
+- Juan Pintado  Unión -> Gimnasia
+- Francisco Ilarregui  Ciudad Bolivar -> Argentinos Jrs.
+- Juan Román Pucheta  Agentes libres -> Argentinos Jrs.
+- Alan Núñez  Cerro Porteño -> Argentinos Jrs.
+- Ariel Gamarra  Cerro Porteño -> Argentinos Jrs.
+- Joaquín Ardaiz  Defensores B. -> Argentinos Jrs.
+- Lautaro Cano  Vélez Sarsfield -> Banfield
+- Lucas Beltrán  Fiorentina -> River Plate
+- Tobías Leiva  Rubio Ñu -> River Plate
+- Lucas Lavagnino  Real Valladolid -> River Plate
+- Bautista Dadín  Aldosivi -> River Plate
+- Andrés Herrera  Columbus Crew -> River Plate
+- Matías Galarza  Inter Miami -> River Plate
+- Sebastián Boselli  Getafe CF -> River Plate
+- Dantas  Agentes libres -> Athletico-PR
+- Ruan  Sassuolo -> Atlético Mineiro
+- Thiago Borbas  Agentes libres -> Atlético Mineiro
+- Chris Ramos  Cádiz CF -> Botafogo
+- Nahuel Ferraresi  Agentes libres -> Botafogo
+- Lucas Monzón  Agentes libres -> Botafogo
+- Tiquinho Soares  Agentes libres -> Botafogo
+- Patrick de Paula  Agentes libres -> Botafogo
+- Yarlen  Athletic Club -> Botafogo
+- Kayke Queiroz  Agentes libres -> Botafogo
+- Elias Manoel  Tijuana -> Botafogo
+- Matheus Nascimento  Grêmio -> Botafogo
+- Alejo Veliz  Tottenham Hotspur -> Bahia
+- Marcos Felipe  Eyüpspor -> Bahia
+- Luis Sinisterra  AFC Bournemouth -> Cruzeiro
+- Murilo Rhikman  Agentes libres -> Cruzeiro
+- Bruno Alves  Norwich City -> Cruzeiro
+- Ian Luccas  Alverca -> Cruzeiro
+- Lautaro Díaz  Racing Club -> Cruzeiro
+- Pedrão  Avaí -> Cruzeiro
+- Kevyn Monteiro  Moreirense -> RB Bragantino
+- Thiago Borbas  Atlético Mineiro -> RB Bragantino
+- Sergio Palacios  Ponte Preta -> RB Bragantino
+- Vitinho Mota  Londrina -> RB Bragantino
+- Luan Cândido  Agentes libres -> RB Bragantino
+- Lucas Cunha  Ponte Preta -> RB Bragantino
+- Guilherme Lopes  Atlético Goianiense -> RB Bragantino
+- Chumbinho  Londrina -> RB Bragantino
+- Miguel Carvalho  Al Qadsiah -> Chapecoense
+- Franco Rossi  Toluca -> Chapecoense
+- Kaíque Maciel  Agentes libres -> Chapecoense
+- Thalisson  Ceará SC -> Coritiba
+- Geovane Meurer  Agentes libres -> Coritiba
+- Carlinhos  Athletic Club -> Flamengo
+- Kayky Almeida  Agentes libres -> Fluminense
+- Matheus Nascimento  Botafogo -> Grêmio
+- Diego Caito  Goiás -> Grêmio
+- Matías Arezo  Agentes libres -> Grêmio
+- Adriel  Agentes libres -> Grêmio
+- Vitinho  Dynamo Kyiv -> Internacional
+- Keiller  Agentes libres -> Internacional
+- Estêvão  Agentes libres -> Internacional
+- Alesson  Agentes libres -> Mirassol F.C.
+- Edson Carioca  Goiás -> Mirassol F.C.
+- Japa  Cruzeiro -> Mirassol F.C.
+- Elias  Agentes libres -> Mirassol F.C.
+- Igor Cariús  Agentes libres -> Mirassol F.C.
+- Luighi  New York City FC -> Palmeiras
+- Michel  Agentes libres -> Palmeiras
+- Naves  Necaxa -> Palmeiras
+- Kaique Pereira  Sporting CP -> Palmeiras
+- Matheus Alexandre  Agentes libres -> Clube do Remo
+- Zé Ivaldo  Agentes libres -> Clube do Remo
+- Edson Fernando  Agentes libres -> Clube do Remo
+- Guty  Amazonas FC -> Clube do Remo
+- Marrony  Agentes libres -> Clube do Remo
+- Rodinei  Olympiacos -> Santos
+- Arthur Melo  Juventus -> Santos
+- Andrey Quintino  Agentes libres -> Santos
+- Zé Ivaldo  Clube do Remo -> Santos
+- Tiquinho Soares  Botafogo -> Santos
+- Iago  Bahia -> São Paulo
+- Nahuel Ferraresi  Botafogo -> São Paulo
+- Felipe Negrucci  Athletic Club -> São Paulo
+- GB  Agentes libres -> Vasco da Gama
+- Diego Tarzia  Independiente -> Vitória
+- Renê  Portuguesa -> Vitória
+- Walace  Cruzeiro -> Vitória
+- Tomás Pochettino  Fortaleza -> Vitória
+- Claudinho  Agentes libres -> Vitória
+- Ronald  Criciúma -> Vitória
+- César Haydar  Agentes libres -> Atl. Nacional
+- Elías Cabrera  Vélez Sarsfield -> Atl. Nacional
+- Juan Jose Arias  Real Salt Lake -> Atl. Nacional
+- Juan Torres  Necaxa -> Atl. Nacional
+- Fabián Villa  Agentes libres -> Deportivo Pasto
+- Andrés Colorado  Necaxa -> Once Caldas
+- Pipe Gómez  Itagüí Leones -> Once Caldas
+- Luis Sánchez  Atlante -> Deportes Tolima
+- Jorge Hurtado  Watford -> Deportes Tolima
+- Kevin Cortés  Orsomarso SC -> Santa Fe
+- José Masllorens  Agentes libres -> Internacional de Bogotá
+- Sander Navarro  Boyacá Chicó -> Millonarios
+- Málcom Palacios  Bogotá FC -> DIM
+- Cristopher Fiermarín  Defensa -> Bucaramanga
+- Jhon Fredy Salazar  Junior -> Bucaramanga
+- Óscar Vega  Agentes libres -> Llaneros F.C.
+- Williams Barlasina  Newell's -> Fortaleza CEIF
+- Andrés Arroyo  Pachuca -> Fortaleza CEIF
+- Luis Sánchez  Deportes Tolima -> Fortaleza CEIF
+- Juan Guevara  León -> Fortaleza CEIF
+- Johar Mejía  Bogotá FC -> Jaguares
+- Sander Navarro  Millonarios -> Boyacá Chicó
+- Faber Gil  Jaguares -> Dep. Pereira
+- Yeison Suárez  Junior -> Dep. Pereira
+- Gonzalo Reyna  Racing Club -> U. de Chile
+- Flavio Moya  Agentes libres -> U. de Chile
+- Renato Huerta  Agentes libres -> U. de Chile
+- Cristián Riquelme  Agentes libres -> Colo-Colo
+- Mateo Levato  Deportivo Morón -> Universidad de Concepción
+- Ignacio Sáez  U. de Chile -> Deportes La Serena
+- Ariel Uribe  Unión Española -> Audax Italiano
+- Martín Ballesteros  Agentes libres -> Audax Italiano
+- Ignacio Fuenzalida  Deportes Copiapó -> Audax Italiano
+- Julián Fernández  Atlético Tucumán -> Palestino
+- Josué Ovalle  Everton -> Everton Chile
+- Andrés Arroyo  Fortaleza CEIF -> Everton Chile
+- Dylan Glaby  Palestino -> Coquimbo Unido
+- Tomás Avilés  Inter Miami -> CD O'Higgins
+- Walter Bou  Lanús -> CD O'Higgins
+- Cristián Riquelme  Colo-Colo -> D. Concepción
+- Mauricio Vera  Agentes libres -> D. Concepción
+- Esteban Calderón  CD O'Higgins -> Ñublense
+- Víctor Campos  Agentes libres -> Cobresal
+- Ignacio Mesías  Agentes libres -> Unión La Calera
+- Javier Rojas  Agentes libres -> Deportes Limache
+- Vicente Cárcamo  Uni. Católica -> Deportes Limache
+- Josué Ovalle  Everton Chile -> Deportes Limache
+- Baltasar Barcia  Nacional U. -> Albion
+- Kevin Rodríguez  Peñarol -> Boston River
+- Kevin Sotto  Agentes libres -> Boston River
+- Martín Fernández  Gil Vicente FC -> Boston River
+- Davi Melo  Agentes libres -> Central Español
+- Facundo Milán  Agentes libres -> Central Español
+- Mauro Villar  Huracán -> C.A. Cerro
+- Ezequiel Forclaz  Tigre -> C.A. Cerro
+- Alexis Segovia  Lanús -> Cerro Largo
+- Federico Pintado  Central Español -> Cerro Largo
+- Cristhian Tizón  Agentes libres -> Danubio
+- Matías Abaldo  Independiente -> Defensor
+- Agustín Rodríguez  Atlas FC -> Juventud
+- Rodrigo Rodríguez  Agentes libres -> Juventud
+- Renzo Sánchez  Nacional U. -> Wanderers
+- Nicolás Ferreira  Ceará SC -> Wanderers
+- Sergio Núñez  Huachipato -> Liverpool F.C.
+- Alfonso de Luca  Cerro Largo -> Liverpool F.C.
+- Brian Gutiérrez  Agentes libres -> Mdeo City Torque
+- Nicolás Siri  Boston River -> Mdeo City Torque
+- Alejandro Martínez  Talleres -> Nacional U.
+- Tiziano Correa  Agentes libres -> Nacional U.
+- Baltasar Barcia  Albion -> Nacional U.
+- Rafael Haller  Liverpool F.C. -> Nacional U.
+- Renzo Sánchez  Wanderers -> Nacional U.
+- Agustín Vera  Agentes libres -> Nacional U.
+- Lucas Morales  Club Nacional -> Nacional U.
+- Matías Arezo  Grêmio -> Peñarol
+- Germán Pezzella  Agentes libres -> Peñarol
+- Thiago Espinosa  América -> Peñarol
+- Alexander Machado  Banfield -> Peñarol
+- Lorenzo Couture  Agentes libres -> C.A. Progreso
+- Santino Bruschi  Defensor -> C.A. Progreso
+- Ignacio Lemmo  Agentes libres -> C.A. Progreso
+- Agustín Moreira  Gil Vicente FC -> C.A. Progreso
+- Agustín De la Cuesta  Racing Club -> Racing Club U.
+- Matías Unyicio  Racing Club -> Racing Club U.
+- Pablo Viudez  Racing Club -> Racing Club U.
+- Thiago Espinosa  Peñarol -> Racing Club U.
+- Óscar Quiñónez  Racing Club -> Racing Club U.
+- Alejandro Severo  Racing Club -> Racing Club U.
+- Bautista Euclides Tomatis  Danubio -> Racing Club U.
+- Renzo Bacchia  C.A. Progreso -> Racing Club U.
+- Maximiliano Pinela  Agentes libres -> Racing Club U.
+- Lucas Monzón  Botafogo -> Racing Club U.
+- Jorge Gutiérrez  Agentes libres -> Universitario
+- Julinho Astudillo  Agentes libres -> Universitario
+- Hugo Ancajima  Agentes libres -> Universitario
+- Álvaro Rojas  Agentes libres -> Universitario
+- Paolo Reyna  Agentes libres -> Universitario
+- Josué Torres  Juan Pablo II -> Universitario
+- Nicolás Díaz  Tijuana -> Alianza Lima
+- Mateo Rodríguez  Juan Pablo II -> Sporting Cristal
+- Diego Otoya  Agentes libres -> Sporting Cristal
+- Henry Caparó  Agentes libres -> Sporting Cristal
+- Franshesko Cassiano  Agentes libres -> Sporting Cristal
+- Marcos Portillo  Talleres -> FBC Melgar
+- Gregorio Rodríguez  Agentes libres -> FBC Melgar
+- Mariano Barreda  Agentes libres -> FBC Melgar
+- Steven Rivadeneyra  Agentes libres -> Sport Boys
+- David Alvarado  Agentes libres -> Sport Boys
+- Víctor Flores  Agentes libres -> Sport Boys
+- Facundo Castelli  Estudiantes -> Deportivo Garcilaso
+- Lucas Rios  Atlanta -> Deportivo Garcilaso
+- Horacio Benincasa  Agentes libres -> Deportivo Garcilaso
+- Carlos Saavedra  Agentes libres -> Comerciantes Unidos
+- Juan Giménez  Cerro Porteño -> Sport Huancayo
+- Josué Torres  Universitario -> Juan Pablo II
+- Juan Pablo Goicochea  Agentes libres -> Juan Pablo II
+- Mateo Rodríguez  Sporting Cristal -> Juan Pablo II
+- Álvaro Rojas  Universitario -> Juan Pablo II
+- Cristian García  Agentes libres -> Juan Pablo II
+- Hugo Ancajima  Universitario -> Juan Pablo II
+- Paolo Reyna  Universitario -> Juan Pablo II
+- Josué Canova  Agentes libres -> Juan Pablo II
+- Christian Cueva  Sport Boys -> Juan Pablo II
+- Alejandro Pósito  Sporting Cristal -> FC Cajamarca
+- André Vasquez  Sport Boys -> Los Chankas
+- Yhonier López  Agentes libres -> Moquegua
+- Agostino Spina  Huracán -> Aucas
+- Emerson Espinoza  Santo Domingo -> Delfín S.C.
+- Ariel García  Aucas -> Delfín S.C.
+- José Neris  Defensor -> CS Emelec
+- Eduardo Bores  CS Emelec -> IDV
+- Nestor Caicedo  Leones FC -> Macará
+- Valentín Burgoa  Agentes libres -> Orense
+- Carlos Barrio  22 de Julio FC -> Orense
+- Jhon Valencia  Real Cartagena -> Orense
+- Efmamjjasond González  Agentes libres -> Always Ready
+- Esdras Mendoza  Agentes libres -> Blooming
+- Jesús Velásquez  Real Tomayapo -> Bolívar
+- Cristian López  Agentes libres -> Bolívar
+- Máximo Mamani  Agentes libres -> Oriente Petrolero
+- Cristian López  Bolívar -> Real Potosí
+- Jesús Velásquez  Bolívar -> Real Tomayapo
+- Marcelo Somoya  Real Potosí -> The Strongest
+- Thiago Castedo  Agentes libres -> Real Oruro
+- Santos García  Agentes libres -> Real Oruro
+- Johan Gómez  Chicago Fire FC -> Universitario de Vinto
+- Esdras Mendoza  Blooming -> Universitario de Vinto
+- César Miño  Agentes libres -> Olimpia
+- Hugo Adrián Benítez  Agentes libres -> Olimpia
+- Marino Arzamendia  Dep. Riestra -> Olimpia
+- Allan Wlk  Lanús -> Olimpia
+- Axel Alfonzo  Agentes libres -> Olimpia
+- Armando Méndez  Newell's -> Guaraní
+- Antonino Martínez  Cerro Porteño -> Guaraní
+- Bruno Díaz  Agentes libres -> Guaraní
+- Felipe Salomoni  Audax Italiano -> Guaraní
+- Alan Pereira  Agentes libres -> Guaraní
+- Lucas Romero  F.C. Juárez -> Recoleta F.C.
+- Antonio Samaniego  Agentes libres -> Recoleta F.C.
+- Faustino Barone  Olimpia -> Trinidense
+- Junior Gamarra  Agentes libres -> Trinidense
+- Luciano Suárez  Agentes libres -> S. Ameliano
+- Édgar Páez  Agentes libres -> S. Ameliano
+- Thiago Steffen  Agentes libres -> S. Ameliano
+- Tobías Leiva  River Plate -> Rubio Ñu
+- Hosue Díaz  Agentes libres -> Rubio Ñu
+- Alan Ledesma  Agentes libres -> Rubio Ñu
+- Lautaro Maldonado  Agentes libres -> Rubio Ñu
+- Aaron Páez  Agentes libres -> Rubio Ñu
+- Mauricio De Carvalho  Agentes libres -> Rubio Ñu
+- Maximiliano Garrone  Agentes libres -> Rubio Ñu
+- Marcelo Acosta  Rosario Central -> Rubio Ñu
+- Fabricio Domínguez  Agentes libres -> Cerro Porteño
+- Ariel Gamarra  Argentinos Jrs. -> Cerro Porteño
+- Ángel Martínez  Agentes libres -> Cerro Porteño
+- Alexis Cañete  Agentes libres -> Cerro Porteño
+- Juan Giménez  Sport Huancayo -> Cerro Porteño
+- Antonino Martínez  Guaraní -> Cerro Porteño
+- Luis Amarilla  Juventude -> Cerro Porteño
+- Alan Núñez  Argentinos Jrs. -> Cerro Porteño
+- Hosue Díaz  Rubio Ñu -> Libertad
+- Santiago Delvalle  Agentes libres -> Libertad
+- Kevin Fernández  Central Norte -> Sportivo San Lorenzo
+- Kevin Ferreira  Agentes libres -> Sportivo San Lorenzo
+- Juan Salcedo  Cerro Porteño -> Sportivo San Lorenzo
+- Pablo Aveiro  Agentes libres -> Sportivo San Lorenzo
+- Jorge Sanguina  Colón -> 2 de Mayo
+- Ángel Aguayo  Agentes libres -> 2 de Mayo
+- Estifen Díaz  Agentes libres -> 2 de Mayo
+- Tobias Portillo  Agentes libres -> 2 de Mayo
+- Tobías Cervera  Rosario Central -> 2 de Mayo
+- Rodrigo Gómez  Cerro Porteño -> 2 de Mayo
+- Fredy Silvero  Agentes libres -> 2 de Mayo
+- César Ramírez  Guaraní -> 2 de Mayo
+- Marcos Gómez  Olimpia -> 2 de Mayo
+- Tobías Sanabria  Agentes libres -> 2 de Mayo
+- Orlando Colmán  Agentes libres -> 2 de Mayo
+- Miguel Barreto  Agentes libres -> 2 de Mayo
+- Miguel Barreto  2 de Mayo -> Sportivo Luqueño
+- Marcelo Pérez  Huracán -> Sportivo Luqueño
+- Lucas Morales  Nacional U. -> Sportivo Luqueño
+- Alexis Cantero  Olimpia -> Sportivo Luqueño
+- Samuel Beltrán  Rosario Central -> Sportivo Luqueño
+- Fabrizio Jara  Cerro Porteño -> Club Nacional
+- José Rondón  Agentes libres -> Caracas FC
+- Wuilmer Rico  Agentes libres -> Deportivo Táchira
+- Greyberth Trompetera  Agentes libres -> Trujillanos
+- Yanniel Hernández  Zamora FC -> Universidad Central
+- Tobías Quiroz  Agentes libres -> Dep. La Guaira
+- Jorge Gutiérrez  Universitario -> Dep. La Guaira
+- Keiber Lamadrid  West Ham United -> Dep. La Guaira
+- Eric Ramírez  Dynamo Kyiv -> Carabobo FC
+- Andrés Romero  Boston River -> Monagas SC
+- Guillermo Benítez  Agentes libres -> Portuguesa
+- Carlos Suárez  Agentes libres -> Portuguesa
+- Junior Moreno  Anzoátegui F.C. -> Zamora FC
+- Yanniel Hernández  Universidad Central -> Zamora FC
+- Luis Corredor  Agentes libres -> Zamora FC
+- Tommy Setford  Arsenal -> Stevenage
+- Will Dennis  AFC Bournemouth -> Milton Keynes Dons
+- Matthew Cox  Brentford -> Barnet
+- Josh Stephenson  Brentford -> Crewe Alexandra
+- Tommy Watson  Brighton & Hove Albion -> Leicester City
+- Nicolas Jackson  Chelsea -> Aston Villa
+- David Datro Fofana  Chelsea -> Servette FC
+- Oliver Dovin  Coventry City -> Leyton Orient
+- Raphael Borges Rodrigues  Coventry City -> Burton Albion
+- Kai Andrews  Coventry City -> Oxford United
+- Tyler Onyango  Everton -> Sheffield Wednesday
+- Tyrique George  Everton -> Chelsea
+- Kasey Palmer  Hull City -> Luton Town
+- Harvey Cartwright  Hull City -> Grimsby Town
+- Mason Burstow  Hull City -> Sheffield Wednesday
+- Thimothée Lo-Tutala  Hull City -> Colchester United
+- Matty Jacob  Hull City -> Newport County
+- Conor Chaplin  Ipswich Town -> Leicester City
+- Ali Al-Hamadi  Ipswich Town -> Sheffield Wednesday
+- Cameron Humphreys  Ipswich Town -> Huddersfield Town
+- Cieran Slicker  Ipswich Town -> Barnsley
+- Joe Gelhardt  Leeds United -> Hull City
+- Isaac Schmidt  Leeds United -> BSC Young Boys
+- Joe White  Newcastle United -> Crewe Alexandra
+- Harrison Ashby  Newcastle United -> Luton Town
+- Luka Vuskovic  Tottenham Hotspur -> Brighton & Hove Albion
+- James Beadle  Birmingham City -> Brighton & Hove Albion
+- Connor O'Riordan  Blackburn Rovers -> Barnsley
+- Lewis Temple  Bolton Wanderers -> Oldham Athletic
+- Richard Taylor  Bolton Wanderers -> Bromley
+- Joel Randall  Bolton Wanderers -> Chesterfield
+- Sam Inwood  Bolton Wanderers -> Swindon Town
+- Charlie Warren  Bolton Wanderers -> Accrington Stanley
+- Josh Stokes  Bristol City -> Reading
+- Brian De Keersmaecker  Bristol City -> Oxford United
+- Rio Cardines  Bristol City -> Crystal Palace
+- Owen Dodgson  Burnley -> Stockport County
+- Max Alleyne  Burnley -> Manchester City
+- Largie Ramazani  Burnley -> Leeds United
+- Eli King  Cardiff City -> Gillingham
+- Kion Etete  Cardiff City -> Newport County
+- Tanatswa Nyakuhwa  Cardiff City -> Newport County
+- Jesper Daland  Cardiff City -> Viking FK
+- Nathan Trott  Cardiff City -> FC København
+- Karoy Anderson  Charlton Athletic -> Blackpool
+- Daniel Kanu  Charlton Athletic -> Notts County
+- Gassan Ahadme  Charlton Athletic -> Cambridge United
+- Keenan Gough  Charlton Athletic -> Bristol Rovers
+- Nathan Asiimwe  Charlton Athletic -> Salford City
+- Ibrahim Fullah  Charlton Athletic -> Milton Keynes Dons
+- Andreas Weimann  Derby County -> Cheltenham Town
+- Bobby Clark  Derby County -> RB Salzburg
+- Eiran Cashin  Derby County -> Brighton & Hove Albion
+- James Collins  Lincoln City -> Doncaster Rovers
+- Oscar Thorn  Lincoln City -> Colchester United
+- Oisín Gallagher  Lincoln City -> Barnet
+- Zane Okoro  Lincoln City -> Tranmere Rovers
+- Zach Jeacock  Lincoln City -> Northampton Town
+- Tanto Olaofe  Lincoln City -> Charlton Athletic
+- Chiedozie Ogbene  Lincoln City -> Ipswich Town
+- Finley Munroe  Middlesbrough -> Blackpool
+- Jeremy Sarmiento  Middlesbrough -> Brighton & Hove Albion
+- Amario Cozier-Duberry  Middlesbrough -> Brighton & Hove Albion
+- Ajay Matthews  Millwall -> Exeter City
+- Ra'ees Bangura-Williams  Millwall -> Cambridge United
+- Kamarl Grant  Millwall -> Bromley
+- Romain Esse  Millwall -> Crystal Palace
+- Louie Moulden  Norwich City -> Accrington Stanley
+- Josh Knight  Portsmouth -> Reading
+- Hayden Matthews  Portsmouth -> Bradford City
+- Josef Bursik  Portsmouth -> AFC Wimbledon
+- Jordan Williams  Portsmouth -> Blackpool
+- Liam Gibbs  Preston North End -> Norwich City
+- Alfie Devine  Preston North End -> Tottenham Hotspur
+- Zan Celar  Queens Park Rangers -> FC Basel
+- Joe Walsh  Queens Park Rangers -> Wigan Athletic
+- Ziyad Larkeche  Queens Park Rangers -> Barnsley
+- Kieran Morgan  Queens Park Rangers -> Bradford City
+- Pierce Charles  Queens Park Rangers -> Manchester City
+- Louie Marsh  Sheffield United -> Chesterfield
+- Sam Curtis  Sheffield United -> Cambridge United
+- Liam Kitching  Sheffield United -> Coventry City
+- Romelle Donovan  Sheffield United -> Brentford
+- Charlie Taylor  Southampton -> Derby County
+- Nicholas Oyekunle  Southampton -> Leyton Orient
+- Ben Brereton Díaz  Southampton -> Sheffield United
+- George Long  Southampton -> Norwich City
+- Emre Tezgel  Stoke City -> Wycombe Wanderers
+- Tommy Simkin  Stoke City -> Doncaster Rovers
+- Ben Johnson  Stoke City -> Ipswich Town
+- Josh Thomas  Swansea City -> Fleetwood Town
+- Oliver Cooper  Swansea City -> Notts County
+- Sam Parker  Swansea City -> Wycombe Wanderers
+- Jeremy Monga  Swansea City -> Manchester City
+- Jenson Seelt  Swansea City -> Sunderland
+- Stephy Mavididi  Watford -> Leicester City
+- Callum Marshall  West Ham United -> Luton Town
+- James Ward-Prowse  West Ham United -> Southampton
+- Kaelan Casey  West Ham United -> Stevenage
+- Andy Cannon  Wrexham -> Fleetwood Town
+- Paul Mullin  Wrexham -> Rotherham United
+- Harry Ashfield  Wrexham -> Peterborough United
+- Mo Faal  Wrexham -> Port Vale
+- Ryan Hardie  Wrexham -> Bolton Wanderers
+- Ryan Barnett  Wrexham -> Milton Keynes Dons
+- Davis Keillor-Dunn  Wrexham -> Sheffield Wednesday
+- Issa Kaboré  Wrexham -> Manchester City
+- Peter Federico  Getafe CF -> Górnik Zabrze
+- Mario Martín  Getafe CF -> Real Madrid
+- Nobel Mendy  Rayo Vallecano -> Hull City
+- Adrià Pedrosa  Sevilla FC -> Rayo Vallecano
+- Gonzalo Villar  Elche CF -> Dinamo Zagreb
+- Pablo Ramón  Racing de Santander -> RCD Espanyol
+- Asier Villalibre  Racing de Santander -> Deportivo Alavés
+- José Salinas  Málaga CF -> RCD Espanyol
+- Cyle Larin  RCD Mallorca -> Southampton
+- Jhon Solís  Girona FC -> Birmingham City
+- Gabriel Misehouy  Girona FC -> NAC Breda
+- Joaquín Delgado  Real Oviedo -> Real Zaragoza
+- Álex Cardero  Real Oviedo -> Cultural Leonesa
+- Marko Milovanović  UD Almería -> Portsmouth
+- Marko Perovic  UD Almería -> Raków Częstochowa
+- Jozhua Vertrouwd  CD Castellón -> Rayo Vallecano
+- Oier Luengo  Burgos CF -> Real Oviedo
+- Yann Kembo  Real Sporting de Gijón -> SD Huesca
+- Luismi Redondo  FC Andorra -> SD Huesca
+- Aitor Uzkudun  FC Andorra -> CD Mirandés
+- Arón Rodrigo  FC Andorra -> CD Mirandés
+- Jesús Owono  FC Andorra -> Deportivo Alavés
+- Miguel de la Fuente  CD Leganés -> UD Almería
+- Jorge Delgado  Real Valladolid -> Cultural Leonesa
+- Víctor Chust  Cádiz CF -> Elche CF
+- Manuel Akanji  Lombardia FC -> Manchester City
+- Jens Cajuste  Napoli -> Málaga CF
+- Mattia Esposito  Napoli -> Bari
+- Jesper Lindstrøm  Napoli -> RB Salzburg
+- Rasmus Højlund  Napoli -> Manchester United
+- Buba Sangaré  Roma -> Elche CF
+- Marash Kumbulla  Roma -> Rayo Vallecano
+- Donyell Malen  Roma -> Aston Villa
+- Emil Audero  Como -> Rayo Vallecano
+- Andrés Cuenca  Como -> Real Sporting de Gijón
+- Iván Azón  Como -> Getafe CF
+- Álvaro Morata  Milano FC -> Como
+- Facundo González  Juventus -> Racing de Santander
+- Marco Palestra  Bergamo Calcio -> Chelsea
+- Giovanni Bonfanti  Bergamo Calcio -> UD Las Palmas
+- Tommaso Pobega  Bologna -> Milano FC
+- Davide Frattesi  Latium -> Lombardia FC
+- Martín Payero  Udinese -> Watford
+- Iker Bravo  Udinese -> Watford
+- Omar Traoré  Udinese -> Watford
+- Luca Kjerrumgaard  Udinese -> Watford
+- Alessandro Zanoli  Udinese -> Napoli
+- Janis Antiste  Sassuolo -> Górnik Zabrze
+- Arijanet Murić  Sassuolo -> Ipswich Town
+- Vanja Milinković-Savić  Torino -> Napoli
+- Sebastian Walukiewicz  Torino -> Sassuolo
+- Giovanni Simeone  Torino -> Napoli
+- Sandro Kulenović  Torino -> Dinamo Zagreb
+- Dario Sits  Parma -> FC Dordrecht
+- Franco Carboni  Parma -> Lombardia FC
+- Nik Prelec  Cagliari -> Oxford United
+- Sebastiano Esposito  Cagliari -> Sassuolo
+- Matteo Prati  Cagliari -> Racing de Santander
+- Kingstone Mutandwa  Cagliari -> Servette FC
+- Alessandro Romano  Cagliari -> Roma
+- Nicolás Valentini  Fiorentina -> Deportivo Alavés
+- Jonas Harder  Fiorentina -> FC Basel
+- Giovanni Fabbian  Fiorentina -> Parma
+- M'Bala Nzola  Fiorentina -> Cagliari
+- Mirko Elia  Fiorentina -> Bari
+- Alan Matturro  Genoa -> Shakhtar Donetsk
+- Lorenzo Colombo  Genoa -> Milano FC
+- Jasper Samooja  Lecce -> HJK Helsinki
+- Hans Nicolussi Caviglia  Venezia -> Parma
+- Gaetano Oristanio  Venezia -> Torino
+- Kevin Cannavò  Venezia -> Spezia
+- Ben Lhassine Kone  Frosinone -> Como
+- Lorenzo Lucchesi  Monza -> Fiorentina
+- Patrick Cutrone  Monza -> Como
+- Malthe Højholt  Pisa -> Górnik Zabrze
+- Mert Durmush  Pisa -> Spezia
+- Motiejus Šapola  Pisa -> Spezia
+- Daniel Denoon  Pisa -> FC Zürich
+- Daniele Ghilardi  Hellas Verona -> Roma
+- Mathis Lambourde  Hellas Verona -> Servette FC
+- Denis Cazzadori  Hellas Verona -> Spezia
+- Kristoffer Lund  Palermo -> Birmingham City
+- Dario Saric  Palermo -> Antalyaspor
+- Sebastiano Desplanches  Palermo -> Frosinone
+- Federico Di Francesco  Catanzaro -> Palermo
+- Elian Demirovic  Juve Stabia -> Arka Gdynia
+- Damiano Cancellieri  Avellino -> Spezia
+- Alessio Tribuzzi  Avellino -> Bari
+- Filippo Missori  Avellino -> Sassuolo
+- Alessandro Sorrentino  Padova -> Monza
+- Giacomo Calò  Cesena -> Frosinone
+- Federico Artioli  Mantova -> Juve Stabia
+- Antonio Fiori  Mantova -> Cesena
+- Francesco Bardi  Mantova -> Palermo
+- Rachid Kouda  Mantova -> Parma
+- Andrea Meroni  Mantova -> Bari
+- Estanis Pedrola  Sampdoria -> Real Oviedo
+- Andrei Coubiș  Sampdoria -> Universitatea Cluj
+- Salvatore Esposito  Sampdoria -> Spezia
+- Manuel Cicconi  Sampdoria -> Carrarese
+- Tino Anjorin  Empoli -> Torino
+- Emmanuel Gyasi  Empoli -> Palermo
+- Lapo Deli  Empoli -> Fiorentina
+- Andrea Giorgini  Südtirol -> Juve Stabia
+- Matteo Della Morte  LR Vicenza -> Bari
+- Nicola Rauti  LR Vicenza -> Torino
+- Gennaro Iaccarino  Arezzo -> Napoli
+- Alessandro Arena  Arezzo -> Pisa
+- Francesco Forte  Ascoli -> Entella
+- Daniel Peretz  Bayern München -> Southampton
+- Jonah Kusi-Asare  Bayern München -> Fulham
+- Bryan Zaragoza  Bayern München -> RCD Espanyol
+- Kjell Wätjen  Borussia Dortmund -> FC Midtjylland
+- Diant Ramaj  Borussia Dortmund -> FC København
+- Joyeux Masanka Bungi  RB Leipzig -> VfB Stuttgart II
+- Timo Schlieck  RB Leipzig -> SC Verl
+- Bilal El Khannouss  VfB Stuttgart -> Leicester City
+- Haris Tabaković  TSG 1899 Hoffenheim -> RB Salzburg
+- Umut Tohumcu  TSG 1899 Hoffenheim -> RB Salzburg
+- Attila Szalai  TSG 1899 Hoffenheim -> Pogoń Szczecin
+- Piero Hincapié  Bayer 04 Leverkusen -> Arsenal
+- Kerim Alajbegovic  Bayer 04 Leverkusen -> Juventus
+- Alejo Sarco  Bayer 04 Leverkusen -> Real Sporting de Gijón
+- Abdoulaye Faye  Bayer 04 Leverkusen -> RC Celta de Vigo
+- Jeanuël Belocian  Bayer 04 Leverkusen -> Racing de Santander
+- Merlin Röhl  SC Freiburg -> Everton
+- Simon Simoni  Eintracht Frankfurt -> FC Luzern
+- Kyliane Dong  FC Augsburg -> Bolton Wanderers
+- Hyun-seok Hong  1. FSV Mainz 05 -> FC Midtjylland
+- Sheraldo Becker  1. FSV Mainz 05 -> CA Osasuna
+- Stefan Posch  1. FSV Mainz 05 -> Como
+- Yannic Stein  1. FC Union Berlin -> Hansa Rostock
+- Oluwaseun Ogbemudia  1. FC Union Berlin -> SV Waldhof Mannheim
+- Stanley Nsoki  1. FC Union Berlin -> TSG 1899 Hoffenheim
+- Niklas Swider  Borussia M'gladbach -> Viktoria Köln
+- Jonas Omlin  Borussia M'gladbach -> FC Basel
+- Hugo Bolin  Borussia M'gladbach -> Malmö FF
+- Daniel Elfadli  Hamburger SV -> LASK
+- Aboubaka Soumahoro  Hamburger SV -> RCD Mallorca
+- Fábio Vieira  Hamburger SV -> Arsenal
+- Julian Pauli  1. FC Köln -> Odense Boldklub
+- Tom Krauß  1. FC Köln -> 1. FSV Mainz 05
+- Karl Hein  Werder Bremen -> Arsenal
+- Martin Wasinski  FC Schalke 04 -> Almere City FC
+- Lukasz Poreba  SV Elversberg -> Hamburger SV
+- Martin Ens  SC Paderborn 07 -> MSV Duisburg
+- Nicolas Cozza  VfL Wolfsburg -> FC Lausanne-Sport
+- Kevin Müller  1. FC Heidenheim -> FC Schalke 04
+- Noël Aséko  Hannover 96 -> Bayern München
+- Leon Klassen  SV Darmstadt 98 -> Grazer AK
+- Gustav Christensen  Hertha BSC -> Kristiansund BK
+- Louey Ben Farhat  Karlsruher SC -> SC Freiburg
+- Shio Fukuda  Karlsruher SC -> Borussia M'gladbach
+- Jonas Oehmichen  Dynamo Dresden -> Alemannia Aachen
+- Dominik Kother  Dynamo Dresden -> MSV Duisburg
+- Paul Lehmann  Dynamo Dresden -> SC Verl
+- Dennis Duah  Dynamo Dresden -> TSV Havelse
+- Ben Bobzien  Dynamo Dresden -> 1. FSV Mainz 05
+- Thomas Keller  Dynamo Dresden -> 1. FC Heidenheim
+- Robert Wagner  Dynamo Dresden -> SC Freiburg
+- Jonas Sterner  Dynamo Dresden -> Hannover 96
+- Marko Ivezić  Holstein Kiel -> Hibernian
+- Louis Köster  Holstein Kiel -> Alemannia Aachen
+- Eryk Grzywacz  Holstein Kiel -> TSV Havelse
+- Mika Schroers  Arminia Bielefeld -> Alemannia Aachen
+- Roberts Uldriķis  Arminia Bielefeld -> sc Heerenveen
+- Maximilian Bauer  Arminia Bielefeld -> FC Augsburg
+- Jannik Rochelt  Arminia Bielefeld -> Hannover 96
+- Walid Ould-Chikh  Eintracht Braunschweig -> Heracles Almelo
+- Frederik Jäkel  Eintracht Braunschweig -> RB Leipzig
+- Matti Wagner  SpVgg Greuther Fürth -> Alemannia Aachen
+- Noah König  SpVgg Greuther Fürth -> SC Verl
+- Paul Will  SpVgg Greuther Fürth -> SV Darmstadt 98
+- Lukas Bornschein  VfL Osnabrück -> Fortuna Düsseldorf
+- Robin Meißner  VfL Osnabrück -> Dynamo Dresden
+- Yusuf Wardak  Energie Cottbus -> TSV Havelse
+- King Manu  Energie Cottbus -> Fortuna Düsseldorf
+- Randal Kolo Muani  Paris Saint-Germain -> Juventus
+- Gabriel Moscardo  Paris Saint-Germain -> RCD Espanyol
+- Yannick Pandor  RC Lens -> Amiens SC
+- Mattia Fortin  RC Lens -> Palermo
+- Saud Abdulhamid  RC Lens -> Roma
+- Ugo Raghouber  LOSC Lille -> Burnley
+- Vincent Burlet  LOSC Lille -> Cracovia
+- Martín Satriano  Olympique Lyonnais -> Getafe CF
+- Duje Caleta-Car  Olympique Lyonnais -> Sassuolo
+- Enzo Molebe  Olympique Lyonnais -> FC Lausanne-Sport
+- Noham Kamara  Olympique Lyonnais -> Paris Saint-Germain
+- Facundo Medina  Olympique de Marseille -> Bayer 04 Leverkusen
+- Hamed Traoré  Olympique de Marseille -> Genoa
+- Timothy Weah  Olympique de Marseille -> Juventus
+- Albert Grønbaek  Stade Rennais -> Hamburger SV
+- Jordan James  Stade Rennais -> Wolverhampton Wanderers
+- Arnaud Nordin  Stade Rennais -> 1. FSV Mainz 05
+- Ansu Fati  AS Monaco -> FC Barcelona
+- Rabby Nzingoula  RC Strasbourg -> West Bromwich Albion
+- Milos Lukovic  RC Strasbourg -> 1. FC Kaiserslautern
+- Soumaïla Coulibaly  RC Strasbourg -> Watford
+- Joel Mvuka  FC Lorient -> FK Bodø_Glimt
+- Enzo Genton  FC Lorient -> Amiens SC
+- Edhy Zuliani  Toulouse FC -> VVV-Venlo
+- Diego Coppola  Paris FC -> Brighton & Hove Albion
+- Luca Koleosho  Paris FC -> Burnley
+- Mokrane Bentoumi  Le Havre AC -> Roda JC Kerkrade
+- Timothée Pembélé  Le Havre AC -> Sunderland
+- Paul Joly  AJ Auxerre -> 1. FC Kaiserslautern
+- Lasso Coulibaly  AJ Auxerre -> Viborg FF
+- Theo Bair  AJ Auxerre -> Bolton Wanderers
+- Jérémie Boga  OGC Nice -> Juventus
+- Aliou Baldé  OGC Nice -> FC St. Gallen
+- Terem Moffi  OGC Nice -> Hamburger SV
+- Mattia Viti  OGC Nice -> Sampdoria
+- Rareș Ilie  OGC Nice -> Mantova
+- Elye Wahi  OGC Nice -> Eintracht Frankfurt
+- Idrissa Gueye  FC Metz -> Udinese
+- Beres Owusu  AS Saint-Étienne -> Grazer AK
+- Pierre Ekwah  AS Saint-Étienne -> AJ Auxerre
+- Mathis Saka  Rodez AF -> Toulouse FC
+- Cédric Kipré  Stade de Reims -> Ipswich Town
+- Reda Khadra  Stade de Reims -> Qarabağ FK
+- Antoine Leautey  Stade de Reims -> Wuhan Three Towns
+- Pape Sissoko  Stade de Reims -> SV Ried
+- Oumar Diakité  Stade de Reims -> Sturm Graz
+- Chuba Akpom  Ajax -> Ipswich Town
+- Branco van den Boomen  Ajax -> Angers SCO
+- Zico Buurmeester  AZ -> CD Leganés
+- Mayckel Lahdo  AZ -> Malmö FF
+- Stan Henderikx  Excelsior Rotterdam -> FC Dordrecht
+- Sayfallah Ltaief  FC Twente -> Cracovia
+- Guilherme Peixoto  FC Twente -> Roda JC Kerkrade
+- Jeyland Mitchell  Feyenoord -> Sturm Graz
+- Luka Ivanušec  Feyenoord -> Dinamo Zagreb
+- Neraysho Kasanwirjo  Feyenoord -> SK Brann
+- Milan Smit  Go Ahead Eagles -> Stoke City
+- Luca Everink  Go Ahead Eagles -> FC Emmen
+- Xander Blomme  Go Ahead Eagles -> FC Eindhoven
+- Tom de Graaff  PEC Zwolle -> FC Utrecht
+- Thijs Oosting  PEC Zwolle -> FC Groningen
+- Niek Schiks  PSV -> RKC Waalwijk
+- Matěj Kovář  PSV -> Bayer 04 Leverkusen
+- Lance Duijvestijn  Sparta Rotterdam -> SV Darmstadt 98
+- Tijs Velthuis  Sparta Rotterdam -> PEC Zwolle
+- Youri Schoonderwaldt  Sparta Rotterdam -> VVV-Venlo
+- Younes Jaber El Meftahi  Sparta Rotterdam -> FC Volendam
+- Lasse Abildgaard  Willem II -> FC Eindhoven
+- Calvin Twigt  Willem II -> Go Ahead Eagles
+- Danny Namaso  FC Porto -> AJ Auxerre
+- Iván Jaime  FC Porto -> UD Las Palmas
+- Seko Fofana  FC Porto -> Stade Rennais
+- Jakub Kiwior  FC Porto -> Arsenal
+- Alisson Santos  Sporting CP -> Napoli
+- Koba Koindredi  Sporting CP -> FC Lausanne-Sport
+- Florentino  Benfica -> Burnley
+- Rafa Obrador  Benfica -> Sassuolo
+- Georgiy Sudakov  Benfica -> Shakhtar Donetsk
+- Enzo Barrenechea  Benfica -> Aston Villa
+- Djibril Soumaré  Sporting de Braga -> Stoke City
+- André Horta  Sporting de Braga -> UD Almería
+- Ismaël Gharbi  Sporting de Braga -> CD Leganés
+- Otso Liimatta  Famalicão -> IK Sirius
+- Mateo Flores  Arouca -> Real Betis Balompié
+- Léo Chú  Alverca -> Avaí
+- Mateus Sarará  Santa Clara -> Tondela
+- Assane Ndiaye  Estrela Amadora -> Cultural Leonesa
+- Fahem Benaïssa  Casa Pia -> Mantova
+- Kélian Nsona  Casa Pia -> Rodez AF
+- Nicolò Zaniolo  Galatasaray -> Udinese
+- Elias Jelert  Galatasaray -> Le Havre AC
+- Sidiki Chérif  Fenerbahçe -> Coventry City
+- Omar Fayed  Fenerbahçe -> Frosinone
+- Diego Carlos  Fenerbahçe -> Parma
+- John Lundstram  Trabzonspor -> Leicester City
+- Kazeem Olaigbe  Trabzonspor -> FC Basel
+- Orkun Kökçü  Beşiktaş -> Benfica
+- Benhur Keser  Çaykur Rizespor -> Kayserispor
+- Modibo Sagnan  Çaykur Rizespor -> Montpellier HSC
+- Arif Boşluk  Konyaspor -> Trabzonspor
+- Habib Keïta  Kocaelispor -> Clermont Foot
+- Fethi Özer  Eyüpspor -> Kayserispor
+- Keisuke Goto  Anderlecht -> SC Freiburg
+- Luis Vázquez  Anderlecht -> Birmingham City
+- Beni Mpanzu  Cercle Brugge -> FC Dordrecht
+- Zaid Romero  Club Brugge -> Getafe CF
+- Lucca Brughmans  Genk -> Liverpool
+- Samuel Gueulette  RAAL La Louvière -> UTA Arad
+- Lovro Golič  KV Mechelen -> Helmond Sport
+- Ennio van der Gouw  Zulte Waregem -> Rio Ave
+- Luis Palma  Celtic -> Lech Poznań
+- Johnny Kenny  Celtic -> Preston North End
+- Maik Nawrocki  Celtic -> RC Lens
+- Adam Montgomery  Celtic -> Livingston
+- Jamie Knight-Lebel  Motherwell -> Bristol City
+- Alex Paulsen  Motherwell -> AFC Bournemouth
+- Warren O'Hora  Hibernian -> Leicester City
+- Murray Johnson  Hibernian -> Shelbourne
+- Nathan Lowe  Hibernian -> Stoke City
+- Alex Williams  Hibernian -> West Bromwich Albion
+- Owen Eames  Falkirk -> Derby County
+- Daniel Bennie  Dundee United -> Queens Park Rangers
+- Lyall Cameron  Dundee United -> Rangers
+- Matai Akinmboni  Dundee FC -> AFC Bournemouth
+- Bradley Fink  Dundee FC -> Wycombe Wanderers
+- Eddie Beach  Kilmarnock -> Shelbourne
+- MJ Kamson-Kamara  Kilmarnock -> Heart of Midlothian
+- Bailey Rice  Kilmarnock -> Rangers
+- Tunmise Sobowale  St. Mirren -> Shamrock Rovers
+- Calvin Ramsay  St. Mirren -> Liverpool
+- Gabriel Strefezza  Olympiacos -> Palermo
+- Pablo Maffeo  Olympiacos -> Valencia CF
+- Luka Gugeshashvili  PAOK -> Göztepe
+- Enis Cokaj  Panathinaikos -> VfL Bochum
+- Dimitrios Limnios  Panathinaikos -> APOEL Nicosia FC
+- Unai Hernández  Al Ittihad -> Girona FC
+- Jan-Carlo Simić  Al Ittihad -> Anderlecht
+- Jerry Afriyie  Al Qadsiah -> Genk
+- Iker Almena  Al Qadsiah -> Dinamo Zagreb
+- Souffian El Karouani  Al Qadsiah -> Benfica
+- Nawaf Al-Hawsawi  Al Riyadh -> Al Okhdood
+- Nawaf Al-Saadi  Al Shabab -> Al Khaleej
+- Osama Al-Khalaf  NEOM SC -> Damac FC
+- Thamer Al-Khaibri  NEOM SC -> Al Khaleej
+- Ali Al-Asmari  NEOM SC -> Al Shabab
+- Benja Cremaschi  Inter Miami -> Parma
+- Noah Allen  Inter Miami -> Chicago Fire FC
+- Viktor Radojević  CF Montréal -> Chicago Fire FC
+- Roald Mitchell  Red Bull New York -> Viborg FF
+- David Ruíz  Red Bull New York -> Inter Miami
+- Devin Padelford  Minnesota United FC -> Red Bull New York
+- Kenyel Michel  Minnesota United FC -> LD Alajuelense
+- Wessel Speel  Minnesota United FC -> Almere City FC
+- Leo Walta  Los Angeles FC -> Swansea City
+- Jake Girdwood-Reich  St. Louis City SC -> Motherwell
+- Zach Zengue  St. Louis City SC -> Columbus Crew
+- Charles-Emile Brunet  St. Louis City SC -> Nashville SC
+- Cody Baker  Seattle Sounders -> New England Revolution
+- Toyosi Olusanya  Houston Dynamo -> Aberdeen
+- Sam Vines  Houston Dynamo -> San Diego FC
+- Tsiki Ntsabeleng  FC Dallas -> Mamelodi Sundowns
+- Nelson Palacio  Real Salt Lake -> Toronto FC
+- Pablo Ruiz  Real Salt Lake -> Los Angeles Galaxy
+- Colin Guske  Real Salt Lake -> Orlando City SC
+- Rubén Ramos Jr  Los Angeles Galaxy -> Sporting KC
+- Hirving Lozano  Los Angeles Galaxy -> San Diego FC
+- Ángel Robles  Puebla -> La Paz
+- Emanuel Gularte  Puebla -> Real Sporting de Gijón
+- Róber Pier  Atlas FC -> Cultural Leonesa
+- Francisco Reyes  Atlante -> Tigres U.A.N.L.
+- Santiago Homenchenko  Pachuca -> Querétaro
+- Owen González  Pachuca -> Necaxa
+- Pedro Pedraza  Pachuca -> Necaxa
+- Kenedy  Pachuca -> Real Valladolid
+- Mauro Zaleta  Cruz Azul -> Necaxa
+- Rodolfo Cota  América -> León
+- Hugo González  Toluca -> Mazatlán FC
+- Fernando Arce  Toluca -> Puebla
+- Jordán Carrillo  Santos Laguna -> Guadalajara
+- Esteban Lozano  Santos Laguna -> América
+- Pablo Palacio  Unión -> Deportes Iquique
+- Enzo Roldán  Unión -> Nueva Chicago
+- Diego Díaz  Unión -> Patronato
+- Joaquín Mosqueira  Talleres -> Unión
+- Agustín Sienra  Defensa -> CD Castellón
+- Leandro Espejo  Defensa -> Olimpo
+- Tiziano Perrotta  Defensa -> Elche CF
+- Marcelo Saracchi  Boca Juniors -> Houston Dynamo
+- Guillermo Balzi  Newell's -> Holstein Kiel
+- Thiago Gigena  Newell's -> Cancún FC
+- Franco García  Newell's -> Colón
+- Gabriel Risso Patrón  Newell's -> Colón
+- Nicolás Goitea  Newell's -> Atl. Mitre
+- Felipe Loyola  Independiente -> Pisa
+- Lucas Román  Independiente -> FC Dordrecht
+- Matías García  Dep. Riestra -> San Martín T.
+- Gustavo Fernández  Dep. Riestra -> San Miguel
+- Álvaro Montero  Vélez Sarsfield -> Boca Juniors
+- Gastón Togni  Platense -> Defensa
+- Bruno Cabrera  Lanús -> San Martín T.
+- Juan Pablo Zozaya  Estudiantes -> Club Magallanes
+- Luciano Giménez  Estudiantes -> Platense
+- Agustín Morales  Estudiantes R.C. -> Atlanta
+- Facundo Bruera  Barracas Central -> San Lorenzo
+- Manuel Mónaco  Sarmiento -> Acassuso
+- Leandro Garate  Huracán -> Colón
+- Sebastián Ramírez  Huracán -> Tristán Suárez
+- Bruno Barticciotto  Huracán -> Talleres
+- Facundo De La Vega  Aldosivi -> Almagro
+- Rodrigo Atencio  Ind. Rivadavia -> Sport
+- Emmanuel Gómez Riga  Ind. Rivadavia -> Alvarado
+- Emiliano Saliadarre  Racing Club -> Miramar Misiones
+- Tomás Pérez  Racing Club -> Defensa
+- Luciano Ferreyra  Rosario Central -> San Martín
+- Juan Pintado  Gimnasia -> Unión
+- Joaquín Ardaiz  Argentinos Jrs. -> Defensores B.
+- Francisco Ilarregui  Argentinos Jrs. -> Ciudad Bolivar
+- Sebastián Boselli  River Plate -> Getafe CF
+- Andrés Herrera  River Plate -> Columbus Crew
+- Lucas Lavagnino  River Plate -> Real Valladolid
+- Matías Galarza  River Plate -> Inter Miami
+- Bautista Dadín  River Plate -> Aldosivi
+- Ruan  Atlético Mineiro -> Sassuolo
+- Patrick de Paula  Botafogo -> Sport
+- Elias Manoel  Botafogo -> Tijuana
+- Yarlen  Botafogo -> Athletic Club
+- Chris Ramos  Botafogo -> Real Oviedo
+- Marcos Felipe  Bahia -> Eyüpspor
+- Ian Luccas  Cruzeiro -> Alverca
+- Bruno Alves  Cruzeiro -> Norwich City
+- Pedrão  Cruzeiro -> Avaí
+- Lautaro Díaz  Cruzeiro -> Racing Club U.
+- Murilo Rhikman  Cruzeiro -> Sport
+- Luis Sinisterra  Cruzeiro -> AFC Bournemouth
+- Kevyn Monteiro  RB Bragantino -> Moreirense
+- Thiago Borbas  RB Bragantino -> Atlético Mineiro
+- Franco Rossi  Chapecoense -> Toluca
+- Thalisson  Coritiba -> Ceará SC
+- Carlinhos  Flamengo -> Athletic Club
+- Kayky Almeida  Fluminense -> Sport
+- Diego Caito  Grêmio -> Goiás
+- Vitinho  Internacional -> Dynamo Kyiv
+- Japa  Mirassol F.C. -> Cruzeiro
+- Edson Carioca  Mirassol F.C. -> Goiás
+- Kaique Pereira  Palmeiras -> Sporting CP
+- Naves  Palmeiras -> Necaxa
+- Luighi  Palmeiras -> New York City FC
+- Guty  Clube do Remo -> Amazonas FC
+- Matheus Alexandre  Clube do Remo -> Sport
+- Felipe Negrucci  São Paulo -> Athletic Club
+- Iago  São Paulo -> Bahia
+- Ronald  Vitória -> Criciúma
+- Claudinho  Vitória -> Sport
+- Tomás Pochettino  Vitória -> Fortaleza
+- Renê  Vitória -> Portuguesa
+- Diego Tarzia  Vitória -> Independiente
+- Walace  Vitória -> Cruzeiro
+- Juan Torres  Atl. Nacional -> Necaxa
+- Pipe Gómez  Once Caldas -> Itagüí Leones
+- Kevin Cortés  Santa Fe -> Orsomarso SC
+- Málcom Palacios  DIM -> Bogotá FC
+- Jhon Fredy Salazar  Bucaramanga -> Junior
+- Juan Guevara  Fortaleza CEIF -> SC Bastia
+- Luis Sánchez  Fortaleza CEIF -> Deportes Tolima
+- Johar Mejía  Jaguares -> Bogotá FC
+- Yeison Suárez  Dep. Pereira -> Junior
+- Faber Gil  Dep. Pereira -> Jaguares
+- Mateo Levato  Universidad de Concepción -> Deportivo Morón
+- Ignacio Sáez  Deportes La Serena -> U. de Chile
+- Ignacio Fuenzalida  Audax Italiano -> Deportes Copiapó
+- Ariel Uribe  Audax Italiano -> Unión Española
+- Julián Fernández  Palestino -> Atlético Tucumán
+- Andrés Arroyo  Everton Chile -> Fortaleza CEIF
+- Dylan Glaby  Coquimbo Unido -> Palestino
+- Walter Bou  CD O'Higgins -> Lanús
+- Tomás Avilés  CD O'Higgins -> Inter Miami
+- Esteban Calderón  Ñublense -> CD O'Higgins
+- Josué Ovalle  Deportes Limache -> Everton
+- Vicente Cárcamo  Deportes Limache -> Uni. Católica
+- Martín Fernández  Boston River -> Gil Vicente FC
+- Federico Pintado  Cerro Largo -> Central Español
+- Alexis Segovia  Cerro Largo -> Lanús
+- Matías Abaldo  Defensor -> Independiente
+- Nicolás Ferreira  Wanderers -> Ceará SC
+- Alfonso de Luca  Liverpool F.C. -> Cerro Largo
+- Sergio Núñez  Liverpool F.C. -> Huachipato
+- Nicolás Siri  Mdeo City Torque -> Boston River
+- Rafael Haller  Nacional U. -> Liverpool F.C.
+- Baltasar Barcia  Nacional U. -> Albion
+- Alejandro Martínez  Nacional U. -> Talleres
+- Alexander Machado  Peñarol -> Banfield
+- Agustín Moreira  C.A. Progreso -> Gil Vicente FC
+- Santino Bruschi  C.A. Progreso -> Defensor
+- Thiago Espinosa  Racing Club U. -> América
+- Bautista Euclides Tomatis  Racing Club U. -> Danubio
+- Renzo Bacchia  Racing Club U. -> C.A. Progreso
+- Agustín Álvarez  Racing Club U. -> Mdeo City Torque
+- Tomás Habib  Racing Club U. -> Acassuso
+- Facundo González  Racing Club U. -> Club Nacional
+- Lucas Rios  Deportivo Garcilaso -> Atlanta
+- Facundo Castelli  Deportivo Garcilaso -> Estudiantes
+- Christian Cueva  Juan Pablo II -> Sport Boys
+- Alejandro Pósito  FC Cajamarca -> Sporting Cristal
+- André Vasquez  Los Chankas -> Sport Boys
+- Virgilio Olaya  Aucas -> Los Angeles FC
+- Agostino Spina  Aucas -> Huracán
+- Ariel García  Delfín S.C. -> Aucas
+- Emerson Espinoza  Delfín S.C. -> Santo Domingo
+- José Neris  CS Emelec -> Defensor
+- Eduardo Bores  IDV -> CS Emelec
+- Jhon Valencia  Orense -> Real Cartagena
+- Marcelo Somoya  The Strongest -> Real Potosí
+- Allan Wlk  Olimpia -> Lanús
+- Marino Arzamendia  Olimpia -> Dep. Riestra
+- Felipe Salomoni  Guaraní -> Audax Italiano
+- Armando Méndez  Guaraní -> Newell's
+- Lucas Romero  Recoleta F.C. -> F.C. Juárez
+- Faustino Barone  Trinidense -> Olimpia
+- Marcelo Acosta  Rubio Ñu -> Rosario Central
+- Luis Amarilla  Cerro Porteño -> Juventude
+- Fabricio Domínguez  Cerro Porteño -> Sport
+- Juan Salcedo  Sportivo San Lorenzo -> Cerro Porteño
+- Jorge Sanguina  2 de Mayo -> Colón
+- Tobías Cervera  2 de Mayo -> Rosario Central
+- Marcos Gómez  2 de Mayo -> Olimpia
+- Rodrigo Gómez  2 de Mayo -> Cerro Porteño
+- César Ramírez  2 de Mayo -> Guaraní
+- Marcelo Pérez  Sportivo Luqueño -> Huracán
+- Samuel Beltrán  Sportivo Luqueño -> Rosario Central
+- Alexis Cantero  Sportivo Luqueño -> Olimpia
+- Lucas Morales  Sportivo Luqueño -> Club Nacional
+- Fabrizio Jara  Club Nacional -> Cerro Porteño
+- Keiber Lamadrid  Dep. La Guaira -> West Ham United
+- Eric Ramírez  Carabobo FC -> Dynamo Kyiv
+- Andrés Romero  Monagas SC -> Boston River
+- Tommy Setford  (nuevo en la base) -> Stevenage
+- Eiran Cashin  (nuevo en la base) -> Brighton & Hove Albion
+- Raphael Borges Rodrigues  (nuevo en la base) -> Burton Albion
+- Juan Riquelme Angulo  (nuevo en la base) -> Sunderland
+- Mykhaylo Mudryk  (nuevo en la base) -> Tottenham Hotspur
+- Gady Beyuku  (nuevo en la base) -> Blackburn Rovers
+- Alex Moore  (nuevo en la base) -> Agentes libres
+- Rayane Belaid  (nuevo en la base) -> Rayo Vallecano
+- Mujaid Sadick  (nuevo en la base) -> Rayo Vallecano
+- Miguel Morro  (nuevo en la base) -> Agentes libres
+- Álex Calatrava  (nuevo en la base) -> RCD Espanyol
+- Vanja Drkusic  (nuevo en la base) -> RCD Espanyol
+- Andoni Gorosabel  (nuevo en la base) -> RCD Espanyol
+- Hugo Pérez  (nuevo en la base) -> Agentes libres
+- Rafel Bauzà  (nuevo en la base) -> RCD Espanyol
+- Roy Revivo  (nuevo en la base) -> Elche CF
+- Aimar Duñabeitia  (nuevo en la base) -> Real Sporting de Gijón
+- Nikita Iosifov  (nuevo en la base) -> Real Sporting de Gijón
+- Egoitz Arana  (nuevo en la base) -> Real Sporting de Gijón
+- Antonio Casas  (nuevo en la base) -> Real Sporting de Gijón
+- Yann Kembo  (nuevo en la base) -> SD Huesca
+- Umaru Konaré  (nuevo en la base) -> AD Ceuta
+- Edgar Sevikyan  (nuevo en la base) -> AD Ceuta
+- Thomas Pompei  (nuevo en la base) -> Bergamo Calcio
+- Andrej Pogacar  (nuevo en la base) -> Catanzaro
+- Edoardo Lonardo  (nuevo en la base) -> Juve Stabia
+- Nicolò Cudrig  (nuevo en la base) -> Carrarese
+- Colin Dagba  (nuevo en la base) -> Carrarese
+- Mattia Pellini  (nuevo en la base) -> Südtirol
+- Zento Uno  (nuevo en la base) -> Borussia M'gladbach
+- Yukhym Konoplya  (nuevo en la base) -> Borussia M'gladbach
+- Tomas Cvancara  (nuevo en la base) -> Agentes libres
+- Hee-chan Hwang  (nuevo en la base) -> FC Schalke 04
+- Isidoros Koutsidis  (nuevo en la base) -> Eintracht Braunschweig
+- Justin Bengui  (nuevo en la base) -> Olympique Lyonnais
+- Kelian Nsona  (nuevo en la base) -> Rodez AF
+- Michal Rosiak  (nuevo en la base) -> FC Twente
+- Nikolas Panagiotou  (nuevo en la base) -> FC Utrecht
+- Dele Thomas  (nuevo en la base) -> NEC Nijmegen
+- Filip Kostic  (nuevo en la base) -> PSV
+- Wout Asselman  (nuevo en la base) -> SC Cambuur
+- Roberts Uldrikis  (nuevo en la base) -> sc Heerenveen
+- Gustavo Ferreira  (nuevo en la base) -> Famalicão
+- Víctor Rofino  (nuevo en la base) -> Famalicão
+- Miguel Rebelo  (nuevo en la base) -> Agentes libres
+- Arnel Jakupovic  (nuevo en la base) -> Vitória de Guimarães
+- Doğanay Avcı  (nuevo en la base) -> Agentes libres
+- Oleg Reabciuk  (nuevo en la base) -> Anderlecht
+- Milan Roganovic  (nuevo en la base) -> Genk
+- Marco Decherf  (nuevo en la base) -> KV Mechelen
+- Landon Emenalo  (nuevo en la base) -> Celtic
+- Shumaira Mheuka  (nuevo en la base) -> Celtic
+- Leart Kabashi  (nuevo en la base) -> Heart of Midlothian
+- Aron Benjaminsen  (nuevo en la base) -> Heart of Midlothian
+- Olly Whyte  (nuevo en la base) -> Agentes libres
+- Marko Ivezic  (nuevo en la base) -> Hibernian
+- Jack Moorhouse  (nuevo en la base) -> Agentes libres
+- Mohammed Mulawwah Al-Shammari  (nuevo en la base) -> Al Riyadh
+- Mustapha Samb  (nuevo en la base) -> Al Taawoun
+- David Doudera  (nuevo en la base) -> FC Cincinnati
+- Charles-Emile Brunet  (nuevo en la base) -> Nashville SC
+- Riquelme Fillipi  (nuevo en la base) -> Inter Miami
+- Sam Vines  (nuevo en la base) -> San Diego FC
+- David Mimbang  (nuevo en la base) -> San Diego FC
+- Daniel Job  (nuevo en la base) -> FC Dallas
+- Dusan Zagar  (nuevo en la base) -> Real Salt Lake
+- Rubén Ramos Jr.  (nuevo en la base) -> Sporting KC
+- Or Blorian  (nuevo en la base) -> Sporting KC
+- Ryan Mmaee  (nuevo en la base) -> Atlas FC
+- Faustino Piotti  (nuevo en la base) -> Newell's
+- Gastón Lodico  (nuevo en la base) -> Racing Club
+- Alfonso Espino  (nuevo en la base) -> Racing Club
+- Juan Elordi  (nuevo en la base) -> Racing Club
+- Héctor Fértoli  (nuevo en la base) -> Racing Club
+- Werik Popó  (nuevo en la base) -> Agentes libres
+- Ignacio Laquintana  (nuevo en la base) -> RB Bragantino
+- Nathan Mendes  (nuevo en la base) -> RB Bragantino
+- Kawê  (nuevo en la base) -> RB Bragantino
+- André Cardoso  (nuevo en la base) -> RB Bragantino
+- Brandon Llana  (nuevo en la base) -> Albion
+- Facundo Valdez  (nuevo en la base) -> Boston River
+- Mirko Díaz  (nuevo en la base) -> Juventud
+- Nahuel Gelos  (nuevo en la base) -> Nacional U.
+- Bruno Machuca  (nuevo en la base) -> Sportivo San Lorenzo
