@@ -428,4 +428,20 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   // Transfermarkt no tiene entrenador devuelve null y saltea el club.
   athletic_club: { dt: 'Alex de Souza' },   // ESPN Brasil y CNN Brasil, 21/02/2026 -- el ex Palmeiras/Cruzeiro, dirige al Athletic de Sao Joao del-Rei en Serie B
   orense: { dt: 'Agustín Robles' },   // El Universo, 30/07/2026 -- interino RATIFICADO hasta fin de temporada; ojo: buscar "tecnico de Orense" devuelve a Hernan Torres, que es de marzo y quedo viejo
+
+  // ===== Al día con Transfermarkt (npm run tecnicos, 2026-09-04) =====
+  venados_fc: { dt: 'Nacho Castro' },   // Venados FC
+  jaiba_brava: { dt: 'Marco Antonio Ruiz' },   // Jaiba Brava
+  morelia: { dt: 'Hugo Colace' },   // Morelia
+  la_paz: { dt: 'Hugo Castillo' },   // La Paz
+  leones_negros: { dt: 'Alfonso Sosa' },   // Leones Negros
+  mineros: { dt: 'Luis Muñoz' },   // Mineros
+  correcaminos: { dt: 'Gustavo Díaz' },   // Correcaminos
+  dorados: { dt: 'Francisco Ramírez' },   // Dorados
+  alebrijes: { dt: 'Efrén Hernández' },   // Alebrijes
+  independiente_del_valle_juniors: { dt: 'Facundo González' },   // Independiente del Valle Juniors
+  "9_de_octubre": { dt: 'Wálter Aristizábal' },   // 9 de Octubre
+  dep_santo_domingo: { dt: 'Juan Manuel Llop' },   // Dep. Santo Domingo
+  cuenca_jrs: { dt: 'Leonardo Vanegas' },   // Cuenca Jrs
+  ldup: { dt: 'Javier Carvajal' },   // LDUP
 };

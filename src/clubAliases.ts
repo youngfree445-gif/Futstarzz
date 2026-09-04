@@ -68,7 +68,7 @@ export interface NombresDelClub {
 // por línea. Uno al final de una entrada rompe el parseo, y npm run validar:alias lo avisa.
 export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "22_de_julio": { "nombre": "22 de Julio", "plantel": "22 de Julio FC" },
-  "9_de_octubre": { "nombre": "9 de Octubre", "plantel": "9 de Octubre FC" },
+  "9_de_octubre": { "nombre": "9 de Octubre", "plantel": "9 de Octubre FC", "otros": ["AD Nueve de Octubre"] },
   "a_rafaela": { "nombre": "A. Rafaela", "plantel": "Atletico Rafaela" },
   "academia_puerto_cabello": { "nombre": "Academia Puerto Cabello", "calendario": "Puerto Cabello", "plantel": "Puerto Cabello" },
   "ad_ceuta_fc": { "nombre": "AD Ceuta FC", "plantel": "AD Ceuta" },
@@ -131,7 +131,7 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "tijuana": { "nombre": "Club Tijuana", "plantel": "Tijuana" },
   "comunicaciones": { "nombre": "Comunicaciones", "plantel": "Comunicaciones (A)" },
   "comunicaciones_gt": { "nombre": "Comunicaciones", "plantel": "Comunicaciones FC" },
-  "cuenca_jrs": { "nombre": "Cuenca Jrs", "plantel": "Cuenca Jrs." },
+  "cuenca_jrs": { "nombre": "Cuenca Jrs", "plantel": "Cuenca Jrs.", "otros": ["Cuenca Juniors"] },
   "cumbayá": { "nombre": "Cumbayá", "plantel": "Cumbayá FC" },
   "d_alaves": { "nombre": "D. Alavés", "plantel": "Deportivo Alavés" },
   "darmstadt_98": { "nombre": "Darmstadt 98", "plantel": "SV Darmstadt 98" },
@@ -279,7 +279,7 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "alajuelense": { "nombre": "Alajuelense", "plantel": "LD Alajuelense" },
   "herediano": { "nombre": "Herediano", "plantel": "C.S. Herediano" },
   "wydad_casablanca": { "nombre": "Wydad Casablanca", "plantel": "Wydad A.C." },
-  "mineros": { "nombre": "Mineros", "plantel": "Mineros Z." },
+  "mineros": { "nombre": "Mineros", "plantel": "Mineros Z.", "otros": ["Mineros de Zacatecas"] },
   "urawa_red_diamonds": { "nombre": "Urawa Red Diamonds", "plantel": "Urawa Reds" },
   "santiago_morning": { "nombre": "Santiago Morning", "plantel": "Santiago M." },
   "cd_tondela": { "nombre": "CD Tondela", "plantel": "Tondela" },
@@ -362,6 +362,17 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "aucas": { "nombre": "Aucas", "otros": ["SD Aucas"] },
   "c_español_uru": { "nombre": "C. Español", "otros": ["Central Español FC"] },
   "maldonado_uru": { "nombre": "Maldonado", "otros": ["Club Deportivo Maldonado"] },
+  "venados_fc": { "nombre": "Venados FC", "otros": ["Venados FC Yucatán"] },
+  "morelia": { "nombre": "Morelia", "otros": ["Club Atlético Morelia"] },
+  "la_paz": { "nombre": "La Paz", "otros": ["Atlético La Paz"] },
+  "leones_negros": { "nombre": "Leones Negros", "otros": ["CD Leones Negros de la UdeG"] },
+  "correcaminos": { "nombre": "Correcaminos", "otros": ["Correcaminos de la UAT"] },
+  "dorados": { "nombre": "Dorados", "otros": ["Dorados de Sinaloa"] },
+  "alebrijes": { "nombre": "Alebrijes", "otros": ["Alebrijes de Oaxaca"] },
+  "jaiba_brava": { "nombre": "Jaiba Brava", "otros": ["Tampico Madero"] },
+  "dep_santo_domingo": { "nombre": "Dep. Santo Domingo", "otros": ["CD Santo Domingo"] },
+  "ldup": { "nombre": "LDUP", "otros": ["LDU de Portoviejo"] },
+  "independiente_del_valle_juniors": { "nombre": "Independiente del Valle Juniors", "otros": ["Independiente Juniors"] },
 };
 
 // --- Lo que cada consumidor pregunta, respondido desde la tabla de arriba -----------------------
