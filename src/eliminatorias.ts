@@ -180,6 +180,89 @@ export function eliminatoriaTerminada(e: EliminatoriaState): boolean {
   return e.grupos.every(g => g.fixtures.every(f => f.played));
 }
 
+/**
+ * CÓMO VA MI SELECCIÓN EN LA ELIMINATORIA, y si ya se quedó afuera.
+ *
+ * ---------------------------------------------------------------------------------------------
+ * POR QUÉ ESTO NO ES COMO UNA COPA
+ * ---------------------------------------------------------------------------------------------
+ *
+ * En un cuadro te eliminan en un partido: perdés la llave y ese día se te avisa. La eliminatoria es
+ * una TABLA DE DOS AÑOS y no hay un momento así: en algún punto la aritmética deja de dar, y ese
+ * punto suele caer una fecha que ni jugaste.
+ *
+ * `eliminado` SOLO SE AFIRMA CUANDO ES SEGURO: ni ganando todos los partidos que le quedan alcanza
+ * los puntos que YA TIENE el equipo que ocupa el último lugar que clasifica. Ese equipo puede sumar
+ * más, nunca menos, así que la cuenta no puede dar un falso positivo. Es conservadora -- puede
+ * avisar una fecha después de lo estrictamente posible -- y esa es la dirección correcta del error:
+ * decirle a alguien que quedó afuera cuando todavía puede entrar es mucho peor que decírselo tarde.
+ *
+ * EN EUROPA NUNCA SE AFIRMA MIENTRAS SE JUEGA, y no es una limitación técnica. Son 12 grupos y
+ * clasifica el primero, pero los 4 MEJORES SEGUNDOS también entran: quedar fuera del primer puesto
+ * no es quedar afuera, depende de lo que hagan los otros once grupos. Un aviso ahí le mentiría al
+ * que después entra como mejor segundo.
+ *
+ * EL CORTE NO ES `cupos`, SON `cupos + 2`. Al séptimo y al octavo de Conmebol les queda el repechaje
+ * intercontinental (ver clasificadosDe, que devuelve `enLaPuerta`), así que estar séptimo no es
+ * estar eliminado.
+ */
+export interface SituacionEnLaEliminatoria {
+  puesto: number;
+  equipos: number;
+  /** Los que entran derecho. */
+  cupos: number;
+  /** Hasta dónde se puede llegar al Mundial: los cupos más los dos del repechaje. */
+  corte: number;
+  fechasQueFaltan: number;
+  terminada: boolean;
+  /** Terminó y quedó dentro del corte. */
+  clasificado: boolean;
+  /** Ya no llega ni ganando todo. En Europa, sólo cuando la eliminatoria terminó. */
+  eliminado: boolean;
+}
+
+export function situacionEnLaEliminatoria(
+  e: EliminatoriaState, teamId: string,
+): SituacionEnLaEliminatoria | null {
+  const grupo = e.grupos.find(g => g.clubIds.includes(teamId));
+  if (!grupo) return null;
+
+  const tabla = sortTable(grupo.table);
+  const puesto = tabla.findIndex(r => r.clubId === teamId) + 1;
+  if (!puesto) return null;
+
+  const cupos = CUPOS_POR_CONFEDERACION[e.confederacion];
+  const corte = Math.min(tabla.length, cupos + REPECHAJE_INTERCONTINENTAL);
+  const terminada = eliminatoriaTerminada(e);
+  const total = fechasDeLaEliminatoria(e);
+  const jugadas = Math.max(0, ...grupo.fixtures.filter(f => f.played).map(f => f.matchweek));
+  const fechasQueFaltan = Math.max(0, total - jugadas);
+
+  if (terminada) {
+    const { clasificados, enLaPuerta } = clasificadosDe(e);
+    const dentro = clasificados.includes(teamId) || enLaPuerta.includes(teamId);
+    return { puesto, equipos: tabla.length, cupos, corte, fechasQueFaltan: 0, terminada: true,
+             clasificado: dentro, eliminado: !dentro };
+  }
+
+  // Mientras se juega, en Europa no se afirma nada: el segundo de un grupo puede entrar por ser uno
+  // de los cuatro mejores segundos, y eso depende de los otros once grupos.
+  if (e.confederacion === 'UEFA') {
+    return { puesto, equipos: tabla.length, cupos, corte, fechasQueFaltan, terminada: false,
+             clasificado: false, eliminado: false };
+  }
+
+  const mios = tabla[puesto - 1];
+  const partidosQueMeQuedan = grupo.fixtures.filter(
+    f => !f.played && (f.homeTeamId === teamId || f.awayTeamId === teamId)).length;
+  const miTecho = mios.puntos + partidosQueMeQuedan * 3;
+  const elDelCorte = tabla[corte - 1];
+  const eliminado = !!elDelCorte && elDelCorte.clubId !== teamId && miTecho < elDelCorte.puntos;
+
+  return { puesto, equipos: tabla.length, cupos, corte, fechasQueFaltan, terminada: false,
+           clasificado: false, eliminado };
+}
+
 /** El partido que le toca a esta selección en la fecha que viene, si le toca alguno. */
 export function proximoPartidoDeEliminatoria(
   e: EliminatoriaState, teamId: string,

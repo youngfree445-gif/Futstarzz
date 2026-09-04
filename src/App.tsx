@@ -7,7 +7,7 @@ import {
 import {
   CONFEDERACION_POR_SELECCION, crearEliminatoria, esJugable, ponerAlDiaLaEliminatoria,
   seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica, torneoContinentalDe,
-  proximoPartidoDeEliminatoria, resolverPasoEliminatoria, seleccionesDelMundial, tablaDeEliminatoria,
+  proximoPartidoDeEliminatoria, resolverPasoEliminatoria, seleccionesDelMundial, situacionEnLaEliminatoria, tablaDeEliminatoria,
   terminarEliminatoria, zonaDe,
 } from './eliminatorias';
 import { applyClubTheme } from './clubTheme';
@@ -3366,6 +3366,69 @@ export default function App() {
       return info;
     });
   };
+
+  /**
+   * SI TU SELECCIÓN SE QUEDA AFUERA DEL MUNDIAL, TE ENTERÁS.
+   *
+   * Las copas avisan al perder la llave; la eliminatoria no tiene un momento así -- es una tabla de
+   * dos años --, y por eso hasta ahora no avisaba NADA: te dabas cuenta cuatro años después, cuando
+   * no te convocaban al Mundial.
+   *
+   * SON DOS AVISOS DISTINTOS y los dos hacen falta:
+   *
+   *   . AL CERRAR EL CICLO, siempre y en las seis confederaciones: en qué puesto terminó y si va.
+   *     Es el que de verdad te cambia los próximos cuatro años.
+   *   . Y ANTES, cuando ya no llega ni ganando todo. Sólo donde se puede afirmar -- Conmebol y
+   *     Concacaf, que juegan una sola tabla -- y sólo si pasa con DOS FECHAS O MÁS por jugar: si la
+   *     aritmética se cierra en la última, el aviso llega cuando ya lo sabe todo el mundo y no es
+   *     noticia. En Europa no se anticipa nada: quedar fuera del primer puesto no es quedar afuera,
+   *     porque los cuatro mejores segundos también entran. Ver situacionEnLaEliminatoria.
+   *
+   * Va en un efecto y no en cada lugar que guarda la eliminatoria porque son SEIS: los cinco días
+   * que la adelantan de fondo (descanso, sanción, sin convocatoria...) más el partido que jugás. Es
+   * la misma lección que dejó el aviso de los cuadrangulares: una sola pregunta, un solo lugar
+   * donde contestarla.
+   */
+  const eliminatoriaAvisada = useRef<Record<string, string>>({});
+  useEffect(() => {
+    const perfil = playerProfile;
+    if (!perfil) return;
+    const teamId = NATIONALITY_TO_WORLD_CUP_TEAM_ID[perfil.nationality];
+    if (!teamId) return;
+    const miSeleccion = ALL_NATIONAL_TEAMS_DATABASE.find(t => t.id === teamId);
+
+    for (const [clave, estado] of Object.entries(perfil.eliminatorias ?? {})) {
+      const s = situacionEnLaEliminatoria(estado as any, teamId);
+      if (!s) continue;
+      // Qué hay para anunciar hoy, o nada.
+      //
+      // SÓLO SE ANUNCIA QUEDARSE AFUERA. Clasificar no se anuncia acá y no es un olvido: esta
+      // pantalla es la de CIERRE -- su texto dice "cierra su participación en..." -- y usarla para
+      // una clasificación diría exactamente lo contrario de lo que pasó. El que entra al Mundial se
+      // entera jugándolo.
+      const que = s.terminada
+        ? (s.clasificado ? null : 'fin')
+        : (s.eliminado && s.fechasQueFaltan >= 2 ? 'eliminado' : null);
+      if (!que) continue;
+      // Una vez por cosa: el efecto corre en cada render y el estado no cambia entre uno y otro.
+      if (eliminatoriaAvisada.current[clave] === que) continue;
+      eliminatoriaAvisada.current[clave] = que;
+
+      const mundial = (estado as any).mundial;
+      mostrarAviso({
+        competition: `Eliminatorias al Mundial ${mundial}`,
+        clubName: miSeleccion?.name ?? perfil.nationality,
+        season: `Camino a ${mundial}`,
+        badgeUrl: miSeleccion?.badgeImageUrl ?? miSeleccion?.badgeLogoUrl ?? null,
+        finalPosition: s.puesto,
+        totalTeams: s.equipos,
+        eliminated: true,
+        // Con null el titular sale "Eliminado en la eliminatoria", que acá es circular: la
+        // eliminatoria ES el torneo. Se nombra lo que se perdió.
+        eliminatedRound: 'la clasificación al Mundial',
+      });
+    }
+  }, [playerProfile?.eliminatorias, playerProfile?.nationality]);
 
   /**
    * El resultado de una fecha que tu club jugo SIN VOS, anotado en el historial.

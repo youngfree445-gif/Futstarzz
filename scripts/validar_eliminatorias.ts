@@ -16,7 +16,7 @@ import {
   CONFEDERACION_POR_SELECCION, CONFEDERACIONES_JUGABLES, CUPOS_POR_CONFEDERACION,
   SELECCIONES_DUPLICADAS, clasificadosDe, crearEliminatoria, eliminatoriaTerminada,
   fechasDeLaEliminatoria, proximoPartidoDeEliminatoria, resolverPasoEliminatoria,
-  seleccionesDe, seleccionesDelMundial, type Confederacion, type EliminatoriaState,
+  seleccionesDe, seleccionesDelMundial, situacionEnLaEliminatoria, type Confederacion, type EliminatoriaState,
 } from '../src/eliminatorias';
 
 const CONFS: Confederacion[] = ['UEFA', 'CONMEBOL', 'CONCACAF', 'CAF', 'AFC', 'OFC'];
@@ -57,6 +57,94 @@ for (const conf of CONFEDERACIONES_JUGABLES) {
     conf.padEnd(10), String(fechasDeLaEliminatoria(e)).padStart(6),
     String(eliminatoriaTerminada(e)).padStart(8), String(cupos).padStart(6),
     String(clasificados.length).padStart(13), ok ? '' : '   <-- MAL');
+}
+
+// --- A2) EL AVISO: cuándo se puede decir "te quedaste afuera" ---
+//
+// La eliminatoria no tiene un momento de eliminación como una copa: es una tabla de dos años. El
+// aviso se apoya en situacionEnLaEliminatoria, y lo que hay que cuidar es que NO MIENTA -- decirle
+// a alguien que quedó afuera cuando todavía puede entrar es mucho peor que decírselo tarde.
+console.log('\n=== A2) El aviso de eliminación ===\n');
+let fallosAviso = 0;
+const chequeo = (n: string, c: boolean, d = '') => {
+  if (!c) fallosAviso++;
+  console.log(`${c ? 'OK  ' : 'FALLA'} ${n}${d ? '  ' + d : ''}`);
+};
+
+for (const conf of CONFEDERACIONES_JUGABLES) {
+  const e = jugar(conf, 2030);
+  const { clasificados, enLaPuerta } = clasificadosDe(e);
+  const dentro = new Set([...clasificados, ...enLaPuerta]);
+  const equipos = seleccionesDe(conf, SELECCIONES);
+
+  // 1. Terminada la eliminatoria, el aviso tiene que coincidir con quién clasificó DE VERDAD.
+  const mal = equipos.filter(t => {
+    const s = situacionEnLaEliminatoria(e, t.id);
+    return !s || s.clasificado !== dentro.has(t.id) || s.eliminado === dentro.has(t.id);
+  });
+  chequeo(`${conf}: al terminar, el aviso dice lo mismo que la clasificación`, mal.length === 0,
+          mal.slice(0, 3).map(t => nombre(t.id)).join(', '));
+  chequeo(`${conf}: y todos quedan marcados como terminados`,
+          equipos.every(t => situacionEnLaEliminatoria(e, t.id)?.terminada === true));
+}
+
+// 2. LO QUE NO PUEDE PASAR: dar por eliminado a alguien que después clasifica.
+//
+// Se juega la eliminatoria fecha por fecha y en CADA una se anota a quién se dio por eliminado.
+// Al final, ninguno de esos puede estar entre los que entraron. Es la única prueba que sirve acá:
+// la regla es una desigualdad y un error de signo se ve exactamente así.
+// SE JUEGAN VARIAS EDICIONES, no una. La eliminación matemática con fechas de sobra es RARA -- con
+// 10 selecciones y el corte en 8, casi todas llegan vivas al final -- así que una sola edición da 0
+// o 1 según cómo caigan los dados, y un test que depende de eso miente la mitad de las veces.
+const EDICIONES_DEL_AVISO = 20;
+for (const conf of ['CONMEBOL', 'CONCACAF', 'UEFA'] as Confederacion[]) {
+  const mentiras = new Set<string>();
+  let anticipadosEnTotal = 0;
+  for (let ed = 0; ed < EDICIONES_DEL_AVISO; ed++) {
+    let e = crearEliminatoria(conf, 2030, SELECCIONES);
+    const dadosPorEliminados = new Set<string>();
+    for (let f = 0; f < fechasDeLaEliminatoria(e); f++) {
+      e = resolverPasoEliminatoria(e, SELECCIONES);
+      for (const t of seleccionesDe(conf, SELECCIONES)) {
+        const s = situacionEnLaEliminatoria(e, t.id);
+        if (s && !s.terminada && s.eliminado) {
+          dadosPorEliminados.add(t.id);
+          if (s.fechasQueFaltan >= 2) anticipadosEnTotal++;
+        }
+      }
+    }
+    const { clasificados, enLaPuerta } = clasificadosDe(e);
+    const dentroDeEsta = new Set([...clasificados, ...enLaPuerta]);
+    for (const id of dadosPorEliminados) if (dentroDeEsta.has(id)) mentiras.add(id);
+  }
+  const mentira = [...mentiras];
+  chequeo(`${conf}: en ${EDICIONES_DEL_AVISO} ediciones, nadie dado por eliminado terminó clasificando`,
+          mentira.length === 0, mentira.map(nombre).join(', '));
+  if (conf === 'UEFA') {
+    // En Europa no se puede afirmar mientras se juega: el segundo de un grupo puede entrar como uno
+    // de los cuatro mejores segundos, y eso depende de los otros once grupos.
+    chequeo('UEFA no anticipa NUNCA, porque los mejores segundos también entran',
+            anticipadosEnTotal === 0, `${anticipadosEnTotal} avisos`);
+  } else {
+    // Del otro lado: que el aviso EXISTA donde PUEDE existir. Una regla que nunca dispara pasa
+    // todas las pruebas de "no miente" sin servir para nada.
+    //
+    // Y donde no puede, se dice por qué: en Concacaf hay 8 selecciones cargadas para 6 cupos más
+    // los 2 del repechaje, así que el corte se las lleva a todas y nadie queda nunca afuera antes
+    // de tiempo. Es la misma limitación de DATOS que ya está anotada en CUPOS_POR_CONFEDERACION --
+    // faltan las 41 restantes de la confederación --, no un error de la regla. El día que se
+    // carguen, este chequeo empieza a pedir avisos también acá.
+    const equipos = seleccionesDe(conf, SELECCIONES).length;
+    const corte = CUPOS_POR_CONFEDERACION[conf] + 2;
+    if (corte >= equipos) {
+      chequeo(`${conf}: no puede haber aviso anticipado (${equipos} selecciones y el corte es ${corte})`,
+              anticipadosEnTotal === 0, `faltan selecciones cargadas, no es la regla`);
+    } else {
+      chequeo(`${conf}: el aviso anticipado llega alguna vez en ${EDICIONES_DEL_AVISO} ediciones`,
+              anticipadosEnTotal > 0,
+              `${anticipadosEnTotal} avisos en ${EDICIONES_DEL_AVISO} ediciones -- es raro y está bien que lo sea`);
+    }
+  }
 }
 
 // --- B) El Mundial da 48, sin repetidas ---
@@ -130,6 +218,6 @@ orden.forEach((r, i) => {
   console.log(`   ${String(i + 1).padStart(2)}. ${nombre(r.clubId!).padEnd(14)} ${String(r.puntos).padStart(2)} pts  ${String(r.pj).padStart(2)} pj  ${String(r.gf).padStart(2)}:${String(r.gc).padEnd(2)}  ${marca}`);
 });
 
-const problemas = fallosA + (mundial.length === 48 ? 0 : 1) + repetidas + (sinConf.length ? 1 : 0)
+const problemas = fallosA + fallosAviso + (mundial.length === 48 ? 0 : 1) + repetidas + (sinConf.length ? 1 : 0)
   + colada.length + (enDisputa < 8 ? 1 : 0) + (firmas.size < EDICIONES / 2 ? 1 : 0);
 console.log(`\n${problemas === 0 ? 'Sin fallas.' : `${problemas} problemas (ver arriba).`}`);

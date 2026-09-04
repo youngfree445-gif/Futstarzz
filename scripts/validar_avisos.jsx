@@ -90,6 +90,26 @@ caso('fin de torneo: sin puesto ni eliminacion',
   ['Torneo finalizado'],
   ['Pasaste de ronda', 'en el puesto']);
 
+// --- LAS ELIMINATORIAS AL MUNDIAL ---------------------------------------------------------------
+//
+// No tienen un momento de eliminacion como una copa: son una tabla de dos anios. El aviso manda
+// PUESTO y `eliminated`, y lo que importa es que las dos caras se lean bien -- la que dice que tu
+// seleccion se quedo afuera y la que dice que va al Mundial. Son la misma pantalla con una marca
+// distinta, y confundirlas seria anunciar una clasificacion como una eliminacion.
+const ELIMINATORIA = {
+  competition: 'Eliminatorias al Mundial 2030',
+  clubName: 'Selección de Colombia',
+  season: 'Camino a 2030',
+  badgeUrl: null,
+};
+
+caso('eliminatorias: tu seleccion se quedo afuera',
+  <SeasonEndOverlay info={{ ...ELIMINATORIA, finalPosition: 9, totalTeams: 10, eliminated: true, eliminatedRound: 'la clasificación al Mundial' }} onClose={nada} />,
+  ['Eliminado en la clasificación al Mundial', 'Eliminatorias al Mundial 2030', 'Selección de Colombia'],
+  // Y NO puede decir "en la eliminatoria", que es lo que sale con eliminatedRound en null: acá la
+  // eliminatoria ES el torneo y el titular quedaba circular.
+  ['Pasaste de ronda', 'Eliminado en la eliminatoria', 'undefined', 'null']);
+
 // El dia que quedas tercero del grupo de Libertadores son DOS avisos, no uno: primero se cierra esa
 // copa -- que si termino para vos -- y aparte se anuncia que pasas a la Sudamericana. Decirlas
 // juntas convertiria una eliminacion en un premio.
