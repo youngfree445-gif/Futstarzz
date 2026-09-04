@@ -1,0 +1,144 @@
+{
+  "fuente": "https://www.transfermarkt.co/sc-farense/startseite/verein/4294",
+  "teamName": "SC Farense",
+  "players": [
+    {
+      "nombre": "Fabijan Buntic",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 450000
+    },
+    {
+      "nombre": "Jakob Tånnander",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Rodrigo Borges",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 300000
+    },
+    {
+      "nombre": "Nermin Zolotic",
+      "pos": "Defensa central",
+      "edad": 33,
+      "valor": 300000
+    },
+    {
+      "nombre": "Gonçalo Silva",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 175000
+    },
+    {
+      "nombre": "Toni Herrero",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Derick Poloni",
+      "pos": "Lateral izquierdo",
+      "edad": 33,
+      "valor": 150000
+    },
+    {
+      "nombre": "Lucas D'Agrella",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Alex Pinto",
+      "pos": "Lateral derecho",
+      "edad": 28,
+      "valor": 350000
+    },
+    {
+      "nombre": "Dário Miranda",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 125000
+    },
+    {
+      "nombre": "Claudio Falcão",
+      "pos": "Pivote",
+      "edad": 32,
+      "valor": 450000
+    },
+    {
+      "nombre": "Miguel Menino",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 700000
+    },
+    {
+      "nombre": "Joseph Nduquidi",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 350000
+    },
+    {
+      "nombre": "Sarpreet Singh",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Mattheus",
+      "pos": "Mediocentro ofensivo",
+      "edad": 32,
+      "valor": 350000
+    },
+    {
+      "nombre": "Rafinha",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Victor Barbara",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "André Candeias",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 650000
+    },
+    {
+      "nombre": "Gabriel Barbosa",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 350000
+    },
+    {
+      "nombre": "João Resende",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Cuba",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Leonardo Oliveira",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "João Gastão",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 200000
+    }
+  ]
+}

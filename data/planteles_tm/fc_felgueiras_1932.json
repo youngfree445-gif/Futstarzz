@@ -1,0 +1,180 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-felgueiras-1932/startseite/verein/1701",
+  "teamName": "FC Felgueiras 1932",
+  "players": [
+    {
+      "nombre": "Felipe Scheibig",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Mateus Pasinato",
+      "pos": "Portero",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Eduardo Esteves",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Dário",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "João Pinto",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 275000
+    },
+    {
+      "nombre": "Dudu Cruz",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Samuel Vivas",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Armando Lopes",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Afonso Freitas",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Afonso Peixoto",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Filipe Cruz",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Bilal Ouacharaf",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Henrique Martins",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 600000
+    },
+    {
+      "nombre": "Francisco França",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 225000
+    },
+    {
+      "nombre": "Michel Costa",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Diogo Batista",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 100000
+    },
+    {
+      "nombre": "Landinho",
+      "pos": "Mediocentro",
+      "edad": 33,
+      "valor": 50000
+    },
+    {
+      "nombre": "Marco Ribeiro",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Tiago Ventura",
+      "pos": "Interior derecho",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Beni Jetour",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Rodrigo Ribeiro",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Marcello Cominato",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Gustavo Mendes",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Joãozinho",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 0
+    },
+    {
+      "nombre": "Samuel",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Lucas Duarte",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Mario Rivas",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 450000
+    },
+    {
+      "nombre": "Tiago Leite",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "João Bom",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 0
+    }
+  ]
+}

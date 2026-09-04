@@ -1,0 +1,198 @@
+{
+  "fuente": "https://www.transfermarkt.co/cd-feirense/startseite/verein/3349",
+  "teamName": "CD Feirense",
+  "players": [
+    {
+      "nombre": "Francisco Meixedo",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 350000
+    },
+    {
+      "nombre": "Diego Altube",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Antonio Leal",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 550000
+    },
+    {
+      "nombre": "Edgar Ié",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Pedro Pinto",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 0
+    },
+    {
+      "nombre": "Miguel Rocha",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Kaiquy",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Diego Moreno",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "André Lopes",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Bolaji",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Luiz Gustavo",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jójó",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 350000
+    },
+    {
+      "nombre": "Dorival",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Samad Popoola",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Momo Diaby",
+      "pos": "Pivote",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Tiago Antunes",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Tiago Castro",
+      "pos": "Mediocentro",
+      "edad": 30,
+      "valor": 150000
+    },
+    {
+      "nombre": "Gui Santos",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Hassan Wahab",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Gui Meira",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 225000
+    },
+    {
+      "nombre": "Isaac",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Luisinho",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Henrique Pereira",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Pedrinho",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 175000
+    },
+    {
+      "nombre": "Jonny Arriba",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Piri",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Adriel Moraes",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Desmond Nketia",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 275000
+    },
+    {
+      "nombre": "Alexandre Guedes",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 75000
+    },
+    {
+      "nombre": "Arthur Viana",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Jair Monteiro",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Peter Adejimi",
+      "pos": "Delantero",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

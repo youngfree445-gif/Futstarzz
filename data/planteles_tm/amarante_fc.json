@@ -1,0 +1,168 @@
+{
+  "fuente": "https://www.transfermarkt.co/amarante-fc/startseite/verein/7789",
+  "teamName": "Amarante FC",
+  "players": [
+    {
+      "nombre": "Diogo Fernandes",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 600000
+    },
+    {
+      "nombre": "Didi",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 100000
+    },
+    {
+      "nombre": "Rafael Flores",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Rodrigo Beirão",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 125000
+    },
+    {
+      "nombre": "Feliciano",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Diogo Costa",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Gonçalo Cunha",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "João Filipe",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Ian Custódio",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "João Ricardo",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Alemão",
+      "pos": "Lateral derecho",
+      "edad": 33,
+      "valor": 200000
+    },
+    {
+      "nombre": "Lawrence",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Rúben Silva",
+      "pos": "Lateral derecho",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Nito",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Rodrigo Guedes",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 100000
+    },
+    {
+      "nombre": "Rodrigo Carvalho",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Tokinho Dória",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 350000
+    },
+    {
+      "nombre": "Rúben Alves",
+      "pos": "Mediocentro ofensivo",
+      "edad": 31,
+      "valor": 200000
+    },
+    {
+      "nombre": "Faissal Zangré",
+      "pos": "Mediocentro ofensivo",
+      "edad": 29,
+      "valor": 75000
+    },
+    {
+      "nombre": "Simão Silva",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 350000
+    },
+    {
+      "nombre": "Luís Machado",
+      "pos": "Extremo izquierdo",
+      "edad": 33,
+      "valor": 125000
+    },
+    {
+      "nombre": "Leandro Ferreira",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Melvin Costa",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Arome",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Kenneth Ikugar",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Rudi Almeida",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Cardoso",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "fuente": "https://www.transfermarkt.co/maccabi-tel-aviv/startseite/verein/119",
+  "teamName": "Maccabi Tel Aviv FC",
+  "players": [
+    {
+      "nombre": "Ofek Melika",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Roi Mishpati",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 175000
+    },
+    {
+      "nombre": "Idan Trau",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Shalev Saadya",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Tyrese Asante",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 2700000
+    },
+    {
+      "nombre": "Mohamed Camara",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 1400000
+    },
+    {
+      "nombre": "Raz Shlomo",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 800000
+    },
+    {
+      "nombre": "Itay Ben Hemo",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 350000
+    },
+    {
+      "nombre": "Itay Malma",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Shahar Rosen",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 375000
+    },
+    {
+      "nombre": "Denny Gropper",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Noam Ben Harush",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Kristijan Belic",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 1300000
+    },
+    {
+      "nombre": "Issouf Sissokho",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 1700000
+    },
+    {
+      "nombre": "Dan Glazer",
+      "pos": "Pivote",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Itamar Noy",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 600000
+    },
+    {
+      "nombre": "Roei Magor",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Ido Shahar",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Lotem Asras",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Gabi Kanichowsky",
+      "pos": "Mediocentro ofensivo",
+      "edad": 29,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Dor Peretz",
+      "pos": "Mediocentro ofensivo",
+      "edad": 31,
+      "valor": 1600000
+    },
+    {
+      "nombre": "Kervin Andrade",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 1300000
+    },
+    {
+      "nombre": "Ilay Ben Simon",
+      "pos": "Mediocentro ofensivo",
+      "edad": 17,
+      "valor": 250000
+    },
+    {
+      "nombre": "Hélio Varela",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Ori Azo",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 800000
+    },
+    {
+      "nombre": "Hisham Layous",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 700000
+    },
+    {
+      "nombre": "Anis Porat Ayash",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Osher Davida",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Sagiv Jehezkel",
+      "pos": "Extremo derecho",
+      "edad": 31,
+      "valor": 375000
+    },
+    {
+      "nombre": "Ester Sokler",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Elad Madmon",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Ion Nicolaescu",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 1000000
+    }
+  ]
+}

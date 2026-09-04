@@ -1,0 +1,180 @@
+{
+  "fuente": "https://www.transfermarkt.co/lusitania-fc-lourosa/startseite/verein/8189",
+  "teamName": "Lusitânia FC Lourosa",
+  "players": [
+    {
+      "nombre": "Vítor Hugo",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 650000
+    },
+    {
+      "nombre": "Brian Araújo",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 600000
+    },
+    {
+      "nombre": "Gabriel Souza",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 150000
+    },
+    {
+      "nombre": "Marco Ribeiro",
+      "pos": "Portero",
+      "edad": 31,
+      "valor": 100000
+    },
+    {
+      "nombre": "Dylan Collard",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 600000
+    },
+    {
+      "nombre": "Bruno Faria",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Guilherme Soares",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 300000
+    },
+    {
+      "nombre": "Silvério",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Josué Sá",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Leonardo Paiva",
+      "pos": "Defensa central",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Luís Rocha",
+      "pos": "Lateral izquierdo",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Francisco Machado",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Ricardinho",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 450000
+    },
+    {
+      "nombre": "Danny",
+      "pos": "Lateral derecho",
+      "edad": 28,
+      "valor": 225000
+    },
+    {
+      "nombre": "António Montez",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Diogo Paulo",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Miguel Teixeira",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Fabinho",
+      "pos": "Mediocentro",
+      "edad": 31,
+      "valor": 150000
+    },
+    {
+      "nombre": "André Ricardo",
+      "pos": "Mediocentro ofensivo",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Francisco Reis",
+      "pos": "Mediocentro ofensivo",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Paulité",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Arsénio",
+      "pos": "Extremo izquierdo",
+      "edad": 37,
+      "valor": 50000
+    },
+    {
+      "nombre": "Manel",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Mika Borges",
+      "pos": "Extremo izquierdo",
+      "edad": 29,
+      "valor": 0
+    },
+    {
+      "nombre": "Moises Tablante",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Saliou Mandiang",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Iuri Moreira",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 125000
+    },
+    {
+      "nombre": "João Silva",
+      "pos": "Delantero centro",
+      "edad": 36,
+      "valor": 50000
+    },
+    {
+      "nombre": "João Santos",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "fuente": "https://www.transfermarkt.co/uniao-leiria/startseite/verein/2639",
+  "teamName": "UD Leiria",
+  "players": [
+    {
+      "nombre": "Christian Joel",
+      "pos": "Portero",
+      "edad": 27,
+      "valor": 600000
+    },
+    {
+      "nombre": "Jakob Odehnal",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 150000
+    },
+    {
+      "nombre": "Yago Moreira",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Zé Pedro",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 750000
+    },
+    {
+      "nombre": "Miguel Nóbrega",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Leo Mascaró",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Marcelo",
+      "pos": "Defensa central",
+      "edad": 37,
+      "valor": 50000
+    },
+    {
+      "nombre": "Marc Baró",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 750000
+    },
+    {
+      "nombre": "Hugo Masaki",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Maga",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 800000
+    },
+    {
+      "nombre": "Ibrahima Guirassy",
+      "pos": "Pivote",
+      "edad": 27,
+      "valor": 400000
+    },
+    {
+      "nombre": "Eboue Kouassi",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Diogo Amado",
+      "pos": "Pivote",
+      "edad": 36,
+      "valor": 25000
+    },
+    {
+      "nombre": "Tharlley",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Reko",
+      "pos": "Mediocentro",
+      "edad": 31,
+      "valor": 350000
+    },
+    {
+      "nombre": "Albert Lottin",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Bernardo Gomes",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Diogo Martins",
+      "pos": "Mediocentro",
+      "edad": 30,
+      "valor": 150000
+    },
+    {
+      "nombre": "Martim Almeida",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Famana Quizera",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 125000
+    },
+    {
+      "nombre": "Nabil Ondó",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Jordan van der Gaag",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 550000
+    },
+    {
+      "nombre": "Jair Silva",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 450000
+    },
+    {
+      "nombre": "Jaiminho",
+      "pos": "Extremo derecho",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Victor Silva",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 125000
+    },
+    {
+      "nombre": "Pedro Oliveira",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Juan Muñoz",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Borislav Rupanov",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 600000
+    },
+    {
+      "nombre": "Pablo Fernández",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 500000
+    },
+    {
+      "nombre": "Samuel Ntanda",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Stefan",
+      "pos": "Delantero centro",
+      "edad": 17,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "fuente": "https://www.transfermarkt.co/gd-chaves/startseite/verein/3325",
+  "teamName": "GD Chaves",
+  "players": [
+    {
+      "nombre": "João Valido",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 400000
+    },
+    {
+      "nombre": "Marko Gudžulić",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Rodrigo Moura",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 150000
+    },
+    {
+      "nombre": "Thiago Pereira",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Bruno Rodrigues",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Tiago Simões",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 450000
+    },
+    {
+      "nombre": "Mamadou Tounkara",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Ricardo Alves",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 25000
+    },
+    {
+      "nombre": "Ivo Vázquez",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 375000
+    },
+    {
+      "nombre": "Kiko",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Aarón Romero",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Léo Alaba",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Antony Herbert",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Gilberto García",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 700000
+    },
+    {
+      "nombre": "Aílson Tavares",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 600000
+    },
+    {
+      "nombre": "Brice Eboudjé",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Dru Yearwood",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 700000
+    },
+    {
+      "nombre": "Pedro Pelágio",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Mohamed Fofana",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "João Teixeira",
+      "pos": "Mediocentro",
+      "edad": 32,
+      "valor": 100000
+    },
+    {
+      "nombre": "André Rodrigues",
+      "pos": "Mediocentro ofensivo",
+      "edad": 28,
+      "valor": 175000
+    },
+    {
+      "nombre": "Rodrigo Melro",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Di Cardoso",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Robyn Esajas",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Costinha",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Lucas Lima",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "GB",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Armando Jr",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Roberto",
+      "pos": "Delantero centro",
+      "edad": 37,
+      "valor": 50000
+    },
+    {
+      "nombre": "Marquinhos",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Wilson Tavares",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Divin Muteba",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 0
+    }
+  ]
+}

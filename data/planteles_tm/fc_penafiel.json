@@ -1,0 +1,192 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-penafiel/startseite/verein/3327",
+  "teamName": "FC Penafiel",
+  "players": [
+    {
+      "nombre": "Joan Femenías",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 400000
+    },
+    {
+      "nombre": "Alexéi Rojas",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 250000
+    },
+    {
+      "nombre": "Eric Puerto",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Miguel Oliveira",
+      "pos": "Portero",
+      "edad": 32,
+      "valor": 75000
+    },
+    {
+      "nombre": "Cláudio Silva",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 500000
+    },
+    {
+      "nombre": "Adrián Pica",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jaime Sánchez",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 175000
+    },
+    {
+      "nombre": "Jorge Meré",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 150000
+    },
+    {
+      "nombre": "João Miguel",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 150000
+    },
+    {
+      "nombre": "Meireles Injai",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Iano Simão",
+      "pos": "Lateral izquierdo",
+      "edad": 27,
+      "valor": 325000
+    },
+    {
+      "nombre": "Teddy Alloh",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Martim Alberto",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Douglas Borel",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Gonçalo Negrão",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Duarte Oliveira",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Pedro Sá",
+      "pos": "Pivote",
+      "edad": 32,
+      "valor": 100000
+    },
+    {
+      "nombre": "Mairlon Ramon",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Carlinhos Augusto",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Àlex Carbonell",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 275000
+    },
+    {
+      "nombre": "João Pinto",
+      "pos": "Mediocentro ofensivo",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Tomás Teixeira",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Davo",
+      "pos": "Extremo izquierdo",
+      "edad": 31,
+      "valor": 200000
+    },
+    {
+      "nombre": "Juanda Fuentes",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jota",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 175000
+    },
+    {
+      "nombre": "Maddi",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 125000
+    },
+    {
+      "nombre": "Nuninho",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Konrad Sinyam",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Max Svensson",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Ricardo Schutte",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 175000
+    },
+    {
+      "nombre": "Clau Mendes",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 100000
+    }
+  ]
+}

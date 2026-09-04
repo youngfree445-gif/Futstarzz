@@ -1,0 +1,180 @@
+{
+  "fuente": "https://www.transfermarkt.co/atletico-river-plate-montevideo/startseite/verein/2419",
+  "teamName": "River Plate Uruguay",
+  "players": [
+    {
+      "nombre": "José Arbio",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 25000
+    },
+    {
+      "nombre": "Damián Frascarelli",
+      "pos": "Portero",
+      "edad": 41,
+      "valor": 10000
+    },
+    {
+      "nombre": "Facundo Pérez",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 225000
+    },
+    {
+      "nombre": "Brian Ferrares",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 150000
+    },
+    {
+      "nombre": "Lorenzo González",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Carlos Rodríguez",
+      "pos": "Defensa central",
+      "edad": 36,
+      "valor": 75000
+    },
+    {
+      "nombre": "Maximiliano Perg",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 50000
+    },
+    {
+      "nombre": "Lucas Camejo",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 150000
+    },
+    {
+      "nombre": "Rodrigo Cabrera",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Mathías Rodríguez",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 75000
+    },
+    {
+      "nombre": "Mauricio Gómez",
+      "pos": "Lateral derecho",
+      "edad": 34,
+      "valor": 100000
+    },
+    {
+      "nombre": "Francisco Triver",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Matías De Los Santos",
+      "pos": "Pivote",
+      "edad": 27,
+      "valor": 125000
+    },
+    {
+      "nombre": "Tomás López",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Felipe Chiappini",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Alejandro García",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 225000
+    },
+    {
+      "nombre": "Santiago Romero",
+      "pos": "Mediocentro",
+      "edad": 36,
+      "valor": 25000
+    },
+    {
+      "nombre": "Bruno Téliz",
+      "pos": "Mediocentro",
+      "edad": 35,
+      "valor": 0
+    },
+    {
+      "nombre": "Rodrigo Rodríguez",
+      "pos": "Interior derecho",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Matías Escobar",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 100000
+    },
+    {
+      "nombre": "Diego Sánchez",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 25000
+    },
+    {
+      "nombre": "Cristian Techera",
+      "pos": "Extremo derecho",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Gabriel Costa",
+      "pos": "Extremo derecho",
+      "edad": 36,
+      "valor": 75000
+    },
+    {
+      "nombre": "Maximiliano Burruzo",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 375000
+    },
+    {
+      "nombre": "Inti López",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Vitinho",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Rodrigo Hernández",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 75000
+    },
+    {
+      "nombre": "Diego Vera",
+      "pos": "Delantero centro",
+      "edad": 41,
+      "valor": 10000
+    },
+    {
+      "nombre": "Tomás Benardoni",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "fuente": "https://www.transfermarkt.co/cd-olimpia/startseite/verein/2720",
+  "teamName": "Olimpia (H)",
+  "players": [
+    {
+      "nombre": "Edrick Menjívar",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 400000
+    },
+    {
+      "nombre": "Onan Rodriguez",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Emanuel Hernández",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 450000
+    },
+    {
+      "nombre": "Clinton Bennett",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Cristián Canales",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 175000
+    },
+    {
+      "nombre": "Emanuel Cuello",
+      "pos": "Lateral izquierdo",
+      "edad": 32,
+      "valor": 175000
+    },
+    {
+      "nombre": "Kevin Güity",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Edwin Lobo",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Félix García",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jorge Álvarez",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Raul García",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 350000
+    },
+    {
+      "nombre": "Jack Jean-Baptiste",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Axel Maldonado",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 150000
+    },
+    {
+      "nombre": "Didier Paguada",
+      "pos": "Interior derecho",
+      "edad": 21,
+      "valor": 25000
+    },
+    {
+      "nombre": "Anthony Ortiz",
+      "pos": "Interior izquierdo",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Bryan Cortés",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Jainer Bermúdez",
+      "pos": "Extremo izquierdo",
+      "edad": 17,
+      "valor": 100000
+    },
+    {
+      "nombre": "Edwin Rodríguez",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 375000
+    },
+    {
+      "nombre": "Michaell Chirinos",
+      "pos": "Extremo derecho",
+      "edad": 31,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jorge Benguché",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 300000
+    },
+    {
+      "nombre": "David Flores",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 200000
+    },
+    {
+      "nombre": "Kilmar Peña",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 175000
+    },
+    {
+      "nombre": "Nicolás Dibble",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 150000
+    },
+    {
+      "nombre": "Imanol Enríquez",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 100000
+    },
+    {
+      "nombre": "Yustin Arboleda",
+      "pos": "Delantero centro",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Bryan Sáenz",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 10000
+    },
+    {
+      "nombre": "Jeremy Rodríguez",
+      "pos": "Delantero",
+      "edad": 17,
+      "valor": 0
+    }
+  ]
+}

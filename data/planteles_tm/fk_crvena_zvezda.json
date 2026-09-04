@@ -1,0 +1,186 @@
+{
+  "fuente": "https://www.transfermarkt.co/roter-stern-belgrad/startseite/verein/159",
+  "teamName": "FK Crvena Zvezda",
+  "players": [
+    {
+      "nombre": "Matheus",
+      "pos": "Portero",
+      "edad": 34,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Ivan Gutesa",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 800000
+    },
+    {
+      "nombre": "Savo Radanovic",
+      "pos": "Portero",
+      "edad": 17,
+      "valor": 700000
+    },
+    {
+      "nombre": "Franklin Tebo Uchenna",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Rodrigão",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Milos Veljkovic",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Yuta Nakayama",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 1100000
+    },
+    {
+      "nombre": "Derrick Luckassen",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Stefan Gudelj",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Adem Avdic",
+      "pos": "Lateral izquierdo",
+      "edad": 18,
+      "valor": 10000000
+    },
+    {
+      "nombre": "Mihailo Ristic",
+      "pos": "Lateral izquierdo",
+      "edad": 30,
+      "valor": 800000
+    },
+    {
+      "nombre": "Matej Strika",
+      "pos": "Lateral izquierdo",
+      "edad": 17,
+      "valor": 250000
+    },
+    {
+      "nombre": "Tomás Händel",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 6000000
+    },
+    {
+      "nombre": "Rade Krunic",
+      "pos": "Pivote",
+      "edad": 32,
+      "valor": 3500000
+    },
+    {
+      "nombre": "Mahmudu Bajo",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Matej Gashtarov",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 300000
+    },
+    {
+      "nombre": "Timi Max Elsnik",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 6000000
+    },
+    {
+      "nombre": "Mohammed Abu Fani",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Vasilije Kostov",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 25000000
+    },
+    {
+      "nombre": "Muhammed Cham",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 3500000
+    },
+    {
+      "nombre": "Mirko Ivanic",
+      "pos": "Mediocentro ofensivo",
+      "edad": 32,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Aleksandar Katai",
+      "pos": "Mediocentro ofensivo",
+      "edad": 35,
+      "valor": 700000
+    },
+    {
+      "nombre": "Ye-geon Kim",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 500000
+    },
+    {
+      "nombre": "Vladimir Lucic",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 1800000
+    },
+    {
+      "nombre": "Kristiyan Balov",
+      "pos": "Extremo izquierdo",
+      "edad": 20,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Osman Bukari",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Loizos Loizou",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 3500000
+    },
+    {
+      "nombre": "Dimitrije Saric",
+      "pos": "Extremo derecho",
+      "edad": 17,
+      "valor": 300000
+    },
+    {
+      "nombre": "Bamba Dieng",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 15000000
+    },
+    {
+      "nombre": "Marko Arnautovic",
+      "pos": "Delantero centro",
+      "edad": 37,
+      "valor": 2000000
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "fuente": "https://www.transfermarkt.co/sc-uniao-torreense/startseite/verein/2432",
+  "teamName": "SC União Torreense",
+  "players": [
+    {
+      "nombre": "Lucas Paes",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 1300000
+    },
+    {
+      "nombre": "Adriel",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 900000
+    },
+    {
+      "nombre": "Lisandru Olmeta",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 500000
+    },
+    {
+      "nombre": "Unai Pérez",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Mohamed Ali Diadié",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 1600000
+    },
+    {
+      "nombre": "Volnei",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 450000
+    },
+    {
+      "nombre": "Jérémy Mounsesse",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Hugo Pérez",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 200000
+    },
+    {
+      "nombre": "Brian Agbor",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 175000
+    },
+    {
+      "nombre": "Stopira",
+      "pos": "Defensa central",
+      "edad": 38,
+      "valor": 50000
+    },
+    {
+      "nombre": "Javi Vázquez",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Juan María Alcedo",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Danilo",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 450000
+    },
+    {
+      "nombre": "Jonathan Mutombo",
+      "pos": "Lateral derecho",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "David Bruno",
+      "pos": "Lateral derecho",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Amine Oudrhiri",
+      "pos": "Pivote",
+      "edad": 33,
+      "valor": 235000
+    },
+    {
+      "nombre": "Zé Breno",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "André Simões",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 900000
+    },
+    {
+      "nombre": "Alejandro Alfaro",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Joel Romero",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 500000
+    },
+    {
+      "nombre": "Carraro Injai",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 25000
+    },
+    {
+      "nombre": "Carlos Reina",
+      "pos": "Mediocentro ofensivo",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Nuha Jatta",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Costinha",
+      "pos": "Mediocentro ofensivo",
+      "edad": 34,
+      "valor": 125000
+    },
+    {
+      "nombre": "João Marques",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Dany Jean",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 1400000
+    },
+    {
+      "nombre": "Adama Baradji",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 100000
+    },
+    {
+      "nombre": "Manu Pozo",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Luis Quintero",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 500000
+    },
+    {
+      "nombre": "Kévin Zohi",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 800000
+    },
+    {
+      "nombre": "Musa Drammeh",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 700000
+    },
+    {
+      "nombre": "Jorge Aguirre",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 600000
+    },
+    {
+      "nombre": "Karem Zoabi",
+      "pos": "Delantero centro",
+      "edad": 20,
+      "valor": 600000
+    },
+    {
+      "nombre": "Malik Abubakari",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 400000
+    }
+  ]
+}

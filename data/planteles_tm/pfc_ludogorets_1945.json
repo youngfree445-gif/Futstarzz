@@ -1,0 +1,162 @@
+{
+  "fuente": "https://www.transfermarkt.co/pfk-ludogorets-razgrad/startseite/verein/31614",
+  "teamName": "PFC Ludogorets 1945",
+  "players": [
+    {
+      "nombre": "Ivo Grbic",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Hendrik Bonmann",
+      "pos": "Portero",
+      "edad": 32,
+      "valor": 750000
+    },
+    {
+      "nombre": "Sergio Padt",
+      "pos": "Portero",
+      "edad": 36,
+      "valor": 200000
+    },
+    {
+      "nombre": "Edvin Kurtulus",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Hossam Abdelmaguid",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Olivier Verdon",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Simeon Shishkov",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Georgi Terziev",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 10000
+    },
+    {
+      "nombre": "Anton Nedyalkov",
+      "pos": "Lateral izquierdo",
+      "edad": 33,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Son",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Joel Andersson",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Mihail Polendakov",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 400000
+    },
+    {
+      "nombre": "Ivan Yordanov",
+      "pos": "Pivote",
+      "edad": 25,
+      "valor": 600000
+    },
+    {
+      "nombre": "Deroy Duarte",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Ivaylo Chochev",
+      "pos": "Mediocentro",
+      "edad": 33,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Filip Kaloc",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Petar Stanic",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 3500000
+    },
+    {
+      "nombre": "Aguibou Camara",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 1800000
+    },
+    {
+      "nombre": "Caio Vidal",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 3200000
+    },
+    {
+      "nombre": "Nathan Fernandes",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Erick Marcus",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 3500000
+    },
+    {
+      "nombre": "Bernard Tekpetey",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Rwan Cruz",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 3000000
+    },
+    {
+      "nombre": "Kwadwo Duah",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Yves Erick Bile",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 900000
+    },
+    {
+      "nombre": "Alberto Salido",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 800000
+    }
+  ]
+}

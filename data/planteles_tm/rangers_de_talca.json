@@ -1,0 +1,186 @@
+{
+  "fuente": "https://www.transfermarkt.co/rangers-de-talca/startseite/verein/18720",
+  "teamName": "Rangers de Talca",
+  "players": [
+    {
+      "nombre": "José Luis Gamonal",
+      "pos": "Portero",
+      "edad": 36,
+      "valor": 50000
+    },
+    {
+      "nombre": "Fabián Cerda",
+      "pos": "Portero",
+      "edad": 37,
+      "valor": 25000
+    },
+    {
+      "nombre": "Cristian Campestrini",
+      "pos": "Portero",
+      "edad": 46,
+      "valor": 10000
+    },
+    {
+      "nombre": "Martín Torres",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Sebastián Acuña",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Claudio Servetti",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 225000
+    },
+    {
+      "nombre": "Lautaro Rigazzi",
+      "pos": "Defensa central",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Carlos Labrín",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 100000
+    },
+    {
+      "nombre": "Sebastián Silva",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 100000
+    },
+    {
+      "nombre": "Renato Valenzuela",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Agustín Mora",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 175000
+    },
+    {
+      "nombre": "Matías Cortés",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Kevin Vásquez",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 200000
+    },
+    {
+      "nombre": "José Navarrete",
+      "pos": "Lateral derecho",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Alonso Rodríguez",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Juan Méndez",
+      "pos": "Mediocentro",
+      "edad": 30,
+      "valor": 300000
+    },
+    {
+      "nombre": "Gary Moya",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Diego Plaza",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Iván Rozas",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Tomás Gómez",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Alejandro Márquez",
+      "pos": "Mediocentro",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Manuel Vicuña",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Damián González",
+      "pos": "Extremo izquierdo",
+      "edad": 33,
+      "valor": 150000
+    },
+    {
+      "nombre": "Pablo Obrador",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Ignacio Ibáñez",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 275000
+    },
+    {
+      "nombre": "Ignacio Mesías",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Junior Arias",
+      "pos": "Delantero centro",
+      "edad": 33,
+      "valor": 250000
+    },
+    {
+      "nombre": "Cristóbal Muñoz",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "José Tomás Herrera",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Martín Castro",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 0
+    }
+  ]
+}

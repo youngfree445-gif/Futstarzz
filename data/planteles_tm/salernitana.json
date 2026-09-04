@@ -1,0 +1,168 @@
+{
+  "fuente": "https://www.transfermarkt.co/us-salernitana-1919/startseite/verein/380",
+  "teamName": "Salernitana",
+  "players": [
+    {
+      "nombre": "Cesare Galeotti",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 350000
+    },
+    {
+      "nombre": "Leonards Cevers",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 125000
+    },
+    {
+      "nombre": "Simone Pieraccini",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 550000
+    },
+    {
+      "nombre": "Daniele Celiento",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 225000
+    },
+    {
+      "nombre": "Marco Capuano",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Alessandro Del Pin",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 100000
+    },
+    {
+      "nombre": "Luca Villa",
+      "pos": "Lateral izquierdo",
+      "edad": 26,
+      "valor": 550000
+    },
+    {
+      "nombre": "Riccardo Zoia",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Armando Anastasio",
+      "pos": "Lateral izquierdo",
+      "edad": 30,
+      "valor": 275000
+    },
+    {
+      "nombre": "Paolo Ghiglione",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 500000
+    },
+    {
+      "nombre": "Gianluca Longobardi",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 400000
+    },
+    {
+      "nombre": "Jonas Heinz",
+      "pos": "Lateral derecho",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Manuel Llano",
+      "pos": "Lateral derecho",
+      "edad": 27,
+      "valor": 200000
+    },
+    {
+      "nombre": "Emmanuel Gyabuaa",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 300000
+    },
+    {
+      "nombre": "Kees de Boer",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 500000
+    },
+    {
+      "nombre": "Mattia Tascone",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 375000
+    },
+    {
+      "nombre": "Mattia Vitale",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 300000
+    },
+    {
+      "nombre": "Mattia Mastrovito",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Malik Djibril",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 75000
+    },
+    {
+      "nombre": "Eugenio D'Ursi",
+      "pos": "Extremo izquierdo",
+      "edad": 31,
+      "valor": 350000
+    },
+    {
+      "nombre": "Muhamed Varela Djamanca",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 200000
+    },
+    {
+      "nombre": "Ismail Achik",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Karim Cardoni",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 125000
+    },
+    {
+      "nombre": "Luca Boncori",
+      "pos": "Mediapunta",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Facundo Lescano",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 750000
+    },
+    {
+      "nombre": "Antonino La Gumina",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 350000
+    },
+    {
+      "nombre": "Marco Bevilacqua",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 100000
+    }
+  ]
+}

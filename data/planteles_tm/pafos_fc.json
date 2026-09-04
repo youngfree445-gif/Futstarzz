@@ -1,0 +1,174 @@
+{
+  "fuente": "https://www.transfermarkt.co/pafos-fc/startseite/verein/45457",
+  "teamName": "Pafos FC",
+  "players": [
+    {
+      "nombre": "Radoslaw Majecki",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Jay Gorter",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 700000
+    },
+    {
+      "nombre": "Charalampos Kyriakidis",
+      "pos": "Portero",
+      "edad": 27,
+      "valor": 200000
+    },
+    {
+      "nombre": "Michalis Papastylianou",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Petros Petrou",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "David Goldar",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 700000
+    },
+    {
+      "nombre": "Samy Mmaee",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 450000
+    },
+    {
+      "nombre": "David Luiz",
+      "pos": "Defensa central",
+      "edad": 39,
+      "valor": 175000
+    },
+    {
+      "nombre": "Ken Sema",
+      "pos": "Lateral izquierdo",
+      "edad": 32,
+      "valor": 800000
+    },
+    {
+      "nombre": "Nikolas Ioannou",
+      "pos": "Lateral izquierdo",
+      "edad": 30,
+      "valor": 700000
+    },
+    {
+      "nombre": "Yoram Zague",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 1800000
+    },
+    {
+      "nombre": "Bruno",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 750000
+    },
+    {
+      "nombre": "Lucca Vetter Paulino",
+      "pos": "Lateral derecho",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Ivan Šunjić",
+      "pos": "Pivote",
+      "edad": 29,
+      "valor": 2000000
+    },
+    {
+      "nombre": "Alexandre Brito",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 175000
+    },
+    {
+      "nombre": "Christos Evzonas",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Guga",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 2200000
+    },
+    {
+      "nombre": "Pêpê",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 2200000
+    },
+    {
+      "nombre": "Domingos Quina",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Vlad Dragomir",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 2200000
+    },
+    {
+      "nombre": "Biel",
+      "pos": "Extremo izquierdo",
+      "edad": 25,
+      "valor": 4000000
+    },
+    {
+      "nombre": "Nicolas Moumi Ngamaleu",
+      "pos": "Extremo izquierdo",
+      "edad": 32,
+      "valor": 2500000
+    },
+    {
+      "nombre": "Jajá",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 1300000
+    },
+    {
+      "nombre": "João Correia",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 1300000
+    },
+    {
+      "nombre": "Murad Mammadov",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Afonso Patrão",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 1500000
+    },
+    {
+      "nombre": "Anderson Silva",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Lelê",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 900000
+    }
+  ]
+}

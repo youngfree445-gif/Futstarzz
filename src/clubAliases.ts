@@ -75,6 +75,10 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "al_ahly": { "nombre": "Al Ahly", "plantel": "Al-Ahly SC" },
   "alianza_fc": { "nombre": "Alianza FC", "plantel": "Alianza F.C." },
   "alianza_lima": { "nombre": "Alianza Lima", "calendario": "Alianza Atl." },
+  // Alianza Universidad está DOS VECES en data.ts: una en la liga peruana, que es la real, y otra
+  // suelta en "Resto del Mundo". Es el mismo club de Huánuco. El plantel es del de la liga peruana;
+  // el duplicado se queda sin ninguno, porque si los dos lo reclaman uno está mostrando el del otro.
+  "alianza_universidad": { "nombre": "Alianza Universidad", "plantel": null },
   "america_mex": { "nombre": "América", "otros": ["Club América"] },
   "argentinos_jrs": { "nombre": "Argentinos Juniors", "calendario": "Argentinos Jrs.", "plantel": "Argentinos Jrs." },
   "arsenal_sarandi": { "nombre": "Arsenal de Sarandí", "plantel": "Arsenal Sarandí" },

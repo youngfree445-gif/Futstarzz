@@ -1,0 +1,144 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-sochaux-montbeliard/startseite/verein/750",
+  "teamName": "FC Sochaux-Montbéliard",
+  "players": [
+    {
+      "nombre": "Alexandre Pierre",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 700000
+    },
+    {
+      "nombre": "Mehdi Jeannin",
+      "pos": "Portero",
+      "edad": 35,
+      "valor": 75000
+    },
+    {
+      "nombre": "Élie N'Gatta",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 800000
+    },
+    {
+      "nombre": "Arthur Vitelli",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 500000
+    },
+    {
+      "nombre": "Dalangunypole Gomis",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Saad Agouzoul",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 300000
+    },
+    {
+      "nombre": "Mathieu Peybernes",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 150000
+    },
+    {
+      "nombre": "Dylan Tavares",
+      "pos": "Lateral izquierdo",
+      "edad": 30,
+      "valor": 250000
+    },
+    {
+      "nombre": "Bendjaloud Youssouf",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Julien Masson",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Honoré Bayanginisa",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jonathan Mexique",
+      "pos": "Mediocentro",
+      "edad": 31,
+      "valor": 250000
+    },
+    {
+      "nombre": "Victor Lobry",
+      "pos": "Mediocentro ofensivo",
+      "edad": 31,
+      "valor": 350000
+    },
+    {
+      "nombre": "Benjamin Gomel",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 600000
+    },
+    {
+      "nombre": "Landry Nomel",
+      "pos": "Extremo izquierdo",
+      "edad": 29,
+      "valor": 250000
+    },
+    {
+      "nombre": "Boubacar Fofana",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 150000
+    },
+    {
+      "nombre": "Louicius Deedson",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Julien Vetro",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Samy Baghdadi",
+      "pos": "Mediapunta",
+      "edad": 29,
+      "valor": 350000
+    },
+    {
+      "nombre": "Kapit Djoco",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mathis Clairicia",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Marie-Gaël Mukanya",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Ethan Cortes",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 0
+    }
+  ]
+}

@@ -154,6 +154,14 @@ porque su nombre de Transfermarkt estaba cargado nada más en la del calendario.
 agrega ahí y en ningún otro lado.** `plantel: null` significa que la base no tiene a ese club, y es
 lo que evita que se lleve el plantel de su homónimo.
 
+**Para cargar el plantel de un club que la base no tiene: `npm run bajar:plantel [club]`**
+(con `--escribir` lo mete en la base). Elige el club de Transfermarkt **por país**, no por nombre:
+buscando "San Antonio" devuelve el boliviano, "Boavista FC" el de Timor-Leste y "Brescia" llegó a
+devolver la Fiorentina. Descarta las categorías inferiores — la Primavera del Brescia tiene MÁS
+jugadores que el primer equipo — y no acepta un "primer equipo" de menos de 15. Los que la búsqueda
+no encuentra van en `A_MANO` con su id de TM. Y los jugadores que ya estaban en la base como agentes
+libres se **mueven**, no se duplican: de los 30 del Rangers de Talca, 21 ya estaban.
+
 **Para saber de quién es un plantel: `npm run sonda`** (opcional: el nombre de un club; sin
 argumentos revisa todos los que figuran sin plantel). Baja el plantel real de Transfermarkt y cuenta
 en qué equipo de la base están esos jugadores. Lo que importa es la DISTANCIA, no el porcentaje: 22

@@ -1,0 +1,180 @@
+{
+  "fuente": "https://www.transfermarkt.co/atletico-jbg/startseite/verein/120275",
+  "teamName": "Atlético FC",
+  "players": [
+    {
+      "nombre": "John Mero",
+      "pos": "Portero",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Leandro Medranda",
+      "pos": "Portero",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Carlos Micolta",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jhonnier Estrada",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 175000
+    },
+    {
+      "nombre": "Ramiro Ríos",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 175000
+    },
+    {
+      "nombre": "Gilson Hurtado",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 125000
+    },
+    {
+      "nombre": "Garis Mina",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Kevin Bajaña",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 75000
+    },
+    {
+      "nombre": "Dylan Luque",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 50000
+    },
+    {
+      "nombre": "Gorman Estacio",
+      "pos": "Lateral izquierdo",
+      "edad": 28,
+      "valor": 25000
+    },
+    {
+      "nombre": "Joseph Espinoza",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jean Humanante",
+      "pos": "Pivote",
+      "edad": 30,
+      "valor": 300000
+    },
+    {
+      "nombre": "Wílmer Godoy",
+      "pos": "Pivote",
+      "edad": 32,
+      "valor": 125000
+    },
+    {
+      "nombre": "Chris Briones",
+      "pos": "Centrocampista",
+      "edad": 22,
+      "valor": 100000
+    },
+    {
+      "nombre": "Anthony Reasco",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 50000
+    },
+    {
+      "nombre": "Marco Francisco",
+      "pos": "Centrocampista",
+      "edad": 23,
+      "valor": 25000
+    },
+    {
+      "nombre": "Dennis Quiñónez",
+      "pos": "Pivote",
+      "edad": 34,
+      "valor": 10000
+    },
+    {
+      "nombre": "Daniel Mejia",
+      "pos": "Centrocampista",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Santiago Zamora",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 75000
+    },
+    {
+      "nombre": "Fidel Martínez",
+      "pos": "Extremo izquierdo",
+      "edad": 36,
+      "valor": 100000
+    },
+    {
+      "nombre": "Jakson Bolaño",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 75000
+    },
+    {
+      "nombre": "Denilson Ovando",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Darlin Leiton",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jacson Pita",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Carlos Arroyo",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jairo Mairongo",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 125000
+    },
+    {
+      "nombre": "Juan Cifuentes",
+      "pos": "Delantero",
+      "edad": 21,
+      "valor": 50000
+    },
+    {
+      "nombre": "Job Belizaire",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 10000
+    },
+    {
+      "nombre": "Diney Ramírez",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 0
+    }
+  ]
+}

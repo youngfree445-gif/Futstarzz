@@ -1,0 +1,180 @@
+{
+  "fuente": "https://www.transfermarkt.co/club-general-caballero-jlm-/startseite/verein/95573",
+  "teamName": "General Caballero",
+  "players": [
+    {
+      "nombre": "Tales",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 100000
+    },
+    {
+      "nombre": "Pablo Vargas",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Carlos Urán",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Manuel Romero",
+      "pos": "Defensa central",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Tobías Castellano",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Junior Cantero",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Gabriel Molinas",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Jesús Barrios",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Miller Mareco",
+      "pos": "Lateral derecho",
+      "edad": 32,
+      "valor": 0
+    },
+    {
+      "nombre": "Erik Mareco",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "José Vera",
+      "pos": "Pivote",
+      "edad": 35,
+      "valor": 0
+    },
+    {
+      "nombre": "Enzo Alegre",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Marcelo Paredes",
+      "pos": "Pivote",
+      "edad": 33,
+      "valor": 0
+    },
+    {
+      "nombre": "Valentino Massi",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Alexis Verdun",
+      "pos": "Mediocentro",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Gabriel Espinola",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Diego Ocampo",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Wilson Merlo",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Iván Duarte",
+      "pos": "Extremo izquierdo",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Alexis Araujo",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Néstor Gomez",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Juan Martínez",
+      "pos": "Extremo derecho",
+      "edad": 30,
+      "valor": 0
+    },
+    {
+      "nombre": "Richard Salinas",
+      "pos": "Extremo derecho",
+      "edad": 31,
+      "valor": 0
+    },
+    {
+      "nombre": "Jorge Colmán",
+      "pos": "Mediapunta",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Hernán Ramírez",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Tobías Gamarra",
+      "pos": "Delantero",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Guillermo Gill Bernal",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "César Salinas",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Leonardo Baigorria",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 0
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "fuente": "https://www.transfermarkt.co/kairat-almaty/startseite/verein/10482",
+  "teamName": "Kairat Almaty",
+  "players": [
+    {
+      "nombre": "Temirlan Anarbekov",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 800000
+    },
+    {
+      "nombre": "Sherkhan Kalmurza",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 250000
+    },
+    {
+      "nombre": "Danila Buch",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Aleksandr Shirobokov",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Lucas Áfrico",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 275000
+    },
+    {
+      "nombre": "Aleksandr Martynovich",
+      "pos": "Defensa central",
+      "edad": 39,
+      "valor": 225000
+    },
+    {
+      "nombre": "Luís Mata",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 600000
+    },
+    {
+      "nombre": "Lev Kurgin",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Daniyar Tashpulatov",
+      "pos": "Lateral izquierdo",
+      "edad": 19,
+      "valor": 150000
+    },
+    {
+      "nombre": "Aleksandr Mrynskiy",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 600000
+    },
+    {
+      "nombre": "Erkin Tapalov",
+      "pos": "Lateral derecho",
+      "edad": 33,
+      "valor": 250000
+    },
+    {
+      "nombre": "Damir Kasabulat",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 500000
+    },
+    {
+      "nombre": "Adilet Sadybekov",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 400000
+    },
+    {
+      "nombre": "Olzhas Baybek",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 250000
+    },
+    {
+      "nombre": "Jaakko Oksanen",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 600000
+    },
+    {
+      "nombre": "Gustavo Mendonça",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 500000
+    },
+    {
+      "nombre": "Azamat Tuyakbaev",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mukhamedali Abish",
+      "pos": "Mediocentro ofensivo",
+      "edad": 18,
+      "valor": 150000
+    },
+    {
+      "nombre": "Oiva Jukkola",
+      "pos": "Extremo izquierdo",
+      "edad": 24,
+      "valor": 700000
+    },
+    {
+      "nombre": "Ismail Bekbolat",
+      "pos": "Extremo derecho",
+      "edad": 18,
+      "valor": 200000
+    },
+    {
+      "nombre": "Jorginho",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 1000000
+    },
+    {
+      "nombre": "Edmilson",
+      "pos": "Delantero centro",
+      "edad": 29,
+      "valor": 400000
+    },
+    {
+      "nombre": "Marc Gual",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mansur Birkurmanov",
+      "pos": "Delantero centro",
+      "edad": 19,
+      "valor": 100000
+    }
+  ]
+}

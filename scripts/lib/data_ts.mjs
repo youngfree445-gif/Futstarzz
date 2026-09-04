@@ -28,8 +28,14 @@ export function leerClubesDelJuego(dataTs) {
     if (!mid) continue;
     const nombre = /\bname: '((?:[^'\\]|\\.)*)'/.exec(bloque);
     const liga = /\bleague: '([^']+)'/.exec(bloque);
-    if (!nombre) continue;
-    clubes.push({ id: mid[1], nombre: nombre[1], liga: liga ? liga[1] : '' });
+    // SIN LIGA NO ES UN CLUB. data.ts guarda con la misma forma -- `id` y `name` -- los logros
+    // ("Hat-Trick"), los patrocinadores ("Nutricionista de Estrellas"), los personajes y las
+    // inversiones: 168 objetos que no son clubes. Sin este filtro la lista pasa de 697 a 865, y los
+    // scripts de datos se ponen a buscar en Transfermarkt un club llamado "Corazón Ocupado".
+    //
+    // Los 697 clubes de CLUBS_DATABASE tienen todos su liga, así que el filtro no deja ninguno afuera.
+    if (!nombre || !liga) continue;
+    clubes.push({ id: mid[1], nombre: nombre[1], liga: liga[1] });
   }
   return clubes;
 }

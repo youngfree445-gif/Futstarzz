@@ -1,0 +1,162 @@
+{
+  "fuente": "https://www.transfermarkt.co/union-brescia/startseite/verein/132806",
+  "teamName": "Brescia",
+  "players": [
+    {
+      "nombre": "Gioele Zacchi",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Stefano Gori",
+      "pos": "Portero",
+      "edad": 30,
+      "valor": 375000
+    },
+    {
+      "nombre": "Luca Liverani",
+      "pos": "Portero",
+      "edad": 37,
+      "valor": 75000
+    },
+    {
+      "nombre": "Alberto Rizzo",
+      "pos": "Defensa central",
+      "edad": 29,
+      "valor": 375000
+    },
+    {
+      "nombre": "Luigi Silvestri",
+      "pos": "Defensa central",
+      "edad": 33,
+      "valor": 350000
+    },
+    {
+      "nombre": "Frederik Sørensen",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Samuele Sina",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 150000
+    },
+    {
+      "nombre": "Nicola Pasini",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 125000
+    },
+    {
+      "nombre": "Alessandro Mallamo",
+      "pos": "Pivote",
+      "edad": 27,
+      "valor": 120000
+    },
+    {
+      "nombre": "Alessandro Mercati",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Davide Balestrero",
+      "pos": "Mediocentro",
+      "edad": 30,
+      "valor": 400000
+    },
+    {
+      "nombre": "Marco Frigerio",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Mattia Zennaro",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 325000
+    },
+    {
+      "nombre": "Alessandro Lamesta",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 275000
+    },
+    {
+      "nombre": "Tiago Casasola",
+      "pos": "Interior derecho",
+      "edad": 31,
+      "valor": 600000
+    },
+    {
+      "nombre": "Loris Armati",
+      "pos": "Interior derecho",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Davide Guglielmotti",
+      "pos": "Interior derecho",
+      "edad": 32,
+      "valor": 125000
+    },
+    {
+      "nombre": "Vincent De Maria",
+      "pos": "Interior izquierdo",
+      "edad": 26,
+      "valor": 350000
+    },
+    {
+      "nombre": "Brayan Boci",
+      "pos": "Interior izquierdo",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Andrea Rizzo Pinna",
+      "pos": "Mediocentro ofensivo",
+      "edad": 26,
+      "valor": 500000
+    },
+    {
+      "nombre": "Davide Di Molfetta",
+      "pos": "Mediocentro ofensivo",
+      "edad": 30,
+      "valor": 275000
+    },
+    {
+      "nombre": "Manuel Marras",
+      "pos": "Mediocentro ofensivo",
+      "edad": 33,
+      "valor": 225000
+    },
+    {
+      "nombre": "Filippo Armanini",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Valerio Crespi",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jacopo Pellegrini",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Alberto Spagnoli",
+      "pos": "Delantero centro",
+      "edad": 31,
+      "valor": 300000
+    }
+  ]
+}

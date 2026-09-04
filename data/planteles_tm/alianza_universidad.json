@@ -1,0 +1,198 @@
+{
+  "fuente": "https://www.transfermarkt.co/alianza-universidad/startseite/verein/35589",
+  "teamName": "Alianza Universidad",
+  "players": [
+    {
+      "nombre": "Willy Díaz",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 150000
+    },
+    {
+      "nombre": "Carlos Mosquera",
+      "pos": "Portero",
+      "edad": 31,
+      "valor": 150000
+    },
+    {
+      "nombre": "Manuel Montero",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 0
+    },
+    {
+      "nombre": "Gabriel Arana",
+      "pos": "Portero",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Carlos Montoya",
+      "pos": "Defensa central",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Anghelo Flores",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 250000
+    },
+    {
+      "nombre": "Maelo Reátegui",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 125000
+    },
+    {
+      "nombre": "Farihd Ortega",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 125000
+    },
+    {
+      "nombre": "Ederson Mogollón",
+      "pos": "Defensa central",
+      "edad": 33,
+      "valor": 100000
+    },
+    {
+      "nombre": "Sebastián Ramírez",
+      "pos": "Defensa central",
+      "edad": 34,
+      "valor": 50000
+    },
+    {
+      "nombre": "Orlando Cúneo",
+      "pos": "Lateral izquierdo",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Santiago Cavero",
+      "pos": "Lateral izquierdo",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Víctor Labrín",
+      "pos": "Lateral derecho",
+      "edad": 33,
+      "valor": 75000
+    },
+    {
+      "nombre": "Leonardo Mena",
+      "pos": "Lateral derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Rudy Palomino",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 250000
+    },
+    {
+      "nombre": "Keyvin Paico",
+      "pos": "Pivote",
+      "edad": 31,
+      "valor": 225000
+    },
+    {
+      "nombre": "Pedro Peral",
+      "pos": "Pivote",
+      "edad": 30,
+      "valor": 150000
+    },
+    {
+      "nombre": "Jorginho Sernaqué",
+      "pos": "Mediocentro",
+      "edad": 32,
+      "valor": 250000
+    },
+    {
+      "nombre": "Marcio Valverde",
+      "pos": "Mediocentro",
+      "edad": 38,
+      "valor": 25000
+    },
+    {
+      "nombre": "Angel Mautino",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 25000
+    },
+    {
+      "nombre": "Michael Ortega",
+      "pos": "Mediocentro ofensivo",
+      "edad": 35,
+      "valor": 75000
+    },
+    {
+      "nombre": "Diego Janampa",
+      "pos": "Mediocentro ofensivo",
+      "edad": 33,
+      "valor": 0
+    },
+    {
+      "nombre": "Juan Carlos Gonzáles",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 300000
+    },
+    {
+      "nombre": "Jhojan Domínguez",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 250000
+    },
+    {
+      "nombre": "Sandro Rengifo",
+      "pos": "Extremo izquierdo",
+      "edad": 30,
+      "valor": 0
+    },
+    {
+      "nombre": "Abel Casquete",
+      "pos": "Extremo derecho",
+      "edad": 29,
+      "valor": 275000
+    },
+    {
+      "nombre": "Fernando Leguía",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 225000
+    },
+    {
+      "nombre": "Geremi Cavero",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "José Cuero",
+      "pos": "Extremo derecho",
+      "edad": 36,
+      "valor": 25000
+    },
+    {
+      "nombre": "Tito Angulo",
+      "pos": "Extremo derecho",
+      "edad": 18,
+      "valor": 0
+    },
+    {
+      "nombre": "Alexander Succar",
+      "pos": "Delantero centro",
+      "edad": 31,
+      "valor": 150000
+    },
+    {
+      "nombre": "Héctor Zeta",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 125000
+    }
+  ]
+}

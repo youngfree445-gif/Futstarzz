@@ -1,0 +1,174 @@
+{
+  "fuente": "https://www.transfermarkt.co/leixoes-sc/startseite/verein/3345",
+  "teamName": "Leixões SC",
+  "players": [
+    {
+      "nombre": "Simão",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 200000
+    },
+    {
+      "nombre": "Caio Secco",
+      "pos": "Portero",
+      "edad": 35,
+      "valor": 100000
+    },
+    {
+      "nombre": "Igor Stefanović",
+      "pos": "Portero",
+      "edad": 38,
+      "valor": 25000
+    },
+    {
+      "nombre": "João Cardoso",
+      "pos": "Portero",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Lourenço",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 800000
+    },
+    {
+      "nombre": "Alysson",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 350000
+    },
+    {
+      "nombre": "Matheus Costa",
+      "pos": "Defensa central",
+      "edad": 31,
+      "valor": 250000
+    },
+    {
+      "nombre": "Semeu Commey",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 225000
+    },
+    {
+      "nombre": "Hugo Faria",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Daniel Nolasco",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 75000
+    },
+    {
+      "nombre": "Serif Nhaga",
+      "pos": "Lateral izquierdo",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Simãozinho",
+      "pos": "Lateral izquierdo",
+      "edad": 31,
+      "valor": 150000
+    },
+    {
+      "nombre": "Fernando Fonseca",
+      "pos": "Lateral derecho",
+      "edad": 29,
+      "valor": 200000
+    },
+    {
+      "nombre": "Paulinho",
+      "pos": "Lateral derecho",
+      "edad": 35,
+      "valor": 75000
+    },
+    {
+      "nombre": "Agustin De Armas",
+      "pos": "Pivote",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "João Assunção",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Cláudio Araújo",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 600000
+    },
+    {
+      "nombre": "Amadu Baldé",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 450000
+    },
+    {
+      "nombre": "Miguel Sousa",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Arthur Baggio",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Rafael Barbosa",
+      "pos": "Mediocentro ofensivo",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Rúben Pina",
+      "pos": "Extremo izquierdo",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Salvador Agra",
+      "pos": "Extremo derecho",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Bica",
+      "pos": "Delantero centro",
+      "edad": 23,
+      "valor": 500000
+    },
+    {
+      "nombre": "Luccas Paraizo",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Bryan Róchez",
+      "pos": "Delantero centro",
+      "edad": 31,
+      "valor": 150000
+    },
+    {
+      "nombre": "Morufdeen Moshood",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Kaique",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 0
+    }
+  ]
+}

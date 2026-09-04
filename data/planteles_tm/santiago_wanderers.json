@@ -1,0 +1,162 @@
+{
+  "fuente": "https://www.transfermarkt.co/santiago-wanderers/startseite/verein/2723",
+  "teamName": "Santiago Wanderers",
+  "players": [
+    {
+      "nombre": "Eduardo Miranda",
+      "pos": "Portero",
+      "edad": 33,
+      "valor": 200000
+    },
+    {
+      "nombre": "Bayron Martínez",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 175000
+    },
+    {
+      "nombre": "Raúl Olivares",
+      "pos": "Portero",
+      "edad": 38,
+      "valor": 50000
+    },
+    {
+      "nombre": "Cristopher Valenzuela",
+      "pos": "Defensa central",
+      "edad": 18,
+      "valor": 200000
+    },
+    {
+      "nombre": "Luis Margas",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Víctor Espinoza",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 125000
+    },
+    {
+      "nombre": "Sergio Felipe",
+      "pos": "Defensa central",
+      "edad": 35,
+      "valor": 100000
+    },
+    {
+      "nombre": "Pedro Navarro",
+      "pos": "Lateral izquierdo",
+      "edad": 25,
+      "valor": 275000
+    },
+    {
+      "nombre": "Alexander Dubó",
+      "pos": "Lateral izquierdo",
+      "edad": 18,
+      "valor": 50000
+    },
+    {
+      "nombre": "Axel Herrera",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 200000
+    },
+    {
+      "nombre": "Cristóbal Cáceres",
+      "pos": "Pivote",
+      "edad": 30,
+      "valor": 250000
+    },
+    {
+      "nombre": "Cristóbal Villarroel",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 175000
+    },
+    {
+      "nombre": "Leandro Navarro",
+      "pos": "Pivote",
+      "edad": 34,
+      "valor": 150000
+    },
+    {
+      "nombre": "Martín Villarroel",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Joaquín Silva",
+      "pos": "Mediocentro",
+      "edad": 21,
+      "valor": 400000
+    },
+    {
+      "nombre": "Dylan Portilla",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 175000
+    },
+    {
+      "nombre": "Lucas Avendaño",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 150000
+    },
+    {
+      "nombre": "Cristóbal Ponce",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 225000
+    },
+    {
+      "nombre": "Jorge Luna",
+      "pos": "Mediocentro ofensivo",
+      "edad": 39,
+      "valor": 25000
+    },
+    {
+      "nombre": "Denilson San Martín",
+      "pos": "Extremo izquierdo",
+      "edad": 18,
+      "valor": 250000
+    },
+    {
+      "nombre": "Ignacio Flores",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 175000
+    },
+    {
+      "nombre": "Vicente Vera",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Vicente Vargas",
+      "pos": "Extremo derecho",
+      "edad": 19,
+      "valor": 125000
+    },
+    {
+      "nombre": "Marcos Camarda",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 450000
+    },
+    {
+      "nombre": "Christian Silva",
+      "pos": "Delantero centro",
+      "edad": 18,
+      "valor": 125000
+    },
+    {
+      "nombre": "Javier Parraguez",
+      "pos": "Delantero centro",
+      "edad": 36,
+      "valor": 75000
+    }
+  ]
+}

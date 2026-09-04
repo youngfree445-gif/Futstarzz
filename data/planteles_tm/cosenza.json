@@ -1,0 +1,168 @@
+{
+  "fuente": "https://www.transfermarkt.co/cosenza-calcio/startseite/verein/4031",
+  "teamName": "Cosenza",
+  "players": [
+    {
+      "nombre": "Velizar-Iliya Iliev",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Matteo Rizzo",
+      "pos": "Portero",
+      "edad": 21,
+      "valor": 75000
+    },
+    {
+      "nombre": "Carmelo Rantuccio",
+      "pos": "Portero",
+      "edad": 16,
+      "valor": 0
+    },
+    {
+      "nombre": "Andrea Cogoni",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 350000
+    },
+    {
+      "nombre": "Paolo Dametto",
+      "pos": "Defensa central",
+      "edad": 33,
+      "valor": 275000
+    },
+    {
+      "nombre": "Alessandro Dalmazzi",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Răzvan Pașcalău",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 125000
+    },
+    {
+      "nombre": "Antonio Barone",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Baldovino Cimino",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 275000
+    },
+    {
+      "nombre": "Gianluca Clemente",
+      "pos": "Lateral derecho",
+      "edad": 30,
+      "valor": 200000
+    },
+    {
+      "nombre": "Lucio Bonofiglio",
+      "pos": "Lateral derecho",
+      "edad": 19,
+      "valor": 10000
+    },
+    {
+      "nombre": "Orhan Džepar",
+      "pos": "Pivote",
+      "edad": 30,
+      "valor": 450000
+    },
+    {
+      "nombre": "Nicolò Contiliano",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Diego Ragone",
+      "pos": "Pivote",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Antonio D'Alena",
+      "pos": "Pivote",
+      "edad": 28,
+      "valor": 75000
+    },
+    {
+      "nombre": "Riccardo Palmieri",
+      "pos": "Mediocentro",
+      "edad": 30,
+      "valor": 150000
+    },
+    {
+      "nombre": "Ed McJannet",
+      "pos": "Mediocentro",
+      "edad": 22,
+      "valor": 150000
+    },
+    {
+      "nombre": "Edoardo Contiero",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 125000
+    },
+    {
+      "nombre": "Enrico Giannini",
+      "pos": "Interior izquierdo",
+      "edad": 21,
+      "valor": 100000
+    },
+    {
+      "nombre": "Daniele Quieto",
+      "pos": "Mediocentro ofensivo",
+      "edad": 20,
+      "valor": 250000
+    },
+    {
+      "nombre": "Abdoulie Ndow",
+      "pos": "Mediocentro ofensivo",
+      "edad": 21,
+      "valor": 150000
+    },
+    {
+      "nombre": "Alessandro Pozzi",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 25000
+    },
+    {
+      "nombre": "Antonio Energe",
+      "pos": "Extremo derecho",
+      "edad": 26,
+      "valor": 200000
+    },
+    {
+      "nombre": "Filippo Palazzino",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 75000
+    },
+    {
+      "nombre": "Mattia Almaviva",
+      "pos": "Mediapunta",
+      "edad": 20,
+      "valor": 300000
+    },
+    {
+      "nombre": "Sofiane Achour",
+      "pos": "Delantero centro",
+      "edad": 21,
+      "valor": 200000
+    },
+    {
+      "nombre": "Tomi Petrovic",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 125000
+    }
+  ]
+}

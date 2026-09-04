@@ -1,0 +1,210 @@
+{
+  "fuente": "https://www.transfermarkt.co/portimonense-sc/startseite/verein/7378",
+  "teamName": "Portimonense SAD",
+  "players": [
+    {
+      "nombre": "Sébastien Cibois",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 225000
+    },
+    {
+      "nombre": "Dudu",
+      "pos": "Portero",
+      "edad": 27,
+      "valor": 150000
+    },
+    {
+      "nombre": "Lagartinho",
+      "pos": "Portero",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Wellington Santana",
+      "pos": "Portero",
+      "edad": 29,
+      "valor": 0
+    },
+    {
+      "nombre": "Marlon Júnior",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 500000
+    },
+    {
+      "nombre": "Jarleysom",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "Samy",
+      "pos": "Defensa central",
+      "edad": 26,
+      "valor": 175000
+    },
+    {
+      "nombre": "Georgiy Tunguliyadi",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Italo Cabelinho",
+      "pos": "Defensa central",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Thauan Lara",
+      "pos": "Lateral izquierdo",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "João Reis",
+      "pos": "Lateral izquierdo",
+      "edad": 34,
+      "valor": 75000
+    },
+    {
+      "nombre": "Edney",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 600000
+    },
+    {
+      "nombre": "Xavier",
+      "pos": "Pivote",
+      "edad": 26,
+      "valor": 325000
+    },
+    {
+      "nombre": "Yanis da Rocha",
+      "pos": "Pivote",
+      "edad": 22,
+      "valor": 200000
+    },
+    {
+      "nombre": "Felipe Favero",
+      "pos": "Pivote",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Welat Cagro",
+      "pos": "Mediocentro",
+      "edad": 27,
+      "valor": 350000
+    },
+    {
+      "nombre": "João Casimiro",
+      "pos": "Mediocentro",
+      "edad": 20,
+      "valor": 100000
+    },
+    {
+      "nombre": "Lucas De Bolle",
+      "pos": "Mediocentro",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Caleb Okereke",
+      "pos": "Mediocentro",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Shoya Nakajima",
+      "pos": "Mediocentro ofensivo",
+      "edad": 32,
+      "valor": 500000
+    },
+    {
+      "nombre": "Samuel Yépié Yépié",
+      "pos": "Mediocentro ofensivo",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Ericson",
+      "pos": "Mediocentro ofensivo",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Wermeson",
+      "pos": "Mediocentro ofensivo",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Jader Gentil",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 500000
+    },
+    {
+      "nombre": "Dânio Djassi",
+      "pos": "Extremo izquierdo",
+      "edad": 19,
+      "valor": 350000
+    },
+    {
+      "nombre": "Gonçalo Águas",
+      "pos": "Extremo izquierdo",
+      "edad": 22,
+      "valor": 0
+    },
+    {
+      "nombre": "Mamede",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 450000
+    },
+    {
+      "nombre": "Mésaque Djú",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 150000
+    },
+    {
+      "nombre": "Welinton Junior",
+      "pos": "Extremo derecho",
+      "edad": 33,
+      "valor": 75000
+    },
+    {
+      "nombre": "João Mendes",
+      "pos": "Extremo derecho",
+      "edad": 21,
+      "valor": 0
+    },
+    {
+      "nombre": "Matheus Fortunato",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Dudá",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 0
+    },
+    {
+      "nombre": "Midana Cassamá",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 250000
+    },
+    {
+      "nombre": "Paulinho",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 0
+    }
+  ]
+}

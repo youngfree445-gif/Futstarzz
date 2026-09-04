@@ -1,0 +1,150 @@
+{
+  "fuente": "https://www.transfermarkt.co/academica-coimbra/startseite/verein/2990",
+  "teamName": "Académica Coimbra",
+  "players": [
+    {
+      "nombre": "Victor Braga",
+      "pos": "Portero",
+      "edad": 34,
+      "valor": 275000
+    },
+    {
+      "nombre": "Nuno Macedo",
+      "pos": "Portero",
+      "edad": 27,
+      "valor": 0
+    },
+    {
+      "nombre": "Carlos Alves",
+      "pos": "Portero",
+      "edad": 28,
+      "valor": 0
+    },
+    {
+      "nombre": "Kauan",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 275000
+    },
+    {
+      "nombre": "Ni",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 100000
+    },
+    {
+      "nombre": "Ricardo Teixeira",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Gui Silva",
+      "pos": "Defensa central",
+      "edad": 25,
+      "valor": 0
+    },
+    {
+      "nombre": "Hélder Lopes",
+      "pos": "Lateral izquierdo",
+      "edad": 37,
+      "valor": 150000
+    },
+    {
+      "nombre": "Káká",
+      "pos": "Lateral izquierdo",
+      "edad": 33,
+      "valor": 0
+    },
+    {
+      "nombre": "Xavi Grande",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 800000
+    },
+    {
+      "nombre": "Pontus Texel",
+      "pos": "Lateral derecho",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "Edson Farias",
+      "pos": "Lateral derecho",
+      "edad": 34,
+      "valor": 0
+    },
+    {
+      "nombre": "João Oliveira",
+      "pos": "Pivote",
+      "edad": 34,
+      "valor": 0
+    },
+    {
+      "nombre": "Hugo Nunes",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "Leandro Silva",
+      "pos": "Mediocentro",
+      "edad": 32,
+      "valor": 0
+    },
+    {
+      "nombre": "Marcos Paulo",
+      "pos": "Mediocentro",
+      "edad": 38,
+      "valor": 0
+    },
+    {
+      "nombre": "Jean Sinisterra",
+      "pos": "Mediocentro",
+      "edad": 26,
+      "valor": 0
+    },
+    {
+      "nombre": "Tiago Soares",
+      "pos": "Mediocentro",
+      "edad": 16,
+      "valor": 0
+    },
+    {
+      "nombre": "Alioune Mané",
+      "pos": "Extremo izquierdo",
+      "edad": 23,
+      "valor": 150000
+    },
+    {
+      "nombre": "Rui Gomes",
+      "pos": "Extremo izquierdo",
+      "edad": 29,
+      "valor": 150000
+    },
+    {
+      "nombre": "Afonso Rodrigues",
+      "pos": "Extremo derecho",
+      "edad": 24,
+      "valor": 150000
+    },
+    {
+      "nombre": "Martim Tavares",
+      "pos": "Delantero centro",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Ilies Faure",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Amadou Coundoul",
+      "pos": "Delantero centro",
+      "edad": 24,
+      "valor": 200000
+    }
+  ]
+}

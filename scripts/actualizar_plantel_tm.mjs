@@ -32,6 +32,14 @@ const POS = {
   'Interior derecho': 'RM', 'Interior izquierdo': 'LM',
   'Extremo derecho': 'RW', 'Extremo izquierdo': 'LW',
   'Delantero centro': 'ST', 'Segundo delantero': 'ST',
+  // Transfermarkt no siempre tiene la posición detallada: en los clubes chicos hay jugadores con la
+  // categoría genérica y nada más. Se les da la posición del centro de su línea, que es la que menos
+  // supone. Son pocos -- 68 sobre ~800 -- y la alternativa era dejarlos afuera del plantel.
+  //
+  // Ojo: esto vale para los que caen sueltos, NO para cargar una liga entera con las cuatro
+  // categorías genéricas. Eso ya se hizo una vez con ESPN y dejó a toda la liga con cinco laterales
+  // derechos y ningún lateral izquierdo (ver docs/PROMPT_DATOS_Y_SCRAPING.md §5).
+  'Defensa': 'CB', 'Centrocampista': 'CM', 'Delantero': 'ST',
 };
 
 const CATEGORIA = {
@@ -111,11 +119,21 @@ async function main() {
   if (!actuales.length) console.log(`(club nuevo: se crea desde cero con team_id ${teamId})`);
   let maxId = Math.max(...db.map(p => Number(p.player_id) || 0));
 
+  // Los agentes libres, por nombre. Es de donde salen la mayoría de los jugadores de un club que se
+  // carga de cero: ya están en la base, sin club, y hay que moverlos en vez de duplicarlos.
+  const libres = new Map();
+  for (const p of db) {
+    if (p.team_name !== 'Agentes libres') continue;
+    const k = norm(p.nombre_completo);
+    if (!libres.has(k)) libres.set(k, []);
+    libres.get(k).push(p);
+  }
+
   const nuevos = [];
   // Los que siguen en el plantel: se marcan al emparejarlos, y los que queden sin marcar son los
   // que se fueron del club.
   const siguen = new Set();
-  let entran = 0, corregidos = 0, valoresCorregidos = 0;
+  let entran = 0, corregidos = 0, valoresCorregidos = 0, recuperados = 0;
 
   for (const j of players) {
     const pos = POS[j.pos];
@@ -141,6 +159,25 @@ async function main() {
         existente.media_valoracion = estimarMedia(j.valor, j.edad ?? null);
         valoresCorregidos++;
       }
+    } else if (libres.get(norm(j.nombre))?.length === 1) {
+      // YA ESTÁ EN LA BASE, DE AGENTE LIBRE: se lo mueve, no se lo crea de nuevo.
+      //
+      // Cuando un club se carga de cero, media plantilla suele estar ya cargada como agente libre
+      // -- de los 30 del Rangers de Talca, 23 estaban así. Crearlos otra vez deja al mismo jugador
+      // dos veces en la base, que es la falla que cuenta el propio pipeline de fichajes ("el mismo
+      // nombre en 2 clubes") y la que hace que un fichaje después mueva la fila equivocada.
+      //
+      // Sólo desde agentes libres, y sólo si el nombre es único entre ellos. Si el jugador está en
+      // OTRO club, no se toca: eso es un fichaje, y los fichajes los aplica npm run fichajes con su
+      // propia verificación.
+      const suelto = libres.get(norm(j.nombre))[0];
+      suelto.team_name = teamName;
+      suelto.team_id = teamId;
+      suelto.posicion_especifica = pos;
+      suelto.categoria_tactica = CATEGORIA[pos];
+      libres.delete(norm(j.nombre));
+      console.log(`   ← ${j.nombre.padEnd(26)} ${pos.padEnd(3)} (estaba de agente libre)`);
+      recuperados++;
     } else {
       const media = estimarMedia(j.valor ?? 0, j.edad ?? null);
       nuevos.push({
@@ -162,7 +199,7 @@ async function main() {
   for (const p of salen) console.log(`   - ${p.nombre_completo}`);
 
   console.log(`\n${teamName}: ${actuales.length} -> ${players.length}`);
-  console.log(`  entran ${entran}, salen ${salen.length}, posiciones corregidas ${corregidos}`
+  console.log(`  entran ${entran}, vuelven de agentes libres ${recuperados}, salen ${salen.length}, posiciones corregidas ${corregidos}`
     + (VALORES ? `, valores corregidos ${valoresCorregidos}` : ''));
 
   if (DRY) { console.log('\n(--dry: no se escribió nada)'); return; }

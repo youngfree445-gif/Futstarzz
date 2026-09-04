@@ -1,0 +1,156 @@
+{
+  "fuente": "https://www.transfermarkt.co/as-cittadella/startseite/verein/4084",
+  "teamName": "Cittadella",
+  "players": [
+    {
+      "nombre": "Alessandro Zanellati",
+      "pos": "Portero",
+      "edad": 26,
+      "valor": 300000
+    },
+    {
+      "nombre": "Luca Maniero",
+      "pos": "Portero",
+      "edad": 31,
+      "valor": 150000
+    },
+    {
+      "nombre": "Cesare Sommacal",
+      "pos": "Portero",
+      "edad": 17,
+      "valor": 0
+    },
+    {
+      "nombre": "Alex Redolfi",
+      "pos": "Defensa central",
+      "edad": 32,
+      "valor": 300000
+    },
+    {
+      "nombre": "Francesco Toffanin",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 225000
+    },
+    {
+      "nombre": "Andrea Zilio",
+      "pos": "Defensa central",
+      "edad": 20,
+      "valor": 200000
+    },
+    {
+      "nombre": "Andrea Cecchetto",
+      "pos": "Defensa central",
+      "edad": 23,
+      "valor": 75000
+    },
+    {
+      "nombre": "Michele Gobbato",
+      "pos": "Defensa central",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Bruno Martella",
+      "pos": "Lateral izquierdo",
+      "edad": 34,
+      "valor": 200000
+    },
+    {
+      "nombre": "Carlo Crialese",
+      "pos": "Lateral izquierdo",
+      "edad": 33,
+      "valor": 150000
+    },
+    {
+      "nombre": "Mattia Sangalli",
+      "pos": "Pivote",
+      "edad": 24,
+      "valor": 175000
+    },
+    {
+      "nombre": "Francesco Amatucci",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Lorenzo Paolucci",
+      "pos": "Mediocentro",
+      "edad": 29,
+      "valor": 300000
+    },
+    {
+      "nombre": "Giulio Frisenna",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Andrea Barberis",
+      "pos": "Mediocentro",
+      "edad": 32,
+      "valor": 100000
+    },
+    {
+      "nombre": "Francesco D'Alessio",
+      "pos": "Interior derecho",
+      "edad": 22,
+      "valor": 400000
+    },
+    {
+      "nombre": "Angelo Ndreçka",
+      "pos": "Interior izquierdo",
+      "edad": 24,
+      "valor": 200000
+    },
+    {
+      "nombre": "Mirko Antonucci",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 500000
+    },
+    {
+      "nombre": "Eduard Ihnatov",
+      "pos": "Mediocentro ofensivo",
+      "edad": 19,
+      "valor": 50000
+    },
+    {
+      "nombre": "Emanuele Anastasia",
+      "pos": "Extremo izquierdo",
+      "edad": 30,
+      "valor": 250000
+    },
+    {
+      "nombre": "Andrea Ceccarelli",
+      "pos": "Extremo derecho",
+      "edad": 20,
+      "valor": 10000
+    },
+    {
+      "nombre": "Diego Falcinelli",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 175000
+    },
+    {
+      "nombre": "Davis Mensah",
+      "pos": "Delantero centro",
+      "edad": 35,
+      "valor": 150000
+    },
+    {
+      "nombre": "Joseph Ekuban",
+      "pos": "Delantero centro",
+      "edad": 26,
+      "valor": 150000
+    },
+    {
+      "nombre": "Michael Fabbro",
+      "pos": "Delantero centro",
+      "edad": 30,
+      "valor": 125000
+    }
+  ]
+}

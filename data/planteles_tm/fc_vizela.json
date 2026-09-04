@@ -1,0 +1,198 @@
+{
+  "fuente": "https://www.transfermarkt.co/fc-vizela/startseite/verein/6912",
+  "teamName": "FC Vizela",
+  "players": [
+    {
+      "nombre": "Antonio Gomis",
+      "pos": "Portero",
+      "edad": 23,
+      "valor": 900000
+    },
+    {
+      "nombre": "Aleksandar Vulic",
+      "pos": "Portero",
+      "edad": 25,
+      "valor": 500000
+    },
+    {
+      "nombre": "Pedro Souza",
+      "pos": "Portero",
+      "edad": 24,
+      "valor": 100000
+    },
+    {
+      "nombre": "José Sampaio",
+      "pos": "Defensa central",
+      "edad": 21,
+      "valor": 550000
+    },
+    {
+      "nombre": "Jean-Pierre Rhyner",
+      "pos": "Defensa central",
+      "edad": 30,
+      "valor": 250000
+    },
+    {
+      "nombre": "Andrea Hristov",
+      "pos": "Defensa central",
+      "edad": 27,
+      "valor": 250000
+    },
+    {
+      "nombre": "Luís Rocha",
+      "pos": "Defensa central",
+      "edad": 40,
+      "valor": 50000
+    },
+    {
+      "nombre": "Bright Godwin",
+      "pos": "Lateral izquierdo",
+      "edad": 24,
+      "valor": 600000
+    },
+    {
+      "nombre": "Ismaël Diallo",
+      "pos": "Lateral izquierdo",
+      "edad": 29,
+      "valor": 400000
+    },
+    {
+      "nombre": "Dani",
+      "pos": "Lateral izquierdo",
+      "edad": 20,
+      "valor": 0
+    },
+    {
+      "nombre": "Jójó",
+      "pos": "Lateral derecho",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Luis Miguel Mina",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Alfred Caicedo",
+      "pos": "Lateral derecho",
+      "edad": 21,
+      "valor": 300000
+    },
+    {
+      "nombre": "Giovani Bamba",
+      "pos": "Pivote",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Moustapha Sanogo",
+      "pos": "Pivote",
+      "edad": 19,
+      "valor": 0
+    },
+    {
+      "nombre": "Miguel Pires",
+      "pos": "Mediocentro",
+      "edad": 24,
+      "valor": 700000
+    },
+    {
+      "nombre": "Aliou Traoré",
+      "pos": "Mediocentro",
+      "edad": 25,
+      "valor": 600000
+    },
+    {
+      "nombre": "Neto",
+      "pos": "Mediocentro",
+      "edad": 35,
+      "valor": 50000
+    },
+    {
+      "nombre": "Heinz Mörschel",
+      "pos": "Mediocentro ofensivo",
+      "edad": 29,
+      "valor": 1200000
+    },
+    {
+      "nombre": "Angel Bastunov",
+      "pos": "Mediocentro ofensivo",
+      "edad": 27,
+      "valor": 350000
+    },
+    {
+      "nombre": "Thio",
+      "pos": "Extremo izquierdo",
+      "edad": 27,
+      "valor": 600000
+    },
+    {
+      "nombre": "Damien Loppy",
+      "pos": "Extremo izquierdo",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Matías Lacava",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 550000
+    },
+    {
+      "nombre": "Abdul Awudu",
+      "pos": "Extremo derecho",
+      "edad": 25,
+      "valor": 400000
+    },
+    {
+      "nombre": "Miguel Tavares",
+      "pos": "Extremo derecho",
+      "edad": 28,
+      "valor": 400000
+    },
+    {
+      "nombre": "Rodrigo Ramos",
+      "pos": "Extremo derecho",
+      "edad": 22,
+      "valor": 300000
+    },
+    {
+      "nombre": "Lucas Antañón",
+      "pos": "Extremo derecho",
+      "edad": 23,
+      "valor": 250000
+    },
+    {
+      "nombre": "Cristián Cañozales",
+      "pos": "Extremo derecho",
+      "edad": 27,
+      "valor": 200000
+    },
+    {
+      "nombre": "Yassin Fortuné",
+      "pos": "Delantero centro",
+      "edad": 27,
+      "valor": 300000
+    },
+    {
+      "nombre": "Manu Garrido",
+      "pos": "Delantero centro",
+      "edad": 25,
+      "valor": 250000
+    },
+    {
+      "nombre": "Anthony Carter",
+      "pos": "Delantero centro",
+      "edad": 32,
+      "valor": 200000
+    },
+    {
+      "nombre": "Yann Kitala",
+      "pos": "Delantero centro",
+      "edad": 28,
+      "valor": 175000
+    }
+  ]
+}
