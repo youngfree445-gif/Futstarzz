@@ -78,8 +78,17 @@ function esElMismo(a, b) {
  * El técnico de un club, de su página de cuerpo técnico.
  *
  * Va a /mitarbeiter/ y no a la portada: la portada del club NO trae al entrenador (comprobado con
- * Junior, 175 KB sin una sola mención). El primero de la lista es el DT; los que siguen son
- * asistentes y preparadores.
+ * Junior, 175 KB sin una sola mención).
+ *
+ * SE PIDE EL CARGO, y no alcanza con tomar al primero de la lista. Eso hacía la primera versión y
+ * escribió mal a Deportivo Pasto: el club no tiene entrenador cargado en Transfermarkt y el primero
+ * de su cuerpo técnico es un "Entrenador Asistente", así que el ayudante entró al juego como si
+ * fuera el DT. En Junior el primero sí es el entrenador, y por eso el error no se veía probando con
+ * el club que uno tiene a mano.
+ *
+ * El cargo tiene que decir "Entrenador" y nada más: "Entrenador Asistente", "Entrenador de porteros"
+ * y "Empleado técnico" son otras personas. Si el club no tiene a nadie con ese cargo, se devuelve
+ * null y se informa -- mejor un club sin técnico que un club con el ayudante en el lugar del DT.
  */
 async function tecnicoDe(id) {
   const res = await fetch(`https://www.transfermarkt.co/x/mitarbeiter/verein/${id}`, {
@@ -87,8 +96,13 @@ async function tecnicoDe(id) {
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const html = await res.text();
-  const m = /\/profil\/trainer\/\d+"[^>]*>\s*([^<]{2,50})/.exec(html);
-  return m ? decode(m[1]) : null;
+  for (const bloque of html.split('/profil/trainer/').slice(1)) {
+    const nombre = /^\d+"[^>]*>\s*([^<]{2,50})/.exec(bloque);
+    const cargo = /<td>([^<]{4,40})<\/td>/.exec(bloque);
+    if (!nombre || !cargo) continue;
+    if (decode(cargo[1]).toLowerCase() === 'entrenador') return decode(nombre[1]);
+  }
+  return null;
 }
 
 // --- los clubes, con su id ---------------------------------------------------------------------
@@ -110,10 +124,26 @@ for (const liga of scrape.ligas) {
 const conId = [];
 for (const c of clubes) {
   if (ligasPedidas.length && !ligasPedidas.includes(c.liga)) continue;
+  const nombres = nombresDeBusqueda(c, NOMBRES);
+
+  // 1) Por clave exacta de palabras.
   const ids = new Set();
-  for (const n of nombresDeBusqueda(c, NOMBRES)) {
+  for (const n of nombres) {
     for (const x of porClave.get(clave(n)) ?? []) if (x.liga === c.liga) ids.add(x.tmId);
   }
+
+  // NO HAY SEGUNDA PASADA POR PARECIDO, y se probó que no la puede haber.
+  //
+  // Se intentó emparejar por SUBCONJUNTO dentro del mismo país, que arreglaba "AS Roma" contra
+  // "Roma" y "FC Twente Enschede" contra "FC Twente". También le puso a FC Eindhoven el técnico del
+  // PSV: "PSV Eindhoven" contiene a "Eindhoven", el PSV era el único candidato holandés con esa
+  // palabra, y la regla lo dio por bueno. Peter Bosz aparecía dirigiendo la segunda división.
+  //
+  // Es la misma trampa que ya tiene escrita scripts/aplicar_fichajes.mjs: las palabras que sobran
+  // nunca son decorativas. "PSV", "Montevideo", "del Valle" son justamente lo que distingue a un
+  // club de su vecino. Así que o el nombre coincide, o hay un alias escrito en NOMBRES_DE_CLUB, o
+  // no se toca. Los que faltaban están cargados ahí como `otros`.
+
   // UNO SOLO, o no se toca. Dos ids para el mismo club es no saber cuál es, y escribir el técnico
   // equivocado se ve perfecto en pantalla.
   if (ids.size === 1) conId.push({ ...c, tmId: [...ids][0] });
@@ -123,7 +153,9 @@ for (const c of clubes) {
 const extrasTs = await readFile('src/clubExtras.ts', 'utf8');
 const dtActual = new Map();
 for (const m of dataTs.matchAll(/id: '([^']+)'[\s\S]{0,300}?\bdt: '((?:[^'\\]|\\.)*)'/g)) dtActual.set(m[1], m[2]);
-for (const m of extrasTs.matchAll(/^\s{2}([a-zA-Z0-9_áéíóúñ]+):\s*\{\s*dt: '((?:[^'\\]|\\.)*)'/gm)) dtActual.set(m[1], m[2]);
+// La clave puede venir entre comillas: los ids que empiezan con dígito ("22_de_julio") no son
+// identificadores válidos de JavaScript y se escriben así.
+for (const m of extrasTs.matchAll(/^\s{2}"?([a-zA-Z0-9_áéíóúñ]+)"?:\s*\{\s*dt: '((?:[^'\\]|\\.)*)'/gm)) dtActual.set(m[1], m[2]);
 
 console.log(`${conId.length} clubes con id de Transfermarkt${ligasPedidas.length ? ` (${ligasPedidas.join(', ')})` : ''}.\n`);
 
@@ -161,7 +193,10 @@ const nuevos = [];
 for (const c of cambios) {
   const re = new RegExp(`(^\\s{2}${c.id}:\\s*\\{\\s*dt: ')((?:[^'\\\\]|\\\\.)*)(')`, 'm');
   if (re.test(salida)) salida = salida.replace(re, `$1${c.nuevo.replace(/'/g, "\\'")}$3`);
-  else nuevos.push(`  ${c.id}: { dt: '${c.nuevo.replace(/'/g, "\\'")}' },   // ${c.nombre}`);
+  // La clave va entre comillas si el id no es un identificador válido de JavaScript. Hay ids que
+  // empiezan con dígito -- "22_de_julio", "9_de_octubre" -- y escritos sin comillas no compilan.
+  else nuevos.push(`  ${/^[A-Za-z_$][\w$]*$/.test(c.id) ? c.id : JSON.stringify(c.id)}: `
+    + `{ dt: '${c.nuevo.replace(/'/g, "\\'")}' },   // ${c.nombre}`);
 }
 if (nuevos.length) {
   const cierre = salida.lastIndexOf('};');

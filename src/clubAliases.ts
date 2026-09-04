@@ -80,7 +80,7 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   // el duplicado se queda sin ninguno, porque si los dos lo reclaman uno está mostrando el del otro.
   "alianza_universidad": { "nombre": "Alianza Universidad", "plantel": null },
   "america_mex": { "nombre": "América", "otros": ["Club América"] },
-  "argentinos_jrs": { "nombre": "Argentinos Juniors", "calendario": "Argentinos Jrs.", "plantel": "Argentinos Jrs." },
+  "argentinos_jrs": { "nombre": "Argentinos Juniors", "calendario": "Argentinos Jrs.", "plantel": "Argentinos Jrs.", "otros": ["AA Argentinos Juniors"] },
   "arsenal_sarandi": { "nombre": "Arsenal de Sarandí", "plantel": "Arsenal Sarandí" },
   "as_monaco": { "nombre": "AS Monaco", "calendario": "Monaco" },
   "as_nancy": { "nombre": "AS Nancy Lorraine", "plantel": "AS Nancy" },
@@ -156,7 +156,7 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "estudiantes_lp": { "nombre": "Estudiantes de La Plata", "calendario": "Estudiantes LP", "plantel": "Estudiantes" },
   "estudiantes_rc": { "nombre": "Estudiantes de Río Cuarto", "calendario": "Asociación Atlética Estudiantes", "plantel": "Estudiantes R.C." },
   "everton_eng": { "nombre": "Everton", "plantel": "Everton" },
-  "everton": { "nombre": "Everton de Viña del Mar", "plantel": "Everton Chile" },
+  "everton": { "nombre": "Everton de Viña del Mar", "plantel": "Everton Chile", "otros": ["CD Everton"] },
   "fc_arouca": { "nombre": "FC Arouca", "plantel": "Arouca" },
   "fc_basel": { "nombre": "FC Basel 1893", "calendario": "Basel", "plantel": "FC Basel" },
   "fc_bayern_munchen": { "nombre": "FC Bayern München", "calendario": "Bayern Munich", "plantel": "Bayern München" },
@@ -193,7 +193,7 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "indep_rivadavia": { "nombre": "Independiente Rivadavia", "calendario": "Club Sportivo Independiente Rivadavia", "plantel": "Ind. Rivadavia", "otros": ["CS Independiente Rivadavia"] },
   "santafe": { "nombre": "Independiente Santa Fe", "calendario": "Indep. Santa Fe", "plantel": "Santa Fe" },
   "indep_yumbo": { "nombre": "Independiente Valle del Cauca", "calendario": "Independiente Yumbo", "plantel": "Ind. Yumbo" },
-  "instituto": { "nombre": "Instituto de Córdoba", "calendario": "Instituto Atlético Central Córdoba", "plantel": "Instituto" },
+  "instituto": { "nombre": "Instituto de Córdoba", "calendario": "Instituto Atlético Central Córdoba", "plantel": "Instituto", "otros": ["Instituto ACC"] },
   "inter": { "nombre": "Inter", "plantel": "Lombardia FC", "otros": ["Inter Milan"] },
   "inter_miami_cf": { "nombre": "Inter Miami CF", "calendario": "Club Internacional de Fútbol Miami", "plantel": "Inter Miami" },
   "inter_palmira": { "nombre": "Internacional de Palmira", "calendario": "Inter Palmira", "plantel": "Inter Palmira" },
@@ -288,7 +288,7 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   // Y UNO QUE LA SONDA RECHAZO, que es lo que la hace confiable: el Santiago Wanderers de Chile daba
   // 9 coincidencias con el equipo "Wanderers" de la base y parecia suyo. El Montevideo Wanderers da
   // 19 sobre 24 con el mismo equipo: es del uruguayo. El chileno se queda sin plantel.
-  "racing_club_uru": { "nombre": "Racing Club", "plantel": "Racing Club U." },
+  "racing_club_uru": { "nombre": "Racing Club", "plantel": "Racing Club U.", "otros": ["Racing Club de Montevideo"] },
   "racing_club_de_strasbourg_alsace": { "nombre": "Racing Club de Strasbourg Alsace", "calendario": "RC Strasbourg Alsace", "plantel": "RC Strasbourg" },
   "rangers_fc": { "nombre": "Rangers FC", "plantel": "Rangers" },
   "rb_bragantino": { "nombre": "RB Bragantino", "calendario": "Red Bull Bragantino" },
@@ -345,6 +345,18 @@ export const NOMBRES_DE_CLUB: Record<string, NombresDelClub> = {
   "vitoria": { "nombre": "Vitória", "calendario": "Esporte Clube Vitória" },
   "vitoria_sc": { "nombre": "Vitória SC", "plantel": "Vitória de Guimarães", "otros": ["Vitória Guimarães SC"] },
   "yaracuyanos_fc": { "nombre": "Yaracuyanos FC", "plantel": "Yaracuyanos" },
+  // Como los escribe Transfermarkt en sus paginas de liga. Sin esto el club no tiene id, y sin
+  // id no se le puede pedir ni el plantel ni el tecnico sin ponerse a adivinar por nombre.
+  "roma": { "nombre": "Roma", "otros": ["AS Roma"] },
+  "sassuolo": { "nombre": "Sassuolo", "otros": ["US Sassuolo"] },
+  "fc_twente": { "nombre": "FC Twente", "otros": ["FC Twente Enschede"] },
+  "real_salt_lake": { "nombre": "Real Salt Lake", "otros": ["Real Salt Lake City"] },
+  "sport_boys": { "nombre": "Sport Boys", "otros": ["Sport Boys Association"] },
+  "juan_pablo_ii": { "nombre": "Juan Pablo II", "otros": ["Club Juan Pablo II College"] },
+  "moquegua": { "nombre": "Moquegua", "otros": ["Deportivo Moquegua"] },
+  "adt": { "nombre": "ADT", "otros": ["Asociación Deportiva Tarma"] },
+  "aguilas": { "nombre": "Águilas Doradas", "otros": ["Rionegro Águilas"] },
+  "pasto": { "nombre": "Deportivo Pasto", "otros": ["Asociación Deportivo Pasto"] },
 };
 
 // --- Lo que cada consumidor pregunta, respondido desde la tabla de arriba -----------------------

@@ -51,6 +51,14 @@ const LIGAS = [
   ['ARGC', 'Argentina'], ['BRA1', 'Brasileña'], ['COL1', 'Colombiana'],
   ['CLPD', 'Chilena'], ['URU1', 'Uruguaya'], ['TDeC', 'Peruana'], ['EC1N', 'Ecuatoriana'],
   ['BO1A', 'Boliviana'], ['PR1C', 'Paraguaya'], ['VZ1C', 'Venezolana'],
+  // LAS CUATRO SEGUNDAS QUE FALTABAN. Son 54 clubes jugables -- la segunda de Chile, México,
+  // Portugal y Ecuador -- que no recibían fichajes ni técnico porque sin liga bajada no hay id de
+  // Transfermarkt, y sin id no hay forma de pedir nada sin ponerse a adivinar por nombre.
+  //
+  // Los códigos salieron de la ficha de un club de cada una (Chaves, Santiago Wanderers, Vinotinto,
+  // Mineros de Zacatecas) mirando su enlace de competición, y cada uno se confirmó con un segundo
+  // club de la misma división. Igual que los otros treinta: no se adivinan.
+  ['CL2B', 'Chilena 2'], ['MEX2', 'Mexicana 2'], ['PO2', 'Portuguesa 2'], ['EC2L', 'Ecuatoriana 2'],
 ];
 
 // El dominio decide el IDIOMA de los nombres de club, y eso importa mucho mas de lo que parece:

@@ -63,7 +63,7 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   almere_city_fc: { dt: 'Hedwiges Maduro', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🔴⚫' }, // Sin verificar de forma independiente
   az: { dt: 'Leeroy Echteld', badgeColor: 'border-l-4 border-red-600 bg-red-950/40 text-red-200', badgeLogoUrl: '🔴⚪' }, // Corregido, confianza media: Martens ya no dirige al AZ
   fc_groningen: { dt: 'Dick Lukkien', badgeColor: 'border-l-4 border-green-600 bg-zinc-950/40 text-green-200', badgeLogoUrl: '🟢⚪' }, // Sin verificar de forma independiente
-  fc_twente: { dt: 'Por confirmar', badgeColor: 'border-l-4 border-red-600 bg-red-950/40 text-red-200', badgeLogoUrl: '🔴🐴' }, // Corregido a "sin confirmar": Oosting (dato del borrador inicial) se fue a Go Ahead Eagles
+  fc_twente: { dt: 'John van den Brom', badgeColor: 'border-l-4 border-red-600 bg-red-950/40 text-red-200', badgeLogoUrl: '🔴🐴' }, // Corregido a "sin confirmar": Oosting (dato del borrador inicial) se fue a Go Ahead Eagles
   fc_utrecht: { dt: 'Anthony Correia', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🔴⚪' }, // Sin verificar de forma independiente
   feyenoord: { dt: 'Robin van Persie', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🔴⚪🟢' }, // Confirmado
   go_ahead_eagles: { dt: 'Joseph Oosting', badgeColor: 'border-l-4 border-amber-500 bg-red-950/40 text-amber-200', badgeLogoUrl: '🦅🔴🟡' }, // Corregido: Simonis/Boel ya no están, Oosting llegó en junio 2026
@@ -94,7 +94,7 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   monza: { dt: 'Ivan Jurić', badgeColor: 'border-l-4 border-red-600 bg-red-950/40 text-red-200', badgeLogoUrl: '🔴⚪⚔️' }, // Sin verificar de forma independiente
   napoli: { dt: 'Antonio Conte', badgeColor: 'border-l-4 border-sky-500 bg-sky-950/40 text-sky-200', badgeLogoUrl: '🔵⚪🐴' }, // Sin verificar de forma independiente
   parma: { dt: 'Fabio Pecchia', badgeColor: 'border-l-4 border-yellow-400 bg-blue-950/40 text-yellow-200', badgeLogoUrl: '🟡🔵' }, // Sin verificar; se limpió un carácter chino suelto (十字) del badge original
-  roma: { dt: 'Por confirmar', badgeColor: 'border-l-4 border-red-800 bg-amber-950/40 text-red-200', badgeLogoUrl: '🟡🔴🐺' }, // Sin confirmar: la única fuente que encontré sobre Ranieri/De Rossi es ambigua/vieja
+  roma: { dt: 'Gian Piero Gasperini', badgeColor: 'border-l-4 border-red-800 bg-amber-950/40 text-red-200', badgeLogoUrl: '🟡🔴🐺' }, // Sin confirmar: la única fuente que encontré sobre Ranieri/De Rossi es ambigua/vieja
   torino: { dt: 'Ignazio Abate', badgeColor: 'border-l-4 border-red-900 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🟤🐂' }, // Sin verificar de forma independiente
   udinese: { dt: 'Kosta Runjaic', badgeColor: 'border-l-4 border-zinc-900 bg-zinc-950/40 text-zinc-100', badgeLogoUrl: '⚫⚪🦅' }, // Sin verificar de forma independiente
   venezia: { dt: 'Giovanni Stroppa', badgeColor: 'border-l-4 border-orange-500 bg-green-950/40 text-orange-200', badgeLogoUrl: '🧡🖤💚' }, // Corregido a "sin confirmar": Di Francesco (dato del borrador inicial) en realidad está en Lecce
@@ -115,7 +115,7 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   reggiana: { dt: 'William Viali', badgeColor: 'border-l-4 border-red-800 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🟤🍇' }, // Sin verificar de forma independiente
   salernitana: { dt: 'Stefano Colantuono', badgeColor: 'border-l-4 border-red-900 bg-zinc-950/40 text-red-200', badgeLogoUrl: '🟤🐴' }, // Sin verificar de forma independiente
   sampdoria: { dt: 'Andrea Sottil', badgeColor: 'border-l-4 border-blue-600 bg-zinc-950/40 text-blue-200', badgeLogoUrl: '🔵⚪🔴⚫' }, // Sin verificar de forma independiente
-  sassuolo: { dt: 'Por confirmar', badgeColor: 'border-l-4 border-green-600 bg-zinc-950/40 text-green-200', badgeLogoUrl: '🟢⚫' }, // Corregido a "sin confirmar": Fabio Grosso (dato del borrador inicial) en realidad está en Fiorentina
+  sassuolo: { dt: 'Alberto Aquilani', badgeColor: 'border-l-4 border-green-600 bg-zinc-950/40 text-green-200', badgeLogoUrl: '🟢⚫' }, // Corregido a "sin confirmar": Fabio Grosso (dato del borrador inicial) en realidad está en Fiorentina
   spezia: { dt: 'Luca D\'Angelo', badgeColor: 'border-l-4 border-zinc-200 bg-zinc-950/40 text-zinc-100', badgeLogoUrl: '⚪⚫🦅' }, // Sin verificar de forma independiente
   sudtirol: { dt: 'Davide Possanzini', badgeColor: 'border-l-4 border-red-600 bg-zinc-950/40 text-red-200', badgeLogoUrl: '⚪🔴' }, // Sin verificar de forma independiente
 
@@ -195,22 +195,21 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
 
   // ===== Al día con Transfermarkt (npm run tecnicos, 2026-09-04) =====
   junior: { dt: 'Sebastián Viera' },   // Junior de Barranquilla
-  alianza_fc: { dt: 'Henry Rojas' },   // Alianza FC
   cucuta: { dt: 'Nicolás Chiesa' },   // Cúcuta Deportivo
-  san_lorenzo: { dt: 'Juan Carlos Docabo' },   // San Lorenzo de Almagro
-  river: { dt: 'Leonardo Ponzio' },   // River Plate
   independiente: { dt: 'Jádson Viera' },   // Independiente
   talleres: { dt: 'Omar De Felippe' },   // Talleres de Córdoba
   rb_bragantino: { dt: 'Vagner Mancini' },   // RB Bragantino
-  tigres: { dt: 'Víctor Manuel Vucetich' },   // Tigres U.A.N.L.
   atlas: { dt: 'Hernán Crespo' },   // Atlas
   puebla: { dt: 'Albert Espigares' },   // Puebla
-  juarez: { dt: 'Pedro Malta' },   // FC Juárez
+  tapatio: { dt: 'José Luis Meléndez' },   // Tapatio
+  tlaxcala: { dt: 'Arturo Ortega' },   // Tlaxcala
+  cancun_fc: { dt: 'Miguel Bravo' },   // Cancun FC
   u_chile: { dt: 'Fernando Gago' },   // Universidad de Chile
   u_catolica: { dt: 'Daniel Garnero' },   // Universidad Católica
   palestino: { dt: 'Guillermo Farré' },   // Palestino
   coquimbo_unido: { dt: 'Hernán Caputto' },   // Coquimbo Unido
   cobresal: { dt: 'Gustavo Huerta' },   // Cobresal
+  everton: { dt: 'Walter Ribonetto' },   // Everton de Viña del Mar
   unión_la_calera: { dt: 'Martín Cicotello' },   // Unión La Calera
   huachipato: { dt: 'Jaime García' },   // Huachipato
   ñublense: { dt: 'Juan José Ribera' },   // Ñublense
@@ -220,6 +219,22 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   deportes_la_serena: { dt: 'Felipe Gutiérrez' },   // Deportes La Serena
   deportes_concepción: { dt: 'Fernando Díaz' },   // Deportes Concepción
   universidad_de_concepción: { dt: 'Cristián Muñoz' },   // Universidad de Concepción
+  unión_española: { dt: 'Ronald Fuentes' },   // Unión Española
+  deportes_iquique: { dt: 'Hernán Peña' },   // Deportes Iquique
+  santiago_wanderers: { dt: 'Francisco Palladino' },   // Santiago Wanderers
+  curicó_unido: { dt: 'Damián Muñoz' },   // Curicó Unido
+  deportes_copiapó: { dt: 'Héctor Almandoz' },   // Deportes Copiapó
+  san_luis_de_quillota: { dt: 'Humberto Suazo' },   // San Luis de Quillota
+  san_marcos_de_arica: { dt: 'Iván Sandrock' },   // San Marcos de Arica
+  cobreloa: { dt: 'César Bravo' },   // Cobreloa
+  deportes_antofagasta: { dt: 'Luis Marcoleta' },   // Deportes Antofagasta
+  deportes_recoleta: { dt: 'Francisco Arrué' },   // Deportes Recoleta
+  deportes_temuco: { dt: 'Emiliano Astorga' },   // Deportes Temuco
+  magallanes: { dt: 'Miguel Ponce' },   // Magallanes
+  rangers_de_talca: { dt: 'Ivo Basay' },   // Rangers de Talca
+  deportes_santa_cruz: { dt: 'Dalcio Giovagnoli' },   // Deportes Santa Cruz
+  unión_san_felipe: { dt: 'Juan José Luvera' },   // Unión San Felipe
+  puerto_montt: { dt: 'Emilio Mancilla' },   // Puerto Montt
   nacional_uru: { dt: 'Daniel Carreño' },   // Nacional
   defensor_sporting: { dt: 'Mauricio Larriera' },   // Defensor Sporting
   danubio: { dt: 'Leonel Rocco' },   // Danubio
@@ -236,7 +251,9 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   sporting_cristal: { dt: 'Roberto Mosquera' },   // Sporting Cristal
   melgar: { dt: 'Miguel Rondelli' },   // Melgar
   deportivo_garcilaso: { dt: 'Lisandro Greppo' },   // Deportivo Garcilaso
+  adt: { dt: 'Víctor Rivera' },   // ADT
   sport_huancayo: { dt: 'Richard Pellejero' },   // Sport Huancayo
+  sport_boys: { dt: 'Carlos Desio' },   // Sport Boys
   utc: { dt: 'Cristian Paulucci' },   // UTC
   atlético_grau: { dt: 'Gerardo Ameli' },   // Atlético Grau
   cusco_fc: { dt: 'Javier Rabanal' },   // Cusco FC
@@ -244,7 +261,9 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   los_chankas: { dt: 'Walter Paolella' },   // Los Chankas
   comerciantes_unidos: { dt: 'José Eugenio Hernández' },   // Comerciantes Unidos
   atlético_sullana: { dt: 'Federico Urciuoli' },   // Atlético Sullana
+  juan_pablo_ii: { dt: 'Jorge Araujo' },   // Juan Pablo II
   fc_cajamarca: { dt: 'Celso Ayala' },   // FC Cajamarca
+  moquegua: { dt: 'Jaime Serna' },   // Moquegua
   ldu_quito: { dt: 'Gustavo Álvarez' },   // LDU Quito
   idv_ecu: { dt: 'Joaquín Papa' },   // Independiente del Valle
   emelec: { dt: 'Ezequiel Medrán' },   // Emelec
@@ -253,18 +272,19 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   deportivo_cuenca: { dt: 'Daniel Néculman' },   // Deportivo Cuenca
   mushuc_runa: { dt: 'Paúl Vélez' },   // Mushuc Runa
   macará: { dt: 'Guillermo Sanguinetti' },   // Macará
-  orense: { dt: 'Hólger Matamoros' },   // Orense
   libertad_fc: { dt: 'Juan Pablo Buch' },   // Libertad FC
   manta_fc: { dt: 'Raúl Duarte' },   // Manta FC
   leones_fc_ecu: { dt: 'Matías Córdoba' },   // Leones FC de Ecuador
   guayaquil_city: { dt: 'Pool Gavilánez' },   // Guayaquil City
+  vinotinto_fc: { dt: 'Juan Grabowski' },   // Vinotinto FC
+  gualaceo: { dt: 'Javier Borja' },   // Gualaceo
+  san_antonio: { dt: 'Erik Urcelay' },   // San Antonio
+  cumbayá: { dt: 'Christian Castro' },   // Cumbayá
+  "22_de_julio": { dt: 'Carlos Vera' },   // 22 de Julio
   real_tomayapo: { dt: 'Jorge Alfonso' },   // Real Tomayapo
   universitario_de_vinto: { dt: 'Marcelo Straccia' },   // Universitario de Vinto
   the_strongest: { dt: 'Antônio Carlos Zago' },   // The Strongest
-  real_potosí: { dt: 'Delfin Vargas' },   // Real Potosí
   nacional_potosí: { dt: 'Eduardo Villegas' },   // Nacional Potosí
-  always_ready: { dt: 'Pablo Godoy' },   // Always Ready
-  independiente_petrolero: { dt: 'Juan Pablo Grass' },   // Independiente Petrolero
   aurora: { dt: 'David Díaz' },   // Aurora
   san_antonio_bulo_bulo: { dt: 'Bolívia' },   // San Antonio Bulo Bulo
   real_oruro: { dt: 'Nestor Colinas' },   // Real Oruro
@@ -279,7 +299,6 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   recoleta: { dt: 'Jorge González' },   // Recoleta
   sportivo_san_lorenzo: { dt: 'Pablo Fornasari' },   // Sportivo San Lorenzo
   carabobo_fc: { dt: 'Daniel Farías' },   // Carabobo FC
-  caracas_fc: { dt: 'Ronny Flores' },   // Caracas FC
   deportivo_táchira: { dt: 'Álvaro Recoba' },   // Deportivo Táchira
   metropolitanos_fc: { dt: 'Francesco Stifano' },   // Metropolitanos FC
   deportivo_la_guaira: { dt: 'Héctor Bidoglio' },   // Deportivo La Guaira
@@ -336,6 +355,7 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   excelsior_rotterdam: { dt: 'Ruben den Uil' },   // Excelsior Rotterdam
   ado_den_haag: { dt: 'Robin Peter' },   // ADO Den Haag
   sc_telstar: { dt: 'Henk Brugge' },   // SC Telstar
+  avs_futebol_sad: { dt: 'Sérgio Fonseca' },   // AVS Futebol SAD
   casa_pia: { dt: 'Filipe Coelho' },   // Casa Pia
   cd_nacional: { dt: 'João Gião' },   // CD Nacional
   cd_santa_clara: { dt: 'Petit' },   // CD Santa Clara
@@ -344,14 +364,25 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   gil_vicente_fc: { dt: 'Luís Pinto' },   // Gil Vicente FC
   moreirense_fc: { dt: 'Vasco Botelho da Costa' },   // Moreirense FC
   sl_benfica: { dt: 'Marco Silva' },   // SL Benfica
+  sc_farense: { dt: 'José Faria' },   // SC Farense
   vitoria_sc: { dt: 'Tiago Margarido' },   // Vitória SC
+  uniao_torreense: { dt: 'Luís Tralhão' },   // SC União Torreense
+  fc_vizela: { dt: 'Ronald Molina' },   // FC Vizela
+  cd_tondela: { dt: 'Ricardo Costa' },   // CD Tondela
+  gd_chaves: { dt: 'Vítor Martins' },   // GD Chaves
+  ud_leiria: { dt: 'Fábio Pereira' },   // UD Leiria
+  fc_felgueiras: { dt: 'Moreno' },   // FC Felgueiras 1932
+  fc_penafiel: { dt: 'José Manuel Aira' },   // FC Penafiel
+  leixoes_sc: { dt: 'Carlos Fangueiro' },   // Leixões SC
+  lusitania_lourosa: { dt: 'Ricardo Silva' },   // Lusitânia FC Lourosa
+  cd_feirense: { dt: 'Mário Nunes' },   // CD Feirense
+  portimonense: { dt: 'Alex' },   // Portimonense SAD
+  academica_coimbra: { dt: 'António Barbosa' },   // Académica Coimbra
+  amarante_fc: { dt: 'Jorge Pinto' },   // Amarante FC
   atlanta_united: { dt: 'Tata Martino' },   // Atlanta United
-  austin_fc: { dt: 'Davy Arnaud' },   // Austin FC
-  cf_montreal: { dt: 'Philippe Eullaffroy' },   // CF Montréal
   charlotte_fc: { dt: 'Dean Smith' },   // Charlotte FC
   chicago_fire: { dt: 'Gregg Berhalter' },   // Chicago Fire
   colorado_rapids: { dt: 'Matt Wells' },   // Colorado Rapids
-  columbus_crew: { dt: 'Laurent Courtois' },   // Columbus Crew
   dc_united: { dt: 'René Weiler' },   // DC United
   fc_cincinnati: { dt: 'Pat Noonan' },   // FC Cincinnati
   fc_dallas: { dt: 'Eric Quill' },   // FC Dallas
@@ -364,9 +395,8 @@ export const CLUB_EXTRAS: Record<string, ClubExtra> = {
   new_england: { dt: 'Marko Mitrovic' },   // New England
   new_york_city_fc: { dt: 'Pascal Jansen' },   // New York City FC
   ny_red_bulls: { dt: 'Michael Bradley' },   // NY Red Bulls
-  orlando_city: { dt: 'Martín Perelman' },   // Orlando City
-  philadelphia: { dt: 'Ryan Richter' },   // Philadelphia
   portland_timbers: { dt: 'Martí Cifuentes' },   // Portland Timbers
+  real_salt_lake: { dt: 'Pablo Mastroeni' },   // Real Salt Lake
   san_diego_fc: { dt: 'Mikey Varas' },   // San Diego FC
   san_jose: { dt: 'Bruce Arena' },   // San Jose
   seattle_sounders: { dt: 'Brian Schmetzer' },   // Seattle Sounders
