@@ -65,6 +65,10 @@
     "validar:alias": "npx vite-node scripts/validar_alias.ts",
     "validar:sequia": "npx vite-node scripts/validar_sequia.ts",
     "validar:puesto": "npx vite-node scripts/validar_puesto.ts",
+    "validar:entorno": "npx vite-node scripts/validar_entorno.ts",
+    "validar:hater": "npx vite-node scripts/validar_hater.ts",
+    "validar:fiesta": "npx vite-node scripts/validar_fiesta.ts",
+    "validar:idioma": "npx vite-node scripts/validar_idioma.ts",
     "sonda": "node scripts/sonda_plantel.mjs",
     "bajar:plantel": "node scripts/bajar_plantel_faltante.mjs",
     "tecnicos": "node scripts/tecnicos.mjs"

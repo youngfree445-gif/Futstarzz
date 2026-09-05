@@ -27,6 +27,7 @@ import { factorDeAnimo, estaEnBajon } from '../animo';
 import { hablaEnElEntretiempo, instruccionDelEntretiempo, mejoroEnElSegundo, resultadoDeLaCharla } from '../tecnico';
 import ReportarBug from './ReportarBug';
 import { evaluarForma, ajusteDeForma } from '../forma';
+import { ajustePorAdaptacion } from '../elIdioma';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
 // de lo que sumaba. El resto de los efectos del partido (gol, tarjeta, etc.) no se tocan.
@@ -1909,16 +1910,36 @@ export default function MatchSimulator({
       };
 
   const activeRole = ROLES_DATABASE.find(r => r.id === playerProfile.favoriteRole);
+  // LA ADAPTACION AL PAIS NUEVO (ver src/elIdioma.ts): cuarto eslabon de la misma cadena, y el
+  // unico que se apaga solo con el tiempo en vez de con lo que hagas. Arranca en 7 -- entre la
+  // fatiga (6) y jugar roto (9) -- y baja fecha a fecha hasta desaparecer.
+  //
+  // Va DESPUES de la forma y ANTES del rol, por el mismo criterio que los otros tres: estos son
+  // ajustes al cuerpo y a la cabeza, y el rol va ultimo porque reparte lo que haya quedado.
+  const ajusteIdioma = playerProfile.adaptacion
+    ? ajustePorAdaptacion(playerProfile.currentWeek, playerProfile.adaptacion.hastaLaFecha)
+    : 0;
+  const attributesAfterIdioma: PlayerStats = ajusteIdioma === 0
+    ? attributesAfterForma
+    : {
+        ritmo: Math.max(10, attributesAfterForma.ritmo + ajusteIdioma),
+        regate: Math.max(10, attributesAfterForma.regate + ajusteIdioma),
+        tiro: Math.max(10, attributesAfterForma.tiro + ajusteIdioma),
+        defensa: Math.max(10, attributesAfterForma.defensa + ajusteIdioma),
+        pase: Math.max(10, attributesAfterForma.pase + ajusteIdioma),
+        fisico: Math.max(10, attributesAfterForma.fisico + ajusteIdioma),
+      };
+
   const effectiveAttributes: PlayerStats = activeRole
     ? {
-        ritmo: Math.round(attributesAfterForma.ritmo * (activeRole.weights.ritmo ?? 1)),
-        regate: Math.round(attributesAfterForma.regate * (activeRole.weights.regate ?? 1)),
-        tiro: Math.round(attributesAfterForma.tiro * (activeRole.weights.tiro ?? 1)),
-        defensa: Math.round(attributesAfterForma.defensa * (activeRole.weights.defensa ?? 1)),
-        pase: Math.round(attributesAfterForma.pase * (activeRole.weights.pase ?? 1)),
-        fisico: Math.round(attributesAfterForma.fisico * (activeRole.weights.fisico ?? 1)),
+        ritmo: Math.round(attributesAfterIdioma.ritmo * (activeRole.weights.ritmo ?? 1)),
+        regate: Math.round(attributesAfterIdioma.regate * (activeRole.weights.regate ?? 1)),
+        tiro: Math.round(attributesAfterIdioma.tiro * (activeRole.weights.tiro ?? 1)),
+        defensa: Math.round(attributesAfterIdioma.defensa * (activeRole.weights.defensa ?? 1)),
+        pase: Math.round(attributesAfterIdioma.pase * (activeRole.weights.pase ?? 1)),
+        fisico: Math.round(attributesAfterIdioma.fisico * (activeRole.weights.fisico ?? 1)),
       }
-    : attributesAfterForma;
+    : attributesAfterIdioma;
 
   // Probabilidad por minuto de que ocurra CUALQUIER gol ambiental (Poisson thinning de totalLambda
   // repartido en 90') y, dado que ocurre, qué proporción le toca a cada lado según sus lambdas --

@@ -164,12 +164,12 @@ su cuenta, el jugador termina en cero por acumulación, ninguna se siente, y no 
 |---|---|---|
 | 1 | Sequía de gol | **hecha** (`f2e0323`) · `src/sequia.ts` · `npm run validar:sequia` |
 | 2 | Racha de titularidad | **hecha** · `src/forma.ts` · `npm run validar:puesto` |
-| 3 | Entorno que te arrastra | pendiente |
-| 4 | Redes sociales con costo real | pendiente |
-| 5 | Fiesta antes de un partido importante | pendiente |
+| 3 | Entorno que te arrastra | **hecha** · `src/entornoQueArrastra.ts` · `npm run validar:entorno` |
+| 4 | Redes sociales con costo real | **hecha** · `src/elHater.ts` · `npm run validar:hater` |
+| 5 | Fiesta antes de un partido importante | **hecha** · `src/laFiesta.ts` · `npm run validar:fiesta` |
 | 6 | Vida de pareja | **postergada** por el usuario |
 | 7 | Un hijo | **postergada** por el usuario |
-| 8 | Idioma y adaptación | pendiente (probabilística) |
+| 8 | Idioma y adaptación | **hecha** · `src/elIdioma.ts` · `npm run validar:idioma` |
 
 Pareja e hijo quedaron para después por decisión del usuario el 5 de septiembre de 2026 — "dale
 pero pareja e hijo se dejan para después".

@@ -11,6 +11,18 @@ interface DecisionEffects {
   // solo los eventos NUEVOS de vestuario la usan -- el contenido viejo (prensa, sponsors, etc.)
   // sigue tocando únicamente prestige (DT) y fans (hinchada) como siempre.
   companeros?: number;
+  // Familia y amigos, y la cabeza. Las usan los pedidos del entorno (ver entornoQueArrastra.ts),
+  // que son los primeros eventos que cobran en algo que no sea prestigio, hinchada o plata.
+  entorno?: number;
+  mentalHealth?: number;
+  // De que mecanica salio el evento, y que se eligio. Va marcado en vez de deducirse de los
+  // numeros: hay eventos genericos con la misma forma, y colgar de eso un contador es un bug
+  // esperando a que alguien escriba uno nuevo parecido.
+  origen?: 'entorno' | 'hater' | 'fiesta';
+  eleccion?: 'contestar' | 'ignorar' | 'que-conteste-el-club' | 'ir' | 'quedarse';
+  // Si la foto de la fiesta va a salir. Se decide al armar el evento y se guarda; el jugador se
+  // entera unas fechas despues (ver laFiesta.ts).
+  laFotoSale?: boolean;
 }
 
 interface DecisionEvent {

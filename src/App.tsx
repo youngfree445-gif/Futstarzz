@@ -58,6 +58,10 @@ import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salida
 import { evaluarConvocatoria, convocadoAlMundial } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
 import { contarElPartido, reboteAlCortarla, castigoDeLaSequia } from './sequia';
+import { chanceDeEventoDelEntorno, esCortarConElGrupo, eventoDelEntorno } from './entornoQueArrastra';
+import { apareceUnHater, eventoDelHater, fueIgnorarlo } from './elHater';
+import { FECHAS_HASTA_QUE_SE_SABE, eventoDeLaFiesta, fueALaFiesta, golpeDeLaFoto, hayFiestaEstaNoche, loQuePasoConLaFoto } from './laFiesta';
+import { AVISO_DE_YA_ME_ADAPTE, FECHAS_DE_ADAPTACION, avisoDeAdaptacion, cuestaAdaptarse, idiomaDe } from './elIdioma';
 import { crecimientoDeLaTemporada, informeDeLaTemporada } from './modoHardcore';
 import { facturaDelMes, cobrarCuotas, FECHAS_DE_UN_CONTRATO } from './economia';
 import { apodoDe, bautizoDe } from './apodo';
@@ -2792,6 +2796,26 @@ export default function App() {
     }
   };
 
+  /**
+   * LA ADAPTACIÓN AL PAÍS NUEVO, contestada en UN SOLO LUGAR.
+   *
+   * Se cambia de club por dos caminos -- el mercado (handleAcceptTransfer) y el préstamo
+   * (handleLoanOut) -- y cada uno arma su propio perfil nuevo. Resolver el idioma adentro de cada
+   * uno sería la misma pregunta con dos cuentas, que es de donde salen los bugs de esta casa.
+   *
+   * Devuelve `undefined` cuando no cuesta: mismo idioma, o el dado dijo que encajaste rápido (ver
+   * src/elIdioma.ts, es probabilística por pedido del usuario).
+   */
+  const adaptacionAlLlegar = (
+    perfil: PlayerProfile, destino: Club, pasoEnElClubNuevo: number,
+  ): PlayerProfile['adaptacion'] => {
+    if (!cuestaAdaptarse(Math.random(), perfil.nationality, destino.league)) return undefined;
+    notify(avisoDeAdaptacion(idiomaDe(destino.league)));
+    return {
+      hastaLaFecha: pasoEnElClubNuevo + FECHAS_DE_ADAPTACION,
+      idioma: idiomaDe(destino.league),
+    };
+  };
   const LOAN_MIN_WEEKS = 8;
   const LOAN_MAX_WEEKS = 20;
 
@@ -2810,6 +2834,7 @@ export default function App() {
       ...playerProfile,
       currentClubId: clubId,
       currentWeek: pasoEnElClubNuevo(playerProfile, originClub, targetClub),
+      adaptacion: adaptacionAlLlegar(playerProfile, targetClub, pasoEnElClubNuevo(playerProfile, originClub, targetClub)),
       yearsAtClub: 0,
       // Los vínculos de vestuario son con COMPAÑEROS, así que no cruzan la puerta del club: al
       // cambiar de plantel se cortan los dos lados. Si no, getSquadPlayerAge termina preguntando
@@ -2855,6 +2880,7 @@ export default function App() {
         ...playerProfile,
         currentClubId: originClub.id,
         currentWeek: pasoEnElClubNuevo(playerProfile, CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId), originClub),
+        adaptacion: adaptacionAlLlegar(playerProfile, originClub, pasoEnElClubNuevo(playerProfile, CLUBS_DATABASE.find(c => c.id === playerProfile.currentClubId), originClub)),
         yearsAtClub: 0,
         // Volvés del préstamo a un vestuario que ya no es el que dejaste: los vínculos se rehacen.
         mentorName: null,
@@ -3140,6 +3166,7 @@ export default function App() {
       ...playerProfile,
       currentClubId: clubId,
       currentWeek: pasoEnElClubNuevo(playerProfile, previousClub, targetClub),
+      adaptacion: adaptacionAlLlegar(playerProfile, targetClub, pasoEnElClubNuevo(playerProfile, previousClub, targetClub)),
       dorsal: newDorsal,
       dorsalHistory,
       capital: playerProfile.capital + signOnBonus - agentCommission,
@@ -3594,6 +3621,93 @@ export default function App() {
         notify(`Decidiste descansar este fin de semana. Recuperas +45 de Energía.${restResultMsg}`);
         return;
       }
+    }
+
+    // ¿YA TE ADAPTASTE? El plazo se cumple solo, sin que el jugador haga nada: adaptarse no es
+    // una decision, es tiempo. Se avisa porque un ajuste que desaparece en silencio no se lee
+    // como que terminó, se lee como que nunca existió.
+    if (playerProfile?.adaptacion && playerProfile.currentWeek >= playerProfile.adaptacion.hastaLaFecha) {
+      const yaEsta: PlayerProfile = { ...playerProfile, adaptacion: undefined };
+      setPlayerProfile(yaEsta);
+      saveGameState(yaEsta, shopItems);
+      notify(AVISO_DE_YA_ME_ADAPTE);
+      return;
+    }
+
+    // ¿SALIÓ LA FOTO? Se revela acá, unas fechas después de la noche en cuestión.
+    //
+    // El resultado ya estaba decidido desde que fuiste (ver laFiesta.ts): esto sólo lo destapa. Y
+    // corta el paso a propósito -- se escribe el perfil y se vuelve -- porque lo que sigue también
+    // escribe el perfil desde el mismo `playerProfile` viejo, y dos escrituras encima de la misma
+    // copia se pisan: la que llega segunda borra a la primera. Es un click de más y es correcto.
+    if (playerProfile?.fotoDeLaFiesta
+      && playerProfile.currentWeek >= playerProfile.fotoDeLaFiesta.fechaEnQueSeSabe) {
+      const salio = playerProfile.fotoDeLaFiesta.sale;
+      const golpe = salio ? golpeDeLaFoto() : { prestige: 0, fans: 0 };
+      const conLaFoto: PlayerProfile = {
+        ...playerProfile,
+        prestige: Math.max(0, Math.min(100, playerProfile.prestige + golpe.prestige)),
+        fans: Math.max(0, Math.min(100, playerProfile.fans + golpe.fans)),
+        fotoDeLaFiesta: undefined,
+      };
+      // El escándalo también le llega a los patrocinadores, por el mismo camino que el resto: es la
+      // caída de prestigio la que los espanta, y esa cuenta ya existe.
+      const { items: trasElEscandalo, droppedNames } = checkSponsorControversyFallout(shopItems, golpe.prestige);
+      setPlayerProfile(conLaFoto);
+      setShopItems(trasElEscandalo);
+      saveGameState(conLaFoto, trasElEscandalo);
+      notify(loQuePasoConLaFoto(salio));
+      if (droppedNames.length > 0) {
+        const verbo = droppedNames.length > 1 ? 'rescindieron sus contratos' : 'rescindió su contrato';
+        notify(`📉 ${droppedNames.join(', ')} ${verbo} contigo.`);
+      }
+      return;
+    }
+    // LA FIESTA, sólo la noche antes de un partido grande (ver src/laFiesta.ts).
+    //
+    // El motivo sale del partido de HOY, que es contra el que se juega mañana en la ficción del
+    // juego: copa internacional, una final, o un clásico. Un martes cualquiera contra cualquiera no
+    // la dispara -- ahí la fiesta sería una cuenta de energía y no una decisión.
+    const motivoDeLaFiesta = (() => {
+      const club = CLUBS_DATABASE.find(c => c.id === playerProfile?.currentClubId);
+      if (!club || !hasDatedLeagueSchedule(club.name)) return null;
+      const paso = fixturesAtStep(club.name, playerProfile!.currentWeek);
+      const fx = paso ? pickDatedPrimary(paso.fixtures) : null;
+      if (!fx) return null;
+      if (/(?<!semi)final/i.test(fx.match.round ?? '')) return 'final' as const;
+      if (fx.competition.kind === 'continental_cup') return 'continental' as const;
+      if (fx.competition.kind === 'league') {
+        const rival = resolverRivalDeLaFecha(
+          CLUBS_DATABASE, fx, club, club.league, fx.competition.kind, fx.competition.name);
+        if (rival && esClasico(club.id, rival.id)) return 'clasico' as const;
+      }
+      return null;
+    })();
+    if (playerProfile && hayFiestaEstaNoche(Math.random(), motivoDeLaFiesta)) {
+      setActiveEvent(eventoDeLaFiesta(Math.random(), motivoDeLaFiesta!));
+      setScreen('event');
+      return;
+    }
+    // EL HATER LLEGA PRIMERO, porque es la reaccion al partido que acabas de jugar y leerlo dos
+    // fechas despues no tendria sentido. Solo aparece si jugaste flojo (ver elHater.ts).
+    if (playerProfile && apareceUnHater(Math.random(), playerProfile.lastMatchRating ?? 10)) {
+      setActiveEvent(eventoDelHater(Math.random(), playerProfile.haterIgnorados ?? 0));
+      setScreen('event');
+      return;
+    }
+
+    // LOS DEL BARRIO GOLPEAN PRIMERO, y con su propia frecuencia (ver entornoQueArrastra.ts). Va
+    // antes del evento generico porque los dos ocupan el mismo lugar -- la pantalla previa al
+    // partido -- y si compartieran una sola tirada del 35%, la chance real de cada uno dependeria
+    // de cuantos eventos genericos haya en la lista, que no tiene nada que ver con esto.
+    //
+    // Al que recien sube le pasa seguido y al consagrado casi nunca; al que corto, nunca mas.
+    const perfilDelBarrio = playerProfile;
+    if (perfilDelBarrio && Math.random() < chanceDeEventoDelEntorno(
+      perfilDelBarrio.careerStats.partidosHistoricos, !!perfilDelBarrio.cortoConElGrupo)) {
+      setActiveEvent(eventoDelEntorno(Math.random(), perfilDelBarrio.eventosDelEntorno ?? 0));
+      setScreen('event');
+      return;
     }
 
     const triggerEvent = Math.random() < 0.35;
@@ -5323,7 +5437,7 @@ export default function App() {
     notify(`🚫 Fecha libre de ${myClub.name}: cumpliste una fecha de sanción sin jugar.${aged.suspendedMatches > 0 ? ` Te quedan ${aged.suspendedMatches} partido(s).` : ' Ya puedes volver a jugar.'}`);
   };
 
-  const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number; companeros?: number }) => {
+  const handleResolveEvent = (effects: { prestige: number; fans: number; energy: number; capital: number; suspension?: number; companeros?: number; entorno?: number; mentalHealth?: number; origen?: 'entorno' | 'hater' | 'fiesta'; eleccion?: 'contestar' | 'ignorar' | 'que-conteste-el-club' | 'ir' | 'quedarse'; laFotoSale?: boolean }) => {
     if (!playerProfile) return;
 
     const prestigeCompanerosActual = playerProfile.prestigeCompaneros ?? playerProfile.prestige;
@@ -5334,7 +5448,25 @@ export default function App() {
       fans: Math.max(0, Math.min(100, playerProfile.fans + effects.fans)),
       energy: Math.max(0, Math.min(100, playerProfile.energy + effects.energy)),
       capital: Math.max(0, playerProfile.capital + (effects.capital || 0)),
-      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth + mentalHealthNudge(effects.prestige + effects.fans))),
+      // LA CABEZA SE MUEVE POR DOS CAMINOS EN EL MISMO EVENTO. El de siempre es indirecto -- lo
+      // que el evento te hizo con el DT y la hinchada --, y ahora hay uno directo, que usan los
+      // pedidos del entorno: cortar con el grupo pega en la cabeza y en nada mas.
+      mentalHealth: Math.max(0, Math.min(100, playerProfile.mentalHealth
+        + mentalHealthNudge(effects.prestige + effects.fans) + (effects.mentalHealth ?? 0))),
+      entorno: Math.max(0, Math.min(100, (playerProfile.entorno ?? ENTORNO_INICIAL) + (effects.entorno ?? 0))),
+      // Cortar es DEFINITIVO: desde acá chanceDeEventoDelEntorno devuelve 0 para siempre.
+      cortoConElGrupo: playerProfile.cortoConElGrupo || esCortarConElGrupo(effects),
+      // El pedido del entorno se cuenta por su MARCA, no por la forma de sus numeros. Contarlo al
+      // resolverlo y no al mostrarlo evita un segundo camino que escriba el perfil.
+      eventosDelEntorno: (playerProfile.eventosDelEntorno ?? 0) + (effects.origen === 'entorno' ? 1 : 0),
+      // Y el contador de silencios: callarse lo sube, contestar o mandar al club lo cierra.
+      haterIgnorados: effects.origen !== 'hater' ? playerProfile.haterIgnorados
+        : fueIgnorarlo(effects) ? (playerProfile.haterIgnorados ?? 0) + 1 : 0,
+      // LA FOTO SE TIRA AL IR Y SE GUARDA, no se tira al revelarla: tirarla dos veces seria la
+      // misma pregunta con dos cuentas distintas, que es de donde salen los bugs de esta casa.
+      fotoDeLaFiesta: fueALaFiesta(effects)
+        ? { fechaEnQueSeSabe: playerProfile.currentWeek + FECHAS_HASTA_QUE_SE_SABE, sale: !!effects.laFotoSale }
+        : playerProfile.fotoDeLaFiesta,
       suspendedMatches: playerProfile.suspendedMatches + (effects.suspension || 0)
     };
 

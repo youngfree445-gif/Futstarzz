@@ -127,6 +127,20 @@ export interface PlayerProfile {
   // Partidos JUGADOS seguidos sin marcar. Ver src/sequia.ts: el umbral depende del puesto, y a
   // partir de ahi la prensa habla y la hinchada baja. Se cuentan partidos jugados y no fechas del
   // calendario: las que no jugaste no son tuyas. Opcional: las partidas viejas arrancan en 0.
+  // Cuantos pedidos del entorno viviste (ver src/entornoQueArrastra.ts). Decide cuando aparece la
+  // opcion de cortar: al primer pedido todavia no hay historia. Opcional: parte en 0.
+  eventosDelEntorno?: number;
+  // Veces seguidas que ignoraste a un hater sin cerrar el tema (ver src/elHater.ts). Cada una
+  // hace que callarse cueste mas la proxima. Contestar o mandar al club lo vuelve a cero.
+  haterIgnorados?: number;
+  // La foto de la fiesta, ya tirada y esperando salir (ver src/laFiesta.ts). Se decide al IR y se
+  // revela unas fechas despues: esa espera es la mecanica. Se borra al revelarse.
+  fotoDeLaFiesta?: { fechaEnQueSeSabe: number; sale: boolean };
+  // Cortaste con el grupo del barrio. Es definitivo: no vuelven a aparecer nunca.
+  // Adaptacion al idioma del pais nuevo (ver src/elIdioma.ts). Se pone al fichar, se apaga sola
+  // fecha a fecha, y se borra al cumplirse el plazo. Ausente = ya te adaptaste o nunca costo.
+  adaptacion?: { hastaLaFecha: number; idioma: string };
+  cortoConElGrupo?: boolean;
   partidosSinMarcar?: number;
   // Cuanto duro la sequia que corto el ULTIMO gol. Hace falta porque al marcar el contador ya
   // esta en cero, y la prensa necesita decir de cuantos partidos venia. Opcional: parte en 0.
