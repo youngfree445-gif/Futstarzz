@@ -131,9 +131,9 @@ const perfilDe = (club, extra = {}) => {
  * Dibuja una vez y devuelve el HTML, o tira. `esperado` es texto que TIENE que aparecer: sin eso un
  * bloque que devuelve vacio pasa el caso igual, que es como se colo la lista de convocados.
  */
-const dibujar = (perfil, initialTab, esperado, prohibido) => {
+const dibujar = (perfil, initialTab, esperado, prohibido, initialSeccionDeTablas) => {
   const html = renderToString(React.createElement(Dashboard, {
-    playerProfile: perfil, shopItems: INITIAL_LIFESTYLE_ITEMS, initialTab,
+    playerProfile: perfil, shopItems: INITIAL_LIFESTYLE_ITEMS, initialTab, initialSeccionDeTablas,
     onTrainAttribute: nada, onSelectMentee: nada, onSelectMentor: nada, onVisitarEntorno: nada, onSalirDelBajon: nada,
     onFindGirlfriend: nada, onGirlfriendFlowers: nada, onGirlfriendPhoto: nada,
     onGirlfriendFaithful: nada, onGirlfriendCheat: nada, onGirlfriendDenyRumors: nada,
@@ -345,6 +345,40 @@ caso('copas: abre en Liga y no dibuja las otras dos secciones', () => {
   if (html.includes('id="tabla-copa"')) throw new Error('dibuja Copa sin haberla elegido');
   return html;
 });
+
+// --- TODAS LAS COPAS DEL PAIS, no solo la que lleva el cuadro del motor ------------------------
+//
+// Un pais puede tener MAS DE UNA copa: Inglaterra juega la FA Cup y la EFL Cup, y Colombia la
+// Superliga ademas de la Copa BetPlay. El motor sortea y corona UNA -- la que el reglamento llama
+// copa nacional -- y las otras las trae el calendario real con sus fechas, sus rondas y sus
+// rivales. Se juegan: con el Arsenal son cinco partidos de EFL Cup. Lo que faltaba era donde
+// mirarlas. Pedido: "agregarle todas las copas que jueguen, o sea si juegan en Inglaterra la fa
+// cup, la efl y etc, que tambien salgan ahi para ver como va ese torneo".
+//
+// Se prueban LAS DOS MITADES, que es lo que hace util al caso: que la PESTAÑA aparezca, y que el
+// PANEL diga algo. Con solo la pestaña, un panel vacio pasa en verde -- es exactamente como se
+// colo la lista de convocados.
+for (const [nombreClub, copa, seccion] of [
+  ['Arsenal', 'EFL Cup', 'otra:cgb_tm'],
+  ['Junior de Barranquilla', 'Superliga de Colombia', 'otra:superliga_de_colombia'],
+]) {
+  const club = ULTIMATE_CLUBS_DATABASE.find(c => c.name === nombreClub);
+  caso(`copas: ${nombreClub} tiene pestaña de ${copa}`, () =>
+    dibujar(perfilDe(club, {}), 'tablas', copa));
+
+  caso(`copas: el panel de ${copa} muestra el recorrido`, () => {
+    const html = dibujar(perfilDe(club, {}), 'tablas', copa.toUpperCase(), null, seccion);
+    if (!/id="tabla-otra-copa-/.test(html)) throw new Error('la pestaña esta pero el panel no se dibujo');
+    // El recorrido son FECHAS: sin al menos una, el panel es un titulo solo.
+    const fechas = (html.match(/Local|Visitante/g) ?? []).length;
+    if (fechas < 1) throw new Error('el panel no lista ninguna fecha de la copa');
+    // Y tiene que decir COMO VA, que es lo que se pidio ver.
+    if (!/sigue en carrera|no tiene más fechas|se quedó con el título|Todavía no arrancó/.test(html)) {
+      throw new Error('el panel no dice como va el torneo');
+    }
+    return html;
+  });
+}
 
 // EL CUADRO DEL CUADRANGULAR, debajo de la tabla.
 //

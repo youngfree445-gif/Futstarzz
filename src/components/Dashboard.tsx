@@ -22,7 +22,8 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rondaDeCopaEnElCalendario, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha, torneoDelFixture } from '../dateSchedule';
+import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, CAREER_START_DATE, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rondaDeCopaEnElCalendario, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha, torneoDelFixture } from '../dateSchedule';
+import type { DatedFixture } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay, rondaEnEspanol } from '../leagueDisplay';
@@ -361,6 +362,13 @@ interface DashboardProps {
    */
   initialTab?: SeccionKey;
   /**
+   * Con qué pestaña de "Copas y Tablas" abrir. Mismo motivo que initialTab, y sólo lo usa el
+   * validador: sin esto la sección elegida es estado interno y ninguna de las pestañas del
+   * torneo -- ni la de la copa nacional, ni la de las otras copas del país -- se dibuja nunca en
+   * la prueba. Se comprobaba que el BOTON estuviera, no que el panel dijera algo.
+   */
+  initialSeccionDeTablas?: string;
+  /**
    * EL PEDIDO DE ABRIR LA PESTAÑA DEL CLUB, al terminar la ceremonia de un fichaje.
    *
    * Es un contador y no un booleano ni una clave: lo que importa es que CAMBIÓ, no cuánto vale.
@@ -447,6 +455,7 @@ export default function Dashboard({
   onLogout,
   onResetGame,
   initialTab,
+  initialSeccionDeTablas,
   abrirEnMiClub
 }: DashboardProps) {
   /**
@@ -456,7 +465,7 @@ export default function Dashboard({
    * un monitor eso ya era una pantalla de varios metros, y en un telefono peor. Pedido: pestañas de
    * verdad -- Liga, Copa, Cracks -- que muestren SOLO lo elegido, en PC y en celular.
    */
-  const [seccionElegida, setSeccionDeTablas] = useState<string | null>(null);
+  const [seccionElegida, setSeccionDeTablas] = useState<string | null>(initialSeccionDeTablas ?? null);
   const [activeTab, setActiveTab] = useState<SeccionKey>(initialTab ?? 'carrera');
 
   // Al terminar la presentación en el club nuevo, el juego te deja en la plantilla de tu club:
@@ -956,6 +965,49 @@ export default function Dashboard({
   /** La copa nacional de esta temporada, si la hay: es un torneo mas para mostrar. */
   const copaNacionalDeLaTemporada = playerProfile.domesticCups?.[claveDeCopaNacional(currentClub, playerProfile.currentWeek)] ?? null;
 
+  // Temporada que el jugador está cursando. Todo lo que se muestra de "esta temporada" se recorta a
+  // ésta: el calendario en grilla, y la lista de copas de acá abajo. Estaba declarada 2000 líneas
+  // más abajo, junto al calendario; subió porque ahora la necesitan las dos, y dos cuentas de la
+  // misma temporada es exactamente de donde salen los rótulos cruzados.
+  const temporadaEnCurso = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
+    ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
+
+  /**
+   * LAS OTRAS COPAS DEL PAÍS, las que no lleva el cuadro del motor.
+   *
+   * Un país puede tener MÁS DE UNA copa: Inglaterra juega la FA Cup y la EFL Cup, y Colombia la
+   * Superliga además de la Copa BetPlay. El reglamento nombra UNA como copa nacional -- la que el
+   * motor sortea, avanza y corona (copaNacionalDeLaTemporada, acá arriba) -- y las demás las trae
+   * el calendario real con sus fechas, sus rondas y sus rivales de verdad.
+   *
+   * Esas se juegan: con el Arsenal son cinco partidos de EFL Cup, con el Junior los dos de
+   * Superliga. Lo que no había era dónde mirarlas. Pedido: "agregarle todas las copas que jueguen,
+   * o sea si juegan en Inglaterra la FA Cup, la EFL y etc, que también salgan ahí para ver cómo va
+   * ese torneo".
+   *
+   * Los días RESERVADOS no entran: un día apartado no es un partido de esta copa, es un día que
+   * todavía no sabe de quién va a ser (ver etiquetaCompetencia).
+   */
+  const otrasCopasDeLaTemporada = (() => {
+    const laDelCuadro = nombreCopaNacional(currentClub.league);
+    const porCopa = new Map<string, { nombre: string; fechas: DatedFixture[] }>();
+    for (const f of fixturesForClub(currentClub.name)) {
+      if (f.temporada !== temporadaEnCurso) continue;
+      if (f.competition.kind !== 'domestic_cup' || f.esReservaDeCuadro) continue;
+      // Y NADA DE ANTES DE QUE EMPEZARA LA CARRERA. El calendario real trae la temporada europea
+      // entera, que arranca en agosto: la EFL Cup del Arsenal empieza en octubre de 2025 y la
+      // carrera el 12 de enero de 2026. Esas fechas no las jugaste, no tienen marcador, y en la
+      // lista se verían como partidos jugados sin resultado.
+      if (f.date < CAREER_START_DATE) continue;
+      if (f.competition.name === laDelCuadro) continue;
+      if (!porCopa.has(f.competition.id)) porCopa.set(f.competition.id, { nombre: f.competition.name, fechas: [] });
+      porCopa.get(f.competition.id)!.fechas.push(f);
+    }
+    return [...porCopa]
+      .map(([id, x]) => ({ id, nombre: x.nombre, fechas: [...x.fechas].sort((a, b) => a.date.localeCompare(b.date)) }))
+      .sort((a, b) => a.fechas[0].date.localeCompare(b.fechas[0].date));
+  })();
+
   /**
    * EL CUADRO DEL CUADRANGULAR, para dibujarlo como el de la Libertadores.
    *
@@ -1005,6 +1057,8 @@ export default function Dashboard({
     ...(copaNacionalDeLaTemporada ? [{
       id: 'nacional', texto: nombreCopaNacional(currentClub.league), Icono: Trophy,
     }] : []),
+    // Y una por cada OTRA copa del país (EFL Cup, Superliga): se juegan y no se veían.
+    ...otrasCopasDeLaTemporada.map(c => ({ id: `otra:${c.id}`, texto: c.nombre, Icono: Trophy })),
     ...(torneoDeSelecciones ? [{
       id: 'selecciones',
       texto: torneoDeSelecciones.torneo === 'mundial' ? 'Copa Mundial FIFA'
@@ -3053,9 +3107,6 @@ export default function Dashboard({
   // --- Calendario en grilla mensual real: un evento con fecha real de calendario por partido,
   // en vez de la vieja lista plana de "Fecha N" sin ubicar en el tiempo real.
   const myLeagueSeason = playerProfile.leagueSeasons[myLeagueKey];
-  // Temporada que el jugador está cursando. Todo lo que muestra el calendario se recorta a ésta.
-  const temporadaEnCurso = temporadaDelPaso(currentClub.name, playerProfile.currentWeek)?.temporada
-    ?? temporadaDeCarrera(currentClub.name, playerProfile.currentWeek);
 
   const calendarEvents: CalendarEvent[] = [];
 
@@ -6015,6 +6066,80 @@ export default function Dashboard({
                   />
                 </div>
               )}
+
+              {/* LAS OTRAS COPAS DEL PAÍS: la EFL Cup inglesa, la Superliga colombiana.
+                  No tienen cuadro del motor -- sus cruces, sus rondas y sus rivales salen del
+                  calendario real, que es el que las hace jugarse -- así que en vez de un bracket
+                  sembrado se muestra EL RECORRIDO: ronda por ronda, con el marcador de las que ya
+                  se jugaron y hasta dónde llegaste. */}
+              {otrasCopasDeLaTemporada.map(copa => seccionDeTablas === `otra:${copa.id}` && (
+                <div key={copa.id} id={`tabla-otra-copa-${copa.id}`} className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
+                  {(() => {
+                    const hoy = fechaDelPaso(currentClub.name, playerProfile.currentWeek) ?? '';
+                    const anio = anioDeCarrera(currentClub.name, playerProfile.currentWeek);
+                    const campeon = (playerProfile.cupTitles ?? []).some(
+                      t => t.competition === copa.nombre && t.year === anio && t.clubId === currentClub.id);
+                    // "Seguís en carrera" es tener fechas por delante en esta copa. Cuando el
+                    // calendario se te acaba es porque en la realidad quedaste afuera ahí: no hay
+                    // nada que deducir ni que inventar.
+                    const quedan = copa.fechas.filter(f => f.date > hoy);
+                    const jugadas = copa.fechas.filter(f => f.date <= hoy);
+                    const marcadorDe = (f: DatedFixture) => (playerProfile.datedResults ?? [])
+                      .find(r => r.date === f.date && r.competition === copa.nombre);
+                    return (
+                      <>
+                        <h3 className="text-xs font-black uppercase tracking-widest text-burgundy-500 border-b border-slate-800 pb-2 flex items-center gap-2">
+                          🏆 {copa.nombre.toUpperCase()}
+                          {campeon ? ' · CAMPEÓN' : quedan.length ? ` · QUEDAN ${quedan.length}` : ' · TERMINADA'}
+                        </h3>
+                        <p className="text-3xs text-slate-500 font-mono">
+                          {campeon
+                            ? `${currentClub.name} se quedó con el título.`
+                            : quedan.length
+                            ? `${currentClub.name} sigue en carrera.`
+                            : jugadas.length
+                            ? `${currentClub.name} ya no tiene más fechas en esta edición.`
+                            : 'Todavía no arrancó.'}
+                        </p>
+                        <ul className="space-y-1.5">
+                          {copa.fechas.map(f => {
+                            const marcador = marcadorDe(f);
+                            const rival = resolverRivalDeLaFecha(
+                              ULTIMATE_CLUBS_DATABASE, f, currentClub,
+                              f.competition.league, f.competition.kind, f.competition.name,
+                            );
+                            const ronda = rondaEnEspanol((f.match as { round?: string }).round);
+                            const signo = marcador
+                              ? marcador.myGoals > marcador.rivalGoals ? 'text-emerald-400'
+                                : marcador.myGoals < marcador.rivalGoals ? 'text-red-400' : 'text-slate-300'
+                              : 'text-slate-500';
+                            return (
+                              <li
+                                key={f.date}
+                                className={`flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-2xs ${
+                                  f.date > hoy ? 'bg-slate-950 border border-slate-850' : 'bg-slate-950'
+                                }`}
+                              >
+                                <span className="min-w-0">
+                                  <span className="text-slate-500 font-mono mr-2">{formatDateShort(f.date)}</span>
+                                  <strong className="text-white">{rival?.name ?? f.opponentName}</strong>
+                                  <span className="text-slate-500 ml-2">{f.isHome ? 'Local' : 'Visitante'}</span>
+                                </span>
+                                <span className="shrink-0 text-right">
+                                  {ronda && <span className="text-slate-500 uppercase tracking-wider mr-2">{ronda}</span>}
+                                  <span className={`font-mono font-black ${signo}`}>
+                                    {marcador ? `${marcador.myGoals}-${marcador.rivalGoals}` : '—'}
+                                  </span>
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </>
+                    );
+                  })()}
+                </div>
+              ))}
 
               {seccionDeTablas === 'continental' && (
               <div id="tabla-copa" className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
