@@ -1422,3 +1422,97 @@ export function postsDelPibe(
     .slice(0, 2)
     .map(x => x.v);
 }
+
+/**
+ * LA SEQUÍA DE GOL (ver src/sequia.ts).
+ *
+ * Tres tonos distintos según lo honda que sea, porque una sequía de seis partidos y una de veinte no
+ * se hablan igual: la primera es una pregunta, la última es un tema. Que la prensa suba el tono es
+ * la mitad de lo que hace que el jugador quiera cortarla.
+ *
+ * Y hay una voz que lo banca en los tres tonos. Un feed donde TODOS pegan cuando estás mal no es
+ * presión, es ruido: se lee una vez y se deja de leer.
+ */
+export function postsDeSequia(
+  nombre: string,
+  club: string,
+  partidosSinMarcar: number,
+  hondo: 'empieza' | 'pesa' | 'escandalo',
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 91) * 37.3 + i * 23.1) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const n = partidosSinMarcar;
+  const voces = hondo === 'empieza'
+    ? [
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `${n} partidos sin convertir para ${nombre}. Todavía no es un tema, pero ya es un dato.` },
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `A ${nombre} le está costando entrar al área con la misma decisión. ${n} partidos sin gol.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `${n} sin gol y ya hay gente nerviosa. Tranquilos: el gol vuelve solo cuando se juega bien.` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `Hay delanteros que dejan de hacer goles y siguen jugando bien. ${nombre} está en ese lugar incómodo.` },
+      ]
+    : hondo === 'pesa'
+    ? [
+        { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+          content: `${n} partidos. ${n}. A esta altura ya no es una racha: a ${nombre} le está pesando la pelota.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `${n} PARTIDOS SIN GOL 😩 el otro día la tuvo solo contra el arquero y la mandó a la tribuna` },
+        { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+          content: `${nombre}: ${n} partidos sin marcar. Genera situaciones; el problema está en la definición.` },
+        { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+          content: `Al que está en sequía se lo aplaude cuando pisa el área, no se lo silba. En ${club} lo entendemos.` },
+      ]
+    : [
+        { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+          content: `${n} partidos sin gol. Lo digo sin vueltas: ${nombre} hoy no es el jugador por el que ${club} apostó.` },
+        { author: 'Martín Arévalo', role: 'Periodista', avatar: '📰',
+          content: `En ${club} ya no hablan de mala racha. ${n} partidos sin convertir es una temporada entera de un delantero.` },
+        { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+          content: `${n} partidos. Que lo saquen del equipo, en serio. Así no ayuda a nadie 😡` },
+        { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+          content: `Ojalá ${nombre} haga un gol pronto, de rebote y con la rodilla. Estas sequías se cortan de la peor manera y está bien que sea así.` },
+      ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}
+
+/**
+ * El gol que la corta. Es el otro lado de la misma mecánica y va aparte a propósito: si la sequía
+ * sólo tuviera voces en contra, sería un castigo con prensa en vez de una historia.
+ */
+export function postsDeSequiaCortada(
+  nombre: string,
+  club: string,
+  partidosQueDuro: number,
+  semana: number,
+): { author: string; role: string; avatar: string; content: string }[] {
+  const mezcla = (i: number) => {
+    const x = Math.sin((semana + 137) * 29.9 + i * 17.3) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const voces = [
+    { author: 'Carlos Antonio Vélez', role: 'Comentarista', avatar: '📻',
+      content: `Y lo hizo. ${partidosQueDuro} partidos esperando ese gol. Lo critiqué y lo sostengo, pero hoy me alegro por ${nombre}.` },
+    { author: 'hinchafurioso_22', role: 'Aficionado', avatar: '😤',
+      content: `GOOOOOL DE ${nombre.toUpperCase()} 😭😭 ${partidosQueDuro} partidos, lloré como un nene` },
+    { author: 'Data Fútbol', role: 'Análisis', avatar: '📊',
+      content: `${nombre} corta la sequía: ${partidosQueDuro} partidos sin marcar. La primera después de una racha así suele venir con varias atrás.` },
+    { author: 'El Vestuario', role: 'Cuenta de aficionados', avatar: '👕',
+      content: `Miren cómo lo abrazó todo el equipo. En ${club} sabíamos lo que le estaba costando a ${nombre}.` },
+    { author: 'Morena Beltrán', role: 'Periodista', avatar: '🎙️',
+      content: `El festejo de ${nombre} dice más que el gol. ${partidosQueDuro} partidos cargando con eso.` },
+  ];
+  return voces
+    .map((v, i) => ({ v, orden: mezcla(i) }))
+    .sort((a, b) => a.orden - b.orden)
+    .slice(0, 2)
+    .map(x => x.v);
+}

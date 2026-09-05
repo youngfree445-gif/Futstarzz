@@ -426,6 +426,13 @@ if (g.activeInjury && (g.activeInjury.weeksRemaining ?? 0) < 0) {
 console.log('\n--- LA FICHA AL CERRAR ---');
 console.log(`  edad ${g.age} · ${pj} partidos · ${st.golesHistoricos ?? 0} goles · ${st.asistenciasHistoricos ?? 0} asistencias · ${st.campeonatos ?? 0} titulos`);
 console.log(`  capital $${(g.capital ?? 0).toLocaleString('es')} · prestigio ${g.prestige} · hinchada ${g.fans} · energia ${g.energy}`);
+// SALUD MENTAL Y ENTORNO, que no salian y son la mitad de la ficha.
+//
+// Las mecanicas de vida (ver docs/OCHO_MECANICAS_DE_VIDA.md) tocan estas dos barras mas que
+// ninguna otra, y este banco -- que es el unico que juega la carrera de verdad -- no las miraba.
+// Sin ellas no hay con que comparar despues de agregar una mecanica: se sabria que el jugador
+// termina distinto, pero no en que.
+console.log(`  salud mental ${g.mentalHealth} · entorno ${g.entorno ?? '(sin usar)'}`);
 console.log(`  atributos: ${Object.entries(g.attributes ?? {}).map(([k, v]) => k + ' ' + v).join(' · ')}`);
 console.log(`  patrocinios ${g.sponsorsSignedCount ?? 0} · agente ${g.agent ? 'si' : 'ninguno'} · lesiones sufridas ${(g.injuryHistory ?? []).length}`);
 for (const c of cuadra) problemas.push('la ficha no cuadra: ' + c);

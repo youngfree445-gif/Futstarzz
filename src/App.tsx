@@ -57,6 +57,7 @@ import { crecimientoDelPibe, destinoDelPibe, NIVEL_INICIAL, type Pibe } from './
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, resultadoDeSalida, salidaPorId, SalidaDelBajon, PENALIDAD_ENERGIA_BAJON } from './animo';
 import { evaluarConvocatoria, convocadoAlMundial } from './convocatoria';
 import { anotarNota, evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce } from './forma';
+import { contarElPartido, reboteAlCortarla, castigoDeLaSequia } from './sequia';
 import { crecimientoDeLaTemporada, informeDeLaTemporada } from './modoHardcore';
 import { facturaDelMes, cobrarCuotas, FECHAS_DE_UN_CONTRATO } from './economia';
 import { apodoDe, bautizoDe } from './apodo';
@@ -6411,9 +6412,20 @@ export default function App() {
       : results.resultado === 'W' ? CLASICO_MULTIPLICADOR_GANAR
       : results.resultado === 'L' ? CLASICO_MULTIPLICADOR_PERDER
       : 1;
+    // LA SEQUÍA DE GOL (ver src/sequia.ts): lo que pesa NO marcar, y lo que devuelve cortarla.
+    //
+    // Se calcula con el contador de ANTES de este partido, que es el que todavía no sabe si hoy
+    // marcaste. El del delantero que llega a su sexto partido sin gol cuesta hinchada; el gol que
+    // corta una sequía de veinte devuelve mucho más que un gol cualquiera, y esa asimetría es toda
+    // la mecánica: si cortarla pagara lo mismo, la sequía sería un impuesto y no una historia.
+    const sequiaPrevia = playerProfile.partidosSinMarcar ?? 0;
+    const cambioPorLaSequia = results.goles > 0
+      ? reboteAlCortarla(sequiaPrevia, playerProfile.position)
+      : -castigoDeLaSequia(sequiaPrevia + 1, playerProfile.position);
+
     const netFansChange = Math.round(
       (decisionFansChange - (isViralNegativePerformance ? VIRAL_NEGATIVE_FANS_PENALTY : 0))
-      * multiplicadorClasico);
+      * multiplicadorClasico) + cambioPorLaSequia;
 
     // EL VESTUARIO JUZGA EL PARTIDO. La asistencia es su moneda; acaparar se paga.
     const loDelVestuario = { goles: results.goles, asistencias: results.asistencias, resultado: results.resultado as 'W' | 'D' | 'L' };
@@ -6778,6 +6790,12 @@ export default function App() {
         ? [...(playerProfile.notasDeLaTemporada ?? []), results.rating]
         : playerProfile.notasDeLaTemporada,
       lastMatchGoals: results.goles,
+      // El contador de la sequía: marcar lo pone en cero, no marcar lo sube. Cuenta partidos
+      // JUGADOS, que es lo que hace esta línea: acá sólo se llega habiendo jugado.
+      partidosSinMarcar: contarElPartido(sequiaPrevia, results.goles),
+      // Y cuanto venia durando, para que la prensa pueda decirlo: al marcar, el contador de
+      // arriba ya vale cero y esa cuenta se pierde.
+      sequiaAntesDelUltimoGol: results.goles > 0 ? sequiaPrevia : playerProfile.sequiaAntesDelUltimoGol,
       lastMatchWonShootout: !!shootoutOverride && shootoutOverride.winnerId === (activeWorldCupTeamId || playerProfile.currentClubId),
       currentWeek: playerProfile.currentWeek + 1,
       leagueSeasons: updatedLeagueSeasons,

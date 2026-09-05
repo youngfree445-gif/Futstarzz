@@ -37,12 +37,13 @@ import { rivalDeRelleno, resolverRivalDeLaFecha, seleccionesDelMundialDe, estaEn
 import { mesesQueFaltanEnElClub, radarDeInteres, rendimientoDe, requisitosDe } from '../transferMarket';
 import { clubesDeLiga, clubesJugables } from '../clubesJugables';
 import { NOMBRE_UEFA_EN_EL_CALENDARIO } from '../copasUefa';
-import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal, postsDelPibe,
+import { postsDelBajon, postsDelRivalDeCarrera, postsDelPartido, postsDelBalonDeOro, comentariosDeRuedaDePrensa, postsDeEliminacion, postsDeRefuerzo, postsDeListaDeTransferibles, postsDePreviaDeClasico, postsDeLesion, postsDeConvocatoria, postsDeForma, postsDeSequia, postsDeSequiaCortada, publicacionesDisponibles, respuestasAMiPublicacion, type OpcionDePublicacion, postsDelBautizo, postsDeHemeroteca, postsDeClasicoPersonal, postsDelPibe,
 } from '../chutSocialVoces';
 import { precargarAmbiente } from '../ambienteDelPartido';
 import { forzandoLaVuelta, riesgoDeRecaida, PENALIDAD_ATRIBUTOS_LESIONADO } from '../lesion';
 import { evaluarConvocatoria, laNomina, motivoDeAusencia, convocadoAlMundial, motivoDeAusenciaDelMundial } from '../convocatoria';
 import { evaluarForma, rotuloDeForma, VENTANA_DE_FORMA, NOTA_BUENA, NOTA_MALA, AJUSTE_DE_FORMA } from '../forma';
+import { castigoDeLaSequia, haySequia, hondoDeLaSequia, laPrensaHablaDeLaSequia, UMBRAL_DE_SEQUIA } from '../sequia';
 import { estaEnBajon, faltaParaSalida, motivoDelBajon, SALIDAS, SalidaDelBajon } from '../animo';
 import { rachasDelProximoPartido } from '../rachas';
 import { numerosDelRival, quienVaGanando, rivalDeCarrera, rotuloDeLaComparacion } from '../rivalDeCarrera';
@@ -2943,6 +2944,39 @@ export default function Dashboard({
         }));
     })();
 
+    // LA SEQUIA DE GOL (ver sequia.ts). No habla todas las fechas: una sequia comentada cada
+    // partido se vuelve ruido y el jugador deja de leer el feed. Habla al cumplirse el umbral -- que
+    // es la noticia -- y despues cada tantos partidos, mas seguido cuanto mas honda.
+    //
+    // Y el gol que la corta tiene sus propias voces. Si la sequia solo tuviera prensa en contra
+    // seria un castigo con altavoz; la historia es que se corta.
+    const laSequia: SocialPost[] = (() => {
+      const n = playerProfile.partidosSinMarcar ?? 0;
+      const puesto = playerProfile.position;
+      if (playerProfile.lastMatchGoals > 0) {
+        // Justo despues del gol el contador ya esta en cero, asi que la sequia que se corto hay que
+        // leerla del partido anterior. `sequiaAntesDelUltimoGol` la guarda para eso.
+        const duro = playerProfile.sequiaAntesDelUltimoGol ?? 0;
+        if (!haySequia(duro, puesto)) return [];
+        return postsDeSequiaCortada(pName, currentClub.name, duro, week).map((c, i) => ({
+          id: `sequia_corte_${week}_${i}`,
+          author: c.author, role: c.role, content: c.content,
+          likes: 6000 + Math.floor(Math.random() * 30000),
+          commentsCount: 900 + Math.floor(Math.random() * 5000),
+          timestamp: 'Hace instantes', avatar: c.avatar,
+        }));
+      }
+      if (!laPrensaHablaDeLaSequia(n, puesto)) return [];
+      return postsDeSequia(pName, currentClub.name, n, hondoDeLaSequia(n, puesto) as 'empieza' | 'pesa' | 'escandalo', week)
+        .map((c, i) => ({
+          id: `sequia_${week}_${i}`,
+          author: c.author, role: c.role, content: c.content,
+          likes: 2500 + Math.floor(Math.random() * 18000),
+          commentsCount: 400 + Math.floor(Math.random() * 3500),
+          timestamp: 'Hace instantes', avatar: c.avatar,
+        }));
+    })();
+
     // EL BAJON ANIMICO (ver animo.ts). Es lo unico del feed que el jugador no provoco jugando, asi
     // que las voces lo tratan distinto: nadie lo insulta por esto.
     const elBajon: SocialPost[] = estaEnBajon(playerProfile)
@@ -3021,6 +3055,7 @@ export default function Dashboard({
       ...laConvocatoria,
       ...parteMedico,
       ...laForma,
+      ...laSequia,
       ...elBajon,
       ...laComparacion,
       ...golpeDeEliminacion,
@@ -4118,6 +4153,48 @@ export default function Dashboard({
                         {forma.estado === 'en_racha'
                           ? `+${AJUSTE_DE_FORMA} en todos los atributos mientras dure.`
                           : `−${AJUSTE_DE_FORMA} en todos los atributos hasta que cortes la mala racha.`}
+                      </p>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* LA SEQUIA DE GOL. "Un contador visible de partidos sin marcar", pedido tal cual.
+                  Va pegado al momento de forma porque son la misma pregunta mirada de dos lados: la
+                  forma dice como venis jugando y la sequia dice como venis definiendo, y un
+                  delantero puede estar en racha de notas y en sequia de gol a la vez.
+
+                  Solo aparece en los puestos que tienen umbral (ver sequia.ts): un defensor sin
+                  goles no esta en sequia, y ponerle el contador seria acusarlo de hacer su trabajo. */}
+              {(() => {
+                const n = playerProfile.partidosSinMarcar ?? 0;
+                const umbral = UMBRAL_DE_SEQUIA[playerProfile.position];
+                if (umbral === null || n === 0) return null;
+                const hondo = hondoDeLaSequia(n, playerProfile.position);
+                const color = hondo === 'escandalo' ? 'text-red-400'
+                  : hondo === 'pesa' ? 'text-orange-400'
+                  : hondo === 'empieza' ? 'text-yellow-400' : 'text-slate-400';
+                const borde = hondo === 'escandalo' ? 'border-red-900/40'
+                  : hondo === 'pesa' ? 'border-orange-900/40' : 'border-slate-800';
+                const castigo = castigoDeLaSequia(n, playerProfile.position);
+                return (
+                  <div className={`${soloEn('ficha')} bg-slate-900 border ${borde} rounded-2xl p-5 shadow-lg`}>
+                    <h3 className={`text-xs font-black uppercase tracking-widest ${color} mb-2 flex items-center gap-2`}>
+                      {hondo === 'ninguna' ? '🎯' : '🥅'} Sequía de gol
+                    </h3>
+                    <p className="text-2xs text-slate-400 leading-relaxed">
+                      <span className={`text-2xl font-black font-mono ${color}`}>{n}</span>{' '}
+                      {n === 1 ? 'partido sin marcar' : 'partidos sin marcar'}
+                      {hondo === 'ninguna' && (
+                        <> · para tu puesto empieza a pesar a los <span className="text-white font-bold">{umbral}</span></>
+                      )}
+                    </p>
+                    {hondo !== 'ninguna' && (
+                      <p className={`text-3xs font-mono uppercase mt-3 ${color}`}>
+                        {hondo === 'escandalo' ? 'La hinchada ya no lo discute: te pide el gol.'
+                          : hondo === 'pesa' ? 'Se habla de esto en todos lados.'
+                          : 'La prensa empezó a mencionarlo.'}
+                        {castigo > 0 && ` −${castigo} de hinchada por partido hasta que la cortes.`}
                       </p>
                     )}
                   </div>

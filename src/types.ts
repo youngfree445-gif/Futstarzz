@@ -124,6 +124,13 @@ export interface PlayerProfile {
   // así que no existía forma de saber si venías en racha. La lista NUNCA crece más allá de
   // VENTANA_DE_FORMA. Opcional: las partidas viejas no lo tienen, se migra en handleLoadGame.
   formaReciente?: NotaDePartido[];
+  // Partidos JUGADOS seguidos sin marcar. Ver src/sequia.ts: el umbral depende del puesto, y a
+  // partir de ahi la prensa habla y la hinchada baja. Se cuentan partidos jugados y no fechas del
+  // calendario: las que no jugaste no son tuyas. Opcional: las partidas viejas arrancan en 0.
+  partidosSinMarcar?: number;
+  // Cuanto duro la sequia que corto el ULTIMO gol. Hace falta porque al marcar el contador ya
+  // esta en cero, y la prensa necesita decir de cuantos partidos venia. Opcional: parte en 0.
+  sequiaAntesDelUltimoGol?: number;
   lastMatchGoals: number; // Fase 4: goles del último partido jugado -- usado para logros puntuales (ej. hat-trick), no se acumula, se pisa cada partido
   lastMatchWonShootout: boolean; // Fase 4: true si el último partido se definió por penales y tu equipo ganó -- usado para el logro de la tanda
   yellowCards: number; // amarillas acumuladas en la temporada (fuera de un partido puntual); al llegar a un umbral, sanción automática -- ver handleFinishMatch

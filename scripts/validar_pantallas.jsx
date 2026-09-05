@@ -333,6 +333,37 @@ for (const [pestania, esperados] of [
 }
 
 // --- Copas y Tablas: una seccion por vez -----------------------------------------------------
+
+// --- LA SEQUIA DE GOL SE VE ------------------------------------------------------------------
+//
+// Pedido: "un contador visible de partidos sin marcar". Visible es la palabra: la mecanica ya
+// castigaba en la hinchada, y si el jugador no ve el numero no entiende POR QUE le baja.
+//
+// Las dos mitades otra vez: que el contador salga en el puesto que corresponde, y que NO salga en
+// el que no. Un defensor con 30 partidos sin gol no esta en sequia -- esta haciendo su trabajo --
+// y ponerle el cartel seria acusarlo de eso.
+caso('sequia: el delantero ve su contador de partidos sin marcar', () => {
+  const html = dibujar(
+    perfilDe(junior, { position: 'Delantero', partidosSinMarcar: 12 }),
+    'carrera', 'Sequía de gol');
+  if (!html.includes('>12<')) throw new Error('sale el cartel pero no el numero');
+  if (!/hinchada por partido/.test(html)) throw new Error('no dice lo que le esta costando');
+  return html;
+});
+
+caso('sequia: al defensor no se le cuenta', () =>
+  dibujar(
+    perfilDe(junior, { position: 'Defensor', partidosSinMarcar: 30 }),
+    'carrera', null, 'Sequía de gol'));
+
+// Antes del umbral el contador se ve, pero sin castigo ni alarma: es un dato, no una noticia.
+caso('sequia: antes del umbral el contador no alarma', () => {
+  const html = dibujar(
+    perfilDe(junior, { position: 'Delantero', partidosSinMarcar: 3 }),
+    'carrera', 'Sequía de gol');
+  if (/hinchada por partido/.test(html)) throw new Error('castiga antes del umbral');
+  return html;
+});
 //
 // Antes las tres se dibujaban una debajo de la otra con atajos que hacian scroll, y en escritorio
 // eso era una pantalla de varios metros. Ahora son pestañas de verdad: Liga, Copa y Cracks, y solo
