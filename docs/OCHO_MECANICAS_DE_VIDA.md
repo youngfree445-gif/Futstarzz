@@ -160,8 +160,20 @@ su cuenta, el jugador termina en cero por acumulación, ninguna se siente, y no 
 
 ## Estado
 
-- **Pareja (6) e hijo (7): postergadas** por decisión del usuario el 5 de septiembre de 2026 — "dale
-  pero pareja e hijo se dejan para después". Se hacen las otras seis, idioma incluida y
-  probabilística.
-- La **medición de partida** está en [`MEDICION_DE_PARTIDA.md`](MEDICION_DE_PARTIDA.md). Sin ese
-  punto de partida no hay forma de saber si una mecánica nueva desbalanceó algo o ya venía así.
+| | mecánica | estado |
+|---|---|---|
+| 1 | Sequía de gol | **hecha** (`f2e0323`) · `src/sequia.ts` · `npm run validar:sequia` |
+| 2 | Racha de titularidad | **hecha** · `src/forma.ts` · `npm run validar:puesto` |
+| 3 | Entorno que te arrastra | pendiente |
+| 4 | Redes sociales con costo real | pendiente |
+| 5 | Fiesta antes de un partido importante | pendiente |
+| 6 | Vida de pareja | **postergada** por el usuario |
+| 7 | Un hijo | **postergada** por el usuario |
+| 8 | Idioma y adaptación | pendiente (probabilística) |
+
+Pareja e hijo quedaron para después por decisión del usuario el 5 de septiembre de 2026 — "dale
+pero pareja e hijo se dejan para después".
+
+La **medición de partida** está en [`MEDICION_DE_PARTIDA.md`](MEDICION_DE_PARTIDA.md). Sin ese punto
+de partida no hay forma de saber si una mecánica nueva desbalanceó algo o ya venía así — y las dos
+primeras se calibraron contra ella, no a ojo.

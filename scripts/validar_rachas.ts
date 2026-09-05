@@ -8,7 +8,7 @@ import {
   rachasDelProximoPartido, MINIMO_CON_UN_RIVAL, MINIMO_DERROTAS, MINIMO_VICTORIAS,
 } from '../src/rachas';
 import { DatedResult } from '../src/types';
-import { evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce, PESO_DE_LA_FORMA_EN_EL_ONCE } from '../src/forma';
+import { evaluarForma, ajusteDeFormaEnElOnce, avisoDeFormaEnElOnce, PESO_MAXIMO_DE_LA_MALA_FORMA } from '../src/forma';
 import {
   estorboDelRival, jugarFechaDelRival, anotarFechaDelRival, promedioDelRival, cronicaDelRival,
   PESO_MAXIMO_DEL_RIVAL, type RivalDePuesto,
@@ -243,7 +243,7 @@ ok('y sin esa fecha el invicto seguiria corriendo (que era el bug)',
   // Y que no se vaya de las manos: doce puntos es como mucho un escalon de reputacion de club. Sin
   // tope, una mala racha larga dejaba a un crack en la tribuna por dos partidos regulares.
   const bajaLarga = evaluarForma(notasDe([5.0, 4.8, 5.2, 4.9, 5.1]), 40);
-  ok('el castigo tiene tope', ajusteDeFormaEnElOnce(bajaLarga) <= PESO_DE_LA_FORMA_EN_EL_ONCE,
+  ok('el castigo tiene tope', ajusteDeFormaEnElOnce(bajaLarga) <= PESO_MAXIMO_DE_LA_MALA_FORMA,
     `ajuste ${ajusteDeFormaEnElOnce(bajaLarga)}`);
 
   // Y que se le AVISE al jugador: perder el puesto sin que nadie te diga por que se lee como un bug.

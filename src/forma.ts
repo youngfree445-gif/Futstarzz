@@ -142,20 +142,44 @@ export function rotuloDeForma(forma: Forma): string {
  * vez que pasabas el umbral del club eras titular para siempre, jugaras bien o jugaras mal. No había
  * forma de perder el puesto, así que tampoco había nada en juego cada fin de semana.
  *
- * En el fútbol el que baja el nivel se sienta, por mucho nombre que tenga. Con esto la forma -- que
- * sube y baja, a diferencia del prestigio -- entra en la decisión: tres partidos flojos y el DT
- * prueba con otro; tres buenos y sos intocable aunque el club te quede grande.
+ * ---------------------------------------------------------------------------------------------
+ * POR QUÉ EL APRIETE ES MUCHO MÁS GRANDE QUE EL ALIVIO
+ * ---------------------------------------------------------------------------------------------
  *
- * Los números son chicos a propósito. 12 puntos de umbral es alrededor de un escalón de reputación
- * de club: alcanza para mover el borde y para que una mala racha se sienta, y no para que un crack
- * termine en la tribuna por dos partidos regulares.
+ * Los dos lados valían 12, y medido resultó que ese número NO ALCANZABA PARA NADA. La vara del club
+ * va de 58 a 80 y el prestigio se satura en 100 alrededor de la cuarta temporada: sumarle 12 dejaba
+ * el umbral en 78 (Junior) o 92 (Barcelona), siempre por debajo de 100. O sea que el crack no podía
+ * perder el puesto jamás, jugara como jugara.
+ *
+ * No es una hipótesis: el banco de carrera larga midió 38 titularidades de 38 durante ocho
+ * temporadas seguidas, y el técnico lo sacó por jugar mal 3 veces en 390 partidos. Ver
+ * docs/MEDICION_DE_PARTIDA.md.
+ *
+ * Ahora el apriete crece 9 por partido flojo hasta 45, que sí le gana al prestigio saturado. Con
+ * eso el crack se sienta -- a los 3 partidos flojos en un club grande, a los 5 en uno chico, porque
+ * donde sos el mejor de todos la correa es más larga. Eso es fútbol y no una excepción del código.
+ *
+ * El alivio se queda en 12 porque MÁS NO HACE NADA: al que ya está arriba de la vara, bajarla no le
+ * cambia el domingo. El bonus sólo le sirve al que está por debajo peleando por entrar, y ahí 12
+ * ya es un escalón de reputación de club entero.
  */
+/** Lo que aflojan tres buenos partidos. Sólo le sirve al que está por debajo de la vara. */
 export const PESO_DE_LA_FORMA_EN_EL_ONCE = 12;
+/**
+ * Lo que puede llegar a apretar una mala racha.
+ *
+ * Tiene que poder GANARLE AL PRESTIGIO SATURADO, que es el punto entero: 80 (la vara del club más
+ * grande) + 45 = 125, por encima del 100 que es el máximo de prestigio. Con cualquier número menor
+ * que 20 la mecánica no existe para el jugador hecho.
+ */
+export const PESO_MAXIMO_DE_LA_MALA_FORMA = 45;
+/** Cuánto aprieta cada partido flojo seguido. */
+const APRIETE_POR_PARTIDO_FLOJO = 9;
 
 export function ajusteDeFormaEnElOnce(forma: Forma): number {
   if (forma.estado === 'en_baja') {
     // Cuanto más larga la mala racha, más se aprieta -- hasta el tope.
-    return Math.min(PESO_DE_LA_FORMA_EN_EL_ONCE, forma.seguidos * 4);
+    return Math.min(PESO_MAXIMO_DE_LA_MALA_FORMA, forma.seguidos * APRIETE_POR_PARTIDO_FLOJO);
   }
   if (forma.estado === 'en_racha') {
     return -Math.min(PESO_DE_LA_FORMA_EN_EL_ONCE, forma.seguidos * 4);
