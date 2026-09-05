@@ -22,7 +22,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, CAREER_START_DATE, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rondaDeCopaEnElCalendario, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha, torneoDelFixture } from '../dateSchedule';
+import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rondaDeCopaEnElCalendario, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha, torneoDelFixture } from '../dateSchedule';
 import type { DatedFixture } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
@@ -994,11 +994,6 @@ export default function Dashboard({
     for (const f of fixturesForClub(currentClub.name)) {
       if (f.temporada !== temporadaEnCurso) continue;
       if (f.competition.kind !== 'domestic_cup' || f.esReservaDeCuadro) continue;
-      // Y NADA DE ANTES DE QUE EMPEZARA LA CARRERA. El calendario real trae la temporada europea
-      // entera, que arranca en agosto: la EFL Cup del Arsenal empieza en octubre de 2025 y la
-      // carrera el 12 de enero de 2026. Esas fechas no las jugaste, no tienen marcador, y en la
-      // lista se verían como partidos jugados sin resultado.
-      if (f.date < CAREER_START_DATE) continue;
       if (f.competition.name === laDelCuadro) continue;
       if (!porCopa.has(f.competition.id)) porCopa.set(f.competition.id, { nombre: f.competition.name, fechas: [] });
       porCopa.get(f.competition.id)!.fechas.push(f);
