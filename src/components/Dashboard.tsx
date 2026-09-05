@@ -6071,7 +6071,11 @@ export default function Dashboard({
                 <div key={copa.id} id={`tabla-otra-copa-${copa.id}`} className="scroll-mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
                   {(() => {
                     const hoy = fechaDelPaso(currentClub.name, playerProfile.currentWeek) ?? '';
-                    const anio = anioDeCarrera(currentClub.name, playerProfile.currentWeek);
+                    // El año del título sale de la FECHA del partido que lo define, que es como
+                    // lo escribe el motor al coronar (ver anioCopa en App.tsx). Preguntándolo por
+                    // el año de carrera no coincidía: la temporada europea cruza el año, y la
+                    // final de la EFL Cup se juega en marzo de 2026 dentro de la 2025/26.
+                    const anio = Number(copa.fechas[copa.fechas.length - 1].date.slice(0, 4));
                     const campeon = (playerProfile.cupTitles ?? []).some(
                       t => t.competition === copa.nombre && t.year === anio && t.clubId === currentClub.id);
                     // "Seguís en carrera" es tener fechas por delante en esta copa. Cuando el
