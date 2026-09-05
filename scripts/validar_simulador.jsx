@@ -106,6 +106,29 @@ caso('global mal formado no rompe, solo no sale', () => {
 });
 caso('Mundial', () => dibujar({ isWorldCup: true, representingTeamId: 'wc_colombia' }));
 
+// --- CADA TORNEO DE SELECCION CON SU NOMBRE ---------------------------------------------------
+//
+// `isWorldCup` no significa "es el Mundial": significa "jugas con tu seleccion", y eso tambien es
+// cierto en la Eurocopa, en la Copa America y en las ELIMINATORIAS. La pantalla decidia el rotulo
+// con ese booleano, asi que los cuatro salian como "Copa Mundial FIFA". Reportado jugando una
+// eliminatoria contra Bolivia: "me salia Mundial 2027, eso no era mundial sino clasificatoria".
+//
+// Se prueban las dos mitades: que diga lo que es, y que NO diga lo que no es. La segunda es la que
+// importa -- un rotulo de mas se dibuja perfecto y miente igual.
+const conSeleccion = (nombre) => ({ isWorldCup: true, representingTeamId: 'wc_colombia', competitionNameOverride: nombre });
+for (const [rotulo, prohibido] of [
+  ['Eliminatorias 2030 · Fecha 3', 'Copa Mundial FIFA'],
+  ['Eurocopa 2028', 'Copa Mundial FIFA'],
+  ['Copa América 2028', 'Copa Mundial FIFA'],
+  ['Copa del Mundo 2030', null],
+]) {
+  caso(`seleccion: dice "${rotulo}"`, () => {
+    const html = dibujar(conSeleccion(rotulo), rotulo.split(' · ')[0]);
+    if (prohibido && html.includes(prohibido)) throw new Error(`dice "${prohibido}", que no es este torneo`);
+    return html;
+  });
+}
+
 // --- LA CHARLA DEL ENTRETIEMPO, que es lo que no cubria nadie --------------------------------
 
 caso('entretiempo: el tecnico te habla', () =>

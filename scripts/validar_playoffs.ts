@@ -6,7 +6,7 @@
 // campeón salga de ahí.
 import { ULTIMATE_CLUBS_DATABASE as CLUBS } from '../src/data';
 import { clubesDeLiga } from '../src/clubesJugables';
-import { fixturesForClub } from '../src/dateSchedule';
+import { fixturesForClub, jornadaDeLiga, pasoDeFecha, torneoDeFecha, torneoDelFixture } from '../src/dateSchedule';
 import { buildInitialTable, applyResultToTable, sortTable, simulateMatch,
   prepararPlayoffDeLiga, resolverPasoPlayoffDeLiga, crucePlayoffDeLiga, sigueEnPlayoffDeLiga } from '../src/leagueEngine';
 import type { Club, TwoLegBracket } from '../src/types';
@@ -146,5 +146,70 @@ okTanda("la transicion 'estaba adentro -> ya no' se detecta sin haber jugado",
 okTanda("al que nunca estuvo no se le anuncia ninguna eliminacion",
   !sigueEnPlayoffDeLiga(trasIda, clubesTanda[5].id) && !sigueEnPlayoffDeLiga(eliminado, clubesTanda[5].id));
 
+
+// ----------------------------------------------------------------------------------------------
+// EL CUADRANGULAR DEL APERTURA SE JUEGA EN JULIO, Y JULIO "ES" CLAUSURA
+// ----------------------------------------------------------------------------------------------
+//
+// El corte por mes de torneoDeFecha (hasta junio Apertura, de julio en adelante Clausura) vale para
+// la fase regular. Para el cuadro no: las semis y la final del Apertura caen en julio. El calendario
+// del Dashboard rotulaba esas tres celdas como "Clausura", y el encabezado seguia marcando la fecha
+// 19/19 del Apertura hasta el TERCER partido del Clausura.
+//
+// Reportado con captura: "lo que mostro como primera fecha de clausura, lo puso como semifinales de
+// apertura o algo asi ... no se actualizo sino hasta el tercer partido de esa competicion".
+//
+// Las dos preguntas las contesta dateSchedule y NADIE MAS: torneoDelFixture (a que torneo pertenece
+// esta fecha) y jornadaDeLiga (que dice el encabezado). Eso es lo que se comprueba aca.
+console.log("");
+console.log("=== El torneo de cada fecha y el contador del encabezado ===");
+
+const CLUB_DE_DOS_TORNEOS = 'Junior de Barranquilla';
+const suyas = fixturesForClub(CLUB_DE_DOS_TORNEOS);
+
+// A) Ningun cuadrangular queda rotulado con el torneo del OTRO semestre.
+const cuadros = suyas.filter(x => x.competition.kind === 'league' && x.esPlayoff && x.torneo);
+okTanda("hay cuadrangulares con torneo escrito para probar", cuadros.length > 0, String(cuadros.length));
+
+// Si el mes NUNCA se equivocara, el caso de abajo pasaria en verde sin probar nada.
+const mentidos = cuadros.filter(x => torneoDeFecha(x.competition, x.date) !== x.torneo);
+okTanda("el mes miente en algun cuadrangular (si no, este caso no prueba nada)",
+  mentidos.length > 0, `${mentidos.length} de ${cuadros.length}`);
+
+const malRotulados = cuadros.filter(x => torneoDelFixture(x) !== x.torneo);
+okTanda("ninguna fecha de cuadrangular se rotula con el torneo del otro semestre",
+  malRotulados.length === 0,
+  malRotulados.slice(0, 3).map(x => `${x.date} es ${x.torneo} y dice ${torneoDelFixture(x)}`).join(' | '));
+
+// B) El encabezado estrena el torneo nuevo EN SU PRIMER PARTIDO, no al tercero.
+const regulares = suyas.filter(x => x.competition.kind === 'league' && !x.esPlayoff)
+  .sort((a, b) => a.date.localeCompare(b.date));
+let estrenosProbados = 0;
+for (const temporada of [2, 3]) {
+  const deLaTemporada = regulares.filter(x => x.temporada === temporada);
+  if (!deLaTemporada.length) continue;
+  const primerTorneo = torneoDelFixture(deLaTemporada[0]);
+  const estreno = deLaTemporada.find(x => torneoDelFixture(x) !== primerTorneo);
+  if (!estreno) continue;
+  estrenosProbados++;
+  const paso = pasoDeFecha(CLUB_DE_DOS_TORNEOS, estreno.date);
+  const j = paso != null ? jornadaDeLiga(CLUB_DE_DOS_TORNEOS, paso) : null;
+  const total = deLaTemporada.filter(x => torneoDelFixture(x) === torneoDelFixture(estreno)).length;
+  okTanda(`temporada ${temporada}: el encabezado estrena el ${torneoDelFixture(estreno)} en su primer partido`,
+    !!j && j.jornada === 1 && j.total === total,
+    `${estreno.date} dice ${j ? j.jornada + '/' + j.total : 'nada'} y tendria que decir 1/${total}`);
+}
+okTanda("se probo el estreno de torneo en alguna temporada", estrenosProbados > 0, String(estrenosProbados));
+
+// C) El mismo bug visto desde el encabezado: el 15 de julio todavia estas jugando el Apertura, asi
+//    que el contador se queda en el total de SU fase regular y no salta al torneo siguiente.
+for (const x of mentidos.slice(0, 3)) {
+  const paso = pasoDeFecha(CLUB_DE_DOS_TORNEOS, x.date);
+  const j = paso != null ? jornadaDeLiga(CLUB_DE_DOS_TORNEOS, paso) : null;
+  const delTorneo = regulares.filter(r => r.temporada === x.temporada && torneoDelFixture(r) === x.torneo).length;
+  okTanda(`${x.date} (cuadrangular del ${x.torneo}) deja el contador en el total del ${x.torneo}`,
+    !!j && j.jornada === delTorneo && j.total === delTorneo,
+    `dice ${j ? j.jornada + '/' + j.total : 'nada'} y tendria que decir ${delTorneo}/${delTorneo}`);
+}
 console.log(`\n${fallas === 0 ? 'El cuadro lo juegan los que terminaron arriba, y al eliminado se le avisa.' : `${fallas} FALLAS`}`);
 process.exit(fallas === 0 ? 0 : 1);

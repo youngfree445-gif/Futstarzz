@@ -739,8 +739,14 @@ export function quedanFechasDePlayoff(clubName: string, temporada: number, torne
  * Manda lo que la fecha traiga escrito (`torneo`, que sólo llevan los días de cuadrangular
  * reservados) y recién después el corte por mes. Ver el comentario de `torneo` en DatedFixture: el
  * cuadro se juega contra el borde del semestre y el mes miente justo ahí.
+ *
+ * Se exporta porque el CALENDARIO de la pantalla principal hacía esta misma cuenta por su lado, y
+ * la hacía con torneoDeFecha a secas: rotulaba "Clausura" las semifinales y la final del Apertura,
+ * que se juegan en julio. Una pregunta, una respuesta.
  */
-function torneoDelFixture(f: DatedFixture): string {
+export function torneoDelFixture(
+  f: { competition: DatedCompetition; date: string; torneo?: string },
+): string {
   return f.torneo ?? torneoDeFecha(f.competition, f.date);
 }
 

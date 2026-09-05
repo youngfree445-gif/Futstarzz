@@ -12,6 +12,7 @@
 
 import { CupState, LeagueSeasonState, PlayerProfile, UefaCupState, WorldCupState } from './types';
 import { CAREER_START_YEAR, sortTable } from './leagueEngine';
+import { NOMBRE_DEL_TORNEO_DE_SELECCIONES } from './eliminatorias';
 import { hasDatedLeagueSchedule } from './dateSchedule';
 
 // 'copa' son las copas NACIONALES (Copa BetPlay, Copa del Rey): se separan de las continentales
@@ -221,9 +222,9 @@ export function getPalmares(
   // --- Mundial ---
   // Acá el "club" es el seleccionado, así que no se filtra por misClubes: se compara contra el
   // equipo nacional con el que el jugador fue convocado.
-  const NOMBRE_DEL_TORNEO = {
-    mundial: 'Copa del Mundo', eurocopa: 'Eurocopa', copaamerica: 'Copa América',
-  } as const;
+  // Los nombres viven en eliminatorias.ts, que es donde vive el tipo del torneo: acá estaban
+  // sueltos y la pantalla del partido no los tenía, así que rotulaba todo "Copa Mundial FIFA".
+  const NOMBRE_DEL_TORNEO = NOMBRE_DEL_TORNEO_DE_SELECCIONES;
   for (const wc of Object.values(profile.worldCups ?? {}) as WorldCupState[]) {
     if (wc?.stage !== 'done' || !wc.championId) continue;
     if (!seleccionId || wc.championId !== seleccionId) continue;

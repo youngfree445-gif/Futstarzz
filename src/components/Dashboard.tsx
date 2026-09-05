@@ -22,7 +22,7 @@ import { ROSTER_ENRICHMENT } from '../rosterEnrichment';
 import { PLAYER_ENRICHMENT } from '../playerEnrichment';
 import { TM_SQUAD_ENRICHMENT } from '../tmSquadEnrichment';
 import { applySquadRetirements, MENTEE_MAX_AGE, MENTOR_MIN_AGE, ATTRIBUTE_MAX, puedeTenerMentor, getSquadPlayerAge, displayName } from '../worldRetirements';
-import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rondaDeCopaEnElCalendario, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDeFecha, torneoDelClubEnFecha } from '../dateSchedule';
+import { torneoDeSeleccionesDelDia, jornadaDeLiga, fechaDelPaso as fechaDelPasoCal, anioDeCarrera, anioDelPaso, calendarioDeLigaAgotado, quedanFechasDeSeleccion, diasHastaElMercado, enVentanaDelMundial, mercadoAbierto, pasosDeMundialTranscurridos, esDiaDeCopa, fechaDelPaso, fechasDeCopaTranscurridas, fixturesAtStep, fixturesForClub, hasDatedLeagueSchedule, hasDatedSchedule, pasoDeFecha, pickPrimary as pickDatedPrimary, rondaDeCopaEnElCalendario, rotuloDeTemporada, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha, torneoDelFixture } from '../dateSchedule';
 import { formatDate, formatDateShort } from '../careerTimeline';
 import { resolverClubDeCalendario } from '../clubAliases';
 import { getLeagueDisplay, rondaEnEspanol } from '../leagueDisplay';
@@ -1253,8 +1253,27 @@ export default function Dashboard({
   const soloEnPuesto = (p: PuestoDelPlantel) => soloEnSeccion(puestoMovil, p);
   const soloEn = (s: SeccionDeCarrera) => soloEnSeccion(seccionMovil, s);
 
-  const etiquetaCompetencia = (comp: { kind: string; name: string; league?: string }, date: string, esReserva?: boolean) => {
-    if (comp.kind === 'league') return torneoDeFecha(comp as never, date);
+  const etiquetaCompetencia = (
+    comp: { kind: string; name: string; league?: string },
+    date: string,
+    esReserva?: boolean,
+    torneoDelPartido?: string,
+  ) => {
+    // A QUE TORNEO PERTENECE UNA FECHA LO CONTESTA EL CALENDARIO, NO ESTA PANTALLA.
+    //
+    // Acá se llamaba a torneoDeFecha, que parte el año por junio. Es cierto para la fase regular
+    // pero NO para el cuadrangular: los del Apertura se juegan en JULIO, así que la regla del mes
+    // los rotulaba "Clausura". En el calendario se veían tres celdas grises que decían Clausura y
+    // eran las semifinales del Apertura. Reportado con captura: "lo que mostró como primera fecha
+    // de clausura, lo puso como semifinales de apertura".
+    //
+    // El fixture ya sabe a qué torneo pertenece -- se le escribe al generarlo (`torneo:
+    // torneoDelSemestre`) -- y dateSchedule ya sabía preferirlo: torneoDelFixture es lo que usan
+    // el encabezado y el cierre de torneo. Esta pantalla contestaba la misma pregunta con otra
+    // cuenta, que es de donde salen siempre estos bugs.
+    if (comp.kind === 'league') {
+      return torneoDelFixture({ competition: comp as never, date, torneo: torneoDelPartido });
+    }
     // Un día RESERVADO de copa no sabe todavía de qué copa es, y no puede saberlo: la bolsa de días
     // es una sola y el motor recién ese día pregunta "¿tengo cruce en la nacional? ¿y en la
     // internacional?". La reserva se guarda bajo la competición que le tocó a su LIGA, que no tiene
@@ -3167,7 +3186,7 @@ export default function Dashboard({
       // Clausura, que es información que el resultado no trae.)
       const etiqueta = f.esReservaDeCuadro && porFecha
         ? nombreCortoDeTorneo(porFecha.competition)
-        : etiquetaCompetencia(f.competition, f.date, f.esReservaDeCuadro);
+        : etiquetaCompetencia(f.competition, f.date, f.esReservaDeCuadro, f.torneo);
       const familia = familiaDeTorneo(etiqueta, f.competition.kind, f.esPlayoff);
       calendarEvents.push({
         date: new Date(`${f.date}T00:00:00`),

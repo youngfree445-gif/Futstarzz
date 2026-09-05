@@ -1690,6 +1690,13 @@ export default function MatchSimulator({
   // Con calendario real el torneo viene con su nombre exacto y manda sobre todo lo demás: el país
   // tiene VARIAS copas nacionales (Copa Colombia y Superliga) y `isDomesticCup` es un booleano, así
   // que rotulaba "Copa Colombia" toda copa nacional -- incluida la Superliga.
+  // EL NOMBRE EXACTO DEL TORNEO SOLO PISA EL ROTULO CUANDO EL PARTIDO NO ES DE LIGA.
+  //
+  // En un partido de liga el override trae la RONDA del cuadrangular ("Semifinal (Ida)"), que
+  // sola no dice ni en que liga estas: ahi el rotulo bueno sigue siendo el de la liga con su
+  // torneo. En todo lo demas -- copas, seleccion, eliminatorias -- el nombre le gana al booleano.
+  const nombreDelTorneoEnCancha = isWorldCup || isLibertadores ? competitionNameOverride : null;
+
   const activeCupLabel = competitionNameOverride
     ? competitionNameOverride
     : isDomesticCup
@@ -2096,7 +2103,13 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
 
   useEffect(() => {
     const estadioContexto = isHome.current ? `el estadio del ${teamName}` : `el fortín de ${opponentName}`;
-    const competicionContexto = isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${rotuloTemporada} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league, currentClub.division).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${rotuloTemporada} 🟢`;
+    // EL ROTULO LO MANDA EL NOMBRE, no el booleano. `isWorldCup` sólo dice que jugás con tu
+    // selección -- también es cierto en la Eurocopa, en la Copa América y en las eliminatorias --,
+    // así que preguntándole a él, todos esos partidos salían como "Copa Mundial FIFA". Reportado
+    // jugando una eliminatoria contra Bolivia: "me salía Mundial 2027".
+    const competicionContexto = nombreDelTorneoEnCancha
+      ? `${isWorldCup ? '🌎' : '🏆'} ${nombreDelTorneoEnCancha.toUpperCase()} ${isWorldCup ? '🌎' : '🏆'}`
+      : isWorldCup ? `🌎 COPA MUNDIAL FIFA ${seasonYear} 🌎` : isLibertadores ? `🏆 ${activeCupLabel.toUpperCase()} ${rotuloTemporada} 🏆` : `🟢 ${getLeagueDisplay(currentClub.league, currentClub.division).name.toUpperCase()}${torneoDelPartido ? ` · ${torneoDelPartido.toUpperCase()}` : ''} ${rotuloTemporada} 🟢`;
     
     // El aviso del banco es del minuto 0, así que va pegado al silbatazo y ANTES del ambiente, que
     // es del 4. Cuando se empujaba al final del array, la transmisión mostraba un 0' publicado
@@ -2922,8 +2935,11 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
           clubes={CLUBS_DATABASE}
           variante="compacto"
           partido={{
-            competicion: isWorldCup ? 'Copa Mundial FIFA' : isLibertadores ? activeCupLabel
-              : getLeagueDisplay(currentClub.league, currentClub.division).name,
+            // El reporte de bug tiene que decir la competición REAL, que es la mitad del dato: sin
+            // esto un problema en una eliminatoria llegaba rotulado "Copa Mundial FIFA".
+            competicion: nombreDelTorneoEnCancha ?? (isWorldCup ? 'Copa Mundial FIFA'
+              : isLibertadores ? activeCupLabel
+              : getLeagueDisplay(currentClub.league, currentClub.division).name),
             rival: opponentName,
             soyLocal: isHome.current,
             minuto: minute,
@@ -2938,7 +2954,9 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
         <div className="flex items-center justify-between gap-3 lg:block lg:shrink-0">
           <div>
             <span className="text-2xs font-bold text-gold-400 uppercase tracking-widest block mb-0.5">
-              {isWorldCup
+              {nombreDelTorneoEnCancha
+                ? `${isWorldCup ? '🌎' : ''} ${nombreDelTorneoEnCancha}`.trim()
+                : isWorldCup
                 ? `🌎 Copa Mundial FIFA ${seasonYear}`
                 : isLibertadores
                 ? `🏆 ${activeCupLabel} ${rotuloTemporada}`

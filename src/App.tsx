@@ -7,7 +7,7 @@ import {
 import {
   CONFEDERACION_POR_SELECCION, crearEliminatoria, esJugable, ponerAlDiaLaEliminatoria,
   seleccionesDeLaEurocopa, seleccionesDeLaCopaAmerica, torneoContinentalDe,
-  proximoPartidoDeEliminatoria, resolverPasoEliminatoria, seleccionesDelMundial, situacionEnLaEliminatoria, tablaDeEliminatoria,
+  NOMBRE_DEL_TORNEO_DE_SELECCIONES, proximoPartidoDeEliminatoria, resolverPasoEliminatoria, seleccionesDelMundial, situacionEnLaEliminatoria, tablaDeEliminatoria,
   terminarEliminatoria, zonaDe,
 } from './eliminatorias';
 import { applyClubTheme } from './clubTheme';
@@ -4074,7 +4074,12 @@ export default function App() {
         setActiveSeleccionEnEliminacion(estadoDelTorneo?.stage === 'knockout');
         setActiveCupId(null);
         setActiveUefaCupId(null);
-        setActiveCompetitionName(null);
+        // SE NOMBRA EL TORNEO. Acá iba null y la pantalla del partido decidía con un booleano
+        // ("¿jugás con la selección?"), así que rotulaba "Copa Mundial FIFA" TODO partido de
+        // selección: la Eurocopa, la Copa América y las eliminatorias. Reportado jugando una
+        // eliminatoria: "me salía Mundial 2027, eso no era mundial sino clasificatoria".
+        setActiveCompetitionName(
+          `${NOMBRE_DEL_TORNEO_DE_SELECCIONES[hoy.torneo ?? 'mundial']} ${anioDeCarrera(myClubForSchedule?.name ?? '', playerProfile.currentWeek)}`);
         setActiveDomesticCup(false);
         setActiveGlobalScoreLabel(null);
         setActiveTorneoLabel(null);

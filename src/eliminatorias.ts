@@ -34,6 +34,18 @@ import { applyResultToTable, buildInitialTable, clubStrength, generateRoundRobin
 export type Confederacion = 'CONMEBOL' | 'UEFA' | 'CONCACAF' | 'CAF' | 'AFC' | 'OFC';
 
 /**
+ * Cómo se llama cada torneo de selecciones.
+ *
+ * Estaba escrito adentro de una función de palmares.ts, así que la pantalla del partido no lo tenía
+ * y decidía con un booleano: cualquier partido con la selección salía rotulado "Copa Mundial FIFA".
+ * Reportado jugando una ELIMINATORIA: "me salía Mundial 2027, eso no era mundial sino
+ * clasificatoria". A la Eurocopa y a la Copa América les pasaba lo mismo.
+ */
+export const NOMBRE_DEL_TORNEO_DE_SELECCIONES = {
+  mundial: 'Copa del Mundo', eurocopa: 'Eurocopa', copaamerica: 'Copa América',
+} as const;
+
+/**
  * A qué confederación pertenece cada selección de la base.
  *
  * Se escribe a mano y no se deduce del campo `league`: ese campo apunta a la liga de CLUBES del país
