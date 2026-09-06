@@ -22,7 +22,7 @@ import { realDomesticCupFor } from './realCalendar';
 // Calendario por fechas reales (ver dateSchedule.ts). Convive con realSchedule: los clubes con
 // fechas cargadas usan éste, el resto sigue con el semanal hasta que se importen las suyas.
 import { rivalDeLaFecha, pasoAlCambiarDeClub, fechaDelPaso, pasosDeContinentalTranscurridos, torneoDeSeleccionesDelDia, type DatedFixture, type IntercambioDeCasilla, setIntercambiosDeCasilla, cicloDeEliminatorias, pasosDeEliminatoriasTranscurridos, competitionsForClubInSeason, esUltimoPartidoDeLaCopa, esUltimaFechaDelTorneo, fechasDeLigaDelTorneo, fechasDePlayoffDelTorneo, anioDeCarrera, enVentanaDelMundial, esDiaDeCopa, rivalDeLigaEnPaso, fechasDeCopaNacionalRestantes, pasosDeMundialTranscurridos, quedanFechasDeCopaContinental, fechasDeCopaTranscurridas, fechasDeLigaTranscurridas, fixturesAtStep, hasDatedLeagueSchedule, hasDatedSchedule, partidosDeLaMismaLlave, pickPrimary as pickDatedPrimary, RIVAL_POR_SORTEAR, temporadaDeCarrera, temporadaDelPaso, torneoDelClubEnFecha } from './dateSchedule';
-import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal } from './copaNacional';
+import { crearCopaNacional, cruceActual, nombreCopaNacional, piernaDelCruce, rondaActual, sigueEnCopa, tamanoDelCuadro, tieneCopaNacionalReal, rondaConPiernaDeCopaNacional } from './copaNacional';
 import { reglasDeLiga, resolverMovimientos, tablaDeDescenso } from './promocionDescenso';
 import { classifyMissedMatch, missedMatchNotice, prestigeCostOfMissing, seasonEndPrestigePenalty } from './nationalTeamDuty';
 import { resolveWorldRetirements, applySquadRetirements, getSquadPlayerAge, MENTEE_MAX_AGE, MENTEE_SELF_MAX_AGE, MENTOR_MIN_AGE, puedeTenerMentor, ATTRIBUTE_MAX } from './worldRetirements';
@@ -4782,7 +4782,17 @@ export default function App() {
               isHomeThisMatch = esIda
                 ? cupCruce.clubAId === myClubForCup.id
                 : cupCruce.clubBId === myClubForCup.id;
-              setActiveCompetitionName(`${nombreCopaNacional(myClubForCup.league)} · ${rondaActual(cup)} (${esIda ? 'Ida' : 'Vuelta'})`);
+              // LA PIERNA SOLO SE NOMBRA CUANDO HAY DOS.
+              //
+              // La FA Cup, el DFB-Pokal y la Coppa Italia se definen en UN partido -- lo dice el
+              // reglamento y el cuadro ya lo marca en la llave (`partidoUnico`) --, asi que
+              // rotularlas "(Ida)" prometia una vuelta que no existe: ganabas y pasabas de ronda.
+              // Reportado: "dicen partido de ida pero cuando acaba pasas de ronda, es un partido
+              // unico asi que no deberia decir ida".
+              //
+              // La copa continental ya preguntaba esto mismo (ver la rama de knockout mas arriba);
+              // lo que faltaba era que la nacional preguntara igual.
+              setActiveCompetitionName(`${nombreCopaNacional(myClubForCup.league)} · ${rondaConPiernaDeCopaNacional(cup, myClubForCup.id) ?? rondaActual(cup)}`);
               // Global visible en la pantalla de partido: en la ida no hay nada que mostrar
               // (ninguna pierna jugada todavía), en la vuelta se arma sumando ambas piernas.
               if (esIda) {

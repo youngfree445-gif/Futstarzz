@@ -166,6 +166,29 @@ export function piernaDelCruce(tie: TwoLegTie): 'ida' | 'vuelta' {
   return tie.firstLegGoalsA === null ? 'ida' : 'vuelta';
 }
 
+/**
+ * LA RONDA DE HOY CON SU PIERNA, cuando la llave tiene dos.
+ *
+ * Es la MISMA pregunta que ya contestaba `rondaDeCopaContinental` para las copas de Conmebol, y la
+ * copa nacional no la tenía: App armaba el rótulo a mano y le pegaba "(Ida)" siempre. En la FA Cup,
+ * el DFB-Pokal o la Coppa Italia -- partido único de punta a punta -- eso prometía una vuelta que no
+ * existe: ganabas y pasabas de ronda. Reportado: "dicen partido de ida pero cuando acaba pasas de
+ * ronda, es un partido único así que no debería decir ida".
+ *
+ * El dato ya estaba en la llave (`partidoUnico`, que pone el reglamento al sembrar el cuadro). Lo
+ * que faltaba era una sola función que lo leyera, en vez de dos pantallas armando la cadena cada
+ * una por su lado.
+ *
+ * Devuelve null si el club no tiene cruce en la ronda en curso.
+ */
+export function rondaConPiernaDeCopaNacional(cup: DomesticCupState, clubId: string): string | null {
+  const tie = cruceActual(cup, clubId);
+  if (!tie) return null;
+  const nombre = rondaActual(cup);
+  if (tie.partidoUnico) return nombre;
+  return `${nombre} (${piernaDelCruce(tie) === 'ida' ? 'Ida' : 'Vuelta'})`;
+}
+
 // Los nombres de copa vivían acá, en una lista propia. Ahora salen del reglamento de cada liga
 // (src/reglamentos.ts), que es donde está el resto de lo que distingue a un país de otro.
 //

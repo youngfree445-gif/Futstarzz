@@ -28,6 +28,7 @@ import { hablaEnElEntretiempo, instruccionDelEntretiempo, mejoroEnElSegundo, res
 import ReportarBug from './ReportarBug';
 import { evaluarForma, ajusteDeForma } from '../forma';
 import { ajustePorAdaptacion } from '../elIdioma';
+import { faltasDelRelato, jugadasDelRelato } from '../jugadasDelRelato';
 
 // Silbatazo de inicio y final del partido. Apagado a pedido del usuario: el sonido molestaba más
 // de lo que sumaba. El resto de los efectos del partido (gol, tarjeta, etc.) no se tocan.
@@ -2505,26 +2506,13 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
       // sentido si de verdad estás en la cancha (ver onField/lineupStatus arriba).
       const mate = getTeammateSample();
       const rival = getRivalSample();
-      const jugadasDestacadas = [
-        `Te desmarcas por la banda y recibes de ${mate}, intentas centrar pero el balón rebota. Córner.`,
-        `Presionas la salida del central, forzando un error de despeje. La tribuna aplaude tu entrega.`,
-        `Fuerte choque en el medio campo. El árbitro deja seguir la jugada aplicando la ley de la ventaja.`,
-        `¡UFFF! Remate de ${mate} que pasa rozando el poste derecho. Casi se abre el marcador.`,
-        `El equipo rival domina la posesión tocando de lado a lado, el partido entra en un bache táctico.`,
-        `Recibes una falta táctica dura en tres cuartos de cancha para cortar tu avance. Tiro libre peligroso.`,
-        `¡Atajadón de nuestro portero! Voló para sacar un cabezazo rival que tenía sello de gol.`,
-        `El técnico manda a calentar a los suplentes. Se siente la tensión en los banquillos.`,
-        `Tocas rápido y de primera intención para oxigenar el juego. Buen movimiento de tu parte.`,
-        `¡Posición adelantada! Te habías escapado solo contra el portero pero el juez de línea levantó la bandera.`,
-        // Solo si conocemos el plantel rival: si no, se filtran abajo y quedan las genéricas.
-        ...(rival ? [
-          `${rival} te gana la espalda y obliga a tu defensa a cerrar de urgencia.`,
-          `Duelo áspero con ${rival} en la mitad de la cancha. Los dos se miran, ninguno baja la pierna.`,
-          `${rival} pide la pelota entre líneas y desordena el bloque. Hay que salir a taparlo.`,
-          `Le robas un balón limpio a ${rival} y la tribuna se levanta a aplaudirte.`,
-          `¡Aviso! Remate cruzado de ${getRivalAttacker() ?? rival} que se va apenas desviado del segundo palo.`
-        ] : [])
-      ];
+      // EL RELATO DEPENDE DEL PUESTO (ver src/jugadasDelRelato.ts). Estas lineas estan escritas en
+      // SEGUNDA PERSONA, asi que una sola lista para todos le narraba al arquero que se desmarcaba
+      // por la banda y que se escapaba solo contra el portero. Reportado: "el arquero a veces trata
+      // de hacer gol".
+      const jugadasDestacadas = jugadasDelRelato(playerProfile.position, {
+        companero: mate, rival, atacanteRival: getRivalAttacker() ?? null,
+      });
       setMatchLog(prev => [...prev, {
         minute: currentMin,
         text: jugadasDestacadas[Math.floor(Math.random() * jugadasDestacadas.length)],
@@ -2564,12 +2552,8 @@ const unaDe = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)];
       // Riesgo de tarjeta "ambiental": en la vida real la mayoría de las tarjetas salen de faltas
       // normales de juego, no de grandes decisiones puntuales -- esto se suma al cardRiskOnFail de
       // las decisiones de abajo para que de verdad te saquen tarjeta de vez en cuando.
-      const faltasNarrativa = [
-        'Llegas tarde a la disputa y le cortas el paso con la pierna extendida.',
-        'Frenas un contragolpe peligroso con una falta táctica sin mucha vuelta.',
-        'Chocas fuerte disputando una pelota dividida en el mediocampo.',
-        'Te tiras al piso a cortar un centro y terminas llevándote puesto al rival.'
-      ];
+      // Un arquero comete faltas, pero no frena contragolpes en la mitad de la cancha.
+      const faltasNarrativa = faltasDelRelato(playerProfile.position);
       const faltaTexto = faltasNarrativa[Math.floor(Math.random() * faltasNarrativa.length)];
       const foulRoll = Math.random();
 

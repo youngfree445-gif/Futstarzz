@@ -69,6 +69,7 @@
     "validar:hater": "npx vite-node scripts/validar_hater.ts",
     "validar:fiesta": "npx vite-node scripts/validar_fiesta.ts",
     "validar:idioma": "npx vite-node scripts/validar_idioma.ts",
+    "validar:relato": "npx vite-node scripts/validar_relato.ts",
     "sonda": "node scripts/sonda_plantel.mjs",
     "bajar:plantel": "node scripts/bajar_plantel_faltante.mjs",
     "tecnicos": "node scripts/tecnicos.mjs"
